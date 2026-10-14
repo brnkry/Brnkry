@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+html,body{margin:0;background:#121216}#stage{position:relative;width:2560px;height:1440px;overflow:hidden;background:#121216}svg{position:absolute;inset:0}
+</style></head><body><div id="stage"><svg id="s" width="2560" height="1440" viewBox="0 0 2560 1440"></svg></div>
+<script src="../brand.js"></script><script>
+// Channel banner 2560x1440. Text stays inside YouTube's all-device safe area (1546x423, centred).
+const NS="http://www.w3.org/2000/svg";const s=document.getElementById('s');
+function el(t,a={},p=s){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+[307,1133].forEach(y=>{for(let x=-40;x<2600;x+=200)el('rect',{x,y:y-7,width:110,height:14,rx:7,fill:'#30303A'})});
+const cl=el('g',{transform:'translate(230 700) scale(.62)'});makeCar(cl,{body:'#22222A',ink:'#121216',acc:'#D4FF3A'});
+const cr=el('g',{transform:'translate(2400 700) scale(.62)'});makeCar(cr,{body:'#22222A',ink:'#121216',acc:'#D4FF3A'});
+const f=el('g',{transform:'translate(815 745) scale(.78)'});makeFace(f);
+const T=(x,y,size,parts,w=800,st=75)=>{const t=el('text',{x,y,'font-size':size,style:`font-family:WTC;font-weight:${w};font-stretch:${st}%`});parts.forEach(([a,c])=>{const sp=el('tspan',{fill:c},t);sp.textContent=a});return t};
+T(1036,615,98,[['WHAT THE','#F4F1EA']],700).setAttribute('letter-spacing','4');
+T(1030,800,240,[['CAR','#D4FF3A'],['?','#FF3D5A']],800);
+T(1036,885,46,[['Every part of your car, ','#F4F1EA'],['explained simply.','#D4FF3A']],600,100);
+window.__ready=document.fonts.ready.then(()=>true);
+</script></body></html>
