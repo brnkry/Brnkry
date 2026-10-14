@@ -1,0 +1,333 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#cap{position:absolute;left:150px;top:425px;width:780px;height:355px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.06}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+#hdr{position:absolute;left:0;width:1080px;text-align:center;top:322px;font-family:"WTC";font-weight:600;font-stretch:90%;font-size:27px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FF3D5A;opacity:0;pointer-events:none}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1080" height="1920" viewBox="0 0 1080 1920">
+ <defs><clipPath id="clipZone"><rect x="0" y="790" width="1080" height="780"/></clipPath></defs>
+</svg>
+<div id="cap"></div>
+<div id="hdr">Dashboard Lights · Episode 1</div>
+<div id="flash"></div>
+</div>
+<script src="brand.js"></script>
+<script>
+const NS="http://www.w3.org/2000/svg";const svg=document.getElementById('ill');
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));const P=(t,t0,d)=>cl((t-t0)/d);
+const eo=x=>1-Math.pow(1-x,3);const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c1=1.7,c3=c1+1;return x<=0?0:1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const V=(t,a,b,fi=.3,fo=.25)=>Math.min(eo(P(t,a,fi)),1-P(t,b-fo,fo));
+function el(tag,attrs={},parent=svg){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e}
+function g(parent=svg,attrs={}){return el('g',attrs,parent)}
+function tr(e,x,y,s=1,r=0,o=1){e.setAttribute('transform',`translate(${x} ${y}) rotate(${r}) scale(${s})`);e.style.opacity=o}
+function show(v,...els){els.forEach(e=>e.style.display=v>0?'':'none')}
+function txt(parent,x,y,size,cls,s,anchor='middle'){const t=el('text',{x,y,'font-size':size,'text-anchor':anchor,class:cls},parent);t.textContent=s;return t}
+const H=BRAND.hex;const AMBER='#FFB000',RED=H.brake,LIME=H.lime,OFF='#34343E',CHALK=H.chalk,ASPH=H.asphalt,GRAPH=H.graphite;
+const LAMP_D='M-150 -40 h40 v-30 h70 v-25 h80 v25 h50 l30 30 h40 v-30 h30 v150 h-30 v-30 h-40 l-40 50 h-150 l-40 -40 h-40 v40 h-20 v-110 h20 v20 Z';
+
+// ---------- captions (times from voice pauses) ----------
+const G={
+ g1:[[0.0,1.83,"This light just came on in your *car.*"]],
+ g2:[[2.14,2.94,"Do you have to *stop?*"]],
+ g3:[[3.29,4.61,"It's the *check engine light.*"]],
+ g4:[[4.97,6.91,"It lights up briefly when you *start* the car."]],
+ g5:[[7.28,8.29,"That's a *self test.*"]],
+ g6:[[8.58,9.61,"If it stays *on,*"],[9.88,11.55,"your car has stored a *fault code.*"]],
+ g7:[[12.0,13.33,"You can usually keep *driving,*"],[13.5,14.67,"but get it checked *soon.*"]],
+ g8:[[15.18,16.14,"If it's *flashing,*"],[16.36,17.36,"that's *serious.*"]],
+ g9:[[17.59,19.46,"The engine is usually *misfiring,*"]],
+ g10:[[19.67,22.58,"and unburned fuel can overheat your *catalytic converter.*"]],
+ g11:[[23.03,24.03,"Drive *gently*"],[24.14,25.3,"and only as far as *needed.*"]],
+ g12:[[25.79,26.56,"Common *causes?*"]],
+ g13:[[27.0,27.94,"A loose *gas cap,*"],[28.21,29.34,"an *oxygen sensor,*"],[29.49,30.83,"or worn *spark plugs.*"]],
+ g14:[[31.25,34.82,"Many auto parts stores read the code for *free* through the *OBD port.*"]],
+ g15:[[35.18,35.97,"And heads up:"],[36.1,38.09,"in most states with *emissions testing,*"]],
+ g16:[[38.31,39.76,"this light means you *fail.*"]],
+ g17:[[40.3,41.62,"Ever seen this light in your *car?*"],[41.99,42.89,"Tell me in the *comments.*"]],
+ g18:[[43.41,44.01,"Next time:"],[44.3,46.65,"the button with the little car and the curved *arrow.*"]],
+ g19:[[47.05,49.14,"Follow *What the Car?* so you don't miss it."]],
+};
+const cap=document.getElementById('cap');const groups=[];const WT={};
+Object.keys(G).forEach(id=>{
+  const div=document.createElement('div');div.className='grp';cap.appendChild(div);
+  const words=[];let emph=false;let total=0;G[id].forEach(p=>total+=p[2].length);
+  div.style.fontSize=(id==='g1'?110:(total<20?116:total<40?98:total<62?86:total<72?78:72))+'px';
+  G[id].forEach(([s,e,txt])=>{const toks=txt.split(' ');const W=toks.reduce((a,x)=>a+x.length+1,0);let acc=0;
+    toks.forEach(tok=>{let st=tok.startsWith('*');if(st){emph=true;tok=tok.slice(1)}let en=tok.endsWith('*');if(en)tok=tok.slice(0,-1);
+      const span=document.createElement('span');span.className='w'+(emph?' e':'');span.textContent=tok;div.appendChild(span);
+      const ts=s+(e-s)*acc/W;acc+=tok.length+1;words.push({span,ts});const key=id+':'+tok.replace(/[.,:?]/g,'');if(!(key in WT))WT[key]=ts;if(en)emph=false})});
+  groups.push({id,div,words,start:G[id][0][0]});
+});
+groups.forEach((gr,i)=>{gr.end=i<groups.length-1?groups[i+1].start:99});
+const W_=(id,w)=>{const k=id+':'+w;if(!(k in WT))throw new Error('no word '+k);return WT[k]};
+
+// ---------- chime timing (BMW chime, ~2.2 s apart) ----------
+const CH_START=[0.45,2.65],CH_END=[40.25,42.25];
+const lampBlink=(t,cs)=>{for(const c of cs){const d=t-c;if(d>=0.03&&d<1.0)return 1}return 0};
+
+// ---------- building blocks ----------
+function engineLamp(parent,fill=AMBER){const l=g(parent);const glow=el('circle',{r:240,fill,opacity:0},l);const p=el('path',{d:LAMP_D,fill},l);l.glow=glow;l.p=p;l.set=v=>{p.setAttribute('fill',v>0.5?fill:OFF);glow.setAttribute('opacity',.28*v)};return l}
+function gauge(parent,r,label){const G0=g(parent);const rad=a=>a*Math.PI/180;const p=a=>[r*Math.cos(rad(a)),r*Math.sin(rad(a))];
+  const [x0,y0]=p(135),[x1,y1]=p(405);el('path',{d:`M${x0} ${y0} A${r} ${r} 0 1 1 ${x1} ${y1}`,fill:'none','stroke-width':r*.12,class:'sLine','stroke-linecap':'round'},G0);
+  const prog=el('path',{d:`M${x0} ${y0} A${r} ${r} 0 1 1 ${x1} ${y1}`,fill:'none','stroke-width':r*.12,class:'sAcc','stroke-linecap':'round',pathLength:1000},G0);
+  for(let i=0;i<=8;i++){const a=135+i*33.75;const c=Math.cos(rad(a)),s=Math.sin(rad(a));el('line',{x1:c*r*.66,y1:s*r*.66,x2:c*r*.78,y2:s*r*.78,'stroke-width':r*.045,class:'sMut','stroke-linecap':'round'},G0)}
+  const nd=g(G0);el('path',{d:`M${-r*.06} 0 L0 ${-r*.8} L${r*.06} 0 Z`,class:'ink'},nd);el('circle',{r:r*.13,class:'ink'},nd);el('circle',{r:r*.05,class:'bgf'},nd);
+  if(label)txt(G0,0,r*.62,r*.17,'mic mut',label);
+  G0.set=v=>{nd.setAttribute('transform',`rotate(${-135+270*v})`);prog.setAttribute('stroke-dasharray',`${v*1000} 1000`)};G0.set(0);return G0}
+function makeCluster(parent){const c=g(parent);
+  el('rect',{x:-390,y:-180,width:780,height:360,rx:150,class:'card'},c);el('rect',{x:-390,y:-180,width:780,height:360,rx:150,fill:'none','stroke-width':6,class:'sLine'},c);
+  c.L=gauge(c,118,'MPH');c.L.setAttribute('transform','translate(-230 10)');c.R=gauge(c,118,'RPM ×1000');c.R.setAttribute('transform','translate(230 10)');
+  const h=g(c,{transform:'translate(0 -10) scale(.44)'});c.lamp=engineLamp(h);return c}
+function wheel(parent){const w=g(parent);el('circle',{cx:0,cy:0,r:390,fill:'none','stroke-width':64,stroke:'#1B1B21'},w);el('circle',{cx:0,cy:0,r:390,fill:'none','stroke-width':6,class:'sLine'},w);return w}
+const flash=document.getElementById('flash'),hdr=document.getElementById('hdr');
+
+// S0 / S9 hook cluster with steering wheel (driver's view)
+const s0=g(svg,{'clip-path':'url(#clipZone)'});const cl0=makeCluster(s0);const wh0=wheel(s0);
+// S1 big lamp
+const s1=g();const bigLamp=engineLamp(s1);
+const s1chip=g(s1);el('rect',{x:-300,y:170,width:600,height:80,rx:40,class:'card'},s1chip);txt(s1chip,0,222,30,'mic',"CHECK ENGINE LIGHT").setAttribute('fill',AMBER);
+const s1sub=txt(s1,0,300,26,'mic mut','A.K.A. MALFUNCTION INDICATOR LAMP');
+
+// state pills
+const sw=g();const swPills=['AT START','STAYS ON','FLASHING'].map((s,i)=>{const p=g(sw);const x=-250+i*250;const r=el('rect',{x:-115+x,y:-32,width:230,height:64,rx:32,class:'card'},p);const tt=txt(p,x,9,24,'mic mut',s);return {r,tt}});
+
+// S2 start button + warning strip self test
+const s2=g();
+const btn=g(s2);el('circle',{r:140,class:'card'},btn);const btnRing=el('circle',{r:140,fill:'none','stroke-width':8,class:'sLine'},btn);
+el('path',{d:'M-24 -66 A40 40 0 1 0 24 -66',fill:'none','stroke-width':12,class:'sInk','stroke-linecap':'round'},btn);el('line',{x1:0,y1:-86,x2:0,y2:-46,'stroke-width':12,class:'sInk','stroke-linecap':'round'},btn);
+txt(btn,0,48,26,'mic ink','ENGINE');txt(btn,0,82,22,'mic mut','START STOP');
+const ripple=el('circle',{r:140,fill:'none','stroke-width':10,class:'sAcc'},s2);
+const strip=g(s2);el('rect',{x:-360,y:-62,width:720,height:124,rx:30,class:'card'},strip);
+function iconBattery(p){const g1=g(p);el('rect',{x:-40,y:-24,width:80,height:52,rx:6,fill:'currentColor'},g1);el('rect',{x:-30,y:-34,width:14,height:10,fill:'currentColor'},g1);el('rect',{x:16,y:-34,width:14,height:10,fill:'currentColor'},g1);el('rect',{x:-28,y:-2,width:18,height:6,fill:GRAPH},g1);el('rect',{x:10,y:-2,width:18,height:6,fill:GRAPH},g1);el('rect',{x:16,y:-8,width:6,height:18,fill:GRAPH},g1);return g1}
+function iconOil(p){const g1=g(p);el('path',{d:'M-46 10 L-10 -20 L30 -20 L46 -36 L52 -30 L36 -10 L36 20 L-40 20 Z',fill:'currentColor'},g1);el('circle',{cx:56,cy:14,r:6,fill:'currentColor'},g1);return g1}
+function iconABS(p){const g1=g(p);el('circle',{r:34,fill:'none','stroke-width':7,stroke:'currentColor'},g1);el('text',{x:0,y:9,'text-anchor':'middle','font-size':24,class:'bold',fill:'currentColor'},g1).textContent='ABS';return g1}
+function iconBag(p){const g1=g(p);el('circle',{cx:-14,cy:-26,r:10,fill:'currentColor'},g1);el('path',{d:'M-26 -12 L-4 -12 L4 22 L-24 22 Z',fill:'currentColor'},g1);el('circle',{cx:22,cy:-2,r:20,fill:'currentColor'},g1);return g1}
+const stripIcons=[[iconBattery,RED],[iconOil,RED],[iconABS,AMBER],[iconBag,RED],[(p)=>{const l=g(p);el('path',{d:LAMP_D,fill:'currentColor',transform:'scale(.22)'},l);return l},AMBER]].map(([f,c],i)=>{const h=g(strip,{transform:`translate(${-268+i*134} 0)`});const ic=f(h);ic.style.color=OFF;return {ic,c}});
+const okChip=g(s2);el('rect',{x:-200,y:-40,width:400,height:80,rx:40,class:'acc'},okChip);txt(okChip,0,11,30,'mic','SELF TEST ✓').setAttribute('fill',ASPH);
+
+// S3 mascot with steady lamp + fault code
+const s3=g();const face3=makeFace(s3,{question:false});
+const lamp3=engineLamp(svg);
+const mem=g();el('rect',{x:-320,y:-48,width:640,height:96,rx:24,class:'card'},mem);
+const chip=g(mem,{transform:'translate(-262 0)'});el('rect',{x:-26,y:-26,width:52,height:52,rx:8,class:'acc'},chip);[-14,0,14].forEach(x=>{el('rect',{x:x-3,y:-36,width:6,height:10,class:'acc'},chip);el('rect',{x:x-3,y:26,width:6,height:10,class:'acc'},chip)});
+const memT=txt(mem,-200,11,30,'mic ink','','start');
+
+// S3b road: keep driving, garage soon
+const road=g();el('rect',{x:-380,y:70,width:760,height:14,rx:7,class:'mut'},road);const dashes=[0,1,2,3,4,5,6].map(()=>el('rect',{y:120,width:60,height:10,rx:5,class:'lin'},road));
+const roadCar=makeCar(road,{body:CHALK,ink:ASPH,acc:AMBER});
+const shop=g(road);el('rect',{x:-6,y:-150,width:12,height:150,rx:6,class:'mut'},shop);el('rect',{x:-70,y:-250,width:140,height:110,rx:20,class:'acc'},shop);
+el('path',{d:'M-30 -168 L22 -220 M10 -232 a18 18 0 1 0 22 22',fill:'none','stroke-width':12,class:'sBg','stroke-linecap':'round'},shop);
+const roadLab=g();el('rect',{x:-330,y:-38,width:660,height:76,rx:38,class:'card'},roadLab);txt(roadLab,0,10,27,'mic acc','KEEP DRIVING · BOOK A CHECK');
+
+// S4 cutaway car: misfire, unburned fuel, hot catalytic converter
+const car4=makeCar(svg,{body:'#44444F',ink:ASPH,acc:AMBER});const bay=g(car4.inner);
+el('rect',{x:786,y:146,width:156,height:98,rx:14,fill:'#17171C',stroke:H.smoke,'stroke-width':4},bay);
+const cyl4=[0,1,2,3].map(k=>el('rect',{x:800+k*34,y:162,width:24,height:62,rx:5,fill:OFF},bay));
+const xMark=g(bay);el('path',{d:'M832 168 l30 50 M862 168 l-30 50',stroke:RED,'stroke-width':9,'stroke-linecap':'round'},xMark);
+const pipe=el('path',{d:'M880 246 L880 306 L640 306 M520 306 L50 306',fill:'none','stroke-width':14,class:'sMut','stroke-linecap':'round'},car4.inner);
+const cat=el('rect',{x:520,y:284,width:120,height:44,rx:12,class:'mut'},car4.inner);
+const catGlow=el('circle',{cx:580,cy:306,r:120,fill:RED,opacity:0},car4.inner);car4.inner.insertBefore(catGlow,cat);
+const catLab=el('text',{x:580,y:385,'text-anchor':'middle','font-size':34,class:'mic ink'},car4.inner);catLab.textContent='CATALYTIC CONVERTER';
+const misLab=el('text',{x:864,y:120,'text-anchor':'middle','font-size':34,class:'mic',fill:RED},car4.inner);misLab.textContent='MISFIRE';
+const drops=[...Array(10)].map(()=>el('circle',{r:9,fill:AMBER},car4.inner));
+const lamp4=engineLamp(svg);
+
+// S5 drive gently: speedometer + short route
+const s5=g();const sp5=gauge(s5,170,'MPH');
+const route=g();const rpath=el('path',{d:'M-300 0 C -150 -90, 0 90, 260 0',fill:'none','stroke-width':10,'stroke-dasharray':'22 16',class:'sAcc','stroke-linecap':'round'},route);
+const rcar=g(route);el('circle',{r:34,class:'card'},rcar);const rc=makeCar(rcar,{body:CHALK,ink:ASPH});rc.setAttribute('transform','scale(.055)');
+const pin=g(route,{transform:'translate(260 0)'});el('path',{d:'M0 0 C -40 -50 -46 -70 -46 -90 A46 46 0 1 1 46 -90 C 46 -70 40 -50 0 0 Z',class:'acc'},pin);
+el('path',{d:'M-16 -76 L14 -106 M6 -114 a10 10 0 1 0 12 12',fill:'none','stroke-width':8,class:'sBg','stroke-linecap':'round'},pin);
+const rlab=txt(route,260,50,26,'mic acc','MECHANIC');
+
+// S6 cause cards
+function card(label,draw){const c=g();el('rect',{x:-115,y:-170,width:230,height:340,rx:30,class:'card'},c);const ic=g(c,{transform:'translate(0 -30)'});const r=draw(ic);txt(c,0,128,24,'mic ink',label);c.ic=ic;c.r=r;return c}
+const causes=[
+ card('GAS CAP',ic=>{el('rect',{x:-70,y:30,width:140,height:40,rx:8,class:'mut'},ic);const cap=g(ic);el('circle',{r:62,class:'acc'},cap);el('circle',{r:44,fill:'none','stroke-width':6,class:'sBg'},cap);el('rect',{x:-40,y:-10,width:80,height:20,rx:6,class:'bgf'},cap);return cap}),
+ card('O2 SENSOR',ic=>{el('rect',{x:-30,y:-90,width:60,height:36,rx:6,class:'acc'},ic);el('path',{d:'M-38 -54 h76 l-10 28 h-56 Z',class:'ink'},ic);el('rect',{x:-16,y:-26,width:32,height:100,rx:10,class:'mut'},ic);[0,1,2].forEach(i=>el('rect',{x:-16,y:10+i*20,width:32,height:6,class:'card'},ic));el('path',{d:'M0 -90 Q 30 -130 70 -120',fill:'none','stroke-width':8,class:'sMut'},ic)}),
+ card('SPARK PLUGS',ic=>{el('rect',{x:-14,y:-100,width:28,height:30,rx:6,class:'mut'},ic);el('path',{d:'M-24 -70 h48 l-6 70 h-36 Z',class:'ink'},ic);el('path',{d:'M-34 0 h68 v26 h-68 Z',class:'mut'},ic);el('rect',{x:-16,y:26,width:32,height:44,class:'mut'},ic);
+   const sp=el('path',{d:'M14 78 L40 92 L26 98 L52 116',fill:'none','stroke-width':6,class:'sAcc','stroke-linejoin':'round'},ic);el('path',{d:'M-4 70 v18 h22',fill:'none','stroke-width':7,class:'sMut'},ic);return sp}),
+];
+const qmarks=[0,1,2].map(i=>{const t=el('text',{'text-anchor':'middle','font-size':150,class:'bold'});t.textContent='?';t.setAttribute('fill',i===1?RED:LIME);return t});
+
+// S7 OBD port under the dash + scanner
+const obd=g();
+const dash=g(obd);el('path',{d:'M-420 -300 L420 -300 L420 -150 Q 300 -110 120 -120 L-420 -120 Z',class:'card'},dash);txt(dash,-240,-200,24,'mic mut','UNDER THE DASH');
+const sock=g(obd,{transform:'translate(-160 -40)'});el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',class:'lin'},sock);el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',fill:'none','stroke-width':6,class:'sMut'},sock);
+for(let r=0;r<2;r++)for(let i=0;i<8;i++)el('rect',{x:-84+i*22+r*6,y:-30+r*40,width:11,height:22,rx:3,class:'acc'},sock);
+txt(sock,0,100,26,'mic mut','OBD PORT');
+const plug=g(obd);el('rect',{x:-70,y:-40,width:140,height:80,rx:14,class:'ink'},plug);
+const cable=el('path',{d:'',fill:'none','stroke-width':12,class:'sInk','stroke-linecap':'round'},obd);obd.insertBefore(cable,plug);
+const scan=g(obd,{transform:'translate(200 150)'});el('rect',{x:-120,y:-150,width:240,height:300,rx:30,class:'ink'},scan);el('rect',{x:-98,y:-128,width:196,height:140,rx:12,fill:'#0B0B0E'},scan);
+const scanT=el('text',{x:0,y:-50,'text-anchor':'middle','font-size':50,class:'bold',fill:AMBER},scan);const scanS=el('text',{x:0,y:-8,'text-anchor':'middle','font-size':20,class:'mic',fill:H.smoke},scan);
+[[-50,60],[0,60],[50,60],[-50,108],[0,108],[50,108]].forEach(([x,y])=>el('circle',{cx:x,cy:y,r:15,class:'mut'},scan));
+const tag=g(obd,{transform:'translate(-150 200)'});el('path',{d:'M-110 -50 L80 -50 L130 0 L80 50 L-110 50 Z',class:'acc'},tag);el('circle',{cx:86,cy:0,r:10,class:'bgf'},tag);txt(tag,-14,18,52,'bold bgf','FREE');
+
+// S8 emissions test clipboard + FAIL stamp
+const clip=g();el('rect',{x:-260,y:-290,width:520,height:580,rx:30,class:'card'},clip);el('rect',{x:-90,y:-310,width:180,height:50,rx:14,class:'mut'},clip);
+txt(clip,0,-196,34,'bold ink','EMISSIONS TEST');
+const rows=['OBD READINESS','FAULT CODES','CHECK ENGINE LIGHT'].map((s,i)=>{const r=g(clip,{transform:`translate(0 ${-110+i*90})`});el('rect',{x:-210,y:-34,width:420,height:68,rx:16,class:'lin'},r);txt(r,-186,9,24,'mic ink',s,'start');const box=el('rect',{x:146,y:-20,width:40,height:40,rx:8,fill:'none','stroke-width':5,class:'sMut'},r);const mk=el('path',{d:'M152 0 l12 12 l20 -24',fill:'none','stroke-width':7,'stroke-linecap':'round',stroke:LIME},r);const xx=el('path',{d:'M154 -12 l24 24 M178 -12 l-24 24',fill:'none','stroke-width':7,'stroke-linecap':'round',stroke:RED},r);return {mk,xx}});
+const stkLamp=engineLamp(clip);stkLamp.setAttribute('transform','translate(0 205) scale(.26)');
+const stamp=g();el('rect',{x:-240,y:-80,width:480,height:160,rx:20,fill:'none','stroke-width':14,stroke:RED},stamp);el('text',{x:0,y:44,'text-anchor':'middle','font-size':128,class:'bold',fill:RED},stamp).textContent='FAIL';
+
+// S9 comment bubble + floating ?
+const qs=[...Array(6)].map((_,i)=>{const t=el('text',{'text-anchor':'middle','font-size':100,class:'bold',fill:i%2?RED:LIME});t.textContent='?';return t});
+const bub=g();el('path',{d:'M-210 -110 h420 a40 40 0 0 1 40 40 v140 a40 40 0 0 1 -40 40 h-260 l-70 64 v-64 h-90 a40 40 0 0 1 -40 -40 v-140 a40 40 0 0 1 40 -40 Z',class:'acc'},bub);
+const bdots=[0,1,2].map(i=>el('circle',{cx:-80+i*80,cy:0,r:24,class:'bgf'},bub));
+
+// S10 next: recirculation button
+const nxt=g();const rb=g(nxt);el('rect',{x:-210,y:-170,width:420,height:340,rx:56,fill:'#2A2A31'},rb);const rbRing=el('rect',{x:-210,y:-170,width:420,height:340,rx:56,fill:'none','stroke-width':8,class:'sLine'},rb);
+const rIcon=g(rb,{transform:'translate(0 40) scale(.92)'});
+el('path',{d:'M-140 44 L-140 12 Q-140 -4 -122 -8 L-84 -14 L-52 -60 Q-46 -68 -36 -68 L44 -68 Q54 -68 60 -60 L90 -14 L126 -8 Q140 -4 140 12 L140 44 Z',fill:'none','stroke-width':11,class:'sInk','stroke-linejoin':'round'},rIcon);
+[-96,96].forEach(x=>{el('circle',{cx:x,cy:46,r:20,fill:'#2A2A31'},rIcon);el('circle',{cx:x,cy:46,r:20,fill:'none','stroke-width':11,class:'sInk'},rIcon)});
+const rArrow=el('path',{d:'M6 -40 L-30 -40 Q-62 -40 -62 -10 Q-62 20 -30 20 L36 20',fill:'none','stroke-width':12,class:'sInk','stroke-linecap':'round','stroke-linejoin':'round',pathLength:1000},rIcon);
+const rHead=el('path',{d:'M30 2 L60 20 L30 38 Z',class:'ink','stroke-linejoin':'round'},rIcon);
+const rLed=el('rect',{x:-70,y:-128,width:140,height:26,rx:13,fill:OFF},rb);const rLedGlow=el('rect',{x:-82,y:-138,width:164,height:46,rx:23,fill:LIME,opacity:0},rb);rb.insertBefore(rLedGlow,rLed);
+const nxtChip=g(nxt);el('rect',{x:-260,y:230,width:520,height:76,rx:38,class:'acc'},nxtChip);txt(nxtChip,0,280,27,'mic bgf','WEIRD BUTTONS · EPISODE 1');
+
+// S11 logo end card
+const logo=g();const lf=makeFace(logo);
+const wm=el('text',{x:0,y:380,'text-anchor':'middle'},logo);
+const wa=el('tspan',{style:'font-family:WTC;font-weight:700;font-stretch:75%;letter-spacing:.06em','font-size':60,class:'ink'},wm);wa.textContent='WHAT THE ';
+const wb=el('tspan',{style:'font-family:WTC;font-weight:800;font-stretch:75%','font-size':130,class:'acc'},wm);wb.textContent='CAR';
+const wq=el('tspan',{style:'font-family:WTC;font-weight:800;font-stretch:75%','font-size':130,fill:RED},wm);wq.textContent='?';
+const follow=g(logo);el('rect',{x:-170,y:440,width:340,height:96,rx:48,class:'acc'},follow);txt(follow,0,503,38,'mic bgf','FOLLOW');
+
+window.render=function(t){
+ // captions (g1 fully on screen from the first frame)
+ groups.forEach(gr=>{const out=P(t,gr.end-.18,.18);const vis=t>=gr.start-.2&&t<gr.end+.04&&t<50.2;gr.div.style.display=vis?'flex':'none';if(!vis)return;
+   gr.words.forEach(({span,ts})=>{const k=gr.id==='g1'?1:eo(P(t,ts-.08,.32));span.style.opacity=k*(1-out);span.style.transform=`translateY(${(1-k)*30-out*26}px) scale(${gr.id==='g1'?1.04-.04*eo(P(t,0,.4)):.92+.08*k})`;span.style.filter=`blur(${(1-k)*12+out*8}px)`})});
+ hdr.style.opacity=V(t,-1,50.5,.01,.3);
+
+ // ---- S0 hook + S9 return: driver's view, lamp blinks with each chime ----
+ {const v0=V(t,-1,3.3,.01,.3),v9=V(t,39.8,43.4,.3,.3);const late=t>30;const v=late?v9:v0;show(v,s0);
+  s0.style.opacity=v;cl0.setAttribute('transform',`translate(540 ${1080+(late?0:0)})`);wh0.setAttribute('transform',`translate(540 ${1660+(late?0:-10*eo(P(t,0,1)))})`);
+  const lb=lampBlink(t,late?CH_END:CH_START);cl0.lamp.set(lb);
+  if(!late){const ts=W_('g2','stop');const dv=1-eio(P(t,ts-.1,1.1));cl0.L.set(.08+.5*dv+.012*Math.sin(t*9)*dv);cl0.R.set(.12+.22*dv)}
+  else{cl0.L.set(0);cl0.R.set(.09+.01*Math.sin(t*4))}}
+
+ // ---- S1 check engine light ----
+ {const v=V(t,3.3,4.95,.25,.25);show(v,s1);s1.style.opacity=v;tr(bigLamp,540,1060,1.05*back(P(t,3.3,.45)),0,1);bigLamp.set(1);bigLamp.glow.setAttribute('opacity',.22+.08*Math.sin(t*6));
+  s1chip.setAttribute('transform','translate(540 1060)');s1chip.style.opacity=eo(P(t,W_('g3','check')-.1,.35));s1sub.setAttribute('transform','translate(540 1060)');s1sub.style.opacity=eo(P(t,W_('g3','light')+.1,.4))}
+
+ // ---- state pills ----
+ {let st=-1;if(t<8.5)st=0;else if(t<15.1)st=1;else st=2;const v=V(t,4.97,22.6,.3,.3);show(v,sw);tr(sw,540,838,1,0,v);
+  swPills.forEach(({r,tt},i)=>{r.setAttribute('class',i===st?'acc':'card');tt.setAttribute('class',i===st?'mic bgf':'mic mut')})}
+
+ // ---- S2 start button + self test ----
+ {const v=V(t,4.97,8.5,.3,.3);show(v,s2);s2.style.opacity=v;s2.setAttribute('transform','translate(540 0)');
+  const ton=W_('g4','start');const press=P(t,ton-.35,.35),rel=P(t,ton+.05,.3);const fy=200-80*eio(press)+80*eio(rel);
+  btn.setAttribute('transform',`translate(0 1060) scale(${1-.05*(press-rel>0?press-rel:0)})`);{const rk=P(t,ton,.7);ripple.setAttribute('transform',`translate(0 1060) scale(${1+.22*eo(rk)})`);ripple.style.opacity=t>ton?(1-rk):0}
+  btnRing.setAttribute('class',t>ton?'sAcc':'sLine');
+  strip.setAttribute('transform','translate(0 1320)');
+  const offT=[6.95,7.15,7.35,7.55,7.8];stripIcons.forEach(({ic,c},i)=>{ic.style.color=(t>=ton&&t<offT[i])?c:OFF});
+  tr(okChip,0,1462,back(P(t,W_('g5','self')-.1,.4)),0,cl(P(t,W_('g5','self')-.1,.15)))}
+
+ // ---- S3 stays on: worried car, fault code stored ----
+ {const v=V(t,8.55,11.95,.3,.25);show(v,s3,mem,lamp3);s3.style.opacity=v;tr(s3,540,1290,.86*(.9+.1*back(P(t,8.55,.45))),0,v);
+  tr(lamp3,540,1010,.4*back(P(t,W_('g6','on')-.15,.45)),0,v);lamp3.set(1);lamp3.glow.setAttribute('opacity',.3+.06*Math.sin(t*5));face3.look(-.05,-.95);
+  const wor=eo(P(t,9.2,.5));face3.browL.setAttribute('d',`M-152 ${-22-10*wor} Q-114 ${-38-6*wor} -76 ${-30+0*wor}`);face3.browR.setAttribute('d',`M74 ${-30} Q110 ${-38-6*wor} 150 ${-22-10*wor}`);
+  const tf=W_('g6','fault');tr(mem,540,1505,back(P(t,tf-.15,.4)),0,Math.min(v,cl(P(t,tf-.15,.2))));memT.textContent='FAULT CODE STORED'.slice(0,Math.round(17*eo(P(t,tf,.8))))}
+ {const v=V(t,11.95,15.1,.3,.3);show(v,road,roadLab);tr(road,540,1180,1,0,v);
+  dashes.forEach((ds,i)=>ds.setAttribute('x',-380+((i*130-t*300)%910+910)%910-60));
+  roadCar.setAttribute('transform',`translate(${-120+40*Math.sin(t*1.3)} 0) scale(.5)`);roadCar.lamp.setAttribute('fill',AMBER);
+  const ts=W_('g7','soon');const sk=eo(P(t,ts-.4,.6));shop.setAttribute('transform',`translate(${260} ${-10}) scale(${sk})`);shop.style.opacity=cl(sk*2);
+  tr(roadLab,540,1440,1,0,V(t,12.2,15.1,.3,.3))}
+
+ // ---- S4 flashing: misfire, fuel, catalytic converter ----
+ {const v=V(t,15.15,22.75,.3,.3);show(v,car4,lamp4);
+  tr(lamp4,540,1000,.42*back(P(t,15.15,.4)),0,v);const bk=(t*2.6)%1<.55?1:0;lamp4.set(bk);
+  tr(car4,540,1290,.76,0,v);
+  const tm=W_('g9','misfiring');const TH0=t*3.2;cyl4.forEach((c,k)=>{const ph=((TH0-k*.25)%1+1)%1;const fire=k===1&&t>tm?0:(ph<.22?1:0);c.setAttribute('fill',fire?AMBER:OFF)});
+  xMark.style.opacity=t>tm?((t*2)%1<.6?1:.2):0;misLab.style.opacity=eo(P(t,tm,.3));
+  const tb=W_('g10','unburned');drops.forEach((p,i)=>{const s=((t*.7+i/10)%1);const pt=s<.2?[880,246+s/.2*60]:[880-(s-.2)/.8*300,306];p.setAttribute('cx',pt[0]);p.setAttribute('cy',pt[1]);p.style.opacity=t>tb?(s<.95?1:0):0});
+  const tk=W_('g10','catalytic');const heat=eo(P(t,tk-.3,1.4));cat.setAttribute('fill',heat>.05?`rgb(${Math.round(138+117*heat)},${Math.round(138-77*heat)},${Math.round(150-60*heat)})`:H.smoke);
+  catGlow.setAttribute('opacity',.45*heat*(.8+.2*Math.sin(t*14)));catLab.style.opacity=eo(P(t,tk-.2,.4));catLab.style.fill=heat>.3?RED:'';
+  const te=W_('g8','serious');flash.style.opacity=t>te-.05&&t<te+.35?.25*(1-P(t,te-.05,.35)):0}
+
+ // ---- S5 drive gently ----
+ {const v=V(t,22.95,25.7,.3,.3);show(v,s5,route);tr(s5,540,1060,back(P(t,22.95,.4)),0,v);
+  const tg=W_('g11','gently');sp5.set(.55-.3*eio(P(t,tg-.1,.9))+.008*Math.sin(t*7));
+  tr(route,540,1400,1,0,V(t,24.0,25.7,.3,.3));const k=eio(P(t,24.15,1.0));rpath.setAttribute('stroke-dashoffset',-t*50);
+  const L=rpath.getTotalLength();const pt=rpath.getPointAtLength(L*k*.92);rcar.setAttribute('transform',`translate(${pt.x} ${pt.y})`);pin.setAttribute('transform',`translate(260 0) scale(${back(P(t,W_('g11','needed')-.1,.4))})`);rlab.style.opacity=eo(P(t,W_('g11','needed'),.3))}
+
+ // ---- S6 causes ----
+ {const v=V(t,25.7,31.1,.3,.3);const tq=25.79;
+  qmarks.forEach((q,i)=>{const k=back(P(t,tq+i*.12,.4));const o=Math.min(cl(P(t,tq+i*.12,.15)),1-P(t,26.85,.2));q.style.display=o>0?'':'none';q.setAttribute('x',300+i*240);q.setAttribute('y',1240-30*Math.sin(t*4+i));q.style.opacity=o;q.setAttribute('font-size',150*k)});
+  const tw=[W_('g13','gas'),W_('g13','oxygen'),W_('g13','spark')];
+  causes.forEach((c,i)=>{show(v,c);tr(c,295+i*245,1170,back(P(t,tw[i]-.2,.4)),0,Math.min(v,cl(P(t,tw[i]-.2,.2))))});
+  causes[0].r.setAttribute('transform',`rotate(${t>tw[0]?Math.sin((t-tw[0])*5)*35:0})`);
+  const sp=causes[2].r;sp.style.opacity=t>tw[2]+.2?((t*5)%1<.5?1:0):0}
+
+ // ---- S7 OBD ----
+ {const v=V(t,31.15,35.15,.3,.3);show(v,obd);tr(obd,540,1180,1,0,v);
+  const tp=31.6;const k=eio(P(t,tp,.7));const px=-160,py=-40+200*(1-k);plug.setAttribute('transform',`translate(${px} ${py}) scale(.6)`);
+  cable.setAttribute('d',`M${px} ${py+24} C ${px} ${py+180}, 200 -60, 200 0`);
+  const tc=32.5;scanT.textContent=t<tc?'':'P0300'.slice(0,Math.ceil(5*P(t,tc,.7)));scanS.textContent=t>tc+.8?'RANDOM MISFIRE':'';
+  const tf=W_('g14','free');tag.setAttribute('transform',`translate(-170 230) rotate(${-8+4*Math.sin(t*3)}) scale(${back(P(t,tf-.1,.4))})`)}
+
+ // ---- S8 emissions test ----
+ {const v=V(t,35.1,39.95,.3,.3);show(v,clip,stamp);tr(clip,540,1200,.94*back(P(t,35.1,.45)),0,v);
+  const rt=[36.4,36.9];rows.forEach((r,i)=>{if(i<2){r.mk.style.opacity=t>rt[i]?1:0;r.xx.style.opacity=0}else{r.mk.style.opacity=0;r.xx.style.opacity=t>37.6?1:0}});
+  stkLamp.set((t*2)%1<.55?1:0);
+  const tf=W_('g16','fail');const sk=P(t,tf-.12,.22);tr(stamp,540,1200,2.4-1.4*eo(sk),-12,t>tf-.12?Math.min(v,cl(sk*3)):0)}
+
+ // ---- S9 question: floating ?, comment bubble ----
+ {qs.forEach((q,i)=>{const p=((t-40.2)*0.42+i/6)%1;const on=t>40.2&&t<43.4;const x=[210,860,250,840,200,880][i],y=1500-p*520;q.setAttribute('x',x);q.setAttribute('y',y);q.style.opacity=on?Math.sin(p*Math.PI)*.9:0});
+  const tc=W_('g17','comments');tr(bub,540,1420,.62*back(P(t,tc-.25,.4)),0,V(t,tc-.25,43.4,.2,.25));bdots.forEach((b,i)=>b.setAttribute('cy',-14*Math.max(0,Math.sin(t*7-i*.8))))}
+
+ // ---- S10 next episode ----
+ {const v=V(t,43.4,47.0,.3,.3);show(v,nxt);tr(nxt,540,1080,back(P(t,43.4,.45)),0,v);
+  const ta=W_('g18','arrow');const pr=P(t,ta-.2,.25),rl=P(t,ta+.1,.3);rb.setAttribute('transform',`scale(${1-.06*Math.max(0,pr-rl)})`);
+  rArrow.setAttribute('stroke-dasharray',`${1000*eio(P(t,43.8,.9))} 1000`);rHead.style.opacity=cl(P(t,44.65,.15));
+  rLed.setAttribute('fill',t>ta?'#E2F23A':OFF);rLedGlow.setAttribute('opacity',t>ta?.25*eo(P(t,ta,.3)):0);rbRing.setAttribute('class',t>ta?'sAcc':'sLine')}
+
+ // ---- S11 logo ----
+ {const T=47.0;show(t>T-.1?1:0,logo);tr(logo,540,1000,.86*(.9+.1*back(P(t,T,.5))),0,V(t,T,99,.3,.3));
+  lf.look(Math.sin(t*1.2)*.5,-.5);lf.q.setAttribute('transform',`translate(150 -214) rotate(${14+8*Math.sin(t*3)}) scale(${back(P(t,T+.3,.45))})`);
+  const wk=eo(P(t,T+.45,.45));wm.style.opacity=wk;wm.setAttribute('transform',`translate(0 ${(1-wk)*30})`);
+  const fb=back(P(t,T+.8,.4));follow.setAttribute('transform',`translate(0 488) scale(${fb}) translate(0 -488)`);follow.style.opacity=cl(fb)}
+};
+window.DUR=51.3;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ // BMW chime: twice at the start, twice at the end (lamp blinks with it)
+ CH_START.forEach(c=>A(c,'chime_bmw',2.15,.42));A(CH_END[0],'chime_bmw',2.0,.55);A(CH_END[1],'chime_bmw',1.2,.55);
+ A(W_('g2','stop')-.1,'push',1.1,.6);
+ [3.29,4.97,8.55,11.95,15.15,22.95,25.7,31.15,35.1,39.8,43.4,47.0].forEach(x=>A(x-.06,'whoosh',.4,.5));
+ A(3.35,'pop',0,.7);
+ const ton=W_('g4','start');A(ton-.05,'clack',0,.6);A(ton,'boot',0,.6);[6.95,7.15,7.35,7.55,7.8].forEach(x=>A(x,'tick',0,.6));A(W_('g5','self')-.1,'check',0,.9);
+ A(W_('g6','fault'),'typing',.8,.8);A(W_('g6','fault')+.85,'check',0,.6);A(12.1,'run4',2.8,.32);A(W_('g7','soon')-.3,'pop',0,.6);
+ for(let x=15.3;x<22.6;x+=1/2.6)A(x,'tick',0,.22);
+ A(W_('g8','serious')-.05,'alarm',0,.5);A(W_('g9','misfiring')-.05,'stutter',2.4,.7);A(W_('g10','unburned'),'hiss',1.6,.6);A(W_('g10','catalytic')-.3,'riserE',1.4,.55);
+ A(W_('g11','gently')-.1,'tapestop',0,.5);A(24.2,'whir',1.0,.35);A(W_('g11','needed')-.1,'pop',0,.7);
+ [0,1,2].forEach(i=>A(25.79+i*.12,'pop',0,.5));
+ [W_('g13','gas'),W_('g13','oxygen'),W_('g13','spark')].forEach(x=>A(x-.2,'pop',0,.8));A(W_('g13','gas')+.05,'gearticks',.6,.8);A(W_('g13','spark')+.2,'zap',0,.45);
+ A(32.25,'clack',0,.8);A(32.3,'boot',0,.6);A(32.5,'typing',.7,.8);A(W_('g14','free')-.1,'ding',0,.7);
+ A(36.4,'check',0,.6);A(36.9,'check',0,.6);A(37.6,'alarm',0,.3);
+ A(W_('g16','fail')-.12,'thud',0,1);A(W_('g16','fail')-.1,'clunk',0,.8);
+ A(W_('g17','comments')-.25,'pop',0,.7);A(W_('g17','comments'),'typing',.9,.8);
+ A(W_('g18','arrow')-.2,'clack',0,.8);A(W_('g18','arrow'),'check',0,.7);
+ A(47.3,'pop',0,.7);A(47.8,'pop',0,.6);A(49.25,'stinger',0,.9);
+ return E})();
+function fitCaptions(){groups.forEach(gr=>{const d=gr.div;d.style.display='flex';let fs=parseFloat(d.style.fontSize);
+  const box=()=>{const r=[...d.children].map(x=>x.getBoundingClientRect());const wide=Math.max(...r.map(x=>x.width));return Math.max(...r.map(x=>x.bottom))-Math.min(...r.map(x=>x.top))+(wide>760?999:0)};
+  [...d.children].forEach(x=>{x.style.transform='none';x.style.filter='none'});
+  while(box()>285&&fs>48){fs-=2;d.style.fontSize=fs+'px'}d.style.display='none'})}
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>

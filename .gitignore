@@ -1,0 +1,5 @@
+node_modules/
+wtc/prev/
+wtc/frames/
+*.wav
+*.mp4
