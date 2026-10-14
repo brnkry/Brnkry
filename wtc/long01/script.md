@@ -38,3 +38,5 @@ Now you know more about this light than most drivers on the road. Has it ever co
 - BMW ikazı (`../chime.mp3`): lamba sönük başlar, ding anında yanar (c+0.03..c+1.0). Yanıp sönen lamba = ding ile yanan lamba.
 - Parça 01 bitti: `scene01_hook.html`, ses `01_hook.mp3`. Akış: `node render.js scene01_hook.html preview t...`, `node render.js scene01_hook.html events`, `python3 audio_hook.py`, 3 paralel `full` render, iki geçişli loudnorm (-14 LUFS).
 - 16:9 düzen: altyazı altta (left 210, top 892, 1500 genişlik, 62px), sağ üstte küçük wordmark, görsel alan y 80..860.
+- Parça 02 bitti: `scene02_what.html` (ortak kod `lib.js`, karakter `guy.js`, dudak senkronu `mouth.py`). Ses `02_what.mp3` ("E C U" harf harf yazıldı). Encode: `./encode.sh frames_x mix_x.wav out.mp4`.
+- Birleştirme: 1. parçaya dokunmadan, 0,35 sn xfade + acrossfade ile `01_02.mp4`. Sonraki parça da aynı şekilde sona eklenir (offset = önceki toplam süre - 0,35).

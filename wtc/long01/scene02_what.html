@@ -1,0 +1,221 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:720px;top:892px;width:1140px;height:150px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+ </defs>
+</svg>
+<div id="flash"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="guy.js"></script>
+<script src="mouth_02_what.js"></script>
+<script src="lib.js"></script>
+<script>
+// ---------- captions (02_what.mp3) ----------
+buildCaptions({
+ a1:[[0.07,1.98,"First, what is this *thing?*"]],
+ a2:[[2.43,5.36,"Officially it's called the *malfunction indicator lamp,*"],[5.65,7.75,"but everyone calls it the *check engine light.*"]],
+ a3:[[8.33,9.72,"Your car has a *computer,*"],[9.95,11.57,"often called the *ECU.*"]],
+ a4:[[12.19,13.44,"Every second you drive,"],[13.70,15.48,"it watches *dozens of sensors.*"]],
+ a5:[[15.88,17.22,"How much *air* is coming in."]],
+ a6:[[17.45,18.96,"How rich the *fuel mix* is."]],
+ a7:[[19.16,21.27,"How smoothly each *cylinder* fires."]],
+ a8:[[21.60,23.01,"What comes out of the *exhaust.*"]],
+ a9:[[23.58,26.30,"When something *drifts* outside the range it expects,"],[26.44,28.38,"in a way that could raise *emissions,*"]],
+ a10:[[28.50,31.57,"the computer saves a *trouble code* and turns this light *on.*"]],
+ a11:[[32.13,35.73,"That's also why you see it glow for a moment every time you *start* the car."]],
+ a12:[[36.13,37.18,"That's a *bulb check.*"]],
+ a13:[[37.50,39.52,"If it goes out once the engine is *running,*"],[39.72,40.55,"everything is *fine.*"]],
+});
+const T_ON=W_('a10','on')-.05, T_START=W_('a11','start')-.03;
+const CH=[T_ON,T_START];
+const T_CAR=8.1,T_CLU=31.9;
+
+// ---------- studio + narrator ----------
+const studio=makeStudio();const guy=studio.guy;
+
+// ---------- S1: the lamp and its two names ----------
+const s1=g();const bigLamp=engineLamp(s1);
+const qm=txt(s1,230,-120,170,'bold red','?');
+const offPill=g(s1);el('rect',{x:-170,y:150,width:340,height:56,rx:28,class:'card'},offPill);txt(offPill,0,188,26,'mic mut','OFFICIAL NAME');
+const offName=txt(s1,0,268,46,'mic ink','');
+const strike=el('rect',{x:-380,y:252,width:0,height:6,rx:3,fill:RED},s1);
+const nick=txt(s1,0,370,96,'bold acc','CHECK ENGINE LIGHT');
+const nickSub=txt(s1,0,420,26,'mic mut','WHAT EVERYONE CALLS IT');
+
+// ---------- S2: X-ray car, ECU, sensors ----------
+const xr=g();const road=g(xr);el('rect',{x:-560,y:142,width:1120,height:10,rx:5,class:'lin'},road);const rdash=[...Array(8)].map(()=>el('rect',{y:166,width:70,height:8,rx:4,class:'lin'},road));
+const car=makeCar(xr,{body:'#1C1C24',ink:'#121216',acc:AMBER});
+const bodyPath=car.inner.querySelector('path');bodyPath.setAttribute('stroke','#5A5A68');bodyPath.setAttribute('stroke-width',5);
+const C=(x,y)=>[x-500,y-200];
+// wheel spokes so the wheels visibly spin
+const wheels=[228,814].map(x=>{const w=g(car.inner,{transform:`translate(${x} 278)`});[0,60,120].forEach(a=>el('rect',{x:-4,y:-52,width:8,height:104,rx:4,fill:'#3A3A46',transform:`rotate(${a})`},w));el('circle',{r:10,fill:'#121216'},w);return w});
+// engine bay + cylinders, exhaust pipe
+const bay=g(car.inner);el('rect',{x:786,y:146,width:156,height:98,rx:14,fill:'#141419',stroke:'#5A5A68','stroke-width':4},bay);
+const cyl=[0,1,2,3].map(k=>el('rect',{x:800+k*34,y:162,width:24,height:62,rx:5,fill:OFF},bay));
+const pipe=el('path',{d:'M880 246 L880 300 L640 300 M520 300 L40 300',fill:'none','stroke-width':12,stroke:'#4A4A56','stroke-linecap':'round'},car.inner);
+el('rect',{x:520,y:280,width:120,height:40,rx:12,fill:'#4A4A56'},car.inner);
+// ECU
+const ecu=g(car.inner,{transform:'translate(600 150)'});const ecuGlow=el('circle',{r:80,fill:LIME,opacity:0,filter:'url(#soft)'},ecu);
+el('rect',{x:-48,y:-34,width:96,height:68,rx:10,fill:'#0E0E12',stroke:LIME,'stroke-width':5},ecu);
+[-30,-10,10,30].forEach(x=>{el('rect',{x:x-3,y:-46,width:6,height:12,fill:LIME},ecu);el('rect',{x:x-3,y:34,width:6,height:12,fill:LIME},ecu)});
+txt(ecu,0,12,30,'bold acc','ECU');
+const ecuCall=g();el('rect',{x:-210,y:-52,width:420,height:104,rx:26,class:'card'},ecuCall);txt(ecuCall,0,-2,52,'bold acc','ECU');txt(ecuCall,0,34,22,'mic mut',"THE CAR'S COMPUTER");
+const ecuLine=el('path',{fill:'none','stroke-width':4,stroke:LIME,'stroke-dasharray':'8 8'});
+// dozens of sensor dots
+const dots=[...Array(30)].map((_,i)=>{const x=80+((i*137)%860),y=90+((i*61)%200);return el('circle',{cx:x,cy:y,r:7,fill:LIME,opacity:0},car.inner)});
+// the four key sensors
+const SENS=[{id:'air',p:[930,150],w:'a5',lab:'AIR FLOW'},{id:'fuel',p:[830,178],w:'a6',lab:'FUEL MIX'},{id:'cyl',p:[862,226],w:'a7',lab:'MISFIRES'},{id:'exh',p:[700,300],w:'a8',lab:'EXHAUST O2'}];
+SENS.forEach(s=>{s.t=G0(s.w);s.line=el('path',{d:`M${s.p[0]} ${s.p[1]} Q ${(s.p[0]+600)/2} ${Math.min(s.p[1],150)-60} 600 150`,fill:'none','stroke-width':4,stroke:LIME,'stroke-dasharray':'10 12',opacity:0},car.inner);
+  s.dot=el('circle',{cx:s.p[0],cy:s.p[1],r:14,fill:LIME,opacity:0},car.inner);s.ring=el('circle',{cx:s.p[0],cy:s.p[1],r:14,fill:'none',stroke:LIME,'stroke-width':4,opacity:0},car.inner);
+  s.pulse=[0,1].map(()=>el('circle',{r:7,fill:CHALK,opacity:0},car.inner))});
+function G0(id){return groups.find(x=>x.id===id).start}
+car.inner.appendChild(ecu);
+// readout chips
+const chips=SENS.map((s,i)=>{const c=g();el('rect',{x:-115,y:-62,width:230,height:124,rx:22,class:'card'},c);c.edge=el('rect',{x:-115,y:-62,width:230,height:124,rx:22,fill:'none','stroke-width':5,stroke:RED,opacity:0},c);
+  txt(c,-95,-30,20,'mic mut',s.lab,'start');c.val=txt(c,-95,16,40,'bold ink','','start');
+  el('rect',{x:-95,y:34,width:190,height:10,rx:5,class:'lin'},c);c.band=el('rect',{x:-40,y:34,width:80,height:10,rx:5,fill:LIME,opacity:.55},c);c.mark=el('rect',{x:-3,y:28,width:6,height:22,rx:3,fill:CHALK},c);return c});
+// emissions puffs, trouble code, lamp
+const puffs=[...Array(7)].map(()=>el('circle',{fill:'#6A6A76'},car.inner));
+const emLab=g();el('rect',{x:-150,y:-28,width:300,height:56,rx:28,fill:RED},emLab);txt(emLab,0,9,24,'mic ink','MORE EMISSIONS');
+const code=g();el('rect',{x:-230,y:-62,width:460,height:124,rx:24,class:'card'},code);const codeChip=g(code,{transform:'translate(-160 0)'});el('rect',{x:-30,y:-30,width:60,height:60,rx:8,fill:LIME},codeChip);[-16,0,16].forEach(x=>{el('rect',{x:x-3,y:-42,width:6,height:12,fill:LIME},codeChip);el('rect',{x:x-3,y:30,width:6,height:12,fill:LIME},codeChip)});
+const codeT=txt(code,-100,6,62,'bold ink','','start');const codeS=txt(code,-100,40,20,'mic mut','','start');const codeSaved=txt(code,200,-28,20,'mic acc','SAVED','end');
+const lampOn=engineLamp(svg);
+
+// ---------- S3: start the car, bulb check ----------
+const s3=g();const clu=makeCluster(s3);clu.setAttribute('transform','translate(0 0)');
+const strip=g(s3,{transform:'translate(0 330) scale(.85)'});el('rect',{x:-360,y:-62,width:720,height:124,rx:30,class:'card'},strip);
+const stripIcons=[[iconBattery,RED],[iconOil,RED],[iconABS,AMBER],[iconBag,RED],[iconEngine,AMBER]].map(([f,c],i)=>{const h=g(strip,{transform:`translate(${-268+i*134} 0)`});const ic=f(h);ic.style.color=OFF;return {ic,c}});
+const btn=g(s3,{transform:'translate(470 330)'});el('circle',{r:72,class:'card'},btn);const btnRing=el('circle',{r:72,fill:'none','stroke-width':6,class:'sLine'},btn);
+el('path',{d:'M-14 -38 A24 24 0 1 0 14 -38',fill:'none','stroke-width':8,class:'sInk','stroke-linecap':'round'},btn);el('line',{x1:0,y1:-50,x2:0,y2:-26,'stroke-width':8,class:'sInk','stroke-linecap':'round'},btn);
+txt(btn,0,26,17,'mic ink','ENGINE');txt(btn,0,46,13,'mic mut','START STOP');
+const ripple=el('circle',{r:72,fill:'none','stroke-width':8,class:'sAcc'},btn);
+const pill=g(s3);const pillR=el('rect',{x:-200,y:-36,width:400,height:72,rx:36,class:'acc'},pill);const pillT=txt(pill,0,11,30,'mic bgf','BULB CHECK ✓');
+
+const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:.6});
+[['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
+const flash=document.getElementById('flash');
+const fmt1=(v,d)=>v.toFixed(d);
+
+// ---------- narrator poses ----------
+const POSE={rest:REST,open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},
+ lamp:{L:REST.L,R:{x:469,y:-69,shape:'point'}},label:{L:REST.L,R:{x:490,y:25,shape:'point'}},car:{L:REST.L,R:{x:476,y:-50,shape:'point'}},
+ ecu:{L:REST.L,R:{x:474,y:-60,shape:'point'}},chips:{L:REST.L,R:{x:490,y:70,shape:'point'}},code:{L:REST.L,R:{x:419,y:-153,shape:'point'}},
+ cluster:{L:REST.L,R:{x:473,y:-58,shape:'point'}},one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},thumb:{L:REST.L,R:{x:320,y:140,shape:'thumb',rot:0}}};
+const poseAt=poser(POSE,[[0,'rest'],[0.15,'open'],[2.4,'lamp'],[5.6,'label'],[8.2,'car'],[9.9,'ecu'],[12.1,'open'],[15.85,'chips'],[23.5,'rest'],[24.0,'chips'],[26.4,'car'],[28.45,'code'],[32.0,'cluster'],[36.1,'one'],[37.45,'cluster'],[39.65,'thumb'],[40.6,'rest']]);
+
+window.render=function(t){
+ renderCaptions(t);flash.style.opacity=0;
+ // narrator
+ {const pz=poseAt(t);const m=mouthAt(t);let smile=.55,bw=0,bu=.1+.25*m;
+  if(t>23.5&&t<31.6){smile=-.1;bw=.45;bu=0}
+  const pointing=!['rest','open','one','thumb'].includes(pz.name);
+  guy.set({mouth:.9*m,smile,browUp:bu,browWorry:bw,eyes:blinkAt(t,3.3,.6),pupil:1,look:pointing?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt:2*Math.sin(t*1.1),nod:2.2*m,amber:0,hands:{L:pz.L,R:pz.R}});
+  studio.presG.setAttribute('transform',`translate(430 ${560+4*Math.sin(t*1.6)})`)}
+
+ // ---- S1: lamp, official name, nickname ----
+ {const v=V(t,-1,T_CAR,.01,.3);show(v,s1);if(v>0){
+  tr(s1,1300,330,1,0,v);bigLamp.set(0);bigLamp.setAttribute('transform',`scale(${.9*back(P(t,0,.45))})`);
+  const tq=W_('a1','thing');qm.style.opacity=t>tq-.15?Math.max(0,1-P(t,2.5,.3)):0;qm.setAttribute('transform',`translate(230 -120) scale(${back(P(t,tq-.15,.4))}) rotate(${8*Math.sin(t*3)}) translate(-230 120)`);
+  const tn=W_('a2','malfunction')-.1;const nm='MALFUNCTION INDICATOR LAMP';offName.textContent=nm.slice(0,Math.round(nm.length*eo(P(t,tn,1.6))));
+  offPill.style.opacity=eo(P(t,tn-.2,.3));
+  const tc=W_('a2','check')-.1;const up=eio(P(t,tc,.4));
+  offName.setAttribute('transform',`translate(0 ${-40*up})`);offPill.setAttribute('transform',`translate(0 ${-40*up})`);offName.style.opacity=1-.55*up;
+  strike.setAttribute('width',760*eio(P(t,tc+.1,.35)));strike.setAttribute('transform',`translate(0 ${-40*up})`);
+  nick.style.opacity=cl(P(t,tc,.15));nick.setAttribute('transform',`translate(0 ${-30*up}) scale(${back(P(t,tc,.45))})`);nick.setAttribute('transform-origin','0 340');
+  nickSub.style.opacity=eo(P(t,tc+.5,.3));nickSub.setAttribute('transform',`translate(0 ${-30*up})`)}}
+
+ // ---- S2: X-ray car ----
+ {const v=V(t,T_CAR,T_CLU,.4,.35);show(v,xr,ecuCall,ecuLine,emLab,code,...chips);if(v>0){
+  const ent=eo(P(t,T_CAR,.6));tr(xr,lerp(1550,1360,ent),370,1,0,v);
+  const drive=P(t,12.0,.8);const spd=drive*500;
+  rdash.forEach((d,i)=>d.setAttribute('x',((i*160-t*spd)%1120+1120)%1120-560));
+  wheels.forEach((w,i)=>w.setAttribute('transform',`translate(${[228,814][i]} 278) rotate(${t*drive*400})`));
+  car.setAttribute('transform',`translate(0 ${drive*1.5*Math.sin(t*20)})`);
+  // ECU heartbeat
+  const te=W_('a3','computer')-.2;const ek=back(P(t,te,.45));const hb=Math.pow(Math.max(0,Math.sin(t*5.2)),12);
+  ecu.setAttribute('transform',`translate(600 150) scale(${ek*(1+.08*hb)})`);ecuGlow.setAttribute('opacity',t>te?.25+.35*hb:0);
+  const tl=W_('a3','ECU')-.2;const ck=back(P(t,tl,.4));tr(ecuCall,1140,110,ck,0,Math.min(v,cl(P(t,tl,.15))));
+  const ex=1360+100,ey=370-50;ecuLine.setAttribute('d',`M1140 162 L1140 ${lerp(162,ey,ck)} L${lerp(1140,ex,cl(ck))} ${ey}`);ecuLine.style.opacity=Math.min(v,cl(P(t,tl+.2,.3)))*.8;ecuLine.style.display=t>tl?'':'none';
+  // dozens of sensors flicker
+  const td=W_('a4','dozens')-.1;dots.forEach((d,i)=>{const st=td+i*.035;const k=P(t,st,.25);d.setAttribute('opacity',t>st&&t<td+2.2?(.9*(1-k*.6)):0)});
+  // key sensors
+  SENS.forEach((s,i)=>{const on=t>s.t-.1;const k=back(P(t,s.t-.1,.4));s.dot.setAttribute('opacity',on?1:0);s.dot.setAttribute('r',14*k);
+    const rp=((t-s.t)%1.2+1.2)%1.2;s.ring.setAttribute('r',14+30*rp);s.ring.setAttribute('opacity',on?.8*(1-rp/1.2):0);
+    s.line.setAttribute('opacity',on?.75:0);s.line.setAttribute('stroke-dashoffset',-t*60);
+    s.pulse.forEach((p,j)=>{const L=s.line.getTotalLength();const q=((t*.9+j*.5+i*.13)%1);const pt=s.line.getPointAtLength(L*q);p.setAttribute('cx',pt.x);p.setAttribute('cy',pt.y);p.setAttribute('opacity',on?Math.sin(q*Math.PI):0)});
+    const c=chips[i];const ck2=back(P(t,s.t,.4));tr(c,995+i*250,665,ck2,0,Math.min(v,cl(P(t,s.t,.15))))});
+  // cylinders fire in order
+  const TH=t*3.2;cyl.forEach((c,k)=>{const ph=((TH-k*.25)%1+1)%1;c.setAttribute('fill',t>SENS[2].t-.1&&ph<.22?AMBER:OFF)});
+  // chip values
+  const tdr=W_('a9','drifts')-.1;const dk=eio(P(t,tdr,1.6));
+  chips[0].val.textContent=fmt1(12.2+.5*Math.sin(t*2.1),1)+' g/s';chips[0].mark.setAttribute('x',-3+12*Math.sin(t*2.1));
+  chips[1].val.textContent=fmt1(14.7+2.1*dk+(dk<1?.05*Math.sin(t*5):0),1)+' : 1';chips[1].mark.setAttribute('x',-3+6*Math.sin(t*3)*(1-dk)+86*dk);
+  const bad=dk>.55;chips[1].edge.setAttribute('opacity',bad?.6+.4*Math.sin(t*12):0);chips[1].val.setAttribute('class',bad?'bold red':'bold ink');chips[1].band.setAttribute('fill',LIME);
+  chips[2].val.textContent='0';chips[2].mark.setAttribute('x',-60);
+  const o2=.5+.38*Math.sin(t*4.2);chips[3].val.textContent=fmt1(o2,2)+' V';chips[3].mark.setAttribute('x',-3+(o2-.5)*190);
+  // emissions puffs
+  const tm=W_('a9','emissions')-.4;puffs.forEach((p,i)=>{const q=((t*.7+i/7)%1);const on=t>tm&&t<T_CLU;p.setAttribute('cx',40-q*240);p.setAttribute('cy',300-q*60+10*Math.sin(t*2+i));p.setAttribute('r',10+46*q);p.setAttribute('opacity',on?.55*(1-q)*cl(P(t,tm,.6)):0)});
+  tr(emLab,960,500,back(P(t,tm+.3,.4)),-3,Math.min(v,cl(P(t,tm+.3,.15))));emLab.style.display=t>tm+.3?'':'none';
+  // trouble code
+  const tc=W_('a10','trouble')-.25;tr(code,1100,140,back(P(t,tc,.4)),0,Math.min(v,cl(P(t,tc,.15))));code.style.display=t>tc?'':'none';
+  codeT.textContent='P0171'.slice(0,Math.ceil(5*P(t,tc+.2,.6)));codeS.textContent=t>tc+.8?'SYSTEM TOO LEAN':'';codeSaved.style.opacity=t>tc+1.1?1:0;
+  if(t>tc&&t<tc+.5)ecuGlow.setAttribute('opacity',.8*(1-P(t,tc,.5)));
+  ecuCall.style.display=t>tl&&t<tc?'':'none';ecuLine.style.display=t>tl&&t<tc?'':'none'}}
+ // the light turns on with the chime
+ {const a=W_('a10','light')-.3;const v=t>a&&t<T_CLU+.3;show(v?1:0,lampOn);if(v){const lb=lampBlink(t,[T_ON]);lampOn.set(lb);
+   tr(lampOn,1520,140,.42*back(P(t,a,.4))*(1+.08*lb),0,1-P(t,T_CLU,.3));if(t>T_ON&&t<T_ON+.35)flash.style.opacity=.2*(1-P(t,T_ON,.35))}}
+
+ // ---- S3: start the car, bulb check, running ----
+ {const v=V(t,T_CLU,99,.4,.3);show(v,s3);if(v>0){
+  tr(s3,1290,330,.95*back(P(t,T_CLU,.5)),0,v);
+  const ts=T_START;const press=P(t,ts-.35,.3),rel=P(t,ts+.05,.25);btn.setAttribute('transform',`translate(470 330) scale(${1-.08*Math.max(0,press-rel)})`);
+  const rk=P(t,ts,.7);ripple.setAttribute('transform',`scale(${1+.3*eo(rk)})`);ripple.style.opacity=t>ts?1-rk:0;btnRing.setAttribute('class',t>ts?'sAcc':'sLine');
+  const lb=lampBlink(t,[T_START]);clu.lamp.set(lb);stripIcons.forEach(({ic,c})=>{ic.style.color=lb?c:OFF});
+  if(t>ts&&t<ts+.35)flash.style.opacity=.15*(1-P(t,ts,.35));
+  const run=t>ts+.4;const idle=eio(P(t,ts+.4,.8));clu.R.set(run?.1*idle+(idle>=1?.006*Math.sin(t*9):0)+.12*Math.max(0,Math.sin(P(t,ts+.4,.8)*Math.PI)):0);clu.L.set(0);
+  if(run)s3.setAttribute('transform',`translate(1290 ${330+.8*Math.sin(t*40)}) scale(.95)`);
+  const tb=W_('a12','bulb')-.15,tf=W_('a13','fine')-.15;const pk=t<tf?back(P(t,tb,.4)):back(P(t,tf,.4));
+  pill.style.display=t>tb?'':'none';pill.setAttribute('transform',`translate(0 -250) scale(${pk})`);pillT.textContent=t<tf?'BULB CHECK ✓':'ALL CLEAR ✓';
+  pillR.setAttribute('x',t<tf?-200:-180);pillR.setAttribute('width',t<tf?400:360)}}
+};
+window.DUR=41.2;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ A(W_('a1','thing')-.15,'pop',0,.7);
+ A(W_('a2','malfunction')-.1,'typing',1.6,.7);A(W_('a2','check')-.1,'thud',0,.6);A(W_('a2','check')+.1,'clunk',0,.5);
+ A(T_CAR-.05,'whoosh',.5,.5);A(W_('a3','computer')-.2,'boot',0,.5);A(W_('a3','ECU')-.2,'pop',0,.7);
+ A(12.0,'run4',19.9,.28);
+ for(let i=0;i<30;i+=3)A(W_('a4','dozens')-.1+i*.035,'tick',0,.5);
+ ['a5','a6','a7','a8'].forEach(w=>A(G0(w)-.1,'pop',0,.75));A(G0('a7')+.1,'gearticks',1.6,.35);
+ A(W_('a9','drifts')-.1,'riserE',1.6,.4);A(W_('a9','drifts')+1.0,'alarm',0,.35);A(W_('a9','emissions')-.4,'puff',1.8,.5);
+ A(W_('a10','trouble')-.25,'pop',0,.7);A(W_('a10','trouble'),'typing',.7,.8);A(W_('a10','trouble')+1.1,'check',0,.6);
+ A(T_ON,'chime_bmw',2.15,.5);
+ A(T_CLU-.05,'whoosh',.5,.5);
+ A(T_START-.08,'clack',0,.7);A(T_START,'chime_bmw',2.0,.5);A(T_START+.05,'starter',.45,.4);A(T_START+.4,'catch',0,.45);A(T_START+1.3,'idle',4.5,.3);
+ A(W_('a12','bulb')-.15,'check',0,.8);A(W_('a13','fine')-.15,'check',0,.9);
+ return E})();
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>
