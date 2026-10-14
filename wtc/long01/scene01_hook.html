@@ -22,7 +22,11 @@ svg{position:absolute;inset:0}
 <svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
  <defs>
   <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F0F16"/><stop offset=".75" stop-color="#2B2433"/><stop offset="1" stop-color="#4A3436"/></linearGradient>
-  <radialGradient id="vig" cx=".5" cy=".45" r=".75"><stop offset=".45" stop-color="#FF3D5A" stop-opacity="0"/><stop offset="1" stop-color="#FF3D5A" stop-opacity=".55"/></radialGradient>
+  <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2E40"/><stop offset=".8" stop-color="#5A4A52"/><stop offset="1" stop-color="#7A5A50"/></linearGradient>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <clipPath id="rearClip"><path d="M600 78 Q960 58 1320 78 L1360 330 Q960 312 560 330 Z"/></clipPath>
+  <clipPath id="sideL"><path d="M0 90 L380 120 L420 560 L0 600 Z"/></clipPath>
+  <clipPath id="sideR"><path d="M1920 90 L1540 120 L1500 560 L1920 600 Z"/></clipPath>
   <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
  </defs>
 </svg>
@@ -32,6 +36,8 @@ svg{position:absolute;inset:0}
 <div id="cap"></div>
 </div>
 <script src="../brand.js"></script>
+<script src="guy.js"></script>
+<script src="mouth_01_hook.js"></script>
 <script>
 const NS="http://www.w3.org/2000/svg";const svg=document.getElementById('ill');
 const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));const P=(t,t0,d)=>cl((t-t0)/d);
@@ -45,6 +51,7 @@ function tr(e,x,y,s=1,r=0,o=1){e.setAttribute('transform',`translate(${x} ${y}) 
 function show(v,...els){els.forEach(e=>e.style.display=v>0?'':'none')}
 function txt(parent,x,y,size,cls,s,anchor='middle'){const t=el('text',{x,y,'font-size':size,'text-anchor':anchor,class:cls},parent);t.textContent=s;return t}
 const H=BRAND.hex;const AMBER='#FFB000',RED=H.brake,LIME=H.lime,OFF='#34343E',CHALK=H.chalk,ASPH=H.asphalt,GRAPH=H.graphite;
+const SKIN='#E7B28C',SKIN_D='#C88D68',JACKET='#2F2F3A',JACKET_D='#202028';
 const LAMP_D='M-150 -40 h40 v-30 h70 v-25 h80 v25 h50 l30 30 h40 v-30 h30 v150 h-30 v-30 h-40 l-40 50 h-150 l-40 -40 h-40 v40 h-20 v-110 h20 v20 Z';
 
 // ---------- captions (times from voice pauses in 01_hook.mp3) ----------
@@ -78,9 +85,12 @@ groups.forEach((gr,i)=>{gr.end=i<groups.length-1?groups[i+1].start:99});
 const W_=(id,w)=>{const k=id+':'+w;if(!(k in WT))throw new Error('no word '+k);return WT[k]};
 
 // ---------- BMW chime: lamp is dark until the ding, lit c+0.03 .. c+1.0 ----------
-const CH_ON=[6.10,8.30];            // light comes on (cluster), then over the mascot
+const CH_ON=[6.10,8.30];            // light comes on (cluster), then on the driver's face
 const CH_FLASH=[21.05,23.25];       // the flashing light
 const lampBlink=(t,cs)=>{for(const c of cs){const d=t-c;if(d>=0.03&&d<1.0)return 1}return 0};
+
+// scene cuts
+const T_SIP=2.70,T_POV2=4.43,T_FACE=7.72,T_WORRY=9.42,T_STUDIO=15.70;
 
 // ---------- building blocks ----------
 function engineLamp(parent,fill=AMBER){const l=g(parent);const glow=el('circle',{r:240,fill,opacity:0,filter:'url(#soft)'},l);const p=el('path',{d:LAMP_D,fill},l);l.glow=glow;l.p=p;l.set=v=>{p.setAttribute('fill',v>0.5?fill:OFF);glow.setAttribute('opacity',.3*v)};return l}
@@ -97,268 +107,318 @@ function makeCluster(parent){const c=g(parent);
   const h=g(c,{transform:'translate(0 -10) scale(.44)'});c.lamp=engineLamp(h);return c}
 function padlock(parent){const l=g(parent);el('path',{d:'M-46 -20 V-60 A46 46 0 0 1 46 -60 V-20',fill:'none','stroke-width':22,class:'sInk','stroke-linecap':'round'},l);
   el('rect',{x:-78,y:-26,width:156,height:126,rx:24,class:'ink'},l);el('circle',{cx:0,cy:26,r:16,class:'bgf'},l);el('rect',{x:-6,y:30,width:12,height:36,rx:6,class:'bgf'},l);return l}
+function coffeeCup(parent){const c=g(parent);el('path',{d:'M-30 -78 L30 -78 L24 44 L-24 44 Z',fill:'#E8E2D4'},c);el('path',{d:'M-28 -40 L28 -40 L26 -4 L-26 -4 Z',fill:LIME},c);
+  el('rect',{x:-37,y:-94,width:74,height:20,rx:8,fill:GRAPH},c);el('rect',{x:-8,y:-100,width:22,height:8,rx:3,fill:GRAPH},c);return c}
+// POV hand gripping the rim (seen from the driver's seat). side: -1 left, 1 right
+function povHand(parent,side){const h=g(parent);const arm=el('path',{fill:'none',stroke:JACKET,'stroke-width':120,'stroke-linecap':'round'},h);
+  const cuff=el('circle',{r:58,fill:JACKET_D},h);const hand=g(h,{});const handIn=g(hand,{transform:'scale(1.35)'});
+  el('rect',{x:-58,y:-46,width:116,height:96,rx:40,fill:SKIN},handIn);
+  [-36,-12,12,36].forEach(x=>el('rect',{x:x-11,y:-62,width:22,height:40,rx:11,fill:SKIN},handIn));
+  [-36,-12,12,36].forEach(x=>el('path',{d:`M${x} -30 v12`,stroke:SKIN_D,'stroke-width':4,'stroke-linecap':'round'},handIn));
+  el('rect',{x:side>0?-76:40,y:-24,width:36,height:56,rx:18,fill:SKIN,transform:`rotate(${side*-20})`},handIn);
+  el('path',{d:'M-40 26 Q0 40 40 26',stroke:SKIN_D,'stroke-width':4,fill:'none',opacity:.6},handIn);
+  h.place=(x,y,rot,ax,ay)=>{arm.setAttribute('d',`M${x} ${y+30} L${ax} ${ay}`);cuff.setAttribute('cx',lerp(x,ax,.22));cuff.setAttribute('cy',lerp(y+30,ay,.22));hand.setAttribute('transform',`translate(${x} ${y}) rotate(${rot})`)};return h}
 
-// ================= S1/S2 driver's view =================
+// ================= A/C: driver's POV =================
 const drv=g();const drvIn=g(drv);
 el('rect',{x:-200,y:-200,width:2320,height:640,fill:'url(#sky)'},drvIn);
 const sun=g(drvIn,{transform:'translate(1330 420)'});el('circle',{r:170,fill:AMBER,opacity:.08},sun);el('circle',{r:95,fill:AMBER,opacity:.16},sun);el('circle',{r:52,fill:'#FFD27A',opacity:.75},sun);
-// distant hills
 el('path',{d:'M-200 430 Q 150 370 420 410 T 900 400 T 1400 395 T 2120 420 L2120 440 L-200 440 Z',fill:'#1E1A24'},drvIn);
 el('rect',{x:-200,y:420,width:2320,height:900,fill:'#15151A'},drvIn);
 el('path',{d:'M930 420 L990 420 L2300 1080 L-380 1080 Z',fill:'#1D1D24'},drvIn);
 el('path',{d:'M930 420 L-380 1080 M990 420 L2300 1080',stroke:'#4A4A56','stroke-width':5,fill:'none'},drvIn);
 const HY=420,HD=660;
 const dashes=[...Array(7)].map(()=>el('path',{fill:CHALK,opacity:.85},drvIn));
-const poles=[...Array(8)].map((_,i)=>el('rect',{fill:'#2C2C36'},drvIn));
+const poles=[...Array(8)].map(()=>el('rect',{fill:'#2C2C36'},drvIn));
+// A-pillars + roof edge
+el('path',{d:'M-200 -200 L120 -200 L-40 700 L-200 700 Z',fill:'#101014'},drvIn);el('path',{d:'M2120 -200 L1800 -200 L1960 700 L2120 700 Z',fill:'#101014'},drvIn);
+el('path',{d:'M-200 -200 L2120 -200 L2120 40 Q960 90 -200 40 Z',fill:'#101014'},drvIn);
+const mirror=g(drvIn,{transform:'translate(960 70)'});el('rect',{x:-8,y:-40,width:16,height:40,fill:'#0B0B0E'},mirror);el('rect',{x:-150,y:-6,width:300,height:70,rx:22,fill:'#0B0B0E'},mirror);el('rect',{x:-136,y:6,width:272,height:46,rx:14,fill:'#2B2433'},mirror);
 // dashboard
 const dashG=g(drvIn);
 el('path',{d:'M-200 640 Q960 560 2120 640 L2120 1300 L-200 1300 Z',fill:'#141418'},dashG);
 el('path',{d:'M-200 640 Q960 560 2120 640',fill:'none',stroke:'#2B2B33','stroke-width':5},dashG);
-const clu=makeCluster(dashG);clu.setAttribute('transform','translate(960 735) scale(.62)');
-// radio (left)
-const radio=g(dashG,{transform:'translate(330 760)'});el('rect',{x:-180,y:-66,width:360,height:132,rx:20,fill:'#0B0B0E',stroke:'#2B2B33','stroke-width':4},radio);
-const eq=[...Array(10)].map((_,i)=>el('rect',{x:-150+i*22,width:14,rx:3,fill:LIME},radio));
-const radT=txt(radio,150,-22,26,'mic','98.7 FM','end');radT.setAttribute('fill',H.smoke);
-const radN=txt(radio,150,40,40,'bold','♪','end');radN.setAttribute('fill',LIME);
-// coffee (right)
-const cof=g(dashG,{transform:'translate(1600 780)'});el('ellipse',{cx:0,cy:96,rx:96,ry:22,fill:'#0B0B0E'},cof);
-el('path',{d:'M-62 -40 L62 -40 L50 100 L-50 100 Z',fill:'#E8E2D4'},cof);el('path',{d:'M-58 6 L58 6 L54 52 L-54 52 Z',fill:LIME},cof);
-el('rect',{x:-72,y:-62,width:144,height:28,rx:10,fill:GRAPH},cof);
-const steam=[-26,0,26].map(x=>el('path',{fill:'none',stroke:CHALK,'stroke-width':8,'stroke-linecap':'round',opacity:0},cof));
-// steering wheel
-const wh=g(dashG);el('circle',{cx:960,cy:1480,r:640,fill:'none','stroke-width':86,stroke:'#1B1B21'},wh);el('circle',{cx:960,cy:1480,r:640,fill:'none','stroke-width':5,class:'sLine'},wh);
+const clu=makeCluster(dashG);clu.setAttribute('transform','translate(960 760) scale(.62)');
+// radio (right of the wheel)
+const radio=g(dashG,{transform:'translate(1530 780)'});el('rect',{x:-150,y:-58,width:300,height:116,rx:20,fill:'#0B0B0E',stroke:'#2B2B33','stroke-width':4},radio);
+const eq=[...Array(8)].map((_,i)=>el('rect',{x:-124+i*22,width:14,rx:3,fill:LIME},radio));
+const radT=txt(radio,128,-18,24,'mic','98.7 FM','end');radT.setAttribute('fill',H.smoke);
+const radN=txt(radio,128,40,40,'bold','♪','end');radN.setAttribute('fill',LIME);
+const radBtn=el('circle',{cx:0,cy:92,r:22,fill:'#2B2B33'},radio);
+// coffee in the cup holder
+const cof=g(dashG,{transform:'translate(1790 840)'});el('ellipse',{cx:0,cy:52,rx:80,ry:20,fill:'#0B0B0E'},cof);const cofCup=coffeeCup(cof);cofCup.setAttribute('transform','scale(.9)');
+const steam=[-22,0,22].map(()=>el('path',{fill:'none',stroke:CHALK,'stroke-width':7,'stroke-linecap':'round',opacity:0},cof));
+// steering wheel with both hands
+const whG=g(dashG);
+el('circle',{cx:0,cy:0,r:400,fill:'none','stroke-width':78,stroke:'#2A2A33'},whG);el('circle',{cx:0,cy:0,r:428,fill:'none','stroke-width':8,stroke:'#3A3A46'},whG);el('circle',{cx:0,cy:0,r:366,fill:'none','stroke-width':4,stroke:'#1B1B21'},whG);
+el('path',{d:'M-370 30 Q-200 10 -110 40 L110 40 Q200 10 370 30 L370 90 Q200 80 110 120 L-110 120 Q-200 80 -370 90 Z',fill:'#2A2A33'},whG);el('ellipse',{cx:0,cy:80,rx:130,ry:90,fill:'#33333D'},whG);
+const handL=povHand(whG,-1);
+const handR=povHand(dashG,1);
 const amberSpill=el('rect',{x:-200,y:-200,width:2320,height:1500,fill:AMBER,opacity:0},drv);
 
-// ================= S3..S5 mascot =================
-const mg=g();const face=makeFace(mg,{question:false});
-face.mouth.style.display='none';
-const mWave=el('path',{d:'M-46 84 Q-30 70 -14 84 Q2 98 18 84 Q34 70 48 82',stroke:ASPH,'stroke-width':12,'stroke-linecap':'round',fill:'none'},face);
-const mO=el('ellipse',{cx:0,cy:86,rx:26,ry:30,fill:ASPH},face);
-const mSmile=el('path',{d:'M-48 74 Q0 118 48 74',stroke:ASPH,'stroke-width':12,'stroke-linecap':'round',fill:'none'},face);
-const headLamp=engineLamp(mg);headLamp.setAttribute('transform','translate(150 -250) rotate(10) scale(.36)');
-const sweat=el('path',{d:'M0 -22 Q16 0 0 12 Q-16 0 0 -22 Z',fill:'#7FD3FF'},mg);
-const speed=[...Array(9)].map(()=>el('rect',{width:6,height:120,rx:3,fill:CHALK,opacity:0}));
-function brow(path,x0,x1,x2,y0,y1,y2){path.setAttribute('d',`M${x0} ${y0} Q${x1} ${y1} ${x2} ${y2}`)}
-const BR={def:[[-22,-32,-22],[-30,-52,-40]],wor:[[-24,-44,-50],[-50,-44,-24]],sur:[[-48,-66,-50],[-50,-66,-48]]};
-function faceMood(w,s){ // w: worry 0..1, s: surprise 0..1 (applied after worry)
-  const mix=(a,b,k)=>a.map((v,i)=>lerp(v,b[i],k));
-  const L=mix(mix(BR.def[0],BR.wor[0],w),BR.sur[0],s),R=mix(mix(BR.def[1],BR.wor[1],w),BR.sur[1],s);
-  brow(face.browL,-152,-114,-76,...L);brow(face.browR,74,110,150,...R);
-  face.eyes.forEach(e=>e.pupil.setAttribute('r',15-6*s))}
-
-// bubbles
-function bubble(tailDir){const b=g();const inner=g(b);
+// ================= B/D/E: inside the car, camera on the dash facing the driver =================
+const car=g();const carCam=g(car);
+el('rect',{x:-400,y:-400,width:2720,height:1900,fill:'#18181E'},carCam);
+// rear window with receding scenery
+el('path',{d:'M600 78 Q960 58 1320 78 L1360 330 Q960 312 560 330 Z',fill:'url(#sky2)'},carCam);
+const rearG=g(carCam,{'clip-path':'url(#rearClip)'});el('rect',{x:540,y:262,width:840,height:80,fill:'#2A2630'},rearG);
+const trees=[...Array(6)].map(()=>el('ellipse',{fill:'#22222A'},rearG));
+// side windows with passing posts
+[['sideL',0],['sideR',1]].forEach(([id,i])=>{el('path',{d:i?'M1920 90 L1540 120 L1500 560 L1920 600 Z':'M0 90 L380 120 L420 560 L0 600 Z',fill:'url(#sky2)'},carCam)});
+const sideG=[g(carCam,{'clip-path':'url(#sideL)'}),g(carCam,{'clip-path':'url(#sideR)'})];
+const posts=sideG.map(sg=>[0,1,2].map(()=>el('rect',{y:60,width:40,height:600,fill:'#1C1C24'},sg)));
+sideG.forEach(sg=>el('rect',{x:-10,y:470,width:1940,height:200,fill:'#3A3036',opacity:.6},sg));
+el('path',{d:'M380 120 L560 110 L520 1080 L420 1080 Z',fill:'#202028'},carCam);el('path',{d:'M1540 120 L1360 110 L1400 1080 L1500 1080 Z',fill:'#202028'},carCam);
+el('path',{d:'M-400 -400 L2320 -400 L2320 84 Q960 40 -400 84 Z',fill:'#232329'},carCam);
+// seat
+el('path',{d:'M700 1200 L716 380 Q730 330 800 322 L1120 322 Q1190 330 1204 380 L1220 1200 Z',fill:'#26262E'},carCam);
+el('rect',{x:830,y:110,width:260,height:190,rx:56,fill:'#2A2A33'},carCam);el('rect',{x:930,y:290,width:14,height:40,fill:'#3A3A44'},carCam);el('rect',{x:976,y:290,width:14,height:40,fill:'#3A3A44'},carCam);
+// the driver
+const driverG=g(carCam,{transform:'translate(960 470) scale(1.1)'});const guyC=makeGuy(driverG);
+el('path',{d:'M150 -4 L-226 540',stroke:'#3B3B46','stroke-width':40,fill:'none'},guyC.props);el('path',{d:'M150 -4 L-226 540',stroke:'#2A2A33','stroke-width':3,fill:'none','stroke-dasharray':'10 8'},guyC.props);
+const wheelC=g(guyC.props);el('ellipse',{cx:0,cy:400,rx:330,ry:96,fill:'none','stroke-width':44,stroke:'#17171C'},wheelC);el('ellipse',{cx:0,cy:400,rx:352,ry:116,fill:'none','stroke-width':3,stroke:'#2C2C35'},wheelC);
+el('path',{d:'M-300 420 L-90 446 L90 446 L300 420 L300 470 L90 500 L-90 500 L-300 470 Z',fill:'#17171C'},wheelC);el('ellipse',{cx:0,cy:480,rx:110,ry:60,fill:'#1F1F26'},wheelC);
+const cupC=coffeeCup(guyC.arm.R.held);
+const drops=[...Array(9)].map(()=>el('circle',{r:9,fill:'#6B4226'},guyC));
+const sweat=el('path',{d:'M0 -22 Q16 0 0 12 Q-16 0 0 -22 Z',fill:'#8FD6FF'},guyC.head);
+// dash edge in the foreground
+el('path',{d:'M-400 1000 Q960 930 2320 1000 L2320 1500 L-400 1500 Z',fill:'#0E0E12'},carCam);
+// "WHAT THE...?" bubble
+const wtb=g();el('path',{d:'M-250 -90 h500 a50 50 0 0 1 50 50 v80 a50 50 0 0 1 -50 50 h-380 l-110 70 l30 -70 h-40 a50 50 0 0 1 -50 -50 v-80 a50 50 0 0 1 50 -50 Z',fill:LIME},wtb);
+const wtbT=txt(wtb,0,26,84,'bold','WHAT THE...?');wtbT.setAttribute('fill',ASPH);
+// worry bubbles
+function bubble(tail){const b=g();const inner=g(b);
   el('rect',{x:-200,y:-120,width:400,height:240,rx:44,class:'card'},inner);el('rect',{x:-200,y:-120,width:400,height:240,rx:44,fill:'none','stroke-width':5,class:'sLine'},inner);
-  const [tx,ty]=tailDir;el('circle',{cx:tx*1.0,cy:ty*1.0,r:20,class:'card'},inner);el('circle',{cx:tx*1.5,cy:ty*1.5,r:12,class:'card'},inner);
+  [[1,20],[1.45,13],[1.8,8]].forEach(([k,r])=>el('circle',{cx:tail[0]*k,cy:tail[1]*k,r,class:'card'},inner));
   b.inner=inner;b.ring=el('circle',{r:200,fill:'none','stroke-width':10,stroke:CHALK,opacity:0},b);return b}
-const B1=bubble([200,130]);{ // engine dead?
-  const e=g(B1.inner,{transform:'translate(-100 -10)'});
+const B1=bubble([220,120]);{const e=g(B1.inner,{transform:'translate(-100 -10)'});
   el('rect',{x:-70,y:-30,width:140,height:90,rx:12,class:'mut'},e);[-44,-8,28].forEach(x=>el('rect',{x,y:-52,width:26,height:26,rx:5,class:'mut'},e));
   el('rect',{x:-92,y:-6,width:22,height:40,rx:5,class:'mut'},e);el('rect',{x:70,y:-6,width:22,height:40,rx:5,class:'mut'},e);
   el('path',{d:'M-20 0 l16 18 l-12 10 l18 22',fill:'none',stroke:ASPH,'stroke-width':7,'stroke-linejoin':'round'},e);
   B1.smoke=[0,1,2].map(()=>el('circle',{r:16,fill:H.smoke},e));
-  const t1=txt(B1.inner,70,-6,44,'bold','ENGINE');t1.setAttribute('fill',RED);const t2=txt(B1.inner,70,40,44,'bold','DEAD?');t2.setAttribute('fill',RED)}
-const B2=bubble([-200,130]);{ // keep driving?
-  const r=g(B2.inner,{transform:'translate(0 -30)'});el('rect',{x:-160,y:30,width:320,height:10,rx:5,class:'mut'},r);
-  B2.dash=[0,1,2,3].map(()=>el('rect',{y:52,width:36,height:6,rx:3,class:'lin'},r));
-  B2.car=makeCar(r,{body:CHALK,ink:ASPH,acc:AMBER});
-  txt(B2.inner,0,92,44,'bold ink','KEEP DRIVING?')}
-const B3=bubble([-200,-80]);{ // $$$
-  B3.num=txt(B3.inner,0,40,120,'bold','$0');B3.num.setAttribute('fill',RED)}
-// price tag that B3 turns into
+  txt(B1.inner,70,-6,44,'bold red','ENGINE');txt(B1.inner,70,40,44,'bold red','DEAD?')}
+const B2=bubble([-220,120]);{const r=g(B2.inner,{transform:'translate(0 -30)'});el('rect',{x:-160,y:30,width:320,height:10,rx:5,class:'mut'},r);
+  B2.dash=[0,1,2,3].map(()=>el('rect',{y:52,width:36,height:6,rx:3,class:'lin'},r));B2.car=makeCar(r,{body:CHALK,ink:ASPH,acc:AMBER});txt(B2.inner,0,92,44,'bold ink','KEEP DRIVING?')}
+const B3=bubble([-230,-40]);B3.num=txt(B3.inner,0,40,120,'bold red','$0');
+
+// ================= F: studio with the narrator =================
+const studio=g();
+el('rect',{x:0,y:0,width:1920,height:1080,fill:ASPH},studio);el('circle',{cx:430,cy:520,r:620,fill:'url(#spot)'},studio);
+[...Array(9)].forEach((_,i)=>el('circle',{cx:1290+(i%3-1)*520,cy:200+Math.floor(i/3)*300,r:3,fill:'#2A2A33'},studio));
+const presG=g(studio);const guyS=makeGuy(presG);
+// price tag + gas cap
 const tag=g();const tagBody=el('path',{d:'M-230 -110 L150 -110 L240 0 L150 110 L-230 110 Q-250 110 -250 90 L-250 -90 Q-250 -110 -230 -110 Z',fill:RED},tag);
 el('circle',{cx:160,cy:0,r:18,class:'bgf'},tag);const tagT=txt(tag,-40,42,120,'bold','$0');tagT.setAttribute('fill',CHALK);
-const strike=el('rect',{x:-230,y:-6,width:0,height:12,rx:6,fill:CHALK},tag);
-// gas cap
 const gcap=g();el('circle',{r:118,fill:'#0B0B0E'},gcap);const gcapIn=g(gcap);el('circle',{r:96,class:'mut'},gcapIn);el('circle',{r:70,fill:'none','stroke-width':8,stroke:'#5C5C68'},gcapIn);el('rect',{x:-60,y:-16,width:120,height:32,rx:10,fill:'#5C5C68'},gcapIn);
 const gcapLab=txt(gcap,0,172,30,'mic mut','GAS CAP');
-
-// ================= S6..S8 the two teasers =================
+// teaser cards
 function bigCard(){const c=g();el('rect',{x:-320,y:-280,width:640,height:560,rx:44,class:'card'},c);c.edge=el('rect',{x:-320,y:-280,width:640,height:560,rx:44,fill:'none','stroke-width':7,stroke:RED,opacity:0},c);c.body=g(c);return c}
-const K1=bigCard();
-const k1lamp=engineLamp(K1.body);k1lamp.setAttribute('transform','translate(0 -10) scale(.95)');
+const K1=bigCard();const k1lamp=engineLamp(K1.body);k1lamp.setAttribute('transform','translate(0 -10) scale(.95)');
 const k1pill=g(K1.body);el('rect',{x:-150,y:-252,width:300,height:68,rx:34,fill:RED},k1pill);txt(k1pill,0,-206,32,'mic ink','FLASHING');
 const k1txt=txt(K1.body,0,228,46,'bold ink','');
-const K2=bigCard();
-const k2pill=g(K2.body);el('rect',{x:-170,y:-252,width:340,height:68,rx:34,fill:LIME},k2pill);txt(k2pill,0,-206,32,'mic bgf','THE MISTAKE');
+const K2=bigCard();const k2pill=g(K2.body);el('rect',{x:-170,y:-252,width:340,height:68,rx:34,fill:LIME},k2pill);txt(k2pill,0,-206,32,'mic bgf','THE MISTAKE');
 txt(K2.body,0,-120,44,'bold ink','EMISSIONS TEST');
 const k2rows=['PROBLEM FIXED','LIGHT OFF'].map((s,i)=>{const r=g(K2.body,{transform:`translate(0 ${-50+i*88})`});el('rect',{x:-250,y:-36,width:500,height:72,rx:18,class:'lin'},r);txt(r,-222,11,30,'mic ink',s,'start');
-  el('rect',{x:184,y:-22,width:44,height:44,rx:9,fill:'none','stroke-width':5,class:'sMut'},r);const mk=el('path',{d:'M190 0 l13 13 l22 -26',fill:'none','stroke-width':8,'stroke-linecap':'round',stroke:LIME},r);return mk});
+  el('rect',{x:184,y:-22,width:44,height:44,rx:9,fill:'none','stroke-width':5,class:'sMut'},r);return el('path',{d:'M190 0 l13 13 l22 -26',fill:'none','stroke-width':8,'stroke-linecap':'round',stroke:LIME},r)});
 const k2stamp=g(K2.body);el('rect',{x:-210,y:-74,width:420,height:148,rx:20,fill:'none','stroke-width':14,stroke:RED},k2stamp);el('text',{x:0,y:44,'text-anchor':'middle','font-size':124,class:'bold',fill:RED},k2stamp).textContent='FAIL';
-const k2q=txt(K2.body,250,-120,120,'bold','?');k2q.setAttribute('fill',RED);
+const k2q=txt(K2.body,250,-120,120,'bold red','?');
 const locks=[padlock(),padlock()];
 const coming=[0,1].map(()=>{const t=txt(svg,0,0,28,'mic','COMING UP');t.setAttribute('fill',H.smoke);return t});
-// timeline
-const tl=g();const TLX0=360,TLX1=1560,TLY=800,NSEG=10;const segW=(TLX1-TLX0)/NSEG;
+const KX1=1050,KX2=1560;
+const tl=g();const TLX0=760,TLX1=1820,TLY=740,NSEG=10;const segW=(TLX1-TLX0)/NSEG;
 for(let i=0;i<NSEG;i++)el('rect',{x:TLX0+i*segW+4,y:TLY-7,width:segW-8,height:14,rx:7,class:'lin'},tl);
 const tlFill=el('rect',{x:TLX0+4,y:TLY-7,width:0,height:14,rx:7,fill:LIME},tl);
 const mk5=TLX0+4.5*segW,mk8=TLX0+7.5*segW;
 const link1=el('path',{fill:'none','stroke-width':5,stroke:RED,'stroke-dasharray':'12 10'},tl),link2=el('path',{fill:'none','stroke-width':5,stroke:LIME,'stroke-dasharray':'12 10'},tl);
 el('circle',{cx:mk5,cy:TLY,r:20,fill:RED},tl);el('circle',{cx:mk8,cy:TLY,r:20,fill:LIME},tl);
-const tlCar=g(tl);const tlc=makeCar(tlCar,{body:CHALK,ink:ASPH,acc:AMBER});tlc.setAttribute('transform','translate(0 -44) scale(.09)');
-// final title
+const tlCar=g(tl);makeCar(tlCar,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','translate(0 -44) scale(.09)');
+// title
 const ttl=g();const tLamp=engineLamp(ttl);
 const talk=g(ttl);el('path',{d:'M-120 -70 h240 a34 34 0 0 1 34 34 v72 a34 34 0 0 1 -34 34 h-180 l-50 44 v-44 h-10 a34 34 0 0 1 -34 -34 v-72 a34 34 0 0 1 34 -34 Z',class:'card'},talk);
 const tdots=[0,1,2].map(i=>el('circle',{cx:-60+i*60,cy:0,r:18,class:'ink'},talk));
-const tt1=txt(ttl,0,0,150,'bold ink','CHECK ENGINE LIGHT');const tt2=txt(ttl,0,0,64,'mic','EXPLAINED');tt2.setAttribute('fill',LIME);tt2.setAttribute('letter-spacing','.3em');
+const tt1=txt(ttl,0,0,124,'bold ink','CHECK ENGINE LIGHT');const tt2=txt(ttl,0,0,58,'mic','EXPLAINED');tt2.setAttribute('fill',LIME);tt2.setAttribute('letter-spacing','.3em');
 // corner wordmark
 const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:0});
 [['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
 
 const flash=document.getElementById('flash'),tint=document.getElementById('tint');
 tint.style.background='radial-gradient(ellipse at 50% 42%, rgba(255,61,90,0) 40%, rgba(255,61,90,.42) 100%)';
-
 const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+const mouthAt=t=>{const M=window.MOUTH||[];const f=t*30;const i=Math.floor(f);const a=M[i]||0,b=M[i+1]||0;return lerp(a,b,f-i)};
+const blinkAt=(t,per=3.4,off=0)=>{const p=((t+off)%per+per)%per;return p<.14?1-Math.sin(p/.14*Math.PI):1};
+
+// narrator poses (hand targets in rig space; R = screen right, towards the graphics)
+const REST={L:{x:-195,y:350,shape:'fist'},R:{x:195,y:350,shape:'fist'}};
+const POSE={
+ rest:REST,
+ open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},
+ tag:{L:REST.L,R:{x:466,y:-36,shape:'point'}},
+ cap:{L:REST.L,R:{x:482,y:62,shape:'point'}},
+ thumb:{L:REST.L,R:{x:320,y:140,shape:'thumb',rot:0}},
+ k1:{L:REST.L,R:{x:478,y:-26,shape:'point'}},
+ one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},
+ k2:{L:REST.L,R:{x:484,y:-6,shape:'point'}},
+ shrug:{L:{x:-290,y:140,shape:'open'},R:{x:290,y:140,shape:'open'}},
+ beckon:{L:REST.L,R:{x:320,y:110,shape:'open',rot:-70}},
+ title:{L:REST.L,R:{x:480,y:-50,shape:'point'}},
+};
+const KEYS=[[15.70,'rest'],[15.86,'open'],[16.75,'tag'],[19.10,'cap'],[20.15,'thumb'],[20.90,'k1'],[25.40,'one'],[26.90,'k2'],[28.80,'shrug'],[30.85,'beckon'],[33.20,'title'],[35.75,'open'],[36.90,'rest']];
+function poseAt(t){let i=0;while(i<KEYS.length-1&&t>=KEYS[i+1][0])i++;const prev=POSE[KEYS[Math.max(0,i-1)][1]],cur=POSE[KEYS[i][1]];const k=eio(P(t,KEYS[i][0],.38));
+  const mixH=(a,b)=>({x:lerp(a.x,b.x,k),y:lerp(a.y,b.y,k),shape:k<.5?a.shape:b.shape,rot:b.rot!==undefined&&k>.5?b.rot:(a.rot!==undefined&&k<=.5?a.rot:undefined)});
+  return {L:mixH(prev.L,cur.L),R:mixH(prev.R,cur.R),name:KEYS[i][1]}}
 
 window.render=function(t){
  // ---- captions ----
+ const inStudio=t>=T_STUDIO;cap.style.left=inStudio?'720px':'210px';cap.style.width=inStudio?'1140px':'1500px';
  groups.forEach(gr=>{const out=P(t,gr.end-.16,.16);const vis=t>=gr.start-.2&&t<gr.end+.04;gr.div.style.display=vis?'flex':'none';if(!vis)return;
    gr.words.forEach(({span,ts})=>{const k=gr.id==='c1'?1:eo(P(t,ts-.08,.3));span.style.opacity=k*(1-out);span.style.transform=`translateY(${(1-k)*22-out*18}px) scale(${.94+.06*k})`;span.style.filter=`blur(${(1-k)*10+out*6}px)`})});
- bug.style.opacity=.6*eo(P(t,7.8,.4));
+ bug.style.opacity=.6*eo(P(t,T_STUDIO,.4));
+ flash.style.opacity=0;flash.style.background='#FFB000';
 
- // ---- S1/S2 driver's view, push into the cluster ----
- {const v=t<7.72?1:0;show(v,drv);
-  const zk=eio(P(t,4.45,1.35));const s=1+1.75*zk;const bob=2.2*Math.sin(t*9.3)*(1-zk)+1.2*Math.sin(t*23)*(1-zk);
-  drvIn.setAttribute('transform',`translate(960 ${735+bob}) scale(${s}) translate(-960 -735)`);
-  // road motion
+ // ================= POV (A: 0..T_SIP, C: T_POV2..T_FACE) =================
+ {const v=(t<T_SIP)||(t>=T_POV2&&t<T_FACE);show(v?1:0,drv);if(v){
+  const zk=eio(P(t,4.5,1.35));const s=1+1.75*zk;const bob=2.2*Math.sin(t*9.3)*(1-zk)+1.2*Math.sin(t*23)*(1-zk);
+  drvIn.setAttribute('transform',`translate(960 ${760+bob}) scale(${s}) translate(-960 -760)`);
   const spd=9;dashes.forEach((d,i)=>{const z=((i*4.3-t*spd)%30+30)%30+1.2,z2=z+1.8;const y1=HY+HD/z,y2=HY+HD/z2,w1=16/z,w2=16/z2;d.setAttribute('d',`M${960-w1} ${y1} L${960+w1} ${y1} L${960+w2} ${y2} L${960-w2} ${y2} Z`)});
   poles.forEach((p,i)=>{const side=i%2?1:-1;const z=((Math.floor(i/2)*7.5-t*spd)%30+30)%30+1.2;const x=960+side*1250/z;const h=420/z,w=Math.max(2,26/z);const y=HY+HD/z;p.setAttribute('x',x-w/2);p.setAttribute('y',y-h);p.setAttribute('width',w);p.setAttribute('height',h)});
-  // radio
-  const tr0=W_('c2',"radio's");const ron=eo(P(t,tr0-.15,.3));eq.forEach((b,i)=>{const h=ron*(16+34*Math.abs(Math.sin(t*(5+i*.9)+i*1.7)));b.setAttribute('y',36-h);b.setAttribute('height',Math.max(2,h))});radN.style.opacity=ron;radT.style.opacity=.3+.7*ron;
-  radio.setAttribute('transform',`translate(330 760) scale(${1+.08*Math.max(0,Math.sin(P(t,tr0-.15,.35)*Math.PI))})`);
-  // coffee steam
-  const tc0=W_('c2','coffee');const sk=eo(P(t,tc0-.2,.6));steam.forEach((p,i)=>{const x=[-26,0,26][i];const ph=t*2.2+i*1.3;let d=`M${x} -70`;for(let k=1;k<=6;k++){d+=` L${x+12*Math.sin(ph+k*.9)} ${-70-k*22}`}p.setAttribute('d',d);p.style.opacity=(.18+.42*sk)*(.7+.3*Math.sin(ph))});
-  cof.setAttribute('transform',`translate(1600 780) scale(${1+.07*Math.max(0,Math.sin(P(t,tc0-.2,.4)*Math.PI))})`);
-  // gauges + lamp with the chime
+  // wheel sways a little with the road, both hands on it
+  const sway=2.2*Math.sin(t*.9)+0.8*Math.sin(t*2.3);whG.setAttribute('transform',`translate(960 1010) rotate(${sway})`);
+  const grip=(sd)=>{const a=(sd*58+sway)*Math.PI/180;return [960+400*Math.sin(a),1010-400*Math.cos(a)]};
+  handL.place(-339,-212,-58+0,-640,420);
+  // right hand: wheel -> radio button -> wheel
+  const tr0=W_('c2',"radio's");const go=eio(P(t,tr0-.35,.45)),ret=eio(P(t,tr0+.55,.45));const rk=go*(1-ret);
+  const [gx,gy]=grip(1);const rx=1530,ry=872;const hx=lerp(gx,rx,rk),hy=lerp(gy,ry,rk)-30*Math.sin(rk*Math.PI);
+  handR.place(hx,hy,lerp(58+sway,0,rk),lerp(1500,1700,rk),1420);
+  const press=t>tr0-.05&&t<tr0+.4;radBtn.setAttribute('fill',press?LIME:'#2B2B33');
+  const ron=eo(P(t,tr0,.3));eq.forEach((b,i)=>{const h=ron*(14+30*Math.abs(Math.sin(t*(5+i*.9)+i*1.7)));b.setAttribute('y',34-h);b.setAttribute('height',Math.max(2,h))});radN.style.opacity=ron;radT.style.opacity=.3+.7*ron;
+  steam.forEach((p,i)=>{const x=[-22,0,22][i];const ph=t*2.2+i*1.3;let d=`M${x} -90`;for(let k=1;k<=6;k++)d+=` L${x+10*Math.sin(ph+k*.9)} ${-90-k*20}`;p.setAttribute('d',d);p.style.opacity=.35*(.7+.3*Math.sin(ph))});
   clu.L.set(.36+.012*Math.sin(t*5));clu.R.set(.22+.015*Math.sin(t*7));
   const lb=lampBlink(t,CH_ON);clu.lamp.set(lb);amberSpill.setAttribute('opacity',.07*lb);
-  const c0=CH_ON[0];flash.style.opacity=t>c0&&t<c0+.4?.22*(1-P(t,c0,.4)):0}
+  const c0=CH_ON[0];if(t>c0&&t<c0+.4)flash.style.opacity=.22*(1-P(t,c0,.4))}}
 
- // ---- S3..S5 mascot ----
- {const v=V(t,7.72,21.0,.12,.25);show(v,mg,sweat);
-  const td=W_('c4','drops');const dk=eo(P(t,td-.12,.16));const up=eo(P(t,td+.08,.5));
-  const t4=9.3,t5=15.74;
-  let x=960,y=500,s=1.25;
-  const k4=eio(P(t,t4,.6));y=lerp(500,560,k4);s=lerp(1.25,1.0,k4);
-  const k5=eio(P(t,16.0,.7));x=lerp(960,600,k5);
-  y+=70*dk-50*up;
-  const shake=t>td&&t<td+.5?7*Math.sin(t*90)*(1-P(t,td,.5)):0;
-  const pop=back(P(t,7.72,.35));
-  tr(mg,x+shake,y,s*(.85+.15*pop)*(1+.05*dk-.05*up),0,v);
-  // mood
-  const sur=Math.max(dk*(1-P(t,td+.9,.6)),0);
-  const wor=Math.min(1,eo(P(t,8.9,.5)))*(1-eio(P(t,t5,.6)));
-  faceMood(wor,sur*.9+(t>t4&&t<t5?.25*eo(P(t,13.6,.4)):0));
-  const smile=eo(P(t,16.1,.4));
-  mWave.style.opacity=t<td-.1?1:0;mO.style.opacity=t>=td-.1&&t<t5+.2?1:0;mO.setAttribute('ry',22+10*sur);mSmile.style.opacity=t>=t5+.2?smile:0;
-  // eyes
-  const lk=t<td?[0,-.9]:t<10.0?[0,.2]:t<11.6?[-1,-.5]:t<12.9?[1,-.5]:t<t5?[1,.5]:t<19.0?[1,-.2]:[1,.1];
-  face.look(lk[0]+(t<t5&&t>9.5?.06*Math.sin(t*13):0),lk[1]);
-  // head lamp: lit only with the second ding
-  headLamp.set(lampBlink(t,CH_ON));headLamp.setAttribute('transform',`translate(150 -255) rotate(${10+3*Math.sin(t*3)}) scale(${.36*(t<8.3?.9+.1*back(P(t,7.8,.4)):1+.15*Math.max(0,Math.sin(P(t,8.33,.3)*Math.PI)))})`);
-  // falling speed lines (stomach drop)
-  speed.forEach((r,i)=>{const p=P(t,td-.15+i*.02,.45);r.setAttribute('x',360+i*150+(i%2)*40);r.setAttribute('y',900-p*1000);r.style.opacity=p>0&&p<1?.35*Math.sin(p*Math.PI):0});
-  // sweat during the $$$ bubble
-  const sw=((t-13.4)%1.1+1.1)%1.1;const sOn=t>13.4&&t<t5;
-  sweat.setAttribute('transform',`translate(${x+s*205} ${y+s*(-60+sw*120)}) scale(${s*1.4})`);sweat.style.opacity=sOn?Math.min(v,1-P(sw,.8,.3)):0}
+ // ================= in-car shots: sip (B), face close-up (D), worry (E) =================
+ {const v=(t>=T_SIP&&t<T_POV2)||(t>=T_FACE&&t<T_STUDIO);show(v?1:0,car,wtb);if(v){
+  // scenery
+  trees.forEach((tr_,i)=>{const z=((i*2.4+t*3.2)%14)+1.2;const side=i%2?1:-1;tr_.setAttribute('cx',960+side*(80+620/z));tr_.setAttribute('cy',300-60/z);tr_.setAttribute('rx',120/z+6);tr_.setAttribute('ry',170/z+8)});
+  posts.forEach((ps,si)=>ps.forEach((r,i)=>{const x=((i*170-t*900)%510+510)%510;r.setAttribute('x',si?1500+x:x-20)}));
+  const st={mouth:0,smile:.15,browUp:0,browWorry:0,eyes:blinkAt(t,3.1,.4),pupil:1,look:[0,0],tilt:1.5*Math.sin(t*1.3),nod:0,amber:0};
+  const grip={L:{x:-260,y:336,shape:'fist',rot:-95},R:{x:260,y:336,shape:'fist',rot:-85}};
+  let cam=[960,470,1,0];let hands={L:grip.L,R:grip.R};cupC.style.display='none';
+  const drv=(t*1.0);driverG.setAttribute('transform',`translate(${960+3*Math.sin(t*3.1)} ${470+2*Math.sin(t*7.3)}) scale(1.1)`);
+  if(t<T_POV2){ // B: sip of coffee
+    const up=eio(P(t,2.72,.5)),down=eio(P(t,3.98,.4));const k=up*(1-down);
+    cupC.style.display='';const cupHand={x:lerp(250,58,k),y:lerp(560,-12,k),shape:'fist',rot:-90};hands={L:grip.L,R:cupHand};
+    guyC.arm.R.held.querySelector('g').setAttribute('transform',`rotate(${-30*eio(P(t,3.15,.25))*(1-eio(P(t,3.85,.25)))})`);
+    const sip=P(t,3.18,.05)*(1-P(t,3.9,.08));
+    st.eyes=Math.min(st.eyes,1-.95*sip);st.smile=.2+.5*eo(P(t,3.95,.3));st.mouth=sip?.08:.12*eo(P(t,3.95,.25));st.browUp=.25*sip;st.look=[0,-.2];
+    cam=[960,300,1.35+.08*P(t,T_SIP,1.7),0];
+  }else if(t<T_WORRY){ // D: the face close-up, amber light hits with the second ding
+    const td=W_('c4','drops');const sk=eo(P(t,td-.1,.14));const rel=eo(P(t,td+.6,.6));
+    cupC.style.display='';hands={L:grip.L,R:{x:lerp(110,150,sk),y:lerp(200,150,sk),shape:'fist',rot:-90}};
+    guyC.arm.R.held.querySelector('g').setAttribute('transform',`rotate(${18*sk*Math.sin(P(t,td-.1,.5)*Math.PI*3)})`);
+    st.look=t<7.95?[0,0]:t<td-.1?[0,1]:[0,-.1];
+    st.amber=lampBlink(t,CH_ON);
+    st.eyes=t<td-.1?st.eyes:1.25;st.pupil=lerp(1,.55,sk);st.browUp=1.25*sk*(1-.3*rel);st.mouth=.95*sk*(1-.3*rel);st.smile=lerp(.15,-.9,sk);st.tilt=-5*sk;
+    const kick=sk*(1-P(t,td+.1,.4));const shake=t>td-.1&&t<td+.5?6*Math.sin(t*95)*(1-P(t,td-.1,.6)):0;
+    cam=[960+shake,470,2.05-.12*kick+.06*P(t,T_FACE,1.6),0];
+    drops.forEach((d,i)=>{const p=P(t,td-.06,.7);const a=(-150+i*14)*Math.PI/180;const sp=170+40*(i%3);const cx=150+Math.cos(a)*sp*p,cy=150-90+Math.sin(a)*sp*p+380*p*p;d.setAttribute('cx',cx);d.setAttribute('cy',cy);d.style.opacity=p>0&&p<1?1-p*.6:0});
+  }else{ // E: worry, both hands squeeze the wheel
+    hands={L:{...grip.L,y:330+3*Math.sin(t*14)},R:{...grip.R,y:330+3*Math.sin(t*14+1)}};
+    const t5=W_('c7','two');const big=eo(P(t,13.45,.4));
+    st.browWorry=1;st.browUp=.5*big;st.mouth=.14+.06*Math.sin(t*3);st.smile=-.55;st.pupil=1-.35*big;
+    const lk=t<W_('c5','die')-.4?[0,.3]:t<W_('c6','driving')-.35?[-1,-.5]:t<t5-.35?[1,-.5]:[1,.4];st.look=[lk[0]+.05*Math.sin(t*13),lk[1]];
+    cam=[960,470,1.0+.03*P(t,T_WORRY,6),0];
+  }
+  guyC.set({...st,hands});
+  carCam.setAttribute('transform',`translate(${cam[0]} ${cam[1]}) scale(${cam[2]}) translate(-960 ${t<T_POV2?-300:-283})`);
+  if(t<T_POV2)carCam.setAttribute('transform',`translate(960 540) scale(${cam[2]}) translate(-960 -400)`);
+  drops.forEach(d=>{if(!(t>=T_FACE&&t<T_WORRY))d.style.opacity=0});
+  // sweat at the temple during the money bubble
+  const sw=((t-12.8)%1.2+1.2)%1.2;sweat.setAttribute('transform',`translate(92 ${-230+sw*90}) scale(1.3)`);sweat.style.opacity=t>12.8&&t<T_STUDIO?1-P(sw,.9,.3):0;
+  // WHAT THE...? bubble
+  const td=W_('c4','drops');const wk=t>=T_FACE&&t<T_WORRY;show(wk&&t>td?1:0,wtb);if(wk)tr(wtb,1440,250,.9*back(P(t,td,.35)),-4,1)}}
 
- // ---- worry bubbles ----
- {const tb=[W_('c5','die')-.35,W_('c6','driving')-.3,W_('c7','two')-.3];const T5=15.74;
-  [[B1,420,300],[B2,1500,300],[B3,1500,640]].forEach(([b,x,y],i)=>{const st=tb[i];const inK=back(P(t,st,.42));const vis=t>st&&t<T5+(i<2?.5:.05);show(vis?1:0,b);if(!vis)return;
-    const popT=i===0?T5+.05:T5+.22;const pk=P(t,popT,.22);
-    const fl=4*Math.sin(t*2.4+i*2);
-    if(i<2){b.inner.style.opacity=1-pk;b.inner.setAttribute('transform',`scale(${1+.15*eo(pk)})`);b.ring.style.opacity=pk>0&&pk<1?.8*(1-pk):0;b.ring.setAttribute('r',150+120*eo(pk))}
-    tr(b,x,y+fl,inK*(i===2?1.05:1),0,1)});
-  // smoke from the engine bubble
+ // ---- worry bubbles (E) ----
+ {const tb=[W_('c5','die')-.35,W_('c6','driving')-.3,W_('c7','two')-.3];
+  [[B1,330,250],[B2,1590,250],[B3,1590,610]].forEach(([b,x,y],i)=>{const vis=t>tb[i]&&t<T_STUDIO;show(vis?1:0,b);if(!vis)return;
+    tr(b,x,y+4*Math.sin(t*2.4+i*2),back(P(t,tb[i],.42))*(i===2?1.05:1),0,1)});
   B1.smoke.forEach((c,i)=>{const p=((t*.8+i/3)%1);c.setAttribute('cx',-20+i*20+10*Math.sin(t*3+i));c.setAttribute('cy',-60-p*70);c.setAttribute('r',8+16*p);c.style.opacity=.7*(1-p)});
   B2.dash.forEach((d,i)=>d.setAttribute('x',((i*90-t*220)%360+360)%360-180));B2.car.setAttribute('transform',`translate(${-10+6*Math.sin(t*8)} -10) scale(.17)`);
-  // $ counter climbs to 2,000
   const k=eo(P(t,13.45,1.25));B3.num.textContent=fmt(Math.round(2000*k/50)*50)+(k>=1?'?':'');
   B3.inner.setAttribute('transform',`rotate(${t>14.7&&t<15.2?3*Math.sin(t*60)*(1-P(t,14.7,.5)):0})`)}
 
- // ---- price tag: $2,000 shrinks, then FREE ----
- {const st=15.95;const v=t>st&&t<21.0?1:0;show(v,tag);if(v){
-   const mk=eio(P(t,st,.6));const x=lerp(1500,1360,mk),y=lerp(640,420,mk);
-   const tf=W_('c10','free');const fk=P(t,tf-.15,.2);
-   const dn=eio(P(t,16.8,1.9));let val=2000-1980*dn;
-   tagT.textContent=fk>0?'FREE':fmt(Math.round(val/10)*10);
-   tagBody.setAttribute('fill',fk>0?LIME:RED);tagT.setAttribute('fill',fk>0?ASPH:CHALK);
-   const sm=lerp(1,.78,eo(P(t,16.8,1.9)));const bump=fk>0?1+.18*Math.sin(P(t,tf-.15,.35)*Math.PI):1;
-   tr(tag,x,y+5*Math.sin(t*2),lerp(.7,1,mk)*sm*bump,-4+2*Math.sin(t*1.7),Math.min(cl(P(t,st,.15)),1-P(t,20.75,.25)));
-   strike.setAttribute('width',0)}
-  const gs=W_('c10','Sometimes');const gv=t>gs-.2&&t<21.0?1:0;show(gv,gcap);if(gv){
-   const tw=P(t,gs,1.0);const rot=-200*(1-eio(tw))+(t>gs+1.0?0:0);gcapIn.setAttribute('transform',`rotate(${rot})`);
-   tr(gcap,1230,700,.9*back(P(t,gs-.2,.4)),0,Math.min(cl(P(t,gs-.2,.2)),1-P(t,20.75,.25)));gcapLab.style.opacity=eo(P(t,gs+.6,.3))}}
+ // ================= F: studio, the narrator =================
+ {const v=t>=T_STUDIO;show(v?1:0,studio);if(v){
+   const pz=poseAt(t);const m=mouthAt(t);
+   let smile=.55,bw=0,bu=.1+.25*m,tilt=2*Math.sin(t*1.1);
+   if(t>20.9&&t<25.4){smile=-.15;bw=.55;bu=0}
+   if(t>=28.8&&t<30.85){smile=-.25;bu=.9;tilt=6}
+   const pointing=['tag','cap','k1','k2','title'].includes(pz.name);
+   guyS.set({mouth:.9*m,smile,browUp:bu,browWorry:bw,eyes:blinkAt(t,3.3,1.1),pupil:1,look:pointing?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt,nod:2.2*m,amber:0,hands:{L:pz.L,R:pz.R}});
+   const ent=eo(P(t,T_STUDIO,.45));presG.setAttribute('transform',`translate(${lerp(300,430,ent)} ${560+4*Math.sin(t*1.6)}) scale(${.96+.04*ent})`);presG.style.opacity=ent}}
 
- // ---- S6 flashing light card, S7 mistake card, S8 locks + timeline ----
- {const a=20.85;const v1=t>a-.05&&t<33.45?1:0;show(v1,K1);
-  const tS7=25.35,tS8=30.95,out=33.0;
+ // ---- price tag: $2,000 shrinks, then FREE ----
+ {const st=15.82;const v=t>st&&t<21.0?1:0;show(v,tag);if(v){
+   const tf=W_('c10','free');const fk=P(t,tf-.15,.2);
+   const dn=eio(P(t,16.8,1.9));tagT.textContent=fk>0?'FREE':fmt(Math.round((2000-1980*dn)/10)*10);
+   tagBody.setAttribute('fill',fk>0?LIME:RED);tagT.setAttribute('fill',fk>0?ASPH:CHALK);
+   const sm=lerp(1,.8,dn);const bump=fk>0?1+.18*Math.sin(P(t,tf-.15,.35)*Math.PI):1;
+   tr(tag,1420,360+5*Math.sin(t*2),back(P(t,st,.45))*sm*bump,-4+2*Math.sin(t*1.7),Math.min(cl(P(t,st,.15)),1-P(t,20.75,.25)))}
+  const gs=W_('c10','Sometimes');const gv=t>gs-.2&&t<21.0?1:0;show(gv,gcap);if(gv){
+   gcapIn.setAttribute('transform',`rotate(${-200*(1-eio(P(t,gs,1.0)))})`);
+   tr(gcap,1130,640,.9*back(P(t,gs-.2,.4)),0,Math.min(cl(P(t,gs-.2,.2)),1-P(t,20.75,.25)));gcapLab.style.opacity=eo(P(t,gs+.6,.3))}}
+
+ // ---- flashing light card, mistake card, locks + timeline ----
+ {const a=20.85,tS7=25.35,tS8=30.95,out=33.0;const v1=t>a-.05&&t<33.45?1:0;show(v1,K1);
   const lb=lampBlink(t,CH_FLASH);k1lamp.set(lb);
-  let x=960,y=440,s=1;const k7=eio(P(t,tS7,.55)),k8=eio(P(t,tS8,.6));
-  x=lerp(960,560,k7);y=lerp(440,450,k7);s=lerp(1,.78,k7);y=lerp(y,380,k8);s=lerp(s,.58,k8);
-  const o1=Math.min(cl(P(t,a,.2)),1-P(t,out,.4));
-  tr(K1,x,y+(lb?3*Math.sin(t*70):0),s*back(P(t,a,.4))*(1+.03*lb),0,o1);
-  K1.edge.setAttribute('opacity',(.35+.65*lb)*(1-k7*.5));
-  k1pill.setAttribute('transform',`translate(0 0) scale(1)`);k1pill.style.opacity=eo(P(t,21.1,.3));
+  const k7=eio(P(t,tS7,.55)),k8=eio(P(t,tS8,.6));
+  let x=lerp(1290,KX1,k7),y=lerp(430,440,k7),s=lerp(1,.68,k7);y=lerp(y,330,k8);s=lerp(s,.52,k8);
+  tr(K1,x,y+(lb?3*Math.sin(t*70):0),s*back(P(t,a,.4))*(1+.03*lb),0,Math.min(cl(P(t,a,.2)),1-P(t,out,.4)));
+  K1.edge.setAttribute('opacity',(.35+.65*lb)*(1-k7*.5));k1pill.style.opacity=eo(P(t,21.1,.3));
   const tg=W_('c11','get');const words=['GET OFF','THE ROAD','TODAY'];const n=Math.min(3,Math.floor(P(t,tg-.1,1.2)*3+(t>tg-.1?1:0)));
   k1txt.textContent=n>0?words.slice(0,n).join(' '):'';k1txt.setAttribute('fill',n>=3?RED:CHALK);
-  // red mood
   tint.style.opacity=(t>a&&t<tS7+.3?(.45+.55*lb)*(1-P(t,tS7,.4)):0);
-  flash.style.background=RED;
-  CH_FLASH.forEach(c=>{if(t>c&&t<c+.3)flash.style.opacity=.16*(1-P(t,c,.3))});
-  if(t>a&&!(CH_FLASH.some(c=>t>c&&t<c+.3)))flash.style.opacity=0;
-  if(t<a)flash.style.background='#FFB000';
-
-  // card 2
+  CH_FLASH.forEach(c=>{if(t>c&&t<c+.3){flash.style.background=RED;flash.style.opacity=.16*(1-P(t,c,.3))}});
   const v2=t>tS7&&t<33.45?1:0;show(v2,K2);
-  const x2=1360,y2=lerp(450,380,k8),s2=lerp(.78,.58,k8);
-  tr(K2,x2,y2,s2*back(P(t,tS7+.05,.45)),0,Math.min(cl(P(t,tS7+.05,.2)),1-P(t,out,.4)));
-  K2.edge.setAttribute('opacity',0);
+  tr(K2,KX2,lerp(440,330,k8),lerp(.68,.52,k8)*back(P(t,tS7+.05,.45)),0,Math.min(cl(P(t,tS7+.05,.2)),1-P(t,out,.4)));
   const tf=W_('c12','fail');const sk=P(t,tf-.12,.22);tr(k2stamp,0,178,2.2-1.2*eo(sk),-12,t>tf-.12?cl(sk*3):0);
   const tx=W_('c12','fixed');k2rows.forEach((m,i)=>{m.style.opacity=t>tx-.15+i*.25?1:0});
   k2q.style.opacity=t>tx+.5?1:0;k2q.setAttribute('transform',`translate(250 -120) scale(${back(P(t,tx+.5,.4))}) translate(-250 120)`);
-
-  // locks
   const lt=[tS8+.05,W_('c13','around')];
-  [[locks[0],560,K1],[locks[1],1360,K2]].forEach(([l,lx,K],i)=>{const vis=t>lt[i]-.3&&t<33.45;show(vis?1:0,l);if(!vis)return;
-    const dk=P(t,lt[i]-.3,.3);const yb=380-260*(1-eio(dk));const bounce=t>lt[i]?-10*Math.sin(P(t,lt[i],.25)*Math.PI):0;
-    tr(l,lx,yb+bounce,.95,i?-6:6,Math.min(cl(dk*3),1-P(t,out,.4)));
-    K.body.style.opacity=lerp(1,.25,eo(P(t,lt[i],.3)))});
-  coming.forEach((c,i)=>{c.setAttribute('x',i?1360:560);c.setAttribute('y',580);c.setAttribute('text-anchor','middle');c.style.opacity=Math.min(eo(P(t,31.6+i*.15,.3)),1-P(t,out,.4));c.style.display=t>31.5&&t<33.45?'':'none'});
-  // timeline
-  const tv=t>31.4&&t<33.45?1:0;show(tv,tl);
-  tl.style.opacity=Math.min(eo(P(t,31.4,.35)),1-P(t,out,.4));
-  const lk=eo(P(t,31.7,.5));link1.setAttribute('d',`M560 600 L560 ${lerp(600,700,lk)} L${lerp(560,mk5,lk)} ${lerp(600,700,lk)} L${mk5} ${lerp(600,TLY-24,lk)}`);
-  link2.setAttribute('d',`M1360 600 L1360 ${lerp(600,700,lk)} L${lerp(1360,mk8,lk)} ${lerp(600,700,lk)} L${mk8} ${lerp(600,TLY-24,lk)}`);
-  link1.style.opacity=link2.style.opacity=lk;
+  [[locks[0],KX1,K1],[locks[1],KX2,K2]].forEach(([l,lx,K],i)=>{const vis=t>lt[i]-.3&&t<33.45;show(vis?1:0,l);if(!vis)return;
+    const dk=P(t,lt[i]-.3,.3);const yb=330-260*(1-eio(dk));const bounce=t>lt[i]?-10*Math.sin(P(t,lt[i],.25)*Math.PI):0;
+    tr(l,lx,yb+bounce,.8,i?-6:6,Math.min(cl(dk*3),1-P(t,out,.4)));K.body.style.opacity=lerp(1,.25,eo(P(t,lt[i],.3)))});
+  coming.forEach((c,i)=>{c.setAttribute('x',i?KX2:KX1);c.setAttribute('y',520);c.setAttribute('text-anchor','middle');c.style.opacity=Math.min(eo(P(t,31.6+i*.15,.3)),1-P(t,out,.4));c.style.display=t>31.5&&t<33.45?'':'none'});
+  const tv=t>31.4&&t<33.45?1:0;show(tv,tl);tl.style.opacity=Math.min(eo(P(t,31.4,.35)),1-P(t,out,.4));
+  const lk=eo(P(t,31.7,.5));const ly=lerp(560,640,lk);
+  link1.setAttribute('d',`M${KX1} 560 L${KX1} ${ly} L${lerp(KX1,mk5,lk)} ${ly} L${mk5} ${lerp(560,TLY-24,lk)}`);
+  link2.setAttribute('d',`M${KX2} 560 L${KX2} ${ly} L${lerp(KX2,mk8,lk)} ${ly} L${mk8} ${lerp(560,TLY-24,lk)}`);link1.style.opacity=link2.style.opacity=lk;
   const pk=eio(P(t,W_('c13','because'),1.1));const px=TLX0+4+pk*segW*.85;tlFill.setAttribute('width',Math.max(0,px-TLX0-4));tlCar.setAttribute('transform',`translate(${px} ${TLY+2*Math.sin(t*20)})`)}
 
- // ---- title: the light "talks", then CHECK ENGINE LIGHT EXPLAINED ----
+ // ---- title ----
  {const a=33.3;const v=t>a?1:0;show(v,ttl);if(v){
    ttl.style.opacity=eo(P(t,a,.35));
-   const tt=W_('c14','telling');const td=W_('c14','do');
-   const mk=eio(P(t,td-.35,.6));
-   tLamp.set(0);tLamp.p.setAttribute('fill',lerp(0,1,mk)>.5?'#4A4A56':OFF);
-   tr(tLamp,lerp(800,960,mk),lerp(430,250,mk),lerp(.95,.42,mk)*back(P(t,a,.45)),0,1);
-   const tk=back(P(t,tt-.25,.4));tr(talk,1150,300,tk*(1-mk),0,1-mk);
-   tdots.forEach((d,i)=>d.setAttribute('cy',-12*Math.max(0,Math.sin(t*8-i*.8))));
+   const tt=W_('c14','telling'),td=W_('c14','do');const mk=eio(P(t,td-.35,.6));
+   tLamp.set(0);tLamp.p.setAttribute('fill',mk>.5?'#4A4A56':OFF);
+   tr(tLamp,lerp(1170,1290,mk),lerp(400,220,mk),lerp(.9,.38,mk)*back(P(t,a,.45)),0,1);
+   tr(talk,1430,290,back(P(t,tt-.25,.4))*(1-mk),0,1-mk);tdots.forEach((d,i)=>d.setAttribute('cy',-12*Math.max(0,Math.sin(t*8-i*.8))));
    const k1=back(P(t,td-.1,.45)),k2=eo(P(t,td+.25,.4));
-   tt1.setAttribute('transform',`translate(960 ${520}) scale(${k1})`);tt1.style.opacity=cl(P(t,td-.1,.15));
-   tt2.setAttribute('transform',`translate(960 ${620+(1-k2)*20})`);tt2.style.opacity=k2;
-   ttl.setAttribute('transform',`translate(960 540) scale(${1+.02*P(t,td,2)}) translate(-960 -540)`)}}
+   tt1.setAttribute('transform',`translate(1290 470) scale(${k1})`);tt1.style.opacity=cl(P(t,td-.1,.15));
+   tt2.setAttribute('transform',`translate(1290 ${560+(1-k2)*20})`);tt2.style.opacity=k2}}
 };
 window.DUR=37.7;
 window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
- A(0,'air',7.7,.55);
- A(W_('c2',"radio's")-.15,'boot',0,.35);
- A(W_('c2','coffee')-.2,'puff',.8,.35);
- A(4.45,'riser',1.5,.35);A(4.45,'whoosh',.6,.4);
+ A(0,'air',T_STUDIO,.5);
+ A(W_('c2',"radio's")-.05,'click',0,.7);A(W_('c2',"radio's"),'boot',0,.3);
+ A(T_SIP,'whoosh',.3,.3);A(3.2,'slurp',.65,.9);A(3.9,'gulp',0,.7);A(4.0,'puff',.5,.25);
+ A(T_POV2,'whoosh',.3,.3);A(4.5,'riser',1.5,.35);
  A(CH_ON[0],'chime_bmw',2.15,.45);A(CH_ON[1],'chime_bmw',2.0,.42);
- A(7.72,'whoosh',.4,.5);
- A(W_('c4','drops')-.12,'tapestop',0,.55);A(W_('c4','drops')-.05,'thump',0,.7);
+ A(T_FACE,'whoosh',.35,.4);
+ A(W_('c4','drops')-.12,'tapestop',0,.55);A(W_('c4','drops')-.08,'thump',0,.7);A(W_('c4','drops')-.04,'splash',.5,.6);A(W_('c4','drops'),'pop',0,.6);
+ A(T_WORRY,'whoosh',.3,.3);
  A(W_('c5','die')-.35,'pop',0,.7);A(W_('c6','driving')-.3,'pop',0,.7);A(W_('c7','two')-.3,'pop',0,.8);
  A(13.45,'gearticks',1.25,.8);A(14.7,'thud',0,.8);
- A(15.79,'pop',0,.6);A(15.96,'pop',0,.6);A(15.95,'whoosh',.45,.4);A(16.8,'gearticks',1.9,.55);
+ A(T_STUDIO-.05,'whoosh',.5,.5);A(15.84,'pop',0,.6);A(16.8,'gearticks',1.9,.55);
  A(W_('c10','Sometimes'),'gearticks',1.0,.6);A(W_('c10','Sometimes')+1.0,'clack',0,.8);A(W_('c10','free')-.15,'check',0,.9);
  A(20.85,'boom',0,.55);A(20.85,'whoosh',.4,.5);
  CH_FLASH.forEach(c=>A(c,'chime_bmw',2.15,.5));
@@ -369,7 +429,7 @@ window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,
  A(33.0,'whoosh',.5,.5);A(W_('c14','telling')-.25,'pop',0,.6);A(W_('c14','telling'),'typing',.9,.7);
  A(W_('c14','do')-.1,'stinger',0,.9);
  return E})();
-function fitCaptions(){groups.forEach(gr=>{const d=gr.div;d.style.display='flex';let fs=parseFloat(getComputedStyle(d).fontSize);
+function fitCaptions(){groups.forEach(gr=>{const d=gr.div;const studio=gr.start>=T_STUDIO;cap.style.width=studio?'1140px':'1500px';d.style.display='flex';let fs=parseFloat(getComputedStyle(d).fontSize);
   [...d.children].forEach(x=>{x.style.transform='none';x.style.filter='none'});
   const box=()=>{const r=[...d.children].map(x=>x.getBoundingClientRect());return Math.max(...r.map(x=>x.bottom))-Math.min(...r.map(x=>x.top))};
   while(box()>140&&fs>40){fs-=2;d.style.fontSize=fs+'px'}d.style.display='none'})}

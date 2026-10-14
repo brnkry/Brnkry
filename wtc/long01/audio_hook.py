@@ -267,6 +267,21 @@ GEN = dict(whoosh=lambda d: whoosh(max(d, .3)), thud=lambda d: thud(), pop=lambd
            air=air, hiss=hiss, zap=lambda d: zap(), boom=lambda d: boom(), idle=idle, charge=charge, ding=lambda d: ding(),
            rev=rev, stinger=lambda d: stinger(), catch=lambda d: catch(), gearticks=gearticks, starter=starter, run4=run4, thump=lambda d: thump(), tapestop=lambda d: tapestop(), suck=suck, inject=inject, squeeze=squeeze, bloom=bloom, push=push, puff=puff, stop=lambda d: stop(), knock=lambda d: knock(), crack=lambda d: crack(), alarm=lambda d: alarm(), typing=typing, chime=lambda d: chime(), chime_bmw=lambda d: chime_bmw(d), stutter=stutter)
 
+def slurp(d=0.65):
+    t = tt(d); x = bp(noise(d), 1200, 7000) * (0.5 + 0.5 * np.sin(2 * np.pi * 23 * t + 3 * np.sin(2 * np.pi * 3 * t))) ** 2
+    x += 0.3 * bp(noise(d), 300, 900) * (0.5 + 0.5 * np.sin(2 * np.pi * 9 * t))
+    return norm(x * np.sin(np.pi * np.clip(t / d, 0, 1)) ** 0.7, 0.45)
+def gulp():
+    t = tt(0.16); x = np.sin(2 * np.pi * np.cumsum(320 * np.exp(-t * 9) + 110) / SR) * expenv(0.16, 22)
+    return norm(x + 0.3 * lp(noise(0.16), 600) * expenv(0.16, 30), 0.55)
+def click():
+    x = hp(noise(0.02), 2500) * expenv(0.02, 250) + 0.5 * np.sin(2 * np.pi * 1900 * tt(0.02)) * expenv(0.02, 200)
+    return norm(x, 0.5)
+def splash(d=0.5):
+    t = tt(d); x = bp(noise(d), 800, 6000) * expenv(d, 9) * (1 + 0.6 * (rng.random(len(t)) > 0.995))
+    return norm(x, 0.4)
+
+GEN.update(slurp=slurp, gulp=lambda d: gulp(), click=lambda d: click(), splash=splash)
 sfx = np.zeros(N + SR * 3)
 for t0, typ, d, v in json.load(open('events_scene01_hook.json')):
     x = (crank(d, t0) if typ == 'crank' else GEN[typ](d)) * v
