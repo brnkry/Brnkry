@@ -31,4 +31,10 @@ And now, the mistake I promised you. The light comes on a week before your emiss
 So here's your check engine light checklist. One. Steady or flashing? Flashing means slow down and get it checked today. Two. Does the car feel different? Shaking, power loss, a burning smell, a high temperature, or a red warning light means stop. Three. Check the gas cap. Four. Get the code read, for free or with your own scanner. Five. Fix the cause, not the light. And six. Don't clear the codes right before an inspection.
 
 ## 10 close
-Now you know more about this light than most drivers on the road. Has it ever come on in your car? What was the cause? Tell me in the comments. Next time: the button with the little car and the curved arrow. And if this helped, subscribe to What the Car? so you don't miss it.
+Now you know more about this light than most drivers on the road. Has it ever come on in your car? What was the cause? Tell me in the comments. And if this helped, subscribe to What the Car? so you don't miss it.
+
+## Üretim notları (uzun video)
+- Kapanışta "Next time" yok (kullanıcı istemedi).
+- BMW ikazı (`../chime.mp3`): lamba sönük başlar, ding anında yanar (c+0.03..c+1.0). Yanıp sönen lamba = ding ile yanan lamba.
+- Parça 01 bitti: `scene01_hook.html`, ses `01_hook.mp3`. Akış: `node render.js scene01_hook.html preview t...`, `node render.js scene01_hook.html events`, `python3 audio_hook.py`, 3 paralel `full` render, iki geçişli loudnorm (-14 LUFS).
+- 16:9 düzen: altyazı altta (left 210, top 892, 1500 genişlik, 62px), sağ üstte küçük wordmark, görsel alan y 80..860.
