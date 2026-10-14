@@ -9,8 +9,9 @@ function el(t,a={},p=s){const e=document.createElementNS(NS,t);for(const k in a)
 [307,1133].forEach(y=>{for(let x=-40;x<2600;x+=200)el('rect',{x,y:y-7,width:110,height:14,rx:7,fill:'#30303A'})});
 const cl=el('g',{transform:'translate(230 700) scale(.62)'});makeCar(cl,{body:'#22222A',ink:'#121216',acc:'#D4FF3A'});
 const cr=el('g',{transform:'translate(2400 700) scale(.62)'});makeCar(cr,{body:'#22222A',ink:'#121216',acc:'#D4FF3A'});
-const f=el('g',{transform:'translate(815 745) scale(.78)'});makeFace(f);
-const T=(x,y,size,parts,w=800,st=75)=>{const t=el('text',{x,y,'font-size':size,style:`font-family:WTC;font-weight:${w};font-stretch:${st}%`});parts.forEach(([a,c])=>{const sp=el('tspan',{fill:c},t);sp.textContent=a});return t};
+const L=el('g',{transform:'translate(1290 712) scale(.84) translate(-1290 -712)'});
+const f=el('g',{transform:'translate(815 765) scale(.74)'},L);makeFace(f);
+const T=(x,y,size,parts,w=800,st=75)=>{const t=el('text',{x,y,'font-size':size,style:`font-family:WTC;font-weight:${w};font-stretch:${st}%`},L);parts.forEach(([a,c])=>{const sp=el('tspan',{fill:c},t);sp.textContent=a});return t};
 T(1036,615,98,[['WHAT THE','#F4F1EA']],700).setAttribute('letter-spacing','4');
 T(1030,800,240,[['CAR','#D4FF3A'],['?','#FF3D5A']],800);
 T(1036,885,46,[['Every part of your car, ','#F4F1EA'],['explained simply.','#D4FF3A']],600,100);
