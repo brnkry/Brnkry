@@ -1,0 +1,400 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:720px;top:892px;width:1140px;height:150px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+#tint{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 60% 42%, rgba(255,61,90,0) 40%, rgba(255,61,90,.42) 100%)}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+ </defs>
+</svg>
+<div id="tint"></div>
+<div id="flash"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="guy.js"></script>
+<script src="mouth_05_07.js"></script>
+<script src="lib.js"></script>
+<script src="align_05_07.js"></script>
+<script>
+buildCaptionsA({
+ c1:["So the light is *on.*"],
+ c2:["The first question is, is it *steady,*","or is it *flashing?*"],
+ c3:["A steady light means a *fault is stored.*"],
+ c4:["It's *not an emergency.*"],
+ c5:["You can usually *keep driving,*","but make sure the car *feels normal,*"],
+ c6:["keep an eye on the *temperature gauge* and the *oil light,*"],
+ c7:["and get the code read in the *next few days.*"],
+ c8:["A flashing light is *different.*"],
+ c9:["It blinks about *once per second,*","and it means the engine is *misfiring badly.*"],
+ c10:["Fuel goes into a cylinder, *doesn't burn,*","and gets pushed into the *exhaust.*"],
+ c11:["There it reaches your *catalytic converter*","and burns inside it,"],
+ c12:["heating it up until it can be *damaged for good.*"],
+ c13:["And a new converter can easily cost","more than a *thousand dollars.*"],
+ c14:["So if it flashes, *slow down,*","go *easy on the gas,*"],
+ c15:["and get the car to a *shop* or a *safe place.*"],
+ c16:["If the car is *shaking hard*","or you smell something *burning,*"],
+ c17:["*pull over* and *call for help.*"],
+ d1:["So what usually *turns it on?*"],
+ d2:["Here are *five* of the most common causes,","from the *cheapest* to the most *expensive.*"],
+ d3:["Number one, the *gas cap.*"],
+ d4:["If it's *loose, cracked, or missing,*","fuel vapor can escape, and the car *notices.*"],
+ d5:["Tighten it until it *clicks.*"],
+ d6:["The light won't go off *right away,*","because that leak test only runs under *certain conditions,*"],
+ d7:["so give it a *few days.*"],
+ d8:["Number two, the *mass airflow sensor.*"],
+ d9:["It measures the *air* going into the engine,","and when it gets *dirty* or fails, the fuel mix is *off.*"],
+ d10:["Number three, the *oxygen sensors.*"],
+ d11:["They sit in the *exhaust* and tell the computer","if the engine is running *rich* or *lean,*"],
+ d12:["and they *wear out* with age."],
+ d13:["Number four, *spark plugs* and *ignition coils.*"],
+ d14:["Worn plugs or a weak coil cause *misfires,*","and misfires are what make the light *flash.*"],
+ d15:["And number five, the *catalytic converter.*"],
+ d16:["Here's the *twist.*"],
+ d17:["A converter often fails because something else was *ignored first,*"],
+ d18:["like a misfire that kept going for *months.*"],
+ d19:["So a small light, *fixed early,*","can save you the *biggest bill* on this list."],
+ e1:["Let's say the scanner shows *P0300.*"],
+ e2:["*P,* powertrain.","*Zero,* a standard code."],
+ e3:["The *three hundred* series covers *ignition and misfires.*"],
+ e4:["And the last zero means *random or multiple cylinders.*"],
+ e5:["If it said *P0302,*","the misfire would be in *cylinder number two.*"],
+ e6:["Now here's the *trap.*"],
+ e7:["A code tells you what the computer *noticed.*"],
+ e8:["It doesn't tell you which part is *broken.*"],
+ e9:["This one could be *spark plugs,* a *coil,* a *vacuum leak,*","*low fuel pressure,* or even a *mechanical problem.*"],
+ e10:["So don't just buy the *first part* on the printout."],
+ e11:["Many auto parts stores in the US","will read your codes for *free,*"],
+ e12:["and that's a great *first step.*"],
+ e13:["Just treat the code as a *clue,* not a *verdict.*"],
+},window.ALIGN);
+const Gs=id=>groups.find(x=>x.id===id).start;const Ge=id=>groups.find(x=>x.id===id).end;
+const CX=1290;
+const studio=makeStudio();const guy=studio.guy;
+const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:.6});[['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
+const flash=document.getElementById('flash'),tint=document.getElementById('tint');
+// flashing light: one BMW ding per blink, lit c+0.03 .. c+0.55
+const blink=(t,cs,len=.52)=>{for(const c of cs){const d=t-c;if(d>=0.03&&d<0.03+len)return 1}return 0};
+const seq=(a,n,step=1.0)=>[...Array(n)].map((_,i)=>+(a+i*step).toFixed(3));
+
+// ================= common drawing helpers =================
+function card(p,w,h,fill){const c=g(p);el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:28,fill:fill||GRAPH},c);return c}
+function pill(p,text,fill,ink,w){const c=g(p);const W=w||text.length*17+70;el('rect',{x:-W/2,y:-32,width:W,height:64,rx:32,fill},c);const t=txt(c,0,10,28,'mic',text);t.setAttribute('fill',ink);c.t=t;return c}
+function chip(p,s=1){const c=g(p,{transform:`scale(${s})`});el('rect',{x:-30,y:-30,width:60,height:60,rx:8,fill:LIME},c);[-16,0,16].forEach(x=>{el('rect',{x:x-3,y:-42,width:6,height:12,fill:LIME},c);el('rect',{x:x-3,y:30,width:6,height:12,fill:LIME},c)});return c}
+function calendar(p){const c=g(p);el('rect',{x:-70,y:-60,width:140,height:130,rx:16,fill:CHALK},c);el('rect',{x:-70,y:-60,width:140,height:38,rx:16,fill:RED},c);el('rect',{x:-70,y:-36,width:140,height:14,fill:RED},c);
+  [-40,40].forEach(x=>el('rect',{x:x-6,y:-74,width:12,height:28,rx:6,fill:ASPH},c));c.t=txt(c,0,40,56,'bold','');c.t.setAttribute('fill',ASPH);c.l=txt(c,0,-32,18,'mic ink','');return c}
+function oilIcon(p){const g1=g(p);el('path',{d:'M-46 10 L-10 -20 L30 -20 L46 -36 L52 -30 L36 -10 L36 20 L-40 20 Z',fill:'currentColor'},g1);el('circle',{cx:56,cy:14,r:6,fill:'currentColor'},g1);return g1}
+function tempIcon(p){const g1=g(p);el('rect',{x:-8,y:-40,width:16,height:56,rx:8,fill:'currentColor'},g1);el('circle',{cy:24,r:16,fill:'currentColor'},g1);[-26,-12].forEach(y=>el('rect',{x:12,y,width:20,height:6,rx:3,fill:'currentColor'},g1));return g1}
+function wrenchIcon(p){const w=g(p);el('path',{d:'M-46 46 L10 -10 A28 28 0 1 1 26 6 Z',fill:'currentColor'},w);el('circle',{cx:28,cy:-16,r:10,fill:ASPH},w);return w}
+function scanner(parent){const s=g(parent);el('rect',{x:-110,y:-140,width:220,height:280,rx:28,fill:CHALK},s);el('rect',{x:-90,y:-118,width:180,height:130,rx:12,fill:'#0B0B0E'},s);
+  s.t=el('text',{x:0,y:-46,'text-anchor':'middle','font-size':46,class:'bold',fill:AMBER},s);s.s=el('text',{x:0,y:-8,'text-anchor':'middle','font-size':18,class:'mic',fill:H.smoke},s);
+  [[-46,56],[0,56],[46,56],[-46,100],[0,100],[46,100]].forEach(([x,y])=>el('circle',{cx:x,cy:y,r:14,class:'mut'},s));return s}
+function tag(p,text,fill){const c=g(p);const b=el('path',{d:'M-210 -90 L130 -90 L210 0 L130 90 L-210 90 Q-230 90 -230 70 L-230 -70 Q-230 -90 -210 -90 Z',fill},c);el('circle',{cx:140,cy:0,r:16,class:'bgf'},c);c.t=txt(c,-40,34,96,'bold ink',text);c.b=b;return c}
+function engine4(p){const e=g(p);el('rect',{x:-170,y:-90,width:340,height:180,rx:24,fill:'#2A2A33',stroke:'#4A4A56','stroke-width':5},e);
+  e.cyl=[0,1,2,3].map(k=>{const c=g(e,{transform:`translate(${-120+k*80} 0)`});const r=el('rect',{x:-28,y:-60,width:56,height:120,rx:10,fill:OFF},c);txt(c,0,88,22,'mic mut',String(k+1));const x=g(c);el('path',{d:'M-18 -18 L18 18 M18 -18 L-18 18',stroke:CHALK,'stroke-width':8,'stroke-linecap':'round'},x);x.style.opacity=0;return {r,x}});return e}
+const XMARK=(p,s=1)=>{const x=g(p,{transform:`scale(${s})`});el('circle',{r:30,fill:RED},x);el('path',{d:'M-12 -12 L12 12 M12 -12 L-12 12',stroke:CHALK,'stroke-width':7,'stroke-linecap':'round'},x);return x};
+const CHECK=(p,s=1)=>{const x=g(p,{transform:`scale(${s})`});el('circle',{r:30,fill:LIME},x);el('path',{d:'M-13 0 l9 10 l17 -20',fill:'none',stroke:ASPH,'stroke-width':7,'stroke-linecap':'round'},x);return x};
+const vis=(e,t,a,b,fi=.3,fo=.3)=>{const v=V(t,a,b,fi,fo);show(v,e);if(v>0)e.style.opacity=v;return v};
+const pop=(t,a,d=.4)=>back(P(t,a,d));
+
+// ================= PART 5 =================
+const T5={A:Gs('c1')-.1,B:Gs('c3')-.1,C:Gs('c8')-.1,D:Gs('c14')-.1,E:Gs('c16')-.1,END:Gs('d1')-.1};
+const DING_ON=W_('c1','on')-.05;                          // the steady light comes on
+const FL_A=seq(W_('c2','flashing')-.1,2);                 // "or is it flashing?"
+const FL_C=seq(Gs('c8')+.1,7);                            // "A flashing light ... once per second"
+const FL_D=seq(Gs('c14'),2);                              // "So if it flashes"
+// A: two lamps
+const sA=g();const cS=card(sA,420,380);const lS=engineLamp(cS);lS.setAttribute('transform','translate(0 -20) scale(.62)');const pS=pill(cS,'STEADY',LIME,ASPH);pS.setAttribute('transform','translate(0 140)');
+const cF=card(sA,420,380);const lF=engineLamp(cF);lF.setAttribute('transform','translate(0 -20) scale(.62)');const pF=pill(cF,'FLASHING',RED,CHALK);pF.setAttribute('transform','translate(0 140)');
+const vsT=txt(sA,0,10,60,'bold mut','OR');
+// B: steady deep dive
+const sB=g();const bLamp=card(sB,360,330);const bl=engineLamp(bLamp);bl.setAttribute('transform','translate(0 -20) scale(.55)');pill(bLamp,'STEADY',LIME,ASPH).setAttribute('transform','translate(0 120)');
+const rowsB=[['FAULT CODE STORED','chip'],['NOT AN EMERGENCY','ok'],['KEEP DRIVING IF IT FEELS NORMAL','car'],['WATCH TEMP + OIL LIGHT','gauges'],['READ THE CODE SOON','cal']].map(([s,k],i)=>{const r=g(sB);el('rect',{x:0,y:-48,width:640,height:96,rx:24,class:'card'},r);
+  const ic=g(r,{transform:'translate(56 0)'});
+  if(k==='chip')chip(ic,.62);if(k==='ok')CHECK(ic,1);if(k==='car')makeCar(ic,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','scale(.075)');
+  if(k==='gauges'){const a=g(ic,{transform:'translate(-14 0) scale(.6)'});tempIcon(a).style.color=CHALK;const b=g(ic,{transform:'translate(30 6) scale(.42)'});oilIcon(b).style.color=CHALK}
+  if(k==='cal'){const c=calendar(ic);c.setAttribute('transform','scale(.5)');c.t.textContent='3'}
+  const tt=txt(r,110,11,30,'mic ink',s,'start');if(k==='ok')tt.setAttribute('fill',LIME);return r});
+// C: flashing, misfire, catalytic converter
+const sC=g();const cLamp=engineLamp(sC);const perSec=pill(sC,'ABOUT 1 BLINK / SECOND',RED,CHALK);
+const cyl=g(sC);// cylinder cutaway
+el('rect',{x:-130,y:-170,width:30,height:340,fill:'#4A4A56'},cyl);el('rect',{x:100,y:-170,width:30,height:340,fill:'#4A4A56'},cyl);
+el('path',{d:'M-130 -170 L-60 -230 L60 -230 L130 -170 Z',fill:'#4A4A56'},cyl);
+const plugG=g(cyl,{transform:'translate(0 -230)'});el('rect',{x:-14,y:-70,width:28,height:56,rx:6,fill:CHALK},plugG);el('rect',{x:-8,y:-14,width:16,height:30,fill:'#9A9AA6'},plugG);
+const fizz=g(plugG,{transform:'translate(0 34)'});el('path',{d:'M-14 0 l10 6 l-6 6 l12 6',fill:'none',stroke:'#7A7A86','stroke-width':4},fizz);const noSpark=XMARK(plugG,.6);noSpark.setAttribute('transform','translate(48 20) scale(.6)');
+const piston=g(cyl);el('rect',{x:-96,y:-30,width:192,height:70,rx:8,fill:'#6A6A76'},piston);el('rect',{x:-14,y:40,width:28,height:120,fill:'#5A5A66'},piston);
+const inV=el('path',{d:'M-60 -230 L-200 -300',stroke:'#4A4A56','stroke-width':40,'stroke-linecap':'round'},cyl);
+const exPipe=el('path',{d:'M60 -230 L190 -300 L470 -300',fill:'none',stroke:'#4A4A56','stroke-width':40,'stroke-linecap':'round','stroke-linejoin':'round'},cyl);
+txt(cyl,-210,-330,22,'mic mut','FUEL IN');
+const fuel=[...Array(8)].map(()=>el('circle',{r:10,fill:AMBER},cyl));
+const cat=g(sC);const catBody=el('rect',{x:-110,y:-70,width:220,height:140,rx:40,fill:'#6A6A76'},cat);
+const comb=[...Array(5)].map((_,i)=>el('rect',{x:-80+i*34,y:-46,width:22,height:92,rx:4,fill:'#4A4A56'},cat));
+const flames=[...Array(5)].map((_,i)=>el('path',{fill:AMBER},cat));
+const cracks=el('path',{d:'M-90 -40 l30 30 l-10 20 l30 26 M40 -60 l-10 40 l24 20 l-6 40',fill:'none',stroke:ASPH,'stroke-width':7,'stroke-linecap':'round'},cat);
+txt(cat,0,112,24,'mic ink','CATALYTIC CONVERTER');
+const therm=g(sC);el('rect',{x:-18,y:-130,width:36,height:220,rx:18,fill:'#2A2A33'},therm);const merc=el('rect',{x:-9,y:0,width:18,height:0,rx:9,fill:RED},therm);el('circle',{cy:100,r:30,fill:RED},therm);
+const dmg=pill(sC,'DAMAGED FOR GOOD',RED,CHALK);
+const cost=tag(sC,'$1,000+',RED);
+// D: what to do
+const sD=g();const dLamp=engineLamp(sD);
+const acts=[['SLOW DOWN','speed'],['EASY ON THE GAS','pedal'],['SHOP OR SAFE PLACE','pin']].map(([s,k])=>{const c=card(sD,300,330);const ic=g(c,{transform:'translate(0 -40)'});
+  if(k==='speed'){c.gauge=gauge(ic,80,'MPH')}
+  if(k==='pedal'){el('rect',{x:-40,y:-70,width:80,height:130,rx:14,fill:'#4A4A56'},ic);[-40,-10,20].forEach(y=>el('rect',{x:-28,y,width:56,height:10,rx:5,fill:'#2A2A33'},ic));c.foot=el('path',{d:'M-70 -90 Q-20 -110 40 -90 L50 -60 L-60 -50 Z',fill:CHALK},ic)}
+  if(k==='pin'){el('path',{d:'M0 60 C -50 0 -60 -20 -60 -40 A60 60 0 1 1 60 -40 C 60 -20 50 0 0 60 Z',fill:LIME},ic);const w=g(ic,{transform:'translate(0 -42) scale(.6)'});wrenchIcon(w).style.color=ASPH}
+  txt(c,0,118,26,'mic ink',s);return c});
+// E: danger
+const sE=g();const eCar=g(sE);makeCar(eCar,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','scale(.55)');
+const smoke=[...Array(7)].map(()=>el('circle',{fill:'#7A7A86'},sE));
+const pull=g(sE);el('rect',{x:-330,y:-62,width:660,height:124,rx:30,fill:RED},pull);txt(pull,0,-6,50,'bold ink','PULL OVER');txt(pull,0,36,26,'mic ink','AND CALL FOR HELP');
+const phone=g(sE);el('rect',{x:-40,y:-70,width:80,height:140,rx:16,fill:CHALK},phone);el('rect',{x:-30,y:-54,width:60,height:96,rx:6,fill:ASPH},phone);el('circle',{cy:56,r:7,fill:ASPH},phone);
+
+// ================= PART 6 =================
+const T6={F:Gs('d1')-.1,G1:Gs('d3')-.1,G2:Gs('d8')-.1,G3:Gs('d10')-.1,G4:Gs('d13')-.1,G5:Gs('d15')-.1,END:Gs('e1')-.1};
+const FL_G4=seq(W_('d14','flash')-.05,2);
+const ladder=g();const LAD=[1,2,3,4,5].map(i=>{const h=50+i*60;const b=g(ladder,{transform:`translate(${(i-3)*170} 0)`});const r=el('rect',{x:-70,y:-h,width:140,height:h,rx:16,fill:'#2A2A33'},b);
+  const n=txt(b,0,-h+52,52,'bold ink',String(i));const d=txt(b,0,44,30,'bold acc','$'.repeat(i));return {b,r,n,d,h}});
+const ladL=txt(ladder,-340,110,22,'mic mut','CHEAPEST');const ladR=txt(ladder,340,110,22,'mic mut','MOST EXPENSIVE');
+const turnQ=txt(svg,CX,200,64,'bold ink','WHAT TURNS IT ON?');
+const head6=g();const hNum=txt(head6,0,0,120,'bold acc','#1');const hT=txt(head6,90,-14,46,'bold ink','','start');const hS=txt(head6,92,26,26,'mic mut','','start');
+// G1 gas cap
+const g1=g();el('path',{d:'M-160 160 L-160 40 Q-160 0 -120 0 L120 0 Q160 0 160 40 L160 160 Z',fill:'#2A2A33'},g1);el('rect',{x:-90,y:-40,width:180,height:60,rx:12,fill:'#4A4A56'},g1);
+const capG=g(g1,{transform:'translate(0 -60)'});const capIn=g(capG);el('circle',{r:100,fill:'#5C5C68'},capIn);el('circle',{r:74,fill:'none','stroke-width':8,stroke:'#7A7A86'},capIn);el('rect',{x:-64,y:-18,width:128,height:36,rx:12,fill:'#7A7A86'},capIn);
+const capCrack=el('path',{d:'M-60 -70 L-20 -20 L-40 10 L10 60',fill:'none',stroke:ASPH,'stroke-width':8,'stroke-linecap':'round'},capIn);
+const vapor=[...Array(6)].map(()=>el('path',{fill:'none',stroke:'#9A9AB0','stroke-width':10,'stroke-linecap':'round'},g1));
+const capStates=['LOOSE','CRACKED','MISSING'].map(s=>pill(g1,s,'#2A2A33',CHALK));
+const notice=g(g1,{transform:'translate(330 -150)'});chip(notice,1);txt(notice,0,80,24,'mic acc','CAR NOTICES');
+const clicks=[0,1,2].map(i=>{const t=txt(g1,0,0,40,'bold acc','CLICK');return t});
+const days=calendar(g1);const conds=['COLD START','FUEL LEVEL','WEATHER'].map(s=>pill(g1,s,'#2A2A33',CHALK,260));
+// G2 MAF
+const g2=g();el('rect',{x:-420,y:-60,width:840,height:120,rx:60,fill:'#2A2A33'},g2);const maf=g(g2);el('rect',{x:-60,y:-100,width:120,height:60,rx:12,fill:'#4A4A56'},maf);txt(maf,0,-62,24,'bold ink','MAF');
+const air=[...Array(9)].map(()=>el('path',{fill:'none',stroke:'#9ADFFF','stroke-width':8,'stroke-linecap':'round'},g2));
+const grime=[...Array(8)].map((_,i)=>el('circle',{cx:-40+((i*37)%80),cy:-90+((i*23)%40),r:6+i%3*3,fill:'#5A4632',opacity:0},maf));
+txt(g2,-440,10,24,'mic mut','AIR IN','end');txt(g2,440,10,24,'mic mut','ENGINE','start');
+const mafRead=txt(g2,0,130,48,'bold ink','');const mixChip=pill(g2,'FUEL MIX 14.7 : 1','#2A2A33',CHALK,380);
+// G3 O2
+const g3=g();el('rect',{x:-420,y:40,width:840,height:70,rx:35,fill:'#2A2A33'},g3);const o2=g(g3,{transform:'translate(0 40)'});const o2b=el('rect',{x:-22,y:-110,width:44,height:110,rx:10,fill:'#9A9AA6'},o2);el('rect',{x:-34,y:-130,width:68,height:30,rx:8,fill:'#5C5C68'},o2);
+txt(g3,0,160,22,'mic mut','OXYGEN SENSOR IN THE EXHAUST');
+const meter=g(g3,{transform:'translate(0 -200)'});el('rect',{x:-300,y:-20,width:600,height:40,rx:20,fill:'#2A2A33'},meter);txt(meter,-320,10,26,'bold ink','RICH','end');txt(meter,320,10,26,'bold ink','LEAN','start');const mk=el('rect',{x:-8,y:-34,width:16,height:68,rx:8,fill:LIME},meter);
+const exh=[...Array(7)].map(()=>el('circle',{fill:'#5A5A66'},g3));const age=pill(g3,'SLOWER WITH AGE','#2A2A33',CHALK,320);
+// G4 plug + coil
+const g4=g();const coil=g(g4,{transform:'translate(-180 0)'});el('rect',{x:-50,y:-210,width:100,height:120,rx:14,fill:'#3A3A46'},coil);el('rect',{x:-22,y:-90,width:44,height:70,fill:'#3A3A46'},coil);txt(coil,0,-140,22,'mic ink','COIL');
+const plug2=g(coil,{transform:'translate(0 0)'});el('rect',{x:-20,y:-20,width:40,height:80,rx:6,fill:CHALK},plug2);el('rect',{x:-26,y:60,width:52,height:30,fill:'#9A9AA6'},plug2);el('rect',{x:-8,y:90,width:16,height:50,fill:'#9A9AA6'},plug2);
+const elec=el('path',{d:'M-8 160 h28 v-14',fill:'none',stroke:'#9A9AA6','stroke-width':8},plug2);const spark=el('path',{fill:'none',stroke:LIME,'stroke-width':6,'stroke-linejoin':'round'},plug2);
+const eng4=engine4(g4);eng4.setAttribute('transform','translate(220 0)');const g4Lamp=engineLamp(g4);
+// G5 cat + twist
+const g5=g();const cat5=g(g5);el('rect',{x:-200,y:-110,width:400,height:220,rx:70,fill:'#6A6A76'},cat5);[...Array(7)].forEach((_,i)=>el('rect',{x:-150+i*44,y:-80,width:30,height:160,rx:5,fill:'#4A4A56'},cat5));
+const crack5=el('path',{d:'M-150 -70 l40 50 l-20 30 l40 40 M60 -90 l-20 60 l30 30 l-10 60',fill:'none',stroke:ASPH,'stroke-width':9,'stroke-linecap':'round'},cat5);
+const price5=txt(g5,0,180,60,'bold red','$$$$$');
+const twist=g(g5);el('path',{d:'M-60 0 A60 60 0 1 1 0 60',fill:'none',stroke:LIME,'stroke-width':12,'stroke-linecap':'round'},twist);el('path',{d:'M-24 40 L2 62 L-24 86',fill:'none',stroke:LIME,'stroke-width':12,'stroke-linecap':'round'},twist);
+const months=calendar(g5);const misIc=g(g5);const misEng=engine4(misIc);misEng.setAttribute('transform','scale(.55)');
+const arrow5=el('path',{d:'M0 0',fill:'none',stroke:RED,'stroke-width':8,'stroke-dasharray':'16 12'},g5);
+const small=g();const smallLamp=card(small,260,240);const sl=engineLamp(smallLamp);sl.setAttribute('transform','translate(0 -10) scale(.42)');const early=CHECK(smallLamp,1.2);early.setAttribute('transform','translate(110 -100) scale(1.2)');
+txt(smallLamp,0,100,22,'mic acc','FIXED EARLY');
+const bill=g(small);el('path',{d:'M-170 -230 L170 -230 L170 230 L140 210 L110 230 L80 210 L50 230 L20 210 L-10 230 L-40 210 L-70 230 L-100 210 L-130 230 L-170 210 Z',fill:CHALK},bill);
+['CATALYTIC CONVERTER','LABOR','PARTS'].forEach((s,i)=>{txt(bill,-140,-160+i*60,24,'mic','','start').textContent=s;bill.lastChild.setAttribute('fill',ASPH);el('rect',{x:-140,y:-146+i*60,width:280,height:4,fill:'#CFC8B8'},bill)});
+const billT=txt(bill,0,130,72,'bold red','$$$$$');const billX=el('path',{d:'M-150 -200 L150 180 M150 -200 L-150 180',stroke:RED,'stroke-width':16,'stroke-linecap':'round'},bill);
+
+// ================= PART 7 =================
+const T7={H:Gs('e1')-.1,I:Gs('e6')-.1,J:Gs('e10')-.1,K:Gs('e11')-.1,L:Gs('e13')-.1};
+const sH=g();const scan=scanner(sH);
+const BX=i=>(i-2)*150;const bx='P0300'.split('').map((c,i)=>{const b=g(sH);el('rect',{x:-62,y:-80,width:124,height:160,rx:22,class:'card'},b);const ed=el('rect',{x:-62,y:-80,width:124,height:160,rx:22,fill:'none','stroke-width':6,stroke:LIME,opacity:0},b);const t=txt(b,0,40,116,'bold ink',c);return {b,ed,t}});
+const hInfo=txt(sH,0,0,52,'bold acc','');const hSub=txt(sH,0,0,26,'mic ink','');
+const eng7=engine4(sH);
+const sI=g();const eye=g(sI);el('path',{d:'M-120 0 Q0 -90 120 0 Q0 90 -120 0 Z',fill:CHALK},eye);el('circle',{r:44,fill:ASPH},eye);el('circle',{r:18,fill:LIME},eye);
+const eyeT=txt(sI,0,0,30,'mic acc','NOTICED: MISFIRE');const brokenQ=g(sI);el('rect',{x:-110,y:-110,width:220,height:220,rx:30,fill:'#2A2A33','stroke-dasharray':'14 10',stroke:'#6A6A76','stroke-width':5},brokenQ);txt(brokenQ,0,44,140,'bold red','?');txt(brokenQ,0,150,22,'mic mut','WHICH PART?');
+const sus=['SPARK PLUGS','COIL','VACUUM LEAK','LOW FUEL PRESSURE','MECHANICAL'].map((s,i)=>{const c=g(sI);el('rect',{x:-100,y:-120,width:200,height:240,rx:24,class:'card'},c);el('circle',{cy:-30,r:46,fill:'#3A3A46'},c);el('path',{d:'M-70 120 Q-70 40 0 40 Q70 40 70 120 Z',fill:'#3A3A46'},c);txt(c,0,-18,44,'bold mut','?');
+  const words=s.split(' ');words.forEach((w,j)=>txt(c,0,72+j*26-(words.length-1)*13,22,'mic ink',w));return c});
+const sJ=g();const rec=g(sJ);el('path',{d:'M-230 -300 L230 -300 L230 300 L200 280 L170 300 L140 280 L110 300 L80 280 L50 300 L20 280 L-10 300 L-40 280 L-70 300 L-100 280 L-130 300 L-160 280 L-190 300 L-230 280 Z',fill:CHALK},rec);
+txt(rec,0,-240,30,'bold','CODE REPORT · P0300').setAttribute('fill',ASPH);const items=['1. SPARK PLUGS','2. IGNITION COIL','3. FUEL INJECTOR','4. VACUUM HOSE'].map((s,i)=>{const t=txt(rec,-190,-150+i*70,30,'mic',s,'start');t.setAttribute('fill',ASPH);return t});
+const hl=el('rect',{x:-200,y:-186,width:400,height:52,rx:10,fill:LIME,opacity:0},rec);rec.insertBefore(hl,items[0]);const recX=el('path',{d:'M-190 -160 L190 -160',stroke:RED,'stroke-width':10,'stroke-linecap':'round'},rec);
+const dont=pill(sJ,"DON'T JUST BUY IT",RED,CHALK,380);
+const sK=g();const store=g(sK);el('rect',{x:-300,y:-160,width:600,height:320,rx:20,fill:'#2A2A33'},store);el('path',{d:'M-330 -160 L330 -160 L300 -230 L-300 -230 Z',fill:LIME},store);
+[0,1,2,3,4,5].forEach(i=>el('path',{d:`M${-330+i*110} -160 q55 50 110 0`,fill:i%2?CHALK:LIME},store));txt(store,0,-182,36,'bold bgf','AUTO PARTS');el('rect',{x:-80,y:10,width:160,height:150,fill:'#121216'},store);el('rect',{x:-260,y:-100,width:140,height:100,rx:8,fill:'#3A3A46'},store);el('rect',{x:120,y:-100,width:140,height:100,rx:8,fill:'#3A3A46'},store);
+const freeTag=tag(sK,'FREE',LIME);freeTag.t.setAttribute('class','bold bgf');const freeSub=txt(sK,0,0,24,'mic ink','CODE SCAN');
+const step1=pill(sK,'STEP 1 ✓',LIME,ASPH,240);
+const sL=g();const clue=card(sL,380,380);const mag=g(clue,{transform:'translate(0 -40)'});el('circle',{r:70,fill:'none',stroke:LIME,'stroke-width':18},mag);el('rect',{x:46,y:46,width:26,height:90,rx:12,fill:LIME,transform:'rotate(-45 46 46)'},mag);
+txt(clue,0,130,44,'bold acc','CLUE');const clueC=CHECK(clue,1.2);clueC.setAttribute('transform','translate(150 -150) scale(1.2)');
+const verd=card(sL,380,380);const gav=g(verd,{transform:'translate(0 -40) rotate(-30)'});el('rect',{x:-70,y:-30,width:140,height:60,rx:12,fill:'#6A6A76'},gav);el('rect',{x:-10,y:30,width:20,height:110,rx:8,fill:'#6A6A76'},gav);
+txt(verd,0,130,44,'bold mut','VERDICT');const verdX=XMARK(verd,1.2);verdX.setAttribute('transform','translate(150 -150) scale(1.2)');
+
+// ================= narrator =================
+const SH=[612,606];
+const ptTo=(x,y,shape='point')=>{const a=Math.atan2(y-SH[1],x-SH[0]);return {L:REST.L,R:{x:182+300*Math.cos(a),y:46+300*Math.sin(a),shape}}};
+const POSE={rest:REST,open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},thumb:{L:REST.L,R:{x:320,y:140,shape:'thumb',rot:0}},
+ stop:{L:REST.L,R:{x:330,y:20,shape:'open',rot:-90}},shrug:{L:{x:-290,y:140,shape:'open'},R:{x:290,y:140,shape:'open'}},
+ left:ptTo(1040,400),right:ptTo(1540,400),top:ptTo(CX,260),mid:ptTo(CX,420),low:ptTo(CX,620),far:ptTo(1640,380)};
+const K=[[0,'rest'],[.2,'mid'],[W_('c2','steady')-.3,'left'],[W_('c2','flashing')-.3,'right'],[T5.B,'left'],[Gs('c4'),'open'],[Gs('c5'),'far'],[T5.C,'top'],[W_('c9','misfiring')-.3,'mid'],[Gs('c11'),'far'],[Gs('c13'),'top'],[T5.D,'stop'],[Gs('c15'),'mid'],[T5.E,'stop'],
+ [T6.F,'shrug'],[Gs('d2'),'low'],[T6.G1,'one'],[Gs('d4'),'mid'],[Gs('d6'),'open'],[Gs('d7'),'mid'],[T6.G2,'mid'],[T6.G3,'mid'],[T6.G4,'mid'],[W_('d14','flash')-.3,'top'],[T6.G5,'mid'],[Gs('d16'),'one'],[Gs('d17'),'mid'],[Gs('d19'),'thumb'],
+ [T7.H,'mid'],[Gs('e2'),'top'],[Gs('e4'),'low'],[T7.I,'one'],[Gs('e7'),'top'],[Gs('e9'),'mid'],[T7.J,'stop'],[T7.K,'mid'],[Gs('e12'),'thumb'],[T7.L,'mid'],[W_('e13','verdict')+.2,'right'],[153,'rest']];
+const poseAt=poser(POSE,K);
+
+window.render=function(t){
+ renderCaptions(t);flash.style.opacity=0;tint.style.opacity=0;
+ {const pz=poseAt(t);const m=mouthAt(t);let smile=.5,bw=0,bu=.1+.25*m,tilt=2*Math.sin(t*1.1);
+  if((t>T5.C&&t<T5.D)||(t>T5.E&&t<T5.END)){smile=-.15;bw=.5;bu=0}
+  if(t>Gs('d16')-.1&&t<Gs('d17'))bu=.7;if(t>T7.I&&t<T7.J){bw=.35;smile=.1}
+  const pointing=!['rest','open','one','thumb','stop','shrug'].includes(pz.name);
+  guy.set({mouth:.9*m,smile,browUp:bu,browWorry:bw,eyes:blinkAt(t,3.3,.3),pupil:1,look:pointing?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt,nod:2.2*m,amber:0,hands:{L:pz.L,R:pz.R}});
+  studio.presG.setAttribute('transform',`translate(430 ${560+4*Math.sin(t*1.6)})`)}
+
+ // ---------- PART 5 ----------
+ if(vis(sA,t,T5.A,T5.B,.3,.3)>0){
+  tr(cS,1040,400,pop(t,T5.A),0,1);tr(cF,1540,400,pop(t,T5.A+.15),0,1);
+  const on=t>=DING_ON+.03;lS.set(on?1:0);lF.set(blink(t,FL_A));vsT.setAttribute('transform',`translate(1290 400) scale(${pop(t,W_('c2','or')-.1)})`);vsT.style.opacity=t>W_('c2','or')-.1?1:0;
+  const fs=W_('c2','steady')-.2,ff=W_('c2','flashing')-.2;cS.setAttribute('transform',`translate(1040 400) scale(${t>fs&&t<ff?1.06:1})`);cF.setAttribute('transform',`translate(1540 400) scale(${t>ff?1.06:pop(t,T5.A+.15)})`);
+  if(t>DING_ON&&t<DING_ON+.3)flash.style.opacity=.15*(1-P(t,DING_ON,.3))}
+ if(vis(sB,t,T5.B,T5.C)>0){
+  tr(bLamp,1000,420,pop(t,T5.B),0,1);bl.set(1);
+  const rt=[W_('c3','fault'),Gs('c4'),Gs('c5'),Gs('c6'),Gs('c7')].map(x=>x-.1);
+  rowsB.forEach((r,i)=>{const k=eo(P(t,rt[i],.35));r.setAttribute('transform',`translate(${1210+(1-k)*60} ${190+i*112})`);r.style.opacity=k})}
+ if(vis(sC,t,T5.C,T5.D)>0){
+  const tm=W_('c9','misfiring')-.2;const mv=eio(P(t,tm,.6));
+  tr(cLamp,lerp(CX,1720,mv),lerp(360,140,mv),lerp(.8,.28,mv)*pop(t,T5.C),0,1);cLamp.set(blink(t,FL_C));
+  tr(perSec,CX,lerp(620,620,0),pop(t,W_('c9','once')-.2),0,(t>W_('c9','once')-.2?1:0)*(1-mv));
+  FL_C.forEach(c=>{if(t>c&&t<c+.25)flash.style.background=RED,flash.style.opacity=.1*(1-P(t,c,.25))});
+  // cylinder
+  const cv=eo(P(t,tm,.5));tr(cyl,1040,560,.82*cv,0,cv);
+  const pist=Math.sin(t*5);piston.setAttribute('transform',`translate(0 ${40+50*pist})`);
+  fizz.style.opacity=(t*6)%1<.5?1:.2;noSpark.style.opacity=t>W_('c10','burn')-.3?1:0;
+  const tf=Gs('c10');fuel.forEach((f,i)=>{const q=((t*.45+i/8)%1);let x,y;if(q<.3){x=lerp(-200,-40,q/.3);y=lerp(-300,-150,q/.3)}else if(q<.55){x=lerp(-40,40,(q-.3)/.25);y=-150+20*Math.sin(q*30)}else if(q<.75){x=lerp(40,190,(q-.55)/.2);y=lerp(-150,-300,(q-.55)/.2)}else{x=lerp(190,470,(q-.75)/.25);y=-300}
+    f.setAttribute('cx',x);f.setAttribute('cy',y);f.style.opacity=t>tf-.2?(q<.95?1:0):0});
+  // converter
+  const tc=W_('c11','catalytic')-.3;const ck=eo(P(t,tc,.5));tr(cat,1600,330,ck,0,ck);
+  const tb=W_('c11','burns')-.2;const heat=eio(P(t,tb,2.2));catBody.setAttribute('fill',`rgb(${Math.round(106+149*heat)},${Math.round(106-45*heat)},${Math.round(118-28*heat)})`);
+  flames.forEach((f,i)=>{const h=(30+20*Math.sin(t*13+i*2))*heat;const x=-68+i*34;f.setAttribute('d',`M${x-12} 40 Q${x} ${40-h*2} ${x+12} 40 Z`);f.style.opacity=t>tb?1:0});
+  tr(therm,1820,330,ck*.8,0,ck);merc.setAttribute('y',90-200*heat);merc.setAttribute('height',200*heat+10);
+  const td=W_('c12','damaged')-.2;cracks.style.opacity=t>td?1:0;tr(dmg,1600,500,pop(t,td),0,t>td?1:0);
+  const tk=W_('c13','thousand')-.3;tr(cost,CX,170,pop(t,tk,.45),-6,t>tk?1:0)}
+ if(vis(sD,t,T5.D,T5.E)>0){
+  tr(dLamp,CX,150,.3,0,1);dLamp.set(blink(t,FL_D));
+  const at=[W_('c14','slow'),W_('c14','easy'),W_('c15','shop')].map(x=>x-.25);
+  acts.forEach((c,i)=>{tr(c,1000+i*320,460,pop(t,at[i]),0,cl(P(t,at[i],.15)))});
+  acts[0].gauge.set(lerp(.6,.25,eio(P(t,at[0]+.3,1.2))));acts[1].foot.setAttribute('transform',`translate(0 ${-30*eio(P(t,at[1]+.3,.6))})`)}
+ if(vis(sE,t,T5.E,T5.END)>0){
+  tint.style.opacity=.7*V(t,T5.E,T5.END,.4,.4);
+  const sh=W_('c16','shaking')-.2;const shk=t>sh?6*Math.sin(t*60):0;tr(eCar,CX+shk,320,1,shk*.3,1);
+  const tb=W_('c16','burning')-.4;smoke.forEach((s,i)=>{const q=((t*.6+i/7)%1);s.setAttribute('cx',CX+150+30*Math.sin(t+i)+q*60);s.setAttribute('cy',260-q*180);s.setAttribute('r',14+40*q);s.style.opacity=t>tb?.6*(1-q):0});
+  const tp=Gs('c17')-.15;tr(pull,CX,580,pop(t,tp),0,t>tp?1:0);tr(phone,CX+400,580,pop(t,W_('c17','call')-.2),-10+5*Math.sin(t*20),t>W_('c17','call')-.2?1:0)}
+
+ // ---------- PART 6 ----------
+ const inCause=t>T6.G1&&t<T6.END;const inHead=t>T6.G1&&t<Gs('d19')-.1;
+ {const v=V(t,T6.F,T6.END,.3,.3);show(v,ladder);if(v>0){ladder.style.opacity=v;
+   const sm=eio(P(t,T6.G1-.2,.6));tr(ladder,lerp(CX,1290,sm),lerp(640,170,sm),lerp(1,.38,sm),0,v);
+   const cur=t<T6.G2?1:t<T6.G3?2:t<T6.G4?3:t<T6.G5?4:5;
+   LAD.forEach((L,i)=>{const k=eo(P(t,Gs('d2')+.3+i*.18,.4));L.r.setAttribute('height',L.h*k);L.r.setAttribute('y',-L.h*k);L.n.style.opacity=k;L.d.style.opacity=k;
+     L.r.setAttribute('fill',inCause&&i+1===cur?LIME:(inCause&&i+1<cur?'#3A3A46':'#2A2A33'));L.n.setAttribute('class',inCause&&i+1===cur?'bold bgf':'bold ink')});
+   ladL.style.opacity=ladR.style.opacity=(1-sm)*eo(P(t,W_('d2','cheapest')-.2,.3))}}
+ turnQ.style.display=t>T6.F&&t<Gs('d2')+.2?'':'none';turnQ.setAttribute('transform',`translate(0 0) scale(1)`);turnQ.style.opacity=Math.min(eo(P(t,T6.F,.3)),1-P(t,Gs('d2'),.2));
+ {const v=inHead?1:0;show(v,head6);if(v){const cur=t<T6.G2?0:t<T6.G3?1:t<T6.G4?2:t<T6.G5?3:4;const st=[T6.G1,T6.G2,T6.G3,T6.G4,T6.G5][cur];
+   hNum.textContent='#'+(cur+1);hT.textContent=['GAS CAP','MASS AIRFLOW SENSOR','OXYGEN SENSORS','PLUGS + COILS','CATALYTIC CONVERTER'][cur];hS.textContent=['$','$$','$$$','$$$$','$$$$$'][cur];
+   tr(head6,800,330,pop(t,st,.4),0,1)}}
+ if(vis(g1,t,T6.G1,T6.G2)>0){g1.setAttribute('transform',`translate(1400 560) scale(.85)`);
+  const ts=[W_('d4','loose'),W_('d4','cracked'),W_('d4','missing')].map(x=>x-.15);const ti=W_('d5','Tighten')-.1;
+  let rot=0,dy=0,op=1;if(t>ts[0]&&t<ti){rot=25*Math.sin(t*6);dy=-20}capCrack.style.opacity=t>ts[1]&&t<ti?1:0;if(t>ts[2]&&t<ti){dy=-260;op=.15}
+  if(t>ti){const k=eio(P(t,ti,1.0));rot=-270*(1-k);dy=lerp(-40,0,k)}capG.setAttribute('transform',`translate(0 ${-60+dy}) rotate(${rot})`);capG.style.opacity=op;
+  capStates.forEach((c,i)=>{c.setAttribute('transform',`translate(${-260+i*260} -330) scale(${pop(t,ts[i])})`);c.style.opacity=t>ts[i]&&t<ti?1:0});
+  const tv=W_('d4','vapor')-.2;vapor.forEach((p,i)=>{const q=((t*.7+i/6)%1);const x0=-60+i*24;let d=`M${x0} -40`;for(let k=1;k<=5;k++)d+=` L${x0+12*Math.sin(t*3+k+i)} ${-40-k*36*q-k*8}`;p.setAttribute('d',d);p.style.opacity=t>tv&&t<ti?.7*(1-q):0});
+  notice.style.opacity=t>W_('d4','notices')-.2&&t<ti?1:0;notice.setAttribute('transform',`translate(330 -150) scale(${pop(t,W_('d4','notices')-.2)})`);
+  clicks.forEach((c,i)=>{const at=ti+.35+i*.25;c.setAttribute('transform',`translate(${-200+i*200} -260) scale(${pop(t,at,.3)})`);c.style.opacity=t>at&&t<Gs('d6')?1:0});
+  const tc=W_('d6','certain')-.2;conds.forEach((c,i)=>{c.setAttribute('transform',`translate(${-300+i*300} 260) scale(${pop(t,tc+i*.2)})`);c.style.opacity=t>tc+i*.2?1:0});
+  const tdays=W_('d7','few')-.3;days.style.opacity=t>tdays?1:0;days.setAttribute('transform',`translate(330 -150) scale(${pop(t,tdays)})`);days.l.textContent='LEAK TEST';days.t.textContent=String(Math.min(3,1+Math.floor(Math.max(0,t-tdays)/.5)))}
+ if(vis(g2,t,T6.G2,T6.G3)>0){g2.setAttribute('transform','translate(1330 560) scale(.9)');
+  const dirty=eo(P(t,W_('d9','dirty')-.2,.8));air.forEach((a,i)=>{const q=((t*.8+i/9)%1);const x=-400+q*800,y=-30+(i%3)*30;a.setAttribute('d',`M${x} ${y} q20 -10 40 0 t40 0`);a.style.opacity=Math.sin(q*Math.PI)*(1-.5*dirty)});
+  grime.forEach(gm=>gm.setAttribute('opacity',dirty));mafRead.textContent=(t>W_('d9','air')-.2)?(12.2*(1-.35*dirty)+.3*Math.sin(t*3)).toFixed(1)+' g/s':'';mafRead.setAttribute('fill',dirty>.5?RED:CHALK);
+  const toff=W_('d9','off')-.3;const mk2=eio(P(t,toff,1.0));mixChip.t.textContent='FUEL MIX '+(14.7+1.5*mk2).toFixed(1)+' : 1';mixChip.setAttribute('transform',`translate(0 230) scale(${pop(t,toff)})`);mixChip.style.opacity=t>toff?1:0;mixChip.t.setAttribute('fill',mk2>.5?RED:CHALK)}
+ if(vis(g3,t,T6.G3,T6.G4)>0){g3.setAttribute('transform','translate(1330 560) scale(.9)');
+  const tw=W_('d12','wear')-.3;const ag=eio(P(t,tw,1.2));const sp=lerp(4.2,1.2,ag);mk.setAttribute('x',-8+260*Math.sin(t*sp)*(t>W_('d11','rich')-.3?1:.15));
+  o2b.setAttribute('fill',ag>.5?'#5A4A3A':'#9A9AA6');exh.forEach((e,i)=>{const q=((t*.6+i/7)%1);e.setAttribute('cx',-400+q*800);e.setAttribute('cy',75+8*Math.sin(t*3+i));e.setAttribute('r',8+10*q);e.style.opacity=.6*Math.sin(q*Math.PI)});
+  age.setAttribute('transform',`translate(0 -330) scale(${pop(t,tw)})`);age.style.opacity=t>tw?1:0}
+ if(vis(g4,t,T6.G4,T6.G5)>0){g4.setAttribute('transform','translate(1330 560) scale(.9)');
+  const tw=W_('d14','Worn')-.2;const weak=t>tw;const s=Math.random;const on=(t*7)%1<(weak?.25:.6);
+  let d='M-8 152';for(let k=0;k<4;k++)d+=` L${(k%2?14:-2)+(weak?Math.sin(t*50+k)*4:0)} ${152-k*3}`;spark.setAttribute('d',`M-6 150 L4 146 L-2 142 L12 140`);spark.style.opacity=on?1:0;spark.setAttribute('stroke',weak?'#9A9AA6':LIME);
+  elec.setAttribute('stroke',weak?'#6A5A4A':'#9A9AA6');
+  const tm=W_('d14','misfires')-.2;eng4.cyl.forEach((c,k)=>{const ph=((t*3.2-k*.25)%1+1)%1;const miss=t>tm&&k===2;c.r.setAttribute('fill',!miss&&ph<.22?AMBER:OFF);c.x.style.opacity=miss?1:0});
+  tr(g4Lamp,220,-230,.32,0,t>W_('d14','flash')-.4?1:0);g4Lamp.set(blink(t,FL_G4))}
+ if(vis(g5,t,T6.G5,Gs('d19')-.1)>0){g5.setAttribute('transform','translate(1330 540) scale(.85)');
+  const tw=Gs('d16');twist.style.opacity=t>tw-.1&&t<Gs('d17')?1:0;twist.setAttribute('transform',`translate(330 -200) rotate(${-300*eio(P(t,tw,.8))}) scale(${pop(t,tw-.1)})`);
+  const ti=W_('d17','ignored')-.3;misIc.style.opacity=t>ti-.6?1:0;misIc.setAttribute('transform',`translate(-430 150) scale(${pop(t,ti-.6)})`);misEng.cyl.forEach((c,k)=>{const ph=((t*3.2-k*.25)%1+1)%1;c.r.setAttribute('fill',k!==1&&ph<.22?AMBER:OFF);c.x.style.opacity=k===1?1:0});
+  arrow5.setAttribute('d',`M-330 150 Q-260 140 ${lerp(-330,-205,eo(P(t,ti,.6)))} ${lerp(150,40,eo(P(t,ti,.6)))}`);arrow5.style.opacity=t>ti?1:0;
+  const tmn=W_('d18','months')-.6;const mo=['JAN','FEB','MAR','APR','MAY','JUN'];const mi=Math.min(5,Math.floor(Math.max(0,t-tmn)/.25));months.l.textContent='MONTH';months.t.textContent=mo[mi];months.t.setAttribute('font-size',44);
+  months.style.opacity=t>tmn?1:0;months.setAttribute('transform',`translate(380 -200) scale(${pop(t,tmn)})`);crack5.style.opacity=t>tmn+1.4?1:0;
+  price5.setAttribute('transform',`scale(${1+.05*Math.sin(t*4)})`)}
+ if(vis(small,t,Gs('d19')-.1,T6.END)>0){const te=W_('d19','fixed')-.2,tb=W_('d19','biggest')-.3;
+  tr(smallLamp,1000,420,pop(t,Gs('d19')-.1),0,1);sl.set(0);early.style.opacity=t>te?1:0;early.setAttribute('transform',`translate(110 -100) scale(${1.2*pop(t,te)})`);
+  const bk=eio(P(t,tb+.9,.6));tr(bill,1520,420,pop(t,tb)*lerp(1,.75,bk),lerp(0,-8,bk),t>tb?1:0);billX.style.opacity=t>tb+.9?1:0}
+
+ // ---------- PART 7 ----------
+ if(vis(sH,t,T7.H,T7.I)>0){
+  const up=eio(P(t,Gs('e2')-.2,.6));tr(scan,lerp(CX,1760,up),lerp(420,600,up),lerp(1.3,.55,up)*pop(t,T7.H),0,1);
+  const tp=W_('e1','P0300')-.1;scan.t.textContent=t>tp?'P0300'.slice(0,Math.ceil(5*P(t,tp,.6))):'';scan.s.textContent=t>tp+.8?'RANDOM MISFIRE':'';
+  const flip=W_('e5','P0302')-.1;const fk=t>flip&&t<flip+.3?Math.abs(Math.cos(P(t,flip,.3)*Math.PI)):1;
+  const hlI=t<W_('e2','Zero')-.1?[0]:t<Gs('e3')-.1?[1]:t<Gs('e4')-.1?[2]:[4];
+  bx.forEach((b,i)=>{b.b.setAttribute('transform',`translate(${CX+BX(i)} 240) scale(${(i===4?fk:1)*pop(t,Gs('e2')-.2+i*.08)} ${pop(t,Gs('e2')-.2+i*.08)})`);b.b.style.opacity=t>Gs('e2')-.2?1:0;
+    const on=hlI.includes(i);b.ed.setAttribute('opacity',on?1:0);b.t.setAttribute('class',on?'bold acc':'bold mut')});
+  bx[4].t.textContent=t>flip+.15?'2':'0';
+  let T='',S='';if(t>Gs('e2')-.1){T='P = POWERTRAIN'}if(t>W_('e2','Zero')-.1){T='0 = STANDARD CODE'}if(t>Gs('e3')-.1){T='3XX = IGNITION + MISFIRE'}if(t>Gs('e4')-.1){T='LAST 0 = RANDOM / MULTIPLE'}if(t>flip){T='P0302 = CYLINDER 2'}
+  hInfo.textContent=T;hInfo.setAttribute('transform',`translate(${CX} 400)`);
+  const ev=t>Gs('e4')-.1;eng7.style.display=ev?'':'none';eng7.setAttribute('transform',`translate(${CX} 590) scale(${.9*pop(t,Gs('e4')-.1)})`);
+  eng7.cyl.forEach((c,k)=>{const rnd=Math.floor(t*2.2+k*1.7)%4===k;const two=t>flip;const bad=two?k===1:rnd;c.r.setAttribute('fill',bad?RED:'#3A3A46');c.x.style.opacity=bad?1:0})}
+ if(vis(sI,t,T7.I,T7.J)>0){
+  const te=Gs('e7')-.1,tb=Gs('e8')-.1,ts=Gs('e9')-.1;const sk=eio(P(t,ts,.5));
+  tr(eye,lerp(1060,CX,0),lerp(400,400,0),pop(t,te)*(1-sk),0,t>te&&t<ts+.3?1:0);eye.lastChild.setAttribute('cx',30*Math.sin(t*2));
+  eyeT.setAttribute('transform',`translate(1060 560)`);eyeT.style.opacity=t>W_('e7','noticed')-.2&&t<ts?1:0;
+  tr(brokenQ,1560,400,pop(t,tb),3*Math.sin(t*3),t>tb&&t<ts+.3?1-sk:0);
+  const wsus=[W_('e9','spark'),W_('e9','coil'),W_('e9','vacuum'),W_('e9','low'),W_('e9','mechanical')].map(x=>x-.25);
+  sus.forEach((c,i)=>{tr(c,890+i*215,430,.95*pop(t,wsus[i]),0,t>wsus[i]?1:0)})}
+ if(vis(sJ,t,T7.J,T7.K)>0){tr(rec,CX,420,.85*pop(t,T7.J),-2,1);const tf=W_('e10','first')-.2;hl.setAttribute('opacity',t>tf?1:0);recX.style.opacity=t>tf+.7?1:0;
+  recX.setAttribute('stroke-dasharray',`${380*eio(P(t,tf+.7,.3))} 999`);tr(dont,CX+330,180,pop(t,tf+.8),-6,t>tf+.8?1:0)}
+ if(vis(sK,t,T7.K,T7.L)>0){tr(store,CX,470,.85*pop(t,T7.K),0,1);const tf=W_('e11','free')-.3;tr(freeTag,CX+300,230,.8*pop(t,tf),-8+3*Math.sin(t*3),t>tf?1:0);
+  tr(freeSub,CX+290,330,1,0,t>tf+.2?1:0);const ts=W_('e12','first')-.3;tr(step1,CX-280,240,pop(t,ts),4,t>ts?1:0)}
+ if(vis(sL,t,T7.L,999)>0){const tc=W_('e13','clue')-.25,tv=W_('e13','verdict')-.25;tr(clue,1060,420,pop(t,tc),0,t>tc?1:0);clueC.style.opacity=t>tc+.3?1:0;
+  tr(verd,1540,420,pop(t,tv),0,t>tv?1:0);verdX.style.opacity=t>tv+.3?1:0}
+};
+window.DUR=153.9;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ // BMW chime: steady light on, then one ding per blink of the flashing light
+ A(DING_ON,'chime_bmw',2.0,.45);[...FL_A,...FL_C,...FL_D,...FL_G4].forEach(c=>A(c,'chime_bmw',.95,.38));
+ A(T5.A,'pop',0,.5);A(W_('c2','or')-.1,'pop',0,.5);
+ A(T5.B,'whoosh',.4,.4);[W_('c3','fault'),Gs('c4'),Gs('c5'),Gs('c6'),Gs('c7')].forEach(x=>A(x-.1,'check',0,.55));
+ A(T5.C,'whoosh',.4,.4);A(W_('c9','misfiring')-.2,'stutter',3.0,.5);A(W_('c10','burn')-.3,'zap',0,.3);A(Gs('c10'),'hiss',2.0,.35);
+ A(W_('c11','catalytic')-.3,'pop',0,.6);A(W_('c11','burns')-.2,'riserE',2.2,.4);A(W_('c12','damaged')-.2,'crack',0,.7);A(W_('c13','thousand')-.3,'thud',0,.8);
+ A(T5.D,'whoosh',.4,.4);[W_('c14','slow'),W_('c14','easy'),W_('c15','shop')].forEach(x=>A(x-.25,'pop',0,.6));A(W_('c14','slow')+.05,'tapestop',0,.4);
+ A(T5.E,'boom',0,.45);A(W_('c16','shaking')-.2,'stutter',2.0,.45);A(W_('c16','burning')-.4,'hiss',1.6,.4);A(Gs('c17')-.15,'thud',0,.8);A(W_('c17','call')-.2,'boot',0,.5);
+ A(T6.F,'whoosh',.45,.45);for(let i=0;i<5;i++)A(Gs('d2')+.3+i*.18,'tick',0,.6);A(W_('d2','expensive')-.1,'ding',0,.5);
+ [T6.G1,T6.G2,T6.G3,T6.G4,T6.G5].forEach(x=>{A(x,'whoosh',.4,.4);A(x+.1,'pop',0,.6)});
+ [W_('d4','loose'),W_('d4','cracked'),W_('d4','missing')].forEach(x=>A(x-.15,'pop',0,.55));A(W_('d4','vapor')-.2,'hiss',1.6,.4);A(W_('d4','notices')-.2,'boot',0,.45);
+ [0,1,2].forEach(i=>A(W_('d5','Tighten')+.35+i*.25,'clack',0,.7));A(W_('d6','certain')-.2,'pop',0,.5);A(W_('d7','few')-.3,'gearticks',1.2,.6);
+ A(W_('d9','air')-.2,'air',2.0,.4);A(W_('d9','dirty')-.2,'puff',.6,.4);A(W_('d9','off')-.3,'alarm',0,.3);
+ A(W_('d11','rich')-.3,'whir',1.4,.3);A(W_('d12','wear')-.3,'tapestop',0,.4);
+ A(T6.G4+.3,'zap',0,.35);A(W_('d14','misfires')-.2,'stutter',2.0,.45);
+ A(Gs('d16'),'whoosh',.6,.45);A(W_('d18','months')-.6,'gearticks',1.5,.6);A(W_('d18','months')+.8,'crack',0,.6);
+ A(W_('d19','fixed')-.2,'check',0,.8);A(W_('d19','biggest')-.3,'thud',0,.7);A(W_('d19','biggest')+.6,'clunk',0,.6);
+ A(T7.H,'whoosh',.45,.45);A(W_('e1','P0300')-.1,'typing',.6,.7);for(let i=0;i<5;i++)A(Gs('e2')-.2+i*.08,'pop',0,.45);
+ [W_('e2','Zero'),Gs('e3'),Gs('e4')].forEach(x=>A(x-.1,'check',0,.5));A(W_('e5','P0302')-.1,'clack',0,.6);
+ A(T7.I,'whoosh',.45,.45);A(Gs('e7')-.1,'boot',0,.4);A(Gs('e8')-.1,'pop',0,.6);
+ [W_('e9','spark'),W_('e9','coil'),W_('e9','vacuum'),W_('e9','low'),W_('e9','mechanical')].forEach(x=>A(x-.25,'pop',0,.6));
+ A(T7.J,'whoosh',.4,.4);A(W_('e10','first')+.7,'clunk',0,.6);A(T7.K,'whoosh',.4,.4);A(W_('e11','free')-.3,'ding',0,.6);A(W_('e12','first')-.3,'check',0,.7);
+ A(T7.L,'whoosh',.4,.4);A(W_('e13','clue')-.25,'check',0,.8);A(W_('e13','verdict')-.25,'thud',0,.7);
+ return E})();
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>

@@ -32,8 +32,9 @@ svg{position:absolute;inset:0}
 <script src="guy.js"></script>
 <script src="mouth_03_04.js"></script>
 <script src="lib.js"></script>
+<script src="align_03_04.js"></script>
 <script>
-buildCaptions({
+buildCaptionsA({
  b1:[[0.06,1.50,"This system has a *name.*"]],
  b2:[[1.95,2.90,"*OBD-II,*"],[3.25,6.35,"short for *on board diagnostics,* second generation."]],
  b3:[[6.90,8.19,"*California* pushed for it,"],[8.36,11.06,"and starting with the *1996* model year,"]],
@@ -55,10 +56,10 @@ buildCaptions({
  b19:[[66.46,67.67,"It works the *other way* too."]],
  b20:[[68.16,68.97,"*Fix* the problem,"],[69.08,73.91,"and on many cars the light turns itself off after about *three clean drives* in a row."]],
  b21:[[74.32,76.64,"The code stays in *memory* for a while longer,"],[76.82,78.73,"so a mechanic can still see *what happened.*"]],
-});
+},window.ALIGN);
 const Gs=id=>groups.find(x=>x.id===id).start;
 const CX=1290;
-const T_ON=65.55, T_OFF=W_('b20','row')+.1;
+const T_ON=WL_('b18','on')-.05, T_OFF=W_('b20','row')+.1;
 // section bounds
 const S_NAME=[-1,6.75],S_LAW=[6.75,19.75],S_PORT=[19.75,28.3],S_CODE=[28.3,48.75],S_DYK=[48.75,51.4],S_DRV=[51.4,99];
 
@@ -106,7 +107,7 @@ el('path',{d:'M-300 -230 A300 120 0 0 0 300 -230',fill:'none','stroke-width':40,
 const wheelHi=el('circle',{cx:260,cy:-200,r:180,fill:'none',stroke:LIME,'stroke-width':6,'stroke-dasharray':'14 12',opacity:0},dashIn);
 txt(dashIn,-300,-150,26,'mic mut','UNDER THE DASH');
 const port=g(dashIn,{transform:'translate(-60 70)'});el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',fill:'#0B0B0E'},port);el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',fill:'none','stroke-width':6,class:'sMut'},port);
-const pins=[];for(let r=0;r<2;r++)for(let i=0;i<8;i++)pins.push(el('rect',{x:-84+i*22+r*6,y:-30+r*40,width:11,height:22,rx:3,fill:'#3A3A46'},port));
+const pins=[];for(let r=0;r<2;r++)for(let i=0;i<8;i++)pins.push(el('rect',{x:r?-76+i*19.5:-84+i*22,y:-30+r*40,width:11,height:22,rx:3,fill:'#3A3A46'},port));
 const pinCount=txt(dashV,0,0,40,'bold acc','');
 const plug=g(dashIn);el('rect',{x:-80,y:-44,width:160,height:88,rx:16,fill:CHALK},plug);el('rect',{x:-30,y:44,width:60,height:30,rx:6,fill:CHALK},plug);
 const cable=el('path',{fill:'none','stroke-width':14,stroke:CHALK,'stroke-linecap':'round'},dashIn);dashIn.insertBefore(cable,plug);

@@ -125,3 +125,9 @@ Gerçek marka logoları ve markaya özgü gösterge paneli tasarımları kullan�
 ## Sonraki adımlar
 - Video 02: sirkülasyon düğmesi. Önce senaryo (düz metin), sonra kullanıcı ElevenLabs mp3'ünü gönderir.
 - Kullanıcı 16:9 uzun video fikrini de konuştu: motor lambası konusu 5 ile 7 dakika (yaklaşık 1.000 kelime) taşır. Bölümler: kanca, OBD-II geçmişi (ABD'de 1996 model yılından beri zorunlu), ECU ve bekleyen kod mantığı, sabit yanma ve yanıp sönme, en sık 5 sebep, P0300 kodunun çözümü, kodu silip muayeneye gitme hatası (izleme testleri sıfırlanır), kontrol listesi, kapanış.
+
+## Uzun video 01 (16:9): check engine light, BİTTİ (6:42)
+- Klasör: `wtc/long01/`. Not ve akış: `wtc/long01/script.md`. Anlatıcı karakter `guy.js`, ortak kod `lib.js`.
+- Zamanlama artık **kelime kelime hizalama** ile: `python3 align.py ses.mp3 metin.txt align_x.json` (pocketsphinx, model paketin içinde). Sahnede `buildCaptionsA(G, window.ALIGN)`. Sözlükte olmayan kelimeler `align.py` içindeki SUBS ile verilir.
+- Birleştirme: `parts.json` + `./build.sh cikti.mp4`. Tüm video için tek kesintisiz müzik (`master_audio.py`), parçalar arası 0,35 sn görüntü geçişi.
+- Kapanışta "Next time" yok.

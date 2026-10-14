@@ -62,3 +62,22 @@ const REST={L:{x:-195,y:350,shape:'fist'},R:{x:195,y:350,shape:'fist'}};
 function poser(POSE,KEYS){return t=>{let i=0;while(i<KEYS.length-1&&t>=KEYS[i+1][0])i++;const prev=POSE[KEYS[Math.max(0,i-1)][1]],cur=POSE[KEYS[i][1]];const k=eio(P(t,KEYS[i][0],.38));
   const mixH=(a,b)=>({x:lerp(a.x,b.x,k),y:lerp(a.y,b.y,k),shape:k<.5?a.shape:b.shape,rot:k>.5?b.rot:a.rot});
   return {L:mixH(prev.L,cur.L),R:mixH(prev.R,cur.R),name:KEYS[i][1]}}}
+
+// ---------- captions timed from forced alignment (align.py) ----------
+// G: {id:[[s,e,"text *emph*"],...]} (s/e ignored) ; A: [[word,start,end],...] in script order
+const WL={};const WL_=(id,w)=>{const k=id+':'+w;if(!(k in WL))throw new Error('no word '+k);return WL[k]};
+const DIG=['zero','one','two','three','four','five','six','seven','eight','nine'];
+function spoken(tok){let t=tok.toLowerCase().replace(/\*/g,'').replace(/[.,:?!;"]/g,'');
+  const map={'1996':['nineteen','ninety','six'],'16':['sixteen'],'obd-ii':['o','b','d','two'],'ecu':['e','c','u'],'$1,000':['thousand']};
+  if(map[t])return map[t];let m=t.match(/^p(\d{4})$/);if(m)return ['p',...m[1].split('').map(d=>DIG[+d])];
+  t=t.replace(/[^a-z']/g,'');return t?[t]:[]}
+function buildCaptionsA(G,A){const AW=A.map(([w,s,e])=>[w.replace(/\(\d+\)$/,''),s,e]);let k=0,last=0;
+  Object.keys(G).forEach(id=>{const div=document.createElement('div');div.className='grp';cap.appendChild(div);const words=[];let emph=false;
+    G[id].forEach(seg=>{const tx=typeof seg==='string'?seg:seg[2];tx.split(' ').forEach(tok=>{let st=tok.startsWith('*');if(st){emph=true;tok=tok.slice(1)}let en=tok.endsWith('*');if(en)tok=tok.slice(0,-1);
+      const sp=spoken(tok);let ts=last;
+      if(sp.length){let j=k;while(j<Math.min(AW.length,k+4)&&AW[j][0]!==sp[0])j++;if(j<AW.length&&AW[j][0]===sp[0])k=j;else console.warn('align miss',id,tok,AW[k]&&AW[k][0]);
+        if(k<AW.length){ts=AW[k][1];k+=sp.length;last=ts}}
+      const span=document.createElement('span');span.className='w'+(emph?' e':'');span.textContent=tok;div.appendChild(span);words.push({span,ts});
+      const key=id+':'+tok.replace(/[.,:?]/g,'');if(!(key in WT))WT[key]=ts;WL[key]=ts;if(en)emph=false})});
+    groups.push({id,div,words,start:words[0].ts-.05})});
+  groups.forEach((gr,i)=>{gr.end=i<groups.length-1?groups[i+1].start:99})}

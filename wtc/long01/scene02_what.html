@@ -32,9 +32,10 @@ svg{position:absolute;inset:0}
 <script src="guy.js"></script>
 <script src="mouth_02_what.js"></script>
 <script src="lib.js"></script>
+<script src="align_02_what.js"></script>
 <script>
 // ---------- captions (02_what.mp3) ----------
-buildCaptions({
+buildCaptionsA({
  a1:[[0.07,1.98,"First, what is this *thing?*"]],
  a2:[[2.43,5.36,"Officially it's called the *malfunction indicator lamp,*"],[5.65,7.75,"but everyone calls it the *check engine light.*"]],
  a3:[[8.33,9.72,"Your car has a *computer,*"],[9.95,11.57,"often called the *ECU.*"]],
@@ -48,7 +49,7 @@ buildCaptions({
  a11:[[32.13,35.73,"That's also why you see it glow for a moment every time you *start* the car."]],
  a12:[[36.13,37.18,"That's a *bulb check.*"]],
  a13:[[37.50,39.52,"If it goes out once the engine is *running,*"],[39.72,40.55,"everything is *fine.*"]],
-});
+},window.ALIGN);
 const T_ON=W_('a10','on')-.05, T_START=W_('a11','start')-.03;
 const CH=[T_ON,T_START];
 const T_CAR=8.1,T_CLU=31.9;
@@ -158,7 +159,7 @@ window.render=function(t){
   const te=W_('a3','computer')-.2;const ek=back(P(t,te,.45));const hb=Math.pow(Math.max(0,Math.sin(t*5.2)),12);
   ecu.setAttribute('transform',`translate(600 150) scale(${ek*(1+.08*hb)})`);ecuGlow.setAttribute('opacity',t>te?.25+.35*hb:0);
   const tl=W_('a3','ECU')-.2;const ck=back(P(t,tl,.4));tr(ecuCall,1140,110,ck,0,Math.min(v,cl(P(t,tl,.15))));
-  const ex=1360+100,ey=370-50;ecuLine.setAttribute('d',`M1140 162 L1140 ${lerp(162,ey,ck)} L${lerp(1140,ex,cl(ck))} ${ey}`);ecuLine.style.opacity=Math.min(v,cl(P(t,tl+.2,.3)))*.8;ecuLine.style.display=t>tl?'':'none';
+  const ex=1360+100,ey=370-50-58;ecuLine.setAttribute('d',`M1140 162 L1140 ${lerp(162,ey,ck)} L${lerp(1140,ex,cl(ck))} ${ey}`);ecuLine.style.opacity=Math.min(v,cl(P(t,tl+.2,.3)))*.8;ecuLine.style.display=t>tl?'':'none';
   // dozens of sensors flicker
   const td=W_('a4','dozens')-.1;dots.forEach((d,i)=>{const st=td+i*.035;const k=P(t,st,.25);d.setAttribute('opacity',t>st&&t<td+2.2?(.9*(1-k*.6)):0)});
   // key sensors
