@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+html,body{margin:0;background:#121216}#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#121216}svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:#F4F1EA}.acc{fill:#D4FF3A}.card{fill:#22222A}.bgf{fill:#121216}.mut{fill:#8A8A96}.lin{fill:#30303A}
+.sInk{stroke:#F4F1EA}.sAcc{stroke:#D4FF3A}.sMut{stroke:#8A8A96}.sLine{stroke:#30303A}
+</style></head><body><div id="stage"><svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080"><defs>
+<radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC94A" stop-opacity=".9"/><stop offset=".5" stop-color="#FFB000" stop-opacity=".3"/><stop offset="1" stop-color="#FFB000" stop-opacity="0"/></radialGradient>
+<radialGradient id="redglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF3D5A" stop-opacity=".55"/><stop offset="1" stop-color="#FF3D5A" stop-opacity="0"/></radialGradient>
+<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".7"/></filter>
+</defs></svg><div id="cap"></div></div>
+<script src="../brand.js"></script><script src="guy.js"></script><script src="lib.js"></script>
+<script>
+const V_=new URLSearchParams(location.search).get('v')||'a';
+const T=(x,y,s,c,str)=>{const t=el('text',{x,y,'text-anchor':'middle','font-size':s,fill:c,style:'font-family:WTC;font-weight:800;font-stretch:75%;letter-spacing:-.01em',filter:'url(#sh)'});t.textContent=str;return t};
+const wm=el('text',{x:60,y:96,'font-size':60,style:'font-family:WTC;font-weight:800;font-stretch:75%'});[['WHAT THE ','#F4F1EA'],['CAR','#D4FF3A'],['?','#FF3D5A']].forEach(([s,c])=>{const sp=el('tspan',{fill:c},wm);sp.textContent=s});
+if(V_==='a'){ // driver's view: dashboard, glowing light, hands on the wheel
+  el('rect',{width:1920,height:1080,fill:'#16161B'});
+  const c=makeCluster(svg);c.setAttribute('transform','translate(960 640) scale(1.75)');c.L.set(.38);c.R.set(.24);c.lamp.set(1);
+  el('circle',{cx:960,cy:622,r:300,fill:'url(#halo)'});const lp=engineLamp(svg);lp.set(1);lp.setAttribute('transform','translate(960 622) scale(.78)');lp.p.setAttribute('stroke','#FFE08A');lp.p.setAttribute('stroke-width',6);
+  el('circle',{cx:960,cy:1750,r:760,fill:'none','stroke-width':110,stroke:'#22222A'});
+  [[-1,500],[1,1420]].forEach(([s,x])=>{const h=el('g',{transform:`translate(${960+s*560} 1090) rotate(${s*-45})`});el('rect',{x:-90,y:-70,width:180,height:150,rx:60,fill:'#E7B28C'},h);[-54,-18,18,54].forEach(dx=>el('rect',{x:dx-16,y:-96,width:32,height:60,rx:16,fill:'#E7B28C'},h))});
+  const t=el('text',{x:960,y:250,'text-anchor':'middle','font-size':190,style:'font-family:WTC;font-weight:800;font-stretch:75%',filter:'url(#sh)'});[['STOP ','#FF3D5A'],['OR ','#F4F1EA'],['DRIVE?','#D4FF3A']].forEach(([a,c])=>{const sp=el('tspan',{fill:c},t);sp.textContent=a});
+}else{ // solid vs flashing split
+  el('rect',{x:0,y:0,width:960,height:1080,fill:'#15171A'});el('rect',{x:960,y:0,width:960,height:1080,fill:'#1E1216'});el('circle',{cx:1440,cy:560,r:460,fill:'url(#redglow)'});
+  const L1=engineLamp(svg);L1.set(1);L1.setAttribute('transform','translate(470 560) scale(1.45)');
+  el('circle',{cx:1440,cy:560,r:320,fill:'url(#halo)'});const L2=engineLamp(svg);L2.set(1);L2.setAttribute('transform','translate(1440 560) scale(1.45)');
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;if(Math.abs(Math.sin(a))>.6)continue;el('line',{x1:1440+Math.cos(a)*300,y1:560+Math.sin(a)*300,x2:1440+Math.cos(a)*400,y2:560+Math.sin(a)*400,stroke:i%2?'#FF3D5A':'#FFB000','stroke-width':16,'stroke-linecap':'round'})}
+  T(470,250,150,'#D4FF3A','SOLID');T(1440,250,150,'#FF3D5A','FLASHING');
+  const ok=el('g',{transform:'translate(470 900)'});el('rect',{x:-210,y:-56,width:420,height:112,rx:56,fill:'#D4FF3A'},ok);T(0,0,0,'','');const o=el('text',{y:26,'text-anchor':'middle','font-size':72,fill:'#121216',style:'font-family:WTC;font-weight:800;font-stretch:75%'},ok);o.textContent='DRIVE';
+  const no=el('g',{transform:'translate(1440 900)'});el('rect',{x:-210,y:-56,width:420,height:112,rx:56,fill:'#FF3D5A'},no);const n=el('text',{y:26,'text-anchor':'middle','font-size':72,fill:'#F4F1EA',style:'font-family:WTC;font-weight:800;font-stretch:75%'},no);n.textContent='STOP';
+  el('rect',{x:952,y:0,width:16,height:1080,fill:'#F4F1EA',opacity:.9});
+  const vs=el('g',{transform:'translate(960 560)'});el('circle',{r:90,fill:'#121216',stroke:'#F4F1EA','stroke-width':10},vs);const vt=el('text',{y:30,'text-anchor':'middle','font-size':84,fill:'#F4F1EA',style:'font-family:WTC;font-weight:800;font-stretch:75%'},vs);vt.textContent='VS';
+  wm.setAttribute('y',1040);wm.setAttribute('x',60);wm.setAttribute('font-size',44);
+}
+svg.appendChild(wm);window.render=()=>{};window.__ready=document.fonts.ready.then(()=>true);
+</script></body></html>
