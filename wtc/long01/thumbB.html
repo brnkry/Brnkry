@@ -7,7 +7,7 @@ html,body{margin:0;background:#121216}#stage{position:relative;width:1920px;heig
 </style></head><body><div id="stage"><svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080"><defs>
 <radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC94A" stop-opacity=".9"/><stop offset=".5" stop-color="#FFB000" stop-opacity=".3"/><stop offset="1" stop-color="#FFB000" stop-opacity="0"/></radialGradient>
 <radialGradient id="redglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF3D5A" stop-opacity=".55"/><stop offset="1" stop-color="#FF3D5A" stop-opacity="0"/></radialGradient>
-<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".7"/></filter>
+<filter id="blurbg" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter><filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".7"/></filter>
 </defs></svg><div id="cap"></div></div>
 <script src="../brand.js"></script><script src="guy.js"></script><script src="lib.js"></script>
 <script>
@@ -24,7 +24,7 @@ if(V_==='a'){ // driver's view: dashboard, glowing light, hands on the wheel
 }else if(V_==='c'){ // narrator + gauges behind + the light in front
   el('rect',{width:1920,height:1080,fill:'#121216'});
   const gl=el('radialGradient',{id:'g2',cx:'.65',cy:'.6',r:'.55'},svg.querySelector('defs'));el('stop',{offset:0,'stop-color':'#FFB000','stop-opacity':.4},gl);el('stop',{offset:1,'stop-color':'#121216','stop-opacity':0},gl);el('rect',{width:1920,height:1080,fill:'url(#g2)'});
-  const c=makeCluster(svg);c.setAttribute('transform','translate(1240 640) scale(1.48)');c.L.set(.38);c.R.set(.24);c.lamp.set(0);c.lamp.p.setAttribute('opacity',0);
+  const c=makeCluster(svg);c.setAttribute('transform','translate(1240 640) scale(1.48)');c.L.set(.38);c.R.set(.24);c.lamp.set(0);c.lamp.p.setAttribute('opacity',0);c.setAttribute('filter','url(#blurbg)');c.setAttribute('opacity',.9);
   el('circle',{cx:1240,cy:620,r:400,fill:'url(#halo)',opacity:.95});
   const lp=engineLamp(svg);lp.set(1);lp.glow.setAttribute('opacity',0);lp.setAttribute('transform','translate(1225 615) scale(1.5)');lp.p.setAttribute('stroke','#FFE08A');lp.p.setAttribute('stroke-width',5);lp.setAttribute('filter','url(#sh)');
   const gG=el('g',{transform:'translate(330 1130) scale(2.15)',filter:'url(#sh)'});const guy=makeGuy(gG);
