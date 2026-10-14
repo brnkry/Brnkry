@@ -40,3 +40,6 @@ Now you know more about this light than most drivers on the road. Has it ever co
 - 16:9 düzen: altyazı altta (left 210, top 892, 1500 genişlik, 62px), sağ üstte küçük wordmark, görsel alan y 80..860.
 - Parça 02 bitti: `scene02_what.html` (ortak kod `lib.js`, karakter `guy.js`, dudak senkronu `mouth.py`). Ses `02_what.mp3` ("E C U" harf harf yazıldı). Encode: `./encode.sh frames_x mix_x.wav out.mp4`.
 - Birleştirme: 1. parçaya dokunmadan, 0,35 sn xfade + acrossfade ile `01_02.mp4`. Sonraki parça da aynı şekilde sona eklenir (offset = önceki toplam süre - 0,35).
+- Parça 03+04 bitti: tek ses dosyası `03_04.mp3`, sahne `scene03_04.html`. Birleşik kesit `01_04.mp4` (2:37).
+- Dikkat: W_(grup,kelime) bir kelimenin gruptaki İLK geçişini döndürür ("on" gibi tekrar eden kelimelerde zamanı elle ver).
+- Lamba 04'te ding ile yanıp 3 temiz sürüşe kadar yanık kalıyor (ses gelmeden asla yanmaz kuralı korunuyor).

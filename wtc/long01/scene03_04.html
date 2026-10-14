@@ -1,0 +1,278 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:720px;top:892px;width:1140px;height:150px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+ </defs>
+</svg>
+<div id="flash"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="guy.js"></script>
+<script src="mouth_03_04.js"></script>
+<script src="lib.js"></script>
+<script>
+buildCaptions({
+ b1:[[0.06,1.50,"This system has a *name.*"]],
+ b2:[[1.95,2.90,"*OBD-II,*"],[3.25,6.35,"short for *on board diagnostics,* second generation."]],
+ b3:[[6.90,8.19,"*California* pushed for it,"],[8.36,11.06,"and starting with the *1996* model year,"]],
+ b4:[[11.17,14.61,"every new car and light truck sold in the US had to *have it.*"]],
+ b5:[[14.91,16.37,"That's *great news* for you,"],[16.58,19.33,"because it means all of these cars speak the *same language.*"]],
+ b6:[[19.96,21.50,"Somewhere under your *dashboard,*"],[21.65,23.01,"usually near the *steering wheel,*"]],
+ b7:[[23.07,25.25,"there's a small *16 pin port.*"]],
+ b8:[[25.80,26.68,"Plug a *scanner* in,"],[26.86,28.25,"and the car tells you its *codes.*"]],
+ b9:[[28.31,30.55,"Every code has *five characters.*"]],
+ b10:[[30.62,33.18,"The first letter *P* means *powertrain,*"],[33.27,35.63,"so the engine and transmission."]],
+ b11:[[35.99,37.90,"The next digit tells you *who wrote* the code."]],
+ b12:[[37.97,40.90,"A *zero* means it's a standard code"],[40.99,42.94,"that means the same thing on *every car.*"]],
+ b13:[[43.30,45.58,"A *one* means the *carmaker* added it."]],
+ b14:[[46.08,48.34,"The last three characters *narrow down* the problem."]],
+ b15:[[48.97,51.06,"Now here's something most drivers *don't know.*"]],
+ b16:[[51.46,52.56,"For many problems,"],[52.67,55.45,"the light doesn't come on the *first time* something looks wrong."]],
+ b17:[[55.82,57.88,"The computer saves a *pending code,*"],[58.11,59.87,"keeps the light *off,* and waits."]],
+ b18:[[60.15,62.84,"If the same fault shows up again on the *next drive,*"],[63.10,64.19,"the code is *confirmed,*"],[64.42,65.87,"and that's when the light comes *on.*"]],
+ b19:[[66.46,67.67,"It works the *other way* too."]],
+ b20:[[68.16,68.97,"*Fix* the problem,"],[69.08,73.91,"and on many cars the light turns itself off after about *three clean drives* in a row."]],
+ b21:[[74.32,76.64,"The code stays in *memory* for a while longer,"],[76.82,78.73,"so a mechanic can still see *what happened.*"]],
+});
+const Gs=id=>groups.find(x=>x.id===id).start;
+const CX=1290;
+const T_ON=65.55, T_OFF=W_('b20','row')+.1;
+// section bounds
+const S_NAME=[-1,6.75],S_LAW=[6.75,19.75],S_PORT=[19.75,28.3],S_CODE=[28.3,48.75],S_DYK=[48.75,51.4],S_DRV=[51.4,99];
+
+const studio=makeStudio();const guy=studio.guy;
+const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:.6});
+[['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
+const flash=document.getElementById('flash');
+
+// ---------- small icons ----------
+function vehicle(parent,kind){const v=g(parent);
+  if(kind==='car'){makeCar(v,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','scale(.2)')}
+  else{const d=kind==='suv'?'M-100 26 L-100 -34 Q-96 -54 -76 -54 L48 -54 L82 -18 L100 -12 L100 26 Z':'M-100 26 L-100 -6 L-22 -6 L-14 -50 L36 -50 L58 -14 L100 -10 L100 26 Z';
+    el('path',{d,fill:CHALK},v);el('path',{d:kind==='suv'?'M-84 -44 L40 -44 L64 -18 L-84 -18 Z':'M-6 -42 L32 -42 L48 -16 L-6 -16 Z',fill:ASPH},v);
+    [-58,60].forEach(x=>{el('circle',{cx:x,cy:28,r:20,fill:ASPH},v);el('circle',{cx:x,cy:28,r:8,fill:CHALK},v)})}
+  return v}
+function iconGear(p){const gg=g(p);el('path',{d:'M-30 -30 v60 M0 -30 v60 M30 -30 v60 M-30 0 h60',stroke:'currentColor','stroke-width':10,'stroke-linecap':'round',fill:'none'},gg);el('circle',{cx:30,cy:-30,r:14,fill:'currentColor'},gg);return gg}
+function iconFactory(p){const f=g(p);el('path',{d:'M-60 40 L-60 -10 L-30 -30 L-30 -10 L0 -30 L0 -10 L30 -30 L30 -60 L48 -60 L48 40 Z',fill:'currentColor'},f);[-40,-10,20].forEach(x=>el('rect',{x,y:8,width:16,height:16,fill:ASPH},f));return f}
+function iconWrench(p){const w=g(p);el('path',{d:'M-46 46 L10 -10 A28 28 0 1 1 26 6 Z',fill:'currentColor'},w);el('circle',{cx:28,cy:-16,r:10,fill:ASPH},w);return w}
+function scanner(parent){const s=g(parent);el('rect',{x:-110,y:-140,width:220,height:280,rx:28,fill:CHALK},s);el('rect',{x:-90,y:-118,width:180,height:130,rx:12,fill:'#0B0B0E'},s);
+  s.t=el('text',{x:0,y:-46,'text-anchor':'middle','font-size':46,class:'bold',fill:AMBER},s);s.s=el('text',{x:0,y:-8,'text-anchor':'middle','font-size':18,class:'mic',fill:H.smoke},s);
+  [[-46,56],[0,56],[46,56],[-46,100],[0,100],[46,100]].forEach(([x,y])=>el('circle',{cx:x,cy:y,r:14,class:'mut'},s));return s}
+
+// ---------- V1: name tag + expansion ----------
+const tagG=g();el('rect',{x:-330,y:-200,width:660,height:400,rx:36,fill:RED},tagG);el('rect',{x:-300,y:-70,width:600,height:240,rx:20,fill:CHALK},tagG);
+txt(tagG,0,-120,72,'bold ink','HELLO');txt(tagG,0,-82,26,'mic ink','MY NAME IS');const tagName=txt(tagG,0,92,150,'bold','');tagName.setAttribute('fill',ASPH);
+const rows=[['O','ON'],['B','BOARD'],['D','DIAGNOSTICS'],['II','SECOND GENERATION']].map(([l,w],i)=>{const r=g();const bx=el('rect',{x:-28,y:-36,width:l.length>1?96:72,height:72,rx:16,fill:LIME},r);
+  txt(r,l.length>1?20:8,22,56,'bold bgf',l);const wt=txt(r,l.length>1?96:76,18,48,'mic ink',w,'start');return {r,wt}});
+
+// ---------- V2: California, 1996, every car ----------
+const caG=g();el('circle',{r:120,fill:'none',stroke:LIME,'stroke-width':8},caG);txt(caG,0,24,96,'bold acc','CA');
+const caLab=txt(caG,0,170,30,'mic ink','CALIFORNIA');const caSub=txt(caG,0,206,20,'mic mut','AIR RESOURCES BOARD');
+const yearG=g();const yearT=txt(yearG,0,40,190,'bold ink','1988');txt(yearG,0,100,30,'mic mut','MODEL YEAR');
+const fleet=['car','suv','pickup'].map((k,i)=>{const f=g();const v=vehicle(f,k);const badge=g(f,{transform:'translate(0 -110)'});el('rect',{x:-90,y:-26,width:180,height:52,rx:26,fill:LIME},badge);txt(badge,0,9,26,'mic bgf','OBD-II ✓');
+  const say=g(f,{transform:'translate(0 -120)'});el('path',{d:'M-90 -40 h180 a20 20 0 0 1 20 20 v40 a20 20 0 0 1 -20 20 h-70 l-20 24 l-20 -24 h-70 a20 20 0 0 1 -20 -20 v-40 a20 20 0 0 1 20 -20 Z',class:'card'},say);txt(say,0,12,36,'bold',"P0171").setAttribute('fill',AMBER);
+  return {f,v,badge,say}});
+const usaPill=g();el('rect',{x:-330,y:-34,width:660,height:68,rx:34,class:'card'},usaPill);txt(usaPill,0,11,26,'mic ink','EVERY NEW CAR & LIGHT TRUCK · USA');
+const samePill=g();el('rect',{x:-200,y:-36,width:400,height:72,rx:36,fill:LIME},samePill);txt(samePill,0,11,30,'mic bgf','ONE LANGUAGE');
+
+// ---------- V3: under the dash, 16 pin port, scanner ----------
+const dashV=g();const dashIn=g(dashV);
+el('path',{d:'M-520 -260 L520 -260 L520 -40 Q300 10 120 0 L-520 0 Z',class:'card'},dashIn);
+el('path',{d:'M-520 0 L120 0 Q300 10 520 -40',fill:'none',stroke:'#3A3A46','stroke-width':5},dashIn);
+const column=g(dashIn,{transform:'translate(260 -60)'});el('path',{d:'M-60 -200 L60 -200 L44 70 L-44 70 Z',fill:'#2A2A33'},column);
+el('path',{d:'M-300 -230 A300 120 0 0 0 300 -230',fill:'none','stroke-width':40,stroke:'#2A2A33','stroke-linecap':'round'},column);
+const wheelHi=el('circle',{cx:260,cy:-200,r:180,fill:'none',stroke:LIME,'stroke-width':6,'stroke-dasharray':'14 12',opacity:0},dashIn);
+txt(dashIn,-300,-150,26,'mic mut','UNDER THE DASH');
+const port=g(dashIn,{transform:'translate(-60 70)'});el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',fill:'#0B0B0E'},port);el('path',{d:'M-110 -54 h220 l-28 108 h-164 Z',fill:'none','stroke-width':6,class:'sMut'},port);
+const pins=[];for(let r=0;r<2;r++)for(let i=0;i<8;i++)pins.push(el('rect',{x:-84+i*22+r*6,y:-30+r*40,width:11,height:22,rx:3,fill:'#3A3A46'},port));
+const pinCount=txt(dashV,0,0,40,'bold acc','');
+const plug=g(dashIn);el('rect',{x:-80,y:-44,width:160,height:88,rx:16,fill:CHALK},plug);el('rect',{x:-30,y:44,width:60,height:30,rx:6,fill:CHALK},plug);
+const cable=el('path',{fill:'none','stroke-width':14,stroke:CHALK,'stroke-linecap':'round'},dashIn);dashIn.insertBefore(cable,plug);
+const scan=scanner(dashV);
+
+// ---------- V4: code anatomy ----------
+const codeG=g();const BOXX=i=>(i-2)*170;
+const boxes='P0171'.split('').map((ch,i)=>{const b=g(codeG);const r=el('rect',{x:-70,y:-90,width:140,height:180,rx:24,class:'card'},b);const ed=el('rect',{x:-70,y:-90,width:140,height:180,rx:24,fill:'none','stroke-width':6,stroke:LIME,opacity:0},b);
+  const t=txt(b,0,44,130,'bold ink',ch);return {b,r,ed,t}});
+const info=g();const infoT=txt(info,0,0,64,'bold acc','');const infoS=txt(info,0,52,28,'mic ink','');
+const ptIcons=g(info,{transform:'translate(0 140)'});const icEng=g(ptIcons,{transform:'translate(-140 0)'});el('path',{d:LAMP_D,fill:CHALK,transform:'scale(.3)'},icEng);
+const icGear=g(ptIcons,{transform:'translate(140 0)'});iconGear(icGear).style.color=CHALK;
+const bcu=txt(info,0,250,22,'mic mut','OTHER LETTERS:  B BODY  ·  C CHASSIS  ·  U NETWORK');
+const stdCars=[0,1,2].map(i=>{const c=g(info,{transform:`translate(${(i-1)*230} 150)`});vehicle(c,['car','suv','pickup'][i]);const ch=g(c,{transform:'translate(0 -84)'});el('rect',{x:-70,y:-22,width:140,height:44,rx:22,class:'card'},ch);txt(ch,0,10,26,'bold',"P0171").setAttribute('fill',AMBER);return c});
+const fac=g(info,{transform:'translate(0 160)'});iconFactory(fac).style.color=AMBER;
+const funnel=g();[['FUEL & AIR METERING',540,0],['SYSTEM TOO LEAN',380,120]].forEach(([s,w,y],i)=>{const r=g(funnel,{transform:`translate(0 ${y})`});el('rect',{x:-w/2,y:-36,width:w,height:72,rx:36,fill:i?RED:'#2A2A33'},r);txt(r,0,11,28,'mic ink',s);r.classList.add('fr'+i)});
+el('path',{d:'M-20 46 L0 74 L20 46',fill:'none',stroke:CHALK,'stroke-width':6,'stroke-linecap':'round'},funnel);
+const fr=[funnel.querySelector('.fr0'),funnel.querySelector('.fr1')];
+
+// ---------- V5: did you know ----------
+const dyk=g();el('rect',{x:-300,y:-130,width:600,height:260,rx:40,fill:LIME},dyk);
+const bulb=g(dyk,{transform:'translate(-180 0)'});el('circle',{cx:0,cy:-14,r:46,fill:ASPH},bulb);el('rect',{x:-22,y:30,width:44,height:34,rx:6,fill:ASPH},bulb);
+const rays=[...Array(6)].map((_,i)=>el('rect',{x:-4,y:-100,width:8,height:24,rx:4,fill:ASPH,transform:`rotate(${-75+i*30} 0 -14)`},bulb));
+txt(dyk,60,-8,64,'bold bgf','DID YOU');txt(dyk,60,58,64,'bold bgf','KNOW?');
+
+// ---------- V6: the drive cycle logic ----------
+const drv=g();const DX=i=>CX-360+i*180;
+const cards=[0,1,2,3,4].map(i=>{const c=g(drv,{transform:`translate(${DX(i)} 230)`});const bg=el('rect',{x:-78,y:-62,width:156,height:124,rx:22,class:'card'},c);const ed=el('rect',{x:-78,y:-62,width:156,height:124,rx:22,fill:'none','stroke-width':5,stroke:LIME,opacity:0},c);
+  const v=g(c,{transform:'translate(0 -10)'});makeCar(v,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','scale(.11)');txt(c,0,46,20,'mic mut','DRIVE '+(i+1));
+  const bad=g(c,{transform:'translate(56 -56)'});el('circle',{r:24,fill:RED},bad);txt(bad,0,10,32,'bold ink','!');
+  const ok=g(c,{transform:'translate(56 -56)'});el('circle',{r:24,fill:LIME},ok);el('path',{d:'M-11 0 l7 8 l14 -16',fill:'none',stroke:ASPH,'stroke-width':6,'stroke-linecap':'round'},ok);
+  const num=txt(c,-56,-38,26,'bold acc','');return {c,ed,bad,ok,num}});
+const mem=g(drv,{transform:'translate(1070 520)'});el('rect',{x:-230,y:-110,width:460,height:220,rx:30,class:'card'},mem);
+const chip=g(mem,{transform:'translate(-160 -20)'});el('rect',{x:-32,y:-32,width:64,height:64,rx:9,fill:LIME},chip);[-18,0,18].forEach(x=>{el('rect',{x:x-3,y:-44,width:6,height:12,fill:LIME},chip);el('rect',{x:x-3,y:32,width:6,height:12,fill:LIME},chip)});
+txt(mem,-200,-70,20,'mic mut','ECU MEMORY','start');const memCode=txt(mem,-100,4,66,'bold ink','','start');
+const stPill=g(mem,{transform:'translate(0 66)'});const stR=el('rect',{x:-150,y:-26,width:300,height:52,rx:26,fill:AMBER},stPill);const stT=txt(stPill,0,9,24,'mic bgf','PENDING');
+const glass=g(mem,{transform:'translate(170 -20)'});el('path',{d:'M-22 -32 h44 l-22 32 l22 32 h-44 l22 -32 Z',fill:'none',stroke:CHALK,'stroke-width':6,'stroke-linejoin':'round'},glass);
+const lampG=g(drv,{transform:'translate(1560 520)'});el('rect',{x:-170,y:-110,width:340,height:220,rx:30,class:'card'},lampG);const dLamp=engineLamp(lampG);dLamp.setAttribute('transform','translate(0 -16) scale(.42)');
+const lampLab=txt(lampG,0,84,24,'mic mut','LIGHT OFF');
+const back2=g(drv,{transform:`translate(${CX} 380)`});el('path',{d:'M-60 0 A60 60 0 1 1 0 60',fill:'none',stroke:LIME,'stroke-width':10,'stroke-linecap':'round'},back2);el('path',{d:'M-20 40 L2 62 L-22 82',fill:'none',stroke:LIME,'stroke-width':10,'stroke-linecap':'round'},back2);
+const wrench=g(drv);iconWrench(wrench).style.color=LIME;
+const reader=scanner(drv);
+
+// ---------- narrator ----------
+const SH=[612,606];
+const ptTo=(x,y,shape='point')=>{const a=Math.atan2(y-SH[1],x-SH[0]);return {L:REST.L,R:{x:182+300*Math.cos(a),y:46+300*Math.sin(a),shape}}};
+const POSE={rest:REST,open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},thumb:{L:REST.L,R:{x:320,y:140,shape:'thumb',rot:0}},
+ tag:ptTo(CX,330),rows:ptTo(CX,600),year:ptTo(CX,330),fleet:ptTo(CX,640),port:ptTo(1230,600),scan:ptTo(1640,560),boxes:ptTo(CX,330),box0:ptTo(CX+BOXX(0),330),box1:ptTo(CX+BOXX(1),330),box3:ptTo(CX+BOXX(3),330),
+ cards:ptTo(1000,240),mem:ptTo(1070,520),lamp:ptTo(1560,520),cards2:ptTo(1180,240),cards4:ptTo(1550,240)};
+const poseAt=poser(POSE,[[0,'rest'],[.15,'open'],[1.9,'tag'],[3.2,'rows'],[6.8,'open'],[8.3,'year'],[11.1,'fleet'],[14.9,'open'],[16.5,'fleet'],[19.9,'port'],[25.8,'scan'],[28.3,'boxes'],[30.6,'box0'],[35.9,'box1'],[46.0,'box3'],[48.9,'one'],[51.4,'cards'],[55.8,'mem'],[58.1,'lamp'],[60.1,'cards2'],[63.0,'mem'],[64.4,'lamp'],[66.4,'open'],[68.1,'thumb'],[69.1,'cards4'],[73.5,'lamp'],[74.3,'mem'],[78.8,'rest']]);
+
+window.render=function(t){
+ renderCaptions(t);flash.style.opacity=0;
+ {const pz=poseAt(t);const m=mouthAt(t);let smile=.55,bu=.1+.25*m,tilt=2*Math.sin(t*1.1);
+  if(t>48.9&&t<51.4){bu=.7;tilt=-5;smile=.35}
+  const pointing=!['rest','open','one','thumb'].includes(pz.name);
+  guy.set({mouth:.9*m,smile,browUp:bu,browWorry:0,eyes:blinkAt(t,3.3,.9),pupil:1,look:pointing?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt,nod:2.2*m,amber:0,hands:{L:pz.L,R:pz.R}});
+  studio.presG.setAttribute('transform',`translate(430 ${560+4*Math.sin(t*1.6)})`)}
+
+ // ---- V1 name tag ----
+ {const v=V(t,S_NAME[0],S_NAME[1],.01,.35);show(v,tagG,...rows.map(r=>r.r));if(v>0){
+  const sh=eio(P(t,3.1,.6));tr(tagG,CX,lerp(380,230,sh),lerp(1,.55,sh)*back(P(t,0,.45)),-3*(1-sh),v);
+  const tn=Gs('b2');tagName.textContent='OBD-II'.slice(0,Math.ceil(6*P(t,tn-.05,.5)));
+  const rw=[W_('b2','on'),W_('b2','board'),W_('b2','diagnostics'),W_('b2','second')];
+  rows.forEach(({r,wt},i)=>{const k=eo(P(t,rw[i]-.15,.35));tr(r,CX-200,440+i*95,1,0,Math.min(v,k));r.setAttribute('transform',`translate(${CX-200+(1-k)*-40} ${440+i*95})`)})}}
+
+ // ---- V2 California, 1996, fleet ----
+ {const v=V(t,S_LAW[0],S_LAW[1],.3,.35);show(v,caG,yearG,usaPill,samePill,...fleet.map(f=>f.f));if(v>0){
+  const tc=Gs('b3');const ty=W_('b3','1996');const cy=eio(P(t,ty-.6,.5));
+  tr(caG,CX,lerp(330,330,0),back(P(t,tc-.1,.45))*(1-cy),0,Math.min(v,1-cy));
+  const yk=P(t,ty-.6,1.0);yearT.textContent=String(Math.round(1988+8*eo(yk)));tr(yearG,CX,lerp(300,200,eio(P(t,11.0,.5))),back(P(t,ty-.6,.45))*lerp(1,.62,eio(P(t,11.0,.5))),0,Math.min(v,cl(P(t,ty-.6,.2))));
+  const tf=Gs('b4');fleet.forEach((f,i)=>{const k=back(P(t,tf+i*.25,.45));tr(f.f,CX+(i-1)*300,620,1.4*k,0,Math.min(v,cl(P(t,tf+i*.25,.2))));
+    const bt=W_('b4','have')-.6+i*.25;f.badge.style.opacity=t>bt&&t<14.8?1:0;f.badge.setAttribute('transform',`translate(0 -110) scale(${back(P(t,bt,.35))})`);
+    const st=W_('b5','same')-.9+i*.18;f.say.style.opacity=t>st?1:0;f.say.setAttribute('transform',`translate(0 -120) scale(${back(P(t,st,.35))})`);
+    f.v.setAttribute('transform',`translate(0 ${1.5*Math.sin(t*14+i)})`)});
+  tr(usaPill,CX,770,back(P(t,W_('b4','sold')-.2,.4)),0,Math.min(v,cl(P(t,W_('b4','sold')-.2,.15))*(1-P(t,W_('b5','same')-.3,.2))));
+  tr(samePill,CX,770,back(P(t,W_('b5','same')-.2,.4)),0,Math.min(v,cl(P(t,W_('b5','same')-.2,.15))));samePill.style.display=t>W_('b5','same')-.2?'':'none'}}
+
+ // ---- V3 under the dash ----
+ {const v=V(t,S_PORT[0],S_PORT[1],.35,.35);show(v,dashV);if(v>0){
+  dashV.style.opacity=v;
+  const tp=W_('b7','16')-.4;const z=eio(P(t,tp,.8));const zo=eio(P(t,Gs('b8')-.3,.6));const s=lerp(1,2.1,z)-.55*zo;
+  const fx=lerp(0,-60,z),fy=lerp(-60,70,z);
+  dashIn.setAttribute('transform',`translate(${CX-260*zo} ${430}) scale(${s}) translate(${-fx} ${-fy})`);
+  const tw=W_('b6','steering')-.2;wheelHi.setAttribute('opacity',t>tw&&t<tp?.9:0);wheelHi.setAttribute('stroke-dashoffset',-t*40);
+  const pc=P(t,tp+.4,1.0);pins.forEach((p,i)=>p.setAttribute('fill',pc*16>i?LIME:'#3A3A46'));
+  pinCount.textContent=t>tp+.4?Math.max(1,Math.ceil(16*pc))+' PINS':'';pinCount.setAttribute('transform',`translate(${CX+330} 330)`);pinCount.style.opacity=1-zo;
+  const tg=Gs('b8');const pk=eio(P(t,tg,.6));const px=-60,py=70+260*(1-pk);plug.setAttribute('transform',`translate(${px} ${py+30}) scale(.62)`);plug.style.opacity=t>tg-.3?1:0;
+  cable.setAttribute('d',`M${px} ${py+60} C ${px} ${py+260}, 520 260, 560 ${120}`);cable.style.opacity=t>tg-.3?1:0;
+  const sk=back(P(t,tg+.2,.45));tr(scan,1660,560,.85*sk,0,cl(P(t,tg+.2,.2)));
+  const tc=W_('b8','codes')-.4;scan.t.textContent=t<tc?'':'P0171'.slice(0,Math.ceil(5*P(t,tc,.6)));scan.s.textContent=t>tg+.5&&t<tc?'READING...':t>=tc+.6?'SYSTEM TOO LEAN':''}}
+
+ // ---- V4 code anatomy ----
+ {const v=V(t,S_CODE[0],S_CODE[1],.3,.35);show(v,codeG,info,funnel);if(v>0){
+  codeG.style.opacity=v;const up=eio(P(t,Gs('b10')-.2,.5));codeG.setAttribute('transform',`translate(${CX} ${lerp(380,260,up)})`);
+  const t9=W_('b9','five')-.4;
+  const hl=t<Gs('b11')-.1?[0]:t<Gs('b14')-.1?[1]:[2,3,4];const active=t>Gs('b10')-.1;
+  boxes.forEach((b,i)=>{const k=back(P(t,t9+i*.13,.4));b.b.setAttribute('transform',`translate(${BOXX(i)} ${(1-cl(k))*-60}) scale(${k})`);b.b.style.opacity=cl(P(t,t9+i*.13,.15));
+    const on=active&&hl.includes(i);b.ed.setAttribute('opacity',on?1:0);b.t.setAttribute('class',on?'bold acc':(active?'bold mut':'bold ink'))});
+  // digit flips to 1 for the carmaker line
+  const t13=Gs('b13')-.1,t14=Gs('b14')-.2;const fl=t>t13&&t<t14;const fk=t>t13&&t<t13+.3?Math.abs(Math.cos(P(t,t13,.3)*Math.PI)):(t>t14&&t<t14+.3?Math.abs(Math.cos(P(t,t14,.3)*Math.PI)):1);
+  boxes[1].t.textContent=(t>t13+.15&&t<t14+.15)?'1':'0';boxes[1].b.setAttribute('transform',`translate(${BOXX(1)} 0) scale(${fk} 1)`);
+  if(fl)boxes[1].ed.setAttribute('stroke',AMBER);else boxes[1].ed.setAttribute('stroke',LIME);
+  // info panel
+  info.setAttribute('transform',`translate(${CX} 470)`);
+  let T='',S='';const ph=t<Gs('b10')-.1?0:t<Gs('b11')-.1?1:t<Gs('b12')-.1?2:t<t13?3:t<t14?4:5;
+  if(ph===1){T='P = POWERTRAIN';S=t>Gs('b10')+3.0?'ENGINE  ·  TRANSMISSION':''}
+  if(ph===2){T='WHO WROTE IT?'}if(ph===3){T='0 = STANDARD CODE';S='SAME ON EVERY CAR'}if(ph===4){T='1 = CARMAKER CODE';S='ADDED BY THE MANUFACTURER'}
+  infoT.textContent=T;infoS.textContent=S;infoT.setAttribute('class',ph===4?'bold':'bold acc');infoT.setAttribute('fill',ph===4?AMBER:'');
+  const pIn=back(P(t,[0,Gs('b10'),Gs('b11'),Gs('b12'),t13,0][ph]-.05,.35));infoT.setAttribute('transform',`scale(${ph?pIn:0})`);
+  ptIcons.style.opacity=ph===1&&t>W_('b10','engine')-.3?1:0;ptIcons.setAttribute('transform',`translate(0 150) scale(${back(P(t,W_('b10','engine')-.3,.4))})`);
+  bcu.style.opacity=ph===1?eo(P(t,Gs('b10')+3.6,.4)):0;
+  stdCars.forEach((c,i)=>{const k=back(P(t,W_('b12','every')-.6+i*.15,.4));c.style.opacity=ph===3?cl(k):0;c.setAttribute('transform',`translate(${(i-1)*230} 170) scale(${k})`)});
+  fac.style.opacity=ph===4?1:0;fac.setAttribute('transform',`translate(0 170) scale(${1.4*back(P(t,W_('b13','carmaker')-.2,.4))})`);
+  // narrowing down
+  const tn=W_('b14','narrow')-.4;funnel.style.display=ph===5?'':'none';funnel.setAttribute('transform',`translate(${CX} 470)`);
+  fr[0].style.opacity=cl(P(t,tn,.2));fr[0].setAttribute('transform',`translate(0 0) scale(${back(P(t,tn,.4))})`);fr[1].style.opacity=cl(P(t,tn+.6,.2));fr[1].setAttribute('transform',`translate(0 120) scale(${back(P(t,tn+.6,.4))})`)}}
+
+ // ---- V5 did you know ----
+ {const v=V(t,S_DYK[0],S_DYK[1],.3,.3);show(v,dyk);if(v>0){tr(dyk,CX,400,back(P(t,S_DYK[0],.45)),-3+2*Math.sin(t*3),v);rays.forEach((r,i)=>r.style.opacity=.5+.5*Math.sin(t*10+i))}}
+
+ // ---- V6 drive logic ----
+ {const v=V(t,S_DRV[0],S_DRV[1],.35,.3);show(v,drv);if(v>0){drv.style.opacity=v;
+  const f1=W_('b16','first')-.2,f2=W_('b18','next')-.2,fix=Gs('b20')-.1;
+  const clean=[W_('b20','three')-.1,W_('b20','clean')+.05,W_('b20','drives')+.15];
+  cards.forEach((c,i)=>{const k=back(P(t,S_DRV[0]+i*.1,.4));c.c.setAttribute('transform',`translate(${DX(i)} 230) scale(${k})`);
+    const act=(i===0&&t>f1&&t<f2)||(i===1&&t>f2&&t<fix)||(i>=2&&t>clean[i-2]-.1&&t<clean[i-2]+.9);c.ed.setAttribute('opacity',act?1:0);
+    const bad=(i===0&&t>f1)||(i===1&&t>f2&&t<fix+.4);c.bad.style.opacity=bad?1:0;c.bad.setAttribute('transform',`translate(56 -56) scale(${back(P(t,i?f2:f1,.35))})`);
+    const ok=(i===1&&t>fix+.4)||(i>=2&&t>clean[i-2]);c.ok.style.opacity=ok?1:0;c.ok.setAttribute('transform',`translate(56 -56) scale(${back(P(t,i===1?fix+.4:clean[Math.max(0,i-2)],.35))})`);
+    c.num.textContent=i>=2&&t>clean[i-2]?String(i-1):''});
+  if(t<f1)cards[0].bad.style.opacity=0;
+  // memory panel
+  const tp=W_('b17','pending')-.2,tcf=W_('b18','confirmed')-.15,tm=Gs('b21')-.1;
+  memCode.textContent=t>tp?'P0171':'';
+  let st='',col=AMBER;if(t>tp){st='PENDING'}if(t>tcf){st='CONFIRMED';col=RED}if(t>T_OFF){st='HISTORY';col='#5A5A68'}
+  stPill.style.display=st?'':'none';stT.textContent=st;stR.setAttribute('fill',col);stT.setAttribute('class',col==='#5A5A68'?'mic ink':'mic bgf');
+  const pp=t>tcf?back(P(t,tcf,.35)):t>T_OFF?back(P(t,T_OFF,.35)):back(P(t,tp,.35));stPill.setAttribute('transform',`translate(0 66) scale(${pp})`);
+  glass.style.display=t>W_('b17','waits')-.2&&t<f2?'':'none';glass.setAttribute('transform',`translate(170 -20) rotate(${(Math.floor((t-56)*1.2)%2)*180})`);
+  // lamp: dark until the ding, then stays on until the third clean drive
+  const on=t>=T_ON+.03&&t<T_OFF;dLamp.set(on?1:0);lampLab.textContent=on?'LIGHT ON':'LIGHT OFF';lampLab.setAttribute('fill',on?AMBER:H.smoke);
+  lampG.setAttribute('transform',`translate(1560 520) scale(${t>W_('b17','off')-.2&&t<W_('b17','off')+.4?1+.06*Math.sin(P(t,W_('b17','off')-.2,.6)*Math.PI):1})`);
+  if(t>T_ON&&t<T_ON+.35)flash.style.opacity=.18*(1-P(t,T_ON,.35));
+  // other way around + wrench
+  const tb=Gs('b19');back2.style.opacity=t>tb-.1&&t<fix?1:0;back2.setAttribute('transform',`translate(${CX} 400) rotate(${-200*eio(P(t,tb,.8))}) scale(${back(P(t,tb-.1,.4))})`);
+  const wk=P(t,fix,.8);wrench.style.display=t>fix-.1&&t<fix+1.2?'':'none';wrench.setAttribute('transform',`translate(${DX(1)+60} 160) rotate(${-30+40*Math.sin(wk*Math.PI*3)}) scale(1.1)`);
+  // mechanic's scanner still sees it
+  const tr2=W_('b21','mechanic')-.3;reader.style.display=t>tr2?'':'none';tr(reader,1560,520,.78*back(P(t,tr2,.45)),0,1);
+  reader.t.textContent=t>tr2+.4?'P0171':'';reader.s.textContent=t>tr2+.8?'STORED · HISTORY':''}}
+};
+window.DUR=79.4;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ A(0.05,'pop',0,.6);A(Gs('b2')-.05,'typing',.5,.8);A(3.1,'whoosh',.4,.35);['on','board','diagnostics','second'].forEach(w=>A(W_('b2',w)-.15,'pop',0,.55));
+ A(S_LAW[0],'whoosh',.45,.45);A(Gs('b3')-.1,'thud',0,.5);A(W_('b3','1996')-.6,'gearticks',1.0,.7);A(W_('b3','1996')+.4,'clunk',0,.6);
+ [0,1,2].forEach(i=>A(Gs('b4')+i*.25,'pop',0,.6));[0,1,2].forEach(i=>A(W_('b4','have')-.6+i*.25,'check',0,.55));
+ A(W_('b5','same')-.9,'typing',.6,.6);A(W_('b5','same')-.2,'ding',0,.6);
+ A(S_PORT[0],'whoosh',.45,.45);A(W_('b7','16')-.4,'riser',.8,.3);for(let i=0;i<16;i+=2)A(W_('b7','16')+.4+i/16,'tick',0,.5);
+ A(Gs('b8')+.45,'clack',0,.8);A(Gs('b8')+.5,'boot',0,.5);A(W_('b8','codes')-.4,'typing',.6,.7);
+ A(S_CODE[0],'whoosh',.45,.45);for(let i=0;i<5;i++)A(W_('b9','five')-.4+i*.13,'pop',0,.55);
+ A(Gs('b10')-.05,'check',0,.6);A(Gs('b11')-.05,'check',0,.6);A(Gs('b12')-.05,'check',0,.6);A(Gs('b13')-.1,'clack',0,.6);A(Gs('b14')-.2,'clack',0,.5);A(W_('b14','narrow')-.4,'pop',0,.6);A(W_('b14','narrow')+.2,'pop',0,.6);
+ A(S_DYK[0],'whoosh',.4,.45);A(S_DYK[0]+.05,'ding',0,.6);
+ A(S_DRV[0],'whoosh',.45,.45);A(W_('b16','first')-.2,'alarm',0,.3);A(W_('b17','pending')-.2,'typing',.5,.7);A(W_('b17','waits')-.2,'gearticks',2.0,.35);
+ A(W_('b18','next')-.2,'alarm',0,.3);A(W_('b18','confirmed')-.15,'thud',0,.7);A(T_ON,'chime_bmw',2.15,.5);
+ A(Gs('b19')-.1,'whoosh',.6,.4);A(Gs('b20')-.1,'gearticks',.8,.6);A(Gs('b20')+.3,'check',0,.7);
+ [W_('b20','three')-.1,W_('b20','clean')+.05,W_('b20','drives')+.15].forEach(x=>A(x,'check',0,.7));A(T_OFF,'clunk',0,.5);
+ A(Gs('b21')-.1,'pop',0,.5);A(W_('b21','mechanic')-.3,'boot',0,.5);A(W_('b21','mechanic')+.1,'typing',.5,.6);
+ return E})();
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>
