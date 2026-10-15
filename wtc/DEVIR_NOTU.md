@@ -135,3 +135,10 @@ Gerçek marka logoları ve markaya özgü gösterge paneli tasarımları kullan�
 ## KARAR (Ekim 2026): Shorts yok, sadece 16:9 normal video
 - Kanal artık sadece 16:9 video yapıyor, 1-2 dakikalık olsa bile. Yukarıdaki 9:16 / Shorts kuralları eski videolar için geçerli.
 - Seri planı ve durum tablosu: `wtc/DASHBOARD_LIGHTS.md`. Sıradaki video: TPMS (lastik basıncı).
+
+## Kanal anahtar kelimeleri (Ekim 2026, genel araba kanalı)
+```
+car explained, how cars work, car parts explained, automotive explained, under the hood, how engines work, dashboard warning lights, check engine light, car maintenance, car basics, car tips for beginners, new drivers, transmission, brakes, suspension, steering, ignition system, fuel system, cooling system, car battery, tires, electric vehicles, hybrid cars, car safety, car technology, OBD2, owners manual, car animation
+```
+- Kanal artık arabayla ilgili her şeyi adım adım anlatan genel bir kanal (lambalar, parçalar, sistemler, elektrikli araçlar). Kanal anahtar kelimelerinin etkisi küçük; başlık, thumbnail ve açıklama asıl önemli olanlar.
+- Her 4-5 videoda bir gözden geçir.
