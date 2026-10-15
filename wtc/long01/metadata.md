@@ -33,8 +33,8 @@ Has your check engine light ever come on? What was the cause? Tell me in the com
 
 #checkenginelight #carmaintenance #cartips
 
-## Tags (488 chars)
-check engine light, blinking, solid, OBD2 scanner, P0300 misfire, catalytic converter, gas cap, oxygen sensor, mass airflow, spark plugs, ignition coil, emissions testing, readiness monitors, trouble code, dashboard warning, car maintenance, auto repair, mechanic tips, DIY, malfunction indicator lamp, ECU, pending, confirmed, inspection, used vehicle buying, beginner drivers, how to fix, is it safe, P0171 lean, vacuum leak, fuel pressure, free diagnosis, cylinder, explained, roadside
+## Tags (v2, araştırmaya göre: ana kelime + varyasyonlar)
+check engine light, check engine light on, check engine light flashing, check engine light blinking, can i drive with check engine light on, check engine light stop or drive, what does check engine light mean, check engine light causes, p0300 random misfire, obd2 code reader, readiness monitors, clearing codes before emissions test, catalytic converter damage, loose gas cap, check engin light, dashboard warning lights, car maintenance
 
 ## Pinned comment
 Has your check engine light ever come on? What turned out to be the cause? 👇
