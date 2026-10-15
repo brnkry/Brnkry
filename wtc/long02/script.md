@@ -32,3 +32,5 @@ So the next time this light shows up on a cold morning, you'll know exactly what
 - Parça 1+2 tek ses: `01_02.mp3`, sahne `scene01_02.html`, hizalama `align_01_02.json`.
 - Kanca dış mekân (kırağı, bereli sürücü), parça 2'den itibaren stüdyoda anlatıcı.
 - Birleştirme: `parts.json` + `./build.sh cikti.mp4` (kesintisiz müzik).
+- Parça 3-8 tek ses `03_08.mp3`, sahne `scene03_08.html`. Tam video `tpms_full.mp4` (3:59), export: `wtc/exports/tpms_light_full.mp4`.
+- Kontrol: köşede kalan obje taraması (her saniye #ill > g grupları sol üst köşede mi diye bakar) yeni sahnelerde de çalıştırılmalı.

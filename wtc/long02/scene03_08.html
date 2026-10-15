@@ -1,0 +1,355 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:720px;top:892px;width:1140px;height:150px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <radialGradient id="heat" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF6A00" stop-opacity=".7"/><stop offset="1" stop-color="#FF6A00" stop-opacity="0"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+  <clipPath id="tireIn"><circle r="170"/></clipPath>
+ </defs>
+</svg>
+<div id="flash"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="../long01/guy.js"></script>
+<script src="mouth_03_08.js"></script>
+<script src="../long01/lib.js"></script>
+<script src="align_03_08.js"></script>
+<script>
+buildCaptionsA({
+ c1:["So why does it love *cold mornings?*"],
+ c2:["Air *shrinks* when it gets cold."],
+ c3:["A good rule of thumb is that tire pressure drops","about *one PSI* for every *10 degrees* Fahrenheit."],
+ c4:["Let's say your tires were set on a warm *70 degree* afternoon,","and tonight it drops to *30.*"],
+ c5:["That's *40 degrees,* so roughly *four PSI* gone,","without a *single leak.*"],
+ c6:["Overnight, the tires sit at the *coldest* temperature of the day,","so that's when the light *comes on.*"],
+ c7:["Then you drive, the tires *warm up,*","the pressure climbs back, and the light goes *off.*"],
+ c8:["But tomorrow morning, it's *back.*"],
+ c9:["The light *didn't lie.*","Your tires really are low every time they're *cold,*","and cold is when you should *measure* them."],
+ d1:["Now, the *flashing* version."],
+ d2:["If the light flashes for *about a minute* when you start the car","and then *stays on,*"],
+ d3:["that's *not a low tire.*"],
+ d4:["It means the *monitoring system itself* has a problem."],
+ d5:["On most cars, each wheel has a small *sensor*","with its own *battery* inside,"],
+ d6:["and those batteries usually last","somewhere between *five and ten years.*"],
+ d7:["A *dead sensor,* a *damaged* one,","or a *wheel swap* without the right sensors can all cause it."],
+ d8:["Your tires might be fine,","but the system can't watch them anymore,","so get it checked at a *tire shop.*"],
+ e1:["So what is the *right pressure?*"],
+ e2:["Here's the most *common mistake.*"],
+ e3:["The big number printed on the *side of your tire*","is *not* the number you want."],
+ e4:["That's the *maximum* the tire can safely hold."],
+ e5:["The right number is on a sticker inside the *driver's door frame,*","and it's also in your *owner's manual.*"],
+ e6:["Some cars use a different pressure for the *front and rear* tires,","so read it carefully."],
+ e7:["And always check when the tires are *cold,*","which means the car has been parked for *a few hours*","or driven *less than a mile.*"],
+ f1:["Here's the *five minute fix.*"],
+ f2:["Find the number on the *door sticker.*"],
+ f3:["Get a *tire gauge,*","or use the *air machine* at a gas station."],
+ f4:["Check *all four tires,*","and on some cars the *spare* too,","because a few systems watch the spare as well."],
+ f5:["Add air until each tire *matches the sticker.*"],
+ f6:["Then drive for a few minutes,","and the light should go *off* on its own."],
+ f7:["Some cars need you to *reset* the system,","and your owner's manual will show you how."],
+ f8:["If the light comes back within a day or two,","one tire is probably *losing air,*"],
+ f9:["maybe from a *nail* or a *bad valve,*","so have it checked."],
+ g1:["Why does this *matter?*"],
+ g2:["Low tires *flex more* and *run hotter,*"],
+ g3:["they *wear out faster,*","and they make the car *handle* and *brake* worse."],
+ g4:["They also cost you money *at the pump.*"],
+ g5:["According to the *US Department of Energy,*","every one PSI drop in average pressure"],
+ g6:["lowers your gas mileage by about *0.2 percent.*"],
+ g7:["So *don't wait* for the light."],
+ g8:["Check your tires *once a month,*","and every time the weather *turns cold.*"],
+ h1:["So the next time this light shows up on a cold morning,","you'll know exactly *what to do.*"],
+ h2:["Did this light ever *surprise you* on a cold day?"],
+ h3:["Tell me in the *comments.*"],
+ h4:["And if this helped, *subscribe* to *What the Car?*","so you don't miss the *next one.*"],
+},window.ALIGN);
+const Gs=id=>groups.find(x=>x.id===id).start;
+const CX=1290;const flash=document.getElementById('flash');
+const studio=makeStudio();const guy=studio.guy;
+const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:.6});[['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
+const vis=(e,t,a,b,fi=.3,fo=.3)=>{const v=V(t,a,b,fi,fo);show(v,e);if(v>0)e.style.opacity=v;return v};
+const pop=(t,a,d=.4)=>back(P(t,a,d));
+const P3=Gs('c1')-.1,P4=Gs('d1')-.1,P5=Gs('e1')-.1,P6=Gs('f1')-.1,P7=Gs('g1')-.1,P8=Gs('h1')-.1;
+// dashboard chime (synthesized): a lamp is dark until its chime, lit from c+0.03
+const CH_C6=W_('c6','on')-.05,CH_C8=W_('c8','back')-.05,OFF_C7=W_('c7','off')-.1;
+const FL_D=[];for(let x=Gs('d1')+.05;x<W_('d2','stays')-.5;x+=.95)FL_D.push(+x.toFixed(3));const CH_STAY=W_('d2','stays')-.05;
+const CH_F6=Gs('f6')+.05,OFF_F6=W_('f6','off')-.1;
+const blinkOn=(t,cs)=>{for(const c of cs){const d=t-c;if(d>=.03&&d<.55)return 1}return 0};
+const chimeFlash=(t,c)=>{if(t>c&&t<c+.3)flash.style.opacity=.15*(1-P(t,c,.3))};
+
+// ---------- shared drawings ----------
+function card(p,w,h,fill){const c=g(p);el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:28,fill:fill||GRAPH},c);return c}
+function pill(p,text,fill,ink,w){const c=g(p);const W=w||text.length*17+70;el('rect',{x:-W/2,y:-32,width:W,height:64,rx:32,fill},c);const t=txt(c,0,10,28,'mic',text);t.setAttribute('fill',ink);c.t=t;return c}
+const CHECK=(p,s=1)=>{const x=g(p,{transform:`scale(${s})`});el('circle',{r:30,fill:LIME},x);el('path',{d:'M-13 0 l9 10 l17 -20',fill:'none',stroke:ASPH,'stroke-width':7,'stroke-linecap':'round'},x);return x};
+const XMARK=(p,s=1)=>{const x=g(p,{transform:`scale(${s})`});el('circle',{r:30,fill:RED},x);el('path',{d:'M-12 -12 L12 12 M12 -12 L-12 12',stroke:CHALK,'stroke-width':7,'stroke-linecap':'round'},x);return x};
+function tpms(parent,fill=AMBER){const l=g(parent);const glow=el('circle',{r:230,fill,opacity:0,filter:'url(#soft)'},l);const s=g(l);
+  const tire=el('path',{d:'M-118 -112 Q-162 -20 -142 58 Q-130 100 -100 110 L100 110 Q130 100 142 58 Q162 -20 118 -112',fill:'none','stroke-width':28,'stroke-linecap':'round','stroke-linejoin':'round'},s);
+  const tr_=[-90,-45,0,45,90].map(x=>el('rect',{x:x-9,y:118,width:18,height:30,rx:5},s));const bar=el('rect',{x:-14,y:-84,width:28,height:116,rx:10},s);const dot=el('circle',{cy:70,r:16},s);
+  l.set=v=>{const c=v>.5?fill:OFF;tire.setAttribute('stroke',c);[...tr_,bar,dot].forEach(e=>e.setAttribute('fill',c));glow.setAttribute('opacity',.32*v)};l.set(0);return l}
+function lampCard(p,w=300,h=260){const c=card(p,w,h);c.l=tpms(c);c.l.setAttribute('transform',`translate(0 -16) scale(${w/600})`);c.t=txt(c,0,h/2-24,22,'mic','LIGHT OFF');c.set=on=>{c.l.set(on?1:0);c.t.textContent=on?'LIGHT ON':'LIGHT OFF';c.t.setAttribute('fill',on?AMBER:H.smoke)};c.set(0);return c}
+function dial(p,r=200){const G=g(p);el('circle',{r,fill:'#1B1B21'},G);el('circle',{r,fill:'none',stroke:'#3A3A46','stroke-width':8},G);
+  const ga=a=>(-135+270*a)*Math.PI/180;for(let v=0;v<=50;v+=5){const a=ga(v/50);el('line',{x1:(r-30)*Math.sin(a),y1:-(r-30)*Math.cos(a),x2:(r-(v%10?44:54))*Math.sin(a),y2:-(r-(v%10?44:54))*Math.cos(a),stroke:CHALK,'stroke-width':v%10?3:6},G);if(v%10===0)txt(G,(r-84)*Math.sin(a),-(r-84)*Math.cos(a)+10,r*.13,'mic ink',String(v))}
+  const n=g(G);el('path',{d:`M-8 0 L0 ${-(r-40)} L8 0 Z`,fill:LIME},n);el('circle',{r:r*.1,fill:CHALK},n);const tt=txt(G,0,r*.5,r*.32,'bold ink','');txt(G,0,r*.72,r*.1,'mic mut','PSI');
+  G.set=v=>{n.setAttribute('transform',`rotate(${-135+270*v/50})`);tt.textContent=String(Math.round(v))};G.set(35);return G}
+function therm(p,h=320){const T=g(p);el('rect',{x:-26,y:-h/2,width:52,height:h,rx:26,fill:CHALK},T);const m=el('rect',{x:-12,y:0,width:24,height:0,rx:12,fill:RED},T);el('circle',{cy:h/2+20,r:46,fill:RED},T);const lab=txt(T,0,-h/2-30,52,'bold ink','');
+  T.set=(deg)=>{const k=cl((deg-0)/90);const hh=(h-30)*k;m.setAttribute('y',h/2-hh);m.setAttribute('height',hh+20);const c=deg<45?'#4FA3FF':(deg<65?'#E9C46A':RED);m.setAttribute('fill',c);T.lastChild.previousSibling;lab.textContent=Math.round(deg)+'°F'};return T}
+function calendar(p){const c=g(p);el('rect',{x:-70,y:-60,width:140,height:130,rx:16,fill:CHALK},c);el('rect',{x:-70,y:-60,width:140,height:38,rx:16,fill:RED},c);el('rect',{x:-70,y:-36,width:140,height:14,fill:RED},c);
+  [-40,40].forEach(x=>el('rect',{x:x-6,y:-74,width:12,height:28,rx:6,fill:ASPH},c));c.t=txt(c,0,40,48,'bold','');c.t.setAttribute('fill',ASPH);c.l=txt(c,0,-32,18,'mic ink','');return c}
+function snow(p,s=1){const f=g(p,{transform:`scale(${s})`});for(let i=0;i<6;i++){const a=i*60;el('rect',{x:-5,y:-60,width:10,height:120,rx:5,fill:'#9ADFFF',transform:`rotate(${a})`},f);el('path',{d:'M-16 -44 L0 -30 L16 -44',fill:'none',stroke:'#9ADFFF','stroke-width':8,'stroke-linecap':'round',transform:`rotate(${a})`},f)}return f}
+
+// ================= PART 3: cold =================
+const s3a=g();// molecules in a tire
+const tireM=g(s3a);el('circle',{r:200,fill:'#3A3A46'},tireM);el('circle',{r:170,fill:'#1B1B21'},tireM);const molG=g(tireM,{'clip-path':'url(#tireIn)'});
+const mols=[...Array(28)].map((_,i)=>({e:el('circle',{r:12,fill:'#9ADFFF'},molG),x:Math.cos(i*2.4)*120*Math.sqrt((i+1)/28),y:Math.sin(i*2.4)*120*Math.sqrt((i+1)/28),vx:Math.cos(i*7.1),vy:Math.sin(i*5.3)}));
+const th3=therm(s3a,300);const snow3=snow(s3a,1);const shrinkT=txt(s3a,0,0,40,'bold acc','');
+const rule=g();const ruleL=g(rule);el('rect',{x:-200,y:-90,width:400,height:180,rx:30,fill:'#22324A'},ruleL);txt(ruleL,0,20,84,'bold','−10°F').setAttribute('fill','#9ADFFF');
+const ruleEq=txt(rule,0,24,100,'bold ink','=');const ruleR=g(rule);el('rect',{x:-200,y:-90,width:400,height:180,rx:30,fill:'#3A2228'},ruleR);txt(ruleR,0,20,84,'bold red','−1 PSI');
+const thumbR=pill(rule,'RULE OF THUMB',GRAPH,CHALK,300);
+const ex=g();const exSun=g(ex);el('circle',{r:56,fill:'#FFD27A'},exSun);const exMoon=g(ex);el('circle',{r:50,fill:'#D9DEE8'},exMoon);el('circle',{cx:22,cy:-14,r:44,fill:ASPH},exMoon);
+const th4=therm(ex,300);const exT70=txt(ex,0,0,30,'mic ink','AFTERNOON');const exT30=txt(ex,0,0,30,'mic ink','TONIGHT');
+const dl3=dial(ex,170);const drop=g(ex);el('rect',{x:-200,y:-40,width:400,height:80,rx:40,fill:RED},drop);const dropT=txt(drop,0,14,40,'bold ink','40° = ABOUT 4 PSI');const noLeak=pill(ex,'NO LEAK',LIME,ASPH,220);
+// 24h chart
+const chart=g();el('rect',{x:-500,y:-230,width:1000,height:460,rx:28,fill:GRAPH},chart);txt(chart,-460,-180,24,'mic mut','TEMPERATURE · 24 HOURS','start');
+const xs=i=>-440+i*(880/48);const temp=h=>50-20*Math.cos((h-15)/24*2*Math.PI);// coldest near 3am, warmest 3pm (values 30..70)
+const ty=v=>160-(v-25)*7;const cPath=el('path',{fill:'none',stroke:'#9ADFFF','stroke-width':8,'stroke-linecap':'round'},chart);
+const hrs=['6PM','MIDNIGHT','6AM','NOON','6PM','MIDNIGHT','6AM'];hrs.forEach((h,i)=>txt(chart,xs(i*8),210,20,'mic mut',h));
+const cDot=el('circle',{r:16,fill:CHALK},chart);const chLamp=lampCard(chart,240,210);const coldest=pill(chart,'COLDEST',RED,CHALK,220);
+const warmTire=g(chart);el('circle',{r:90,fill:'url(#heat)'},warmTire);el('circle',{r:56,fill:'#3A3A46'},warmTire);el('circle',{r:24,fill:'#9AA0AE'},warmTire);
+const lie=g();const lieC=card(lie,640,300);txt(lieC,0,-40,64,'bold ink',"THE LIGHT");txt(lieC,0,40,64,'bold acc',"DIDN'T LIE");const lieChk=CHECK(lieC,1.3);lieChk.setAttribute('transform','translate(300 -140) scale(1.3)');
+const measure=g(lie);const msnow=snow(measure,.8);const mdl=dial(measure,110);mdl.setAttribute('transform','translate(220 0)');const mT=txt(measure,110,170,30,'mic acc','MEASURE COLD');
+
+// ================= PART 4: flashing =================
+const s4a=g();const fLamp=lampCard(s4a,360,320);const tline=g(s4a);el('rect',{x:-420,y:-14,width:840,height:28,rx:14,fill:'#2A2A33'},tline);
+const tlBlink=el('rect',{x:-420,y:-14,width:0,height:28,rx:14,fill:AMBER},tline);const tlSteady=el('rect',{x:0,y:-14,width:0,height:28,rx:14,fill:RED},tline);
+txt(tline,-420,70,24,'mic mut','START','start');txt(tline,0,70,24,'mic mut','ABOUT 1 MIN');txt(tline,420,70,24,'mic mut','STAYS ON','end');
+const blinkLab=txt(tline,-210,-40,24,'mic','FLASHING');blinkLab.setAttribute('fill',AMBER);const stayLab=txt(tline,210,-40,24,'mic red','STEADY');
+const notLow=g();const nlTire=g(notLow);el('circle',{r:130,fill:'#4A4A56',stroke:'#7A7A86','stroke-width':6},nlTire);el('circle',{r:70,fill:'#9AA0AE'},nlTire);el('circle',{r:22,fill:'#4A4A56'},nlTire);const nlChk=CHECK(notLow,1.4);nlChk.setAttribute('transform','translate(110 -110) scale(1.4)');
+const nlT=pill(notLow,'NOT A LOW TIRE',LIME,ASPH,340);
+// system diagram: four sensors talk to the car
+const sys=g();const sysCar=g(sys);el('rect',{x:-160,y:-280,width:320,height:560,rx:120,fill:'#3A3A46'},sysCar);el('rect',{x:-120,y:-150,width:240,height:280,rx:50,fill:'#22222A'},sysCar);
+const recv=g(sysCar);el('rect',{x:-50,y:-30,width:100,height:60,rx:10,fill:'#0E0E12',stroke:LIME,'stroke-width':4},recv);txt(recv,0,10,22,'mic acc','TPMS');
+const wheels4=[[-190,-190],[190,-190],[-190,190],[190,190]].map(([x,y],i)=>{const w=g(sys,{transform:`translate(${x} ${y})`});el('rect',{x:-40,y:-70,width:80,height:140,rx:22,fill:'#1C1C24'},w);const s=el('circle',{r:16,fill:LIME},w);const wave=el('path',{fill:'none',stroke:LIME,'stroke-width':5,'stroke-linecap':'round'},w);const xx=XMARK(w,.7);xx.style.opacity=0;return {w,s,wave,xx,x,y}});
+// sensor cutaway
+const sens=g();const rimC=g(sens);el('circle',{r:230,fill:'#2A2A33'},rimC);el('circle',{r:190,fill:'#4A4A56'},rimC);el('circle',{r:150,fill:'#22222A'},rimC);
+const sBody=g(sens,{transform:'translate(0 -170)'});el('rect',{x:-70,y:-36,width:140,height:72,rx:16,fill:'#6A6A76'},sBody);el('rect',{x:-8,y:-90,width:16,height:60,rx:6,fill:'#9AA0AE'},sBody);
+const batt=g(sBody,{transform:'translate(0 0)'});el('rect',{x:-44,y:-20,width:88,height:40,rx:8,fill:'#0E0E12',stroke:CHALK,'stroke-width':3},batt);const bLvl=el('rect',{x:-38,y:-14,width:76,height:28,rx:4,fill:LIME},batt);el('rect',{x:44,y:-8,width:8,height:16,fill:CHALK},batt);
+const sLab=pill(sens,'SENSOR + BATTERY',GRAPH,CHALK,360);const yrsT=txt(sens,0,0,64,'bold ink','');const yrsS=txt(sens,0,0,26,'mic mut','');
+const causes=['DEAD SENSOR','DAMAGED SENSOR','WHEEL SWAP'].map((s,i)=>{const c=card(svg,300,300);const ic=g(c,{transform:'translate(0 -40)'});
+  if(i===0){el('rect',{x:-60,y:-30,width:120,height:60,rx:10,fill:'#0E0E12',stroke:CHALK,'stroke-width':4},ic);el('rect',{x:-52,y:-22,width:16,height:44,rx:3,fill:RED},ic);el('rect',{x:60,y:-12,width:10,height:24,fill:CHALK},ic)}
+  if(i===1){el('rect',{x:-60,y:-34,width:120,height:68,rx:14,fill:'#6A6A76'},ic);el('path',{d:'M-30 -34 L-10 -4 L-24 10 L0 34',fill:'none',stroke:ASPH,'stroke-width':8},ic)}
+  if(i===2){[-1,1].forEach(s=>{el('circle',{cx:s*50,r:46,fill:'#2A2A33',stroke:'#7A7A86','stroke-width':6},ic)});el('path',{d:'M-30 -70 Q0 -100 30 -70 M20 -84 l12 14 l-18 4',fill:'none',stroke:LIME,'stroke-width':7,'stroke-linecap':'round'},ic)}
+  const ws=s.split(' ');ws.forEach((w,j)=>txt(c,0,80+j*32-(ws.length-1)*16,28,'mic ink',w));return c});
+const shop=g();el('rect',{x:-260,y:-130,width:520,height:300,rx:16,fill:'#2A2A33'},shop);el('path',{d:'M-290 -130 L290 -130 L260 -200 L-260 -200 Z',fill:LIME},shop);txt(shop,0,-150,36,'bold bgf','TIRE SHOP');
+const shopT=g(shop,{transform:'translate(0 30)'});el('circle',{r:90,fill:'#1C1C24'},shopT);el('circle',{r:50,fill:'#9AA0AE'},shopT);el('circle',{r:16,fill:'#1C1C24'},shopT);
+const finePill=pill(svg,'TIRES MAY BE FINE',GRAPH,CHALK,360);
+
+// ================= PART 5: the right pressure =================
+const side=g();const sw=g(side);el('circle',{r:330,fill:'#2A2A33'},sw);el('circle',{r:210,fill:'#4A4A56'},sw);el('circle',{r:190,fill:'#1C1C24'},sw);
+const swTxt=el('path',{id:'arcP',d:'M-270 0 A270 270 0 0 1 270 0',fill:'none'},sw);const swT=el('text',{'font-size':44,class:'mic',fill:'#B8BCC8'},sw);const tp=el('textPath',{href:'#arcP',startOffset:'50%','text-anchor':'middle'},swT);tp.textContent='MAX. PRESS. 51 PSI';
+const swX=XMARK(side,1.8);const maxPill=pill(side,'MAXIMUM, NOT YOUR TARGET',RED,CHALK,520);
+const door=g();const carSide=g(door);el('rect',{x:-420,y:-260,width:840,height:520,rx:40,fill:'#3A3A46'},carSide);el('rect',{x:-30,y:-230,width:60,height:460,rx:12,fill:'#2A2A33'},carSide);
+const doorP=g(door,{transform:'translate(-30 0)'});const doorIn=g(doorP);el('rect',{x:-380,y:-240,width:380,height:480,rx:30,fill:'#6A6A76'},doorIn);el('rect',{x:-340,y:-210,width:300,height:170,rx:20,fill:'#8FA6C9'},doorIn);el('rect',{x:-90,y:0,width:60,height:16,rx:8,fill:'#3A3A46'},doorIn);
+const sticker=g(door,{transform:'translate(0 20)'});el('rect',{x:-26,y:-50,width:52,height:100,rx:6,fill:CHALK},sticker);el('rect',{x:-20,y:-44,width:40,height:14,fill:'#4FA3FF'},sticker);[-20,-6,8,22].forEach(y=>el('rect',{x:-18,y,width:36,height:5,fill:'#9AA0AE'},sticker));
+const zoomS=g();el('rect',{x:-330,y:-220,width:660,height:440,rx:24,fill:CHALK},zoomS);el('rect',{x:-330,y:-220,width:660,height:80,rx:24,fill:'#4FA3FF'},zoomS);el('rect',{x:-330,y:-160,width:660,height:20,fill:'#4FA3FF'},zoomS);
+txt(zoomS,0,-168,30,'mic ink','TIRE AND LOADING INFORMATION');const zRows=[['FRONT','35 PSI'],['REAR','33 PSI'],['SPARE','60 PSI']].map(([a,b],i)=>{const r=g(zoomS,{transform:`translate(0 ${-70+i*90})`});const hl=el('rect',{x:-290,y:-36,width:580,height:72,rx:14,fill:LIME,opacity:0},r);
+  txt(r,-260,14,40,'bold',a,'start').setAttribute('fill',ASPH);txt(r,260,14,40,'bold',b,'end').setAttribute('fill',ASPH);r.hl=hl;return r});
+const coldTxt=txt(zoomS,0,190,24,'mic','COLD TIRE INFLATION PRESSURE');coldTxt.setAttribute('fill','#6A6A76');
+const manual=g(door);el('rect',{x:-150,y:-200,width:300,height:400,rx:16,fill:'#2E6BD8'},manual);el('rect',{x:-150,y:-200,width:30,height:400,fill:'#1F4FA8'},manual);txt(manual,15,-60,40,'bold ink',"OWNER'S");txt(manual,15,-10,40,'bold ink','MANUAL');
+const ruleCold=g();const rc1=card(ruleCold,380,300);const rcClock=g(rc1,{transform:'translate(0 -30)'});el('circle',{r:80,fill:CHALK},rcClock);const rcH=el('rect',{x:-6,y:-60,width:12,height:66,rx:6,fill:ASPH},rcClock);el('circle',{r:10,fill:RED},rcClock);txt(rc1,0,110,28,'mic ink','PARKED A FEW HOURS');
+const rc2=card(ruleCold,380,300);const odo=g(rc2,{transform:'translate(0 -30)'});el('rect',{x:-130,y:-50,width:260,height:100,rx:14,fill:'#0E0E12'},odo);const odoT=txt(odo,0,24,64,'bold acc','0.0');txt(rc2,0,110,28,'mic ink','LESS THAN 1 MILE');
+const orTxt=txt(ruleCold,0,0,48,'bold mut','OR');const rcSnow=snow(ruleCold,1);const rcPill=pill(ruleCold,'CHECK WHEN COLD','#22324A','#9ADFFF',360);
+
+// ================= PART 6: the five minute fix =================
+const fix=g();const STEPS=['FIND THE DOOR STICKER','GAUGE OR AIR MACHINE','CHECK ALL FOUR (+ SPARE)','FILL TO THE STICKER','DRIVE A FEW MINUTES','RESET IF NEEDED'];
+const stepper=g(fix);el('rect',{x:-30,y:-330,width:6,height:660,rx:3,fill:'#30303A'},stepper);
+const stepEls=STEPS.map((s,i)=>{const r=g(stepper,{transform:`translate(0 ${-300+i*120})`});const dot=el('circle',{cx:-27,r:30,fill:'#2A2A33'},r);const n=txt(r,-27,12,34,'bold ink',String(i+1));
+  const tt=txt(r,30,12,34,'mic mut',s,'start');return {r,dot,n,tt}});
+const stage6=g(fix);
+const st1=g(stage6);const sk1=g(st1);el('rect',{x:-150,y:-100,width:300,height:200,rx:16,fill:CHALK},sk1);el('rect',{x:-150,y:-100,width:300,height:46,rx:16,fill:'#4FA3FF'},sk1);txt(sk1,0,20,58,'bold','35 PSI').setAttribute('fill',ASPH);
+const st2=g(stage6);const gge=g(st2,{transform:'translate(-150 0)'});el('rect',{x:-24,y:-30,width:48,height:200,rx:16,fill:'#6A6A76'},gge);el('circle',{cy:-80,r:80,fill:CHALK},gge);el('circle',{cy:-80,r:64,fill:'#1B1B21'},gge);const gN=el('rect',{x:-4,y:-134,width:8,height:56,rx:4,fill:LIME},gge);
+const pump=g(st2,{transform:'translate(150 0)'});el('rect',{x:-80,y:-150,width:160,height:300,rx:20,fill:RED},pump);el('rect',{x:-56,y:-120,width:112,height:70,rx:10,fill:'#0E0E12'},pump);txt(pump,0,-72,30,'bold acc','AIR');el('path',{d:'M80 0 Q160 20 140 140',fill:'none',stroke:'#1C1C24','stroke-width':14},pump);
+const st3=g(stage6);const top3=g(st3);el('rect',{x:-110,y:-200,width:220,height:400,rx:80,fill:'#3A3A46'},top3);const t3=[[-130,-120],[130,-120],[-130,120],[130,120],[0,0]].map(([x,y],i)=>{const w=g(top3,{transform:`translate(${x} ${y})`});el('rect',{x:i===4?-50:-26,y:i===4?-50:-50,width:i===4?100:52,height:100,rx:i===4?50:14,fill:i===4?'#22222A':'#1C1C24',stroke:i===4?'#6A6A76':'none','stroke-width':4,'stroke-dasharray':i===4?'10 8':'none'},w);const c=CHECK(w,.75);c.style.opacity=0;return c});
+const spareT=txt(st3,0,260,26,'mic mut','SPARE (SOME CARS)');
+const st4=g(stage6);const dl6=dial(st4,190);const match=pill(st4,'MATCHES THE STICKER',LIME,ASPH,380);
+const st5=g(stage6);const road5=g(st5);el('rect',{x:-300,y:110,width:600,height:10,rx:5,class:'lin'},road5);const rd5=[...Array(6)].map(()=>el('rect',{y:136,width:60,height:8,rx:4,class:'lin'},road5));const car5=g(road5);makeCar(car5,{body:CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','translate(0 30) scale(.32)');const l5=lampCard(st5,260,220);
+const st6=g(stage6);const setBtn=g(st6);el('rect',{x:-150,y:-90,width:300,height:180,rx:40,fill:'#2A2A33'},setBtn);const setRing=el('rect',{x:-150,y:-90,width:300,height:180,rx:40,fill:'none',stroke:'#4A4A56','stroke-width':8},setBtn);txt(setBtn,0,-6,44,'bold ink','TPMS');txt(setBtn,0,44,30,'mic mut','SET / RESET');
+const leak=g();const lkT=g(leak);el('circle',{r:200,fill:'#4A4A56',stroke:'#7A7A86','stroke-width':6},lkT);el('circle',{r:110,fill:'#9AA0AE'},lkT);el('circle',{r:34,fill:'#4A4A56'},lkT);
+const nail=g(lkT,{transform:'translate(-140 -140) rotate(-45)'});el('rect',{x:-6,y:-10,width:12,height:60,fill:'#C9CED8'},nail);el('rect',{x:-18,y:-20,width:36,height:12,rx:4,fill:'#C9CED8'},nail);
+const valve=g(lkT,{transform:'translate(120 70) rotate(35)'});el('rect',{x:-8,y:-10,width:16,height:46,rx:4,fill:'#1C1C24'},valve);el('rect',{x:-11,y:-22,width:22,height:16,rx:4,fill:'#9AA0AE'},valve);
+const bubbles=[...Array(10)].map(()=>el('circle',{fill:'none',stroke:'#9ADFFF','stroke-width':4},leak));const leakP=pill(leak,'LOSING AIR',RED,CHALK,280);
+const lkCal=calendar(leak);
+
+// ================= PART 7: why it matters =================
+const why=g();const flexT=g(why);const flexBody=el('path',{fill:'#4A4A56',stroke:'#7A7A86','stroke-width':6},flexT);el('circle',{r:90,fill:'#9AA0AE'},flexT);el('circle',{r:28,fill:'#4A4A56'},flexT);
+const heatG=el('circle',{r:260,fill:'url(#heat)',opacity:0},why);why.insertBefore(heatG,flexT);const groundW=el('rect',{x:-320,y:166,width:640,height:10,rx:5,class:'lin'},why);
+const hotT=pill(why,'FLEX + HEAT',RED,CHALK,280);
+const wear=g();const tread=g(wear);[...Array(7)].forEach((_,i)=>el('rect',{x:-210+i*60,y:-160,width:40,height:320,rx:10,fill:'#4A4A56'},tread));const wearL=el('rect',{x:-240,y:-170,width:100,height:340,fill:GRAPH,opacity:0},wear);const wearR=el('rect',{x:140,y:-170,width:100,height:340,fill:GRAPH,opacity:0},wear);
+const wearT=pill(wear,'EDGES WEAR FASTER',GRAPH,CHALK,380);
+const brk=g();const brkRows=['PROPER','LOW'].map((s,i)=>{const r=g(brk,{transform:`translate(0 ${i*110})`});txt(r,-330,12,30,'mic',s,'start').setAttribute('fill',i?RED:LIME);const b=el('rect',{x:-160,y:-22,width:0,height:44,rx:22,fill:i?RED:LIME},r);r.b=b;return r});const brkT=txt(brk,0,-80,30,'mic mut','HANDLING + BRAKING');
+const pumpW=g();el('rect',{x:-110,y:-200,width:220,height:400,rx:24,fill:'#2A2A33'},pumpW);el('rect',{x:-80,y:-170,width:160,height:110,rx:12,fill:'#0E0E12'},pumpW);const pmT=txt(pumpW,0,-98,44,'bold acc','$0.00');el('path',{d:'M110 -40 Q190 -40 190 60 L190 160',fill:'none',stroke:'#1C1C24','stroke-width':16},pumpW);el('rect',{x:170,y:150,width:40,height:70,rx:8,fill:'#6A6A76'},pumpW);
+const doe=g();const doeC=card(doe,700,300);const doeL=txt(doeC,0,-90,24,'mic mut','U.S. DEPARTMENT OF ENERGY');txt(doeC,-150,20,88,'bold red','−1 PSI');txt(doeC,10,20,60,'bold ink','=');txt(doeC,170,20,88,'bold red','−0.2%');txt(doeC,0,100,26,'mic ink','GAS MILEAGE (AVERAGE PRESSURE)');
+const wait=g();const wCal=calendar(wait);const wSnow=snow(wait,.9);const wPill=pill(wait,"DON'T WAIT FOR THE LIGHT",LIME,ASPH,460);const wMon=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+// ================= PART 8: close =================
+const close=g();const cLamp=lampCard(close,320,280);const cChk=CHECK(close,1.4);const cTxt=pill(close,'YOU KNOW WHAT TO DO',LIME,ASPH,420);
+const bub=g();el('path',{d:'M-300 -130 h600 a40 40 0 0 1 40 40 v170 a40 40 0 0 1 -40 40 h-440 l-80 70 v-70 h-80 a40 40 0 0 1 -40 -40 v-170 a40 40 0 0 1 40 -40 Z',fill:GRAPH},bub);
+const bT1=txt(bub,-250,-40,30,'mic ink','','start');const bT2=txt(bub,-250,10,30,'mic mut','','start');const bdots=[0,1,2].map(i=>el('circle',{cx:-220+i*40,cy:70,r:12,fill:LIME},bub));
+const endG=g();const face=makeFace(endG);const bean=g(face);el('path',{d:'M-120 -150 Q-110 -250 0 -255 Q110 -250 120 -150 Q60 -165 0 -166 Q-60 -165 -120 -150 Z',fill:'#2E6BD8'},bean);el('circle',{cy:-262,r:24,fill:CHALK},bean);if(face.q)face.q.style.display='none';
+const wm=el('text',{x:0,y:330,'text-anchor':'middle'},endG);[['WHAT THE ',CHALK,60,'700'],['CAR',LIME,130,'800'],['?',RED,130,'800']].forEach(([s,c,fs,fw])=>{const sp=el('tspan',{fill:c,'font-size':fs,style:`font-family:WTC;font-weight:${fw};font-stretch:75%;letter-spacing:.02em`},wm);sp.textContent=s});
+const sub=g(endG,{transform:'translate(0 450)'});const subR=el('rect',{x:-200,y:-48,width:400,height:96,rx:48,fill:RED},sub);const subT=txt(sub,0,16,44,'mic ink','SUBSCRIBE');
+const cursor=g(endG);el('path',{d:'M0 0 L0 64 L16 50 L28 76 L40 70 L28 46 L48 44 Z',fill:CHALK,stroke:ASPH,'stroke-width':4},cursor);const ripple=el('circle',{r:20,fill:'none',stroke:CHALK,'stroke-width':6,opacity:0},endG);
+const flakes=[...Array(14)].map(()=>el('circle',{r:4,fill:'#9ADFFF',opacity:0}));
+
+// ---------- narrator ----------
+const SH=[612,606];const ptTo=(x,y,shape='point')=>{const a=Math.atan2(y-SH[1],x-SH[0]);return {L:REST.L,R:{x:182+300*Math.cos(a),y:46+300*Math.sin(a),shape}}};
+const POSE={rest:REST,open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},thumb:{L:REST.L,R:{x:320,y:140,shape:'thumb',rot:0}},
+ shrug:{L:{x:-290,y:140,shape:'open'},R:{x:290,y:140,shape:'open'}},stop:{L:REST.L,R:{x:330,y:20,shape:'open',rot:-90}},wave:{L:REST.L,R:{x:300,y:-40,shape:'open',rot:-80}},
+ mid:ptTo(CX,420),top:ptTo(CX,240),low:ptTo(CX,640),left:ptTo(1040,420),right:ptTo(1560,420)};
+const K=[[0,'rest'],[.2,'shrug'],[Gs('c2'),'mid'],[Gs('c3'),'one'],[Gs('c4'),'mid'],[Gs('c5'),'right'],[Gs('c6'),'mid'],[Gs('c8'),'top'],[Gs('c9'),'thumb'],
+ [P4,'one'],[Gs('d2'),'mid'],[Gs('d3'),'open'],[Gs('d4'),'mid'],[Gs('d5'),'top'],[Gs('d7'),'mid'],[Gs('d8'),'right'],
+ [P5,'shrug'],[Gs('e2'),'one'],[Gs('e3'),'mid'],[Gs('e5'),'left'],[W_('e5','manual')-.3,'right'],[Gs('e6'),'mid'],[Gs('e7'),'mid'],
+ [P6,'one'],[Gs('f2'),'mid'],[Gs('f5'),'right'],[Gs('f6'),'right'],[Gs('f7'),'mid'],[Gs('f8'),'stop'],[Gs('f9'),'mid'],
+ [P7,'shrug'],[Gs('g2'),'mid'],[Gs('g4'),'right'],[Gs('g5'),'one'],[Gs('g6'),'mid'],[Gs('g7'),'stop'],[Gs('g8'),'mid'],
+ [P8,'open'],[Gs('h2'),'mid'],[Gs('h3'),'thumb'],[Gs('h4'),'wave'],[168.7,'thumb']];
+const poseAt=poser(POSE,K);
+
+window.render=function(t){
+ renderCaptions(t);flash.style.opacity=0;show(0,leak,brk);
+ {const pz=poseAt(t);const m=mouthAt(t);let smile=.5,bw=0,bu=.1+.25*m,tilt=2*Math.sin(t*1.1);
+  if(t>P4&&t<P5){smile=.15;bw=.3}if(t>Gs('e2')&&t<Gs('e5')){bu=.6}if(t>P7&&t<Gs('g7')){smile=0;bw=.35}if(t>P8)smile=.75;
+  const pointing=!['rest','open','one','thumb','stop','shrug','wave'].includes(pz.name);const R={...pz.R};if(pz.name==='wave')R.rot=-80+18*Math.sin(t*9);
+  guy.set({mouth:.9*m,smile,browUp:bu,browWorry:bw,eyes:blinkAt(t,3.3,.5),pupil:1,look:pointing?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt,nod:2.2*m,amber:0,hands:{L:pz.L,R}});
+  studio.presG.setAttribute('transform',`translate(430 ${560+4*Math.sin(t*1.6)})`)}
+
+ // ===== PART 3 =====
+ if(vis(s3a,t,P3,Gs('c3')-.1)>0){const cold=eio(P(t,W_('c2','shrinks')-.4,1.2));
+  tr(tireM,1130,440,.95*pop(t,P3),0,1);const spd=lerp(1,.25,cold),spread=lerp(1,.7,cold);
+  mols.forEach((m,i)=>{const x=(m.x+60*Math.sin(t*3*spd*m.vx+i))*spread,y=(m.y+60*Math.cos(t*3*spd*m.vy+i*1.3))*spread;m.e.setAttribute('cx',x);m.e.setAttribute('cy',y)});
+  tireM.firstChild.setAttribute('r',200-12*cold);
+  tr(th3,1600,440,.9,0,1);th3.set(lerp(70,30,cold));tr(snow3,1600,140,.8*pop(t,W_('c2','cold')-.2),t*20,t>W_('c2','cold')-.2?1:0);
+  shrinkT.textContent=cold>.5?'AIR SHRINKS':'';shrinkT.setAttribute('transform','translate(1130 730)')}
+ if(vis(rule,t,Gs('c3')-.1,Gs('c4')-.1)>0){const t1=W_('c3','one')-.25,t2=W_('c3','10')-.25;
+  tr(ruleL,-310,0,pop(t,t2),0,t>t2?1:0);tr(ruleR,310,0,pop(t,t1),0,t>t1?1:0);ruleEq.style.opacity=t>t2+.2?1:0;tr(thumbR,0,-200,pop(t,Gs('c3')),0,1);rule.setAttribute('transform',`translate(${CX} 440)`)}
+ if(vis(ex,t,Gs('c4')-.1,Gs('c6')-.1)>0){ex.setAttribute('transform',`translate(${CX} 0)`);
+  const t70=W_('c4','70')-.3,t30=W_('c4','30')-.3;const k=eio(P(t,t30,1.0));
+  tr(exSun,-360,lerp(260,420,k),pop(t,t70),0,1-k*.7);tr(exMoon,360,lerp(420,260,k),pop(t,t30),0,t>t30?1:0);
+  tr(th4,0,360,.85*pop(t,t70),0,1);th4.set(lerp(70,30,k));exT70.setAttribute('transform','translate(-360 520)');exT70.style.opacity=t>t70?1:0;exT30.setAttribute('transform','translate(360 520)');exT30.style.opacity=t>t30?1:0;
+  const t40=Gs('c5')-.1;const dk=eio(P(t,W_('c5','four')-.3,1.0));const sv=t>t40;th4.style.display=sv?'none':'';exT70.style.display=exT30.style.display=sv?'none':'';
+  tr(dl3,0,380,sv?pop(t,t40):0,0,sv?1:0);dl3.set(lerp(35,31,dk));tr(drop,0,130,pop(t,W_('c5','40')-.2),0,t>W_('c5','40')-.2?1:0);
+  tr(noLeak,0,640,pop(t,W_('c5','leak')-.3),0,t>W_('c5','leak')-.3?1:0)}
+ if(vis(chart,t,Gs('c6')-.1,Gs('c9')-.1)>0){chart.setAttribute('transform',`translate(${CX} 430) scale(.82)`);
+  // the curve draws from 6PM, coldest at ~4AM, warmest at ~2PM, then the next dawn
+  const tc6=Gs('c6'),tc7=Gs('c7'),tc8=Gs('c8');let prog;if(t<tc7)prog=lerp(0,10/48,eio(P(t,tc6,W_('c6','coldest')-tc6+.3)));else if(t<tc8)prog=lerp(10/48,20/48,eio(P(t,tc7,1.6)));else prog=lerp(20/48,34/48,eio(P(t,tc8,1.2)));
+  let d='';const N=Math.round(prog*48);for(let i=0;i<=N;i++){const h=18+i*.5;d+=(i?'L':'M')+xs(i)+' '+ty(temp(h))}cPath.setAttribute('d',d);const hh=18+N*.5;cDot.setAttribute('cx',xs(N));cDot.setAttribute('cy',ty(temp(hh)));
+  const on=(t>=CH_C6+.03&&t<OFF_C7)||(t>=CH_C8+.03);chLamp.set(on);tr(chLamp,330,-110,1,0,1);chimeFlash(t,CH_C6);chimeFlash(t,CH_C8);
+  tr(coldest,xs(20),ty(30)+70,pop(t,W_('c6','coldest')-.2),0,t>W_('c6','coldest')-.2&&t<tc7?1:0);
+  const tw=W_('c7','warm')-.3;tr(warmTire,xs(30),ty(55)-90,pop(t,tw),t*60,t>tw&&t<tc8?1:0)}
+ if(vis(lie,t,Gs('c9')-.1,P4)>0){tr(lieC,CX,300,pop(t,Gs('c9')),0,1);lieChk.style.opacity=t>Gs('c9')+.5?1:0;
+  const tm=W_('c9','measure')-.4;tr(measure,CX-110,640,pop(t,tm),0,t>tm?1:0);mdl.set(32+Math.sin(t)*.3)}
+
+ // ===== PART 4 =====
+ if(vis(s4a,t,P4,Gs('d3')-.1)>0){tr(fLamp,CX,300,pop(t,P4),0,1);const steady=t>=CH_STAY+.03;fLamp.set(steady||blinkOn(t,FL_D));FL_D.forEach(c=>chimeFlash(t,c));chimeFlash(t,CH_STAY);
+  tr(tline,CX,620,pop(t,Gs('d2')-.1),0,t>Gs('d2')-.1?1:0);const bk=P(t,Gs('d2'),W_('d2','stays')-Gs('d2'));tlBlink.setAttribute('width',420*bk);tlSteady.setAttribute('width',420*eo(P(t,W_('d2','stays'),.6)))}
+ if(vis(notLow,t,Gs('d3')-.1,Gs('d4')-.1)>0){tr(nlTire,0,0,1,t*30,1);notLow.setAttribute('transform',`translate(${CX} 400) scale(${pop(t,Gs('d3')-.1)})`);nlT.setAttribute('transform','translate(0 230)')}
+ if(vis(sys,t,Gs('d4')-.1,Gs('d5')-.1)>0){sys.setAttribute('transform',`translate(${CX} 420) scale(${.85*pop(t,Gs('d4')-.1)})`);
+  const bad=W_('d4','problem')-.3;wheels4.forEach((w,i)=>{const q=((t*1.2+i*.25)%1);const isBad=i===1&&t>bad;w.wave.setAttribute('d',`M${-w.x*.25} ${-w.y*.25} m${Math.sign(-w.x)*20*q} ${Math.sign(-w.y)*20*q} a${30+30*q} ${30+30*q} 0 0 1 ${Math.sign(-w.x)*20} ${Math.sign(-w.y)*20}`);
+   w.wave.style.opacity=isBad?0:1-q;w.s.setAttribute('fill',isBad?RED:LIME);w.xx.style.opacity=isBad?1:0})}
+ if(vis(sens,t,Gs('d5')-.1,Gs('d7')-.1)>0){sens.setAttribute('transform',`translate(${CX} 470) scale(${.9*pop(t,Gs('d5')-.1)})`);
+  const zb=eio(P(t,W_('d5','sensor')-.3,.6));sBody.setAttribute('transform',`translate(0 ${lerp(-170,-60,zb)}) scale(${lerp(1,2.2,zb)})`);rimC.style.opacity=1-zb*.6;
+  tr(sLab,0,-300,pop(t,W_('d5','battery')-.3),0,t>W_('d5','battery')-.3?1:0);
+  const ty_=W_('d6','five')-.6;const yk=P(t,ty_,1.6);bLvl.setAttribute('width',76*(1-yk*.9));bLvl.setAttribute('fill',yk>.7?RED:LIME);yrsT.textContent=t>ty_?Math.round(yk*10)+' YEARS':'';yrsT.setAttribute('transform','translate(0 260)');
+  yrsS.textContent=t>ty_+1.6?'USUALLY 5 TO 10':'';yrsS.setAttribute('transform','translate(0 305)')}
+ {const v=V(t,Gs('d7')-.1,Gs('d8')-.1);const ws=[W_('d7','dead'),W_('d7','damaged'),W_('d7','wheel')].map(x=>x-.25);causes.forEach((c,i)=>{show(v,c);if(v>0)tr(c,CX+(i-1)*330,430,pop(t,ws[i]),0,Math.min(v,t>ws[i]?1:0))})}
+ if(vis(shop,t,Gs('d8')-.1,P5)>0){const ts=W_('d8','shop')-.5;tr(shop,CX+150,480,pop(t,ts),0,t>ts?1:0)}
+ {const v=V(t,Gs('d8')-.1,P5);show(v,finePill);if(v>0)tr(finePill,CX-230,200,pop(t,Gs('d8')),-3,v)}
+
+ // ===== PART 5 =====
+ if(vis(side,t,P5,Gs('e5')-.1)>0){const k=pop(t,P5);sw.setAttribute('transform',`translate(${CX} 450) scale(${.85*k}) rotate(${-8+3*Math.sin(t*.8)})`);
+  const tn=W_('e3','not')-.25;swX.setAttribute('transform',`translate(${CX+230} 230) scale(${1.8*pop(t,tn,.3)})`);swX.style.opacity=t>tn?1:0;
+  const tm=W_('e4','maximum')-.3;tr(maxPill,CX,790,pop(t,tm),0,t>tm?1:0)}
+ if(vis(door,t,Gs('e5')-.1,Gs('e6')-.1)>0){door.setAttribute('transform',`translate(${CX} 420) scale(.8)`);const op=eio(P(t,Gs('e5')+.3,.8));doorIn.setAttribute('transform',`scale(${lerp(1,.25,op)} 1)`);doorIn.style.opacity=1-op*.4;
+  const ts=W_('e5','frame')-.4;sticker.setAttribute('transform',`translate(0 20) scale(${t>ts?1+.25*Math.sin(P(t,ts,.6)*Math.PI):1})`);
+  const tm=W_('e5','manual')-.5;tr(manual,560,40,pop(t,tm),6,t>tm?1:0)}
+ if(vis(zoomS,t,Gs('e6')-.1,Gs('e7')-.1)>0){tr(zoomS,CX,440,.95*pop(t,Gs('e6')-.1),0,1);const tf=W_('e6','front')-.3;zRows[0].hl.setAttribute('opacity',t>tf?.9:0);zRows[1].hl.setAttribute('opacity',t>tf+.4?.9:0)}
+ if(vis(ruleCold,t,Gs('e7')-.1,P6)>0){ruleCold.setAttribute('transform',`translate(${CX} 440)`);const th=W_('e7','few')-.3,tm=W_('e7','less')-.3;
+  tr(rc1,-260,0,pop(t,th),0,t>th?1:0);rcH.setAttribute('transform',`rotate(${P(t,th,1.2)*360*3})`);tr(rc2,260,0,pop(t,tm),0,t>tm?1:0);odoT.textContent=(Math.min(.9,P(t,tm,1.0)*.9)).toFixed(1)+' MI';
+  tr(orTxt,0,12,1,0,t>tm?1:0);const tcold=W_('e7','cold')-.3;const up=eio(P(t,th-.2,.5));tr(rcSnow,0,lerp(-40,-250,up),lerp(1.6,.7,up)*pop(t,tcold),t*15,t>tcold?1:0);tr(rcPill,0,lerp(170,-250,up),pop(t,tcold+.2),0,(t>tcold+.2?1:0)*(1-up));const tc=W_('e7','cold')-.3;flakes.forEach((f,i)=>{const q=((t*.3+i/14)%1);f.setAttribute('cx',800+(i*83)%1000);f.setAttribute('cy',100+q*700);f.style.opacity=t>tc&&t<P6?.7*Math.sin(q*Math.PI):0})}
+ else flakes.forEach(f=>f.style.opacity=0);
+
+ // ===== PART 6 =====
+ if(vis(fix,t,P6,P7)>0){fix.setAttribute('transform','translate(0 0)');stepper.setAttribute('transform',`translate(820 430) scale(.82)`);
+  const ss=[Gs('f2'),Gs('f3'),Gs('f4'),Gs('f5'),Gs('f6'),Gs('f7'),Gs('f8')];let cur=-1;ss.forEach((x,i)=>{if(t>x-.15)cur=i});if(t>Gs('f8')-.15)cur=6;
+  stepEls.forEach((s,i)=>{const done=i<cur||cur===6,act=i===cur;s.dot.setAttribute('fill',act?LIME:(done?'#3A4A20':'#2A2A33'));s.n.setAttribute('class',act?'bold bgf':'bold ink');s.tt.setAttribute('class',act?'mic ink':(done?'mic acc':'mic mut'));s.r.style.opacity=t>P6+.2+i*.08?1:0});
+  const show6=[st1,st2,st3,st4,st5,st6];show6.forEach((s,i)=>{const on=cur===i;s.style.display=on?'':'none';if(on)s.setAttribute('transform',`translate(1560 400) scale(${.9*pop(t,ss[i]-.15)})`)});
+  // stage details
+  gN.setAttribute('transform',`rotate(${-60+40*Math.sin(t*2)} 0 -80)`);
+  t3.forEach((c,i)=>{const at=W_('f4','four')-.2+i*.25+(i===4?W_('f4','spare')-W_('f4','four')-.8:0);c.style.opacity=t>at?1:0;c.setAttribute('transform',`scale(${.75*pop(t,at,.3)})`)});
+  dl6.set(lerp(27,35,eio(P(t,Gs('f5'),1.4))));match.setAttribute('transform',`translate(0 260) scale(${pop(t,W_('f5','matches')-.2)})`);match.style.opacity=t>W_('f5','matches')-.2?1:0;
+  rd5.forEach((d,i)=>d.setAttribute('x',((i*110-t*300)%660+660)%660-330));car5.setAttribute('transform',`translate(0 ${1.5*Math.sin(t*14)})`);l5.setAttribute('transform','translate(0 -170)');l5.set(t>=CH_F6+.03&&t<OFF_F6);chimeFlash(t,CH_F6);
+  const tr6=W_('f7','reset')-.2;setRing.setAttribute('stroke',t>tr6+.3?LIME:'#4A4A56');setBtn.setAttribute('transform',`scale(${t>tr6&&t<tr6+.3?.94:1})`);
+  // leak
+  const lv=V(t,Gs('f8')-.15,P7);show(lv,leak);if(lv>0){leak.style.opacity=lv;tr(lkT,1530,440,.85*pop(t,Gs('f8')-.15),t*8,1);
+   const tn=W_('f9','nail')-.3,tv=W_('f9','valve')-.3;nail.style.opacity=t>tn?1:0;valve.style.opacity=1;
+   bubbles.forEach((b,i)=>{const q=((t*.8+i/10)%1);const src=i%2&&t>tv?[1530+102,440+60]:[1530-120,440-120];b.setAttribute('cx',src[0]+30*Math.sin(t*3+i)-(i%2?-1:1)*q*40);b.setAttribute('cy',src[1]-q*120);b.setAttribute('r',6+12*q);b.style.opacity=t>W_('f8','losing')-.3?1-q:0});
+   tr(leakP,1530,740,pop(t,W_('f8','losing')-.3),0,t>W_('f8','losing')-.3?1:0);tr(lkCal,1240,200,.8*pop(t,Gs('f8')),0,t>Gs('f8')?1:0);lkCal.l.textContent='LIGHT BACK';lkCal.t.textContent='DAY '+Math.min(2,1+Math.floor(Math.max(0,t-Gs('f8'))/.7))}}
+
+ // ===== PART 7 =====
+ if(vis(why,t,P7,Gs('g3')-.1)>0){why.setAttribute('transform',`translate(${CX} 440) scale(.9)`);const fl=(Math.sin(t*6)+1)/2*eo(P(t,W_('g2','flex')-.3,.5));const yc=150-50*fl,xc=Math.sqrt(150*150-yc*yc);
+  flexBody.setAttribute('d',`M${-xc} ${yc} A150 150 0 1 1 ${xc} ${yc} Z`);flexT.setAttribute('transform',`scale(${1+.06*fl} 1)`);heatG.setAttribute('opacity',eo(P(t,W_('g2','hotter')-.3,1.0)));
+  tr(hotT,0,280,pop(t,W_('g2','hotter')-.2),0,t>W_('g2','hotter')-.2?1:0)}
+ if(vis(wear,t,Gs('g3')-.1,Gs('g4')-.1)>0){const tw=Gs('g3');tr(wear,CX-260,420,.8*pop(t,tw-.1),0,1);const k=eo(P(t,tw+.2,1.2));wearL.setAttribute('opacity',.85*k);wearR.setAttribute('opacity',.85*k);wearT.setAttribute('transform','translate(0 240)');
+  const tb=W_('g3','handle')-.4;show(1,brk);tr(brk,CX+330,400,1,0,Math.min(V(t,Gs('g3')-.1,Gs('g4')-.1),t>tb?1:0));brkRows.forEach((r,i)=>r.b.setAttribute('width',(i?330:240)*eo(P(t,tb+.2+i*.3,.8))))}
+ if(vis(pumpW,t,Gs('g4')-.1,Gs('g5')-.1)>0){tr(pumpW,CX,420,.9*pop(t,Gs('g4')-.1),0,1);pmT.textContent='$'+(P(t,Gs('g4'),2)*48.6).toFixed(2)}
+ if(vis(doe,t,Gs('g5')-.1,Gs('g7')-.1)>0){tr(doe,CX,420,pop(t,Gs('g5')-.1),0,1)}
+ if(vis(wait,t,Gs('g7')-.1,P8)>0){tr(wPill,CX,200,pop(t,Gs('g7')),-3,1);const tm=W_('g8','month')-.4;tr(wCal,CX-180,480,pop(t,tm),0,t>tm?1:0);wCal.l.textContent='EVERY';wCal.t.textContent=wMon[Math.floor(Math.max(0,t-tm)/.3)%12];
+  const tc=W_('g8','cold')-.4;tr(wSnow,CX+180,480,pop(t,tc),t*25,t>tc?1:0)}
+
+ // ===== PART 8 =====
+ if(vis(close,t,P8,Gs('h2')-.1)>0){tr(cLamp,CX,380,pop(t,P8),0,1);cLamp.set(0);tr(cChk,CX+140,250,1.4*pop(t,W_('h1','what')-.3),0,t>W_('h1','what')-.3?1:0);tr(cTxt,CX,620,pop(t,W_('h1','what')-.3),0,t>W_('h1','what')-.3?1:0)}
+ if(vis(bub,t,Gs('h2')-.1,Gs('h4')-.1)>0){tr(bub,CX,420,pop(t,Gs('h2')-.1),0,1);const s1='MINE CAME ON AT 6AM IN JANUARY...',s2='4 PSI LOW. NOW I KNOW WHY!';
+  bT1.textContent=s1.slice(0,Math.round(s1.length*P(t,Gs('h2')+.3,1.6)));bT2.textContent=s2.slice(0,Math.round(s2.length*P(t,Gs('h3'),1.0)));bdots.forEach((d,i)=>d.setAttribute('cy',70-12*Math.max(0,Math.sin(t*8-i*.8))))}
+ if(vis(endG,t,Gs('h4')-.1,999)>0){tr(endG,CX,330,.85*pop(t,Gs('h4')-.1,.5),0,1);face.look(Math.sin(t*1.2)*.5,-.3);wm.style.opacity=eo(P(t,Gs('h4')+.2,.4));
+  const ts=W_('h4','subscribe')-.1;tr(sub,0,450,pop(t,ts-.5),0,t>ts-.5?1:0);const cm=eio(P(t,ts-.2,.5));cursor.setAttribute('transform',`translate(${lerp(420,40,cm)} ${lerp(640,460,cm)})`);cursor.style.opacity=t>ts-.2?1:0;
+  const c2=t>ts+.35;subR.setAttribute('fill',c2?GRAPH:RED);subT.textContent=c2?'SUBSCRIBED ✓':'SUBSCRIBE';ripple.setAttribute('cx',40);ripple.setAttribute('cy',460);ripple.setAttribute('r',20+60*P(t,ts+.35,.5));ripple.style.opacity=t>ts+.35?1-P(t,ts+.35,.5):0}
+};
+window.DUR=169.4;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ A(P3+.05,'whoosh',.4,.35);A(W_('c2','shrinks')-.4,'tapestop',0,.35);A(W_('c2','cold')-.2,'pop',0,.5);
+ A(Gs('c3')-.1,'whoosh',.4,.4);A(W_('c3','one')-.25,'pop',0,.6);A(W_('c3','10')-.25,'pop',0,.6);
+ A(Gs('c4')-.1,'whoosh',.4,.4);A(W_('c4','30')-.3,'tapestop',0,.3);A(W_('c5','40')-.2,'thud',0,.6);A(W_('c5','four')-.3,'gearticks',1.0,.5);A(W_('c5','leak')-.3,'check',0,.7);
+ A(Gs('c6')-.1,'whoosh',.4,.4);A(CH_C6,'warn',1.0,.55);A(OFF_C7,'clunk',0,.4);A(CH_C8,'warn',1.0,.55);A(Gs('c9'),'check',0,.7);A(W_('c9','measure')-.4,'pop',0,.6);
+ A(P4,'whoosh',.4,.4);FL_D.forEach(c=>A(c,'warn',.9,.38));A(CH_STAY,'warn',1.0,.45);A(Gs('d3')-.1,'check',0,.6);A(Gs('d4')-.1,'whoosh',.4,.4);A(W_('d4','problem')-.3,'alarm',0,.3);
+ A(Gs('d5')-.1,'whoosh',.4,.4);A(W_('d5','battery')-.3,'pop',0,.5);A(W_('d6','five')-.6,'gearticks',1.6,.5);
+ [W_('d7','dead'),W_('d7','damaged'),W_('d7','wheel')].forEach(x=>A(x-.25,'pop',0,.6));A(W_('d8','shop')-.5,'ding',0,.5);
+ A(P5,'whoosh',.4,.4);A(W_('e3','not')-.25,'thud',0,.8);A(W_('e4','maximum')-.3,'pop',0,.5);
+ A(Gs('e5')+.3,'clack',0,.6);A(W_('e5','frame')-.4,'pop',0,.5);A(W_('e5','manual')-.5,'pop',0,.5);A(Gs('e6')-.1,'whoosh',.4,.4);A(W_('e6','front')-.3,'check',0,.5);A(W_('e6','front')+.1,'check',0,.5);
+ A(Gs('e7')-.1,'whoosh',.4,.4);A(W_('e7','few')-.3,'gearticks',1.2,.4);A(W_('e7','less')-.3,'pop',0,.5);
+ A(P6,'whoosh',.4,.4);['f2','f3','f4','f5','f6','f7','f8'].forEach(id=>A(Gs(id)-.15,'pop',0,.5));A(Gs('f5'),'air',1.4,.4);A(W_('f5','matches')-.2,'check',0,.7);
+ A(CH_F6,'warn',1.0,.45);A(OFF_F6,'check',0,.7);A(W_('f7','reset')-.2,'click',0,.8);A(W_('f8','losing')-.3,'hiss',1.6,.35);A(W_('f9','nail')-.3,'pop',0,.5);
+ A(P7,'whoosh',.4,.4);A(W_('g2','hotter')-.3,'riserE',1.0,.3);A(Gs('g3')-.1,'whoosh',.4,.4);A(W_('g3','handle')-.2,'stop',0,.5);A(Gs('g4')-.1,'whoosh',.4,.4);A(Gs('g4'),'typing',1.8,.5);
+ A(Gs('g5')-.1,'pop',0,.6);A(Gs('g7')-.1,'thud',0,.6);A(W_('g8','month')-.4,'gearticks',1.2,.5);
+ A(P8,'whoosh',.45,.45);A(W_('h1','what')-.3,'check',0,.8);A(Gs('h2'),'pop',0,.6);A(Gs('h2')+.3,'typing',2.6,.6);A(Gs('h4')-.1,'whoosh',.5,.5);A(W_('h4','subscribe')+.35,'click',0,.9);A(W_('h4','subscribe')+.4,'check',0,.7);A(168.6,'stinger',0,.8);
+ return E})();
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>

@@ -12,7 +12,7 @@ Renk notu: renk ve sembol markaya göre değişebilir. Senaryoda "on most cars" 
 | # | Lamba | Renk | Uzunluk | Neden bu uzunluk | Zamanlama | Durum |
 |---|---|---|---|---|---|---|
 | 1 | Check engine light | Amber | L | Sabit / yanıp sönen, OBD-II, kodlar, muayene hatası | Her zaman | ✅ Yayına hazır (6:42) |
-| 2 | Tire pressure (TPMS) | Amber | M | Soğuk hava, doğru basınç nerede yazar, sabit / yanıp sönen TPMS, nasıl söner | **Şimdi** (Ekim-Kasım) | ⏭️ Sıradaki |
+| 2 | Tire pressure (TPMS) | Amber | M | Soğuk hava, doğru basınç nerede yazar, sabit / yanıp sönen TPMS, nasıl söner | **Şimdi** (Ekim-Kasım) | ✅ Video hazır (3:59) |
 | 3 | Battery / charging | Kırmızı | M | Aslında akü değil şarj sistemi, alternatör, ne kadar sürebilirsin | Kış (Kasım-Ocak) | |
 | 4 | Oil pressure | Kırmızı | M | En tehlikeli lamba, basınç ile seviye farkı, hemen dur | Her zaman | |
 | 5 | Engine temperature (overheating) | Kırmızı | M | Hararet, radyatör kapağı tehlikesi, kaloriferi aç taktiği | Yaz öncesi en çok | |
