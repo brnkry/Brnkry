@@ -1,0 +1,269 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:210px;top:892px;width:1500px;height:150px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+#frost{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 50%, rgba(220,235,255,0) 55%, rgba(220,235,255,.35) 85%, rgba(235,245,255,.6) 100%)}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A2340"/><stop offset=".7" stop-color="#3D4F7A"/><stop offset="1" stop-color="#8FA6C9"/></linearGradient>
+  <linearGradient id="noon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3C79C8"/><stop offset="1" stop-color="#A9D2F2"/></linearGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+ </defs>
+</svg>
+<div id="frost"></div>
+<div id="flash"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="../long01/guy.js"></script>
+<script src="mouth_01_02.js"></script>
+<script src="../long01/lib.js"></script>
+<script src="align_01_02.js"></script>
+<script>
+buildCaptionsA({
+ k1:["It's the first *cold morning* of the year."],
+ k2:["You start your car, and *this light* comes on."],
+ k3:["You walk around the car,","and all four tires look *perfectly fine.*"],
+ k4:["So what's *going on?*"],
+ k5:["Here's the strange part.","By lunchtime, the light might turn *itself off.*"],
+ k6:["Problem solved, right?","*Not exactly,* and that's the *trap.*"],
+ k7:["And if this light is *flashing* instead of staying on,","it means something *completely different.*"],
+ k8:["In the next few minutes you'll know exactly","what your car is trying to tell you,"],
+ k9:["and how to fix it in about *five minutes.*"],
+ m1:["This is the *tire pressure warning light.*"],
+ m2:["The symbol is a *cross section of a tire*","with an *exclamation point* in the middle."],
+ m3:["The system behind it is called *TPMS,*","short for *tire pressure monitoring system,*"],
+ m4:["and every new car and light truck sold in the US","has had one since the *2008* model year."],
+ m5:["Here's what most people *don't realize.*"],
+ m6:["By law, the light has to come on","when a tire is *25 percent* below","the pressure your car's maker *recommends.*"],
+ m7:["So if your tires should be at *35 PSI,*","the light may not come on","until one of them drops to around *26.*"],
+ m8:["When you see this light, a tire isn't *a little low.*","It's already *very low.*"],
+},window.ALIGN);
+const Gs=id=>groups.find(x=>x.id===id).start;
+const CX=1290;const flash=document.getElementById('flash'),frost=document.getElementById('frost');
+// dashboard chime (synthesized, not the BMW one): a lamp is dark until the chime, lit from c+0.03
+const CH_ON=W_('k2','comes')-.05;
+const CH_FL=[0,1,2].map(i=>+(W_('k7','flashing')-.15+i*1.05).toFixed(3));
+const CH_THIS=Gs('m1')+.05;const CH_G=Gs('k7')+.05;const CH_26=W_('m7','26')-.05;
+const T={A:-1,B:Gs('k2')-.1,B2:W_('k2','this')-.25,C:Gs('k3')-.1,D:Gs('k4')-.1,E:Gs('k5')-.1,F:Gs('k6')-.1,G:Gs('k7')-.1,H:Gs('k8')-.1,
+ S1:Gs('m1')-.1,S2:Gs('m2')-.1,S3:Gs('m3')-.1,S4:Gs('m4')-.1,S5:Gs('m5')-.1,S6:Gs('m6')-.1,S8:Gs('m8')-.1};
+const vis=(e,t,a,b,fi=.3,fo=.3)=>{const v=V(t,a,b,fi,fo);show(v,e);if(v>0)e.style.opacity=v;return v};
+const pop=(t,a,d=.4)=>back(P(t,a,d));
+
+// ---------- TPMS symbol ----------
+function tpms(parent,fill=AMBER){const l=g(parent);const glow=el('circle',{r:230,fill,opacity:0,filter:'url(#soft)'},l);const s=g(l);
+  const tire=el('path',{d:'M-118 -112 Q-162 -20 -142 58 Q-130 100 -100 110 L100 110 Q130 100 142 58 Q162 -20 118 -112',fill:'none','stroke-width':28,'stroke-linecap':'round','stroke-linejoin':'round'},s);
+  const treads=[-90,-45,0,45,90].map(x=>el('rect',{x:x-9,y:118,width:18,height:30,rx:5},s));
+  const bar=el('rect',{x:-14,y:-84,width:28,height:116,rx:10},s);const dot=el('circle',{cy:70,r:16},s);
+  l.set=v=>{const c=v>.5?fill:OFF;tire.setAttribute('stroke',c);[...treads,bar,dot].forEach(e=>e.setAttribute('fill',c));glow.setAttribute('opacity',.32*v)};l.set(0);return l}
+
+// ================= HOOK (no narrator) =================
+// A: frosty dawn, frosted car, thermometer
+const sA=g();el('rect',{width:1920,height:1080,fill:'url(#dawn)'},sA);
+const hills=el('path',{d:'M0 640 Q300 560 640 610 T1300 590 T1920 620 L1920 1080 L0 1080 Z',fill:'#202A40'},sA);
+const house=g(sA,{transform:'translate(1500 640)'});el('path',{d:'M-220 0 L-220 -200 L0 -330 L220 -200 L220 0 Z',fill:'#161B2C'},house);el('rect',{x:-150,y:-160,width:90,height:80,fill:'#E9C46A',opacity:.85},house);el('rect',{x:60,y:-160,width:90,height:80,fill:'#E9C46A',opacity:.55},house);
+el('rect',{x:0,y:640,width:1920,height:440,fill:'#C9D5E6'},sA);el('rect',{x:0,y:640,width:1920,height:12,fill:'#E6EEF8'},sA);
+const carA=g(sA);makeCar(carA,{body:'#7C8AA3',ink:'#2B3348',acc:'#55607A'});
+const frostDots=g(carA);for(let i=0;i<70;i++)el('circle',{cx:-460+((i*137)%920),cy:-130+((i*53)%200),r:3+(i%3)*2,fill:'#F2F7FF',opacity:.75},frostDots);
+const flakes=[...Array(40)].map(()=>el('circle',{r:3,fill:'#FFFFFF',opacity:.8},sA));
+const therm=g(sA,{transform:'translate(330 330)'});el('rect',{x:-26,y:-200,width:52,height:300,rx:26,fill:'#F4F1EA'},therm);const merc=el('rect',{x:-12,y:0,width:24,height:0,rx:12,fill:'#4FA3FF'},therm);el('circle',{cy:110,r:44,fill:'#4FA3FF'},therm);
+const tempT=txt(sA,470,360,140,'bold ink','');
+const breath=[...Array(6)].map(()=>el('circle',{fill:'#FFFFFF'},sA));
+// B: start button, then the cluster with the TPMS light
+const sB=g();el('rect',{width:1920,height:1080,fill:'#14141A'},sB);
+const btn=g(sB,{transform:'translate(960 470)'});el('circle',{r:210,fill:'#22222A'},btn);const btnRing=el('circle',{r:210,fill:'none','stroke-width':12,stroke:'#3A3A46'},btn);
+el('path',{d:'M-40 -110 A68 68 0 1 0 40 -110',fill:'none','stroke-width':18,stroke:CHALK,'stroke-linecap':'round'},btn);el('line',{x1:0,y1:-140,x2:0,y2:-74,'stroke-width':18,stroke:CHALK,'stroke-linecap':'round'},btn);
+txt(btn,0,60,44,'mic ink','ENGINE');txt(btn,0,108,32,'mic mut','START STOP');const ripple=el('circle',{r:210,fill:'none','stroke-width':14,stroke:LIME},btn);
+const finger=g(sB);el('rect',{x:-50,y:0,width:100,height:420,rx:50,fill:'#E7B28C'},finger);el('rect',{x:-70,y:180,width:140,height:400,rx:60,fill:'#2F2F3A'},finger);
+const cluB=makeCluster(sB);cluB.lamp.style.display='none';const tB=tpms(cluB);tB.setAttribute('transform','translate(0 -10) scale(.44)');
+// C: top-down walk around, four tires look fine
+const sC=g();el('rect',{width:1920,height:1080,fill:'#C9D5E6'},sC);[...Array(30)].forEach((_,i)=>el('circle',{cx:(i*263)%1920,cy:(i*151)%1080,r:4,fill:'#F2F7FF'},sC));
+const topCar=g(sC,{transform:'translate(960 470)'});
+const tiresC=[[-250,-170],[250,-170],[-250,170],[250,170]].map(([x,y])=>el('rect',{x:x-55,y:y-34,width:110,height:68,rx:16,fill:'#1C1C24'},topCar));
+el('rect',{x:-380,y:-160,width:760,height:320,rx:110,fill:'#7C8AA3'},topCar);el('rect',{x:-150,y:-130,width:330,height:260,rx:60,fill:'#2B3348'},topCar);el('rect',{x:-120,y:-104,width:270,height:208,rx:40,fill:'#7C8AA3'},topCar);
+el('rect',{x:360,y:-120,width:24,height:60,rx:8,fill:'#E9C46A'},topCar);el('rect',{x:360,y:60,width:24,height:60,rx:8,fill:'#E9C46A'},topCar);
+const steps=[...Array(26)].map(()=>el('ellipse',{rx:12,ry:20,fill:'#8C9BB4'},sC));
+const okC=[[-250,-260],[250,-260],[-250,260],[250,260]].map(([x,y])=>{const c=g(topCar,{transform:`translate(${x} ${y})`});el('circle',{r:40,fill:LIME},c);el('path',{d:'M-17 0 l12 13 l22 -26',fill:'none',stroke:ASPH,'stroke-width':9,'stroke-linecap':'round'},c);return c});
+const fine=g(sC);el('rect',{x:-230,y:-40,width:460,height:80,rx:40,fill:ASPH},fine);txt(fine,0,13,36,'mic acc','THEY LOOK FINE');
+// D: confused driver in winter gear
+const sD=g();el('rect',{width:1920,height:1080,fill:'url(#dawn)'},sD);el('rect',{x:0,y:700,width:1920,height:380,fill:'#C9D5E6'},sD);
+const carD=g(sD,{transform:'translate(1400 640) scale(.8)'});makeCar(carD,{body:'#7C8AA3',ink:'#2B3348',acc:'#55607A'});
+const drvG=g(sD);const guyD=makeGuy(drvG);
+// winter props: scarf + beanie
+el('path',{d:'M-74 -26 Q0 22 74 -26 L86 22 Q0 76 -86 22 Z',fill:RED},guyD.props);el('path',{d:'M34 26 L70 170 L26 182 L6 38 Z',fill:RED},guyD.props);el('path',{d:'M40 120 L66 112 M44 140 L70 132',stroke:CHALK,'stroke-width':6},guyD.props);
+const bean=g(guyD.head);el('path',{d:'M-114 -196 Q-122 -334 0 -340 Q122 -334 114 -196 Q60 -214 0 -216 Q-60 -214 -114 -196 Z',fill:'#2E6BD8'},bean);el('path',{d:'M-118 -214 Q0 -246 118 -214 L116 -186 Q0 -218 -116 -186 Z',fill:'#1F4FA8'},bean);el('circle',{cy:-344,r:28,fill:CHALK},bean);
+const qD=[0,1,2].map(i=>{const q=txt(sD,0,0,120,'bold acc','?');return q});
+const breathD=[...Array(5)].map(()=>el('circle',{fill:'#FFFFFF'},sD));
+// E: time-lapse to lunchtime, light turns off
+const sE=g();const skyE1=el('rect',{width:1920,height:1080,fill:'url(#dawn)'},sE);const skyE2=el('rect',{width:1920,height:1080,fill:'url(#noon)',opacity:0},sE);
+const sunE=el('circle',{r:80,fill:'#FFD27A'},sE);el('rect',{x:0,y:700,width:1920,height:380,fill:'#B7C49A'},sE);
+const clock=g(sE,{transform:'translate(700 420)'});el('circle',{r:170,fill:CHALK},clock);for(let i=0;i<12;i++)el('rect',{x:-4,y:-160,width:8,height:22,rx:4,fill:ASPH,transform:`rotate(${i*30})`},clock);
+const hH=el('rect',{x:-8,y:-90,width:16,height:100,rx:8,fill:ASPH},clock);const mH=el('rect',{x:-5,y:-140,width:10,height:150,rx:5,fill:ASPH},clock);el('circle',{r:14,fill:RED},clock);
+const tempE=txt(sE,700,690,64,'bold ink','');
+const eLampC=card(sE,360,300);const eLamp=tpms(eLampC);eLamp.setAttribute('transform','translate(0 -20) scale(.62)');const eLab=txt(eLampC,0,124,26,'mic','');
+function card(p,w,h,fill){const c=g(p);el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:28,fill:fill||GRAPH},c);return c}
+// F: solved? -> trap
+const sF=g();el('rect',{width:1920,height:1080,fill:ASPH},sF);const fLampC=card(sF,360,300);const fLamp=tpms(fLampC);fLamp.setAttribute('transform','translate(0 -20) scale(.62)');
+const solved=g(sF);el('rect',{x:-200,y:-44,width:400,height:88,rx:44,fill:LIME},solved);txt(solved,0,14,40,'mic bgf','SOLVED?');
+const trap=g(sF);el('rect',{x:-260,y:-20,width:520,height:60,rx:10,fill:'#B5835A'},trap);el('rect',{x:-260,y:30,width:520,height:12,rx:6,fill:'#8C6240'},trap);
+const cheese=g(trap,{transform:'translate(150 -20)'});el('path',{d:'M-70 0 L70 0 L50 -80 Z',fill:'#F2C14E'},cheese);[[-20,-20,10],[25,-35,8],[10,-12,6]].forEach(([x,y,r])=>el('circle',{cx:x,cy:y,r,fill:'#D9A632'},cheese));
+const bar=g(trap);el('path',{d:'M0 -20 L0 -170 L220 -170 L220 -20',fill:'none',stroke:'#C9CED8','stroke-width':12,'stroke-linejoin':'round'},bar);el('circle',{cx:0,cy:-20,r:14,fill:'#9AA0AE'},trap);
+const trapT=g(sF);el('rect',{x:-160,y:-48,width:320,height:96,rx:48,fill:RED},trapT);txt(trapT,0,16,52,'bold ink','TRAP');
+// G: flashing means something else
+const sG=g();el('rect',{width:1920,height:1080,fill:ASPH},sG);const gS=card(sG,420,380);const gSl=tpms(gS);gSl.setAttribute('transform','translate(0 -30) scale(.7)');txt(gS,0,150,30,'mic acc','STEADY');
+const gF=card(sG,420,380);const gFl=tpms(gF);gFl.setAttribute('transform','translate(0 -30) scale(.7)');txt(gF,0,150,30,'mic red','FLASHING');
+const neq=txt(sG,960,450,140,'bold ink','≠');
+
+// ================= STUDIO (narrator from here on) =================
+const studio=makeStudio();const guy=studio.guy;
+const bug=el('text',{x:1856,y:76,'text-anchor':'end',class:'bold','font-size':40,opacity:0});[['WHAT THE ',CHALK],['CAR',LIME],['?',RED]].forEach(([s,c])=>{const sp=el('tspan',{fill:c},bug);sp.textContent=s});
+// H: title + 5 minute fix
+const sH=g();const hL=tpms(sH);const hT1=txt(sH,0,0,112,'bold ink','TIRE PRESSURE LIGHT');const hT2=txt(sH,0,0,52,'mic','EXPLAINED');hT2.setAttribute('fill',LIME);hT2.setAttribute('letter-spacing','.3em');
+const watch=g(sH);el('circle',{r:110,fill:CHALK},watch);el('rect',{x:-26,y:-150,width:52,height:34,rx:8,fill:CHALK},watch);const wArc=el('path',{fill:LIME},watch);txt(watch,0,24,64,'bold bgf','5:00');txt(watch,0,160,26,'mic acc','MINUTE FIX');
+// S1/S2: the symbol and the real tire
+const s1=g();const bigL=tpms(s1);
+const realTire=g(s1);el('path',{d:'M-170 -150 Q-230 -20 -200 90 Q-184 150 -130 160 L130 160 Q184 150 200 90 Q230 -20 170 -150 L120 -150 Q150 -40 130 80 Q110 110 80 110 L-80 110 Q-110 110 -130 80 Q-150 -40 -120 -150 Z',fill:'#4A4A56',stroke:'#7A7A86','stroke-width':6},realTire);
+[-140,-80,-20,40,100].forEach(x=>el('rect',{x,y:160,width:40,height:30,rx:6,fill:'#4A4A56'},realTire));el('rect',{x:-150,y:-170,width:300,height:30,rx:10,fill:'#6A6A76'},realTire);
+const rtLab=txt(s1,0,0,26,'mic mut','TIRE, CROSS SECTION');const exLab=txt(s1,0,0,26,'mic acc','EXCLAMATION POINT');
+// S3: T P M S tiles
+const s3=g();const tiles=[['T','TIRE'],['P','PRESSURE'],['M','MONITORING'],['S','SYSTEM']].map(([l,w],i)=>{const c=g(s3);const f=g(c);el('rect',{x:-110,y:-110,width:220,height:220,rx:30,fill:GRAPH},f);txt(f,0,48,150,'bold acc',l);
+  const b=g(c);el('rect',{x:-110,y:-110,width:220,height:220,rx:30,fill:LIME},b);txt(b,0,14,34,'mic bgf',w);return {c,f,b}});
+// S4: sensors on every wheel, since 2008
+const s4=g();const road4=g(s4);el('rect',{x:-520,y:120,width:1040,height:12,rx:6,class:'lin'},road4);const rd4=[...Array(9)].map(()=>el('rect',{y:150,width:70,height:8,rx:4,class:'lin'},road4));
+const vehs=[0,1].map(i=>{const v=g(s4);makeCar(v,{body:i?'#A8B3C7':CHALK,ink:ASPH,acc:AMBER}).setAttribute('transform','scale(.42)');const sen=[-180,170].map(x=>{const s=g(v,{transform:`translate(${x*.42*2.33} ${33})`});el('circle',{r:14,fill:LIME},s);return s});v.sen=sen;return v});
+const since=g(s4);el('rect',{x:-260,y:-60,width:520,height:120,rx:30,fill:GRAPH},since);txt(since,-70,14,34,'mic mut','SINCE THE');const yr=txt(since,140,24,80,'bold acc','2008');txt(since,0,96,24,'mic mut','MODEL YEAR · USA');
+// S5: by law (the fine print)
+const s5=g();const doc=g(s5);el('rect',{x:-230,y:-290,width:460,height:580,rx:20,fill:CHALK},doc);el('rect',{x:-230,y:-290,width:460,height:70,rx:20,fill:'#2A2A33'},doc);txt(doc,0,-245,26,'mic ink','FEDERAL SAFETY RULE');
+const lines5=[...Array(8)].map((_,i)=>el('rect',{x:-190,y:-180+i*52,width:i===4?300:380,height:14,rx:7,fill:'#CFC8B8'},doc));const hl5=el('rect',{x:-200,y:-180+4*52-14,width:340,height:42,rx:8,fill:LIME,opacity:0},doc);doc.insertBefore(hl5,lines5[4]);
+const hlT=txt(doc,-180,-180+4*52+10,24,'mic bgf','','start');
+// S6/S7: the gauge
+const s6=g();const gz=g(s6);el('circle',{r:270,fill:'#1B1B21'},gz);el('circle',{r:270,fill:'none',stroke:'#3A3A46','stroke-width':10},gz);
+const ga=a=>(-135+270*a)*Math.PI/180;const arc=(a0,a1,r)=>{const p0=[r*Math.sin(ga(a0)),-r*Math.cos(ga(a0))],p1=[r*Math.sin(ga(a1)),-r*Math.cos(ga(a1))];return `M${p0[0]} ${p0[1]} A${r} ${r} 0 ${a1-a0>.666?1:0} 1 ${p1[0]} ${p1[1]}`};
+el('path',{d:arc(0,1,220),fill:'none',stroke:'#30303A','stroke-width':30},gz);const redZ=el('path',{d:arc(0,26.25/50,220),fill:'none',stroke:RED,'stroke-width':30,opacity:0},gz);
+for(let p=0;p<=50;p+=5){const a=ga(p/50);el('line',{x1:190*Math.sin(a),y1:-190*Math.cos(a),x2:(p%10?172:160)*Math.sin(a),y2:-(p%10?172:160)*Math.cos(a),stroke:CHALK,'stroke-width':p%10?4:7},gz);if(p%10===0)txt(gz,125*Math.sin(a),-125*Math.cos(a)+12,34,'mic ink',String(p))}
+const tgt=g(gz);const ta=ga(35/50);el('path',{d:`M${236*Math.sin(ta)} ${-236*Math.cos(ta)} L${262*Math.sin(ta-.06)} ${-262*Math.cos(ta-.06)} L${262*Math.sin(ta+.06)} ${-262*Math.cos(ta+.06)} Z`,fill:LIME},tgt);
+const needle=g(gz);el('path',{d:'M-10 0 L0 -200 L10 0 Z',fill:CHALK},needle);el('circle',{r:26,fill:CHALK},needle);
+const psiT=txt(gz,0,120,80,'bold ink','');txt(gz,0,165,26,'mic mut','PSI');
+const pctT=g(s6);el('rect',{x:-190,y:-46,width:380,height:92,rx:46,fill:RED},pctT);txt(pctT,0,16,46,'bold ink','25% BELOW');
+const recT=g(s6);el('rect',{x:-210,y:-40,width:420,height:80,rx:40,fill:LIME},recT);txt(recT,0,12,32,'mic bgf','RECOMMENDED: 35');
+const lamp6=card(s6,300,260);const l6=tpms(lamp6);l6.setAttribute('transform','translate(0 -16) scale(.5)');const l6t=txt(lamp6,0,106,22,'mic','');
+// S8: a little low vs very low
+const s8=g();function sideTire(p){const t=g(p);const b=el('path',{fill:'#4A4A56',stroke:'#7A7A86','stroke-width':6},t);el('circle',{r:80,fill:'#9AA0AE'},t);el('circle',{r:26,fill:'#4A4A56'},t);t.set=k=>{const yc=150-60*k;const xc=Math.sqrt(150*150-yc*yc);b.setAttribute('d',`M${-xc} ${yc} A150 150 0 1 1 ${xc} ${yc} Z`);t.firstChild.setAttribute('transform',`scale(${1+.1*k} 1)`)};return t}
+const tA=sideTire(s8),tB2=sideTire(s8);const labA=txt(s8,0,0,32,'mic ink','A LITTLE LOW');const labB=txt(s8,0,0,40,'bold red','VERY LOW');const xA=el('path',{d:'M-120 -12 L120 -12',stroke:RED,'stroke-width':10,'stroke-linecap':'round'},s8);
+const ground=el('rect',{x:900,y:720,width:900,height:10,rx:5,class:'lin'},s8);
+
+// ---------- narrator poses ----------
+const SH=[612,606];const ptTo=(x,y,shape='point')=>{const a=Math.atan2(y-SH[1],x-SH[0]);return {L:REST.L,R:{x:182+300*Math.cos(a),y:46+300*Math.sin(a),shape}}};
+const POSE={rest:REST,open:{L:{x:-300,y:190,shape:'open'},R:{x:300,y:190,shape:'open'}},one:{L:REST.L,R:{x:240,y:-50,shape:'point',rot:-90}},
+ mid:ptTo(CX,420),top:ptTo(CX,260),low:ptTo(CX,640),left:ptTo(1060,400),right:ptTo(1560,400)};
+const poseAt=poser(POSE,[[T.H,'rest'],[T.H+.2,'open'],[W_('k9','five')-.3,'one'],[T.S1,'mid'],[T.S2,'mid'],[T.S3,'top'],[T.S4,'low'],[T.S5,'one'],[T.S6,'mid'],[W_('m7','26')-.4,'right'],[T.S8,'mid'],[69,'rest']]);
+
+window.render=function(t){
+ const inStudio=t>=T.H;cap.style.left=inStudio?'720px':'210px';cap.style.width=inStudio?'1140px':'1500px';
+ renderCaptions(t);flash.style.opacity=0;frost.style.opacity=0;bug.style.opacity=inStudio?.6:0;
+
+ // A: frosty morning
+ if(vis(sA,t,T.A,T.B,.01,.25)>0){const k=P(t,0,2.4);carA.setAttribute('transform',`translate(${960+30*k} 700) scale(.9)`);
+  flakes.forEach((f,i)=>{const y=((i*97+t*60)%700);f.setAttribute('cx',(i*211+20*Math.sin(t+i))%1920);f.setAttribute('cy',y);});
+  const tk=eo(P(t,.4,1.2));const temp=Math.round(lerp(45,30,tk));merc.setAttribute('y',-lerp(150,60,tk));merc.setAttribute('height',lerp(150,60,tk)+10);tempT.textContent=temp+'°F';
+  breath.forEach((b,i)=>{const q=((t*.6+i/6)%1);b.setAttribute('cx',1180+q*80);b.setAttribute('cy',560-q*60);b.setAttribute('r',10+30*q);b.setAttribute('opacity',0)});
+  frost.style.opacity=.9}
+ // B: start button -> cluster
+ if(vis(sB,t,T.B,T.C,.12,.25)>0){frost.style.opacity=.7;
+  const press=P(t,T.B+.35,.25),rel=P(t,T.B+.7,.25);const pr=Math.max(0,press-rel);
+  const zoom=eio(P(t,T.B2,.5));btn.setAttribute('transform',`translate(960 ${470}) scale(${(1-.05*pr)*(1-zoom*.3)})`);btn.style.opacity=1-zoom;
+  finger.setAttribute('transform',`translate(${1060-30*eo(P(t,T.B,.4))} ${lerp(1100,640,eo(P(t,T.B,.35)))+40*pr})`);finger.style.opacity=1-zoom;
+  ripple.setAttribute('transform',`scale(${1+.2*eo(P(t,T.B+.6,.6))})`);ripple.style.opacity=t>T.B+.6?1-P(t,T.B+.6,.6):0;btnRing.setAttribute('stroke',t>T.B+.6?LIME:'#3A3A46');
+  tr(cluB,960,470,lerp(.8,1.6,zoom),0,zoom);cluB.L.set(0);cluB.R.set(t>T.B+.8?.1+.004*Math.sin(t*9):0);
+  const on=t>=CH_ON+.03;tB.set(on?1:0);if(t>CH_ON&&t<CH_ON+.35)flash.style.opacity=.18*(1-P(t,CH_ON,.35))}
+ // C: walk around the car
+ if(vis(sC,t,T.C,T.D,.25,.25)>0){const w=P(t,T.C+.2,3.2);
+  steps.forEach((s,i)=>{const a=-Math.PI/2+i/26*Math.PI*2;const sh=(i%2?1:-1)*14;const x=960+520*Math.cos(a)+sh*Math.cos(a),y=470+300*Math.sin(a)+sh*Math.sin(a);s.setAttribute('cx',x);s.setAttribute('cy',y);s.setAttribute('transform',`rotate(${a*180/Math.PI} ${x} ${y})`);s.style.opacity=i/26<w?.8:0});
+  const tf=[.15,.4,.65,.9];okC.forEach((c,i)=>{const at=T.C+.2+3.2*[0.1,0.35,0.85,0.6][i];c.style.opacity=t>at?1:0;c.setAttribute('transform',`translate(${[-250,250,-250,250][i]} ${[-260,-260,260,260][i]}) scale(${pop(t,at,.35)})`)});
+  const tfn=W_('k3','perfectly')-.2;tr(fine,960,860,pop(t,tfn),0,t>tfn?1:0)}
+ // D: so what's going on?
+ if(vis(sD,t,T.D,T.E,.2,.25)>0){frost.style.opacity=.5;
+  guyD.set({mouth:.25,smile:-.4,browUp:1,browWorry:.4,eyes:1,pupil:1,look:[.6*Math.sin(t*2),-.6],tilt:-8,nod:0,amber:0,hands:{L:{x:-120,y:-110,shape:'fist',rot:-100},R:{x:220,y:330}}});
+  drvG.setAttribute('transform',`translate(700 ${800+4*Math.sin(t*2)}) scale(1.05)`);
+  qD.forEach((q,i)=>{const at=T.D+.2+i*.25;q.setAttribute('x',[480,960,1020][i]);q.setAttribute('y',[260,180,330][i]+8*Math.sin(t*3+i));q.style.opacity=t>at?1:0;q.setAttribute('font-size',120*pop(t,at,.35))});
+  breathD.forEach((b,i)=>{const q=((t*.7+i/5)%1);b.setAttribute('cx',760+q*90);b.setAttribute('cy',612-q*50);b.setAttribute('r',8+26*q);b.setAttribute('opacity',.5*(1-q))})}
+ // E: time-lapse to lunch, light goes off
+ if(vis(sE,t,T.E,T.F,.25,.25)>0){const tl=eio(P(t,W_('k5','lunchtime')-.6,1.8));
+  skyE2.setAttribute('opacity',tl);const sa=Math.PI*(1-tl*.5);sunE.setAttribute('cx',960+700*Math.cos(sa));sunE.setAttribute('cy',700-520*Math.sin(sa));
+  const hrs=7.5+4.5*tl;hH.setAttribute('transform',`rotate(${hrs*30})`);mH.setAttribute('transform',`rotate(${hrs*360})`);tempE.textContent=Math.round(lerp(30,55,tl))+'°F';tempE.setAttribute('fill',tl>.5?ASPH:CHALK);
+  const off=t>W_('k5','off')-.15;eLamp.set(off?0:1);eLab.textContent=off?'LIGHT OFF':'LIGHT ON';eLab.setAttribute('fill',off?H.smoke:AMBER);tr(eLampC,1300,420,1,0,1)}
+ // F: solved? trap
+ if(vis(sF,t,T.F,T.G,.25,.25)>0){tr(fLampC,960,260,.8,0,1);fLamp.set(0);
+  const ts=Gs('k6');tr(solved,1110,470,pop(t,ts),0,t>ts&&t<W_('k6','trap')-.2?1:0);
+  const tt=W_('k6','trap')-.25;const sn=eio(P(t,tt,.15));bar.setAttribute('transform',`scale(${lerp(-1,1,sn)} 1)`);cheese.style.opacity=1;
+  tr(trap,960,720,1.1*pop(t,ts-.1),0,t>ts-.1?1:0);tr(trapT,960,560,pop(t,tt+.15),-6,t>tt+.15?1:0)}
+ // G: flashing is different
+ if(vis(sG,t,T.G,T.H,.25,.3)>0){tr(gS,620,420,pop(t,T.G),0,1);tr(gF,1300,420,pop(t,T.G+.15),0,1);gSl.set(t>=CH_G+.03?1:0);gFl.set(blink(t));
+  CH_FL.forEach(c=>{if(t>c&&t<c+.25)flash.style.opacity=.12*(1-P(t,c,.25))});neq.setAttribute('transform',`scale(${pop(t,W_('k7','different')-.3)})`);neq.setAttribute('transform-origin','960 400');neq.style.opacity=t>W_('k7','different')-.3?1:0;neq.setAttribute('x',960)}
+ function blink(t){for(const c of CH_FL){const d=t-c;if(d>=.03&&d<.58)return 1}return 0}
+
+ // ================= studio =================
+ {const v=t>=T.H;show(v?1:0,studio);if(v){const pz=poseAt(t);const m=mouthAt(t);
+   guy.set({mouth:.9*m,smile:.5,browUp:.1+.25*m,browWorry:0,eyes:blinkAt(t,3.3,.2),pupil:1,look:['mid','top','low','right'].includes(pz.name)?[.85,-.15]:[.08*Math.sin(t*.7),0],tilt:2*Math.sin(t*1.1),nod:2.2*m,amber:0,hands:{L:pz.L,R:pz.R}});
+   const ent=eo(P(t,T.H,.45));studio.presG.setAttribute('transform',`translate(${lerp(300,430,ent)} ${560+4*Math.sin(t*1.6)})`)}}
+ if(vis(sH,t,T.H,T.S1)>0){const tl=Gs('k8');tr(hL,CX,240,.55*pop(t,tl),0,1);hL.set(0);
+  tr(hT1,CX,470,pop(t,tl+.2),0,1);hT2.setAttribute('transform',`translate(${CX} 545)`);hT2.style.opacity=eo(P(t,tl+.5,.4));
+  const tf=W_('k9','five')-.3;tr(watch,CX,720,.75*pop(t,tf),0,t>tf?1:0);const a=P(t,tf+.3,1.2)*Math.PI*2;wArc.setAttribute('d',`M0 0 L0 -96 A96 96 0 ${a>Math.PI?1:0} 1 ${96*Math.sin(a)} ${-96*Math.cos(a)} Z`)}
+ if(vis(s1,t,T.S1,T.S3)>0){const tr2=W_('m2','cross')-.2;const mv=eio(P(t,tr2,.6));
+  tr(bigL,lerp(CX,1520,mv),400,lerp(1.25,.95,mv)*pop(t,T.S1),0,1);bigL.set(t>=CH_THIS+.03?1:0);if(t>CH_THIS&&t<CH_THIS+.35)flash.style.opacity=.15*(1-P(t,CH_THIS,.35));
+  tr(realTire,1040,420,.95*pop(t,tr2),0,t>tr2?1:0);rtLab.setAttribute('transform','translate(1040 690)');rtLab.style.opacity=t>tr2+.3?1:0;
+  const te=W_('m2','exclamation')-.2;exLab.setAttribute('transform','translate(1520 690)');exLab.style.opacity=t>te?1:0;
+  if(t>te&&t<te+.6)bigL.setAttribute('transform',`translate(1520 400) scale(${.95*(1+.08*Math.sin(P(t,te,.6)*Math.PI))})`)}
+ if(vis(s3,t,T.S3,T.S4)>0){const wl=[W_('m3','tire'),W_('m3','pressure'),W_('m3','monitoring'),W_('m3','system')].map(x=>x-.15);
+  tiles.forEach((tl,i)=>{tr(tl.c,CX+(i-1.5)*250,420,pop(t,T.S3+.2+i*.12),0,1);const fk=P(t,wl[i],.35);const sx=Math.abs(Math.cos(fk*Math.PI));
+   tl.f.style.display=fk<.5?'':'none';tl.b.style.display=fk>=.5?'':'none';tl.f.setAttribute('transform',`scale(${fk<.5?sx:1} 1)`);tl.b.setAttribute('transform',`scale(${fk>=.5?sx:1} 1)`)})}
+ if(vis(s4,t,T.S4,T.S5)>0){tr(road4,CX,420,1,0,1);rd4.forEach((d,i)=>d.setAttribute('x',((i*130-t*380)%1170+1170)%1170-585));
+  vehs.forEach((v,i)=>{const at=T.S4+.2+i*.5;v.setAttribute('transform',`translate(${CX-250+i*420+lerp(-600,0,eo(P(t,at,.8)))} ${490+2*Math.sin(t*14+i)})`);v.sen.forEach((s,j)=>{const st=W_('m4','sold')+i*.3+j*.15;s.style.opacity=t>st?1:0;s.setAttribute('transform',`translate(${[-180,170][j]} 33) scale(${pop(t,st,.3)})`)})});
+  const ty=W_('m4','2008')-.4;tr(since,CX,200,pop(t,ty),0,t>ty?1:0);yr.textContent=String(Math.round(lerp(2005,2008,eo(P(t,ty,.6)))))}
+ if(vis(s5,t,T.S5,T.S6)>0){tr(doc,CX,430,.95*pop(t,T.S5),-3,1);const th=W_('m6','law')-.2;hl5.setAttribute('opacity',t>th?1:0);hlT.textContent=t>th?'LIGHT ON AT 25% LOW':''}
+ if(vis(s6,t,T.S6,T.S8)>0){gz.setAttribute('transform',`translate(1110 420) scale(${.95*pop(t,T.S6)})`);
+  const t25=W_('m6','25')-.2,t35=W_('m7','35')-.3,t26=CH_26;redZ.setAttribute('opacity',t>t25?.85:0);tr(pctT,1110,800,pop(t,t25),0,t>t25&&t<Gs('m7')?1:0);
+  let psi=35;if(t<t35)psi=lerp(30,35,eo(P(t,T.S6,1.0)));else psi=lerp(35,26,eio(P(t,W_('m7','light')-.2,CH_26-W_('m7','light')+.25)));needle.setAttribute('transform',`rotate(${-135+270*psi/50})`);psiT.textContent=String(Math.round(psi));psiT.setAttribute('fill',psi<26.6?RED:CHALK);
+  tr(recT,1110,800,pop(t,t35),0,t>t35?1:0);tr(lamp6,1610,420,pop(t,T.S6+.3),0,1);const on=t>=t26+.03;l6.set(on?1:0);l6t.textContent=on?'LIGHT ON':'LIGHT OFF';l6t.setAttribute('fill',on?AMBER:H.smoke);if(t>t26&&t<t26+.35)flash.style.opacity=.18*(1-P(t,t26,.35))}
+ if(vis(s8,t,T.S8,99)>0){tA.set(.15);tB2.set(.9);tr(tA,1050,560,.9*pop(t,T.S8),0,1);tr(tB2,1550,560,.9*pop(t,W_('m8','very')-.4),0,t>W_('m8','very')-.4?1:0);
+  labA.setAttribute('x',1050);labA.setAttribute('y',820);const xk=W_('m8','already')-.2;xA.setAttribute('transform',`translate(1050 808) scale(${eo(P(t,xk,.3))} 1)`);
+  labB.setAttribute('x',1550);labB.setAttribute('y',820);labB.style.opacity=t>W_('m8','very')-.3?1:0}
+};
+window.DUR=69.6;
+window.EV=(()=>{const E=[];const A=(t,type,d=0,v=1)=>E.push([+t.toFixed(3),type,d,v]);
+ A(0,'air',T.C,.45);A(.4,'gearticks',1.2,.4);
+ A(T.B+.55,'clack',0,.8);A(T.B+.6,'starter',.5,.4);A(T.B+.95,'catch',0,.45);A(T.B+1.6,'idle',3.0,.3);A(CH_ON,'warn',1.0,.6);
+ A(T.C,'whoosh',.4,.4);for(let i=0;i<10;i++)A(T.C+.25+i*.32,'tick',0,.35);[0.1,0.35,0.6,0.85].forEach(f=>A(T.C+.2+3.2*f,'check',0,.6));
+ A(T.D,'whoosh',.4,.4);[0,1,2].forEach(i=>A(T.D+.2+i*.25,'pop',0,.6));
+ A(T.E,'whoosh',.4,.4);A(W_('k5','lunchtime')-.6,'riser',1.8,.3);A(W_('k5','off')-.15,'clunk',0,.5);
+ A(T.F,'whoosh',.4,.4);A(Gs('k6'),'check',0,.6);A(W_('k6','trap')-.25,'thud',0,.9);A(W_('k6','trap')-.22,'clack',0,.9);
+ A(T.G,'whoosh',.4,.4);A(CH_G,'warn',1.0,.45);CH_FL.forEach(c=>A(c,'warn',.95,.5));A(W_('k7','different')-.3,'pop',0,.6);
+ A(T.H,'whoosh',.5,.5);A(Gs('k8')+.2,'thud',0,.5);A(W_('k9','five')-.3,'pop',0,.6);A(W_('k9','five'),'gearticks',1.2,.5);
+ A(T.S1,'whoosh',.45,.45);A(CH_THIS,'warn',1.0,.55);A(W_('m2','cross')-.2,'pop',0,.6);A(W_('m2','exclamation')-.2,'pop',0,.6);
+ A(T.S3,'whoosh',.4,.4);['tire','pressure','monitoring','system'].forEach(w=>A(W_('m3',w)-.15,'clack',0,.5));
+ A(T.S4,'whoosh',.4,.4);A(T.S4+.2,'run4',4.0,.3);A(W_('m4','2008')-.4,'gearticks',.6,.6);A(W_('m4','2008')+.25,'thud',0,.5);
+ A(T.S5,'whoosh',.4,.4);A(W_('m6','law')-.2,'check',0,.6);
+ A(T.S6,'whoosh',.4,.4);A(W_('m6','25')-.2,'pop',0,.6);A(W_('m7','35')-.3,'check',0,.6);A(W_('m7','light')-.2,'tapestop',0,.3);A(CH_26,'warn',1.0,.6);
+ A(T.S8,'whoosh',.4,.4);A(W_('m8','already')-.2,'clunk',0,.6);A(W_('m8','very')-.4,'thud',0,.8);
+ return E})();
+window.__ready=document.fonts.ready.then(()=>{fitCaptions();window.render(0);return true});
+</script>
+</body></html>

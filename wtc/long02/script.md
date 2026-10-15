@@ -26,3 +26,9 @@ Why does this matter? Low tires flex more and run hotter, they wear out faster, 
 
 ## 08 close
 So the next time this light shows up on a cold morning, you'll know exactly what to do. Did this light ever surprise you on a cold day? Tell me in the comments. And if this helped, subscribe to What the Car? so you don't miss the next one.
+
+## Üretim notları
+- BMW sesi bu videoda YOK. Yerine sentez `warn` sesi (audio_hook.py içinde, iki notalı ding). Lamba yine sadece ses gelince yanar.
+- Parça 1+2 tek ses: `01_02.mp3`, sahne `scene01_02.html`, hizalama `align_01_02.json`.
+- Kanca dış mekân (kırağı, bereli sürücü), parça 2'den itibaren stüdyoda anlatıcı.
+- Birleştirme: `parts.json` + `./build.sh cikti.mp4` (kesintisiz müzik).

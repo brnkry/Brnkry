@@ -4,7 +4,16 @@ import sys, subprocess, json, re
 from pocketsphinx import Decoder
 SR = 16000
 raw = subprocess.run(['ffmpeg','-v','error','-i',sys.argv[1],'-f','s16le','-ac','1','-ar',str(SR),'-'],capture_output=True).stdout
+ONES='zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split()
+TENS='_ _ twenty thirty forty fifty sixty seventy eighty ninety'.split()
+def n2w(n):
+    if n<20: return ONES[n]
+    if n<100: return TENS[n//10]+('' if n%10==0 else ' '+ONES[n%10])
+    if n<1000: return ONES[n//100]+' hundred'+('' if n%100==0 else ' '+n2w(n%100))
+    return n2w(n//1000)+' thousand'+('' if n%1000==0 else ' '+n2w(n%1000))
 text = open(sys.argv[2]).read().lower().replace('1996','nineteen ninety six')
+text = re.sub(r'(\d+)\.(\d+)', lambda m: n2w(int(m.group(1)))+' point '+' '.join(ONES[int(c)] for c in m.group(2)), text)
+text = re.sub(r'\d+', lambda m: n2w(int(m.group(0))), text)
 text = re.sub(r"[^a-z' ]+", ' ', text)
 words = text.split()
 d = Decoder(samprate=SR, bestpath=False)

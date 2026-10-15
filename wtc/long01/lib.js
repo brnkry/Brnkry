@@ -67,8 +67,10 @@ function poser(POSE,KEYS){return t=>{let i=0;while(i<KEYS.length-1&&t>=KEYS[i+1]
 // G: {id:[[s,e,"text *emph*"],...]} (s/e ignored) ; A: [[word,start,end],...] in script order
 const WL={};const WL_=(id,w)=>{const k=id+':'+w;if(!(k in WL))throw new Error('no word '+k);return WL[k]};
 const DIG=['zero','one','two','three','four','five','six','seven','eight','nine'];
-function spoken(tok){let t=tok.toLowerCase().replace(/\*/g,'').replace(/[.,:?!;"]/g,'');
-  const map={'1996':['nineteen','ninety','six'],'16':['sixteen'],'obd-ii':['o','b','d','two'],'ecu':['e','c','u'],'$1,000':['thousand']};
+const ONES_='zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' ');const TENS_='_ _ twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
+function n2w(n){if(n<20)return [ONES_[n]];if(n<100)return [TENS_[Math.floor(n/10)],...(n%10?[ONES_[n%10]]:[])];if(n<1000)return [ONES_[Math.floor(n/100)],'hundred',...(n%100?n2w(n%100):[])];return [...n2w(Math.floor(n/1000)),'thousand',...(n%1000?n2w(n%1000):[])]}
+function spoken(tok){{const r=tok.replace(/\*/g,'').replace(/[,:?!;"]/g,'').replace(/\.$/,'');if(/^\d+$/.test(r)&&r!=='1996'&&r!=='16')return n2w(+r);if(/^\d+\.\d+$/.test(r)){const [a,b]=r.split('.');return [...n2w(+a),'point',...b.split('').map(d=>ONES_[+d])]}}let t=tok.toLowerCase().replace(/\*/g,'').replace(/[.,:?!;"]/g,'');
+  const map={'1996':['nineteen','ninety','six'],'16':['sixteen'],'obd-ii':['o','b','d','two'],'ecu':['e','c','u'],'tpms':['t','p','m','s'],'psi':['p','s','i'],'$1,000':['thousand']};
   if(map[t])return map[t];let m=t.match(/^p(\d{4})$/);if(m)return ['p',...m[1].split('').map(d=>DIG[+d])];
   t=t.replace(/[^a-z']/g,'');return t?[t]:[]}
 function buildCaptionsA(G,A){const AW=A.map(([w,s,e])=>[w.replace(/\(\d+\)$/,''),s,e]);let k=0,last=0;

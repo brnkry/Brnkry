@@ -8,3 +8,7 @@ wtc/long01/prev/
 wtc/long01/contact*.jpg
 wtc/long01/events_*.json
 wtc/long01/*.wav
+wtc/*/frames_*/
+wtc/*/prev/
+wtc/*/contact*.jpg
+wtc/*/events_*.json
