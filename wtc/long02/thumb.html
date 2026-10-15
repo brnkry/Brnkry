@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+html,body{margin:0;background:#121216}#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#121216}svg{position:absolute;inset:0}
+#frost{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%, rgba(220,235,255,0) 55%, rgba(220,235,255,.25) 85%, rgba(235,245,255,.5) 100%)}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:#F4F1EA}.acc{fill:#D4FF3A}.card{fill:#22222A}.bgf{fill:#121216}.mut{fill:#8A8A96}.lin{fill:#30303A}.sInk{stroke:#F4F1EA}.sAcc{stroke:#D4FF3A}.sMut{stroke:#8A8A96}.sLine{stroke:#30303A}
+</style></head><body><div id="stage"><svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080"><defs>
+<radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC94A" stop-opacity=".9"/><stop offset=".5" stop-color="#FFB000" stop-opacity=".3"/><stop offset="1" stop-color="#FFB000" stop-opacity="0"/></radialGradient>
+<radialGradient id="g2" cx=".65" cy=".6" r=".55"><stop offset="0" stop-color="#FFB000" stop-opacity=".35"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="blurbg" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter><filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".7"/></filter>
+</defs></svg><div id="frost"></div><div id="cap"></div></div>
+<script src="../brand.js"></script><script src="../long01/guy.js"></script><script src="../long01/lib.js"></script>
+<script>
+el('rect',{width:1920,height:1080,fill:'url(#g2)'});
+const c=makeCluster(svg);c.setAttribute('transform','translate(1240 640) scale(1.48)');c.L.set(.0);c.R.set(.1);c.lamp.style.display='none';c.setAttribute('filter','url(#blurbg)');c.setAttribute('opacity',.9);
+el('circle',{cx:1240,cy:620,r:400,fill:'url(#halo)',opacity:.95});
+const L=g(svg,{transform:'translate(1240 610) scale(1.25)',filter:'url(#sh)'});
+const st='#FFE08A';el('path',{d:'M-118 -112 Q-162 -20 -142 58 Q-130 100 -100 110 L100 110 Q130 100 142 58 Q162 -20 118 -112',fill:'none',stroke:'#FFB000','stroke-width':30,'stroke-linecap':'round','stroke-linejoin':'round'},L);
+[-90,-45,0,45,90].forEach(x=>el('rect',{x:x-10,y:118,width:20,height:32,rx:5,fill:'#FFB000'},L));el('rect',{x:-15,y:-84,width:30,height:118,rx:10,fill:'#FFB000'},L);el('circle',{cy:72,r:17,fill:'#FFB000'},L);
+// cold badge
+const cb=g(svg,{transform:'translate(1600 330)',filter:'url(#sh)'});el('rect',{x:-150,y:-60,width:300,height:120,rx:60,fill:'#22324A'},cb);
+const sf=g(cb,{transform:'translate(-80 0) scale(.55)'});for(let i=0;i<6;i++){el('rect',{x:-6,y:-62,width:12,height:124,rx:6,fill:'#9ADFFF',transform:`rotate(${i*60})`},sf);el('path',{d:'M-18 -46 L0 -30 L18 -46',fill:'none',stroke:'#9ADFFF','stroke-width':9,'stroke-linecap':'round',transform:`rotate(${i*60})`},sf)}
+txt(cb,50,22,64,'bold','30°F').setAttribute('fill','#9ADFFF');
+// driver in winter gear, lit by the light
+const gG=g(svg,{transform:'translate(330 1130) scale(2.15)',filter:'url(#sh)'});const guy=makeGuy(gG);
+el('path',{d:'M-74 -26 Q0 22 74 -26 L86 22 Q0 76 -86 22 Z',fill:'#FF3D5A'},guy.props);
+const bean=g(guy.head);el('path',{d:'M-108 -244 Q-116 -350 0 -356 Q116 -350 108 -244 Q60 -258 0 -260 Q-60 -258 -108 -244 Z',fill:'#2E6BD8'},bean);el('path',{d:'M-112 -262 Q0 -292 112 -262 L110 -238 Q0 -266 -110 -238 Z',fill:'#1F4FA8'},bean);el('circle',{cy:-360,r:26,fill:'#F4F1EA'},bean);
+guy.set({mouth:.7,smile:-.6,browUp:1.2,browWorry:.3,eyes:1.2,pupil:.6,look:[1,-.1],tilt:-6,amber:.6,hands:{L:{x:-200,y:330},R:{x:200,y:330}}});
+const t=el('text',{x:1240,y:200,'text-anchor':'middle','font-size':150,style:'font-family:WTC;font-weight:800;font-stretch:75%',filter:'url(#sh)'});[['TIRES LOOK ','#F4F1EA'],['FINE?','#D4FF3A']].forEach(([a,c2])=>{const sp=el('tspan',{fill:c2},t);sp.textContent=a});
+const wm=el('text',{x:60,y:96,'font-size':60,style:'font-family:WTC;font-weight:800;font-stretch:75%'});[['WHAT THE ','#F4F1EA'],['CAR','#D4FF3A'],['?','#FF3D5A']].forEach(([s,c2])=>{const sp=el('tspan',{fill:c2},wm);sp.textContent=s});
+window.render=()=>{};window.__ready=document.fonts.ready.then(()=>true);
+</script></body></html>
