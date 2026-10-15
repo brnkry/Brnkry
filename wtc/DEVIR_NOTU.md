@@ -142,3 +142,9 @@ car explained, how cars work, car parts explained, automotive explained, under t
 ```
 - Kanal artık arabayla ilgili her şeyi adım adım anlatan genel bir kanal (lambalar, parçalar, sistemler, elektrikli araçlar). Kanal anahtar kelimelerinin etkisi küçük; başlık, thumbnail ve açıklama asıl önemli olanlar.
 - Her 4-5 videoda bir gözden geçir.
+
+## Video etiketi kuralı (v2, Ekim 2026 araştırması)
+- Eski "hiçbir kelime tekrar etmesin" kuralı kaldırıldı. Kaynaklar (YouTube Yardım, Briggsby/Search Engine Land) ana anahtar kelimenin varyasyonlarını öneriyor.
+- İlk etiket = videonun ana anahtar kelimesi (başlıktaki). Sonra aramada kullanılan varyasyonlar ve soru kalıpları, 2-4 kelimelik ifadeler.
+- Tek kelimelik genel etiketlerden ve videoda olmayan konulardan kaçın. Yaygın yazım hatası ve alternatif yazım ekle (ör. tyre).
+- 500 karakter sınırına çok kelimeli etiketlerin tırnakları (+2) da dahil.

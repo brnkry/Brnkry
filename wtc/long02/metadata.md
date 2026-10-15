@@ -32,8 +32,8 @@ Did this light ever surprise you on a cold day? Tell me in the comments 👇
 
 #tirepressure #TPMS #cartips
 
-## Tags (kontrol edildi, tekrar yok)
-tire pressure light, TPMS, cold weather, low air, PSI, door jamb sticker, flashing, sensor battery, gas station, gauge, inflation, winter driving, fuel economy, valve stem, nail, puncture, reset, maintenance, car care, DIY, beginners, dashboard warning, symbol meaning, explained, how to fix, spare, owner's manual, safety, temperature drop, morning, tread wear, braking distance, handling, mpg, compressor, tips, seasonal checklist, quick guide, FMVSS 138, rim, blowout risk, frost
+## Tags (v2, araştırmaya göre: ana kelime + varyasyonlar, 492 karakter tırnaklarla)
+tire pressure light, tire pressure light on, tpms light, tire pressure warning light, low tire pressure light, tire pressure light cold weather, tire pressure light flashing, tpms light flashing, tire pressure light on but tires look fine, why is my tire pressure light on, correct tire pressure, tire pressure door sticker, cold weather tire pressure, tpms sensor battery, tyre pressure light, tire presure light, dashboard warning lights, car maintenance
 
 ## Pinned comment
 What temperature was it when your tire pressure light came on? 👇
