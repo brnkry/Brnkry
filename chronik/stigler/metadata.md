@@ -29,11 +29,13 @@ Franz Stigler, Charlie Brown, Ye Olde Pub, B-17 Flying Fortress, Messerschmitt B
 
 Franz Stigler und Charlie Brown: Ein deutscher Jagdflieger hatte einen wehrlosen US Bomber vor sich und schoss nicht.
 
-20. Dezember 1943. Die B-17 „Ye Olde Pub“ war schwer beschädigt, an Bord lagen Verwundete. Stigler begleitete sie bis über die Nordsee, salutierte und drehte ab. Gemeldet hat er es nie.
-
-1990 fanden sich die beiden wieder und wurden enge Freunde.
+20. Dezember 1943. Die B-17 „Ye Olde Pub“ war schwer beschädigt, an Bord lagen Verwundete. Stigler begleitete sie bis über die Nordsee, salutierte und drehte ab. 1990 fanden sich die beiden wieder und wurden enge Freunde.
 
 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
+
+📸 Hinweis: Die historischen Originalaufnahmen in diesem Dokumentarfilm wurden von uns detailgetreu restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht oder entfernt.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #ZweiterWeltkrieg #Geschichte #Luftkrieg #B17 #Militärgeschichte
 
@@ -41,12 +43,12 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 
 Ein deutscher Jagdflieger hatte einen wehrlosen amerikanischen Bomber direkt vor sich. Er schoss nicht.
 
-Am 20. Dezember 1943 flog Leutnant Charlie Brown mit seiner B-17 „Ye Olde Pub“ seinen ersten Einsatz gegen Bremen. Flak und Jäger trafen die Maschine schwer, der Heckschütze war tot, mehrere Männer verwundet. Oberleutnant Franz Stigler stieg mit seiner Bf 109 auf. Ein weiterer Abschuss hätte ihm eine hohe Auszeichnung gebracht. Doch als er die Verwundeten im zerschossenen Rumpf sah, begleitete er den Bomber bis über die Nordsee, salutierte und drehte ab. Gemeldet hat er den Vorfall nie, ihm hätte das Kriegsgericht gedroht.
-
-Jahrzehnte später suchte Brown nach dem unbekannten Piloten. 1990 meldete sich Stigler. Aus zwei Gegnern wurden enge Freunde, bis beide 2008 starben.
-
-📸 Die historischen Aufnahmen wurden restauriert und koloriert. Sensible Symbole wurden unkenntlich gemacht.
+Am 20. Dezember 1943 war die B-17 „Ye Olde Pub“ von Leutnant Charlie Brown über Bremen schwer getroffen worden, an Bord lagen Verwundete. Oberleutnant Franz Stigler sah sie aus seiner Bf 109, begleitete den Bomber bis über die Nordsee und drehte ab. Gemeldet hat er es nie. 1990 fanden sich die beiden wieder und wurden enge Freunde.
 
 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
+
+📸 Hinweis: Die historischen Originalaufnahmen in diesem Dokumentarfilm wurden von uns detailgetreu restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht oder entfernt.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #ZweiterWeltkrieg #Geschichte #Luftkrieg #Militärgeschichte #B17 #Bf109 #WahreGeschichte #Dokumentation
