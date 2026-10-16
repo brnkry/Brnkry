@@ -15,7 +15,7 @@ def s_hook(t):
     focus(can, t, wt('amerikanischen'), 'US BOMBER', 'serif', 92, GOLD, 1350, t1=tE)
     reveal(can, t, wt('direkt'), 'DIREKT VOR IHM', 'cond', 54, CREAM, 1450, t1=tE, dur=0.5)
     focus(can, t, wt('schoss') - 0.1, 'ER SCHOSS', 'serif', 132, CREAM, 1250, dur=0.3)
-    focus(can, t, wt('nicht.') - 0.05, 'NICHT.', 'serif', 150, (214, 70, 44), 1400, dur=0.3)
+    focus(can, t, wt('nicht.') - 0.05, 'NICHT.', 'serif', 150, RUST, 1400, dur=0.3)
     return can
 
 # ---------------- S2 dossier cards ----------------
@@ -36,9 +36,9 @@ def half_photo(p, cx, cy, w):
     h = w * 960 / 1080; cy = max(cy, h / 2)
     return src(p).resize((W, 960), Image.LANCZOS, box=(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)).convert('RGBA')
 HALF1 = half_photo('p08', 896, 712, 1600); HALF2 = half_photo('p06', 896, 1200, 1560)
-DARKH = Image.new('RGBA', (W, 960), (16, 11, 6, 255))
+DARKH = Image.new('RGBA', (W, 960), (10, 11, 13, 255))
 def s_dossier(t):
-    can = Image.new('RGBA', (W, H), (16, 11, 6, 255))
+    can = Image.new('RGBA', (W, H), (10, 11, 13, 255))
     for im, t0, y0, side in ((HALF1, wt('Franz'), 0, -1), (HALF2, wt('Charlie'), 960, 1)):
         k = eout((t - t0 + 0.35) / 0.6)
         lit = Image.blend(DARKH, im, 0.28 + 0.72 * k)
@@ -57,12 +57,12 @@ def s_dossier(t):
         put(can, im, 540 + side * (1 - k) * 700, y, 0.66, 1.0)
     if t > wt('Charlie') + 0.2:
         a = ease((t - wt('Charlie') - 0.2) / 0.4)
-        d = ImageDraw.Draw(can); d.ellipse((540 - 52 * a, 960 - 52 * a, 540 + 52 * a, 960 + 52 * a), fill=(26, 18, 10, 255), outline=GOLD + (255,), width=4)
+        d = ImageDraw.Draw(can); d.ellipse((540 - 52 * a, 960 - 52 * a, 540 + 52 * a, 960 + 52 * a), fill=DEEP + (255,), outline=GOLD + (255,), width=4)
         put(can, sprite('&', 'serif', 64, GOLD, False), 540, 958, 1.0, a)
     return can
 
 # ---------------- S3 tear-off calendar ----------------
-BG_DESK = paper((70, 52, 36), 0.12)
+BG_DESK = paper((14, 15, 18), 0.0, True)
 def cal_page(num):
     w, h = 600, 700; im = Image.new('RGBA', (w + 40, h + 40), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     d.rectangle((20, 20, 20 + w, 20 + h), fill=(240, 232, 212, 255)); d.rectangle((20, 20, 20 + w, 150), fill=(150, 46, 30, 255))
@@ -123,12 +123,12 @@ def s_mapbremen(t):
     compass(can, 150, 1450, 70, 0.6)
     pts = [cam.p(*p) for p in ROUTE_IN]
     ink_dot(can, *cam.p(*KIMB)); maplabel(can, t, t0, 'KIMBOLTON', *cam.p(*KIMB), size=40, side='r')
-    k = eio((t - t0) / 1.6); pp = route(can, pts, k, RUST, 7, dashed=True)
+    k = eio((t - t0) / 1.6); pp = route(can, pts, k, GOLD, 7, dashed=True)
     bx, by = cam.p(*BREMEN)
     if t > wt('Bremen') - 0.2:
-        ink_dot(can, bx, by, 11, RUST); maplabel(can, t, wt('Bremen') - 0.2, 'BREMEN', bx, by, size=50, side='l', col=RUST)
+        ink_dot(can, bx, by, 11, GOLD); maplabel(can, t, wt('Bremen') - 0.2, 'BREMEN', bx - 50, by + 60, size=60, side='l', col=GOLD)
     hit = clamp((t - wt('schwer')) / 0.5)
-    col = tuple(int(lerp(a, b, hit)) for a, b in zip(NAVY, (150, 40, 28)))
+    col = tuple(int(lerp(a, b, hit)) for a, b in zip(GOLD, RUST))
     jx, jy = pp[-1]; jx -= 30 * (1 - k)
     icon(can, 'b17', jx, jy, heading(pp) if k < 1 else -0.05, 54, col)
     rng = np.random.default_rng(4)
@@ -141,9 +141,9 @@ def s_mapbremen(t):
         v = eout((t - tj - i * 0.2) / 1.4)
         x = lerp(sx, jx + 60, v); y = lerp(sy, jy + (-70 if i == 0 else 70), v)
         ang = math.atan2(jy - sy, jx - sx) + (0.9 * v if i == 0 else -0.9 * v)
-        icon(can, 'bf', x, y, ang, 30, (58, 52, 46))
-    focus(can, t, wt('Ziel'), 'ZIEL: BREMEN', 'serif', 92, INK, 380)
-    reveal(can, t, wt('Flak'), 'FLAK UND JÄGER', 'serif', 84, (150, 40, 28), 1400)
+        icon(can, 'bf', x, y, ang, 30, (150, 158, 170))
+    focus(can, t, wt('Ziel'), 'ZIEL: BREMEN', 'serif', 92, CREAM, 380)
+    reveal(can, t, wt('Flak'), 'FLAK UND JÄGER', 'serif', 84, RUST, 1400)
     return can
 
 # ---------------- S7 damage on the B-17 photo ----------------
@@ -156,7 +156,7 @@ def s_damage(t):
     return can
 
 # ---------------- S8 crew ledger ----------------
-BG_LEDGER = paper((236, 226, 200), 0.06)
+BG_LEDGER = paper((222, 211, 186), 0.06)
 def ledger_bg():
     im = BG_LEDGER.copy(); d = ImageDraw.Draw(im)
     for y in range(520, 1480, 120): d.line((110, y + 40, 970, y + 40), fill=(150, 170, 190, 255), width=2)
@@ -172,15 +172,15 @@ def s_ledger(t):
     reveal(can, t, wt('Heckschütze') + 0.1, 'HECKSCHÜTZE', 'type', 36, SEPIA, 664, cx=480, dur=0.5)
     tt = wt('tot')
     if t > tt:  # ink strike through the name
-        k = eio((t - tt) / 0.35); stroke(can, [(190, 604), (190 + 590 * k, 598)], (160, 40, 28), 7, outline=False)
-    seal(can, t, tt + 0.1, 'TOT', 820, 630, r=88, col=(160, 40, 28), rot=-14)
+        k = eio((t - tt) / 0.35); stroke(can, [(190, 604), (190 + 590 * k, 598)], RUST, 7, outline=False)
+    seal(can, t, tt + 0.1, 'TOT', 820, 630, r=88, col=RUST, rot=-14)
     for i, nm in enumerate(('PECHOUT', 'BLACKFORD', 'YELESANKO', 'BROWN')):
         reveal(can, t, wt('mehrere') + i * 0.25, nm, 'type', 60, INK, 840 + i * 120, cx=440, dur=0.45)
     tv = wt('verwundet')
     if t > tv:
         k = eio((t - tv) / 0.5); pts = bez((690, 800), (760, 800), (760, 880)) + [(760, 1100)] + bez((760, 1100), (760, 1180), (690, 1200))
-        stroke(can, partial(pts, k), (160, 40, 28), 6, outline=False)
-    cascade(can, t, tv + 0.3, 'VERWUNDET', 'cond', 64, (160, 40, 28), 1340, track=6)
+        stroke(can, partial(pts, k), RUST, 6, outline=False)
+    cascade(can, t, tv + 0.3, 'VERWUNDET', 'cond', 64, RUST, 1340, track=6)
     return can
 
 # ---------------- S9 Bf 109 photo ----------------
@@ -194,7 +194,9 @@ def s_bf109(t):
     return can
 
 # ---------------- S10 tally ----------------
-BG_DARK = paper((40, 30, 22), 0.15)
+BG_DARK = paper((16, 18, 22), 0.0, True)
+_d = ImageDraw.Draw(BG_DARK)
+for _g in range(0, H, 60): _d.line([(0, _g), (W, _g)], fill=(22, 25, 30, 255))
 def tally_mark(can, t, t0, x, y, h=260, col=CREAM, ghost=False):
     if t < t0: return
     k = eio((t - t0) / 0.3); pts = [(x - 14, y - h / 2), (x + 14, y + h / 2)]
@@ -208,7 +210,7 @@ def tally_mark(can, t, t0, x, y, h=260, col=CREAM, ghost=False):
     else: stroke(can, p, col, 22, outline=False)
 def s_tally(t):
     can = BG_DARK.copy()
-    cascade(can, t, 46.3, 'ABSCHÜSSE AN DIESEM TAG', 'cond', 54, (200, 186, 160), 400, track=5)
+    cascade(can, t, 46.3, 'ABSCHÜSSE AN DIESEM TAG', 'cond', 54, (170, 178, 190), 400, track=5)
     tally_mark(can, t, wt('Ein', 46) - 0.1, 380, 800); tally_mark(can, t, wt('weiterer') - 0.1, 500, 800)
     tally_mark(can, t, wt('Abschuss'), 640, 800, ghost=True)
     if t > wt('Abschuss') + 0.2:
@@ -236,12 +238,12 @@ def s_roedel(t):
     return can
 
 # ---------------- S13 quote card ----------------
-BG_QUOTE = paper((233, 222, 196), 0.08)
+BG_QUOTE = paper((222, 211, 186), 0.07)
 QLINES = [['„Wer', 'auf', 'einen', 'Mann'], ['am', 'Fallschirm', 'schieße,'], ['den', 'erschieße'], ['er', 'selbst.“']]
 QKEYS = ['wer', 'auf', 'einen', 'Mann', 'am', 'Fallschirm', 'schieße', 'den', 'erschieße', 'er', 'selbst']
 def s_quote(t):
     can = BG_QUOTE.copy()
-    put(can, sprite('“', 'serif', 300, (200, 170, 130), False), 540, 470, 1.0, 0.8)
+    put(can, sprite('“', 'serif', 300, (170, 150, 110), False), 540, 470, 1.0, 0.8)
     times = []; after = 58.3
     for k in QKEYS:
         tk = wt(k, after); times.append(tk); after = tk + 0.01
@@ -268,21 +270,21 @@ def s_sweden(t):
     v = (t - t0) / 5.4
     px, py = cam.p(lerp(7.9, 6.9, v), lerp(53.85, 54.05, v))
     wag = 0.35 * math.sin((t - wt('Zeichen')) * 14) * clamp(1 - (t - wt('Zeichen')) / 1.2) if t > wt('Zeichen') else 0
-    icon(can, 'b17', px, py + 26, math.pi + 0.15, 54, (150, 40, 28))
-    icon(can, 'bf', px + 4, py - 52, math.pi + 0.15 + wag, 32, (58, 52, 46))
+    icon(can, 'b17', px, py + 26, math.pi + 0.15, 54, CREAM)
+    icon(can, 'bf', px + 4, py - 52, math.pi + 0.15 + wag, 32, (150, 158, 170))
     sx, sy = cam.p(*SWE)
     fade = 1 - ease((t - wt('verstand')) / 0.8)
     if t > wt('Zeichen'):
         k = eio((t - wt('Zeichen')) / 0.9)
         pts = bez((px + 20, py - 70), (px + 120, sy - 40), (sx - 30, sy + 30), 50)
-        pp = route(can, pts, k, NAVY, 7, dashed=True, alpha=fade)
-        if k > 0.95: arrowhead(can, pp[-1], heading(pp), NAVY, 30, fade)
+        pp = route(can, pts, k, GOLD, 7, dashed=True, alpha=fade)
+        if k > 0.95: arrowhead(can, pp[-1], heading(pp), GOLD, 30, fade)
     if t > wt('Schweden'):
-        maplabel(can, t, wt('Schweden'), 'SCHWEDEN', sx - 40, sy - 120, size=52, side='c', col=INK)
+        maplabel(can, t, wt('Schweden'), 'SCHWEDEN', sx - 40, sy - 120, size=52, side='c', col=CREAM)
     if t > wt('Schweden') + 0.4:
         put(can, sprite('?', 'serif', 220, RUST, False), sx - 10, sy + 150, 1.0, ease((t - wt('Schweden') - 0.4) / 0.3) * fade)
-    focus(can, t, wt('nach', 63), 'NACH SCHWEDEN?', 'serif', 92, INK, 380, t1=wt('verstand') - 0.2)
-    focus(can, t, wt('verstand'), 'BROWN VERSTAND NICHT', 'serif', 80, INK, 380)
+    focus(can, t, wt('nach', 63), 'NACH SCHWEDEN?', 'serif', 92, CREAM, 380, t1=wt('verstand') - 0.2)
+    focus(can, t, wt('verstand'), 'BROWN VERSTAND NICHT', 'serif', 80, CREAM, 380)
     return can
 
 # ---------------- S15 formation photo ----------------
@@ -306,8 +308,8 @@ def s_salute(t):
         pp = partial([cam.p(*p) for p in pts], w); bx, by = pp[-1]; ang = heading(pp)
     else:
         bx, by = cam.p(b_lon, b_lat); ang = math.pi + 0.12
-    route(can, [cam.p(6.6, 54.0), cam.p(b_lon, b_lat)] if t < 73.8 else [cam.p(6.6, 54.0), cam.p(4.5, 53.75)] + [(bx, by)], 1.0, RUST, 5, dashed=True, alpha=0.7)
-    icon(can, 'b17', bx, by + 22, ang, 54, (150, 40, 28))
+    route(can, [cam.p(6.6, 54.0), cam.p(b_lon, b_lat)] if t < 73.8 else [cam.p(6.6, 54.0), cam.p(4.5, 53.75)] + [(bx, by)], 1.0, GOLD, 5, dashed=True, alpha=0.7)
+    icon(can, 'b17', bx, by + 22, ang, 54, CREAM)
     td = wt('drehte')
     if t < td:
         fx, fy = cam.p(b_lon, b_lat + 0.09); fa = math.pi + 0.12
@@ -315,22 +317,22 @@ def s_salute(t):
         q = eio((t - td) / 1.6)
         pts = bez(cam.p(4.5, 53.84), cam.p(3.6, 54.6), cam.p(6.4, 54.9), 40)
         pp = partial(pts, max(0.02, q)); fx, fy = pp[-1]; fa = heading(pp) if len(pp) > 1 else math.pi
-    if t < td + 2.2: icon(can, 'bf', fx, fy - 40, fa, 32, (58, 52, 46), 1 - clamp((t - td - 1.4) / 0.8))
+    if t < td + 2.2: icon(can, 'bf', fx, fy - 40, fa, 32, (150, 158, 170), 1 - clamp((t - td - 1.4) / 0.8))
     ts = wt('salutierte')
     if t > ts:
         sx, sy = cam.p(4.5, 53.84)
         for j in range(2):
             uu = clamp((t - ts - j * 0.25) / 1.0); ring(can, sx, sy - 40, 30 + 90 * uu, GOLD, (1 - uu) * 0.9, 4)
-    focus(can, t, wt('Über'), 'ÜBER DER NORDSEE', 'serif', 88, INK, 380, t1=ts - 0.1)
-    focus(can, t, ts, 'EIN SALUT', 'serif', 108, RUST, 380, t1=tl - 0.2)
+    focus(can, t, wt('Über'), 'ÜBER DER NORDSEE', 'serif', 88, CREAM, 380, t1=ts - 0.1)
+    focus(can, t, ts, 'EIN SALUT', 'serif', 108, GOLD, 380, t1=tl - 0.2)
     if t > wt('Seething') - 0.1:
-        ex, ey = cam.p(*SEETH); ink_dot(can, ex, ey, 12, RUST)
-        maplabel(can, t, wt('Seething') - 0.1, 'SEETHING', ex - 60, ey + 90, size=58, side='c', col=RUST)
-    focus(can, t, tl, 'GELANDET IN ENGLAND', 'serif', 80, INK, 380)
+        ex, ey = cam.p(*SEETH); ink_dot(can, ex, ey, 12, GOLD)
+        maplabel(can, t, wt('Seething') - 0.1, 'SEETHING', ex - 60, ey + 90, size=64, side='c', col=GOLD)
+    focus(can, t, tl, 'GELANDET IN ENGLAND', 'serif', 80, CREAM, 380)
     return can
 
 # ---------------- S17 report document ----------------
-BG_DOC = paper((60, 46, 32), 0.12)
+BG_DOC = paper((12, 13, 15), 0.0, True)
 def doc_sheet():
     w, h = 820, 1180; im = Image.new('RGBA', (w + 80, h + 80), (0, 0, 0, 0))
     sh = Image.new('RGBA', im.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rectangle((44, 52, 40 + w, 48 + h), fill=(0, 0, 0, 170))
@@ -348,8 +350,8 @@ def s_report(t):
     cascade(can, t, wt('meldete'), 'MELDUNG', 'type', 110, INK, 740, track=8, step=0.06)
     tn = wt('nie,')
     if t > tn:
-        q = eio((t - tn) / 0.3); stroke(can, [(260, 748), (260 + 560 * q, 736)], (170, 36, 24), 12, outline=False)
-    seal(can, t, wt('Kriegsgericht'), 'KRIEGSGERICHT', 560, 1130, r=200, col=(170, 36, 24), rot=-10, sub='DROHTE')
+        q = eio((t - tn) / 0.3); stroke(can, [(260, 748), (260 + 560 * q, 736)], RUST, 12, outline=False)
+    seal(can, t, wt('Kriegsgericht'), 'KRIEGSGERICHT', 560, 1130, r=200, col=RUST, rot=-10, sub='DROHTE')
     focus(can, t, tn, 'NIE GEMELDET', 'serif', 82, CREAM, 380)
     return can
 
@@ -359,19 +361,19 @@ def s_canada(t):
     c = camlerp((-50, 14, 185), (-58, 12, 178), u)
     can, cam = draw_map(c, ('Canada', 'Germany'))
     g = cam.p(*GER); v = cam.p(*VAN)
-    ink_dot(can, *g, 9, RUST)
+    ink_dot(can, *g, 9, GOLD)
     k = eio((t - t0 - 0.3) / 2.4)
     pts = bez(g, ((g[0] + v[0]) / 2, min(g[1], v[1]) - 330), v, 60)
-    pp = route(can, pts, k, RUST, 6)
-    if len(pp) > 1 and k < 1: put(can, sprite('•', 'serif', 40, RUST, False), *pp[-1])
-    if k >= 1: ink_dot(can, *v, 10, RUST); maplabel(can, t, wt('Kanada') - 0.1, 'VANCOUVER', v[0], v[1] + 50, size=38, side='r')
-    maplabel(can, t, wt('Kanada'), 'KANADA', *cam.p(-102, 60), size=64, side='c', col=INK)
-    focus(can, t, wt('1953'), '1953', 'serif', 170, INK, 1330)
+    pp = route(can, pts, k, GOLD, 6)
+    if len(pp) > 1 and k < 1: put(can, sprite('•', 'serif', 40, GOLD, False), *pp[-1])
+    if k >= 1: ink_dot(can, *v, 10, GOLD); maplabel(can, t, wt('Kanada') - 0.1, 'VANCOUVER', v[0], v[1] + 50, size=38, side='r')
+    maplabel(can, t, wt('Kanada'), 'KANADA', *cam.p(-102, 60), size=72, side='c', col=GOLD)
+    focus(can, t, wt('1953'), '1953', 'serif', 170, CREAM, 1330)
     reveal(can, t, wt('wanderte'), 'STIGLER WANDERT AUS', 'cond', 56, RUST, 1470)
     return can
 
 # ---------------- S19 newspaper notice ----------------
-BG_NEWS = paper((48, 38, 28), 0.12)
+BG_NEWS = paper((12, 13, 15), 0.0, True)
 def clipping():
     w, h = 780, 980; im = paper((226, 219, 200), 0.10, False).crop((0, 0, w, h)); d = ImageDraw.Draw(im)
     rng = np.random.default_rng(9)
@@ -419,7 +421,7 @@ def s_2008(t):
         if a <= 0: continue
         xa = x0 + i * cw
         d.rectangle((xa + 3, y - 40, xa + cw - 3, y + 40), outline=(200, 186, 160, int(200 * a)), width=2)
-        put(can, sprite(m, 'cond', 26, (200, 186, 160), False, 1), xa + cw / 2, y, 1.0, a)
+        put(can, sprite(m, 'cond', 26, (170, 178, 190), False, 1), xa + cw / 2, y, 1.0, a)
     focus(can, t, wt('2008'), '2008', 'serif', 150, CREAM, 380)
     for idx, t1, name, sub, yy in ((2, wt('März'), 'FRANZ STIGLER', '92 JAHRE', 680), (10, wt('November'), 'CHARLIE BROWN', '86 JAHRE', 1250)):
         if t < t1: continue
@@ -452,7 +454,7 @@ SC = [(0.0, 6.55, s_hook, 'cut'), (6.35, 11.95, s_dossier, 'dip'), (11.7, 15.6, 
       (87.75, 92.75, s_notice, 'fade'), (92.4, 99.45, s_reunion, 'fade'), (99.2, 109.3, s_2008, 'dip'),
       (109.0, TEND, s_cta, 'fade')]
 
-DIPC = Image.new('RGBA', (W, H), (20, 14, 8, 255))
+DIPC = Image.new('RGBA', (W, H), (8, 9, 11, 255))
 def frame(t):
     act = [s for s in SC if s[0] <= t < s[1]] or [SC[-1]]
     if len(act) == 1: img = act[0][2](t)

@@ -9,8 +9,10 @@ B = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 F = B + 'fonts/'
 IMG = B + 'img/'
 
-CREAM = (243, 234, 214); INK = (44, 34, 22); RUST = (168, 58, 36); GOLD = (212, 165, 74)
-NAVY = (36, 52, 78); PAPER = (231, 219, 190); SEPIA = (92, 66, 40); DEEP = (22, 17, 12)
+# Kammhuber palette: yellow, red, off-white on near-black; documents in aged paper
+CREAM = (245, 245, 240); INK = (40, 32, 24); RUST = (205, 35, 40); GOLD = (244, 199, 15)
+NAVY = (245, 245, 240); PAPER = (222, 211, 186); SEPIA = (70, 58, 44); DEEP = (12, 14, 18)
+YEL, RED, WHITE, DARK = GOLD, RUST, CREAM, DEEP
 ZX = 540
 
 WORDS = json.load(open(B + 'words.json'))
@@ -112,7 +114,7 @@ def reveal(can, t, t0, txt, fk, size, col, cy, cx=ZX, t1=None, dur=0.6, track=0)
         spr = spr.copy(); spr.putalpha(Image.fromarray(a))
     put(can, spr, cx, cy, 1.0, out)
 
-def plate(can, t, t0, txt, cy, cx=ZX, size=50, fg=CREAM, bg=(26, 20, 14), edge=GOLD, t1=None, fk='cond', track=3):
+def plate(can, t, t0, txt, cy, cx=ZX, size=50, fg=DEEP, bg=CREAM, edge=None, t1=None, fk='cond', track=3):
     """label plate that opens from the centre outward, thin gold rules above and below"""
     if t < t0 or (t1 is not None and t > t1 + 0.3): return
     size = fit(txt, fk, size, maxw_at(cy) - 70, track)
@@ -120,9 +122,10 @@ def plate(can, t, t0, txt, cy, cx=ZX, size=50, fg=CREAM, bg=(26, 20, 14), edge=G
     k = eout((t - t0) / 0.4); out = 1.0 if t1 is None else 1 - ease((t - t1) / 0.3)
     ww = (tw + 70) * k; hh = asc + desc + 24
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-    d.rectangle((cx - ww / 2, cy - hh / 2, cx + ww / 2, cy + hh / 2), fill=bg + (int(215 * out),))
-    d.line((cx - ww / 2, cy - hh / 2 - 6, cx + ww / 2, cy - hh / 2 - 6), fill=edge + (int(255 * out),), width=3)
-    d.line((cx - ww / 2, cy + hh / 2 + 6, cx + ww / 2, cy + hh / 2 + 6), fill=edge + (int(255 * out),), width=3)
+    d.rectangle((cx - ww / 2, cy - hh / 2, cx + ww / 2, cy + hh / 2), fill=bg + (int(250 * out),))
+    if edge:
+        d.line((cx - ww / 2, cy - hh / 2 - 6, cx + ww / 2, cy - hh / 2 - 6), fill=edge + (int(255 * out),), width=3)
+        d.line((cx - ww / 2, cy + hh / 2 + 6, cx + ww / 2, cy + hh / 2 + 6), fill=edge + (int(255 * out),), width=3)
     can.alpha_composite(L)
     ka = clamp((t - t0 - 0.2) / 0.25) * out
     put(can, sprite(txt, fk, size, fg, False, track), cx, cy + 2, 1.0, ka)
@@ -209,7 +212,7 @@ def callout(can, t, t0, pt, lab_xy, txt, col=RUST, size=46, elbow=None):
     if ex == pt[0]: pts[-1] = (pt[0], lab_xy[1] - 40)
     k = eio((t - t0 - 0.15) / 0.4)
     stroke(can, partial(pts, k), CREAM, 5)
-    if k >= 1: plate(can, t, t0 + 0.55, txt, lab_xy[1], cx=lab_xy[0], size=size, bg=(30, 12, 8), edge=col)
+    if k >= 1: plate(can, t, t0 + 0.55, txt, lab_xy[1], cx=lab_xy[0], size=size, bg=col, fg=CREAM if col == RUST else DEEP)
 def dash_ellipse(can, t, t0, cx, cy, rx, ry, col=CREAM, dur=0.7, w=6, rot=0):
     if t < t0: return
     k = eio((t - t0) / dur); n = 90
@@ -257,7 +260,7 @@ def vgrad(top_a, bot_a, y0b=1000, y1b=1800, y1t=380):
     y = np.arange(H)
     a = np.clip((y - y0b) / (y1b - y0b), 0, 1) ** 1.3 * bot_a + np.clip((y1t - y) / y1t, 0, 1) * top_a
     g = np.repeat(a[:, None], W, 1).astype(np.uint8)
-    return Image.merge('RGBA', [Image.new('L', (W, H), 14), Image.new('L', (W, H), 10), Image.new('L', (W, H), 6), Image.fromarray(g)])
+    return Image.merge('RGBA', [Image.new('L', (W, H), 6), Image.new('L', (W, H), 6), Image.new('L', (W, H), 6), Image.fromarray(g)])
 GRAD = vgrad(110, 215)
 GRAD_SOFT = vgrad(90, 150)
 
@@ -265,7 +268,7 @@ def print_photo(p, t, t0, t1, rot0=-3.5, rot1=-1.2, wmax=980, bgdark=0.42):
     """photo shown as a paper print with a cream border, dropped onto a blurred, darkened copy of itself"""
     im = src(p)
     bgc = PCam(p, im.width / 2, im.height / 2, 99999).frame().filter(ImageFilter.GaussianBlur(26))
-    bgc = Image.blend(bgc, Image.new('RGBA', (W, H), (18, 13, 8, 255)), 1 - bgdark)
+    bgc = Image.blend(bgc, Image.new('RGBA', (W, H), (10, 11, 13, 255)), 1 - bgdark)
     u = eout((t - t0) / 0.7); z = lerp(1.06, 1.0, u) + 0.03 * ease((t - t0) / max(1, t1 - t0))
     pw = int(wmax * z); ph = int(pw * im.height / im.width)
     pr = im.resize((pw, ph), Image.LANCZOS).convert('RGBA')
@@ -292,5 +295,5 @@ def paper(col=PAPER, amt=0.07, stains=True):
 def vignette():
     y, x = np.mgrid[0:H, 0:W]; r = np.sqrt(((x - W / 2) / (W * 0.78)) ** 2 + ((y - H / 2) / (H * 0.66)) ** 2)
     a = (np.clip(r - 0.62, 0, 1) * 1.4) ** 1.6 * 200
-    return Image.merge('RGBA', [Image.new('L', (W, H), 18), Image.new('L', (W, H), 12), Image.new('L', (W, H), 6), Image.fromarray(a.clip(0, 255).astype(np.uint8))])
+    return Image.merge('RGBA', [Image.new('L', (W, H), 0), Image.new('L', (W, H), 0), Image.new('L', (W, H), 0), Image.fromarray(a.clip(0, 255).astype(np.uint8))])
 VIG = vignette()

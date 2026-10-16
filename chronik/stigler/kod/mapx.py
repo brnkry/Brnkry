@@ -4,7 +4,8 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 from base import *
 
-SEA = (150, 166, 165); SEA_D = (126, 143, 144); LAND = (226, 210, 172); LAND_HI = (208, 180, 126); BORDER = (112, 84, 52); GRID = (120, 110, 90)
+# Kammhuber map colours: dark sea, slate land, yellow-brown highlight
+SEA = (9, 12, 17); SEA_D = (15, 20, 27); LAND = (34, 40, 50); LAND_HI = (60, 54, 26); BORDER = (88, 100, 116); GRID = SEA_D
 
 def merc(lat): return math.degrees(math.log(math.tan(math.pi / 4 + math.radians(lat) / 2)))
 GJ = json.load(open(B + 'ne50.geojson'))
@@ -38,7 +39,7 @@ def _map(cx, cy, sp, hi):
     for name, xy in POLYS:
         X = (W / 2 + (xy[:, 0] - cam.x) * cam.sc) * S; Y = (H / 2 - (xy[:, 1] - cam.y) * cam.sc) * S
         if X.max() < 0 or X.min() > W * S or Y.max() < 0 or Y.min() > H * S or len(X) < 3: continue
-        d.line(list(zip(X.tolist(), Y.tolist())), fill=(136, 154, 153), width=22 * S // 2)
+        pass
     for name, xy in POLYS:
         X = (W / 2 + (xy[:, 0] - cam.x) * cam.sc) * S; Y = (H / 2 - (xy[:, 1] - cam.y) * cam.sc) * S
         if X.max() < 0 or X.min() > W * S or Y.max() < 0 or Y.min() > H * S or len(X) < 3: continue
@@ -46,20 +47,21 @@ def _map(cx, cy, sp, hi):
         d.polygon(pts, fill=LAND_HI if name in hi else LAND)
         d.line(pts + [pts[0]], fill=BORDER, width=3)
     im = im.resize((W, H), Image.LANCZOS)
-    a = np.asarray(im).astype(np.float32) * (1 + (PAPER_TEX[..., None] - 1) * 0.10)
-    return Image.fromarray(a.clip(0, 255).astype(np.uint8))
+    return im
 def draw_map(c, hi=()):
     return _map(round(c[0], 3), round(c[1], 3), round(c[2], 3), tuple(hi)).convert('RGBA'), Cam(*c)
 
-def ink_dot(can, x, y, r=9, col=INK):
-    d = ImageDraw.Draw(can); d.ellipse((x - r - 4, y - r - 4, x + r + 4, y + r + 4), fill=PAPER + (255,)); d.ellipse((x - r, y - r, x + r, y + r), fill=col + (255,))
-def maplabel(can, t, t0, txt, x, y, size=46, col=INK, side='r', fk='cond', track=4):
+def ink_dot(can, x, y, r=9, col=GOLD):
+    L = Image.new('RGBA', (int(r * 6), int(r * 6)), (0, 0, 0, 0)); d = ImageDraw.Draw(L); c = r * 3
+    d.ellipse((c - r * 2.2, c - r * 2.2, c + r * 2.2, c + r * 2.2), fill=col + (70,)); L = L.filter(ImageFilter.GaussianBlur(r * 0.8)); d = ImageDraw.Draw(L)
+    d.ellipse((c - r, c - r, c + r, c + r), fill=col + (255,)); can.alpha_composite(L, (int(x - c), int(y - c)))
+def maplabel(can, t, t0, txt, x, y, size=46, col=CREAM, side='r', fk='cond', track=2):
     if t < t0: return
     k = eout((t - t0) / 0.35); spr = sprite(txt, fk, size, col, False, track)
-    halo = sprite(txt, fk, size, PAPER, False, track, 5)
+    spr = sprite(txt, fk, size, col, True, track)
     w = spr.width - 80
     cx = x + 22 + w / 2 if side == 'r' else (x - 22 - w / 2 if side == 'l' else x)
-    put(can, halo, cx, y, 1, k * 0.9); put(can, halo, cx, y, 1, k * 0.9); put(can, spr, cx, y, 1, k)
+    put(can, spr, cx + (1 - k) * 30 * (1 if side != 'l' else -1), y, 1, k)
 
 def route(can, pts, u, col=RUST, w=8, dashed=False, alpha=1.0):
     pp = partial(pts, u)
@@ -74,7 +76,8 @@ def route(can, pts, u, col=RUST, w=8, dashed=False, alpha=1.0):
                     d.line([(lerp(a[0], b[0], k / n), lerp(a[1], b[1], k / n)), (lerp(a[0], b[0], (k + 1) / n), lerp(a[1], b[1], (k + 1) / n))], fill=col + (int(255 * alpha),), width=w)
             tot += s
     else: d.line(pp, fill=col + (int(255 * alpha),), width=w, joint='curve')
-    can.alpha_composite(L); return pp
+    G = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(G).line(pp, fill=col + (int(140 * alpha),), width=w * 3)
+    can.alpha_composite(G.filter(ImageFilter.GaussianBlur(w * 1.5))); can.alpha_composite(L); return pp
 
 def heading(pp):
     if len(pp) < 2: return 0
@@ -106,7 +109,7 @@ def icon(can, kind, x, y, ang, size=46, col=NAVY, alpha=1.0, halo=True):
     deg = int(round(math.degrees(ang) / 3) * 3)
     spr = (_b17 if kind == 'b17' else _bf109)(size, deg, col + (255,))
     if halo:
-        hl = (_b17 if kind == 'b17' else _bf109)(size, deg, PAPER + (255,)).filter(ImageFilter.GaussianBlur(4))
+        hl = (_b17 if kind == 'b17' else _bf109)(size, deg, (0, 0, 0, 200)).filter(ImageFilter.GaussianBlur(5))
         put(can, hl, x, y, 1.0, alpha); put(can, hl, x, y, 1.0, alpha)
     put(can, spr, x, y, 1.0, alpha)
 
@@ -119,15 +122,15 @@ def flak(can, t, t0, x, y, r=26):
     rng = np.random.default_rng(int(x * 7 + y))
     for i in range(7):
         ox, oy = rng.normal(0, rr * 0.35, 2); q = rr * rng.uniform(0.45, 0.8)
-        d.ellipse((c + ox - q, c + oy - q, c + ox + q, c + oy + q), fill=(48, 40, 34, int(200 * k * (1 - u) ** 0.8)))
+        d.ellipse((c + ox - q, c + oy - q, c + ox + q, c + oy + q), fill=(70, 72, 78, int(200 * k * (1 - u) ** 0.8)))
     L = L.filter(ImageFilter.GaussianBlur(3))
     if u < 0.2:
-        d = ImageDraw.Draw(L); q = r * 0.35 * (1 - u * 5); d.ellipse((c - q, c - q, c + q, c + q), fill=(225, 140, 60, 230))
+        d = ImageDraw.Draw(L); q = r * 0.35 * (1 - u * 5); d.ellipse((c - q, c - q, c + q, c + q), fill=(255, 170, 60, 240))
     put(can, L, x, y)
 
 def compass(can, x, y, r=80, alpha=0.75):
     L = Image.new('RGBA', (int(r * 3), int(r * 3)), (0, 0, 0, 0)); d = ImageDraw.Draw(L); c = r * 1.5
-    col = INK + (int(255 * alpha),)
+    col = (120, 132, 150) + (int(255 * alpha),)
     d.ellipse((c - r, c - r, c + r, c + r), outline=col, width=3); d.ellipse((c - r * 0.82, c - r * 0.82, c + r * 0.82, c + r * 0.82), outline=col, width=1)
     for a in range(4):
         an = a * math.pi / 2; p1 = (c + r * math.cos(an), c + r * math.sin(an)); pl = (c + r * 0.18 * math.cos(an + math.pi / 4), c + r * 0.18 * math.sin(an + math.pi / 4))
