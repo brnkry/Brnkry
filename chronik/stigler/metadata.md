@@ -52,3 +52,18 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #ZweiterWeltkrieg #Geschichte #Luftkrieg #Militärgeschichte #B17 #Bf109 #WahreGeschichte #Dokumentation
+
+## YouTube Community Post
+
+🎬 Neues Video ist online!
+
+20. Dezember 1943: Ein deutscher Jagdflieger hat einen schwer beschädigten US Bomber direkt vor sich. An Bord liegen Verwundete. Er schießt nicht, sondern begleitet ihn bis über die Nordsee.
+
+47 Jahre später treffen sich Franz Stigler und Charlie Brown wieder und werden enge Freunde.
+
+👉 Die ganze Geschichte jetzt im neuen Short.
+
+Umfrage: Hättet ihr gedacht, dass aus diesen beiden Gegnern Freunde werden?
+- Ja, solche Geschichten gab es öfter
+- Nein, das überrascht mich
+- Ich kannte die Geschichte schon
