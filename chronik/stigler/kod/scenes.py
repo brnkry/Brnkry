@@ -32,18 +32,33 @@ def card(name, sub, w=760, h=300):
     d.text((30 + w / 2 - tw / 2, 30 + h / 2 - 10), name, font=f2, fill=INK)
     return im
 CARD1 = card('Franz Stigler', 'LUFTWAFFE  ·  JAGDFLIEGER'); CARD2 = card('Charlie Brown', 'USAAF  ·  BOMBERPILOT')
+def half_photo(p, cx, cy, w):
+    h = w * 960 / 1080; cy = max(cy, h / 2)
+    return src(p).resize((W, 960), Image.LANCZOS, box=(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)).convert('RGBA')
+HALF1 = half_photo('p08', 896, 712, 1600); HALF2 = half_photo('p06', 896, 1200, 1560)
+DARKH = Image.new('RGBA', (W, 960), (16, 11, 6, 255))
 def s_dossier(t):
-    can = BG_MANILA.copy()
-    cascade(can, t, wt('Geschichte'), 'DIE GESCHICHTE VON', 'cond', 58, INK, 400, track=6)
-    pen_rule(can, t, wt('Geschichte') + 0.5, 450, 420, col=RUST, th=5)
-    for cd, t0, y, side, r in ((CARD1, wt('Franz'), 700, -1, -2.0), (CARD2, wt('Charlie'), 1120, 1, 1.6)):
+    can = Image.new('RGBA', (W, H), (16, 11, 6, 255))
+    for im, t0, y0, side in ((HALF1, wt('Franz'), 0, -1), (HALF2, wt('Charlie'), 960, 1)):
+        k = eout((t - t0 + 0.35) / 0.6)
+        lit = Image.blend(DARKH, im, 0.28 + 0.72 * k)
+        z = lerp(1.0, 1.05, clamp((t - 6.3) / 5.6))
+        if z > 1.001:
+            lit = lit.resize((int(W * z), int(960 * z)), Image.BILINEAR).crop((int(W * (z - 1) / 2), int(960 * (z - 1) / 2), int(W * (z - 1) / 2) + W, int(960 * (z - 1) / 2) + 960))
+        can.paste(lit, (int(side * (1 - eout((t - 6.3) / 0.7)) * 300), y0))
+    can.alpha_composite(vgrad(170, 0, 3000, 3001, 520))
+    can.alpha_composite(Image.merge('RGBA', [Image.new('L', (W, H), 10)] * 3 + [Image.fromarray(np.repeat((np.clip(1 - np.abs(np.arange(H) - 960) / 120, 0, 1) * 150)[:, None], W, 1).astype(np.uint8))]))
+    ImageDraw.Draw(can).line((0, 960, W, 960), fill=GOLD + (255,), width=4)
+    cascade(can, t, wt('Geschichte'), 'DIE GESCHICHTE VON', 'cond', 64, CREAM, 360, track=6)
+    for cd, t0, y, side, r in ((CARD1, wt('Franz'), 836, -1, -2.0), (CARD2, wt('Charlie'), 1488, 1, 1.6)):
         if t < t0 - 0.3: continue
         k = eout((t - t0 + 0.3) / 0.55)
         im = cd.rotate(r * (1 - k * 0.6), resample=Image.BICUBIC, expand=True)
-        put(can, im, 540 + side * (1 - k) * 700, y, 1.0, 1.0)
+        put(can, im, 540 + side * (1 - k) * 700, y, 0.66, 1.0)
     if t > wt('Charlie') + 0.2:
         a = ease((t - wt('Charlie') - 0.2) / 0.4)
-        put(can, sprite('&', 'serif', 110, RUST, False), 540, 912, 1.0, a)
+        d = ImageDraw.Draw(can); d.ellipse((540 - 52 * a, 960 - 52 * a, 540 + 52 * a, 960 + 52 * a), fill=(26, 18, 10, 255), outline=GOLD + (255,), width=4)
+        put(can, sprite('&', 'serif', 64, GOLD, False), 540, 958, 1.0, a)
     return can
 
 # ---------------- S3 tear-off calendar ----------------
@@ -211,7 +226,6 @@ def s_wreck(t):
     c = pcam('p10', t, 50.0, 54.5, (1000, 1000, 1150), (960, 860, 940)); can = c.frame(); can.alpha_composite(GRAD)
     focus(can, t, wt('neben', 50), 'NEBEN DEM BOMBER', 'serif', 76, CREAM, 1270)
     reveal(can, t, wt('Verwundeten'), 'DIE VERWUNDETEN IM RUMPF', 'cond', 56, GOLD, 1380)
-    p = c.pt(640, 470); dash_ellipse(can, t, wt('zerschossenen'), p[0], p[1], 190, 150, CREAM)
     return can
 
 # ---------------- S12 Rödel ----------------

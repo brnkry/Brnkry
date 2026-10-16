@@ -4,6 +4,8 @@ Bu video **Chronik der Macht** kanalı için, What the Car? kanalıyla ilgisi yo
 
 - Ses: ElevenLabs "Helmut" (112,77 sn). Müzik: Documentary_Show.mp3, seviye 0.24 (kalp atışında kısılıyor).
 - `words.json`: kelime zamanlaması (sessizlik + hece çekirdeği hizalaması, `kod/dp.py` ve `kod/words2.py`).
+- Fontlar Kammhuber videosuyla aynı: Anton, Bebas Neue, Montserrat Italic, Special Elite.
+- v2: "Die Geschichte von" sahnesi bölünmüş ekran (üstte Stigler, altta Brown, isim kartları önlerinde); 50. saniyedeki enkaz elipsi kaldırıldı; haritalarda motor sesleri, Bremen'de Flak, bomba ve makineli tüfek sesleri; kâğıt animasyonlarında daktilo, kalem ve mühür sesleri.
 - `kod/scenes.py`: 22 sahne, sırayla fotoğraf ve animasyon. Atlas tonlarında harita (parşömen kara, arduvaz deniz, pas kırmızısı rota).
 - `kod/sfx.py`: efektler (4 motorlu B-17 uğultusu, tek motorlu Bf 109, uzak Flak, kalp atışı, kalem, mühür, daktilo).
 - Render: `python3 kod/scenes.py render part.mp4 <bas> <son>` (4 paralel parça), ardından ffmpeg ile miks (ses 1.0, müzik 0.24, efekt 0.85, alimiter 0.93).

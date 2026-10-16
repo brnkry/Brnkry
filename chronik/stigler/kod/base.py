@@ -24,8 +24,9 @@ def font(name, size, w=None):
     f = ImageFont.truetype(F + name, size)
     if w: f.set_variation_by_axes([w])
     return f
-FK = {'serif': lambda s: font('PlayfairDisplay%5Bwght%5D.ttf', s, 850), 'serifm': lambda s: font('PlayfairDisplay%5Bwght%5D.ttf', s, 600),
-      'cond': lambda s: font('Oswald%5Bwght%5D.ttf', s, 600), 'condl': lambda s: font('Oswald%5Bwght%5D.ttf', s, 400),
+# same fonts as the Kammhuber video: Anton, Bebas Neue, Montserrat Italic, Special Elite
+FK = {'serif': lambda s: font('Anton-Regular.ttf', s), 'serifm': lambda s: font('Anton-Regular.ttf', s),
+      'cond': lambda s: font('BebasNeue-Regular.ttf', int(s * 1.12)), 'condl': lambda s: font('Montserrat-Italic%5Bwght%5D.ttf', s, 800),
       'type': lambda s: font('SpecialElite-Regular.ttf', s)}
 
 def clamp(x): return min(1.0, max(0.0, x))

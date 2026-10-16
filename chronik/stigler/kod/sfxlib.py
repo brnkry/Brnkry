@@ -110,3 +110,18 @@ def tone(f=110, dur=3.0):
     n = int(SR * dur); t = np.arange(n) / SR
     y = sum(np.sin(2 * np.pi * f * m * t) * 0.6 ** i for i, m in enumerate((1, 2, 3.01))) * env(n, 0.01, 1.0)
     return norm(lp(verb(y, 0.6, IRB), 1500))
+def mg_burst(n=7, rate=0.075):
+    y = np.zeros(int(SR * (n * rate + 0.6)))
+    for i in range(n):
+        k = int(i * rate * SR); m = int(0.05 * SR)
+        s = lp(rng.normal(0, 1, m), 2200) * env(m, 0.0005, 0.012) + 0.5 * np.sin(2 * np.pi * 95 * np.arange(m) / SR) * env(m, 0.001, 0.02)
+        y[k:k + m] += s * rng.uniform(0.7, 1.0)
+    return norm(lp(verb(y, 0.5, IRB), 2500))
+def bomb(dur=3.4):
+    y = np.zeros(int(SR * dur)); w = whistle(1.0, 1100, 380); y[:len(w)] += w * 0.5
+    b = boom_far(dur - 0.9); y[int(0.9 * SR):int(0.9 * SR) + len(b)] += b * 1.0
+    return norm(y)
+def crack():  # mid-distance flak crack, rounded
+    n = int(SR * 1.8); t = np.arange(n) / SR
+    y = lp(rng.normal(0, 1, n), 900) * env(n, 0.002, 0.18) + 0.6 * np.sin(2 * np.pi * 60 * t) * env(n, 0.003, 0.25)
+    return norm(verb(lp(y, 1600), 0.55, IRB))
