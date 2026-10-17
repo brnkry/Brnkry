@@ -1,13 +1,13 @@
 # Adalbert Schnee: script ve video planı (v2)
 
-## Almanca script (1.491 karakter, uzun tire yok)
+## Almanca script (1.443 karakter, uzun tire yok)
 `script_de.txt` dosyasında. ElevenLabs'e olduğu gibi yapıştırılır.
 
 ## İzleyici tutma yapısı
 | Bölüm | Süre | Görev |
 |---|---|---|
-| Hook | 0-3 sn | "500 Meter. Ein britischer Kreuzer im Visier. Doch er darf nicht mehr schießen." Somut sayı, gerilim ve bir yasak. |
-| Açık döngü | 3-8 sn | "Aber stimmt diese Geschichte?" İzleyici cevabı sonda alacak, sonuna kadar kalır. |
+| Hook | 0-4 sn | "500 Meter vor einem britischen Kreuzer und der Befehl, nicht mehr zu schießen: Adalbert Schnee." Somut sayı, gerilim, yasak ve isim. |
+| Kaynak notu | Norfolk bölümü | Olay "so berichtete Schnee" ile ona atfedilir, sonda tarihçilerin şüphesi verilir. |
 | Hızlı geçmiş | 8-20 sn | Berlin, Marine, Kretschmer'in yanında çıraklık. Kısa cümleler. |
 | Merak detayı | 20-30 sn | Kuledeki kardan adam arması (Schnee = kar). Görsel ve akılda kalır. |
 | Tırmanış | 30-55 sn | "Dann kam ein völlig neues Boot." Tip XXI: günlerce su altında, konvoylardan hızlı. |
