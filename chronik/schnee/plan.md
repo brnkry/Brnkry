@@ -81,3 +81,10 @@
 - https://www.historynet.com/type-xxi-u-boat/
 - https://dubm.de/the-feint-attack/?lang=en
 - https://urn.dsm.museum/DSA/DSA23_2000_347372_Hoheisel-Huxmann.pdf
+
+## Yapım notları (render)
+- Ses: ElevenLabs, 114,3 sn. Kelime zamanlaması `words.json`.
+- 21 fotoğraf, her biri bir kez (s01-s22, s10 numarası boş). Yatay ve kare fotoğraflar sağa veya sola kayar; s08 ve s22 hafif zoom.
+- Sıra: s09 hook, s12 1913, s08 1934, s18 Kretschmer, s02 U-201, s21 kardan adam (büyüteç), s07 arma, s14 21 gemi, s06 Dönitz, s03 Tip XXI, s04 hız çubukları, s17 U-2511, s13 Bergen, s20 emir kartı, s16 Norfolk, s11 sonar 500 m, s01 tatbikat, s19 tartışmalı, s15 teslim, s05 savaş sonrası, s22 1982 ve CTA.
+- Müzik: Documentary Show baştaki 2,25 sn sessizlik kesildi, ses altında sidechain ile kısılır.
+- Story: 11 sn, girişin 6,85 sn'si ve ardından "Neues Video / Die ganze Geschichte jetzt im Profil" + Folgen, Liken, Teilen.
