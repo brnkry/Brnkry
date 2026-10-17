@@ -4,7 +4,16 @@ import base
 from base import *
 import scenes as S1
 from scenes import counter, bars, magnifier, typecard, sonar, desat, bigname, shot
-base.BLUR.clear()                       # Boran blurs the symbols himself
+base.BLUR.clear()
+# only the swastikas, small: eagle wreaths, centres of Knight's/Iron Crosses, U-boat badge (photos Boran sent in blur.zip)
+base.BLUR.update({
+    's06': [(352, 720, 34), (217, 1070, 42), (790, 960, 36), (1310, 1150, 32)],
+    's08': [(811, 165, 54), (627, 1468, 58), (163, 2240, 52), (1106, 2431, 42), (1118, 2560, 40)],
+    's12': [(610, 1615, 48)],
+    's17': [(925, 1240, 52), (515, 1870, 42), (1349, 2103, 42), (1312, 2225, 38)],
+    's18': [(794, 200, 58), (862, 2013, 62)],
+    's19': [(915, 200, 62), (776, 2200, 70)],
+})
 # hook photo: the face sits at the very top, so extend the plain sky upward to bring it below the Shorts top bar
 _s20 = Image.open(IMG + 's20.jpg').convert('RGB'); _pad = 520
 _top = _s20.crop((0, 0, _s20.width, 60)).resize((_s20.width, _pad), Image.BICUBIC).filter(ImageFilter.GaussianBlur(30))
@@ -191,7 +200,7 @@ def sc_xxi(t, w0, w1):
     focus(can, t, wt('Typ'), 'TYP XXI', 'serif', 220, GOLD, 1250)
     reveal(can, t, wt('tagelang'), 'TAGELANG GETAUCHT', 'cond', 64, CREAM, 1420); return can
 def sc_speed(t, w0, w1):
-    can = shot(pan_lin('s04', t, w0, w1, 1800, -1), GRAD_SOFT); bars(can, t, wt('schneller') - 0.2, 1180); return can
+    can = shot(pan_lin('s04', t, w0, w1, 1800, -1), GRAD_SOFT); bars(can, t, w0 + 0.15, 1180); return can
 def sc_u2511(t, w0, w1):
     can = shot(pan_lin('s17', t, w0, w1, 900, 1))
     focus(can, t, wt('U-2511,'), 'U-2511', 'serif', 220, GOLD, 1270, dur=0.3)
@@ -236,7 +245,7 @@ def sc_end(t, w0, w1):
     focus(can, t, wt('diese', 90), 'DIESE GESCHICHTE?', 'serif', 120, GOLD, 1340)
     plate(can, t, wt('Schreibt'), 'SCHREIBT ES IN DIE KOMMENTARE!', 1460, size=46); return can
 
-OLD = [(0.0, sc_hook, 'cut'), (6.9, sc_1913, 'fade'), (('n', 11.05), sc_1934, 'fade'), (('n', 14.6), sc_kretschmer, 'slide_l'), (20.9, sc_u201, 'fade'),
+OLD = [(0.0, sc_hook, 'cut'), (('n', 7.65), sc_1913, 'fade'), (('n', 11.05), sc_1934, 'fade'), (('n', 14.6), sc_kretschmer, 'slide_l'), (20.9, sc_u201, 'fade'),
        (26.1, sc_snow, 'fade'), (31.6, sc_wappen, 'slide_r'), (35.8, sc_21, 'fade'), (39.6, sc_doenitz, 'fade'), (46.4, sc_xxi, 'slide_l'),
        (51.4, sc_speed, 'fade'), (56.5, sc_u2511, 'fade'), (62.6, sc_bergen, 'slide_r'), (67.6, sc_order, 'fade'), (72.7, sc_norfolk, 'fade'),
        (78.3, sc_sonar, 'dip'), (83.3, sc_feint, 'fade'), (88.4, sc_doubt, 'fade'), (95.4, sc_surrender, 'slide_l'), (100.2, sc_after, 'fade'),

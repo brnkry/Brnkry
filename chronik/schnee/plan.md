@@ -103,3 +103,8 @@
 - Giriş fotoğrafı ilk kareden itibaren yüzden megafona doğru kayar.
 - Berlin cümlesi: "1913" kelimesinde yıl, "Berlin"de etiket; fotoğraf "geboren"den sonra değişir.
 - Savaş sonrası sahnesinde yazılar adamların üstüne binmesin diye ekranın ortasına alındı.
+
+## v6
+- Sadece zip ile gelen 6 fotoğrafta (s06, s08, s12, s17, s18, s19) küçük blur: kartal altındaki gamalı haç, Şövalye ve Demir Haç ortası, U-Boot rozeti.
+- Giriş fotoğrafı isimden sonra ~1 sn daha kalır (7,65 sn).
+- Hız çubukları fotoğraf gelir gelmez açılır.
