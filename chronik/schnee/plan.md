@@ -1,69 +1,83 @@
-# Adalbert Schnee: script ve video planı
+# Adalbert Schnee: script ve video planı (v2)
 
-## Almanca script (1.487 karakter, uzun tire yok)
+## Almanca script (1.491 karakter, uzun tire yok)
 `script_de.txt` dosyasında. ElevenLabs'e olduğu gibi yapıştırılır.
 
+## İzleyici tutma yapısı
+| Bölüm | Süre | Görev |
+|---|---|---|
+| Hook | 0-3 sn | "500 Meter. Ein britischer Kreuzer im Visier. Doch er darf nicht mehr schießen." Somut sayı, gerilim ve bir yasak. |
+| Açık döngü | 3-8 sn | "Aber stimmt diese Geschichte?" İzleyici cevabı sonda alacak, sonuna kadar kalır. |
+| Hızlı geçmiş | 8-20 sn | Berlin, Marine, Kretschmer'in yanında çıraklık. Kısa cümleler. |
+| Merak detayı | 20-30 sn | Kuledeki kardan adam arması (Schnee = kar). Görsel ve akılda kalır. |
+| Tırmanış | 30-55 sn | "Dann kam ein völlig neues Boot." Tip XXI: günlerce su altında, konvoylardan hızlı. |
+| Geri dönüş | 55-80 sn | Açılıştaki sahneye dönülür: Norfolk, muhriplerin arasından 500 metreye kadar sızma. |
+| Ters köşe | 80-88 sn | "Doch die Geschichte stammt fast nur von ihm selbst." Açık döngü kapanır. |
+| Kapanış | 88+ sn | Kesin olanlar, savaş sonrası, CTA. |
+
 ## Doğrulanmış bilgiler
-- 31.12.1913 Berlin doğumlu, 04.11.1982 Hamburg'da öldü. Crew 34 (1934 Reichsmarine).
-- U-23'te Otto Kretschmer'in yanında 1. Wachoffizier (Ekim 1939 ile Ocak 1940 arası 5 devriye).
-- Komutalar: U-6 (Nisan 1940, tek kısa devriye), U-60 (Tip IIC, 3 devriye), U-121 (Kasım 1940, devriyesiz), U-201 (Tip VIIC, Ocak 1941 ile Ağustos 1942 arası, 7 devriye), U-2511 (Tip XXI, Eylül 1944'ten itibaren).
-- Toplam (uboat.net): 21 ticaret gemisi (90.189 GRT), 2 yardımcı savaş gemisi (HMS Springbank, HMS Laertes), 3 hasar. Kaynaklar arasında 21 ile 24 arası farklı sayılar var, scriptte "zugeschrieben" kullanıldı.
-- Aguila: OG 71 konvoyu, 19.08.1941, U-201 vurdu. 21 WRNS (9 subay, 12 telsizci) ve 1 QARNNS hemşiresi, hepsi öldü.
-- Ekim 1942'den itibaren BdU kurmayı, "Geleitzugs-Asto": konvoy harekâtlarının planlaması.
-- U-2511: Tip XXI'in ilk harp devriyesi. 30.04.1945 akşamı Bergen'den çıktı. 04.05.1945'te saldırıları durdurma emri geldi. 09.05.1945'te Bergen'de teslim oldu. Ocak 1946'da Operation Deadlight ile batırıldı.
-- Norfolk olayı: Schnee'nin anlatımına göre kruvazöre 500 m yaklaştı, ateş etmedi, fark edilmeden uzaklaştı. Hikâye 1950 ve 60'larda popüler yayınlarla yayıldı. DUBM (Cuxhaven U-Boot-Archiv) ve Deutsches Schiffahrtsmuseum yazıları bundan şüphe ediyor. Scriptte "nach eigener Aussage" ve "Historiker bezweifeln" diye verildi.
-- Savaş sonrası: 31.08.1945'e kadar esir. Ticaret eğitimi aldı, satış temsilcisi oldu. Elba'da yelken okulu yönetti. Uzun yıllar Verband Deutscher U-Bootfahrer başkanı.
+- 31.12.1913 Berlin doğumlu, 04.11.1982 Hamburg'da öldü. Crew 34.
+- U-23'te Otto Kretschmer'in yanında 1. Wachoffizier (Ekim 1939 ile Ocak 1940 arası).
+- U-201 (Tip VIIC) Ocak 1941'den Ağustos 1942'ye kadar. Arması kardan adam (Schneemann), adına gönderme. Yanında Remscheid şehir arması da vardı.
+- Toplam (uboat.net): 21 ticaret gemisi. Kaynaklar arasında farklı sayılar var, scriptte "zugeschrieben".
+- Ekim 1942'den itibaren BdU (Dönitz) kurmayında konvoy harekâtlarının planlanması.
+- Tip XXI: su altında yaklaşık 17 knot (60-80 dakika), 5 knot ile yaklaşık 75 saat dalış. Konvoylar genelde 7-10 knot.
+- U-2511: Tip XXI'in ilk harp devriyesi (U-3008 ile birlikte devriyeye çıkan iki Tip XXI'den biri). 30.04.1945 Bergen'den çıktı. 04.05.1945'te saldırıları durdurma emri. 09.05.1945'te Bergen'de teslim.
+- Norfolk olayı: Schnee'nin anlatımı (muhriplerin arasından geçip 500 m, sahte saldırı, fark edilmeden çekilme). 1950 ve 60'lardaki popüler yayınlarla yayıldı. DUBM ve Deutsches Schiffahrtsmuseum yazıları şüpheli. Scriptte "so berichtete Schnee" ve "Historiker sind sich bis heute nicht einig".
+- Savaş sonrası: satış temsilcisi, Elba'da yelken okulu, uzun yıllar Verband Deutscher U-Bootfahrer başkanı.
 
 ## Bilinçli olarak dışarıda bırakılanlar
-- Kesin tonaj ve gemi sayısı tartışması (21, 23, 24)
-- Ritterkreuz ve Eichenlaub (kanal kuralı: övücü vurgu yok; istenirse eklenebilir)
-- U-2511'in hedefinin Karayipler olduğu iddiası (tek kaynak)
+- Aguila ve OG 71 konvoyu (Boran'ın kararı)
+- Ritterkreuz ve Eichenlaub
+- Kesin tonaj tartışması
 
-## Görsel yerleşim kuralı (Boran)
-- Yatay fotoğraflar: zoom yok. Fotoğraf ekran yüksekliğine oturtulur ve soldan sağa ya da sağdan sola kayar (CapCut'taki konum animasyonu gibi). Yön her fotoğrafta değişir.
-- 9:16 fotoğraflar: çok hafif zoom (1.00 ile 1.06 arası).
-- Görseller çoğunlukta. 20 civarı görselin hepsi kullanılacak. Animasyonlar az ve kısa (harita ve 1-2 bilgi kartı).
-- Nazi sembolleri blur. Kammhuber paleti ve fontları (Anton, Bebas Neue, Montserrat Italic, Special Elite).
+## Görsel yerleşim kuralı
+- Yatay fotoğraflar: zoom yok, ekran yüksekliğine oturur, soldan sağa veya sağdan sola kayar. Yön her fotoğrafta değişir.
+- 9:16 fotoğraflar: çok hafif zoom.
+- Görseller çoğunlukta, 20 civarı görselin hepsi kullanılacak. Animasyon sadece 2-3 kısa ara sahne.
+- Nazi sembolleri blur. Kammhuber paleti ve fontları.
 
-## Sahne planı (yaklaşık saniye, ~110 sn)
-| Saniye | Cümle | Görsel | Hareket / yazı |
+## Sahne planı (~108 sn, görsel numaraları fotoğraflar gelince eşleşecek)
+| Saniye | Cümle | Görsel | Hareket / yazı / ses |
 |---|---|---|---|
-| 0-6 | Hook: modernste U-Boot, Kriegsende | U-2511 veya Tip XXI fotoğrafı (en çarpıcı olan) | net açılış, sağdan sola kayma; "1945" ve "ELEKTROBOOT" |
-| 6-9 | Kommandant Schnee | Schnee portresi (9:16) | hafif zoom; isim kutusu |
-| 9-14 | Berlin 1913, Reichsmarine 1934 | genç Schnee / Marineschule | kayma; "BERLIN · 1913" |
-| 14-20 | U-23, Kretschmer | U-23 veya Kretschmer ile foto | kayma; "U-23 · KRETSCHMER" |
-| 20-25 | U-6, U-60 | Tip II U-boot fotoğrafı | kayma; sayı sayacı U-6 ile U-60 |
-| 25-31 | U-201 Typ VIIC | U-201 fotoğrafı | kayma; "U-201 · TYP VIIC" |
-| 31-36 | 21 Handelsschiffe | batan gemi / köprü üstü | kayma; sayaç 0 → 21 |
-| 36-46 | Aguila, OG 71 | **Harita**: İngiltere'den Cebelitarık'a konvoy rotası, saldırı noktası; sonra Aguila veya Wren fotoğrafı | harita animasyonu; "22 FRAUEN · KEINE ÜBERLEBTE" |
-| 46-53 | BdU Stab | kurmay odası / Lagekarte fotoğrafı | kayma; "STAB BdU" |
-| 53-60 | U-2511, Typ XXI | Tip XXI fotoğrafları (2 adet) | biri soldan sağa, biri sağdan sola |
-| 60-65 | Bergen, 30. April | Bergen bunker / liman | kayma; "BERGEN · 30.04.1945" |
-| 65-69 | Befehl 4. Mai | telsiz / mesaj | daktilo kartı: "ANGRIFFE EINSTELLEN" |
-| 69-78 | Norfolk, 500 m | HMS Norfolk fotoğrafı, sonra periskop | kayma; "500 METER"; "NACH EIGENER AUSSAGE" |
-| 78-82 | Historiker zweifeln | aynı sahne kararır | "UMSTRITTEN" kırmızı |
-| 82-87 | Übergabe 9. Mai | teslim fotoğrafı | kayma |
-| 87-96 | Nach dem Krieg, Elba, Verband | savaş sonrası foto / Elba / yelkenli | kayma |
-| 96-104 | Tod 1982 Hamburg | yaşlı Schnee portresi | hafif zoom; "1913 · 1982" |
-| 104+ | CTA | açılıştaki fotoğraf | tek izin verilen tekrar |
-
-Görseller gelince numaralayıp bu tablodaki slotlara yerleştireceğim. Fazla görsel olursa kısa slotları ikiye bölerim, eksik olursa harita sahnesini uzatırım.
+| 0-3 | 500 Meter, Kreuzer im Visier | Norfolk ya da kruvazör fotoğrafı, net | sağdan sola kayma; büyük "500 METER"; periskop çerçevesi; su altı uğultusu |
+| 3-6 | darf nicht schießen, So erzählte es | Schnee portresi | hafif zoom; isim kutusu "ADALBERT SCHNEE" |
+| 6-8 | Aber stimmt diese Geschichte? | aynı portre | kırmızı "?" damgası |
+| 8-13 | Berlin 1913, Marine 1934 | genç Schnee / Marineschule | soldan sağa; "BERLIN · 1913" |
+| 13-19 | Kretschmer, U-23 | Kretschmer veya U-23 | sağdan sola; "LEHRMEISTER: KRETSCHMER" |
+| 19-23 | U-201 | U-201 fotoğrafı | soldan sağa; "U-201"; dizel motor |
+| 23-30 | Schneemann am Turm | kardan adam arması görünen foto | sağdan sola; armaya ok/çizgi işaret (Stigler'deki gibi) |
+| 30-35 | 21 Handelsschiffe | U-201 denizde / köprü | soldan sağa; sayaç 0 ile 21 |
+| 35-41 | Stab von Dönitz | karargâh / harita odası | sağdan sola; "STAB BdU" |
+| 41-44 | völlig neues Boot | Tip XXI dış görünüş | soldan sağa; ses kesilir, yumuşak vuruş |
+| 44-51 | tagelang getaucht, schneller | Tip XXI ikinci foto | sağdan sola; iki çubuk karşılaştırma "TYP XXI 17 KN" ile "GELEITZUG ~8 KN" |
+| 51-55 | U-2511 erstes auf Feindfahrt | U-2511 fotoğrafı | soldan sağa; "U-2511" |
+| 55-59 | 30. April, Bergen | Bergen bunker / liman | sağdan sola; harita ara sahnesi: Bergen'den Kuzey Denizi'ne rota |
+| 59-63 | Befehl: Angriffe einstellen | telsiz / mesaj | daktilo kartı "ALLE ANGRIFFE EINSTELLEN" |
+| 63-68 | Norfolk mit Zerstörern | HMS Norfolk | soldan sağa; uzak pervane sesi |
+| 68-73 | unter dem Geleitschutz, 500 m | harita animasyonu: muhrip halkası, U-boat ikonu içeri sızar | kalp atışı, sessizlik |
+| 73-78 | Übungsangriff, zurückgezogen | periskop / U-boat su altı | sağdan sola; "KEIN SCHUSS" |
+| 78-84 | stammt fast nur von ihm, Historiker | aynı portre siyah-beyaza döner | kırmızı "UMSTRITTEN" |
+| 84-88 | 9. Mai Übergabe Bergen | teslim fotoğrafı | soldan sağa |
+| 88-96 | Elba, Verband | savaş sonrası / yelkenli / yaşlı Schnee | sağdan sola |
+| 96-100 | 1982 Hamburg | yaşlı Schnee portresi | hafif zoom; "1913 · 1982" |
+| 100+ | CTA | açılış fotoğrafı (tek izinli tekrar) | |
 
 ## Ses tasarımı
-- Altta Documentary Show, 0.24.
-- Deniz: dalga ve rüzgâr ambiyansı (yüzeydeki sahnelerde).
-- Su altı: boğuk derin ambiyans, gövde gıcırtıları, uzak sonar ping (yumuşak, nadir), elektrik motoru uğultusu (Tip XXI sahnelerinde).
-- Dizel motor: U-201 ve liman sahnelerinde.
-- Konvoy saldırısı: uzak, boğuk patlama (abartısız).
-- Daktilo: emir kartında. Yumuşak vuruşlar: isim ve sayı yazılarında.
-- Kalp atışı ve sessizlik: Norfolk'a 500 m yaklaşma anında.
+- Altta Documentary Show (0.24).
+- Yüzey: dalga, rüzgâr. Su altı: boğuk derin ambiyans, gövde gıcırtısı, nadir ve yumuşak sonar.
+- U-201: dizel motor. U-2511: elektrik motoru uğultusu.
+- Norfolk sahnesi: uzak pervane sesi, kalp atışı, sessizlik.
+- Daktilo: emir kartı. Kalem/çizgi sesi: arma işaretleme.
 
 ## Kaynaklar
 - https://uboat.net/men/commanders/1102.html
 - https://uboat.net/boats/u2511.htm
+- https://uboat.net/special/emblems/u201.html
+- https://www.uboatarchive.net/Modeling/u201_remscheid_snowman.pdf
 - https://en.wikipedia.org/wiki/Adalbert_Schnee
 - https://en.wikipedia.org/wiki/German_submarine_U-2511
-- https://en.wikipedia.org/wiki/Convoy_OG_71
-- https://www.gchq.gov.uk/information/aguila-wrns
+- https://en.wikipedia.org/wiki/Type_XXI_submarine
+- https://www.historynet.com/type-xxi-u-boat/
 - https://dubm.de/the-feint-attack/?lang=en
 - https://urn.dsm.museum/DSA/DSA23_2000_347372_Hoheisel-Huxmann.pdf
