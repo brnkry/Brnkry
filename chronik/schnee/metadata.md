@@ -52,3 +52,18 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #ZweiterWeltkrieg #Geschichte #UBoot #Kriegsmarine #Militärgeschichte #TypXXI #WahreGeschichte #Dokumentation
+
+## YouTube Community Post
+
+🎬 Neues Video ist online!
+
+4. Mai 1945: Alle U-Boote erhalten den Befehl, die Angriffe einzustellen. Kurz darauf, so berichtete Adalbert Schnee, schlich er sich mit U-2511 bis auf 500 Meter an den britischen Kreuzer Norfolk heran. Ohne einen Schuss.
+
+Doch stimmt seine Geschichte? Historiker sind sich bis heute nicht einig.
+
+👉 Die ganze Geschichte jetzt im neuen Short.
+
+Umfrage: Glaubt ihr Schnees Bericht?
+- Ja, das klingt glaubwürdig
+- Nein, das ist übertrieben
+- Ich kannte die Geschichte noch nicht
