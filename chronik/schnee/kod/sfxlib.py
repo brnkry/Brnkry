@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
 from scipy.io import wavfile
-SR = 48000; T = 114.29
+SR = 48000; T = 106.24
 rng = np.random.default_rng(7)
 out = np.zeros((int(SR * T), 2))
 def lp(x, f, o=4): return sosfilt(butter(o, f, 'low', fs=SR, output='sos'), x)
