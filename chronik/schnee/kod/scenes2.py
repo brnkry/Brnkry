@@ -144,26 +144,27 @@ def bergen_map(can, t, t0, box=(110, 300, 970, 700)):
 
 # ---------- scenes: (old start, photo function) ----------
 def sc_hook(t, w0, w1):
-    c = pan_lin('s20', t, w0, w1, 900, 1); can = shot(c, GRAD_SOFT)
+    u = clamp((t - w0) / (w1 - w0)); c = PCam('s20', lerp(1060, 650, u), 1230, 1300); can = shot(c, GRAD_SOFT)
     tA = wt('Adalbert') - 0.1
-    if t < tA + 0.2: reticle(can, t, 0.0, 600, 700, 300)
     focus(can, t, 0.05, '500 METER', 'serif', 230, GOLD, 1200, t1=tA - 0.15, dur=0.3)
     reveal(can, t, wt('britischen') - 0.1, 'VOR EINEM BRITISCHEN KREUZER', 'cond', 62, CREAM, 1330, t1=tA - 0.15, dur=0.45)
     plate(can, t, wt('Befehl') - 0.05, 'NICHT MEHR SCHIESSEN', 1450, size=56, bg=RUST, fg=CREAM, t1=tA - 0.15)
     bigname(can, t, tA, 'ADALBERT', 'SCHNEE')
     return can
 def sc_1913(t, w0, w1):
-    can = shot(pan_lin('s12', t, w0, w1, 880, -1)); timeline(can, t, wt('1913'), 1913)
-    plate(can, t, wt('Berlin'), 'BERLIN · 1913', 1400, size=60); return can
+    can = shot(pan_lin('s12', t, w0, w1, 880, -1))
+    focus(can, t, wt('1913'), '1913', 'serif', 170, GOLD, 1250)
+    plate(can, t, wt('Berlin'), 'BERLIN', 1420, size=64); return can
 def sc_1934(t, w0, w1):
-    can = shot(zoom_lin('s08', t, w0, w1, 768, 1376)); timeline(can, t, wt('1934'), 1934, 1913)
+    can = shot(zoom_lin('s08', t, w0, w1, 768, 1376))
     plate(can, t, wt('1934'), 'MARINE · 1934', 1400, size=60); return can
 def sc_kretschmer(t, w0, w1):
     c = pan_lin('s18', t, w0, w1, 880, 1); can = shot(c)
     callout(can, t, wt('Otto'), c.pt(560, 1060), (540, 1300), 'OTTO KRETSCHMER', col=GOLD, size=60)
     reveal(can, t, wt('U-23'), 'U-23 · WACHOFFIZIER', 'cond', 64, GOLD, 1420); return can
 def sc_u201(t, w0, w1):
-    can = shot(pan_lin('s02', t, w0, w1, 900, -1)); timeline(can, t, wt('1941'), 1941, 1934)
+    can = shot(pan_lin('s02', t, w0, w1, 900, -1))
+    focus(can, t, wt('1941'), '1941', 'cond', 70, CREAM, 1200)
     c = pan_lin('s02', t, w0, w1, 900, -1)
     callout(can, t, wt('U-201.') + 0.1, c.pt(1250, 650), (540, 1350), 'U-201', col=GOLD, size=110); return can
 def sc_snow(t, w0, w1):
@@ -175,40 +176,33 @@ def sc_wappen(t, w0, w1):
     reveal(can, t, wt('bekanntesten'), 'EINES DER BEKANNTESTEN', 'cond', 62, CREAM, 1300)
     reveal(can, t, wt('Bootswappen'), 'BOOTSWAPPEN', 'serif', 120, GOLD, 1420); return can
 def sc_21(t, w0, w1):
-    can = shot(pan_lin('s14', t, w0, w1, 950, 1), GRAD_SOFT)
-    t21 = wt('21', 25); ship_tally(can, t, t21)
-    counter(can, t, t21, 21, 1250, size=200)
+    can = shot(pan_lin('s14', t, w0, w1, 950, 1))
+    counter(can, t, wt('21', 25), 21, 1230)
     plate(can, t, wt('versenkte'), 'VERSENKTE HANDELSSCHIFFE', 1420, size=52); return can
 def sc_doenitz(t, w0, w1):
-    c = pan_lin('s06', t, w0, w1, 900, -1); can = shot(c); timeline(can, t, wt('1942'), 1942, 1941)
+    c = pan_lin('s06', t, w0, w1, 900, -1); can = shot(c)
     callout(can, t, wt('Dönitz'), c.pt(800, 420), (540, 1300), 'KARL DÖNITZ', col=GOLD, size=60)
     plate(can, t, wt('Geleitzüge') - 0.3, 'PLANUNG GEGEN GELEITZÜGE', 1430, size=48, bg=RUST, fg=CREAM); return can
 def sc_xxi(t, w0, w1):
-    can = shot(pan_lin('s03', t, w0, w1, 1250, 1), GRAD_SOFT)
+    can = shot(pan_lin('s03', t, w0, w1, 1250, 1))
     focus(can, t, wt('völlig'), 'VÖLLIG NEUES BOOT', 'cond', 66, CREAM, 1180, t1=wt('Typ') - 0.2)
-    focus(can, t, wt('Typ'), 'TYP XXI', 'serif', 200, GOLD, 1300)
-    dial(can, t, wt('tagelang'), 72, 760)
-    reveal(can, t, wt('tagelang'), 'TAGELANG GETAUCHT', 'cond', 64, CREAM, 1440); return can
+    focus(can, t, wt('Typ'), 'TYP XXI', 'serif', 220, GOLD, 1250)
+    reveal(can, t, wt('tagelang'), 'TAGELANG GETAUCHT', 'cond', 64, CREAM, 1420); return can
 def sc_speed(t, w0, w1):
-    can = shot(pan_lin('s04', t, w0, w1, 1800, -1), GRAD_SOFT); ts = wt('schneller')
-    if t < ts:
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); dial(L, t, wt('tagelang'), 72, 760)
-        a = 1 - clamp((t - ts + 0.4) / 0.4); L.putalpha(L.getchannel('A').point(lambda v: int(v * a))); can.alpha_composite(L)
-    bars(can, t, ts - 0.2, 1180); return can
+    can = shot(pan_lin('s04', t, w0, w1, 1800, -1), GRAD_SOFT); bars(can, t, wt('schneller') - 0.2, 1180); return can
 def sc_u2511(t, w0, w1):
     can = shot(pan_lin('s17', t, w0, w1, 900, 1))
     focus(can, t, wt('U-2511,'), 'U-2511', 'serif', 220, GOLD, 1270, dur=0.3)
     plate(can, t, wt('erste'), 'ERSTE FEINDFAHRT DES TYPS XXI', 1430, size=46); return can
 def sc_bergen(t, w0, w1):
-    can = shot(pan_lin('s13', t, w0, w1, 900, -1), GRAD_SOFT)
-    bergen_map(can, t, wt('April'))
+    can = shot(pan_lin('s13', t, w0, w1, 900, -1))
+    focus(can, t, wt('Bergen', 50), 'BERGEN', 'serif', 190, CREAM, 1240)
     plate(can, t, wt('April'), '30. APRIL 1945', 1400, size=60, bg=GOLD, fg=DEEP); return can
 def sc_order(t, w0, w1):
     can = shot(pan_lin('s09', t, w0, w1, 900, 1), GRAD_SOFT)
     typecard(can, t, wt('Befehl', 50), [('4. MAI 1945', 52, SEPIA), ('ALLE ANGRIFFE', 80, INK), ('EINSTELLEN', 80, RUST)], cy=1180); return can
 def sc_norfolk(t, w0, w1):
     can = shot(pan_lin('s16', t, w0, w1, 1000, -1), GRAD_SOFT)
-    formation(can, t, wt('Norfolk'), 780)
     reveal(can, t, wt('berichtete'), 'NACH SCHNEES BERICHT', 'cond', 52, CREAM, 1290)
     plate(can, t, wt('Norfolk'), 'KREUZER NORFOLK', 1410, size=64, bg=RUST, fg=CREAM); return can
 def sc_sonar(t, w0, w1):
@@ -230,18 +224,17 @@ def sc_surrender(t, w0, w1):
     plate(can, t, wt('übergab'), 'ÜBERGABE IN BERGEN', 1420, size=58); return can
 def sc_after(t, w0, w1):
     can = shot(pan_lin('s05', t, w0, w1, 1500, 1), GRAD_SOFT)
-    plate(can, t, wt('Elba'), 'SEGELSCHULE AUF ELBA', 1290, size=56)
-    plate(can, t, wt('Verband'), 'VERBAND DER U-BOOT-FAHRER', 1410, size=48, bg=GOLD, fg=DEEP); return can
+    plate(can, t, wt('Elba'), 'SEGELSCHULE AUF ELBA', 780, size=56)
+    plate(can, t, wt('Verband'), 'VERBAND DER U-BOOT-FAHRER', 900, size=48, bg=GOLD, fg=DEEP); return can
 def sc_end(t, w0, w1):
     can = shot(zoom_lin('s22', t, w0, w1, 896, 1150, 1.07)); tk = wt('Kanntet')
-    if t < tk: timeline(can, t, wt('1982'), 1982, 1945)
     focus(can, t, wt('1982') - 0.1, '1913 · 1982', 'serif', 170, CREAM, 1260, t1=tk - 0.2)
     plate(can, t, wt('Hamburg'), 'HAMBURG', 1420, size=70, bg=GOLD, fg=DEEP, t1=tk - 0.2)
     focus(can, t, tk, 'KANNTET IHR', 'serif', 120, CREAM, 1210)
     focus(can, t, wt('diese', 90), 'DIESE GESCHICHTE?', 'serif', 120, GOLD, 1340)
     plate(can, t, wt('Schreibt'), 'SCHREIBT ES IN DIE KOMMENTARE!', 1460, size=46); return can
 
-OLD = [(0.0, sc_hook, 'cut'), (6.9, sc_1913, 'fade'), (10.9, sc_1934, 'fade'), (14.7, sc_kretschmer, 'slide_l'), (20.9, sc_u201, 'fade'),
+OLD = [(0.0, sc_hook, 'cut'), (6.9, sc_1913, 'fade'), (('n', 11.05), sc_1934, 'fade'), (('n', 14.6), sc_kretschmer, 'slide_l'), (20.9, sc_u201, 'fade'),
        (26.1, sc_snow, 'fade'), (31.6, sc_wappen, 'slide_r'), (35.8, sc_21, 'fade'), (39.6, sc_doenitz, 'fade'), (46.4, sc_xxi, 'slide_l'),
        (51.4, sc_speed, 'fade'), (56.5, sc_u2511, 'fade'), (62.6, sc_bergen, 'slide_r'), (67.6, sc_order, 'fade'), (72.7, sc_norfolk, 'fade'),
        (78.3, sc_sonar, 'dip'), (83.3, sc_feint, 'fade'), (88.4, sc_doubt, 'fade'), (95.4, sc_surrender, 'slide_l'), (100.2, sc_after, 'fade'),
@@ -249,8 +242,9 @@ OLD = [(0.0, sc_hook, 'cut'), (6.9, sc_1913, 'fade'), (10.9, sc_1934, 'fade'), (
 OV = 0.22
 SC = []
 for i, (t0, fn, tr) in enumerate(OLD):
-    s = 0.0 if i == 0 else M(t0) - OV
-    e = TEND if i == len(OLD) - 1 else M(OLD[i + 1][0]) + OV
+    N = lambda x: x[1] if isinstance(x, tuple) else M(x)
+    s = 0.0 if i == 0 else N(t0) - OV
+    e = TEND if i == len(OLD) - 1 else N(OLD[i + 1][0]) + OV
     SC.append((s, e, fn, tr))
 
 DIPC = Image.new('RGBA', (W, H), (4, 6, 8, 255))

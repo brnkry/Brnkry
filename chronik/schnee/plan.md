@@ -97,3 +97,9 @@
 - Yeni şeffaf grafikler: periskop nişangâhı (giriş), yaşam zaman çizgisi (1913, 1934, 1941, 1942, 1982), 21 gemi tablosu, "tagelang getaucht" saat göstergesi, Bergen haritası, Norfolk ve muhrip düzeni. Kretschmer ve U-201'e ok ile işaret.
 - Su sesi sadece giriş, U-201, Bergen, Norfolk ve savaş sonrası sahnelerinde.
 - Sonda "HAMBURG" etiketi.
+
+## v3
+- v2'de eklenen şeffaf grafikler kaldırıldı (zaman çizgisi, nişangâh, gemi tablosu, saat, Bergen haritası, filo). Kretschmer ve U-201 okları kaldı; v1'deki animasyonlar geri geldi.
+- Giriş fotoğrafı ilk kareden itibaren yüzden megafona doğru kayar.
+- Berlin cümlesi: "1913" kelimesinde yıl, "Berlin"de etiket; fotoğraf "geboren"den sonra değişir.
+- Savaş sonrası sahnesinde yazılar adamların üstüne binmesin diye ekranın ortasına alındı.
