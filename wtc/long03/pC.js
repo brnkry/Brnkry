@@ -84,7 +84,7 @@ RENDER.push(t=>{
   tr(catCold,30,330,.8*pop(t,tc),0,on(t,tc));catCold.inP.upd(t,-330,330-300,30,-20,1.6,1,14);catCold.outP.upd(t,330,0,60,-24,1.8,1,16);
   tr(dirtyP,30,505,pop(t,W_('c9','clean')-.2),0,on(t,W_('c9','clean')-.2));
   tr(catHot,30,640,.8*pop(t,th),0,on(t,th)*(1-P(t,tdt-.1,.3)));catHot.outP.upd(t,330,0,60,-24,1.8,1,16);catHot.inP.upd(t,-330,0,30,-20,1.6,1,14);tr(cleanP,30,770,pop(t,th+.3),0,on(t,th+.3)*(1-P(t,tdt-.1,.3)));
-  dirtRing.setAttribute('opacity',on(t,tdt));dirtRing.setAttribute('transform','translate(30 330)');tr(dirtiest,30,600,lerp(1.5,1,eo(P(t,tdt,.25))),-6,on(t,tdt))}
+  dirtRing.setAttribute('opacity',on(t,tdt));dirtRing.setAttribute('transform','translate(30 330)');tr(dirtiest,30,660,lerp(1.5,1,eo(P(t,tdt,.25))),-6,on(t,tdt))}
  if(vis(xr,t,Gs('c11')-.1,Gs('c13')-.1)>0){xr.setAttribute('transform',`translate(${CX} 430) scale(.8)`);const tm=W_('c12','moves')-.3;const mv=eo(P(t,tm,.6));
   xrCar.setAttribute('transform',`translate(0 ${mv?1.5*Math.sin(t*30):0})`);dashes.forEach((d,i)=>d.setAttribute('x',((i*160-t*700*mv)%1280+1280)%1280-640));
   const te=W_('c11','engine')-.3;const keys={engine:te,transmission:W_('c12','transmission')-.3,bearings:W_('c12','bearings')-.3,steering:W_('c12','steering')-.3,suspension:W_('c12','suspension')-.3};
