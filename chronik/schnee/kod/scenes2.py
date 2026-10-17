@@ -149,7 +149,9 @@ def sc_hook(t, w0, w1):
     focus(can, t, 0.05, '500 METER', 'serif', 230, GOLD, 1200, t1=tA - 0.15, dur=0.3)
     reveal(can, t, wt('britischen') - 0.1, 'VOR EINEM BRITISCHEN KREUZER', 'cond', 62, CREAM, 1330, t1=tA - 0.15, dur=0.45)
     plate(can, t, wt('Befehl') - 0.05, 'NICHT MEHR SCHIESSEN', 1450, size=56, bg=RUST, fg=CREAM, t1=tA - 0.15)
-    bigname(can, t, tA, 'ADALBERT', 'SCHNEE')
+    if t >= tA:   # each name appears exactly when it is spoken
+        focus(can, t, 5.40, 'ADALBERT', 'serif', 170, CREAM, 1240, dur=0.3)
+        focus(can, t, 5.98, 'SCHNEE', 'serif', 190, GOLD, 1410, dur=0.3)
     return can
 def sc_1913(t, w0, w1):
     can = shot(pan_lin('s12', t, w0, w1, 880, -1))
