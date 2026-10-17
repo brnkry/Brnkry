@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+html,body{margin:0;background:#121216}#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#121216}svg{position:absolute;inset:0}
+#frost{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%, rgba(220,235,255,0) 55%, rgba(220,235,255,.25) 85%, rgba(235,245,255,.5) 100%)}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:#F4F1EA}.acc{fill:#D4FF3A}.card{fill:#22222A}.bgf{fill:#121216}.mut{fill:#8A8A96}.lin{fill:#30303A}.sInk{stroke:#F4F1EA}.sAcc{stroke:#D4FF3A}.sMut{stroke:#8A8A96}.sLine{stroke:#30303A}
+</style></head><body><div id="stage"><svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080"><defs>
+<radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC94A" stop-opacity=".9"/><stop offset=".5" stop-color="#FFB000" stop-opacity=".3"/><stop offset="1" stop-color="#FFB000" stop-opacity="0"/></radialGradient>
+<linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141B33"/><stop offset=".65" stop-color="#2E3D66"/><stop offset="1" stop-color="#6F86B3"/></linearGradient><radialGradient id="g2" cx=".65" cy=".6" r=".55"><stop offset="0" stop-color="#FFB000" stop-opacity=".35"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter><filter id="blurbg" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter><filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".7"/></filter>
+</defs></svg><div id="cap"></div></div>
+<script src="../brand.js"></script><script src="../long01/guy.js"></script><script src="../long01/lib.js"></script>
+<script>
+const bg=g(svg,{filter:'url(#blurbg)'});el('rect',{width:1920,height:1080,fill:'url(#dawn)'},bg);
+el('path',{d:'M0 700 Q400 640 900 690 Q1400 740 1920 660 L1920 1080 L0 1080 Z',fill:'#DDE6F2'},bg);
+for(let i=0;i<90;i++)el('circle',{cx:(i*211)%1920,cy:(i*137)%1080,r:3+(i%4),fill:'#FFFFFF',opacity:.7},svg);
+// idling car with steam
+const cG=g(svg,{transform:'translate(1290 690)',filter:'url(#sh)'});const car=makeCar(cG,{body:'#D4FF3A',ink:'#121216',acc:'#FFF6D0'});car.setAttribute('transform','scale(.95)');
+el('path',{d:'M-300 -120 Q-180 -160 40 -162 Q240 -160 330 -112 Q240 -140 40 -142 Q-160 -140 -300 -120 Z',fill:'#FFFFFF'},cG);
+[[ -520,40,60],[-600,0,80],[-700,-50,105],[-820,-110,130]].forEach(([x,y,r],i)=>el('circle',{cx:x,cy:y,r,fill:'#EEF3F9',opacity:.75-i*.12},cG));
+// red timer
+const tm=g(svg,{transform:'translate(1500 330) rotate(-4)',filter:'url(#sh)'});el('rect',{x:-250,y:-90,width:500,height:180,rx:90,fill:'#FF3D5A'},tm);
+el('circle',{cx:-160,cy:0,r:52,fill:'none',stroke:'#F4F1EA','stroke-width':12},tm);el('path',{d:'M-160 -30 L-160 0 L-136 14',fill:'none',stroke:'#F4F1EA','stroke-width':12,'stroke-linecap':'round'},tm);
+txt(tm,60,44,130,'bold','10:00').setAttribute('fill','#F4F1EA');
+// narrator
+const gG=g(svg,{transform:'translate(360 900) scale(1.65)',filter:'url(#sh)'});const guy=makeGuy(gG);
+el('path',{d:'M-84 -22 Q0 26 84 -22 L92 22 Q0 74 -92 22 Z',fill:'#FF3D5A'},guy.props);const tail=g(guy.props,{transform:'translate(44 30) rotate(-8)'});el('rect',{x:-22,y:0,width:46,height:170,rx:12,fill:'#FF3D5A'},tail);[40,80,120].forEach(y=>el('rect',{x:-22,y,width:46,height:10,fill:'#F4F1EA',opacity:.85},tail));
+guy.set({mouth:1,smile:-.6,browUp:1.2,browWorry:.4,eyes:1.2,pupil:.6,look:[1,-.2],tilt:-6,hands:{L:{x:-200,y:330},R:{x:200,y:330}}});
+const t=el('text',{x:1290,y:190,'text-anchor':'middle','font-size':168,style:'font-family:WTC;font-weight:800;font-stretch:75%',filter:'url(#sh)'});[['WARM IT ','#F4F1EA'],['UP?','#D4FF3A']].forEach(([a,c2])=>{const sp=el('tspan',{fill:c2},t);sp.textContent=a});
+const wm=el('text',{x:60,y:96,'font-size':60,style:'font-family:WTC;font-weight:800;font-stretch:75%'});[['WHAT THE ','#F4F1EA'],['CAR','#D4FF3A'],['?','#FF3D5A']].forEach(([s,c2])=>{const sp=el('tspan',{fill:c2},wm);sp.textContent=s});
+window.render=()=>{};window.__ready=document.fonts.ready.then(()=>true);
+</script></body></html>

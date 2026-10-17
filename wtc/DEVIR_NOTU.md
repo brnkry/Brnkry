@@ -148,3 +148,11 @@ car explained, how cars work, car parts explained, automotive explained, under t
 - İlk etiket = videonun ana anahtar kelimesi (başlıktaki). Sonra aramada kullanılan varyasyonlar ve soru kalıpları, 2-4 kelimelik ifadeler.
 - Tek kelimelik genel etiketlerden ve videoda olmayan konulardan kaçın. Yaygın yazım hatası ve alternatif yazım ekle (ör. tyre).
 - 500 karakter sınırına çok kelimeli etiketlerin tırnakları (+2) da dahil.
+
+## Uzun video 03 (16:9): kışın araba ısıtmak, benzinli + dizel, BİTTİ (5:59)
+- Klasör: `wtc/long03/`. Lamba değil, genel konu. Ses tek parça (`voice.mp3`, 5:51), sonunda 8 sn bitiş kartı (logo, sol "WATCH NEXT", sağ "SUBSCRIBE" boş alanları end screen için).
+- Yeni yapı: tek `scene.html` + parça dosyaları (`common.js`, `pA.js` ... `pH.js`, `main.js`). Her parça RENDER / EVF / KEYS dizilerine ekler. Önizleme: `node render.js scene.html preview 12 34`; tam render: `W=4 ./rerender.sh scene.html 359.32`; birleştirme: `./build.sh out.mp4` (parts.json tek parça).
+- `align.py` (long03 kopyası) sözlükte olmayan kelimeleri `d.add_word` ile ekler (multigrade, gelling, gelled, defroster). `lib.js` `spoken()` haritasına 0W-20, DPF, anti-gel eklendi.
+- Ses miksi: `master_audio.py` içinde VOLMUL ile tür bazlı kısma (thud, rev, starter, stutter vb.). Kontrol: `python3 vocheck.py` sesin geri kalan her şeyden kaç dB önde olduğunu 0,5 sn pencerelerle listeler; 4 dB altı pencereler incelenmeli.
+- CSS sınıfı (`mut`, `ink`) olan metinlerde renk `setAttribute('fill')` ile değişmez, `style.fill` kullan.
+- Thumbnail: `thumb.html` → `thumbnail_1280x720.png` ("WARM IT UP?", kırmızı 10:00, atkılı anlatıcı). Metadata: `long03/metadata.md`.

@@ -1,0 +1,59 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"WTC";src:url(../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2);font-weight:200 800;font-stretch:75% 100%}
+:root{--bg:#121216;--ink:#F4F1EA;--acc:#D4FF3A;--card:#22222A;--muted:#8A8A96;--line:#30303A;--red:#FF3D5A}
+html,body{margin:0;padding:0;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+#shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(rgba(18,18,22,0),rgba(18,18,22,.88) 55%);pointer-events:none}
+#cap{position:absolute;left:210px;top:892px;width:1500px;height:150px}
+#black{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:"WTC";font-weight:700;font-stretch:88%;letter-spacing:-.012em;line-height:1.08;font-size:62px}
+.w{display:inline-block;margin:0 .11em;will-change:transform,opacity,filter}
+.w.e{font-weight:800;font-stretch:75%;color:var(--acc);letter-spacing:-.01em;font-size:1.06em}
+svg{position:absolute;inset:0}
+.mic{font-family:"WTC";font-weight:700;font-stretch:90%;letter-spacing:.06em}
+.bold{font-family:"WTC";font-weight:800;font-stretch:75%}
+.ink{fill:var(--ink)} .acc{fill:var(--acc)} .card{fill:var(--card)} .bgf{fill:var(--bg)} .mut{fill:var(--muted)} .lin{fill:var(--line)} .red{fill:var(--red)}
+.sInk{stroke:var(--ink)} .sAcc{stroke:var(--acc)} .sMut{stroke:var(--muted)} .sLine{stroke:var(--line)} .sBg{stroke:var(--bg)}
+#flash{position:absolute;inset:0;background:#FFB000;opacity:0;pointer-events:none;mix-blend-mode:screen}
+#frost{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 50%, rgba(220,235,255,0) 55%, rgba(220,235,255,.35) 85%, rgba(235,245,255,.6) 100%)}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1920" height="1080" viewBox="0 0 1920 1080">
+ <defs>
+  <radialGradient id="spot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2A2A34"/><stop offset="1" stop-color="#121216" stop-opacity="0"/></radialGradient>
+  <radialGradient id="heat" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF6A00" stop-opacity=".7"/><stop offset="1" stop-color="#FF6A00" stop-opacity="0"/></radialGradient>
+  <radialGradient id="cool" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#4FA3FF" stop-opacity=".55"/><stop offset="1" stop-color="#4FA3FF" stop-opacity="0"/></radialGradient>
+  <radialGradient id="warmWin" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFD27A" stop-opacity=".55"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
+  <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141B33"/><stop offset=".65" stop-color="#2E3D66"/><stop offset="1" stop-color="#6F86B3"/></linearGradient>
+  <linearGradient id="dawn2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E64A8"/><stop offset=".65" stop-color="#93AEDC"/><stop offset="1" stop-color="#F6CFA4"/></linearGradient>
+  <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF6D0" stop-opacity=".55"/><stop offset="1" stop-color="#FFF6D0" stop-opacity="0"/></linearGradient>
+  <linearGradient id="sepia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9B98C"/><stop offset="1" stop-color="#9C7A52"/></linearGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>
+  <clipPath id="winClip"><rect x="-150" y="-100" width="300" height="200" rx="6"/></clipPath>
+ </defs>
+</svg>
+<div id="flash"></div>
+<div id="black"></div>
+<div id="shade"></div>
+<div id="cap"></div>
+</div>
+<script src="../brand.js"></script>
+<script src="../long01/guy.js"></script>
+<script src="mouth.js"></script>
+<script src="../long01/lib.js"></script>
+<script src="align.js"></script>
+<script src="captions.js"></script>
+<script src="common.js"></script>
+<script src="pA.js"></script>
+<script src="pB.js"></script>
+<script src="pC.js"></script>
+<script src="pD.js"></script>
+<script src="pE.js"></script>
+<script src="pF.js"></script>
+<script src="pG.js"></script>
+<script src="pH.js"></script>
+<script src="main.js"></script>
+</body></html>
