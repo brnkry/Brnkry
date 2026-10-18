@@ -28,10 +28,10 @@ def layout(can, w, h, cy, size, tag, ic):
     b = d.textbbox((x0 + w1 + gap + pad, cy), t2, font=f1, anchor='lm'); d.rectangle((b[0] - pad, b[1] - size * 0.16, b[2] + pad, b[3] + size * 0.14), fill=YEL)
     d.text((x0 + w1 + gap + pad, cy), t2, font=f1, fill=DARK, anchor='lm'); d.rectangle((b[0] - pad, b[3] + size * 0.2, b[0] + size * 1.2, b[3] + size * 0.27), fill=RED)
     d.text((w / 2, cy + size * 0.95), 'GESCHICHTE  ·  QUELLEN  ·  ORIGINALAUFNAHMEN', font=bebas(int(size * 0.4)), fill=(215, 210, 200), anchor='mm')
-    icons(can, w / 2, cy + size * 1.5, int(size * 0.4), 'CHRONIK DER MACHT') if ic else None
+    icons(can, w / 2, cy + size * 1.45, int(size * 0.3), 'CHRONIK DER MACHT') if ic else None
 photo = Image.open(S + 'sb/img/p04.jpg').convert('RGB')
 # YouTube banner: everything inside the 1546x423 area at y 508..931
-yt = look(cover(photo, 2560, 1440, 0.5, 0.5), 10, 0.52).convert('RGBA'); layout(yt, 2560, 1440, 615, 172, True, True)
+yt = look(cover(photo, 2560, 1440, 0.5, 0.5), 10, 0.52).convert('RGBA'); layout(yt, 2560, 1440, 655, 150, True, True)
 grain(yt).save(D + 'Banner_YouTube_Social.jpg', quality=93)
 # Facebook cover 1640x624: phones crop the sides, so keep it in the middle 1100 px
 fb = look(cover(photo, 1640, 624, 0.5, 0.45), 8, 0.52).convert('RGBA'); layout(fb, 1640, 624, 230, 112, True, True)
