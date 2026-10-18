@@ -81,10 +81,10 @@ def story_text(can, k=1.0):
     plate(can, (SW / 2, 1010), 'NEUE DOKUMENTATION', anton(64), RED, WHITE, rule=False)
     T(can, (SW / 2, 1150), 'LAURI TÖRNI', anton(140), YEL)
     T(can, (SW / 2, 1275), 'DREI UNIFORMEN, ZWEI NAMEN', bebas(70), WHITE)
-def story_cta(can, y=1450):
+def story_cta(can, y=1450, bio=False):
     ytlogo(can, SW / 2 - 230, y, 62); T(can, (SW / 2 + 70, y + 4), 'JETZT AUF YOUTUBE', anton(66), WHITE)
-    T(can, (SW / 2, y + 150), 'LINK ANTIPPEN', bebas(70), YEL)
-    arrow(can, (SW / 2, y + 210), (SW / 2, y + 330), 1.0, YEL, 14, 44)
+    if bio: T(can, (SW / 2, y + 170), 'LINK IN BIO', anton(96), YEL)
+    else: arrow(can, (SW / 2, y + 400), (SW / 2, y + 270), 1.0, YEL, 14, 44)   # points up to the free space for the link sticker
 def story_image():
     can = story_bg('t09', 0.36); story_text(can); story_cta(can)
     can.convert('RGB').save(OUT + 'Story_Bild.jpg', quality=93)
@@ -109,7 +109,7 @@ def story_frame(t):
         can.alpha_composite(bg); can.alpha_composite(Image.new('RGBA', (SW, SH), (0, 0, 0, int(255 * (1 - k)))))
         if t > 5.6: story_text(can)
         if t > 6.6:
-            kk = eout((t - 6.6) / 0.4); L = Image.new('RGBA', (SW, SH), (0, 0, 0, 0)); story_cta(L, 1450 + int(math.sin(t * 5) * 6))
+            kk = eout((t - 6.6) / 0.4); L = Image.new('RGBA', (SW, SH), (0, 0, 0, 0)); story_cta(L, 1450 + int(math.sin(t * 5) * 6), True)
             if kk < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * kk)))
             can.alpha_composite(L)
     if t > 11.5: can.alpha_composite(Image.new('RGBA', (SW, SH), (0, 0, 0, int(255 * clamp((t - 11.5) / 0.5)))))
