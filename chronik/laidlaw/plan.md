@@ -1,6 +1,6 @@
 # Jean Laidlaw: Shorts planı
 
-Script: `script_de.txt` (1.454 karakter, tek paragraf, uzun tire yok). Tahmini süre ~105 sn.
+Script: `script_de.txt` (v2, Association of Wrens bilgileriyle; ~1.500 karakter, tek paragraf, uzun tire yok). Tahmini süre ~105 sn.
 
 ## Sahne planı (13 fotoğraf, her biri bir kez)
 | Cümle | Görsel | Animasyon |
@@ -23,9 +23,12 @@ Script: `script_de.txt` (1.454 karakter, tek paragraf, uzun tire yok). Tahmini s
 
 ## Not
 - j03 Jean Laidlaw'ın ileri yaşta fotoğrafı mı? Teyit edilmeli; değilse sonda başka fotoğraf.
-- Kaynaklar arasında Laidlaw'ın mesleği farklı (muhasebeci / sigorta katibi), scriptte "Büro" dendi.
+- Laidlaw: İskoç, yaklaşık 1921 doğumlu, WATU'ya atanan ilk Wren (yeni terfi etmiş Third Officer, 21 yaşında), muhasebeci (ICAEW), savaştan sonra mesleğine döndü, 2008'de öldü. Roberts CBE aldı, Wren'ler resmi takdir görmedi.
+- "İngiltere'nin ilk kadın muhasebecisi" iddiası doğrulanamadı, scriptte yok.
 
 ## Kaynaklar
+- https://wrens.org.uk/woman-of-the-day-wrns-officer-jean-laidlaw-circa-1921-2008/
+- https://www.liverpool.ac.uk/history/blog/2026/heroic-women-secret-naval-veterans-of-liverpool-right-under-your-nose/
 - https://en.wikipedia.org/wiki/Western_Approaches_Tactical_Unit
 - https://www.icaew.com/library/historical-resources/guide-to-historical-resources/ww2/from-sinking-uboats-to-balancing-books
 - https://www.historic-uk.com/HistoryUK/HistoryofBritain/Wrens-Wargames-North-Atlantic/
