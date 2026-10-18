@@ -73,8 +73,8 @@ def lw_a():
     plate(can, (200, 110), 'ECHT', bebas(100), YEL, DARK, rot=3)
     plate(can, (1730, 110), 'FILM', bebas(100), RED, WHITE, rot=-3)
     badge(can, 820, 50, 104)
-    title2(can, 760, 'DER ECHTE', 'KALEU', 200)
-    text(can, (W // 2, 975), 'LEHMANN-WILLENBROCK', anton(150), WHITE)
+    title2(can, 740, 'DER ECHTE', 'KALEU', 190)
+    text(can, (W // 2, 970), 'HEINRICH LEHMANN-WILLENBROCK', anton(122), WHITE)
     save(can, 'LehmannWillenbrock_A.jpg')
 
 def lw_b():
@@ -92,10 +92,11 @@ def lw_b():
     plate(can, (560, 540), 'FILM', bebas(70), RED, WHITE, rot=-5)
     arrow(can, [(720, 360), (960, 280), (1150, 450)], YEL, 16)
     badge(can, 90, 40, 96)
-    text(can, (540, 700), 'DAS BOOT', anton(180), WHITE)
-    d = ImageDraw.Draw(can); f = anton(120); bb = d.textbbox((540, 850), 'WAR ECHT', font=f, anchor='mm')
-    d.rectangle((bb[0] - 30, bb[1] - 12, bb[2] + 30, bb[3] + 10), fill=YEL); d.text((540, 850), 'WAR ECHT', font=f, fill=DARK, anchor='mm')
-    text(can, (540, 985), 'LEHMANN-WILLENBROCK', anton(112), WHITE)
+    text(can, (540, 665), 'DAS BOOT', anton(170), WHITE)
+    d = ImageDraw.Draw(can); f = anton(120); bb = d.textbbox((540, 805), 'WAR ECHT', font=f, anchor='mm')
+    d.rectangle((bb[0] - 30, bb[1] - 12, bb[2] + 30, bb[3] + 10), fill=YEL); d.text((540, 805), 'WAR ECHT', font=f, fill=DARK, anchor='mm')
+    text(can, (540, 925), 'HEINRICH', anton(100), WHITE)
+    text(can, (540, 1025), 'LEHMANN-WILLENBROCK', anton(100), WHITE)
     save(can, 'LehmannWillenbrock_B.jpg')
 
 for fn in (hartmann_a, hartmann_b, lw_a, lw_b): fn()
