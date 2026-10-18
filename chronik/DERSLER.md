@@ -1,0 +1,43 @@
+# Chronik der Macht: Boran'ın düzeltmelerinden kalıcı kurallar
+
+Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
+
+## Senkron (en önemli)
+- Yazı, ses o kelimeyi söylediği anda gelir. Erken ya da geç gelmez.
+- Sahne, önceki cümle bitmeden değişmez: her sahne kendi cümlesinin ilk kelimesine bağlanır (0,15 sn önce).
+- Her yazı ekranda en az ~1,5 sn kalır; kalamıyorsa yazı cümlenin başında gelir ya da sonraki sahne biraz bekler.
+- Animasyonlar bittikten sonra sahne ~1 sn daha ekranda kalır, hemen geçmez.
+- Kelime eşleştirmesi: duraklama + hece çekirdeği + süre birlikte (align3.py). Render öncesi her sahnenin kelimelerinin kendi penceresinde olduğu kontrol edilir.
+- Ses parça parça gelirse birleştirince cümle araları kısaltılır ama cümleler birbirine yapışmaz (~0,4 sn).
+
+## Yerleşim
+- Yazılar birbirinin, okların ve harita etiketlerinin üstüne binmez. Tarih/yıl yazıları rotanın ve şehir etiketinin olmadığı yere konur.
+- Hiçbir yazı ekranın dışına taşmaz (sol kenardaki etiketler sağa açılır).
+- Harita kadrajı: okun gittiği yer ekranda olmalı (ör. Helsinki → Wien).
+- Rota bitince varış noktasında bir nokta/işaret kalır, boşluk kalmaz.
+- Önce söylenen önce görünür (ör. "1949" sonra "SCHWEDEN").
+- Bölüm kartları ekranın en üstünde, ~3 sn kalır, kendiliğinden kaybolur. Seslendirmeye sessizlik eklenmez.
+
+## Fotoğraflar
+- Aynı fotoğraf iki kez kullanılmaz. Fotoğraf yetmezse fotoğrafsız animasyon (belge, damga, sayaç, çizim, zaman çizgisi).
+- Her fotoğraf hareket eder (sabit durmaz); kare fotoğraflar hafif yakınlaştırılıp kaydırılır. Zoom titremez.
+- Kişinin kafası kesilmez; gerekirse kadraj aşağı kaydırılır.
+- Grup fotoğrafında anlatılan kişi okla gösterilir (ok yazıların üstüne gelmez, yanına kısa isim).
+- Nazi sembolleri küçük blur.
+
+## Animasyon dili
+- Her şey haritayla anlatılmaz; farklı animasyonlar (Mannerheim-Kreuz çizimi gibi çizim animasyonları Boran'ın favorisi).
+- Logo fontu (Anton) kullanılır ama logo birebir kopyalanmaz: video içinde sarı kutu + kırmızı çizgi yok, vurgu kelimesi sarı yazı.
+- Dikey fotoğraf: tamamı net ortada, kenarlar bulanık kopya. Çapraz/zig-zag hareket yok.
+- Ok uçları tam çizilir.
+- Ses efektleri bol: her ok, rota, damga, sayaç, geçiş kendi sesini alır.
+
+## Ses ve müzik
+- Arka plan müziği hiç düşmez, sonu sönen parçalar kesilip döngüyle birleştirilir.
+- Kanal logo animasyonu son cümleyle ("abonniert Chronik der Macht...") birlikte başlar, ayrı en sona eklenmez.
+- Kapanışta "Wir sehen uns" yok.
+
+## Metinler
+- İsimler tam yazılır (Heinrich Lehmann-Willenbrock gibi).
+- Kanal açıklaması/etiketleri kanaldaki tüm içeriği kapsar, sadece birkaç asker türüyle sınırlanmaz.
+- Uzun tire yok. Övgü yok.
