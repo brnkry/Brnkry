@@ -1,7 +1,7 @@
 # Eino Luukkanen: script ve bilgiler
 
 ## Almanca script
-`script_de.txt` (tiresiz). ElevenLabs'e olduğu gibi yapıştırılır.
+`script_de.txt` (tiresiz, v2: hikâye anlatımı). ElevenLabs'e olduğu gibi yapıştırılır.
 
 ## Doğrulanmış bilgiler
 - 04.06.1909 Jaakkima (Karelya) doğumlu, Sortavala'da (Ladoga Gölü) büyüdü. 09.04.1964 Jyväskylä'da öldü (54 yaşında).
