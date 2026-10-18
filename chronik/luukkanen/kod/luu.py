@@ -7,6 +7,14 @@ base.BLUR.clear()
 base.BLUR.update({'l23': [(170, 800, 190), (330, 805, 190)], 'l12': [(470, 870, 170), (580, 870, 150)],
                   'l07': [(420, 520, 210), (640, 520, 210)], 'l24': [(160, 645, 220), (370, 645, 220)]})
 from PIL import ImageChops
+# italic = the same Anton letters, only slanted (no font change)
+_sprite = base.sprite
+@functools.lru_cache(maxsize=4096)
+def sprite(txt, fk, size, color, shadow=True, track=0, blur=0):
+    if not fk.endswith('_i'): return _sprite(txt, fk, size, color, shadow, track, blur)
+    im = _sprite(txt, fk[:-2], size, color, shadow, track, blur); k = 0.2; h = im.height; ex = int(k * h)
+    return im.transform((im.width + ex, h), Image.AFFINE, (1, k, -k * h, 0, 1, 0), Image.BICUBIC)
+base.sprite = sprite; FK['serif_i'] = FK['serif']
 import mapx
 from mapx import draw_map, Cam, ink_dot, maplabel, LAND, BORDER
 
@@ -104,7 +112,7 @@ def calendar(can, t, t0, day, month, year, cx=540, cy=1150):
     if k < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * k)))
     can.alpha_composite(L)
     put(can, sprite(month, 'cond', 54, RUST, False, 4), cx, y - h / 2 + 50, 1.0, k)
-    put(can, sprite(day, 'condl', 170, CREAM), cx, y + 10, 1.0, k)
+    put(can, sprite(day, 'serif', 170, CREAM), cx, y + 10, 1.0, k)
     put(can, sprite(year, 'cond', 54, GOLD, False, 4), cx, y + h / 2 - 46, 1.0, k)
 
 def strike(can, t, t0, t1, txt, cy, size=130):
@@ -129,7 +137,7 @@ def shine(can, t, t0, txt, fk, size, col, cy, dur=0.9):
         S = Image.new('RGBA', (a.shape[1], a.shape[0]), (255, 250, 225, 0)); S.putalpha(Image.fromarray(m.astype(np.uint8)))
         put(can, S, 540, cy)
 
-def digits(can, t, t0, txt, cy, size=330, col=GOLD, step=0.28, fk='condl'):
+def digits(can, t, t0, txt, cy, size=330, col=GOLD, step=0.28, fk='serif_i'):
     """big italic number, its digits arriving one after another"""
     if t < t0: return
     size = fit(txt, fk, size, maxw_at(cy)); f = FK[fk](size); x = 540 - textw(txt, fk, size) / 2
@@ -167,6 +175,12 @@ def base_map():
     d = ImageDraw.Draw(mp); d.polygon([cam.p(*q) for q in LADOGA], fill=mapx.SEA, outline=BORDER)
     return mp
 ICAM = (30.4, 61.3, 11.5); BOX = (150, 1070, 930, 1460)
+def _fade():
+    # soft oval window: the map piece melts into the photo, no frame
+    y, x = np.mgrid[0:H, 0:W]; cx, cy = (BOX[0] + BOX[2]) / 2, (BOX[1] + BOX[3]) / 2
+    r = np.sqrt(((x - cx) / ((BOX[2] - BOX[0]) * 0.62)) ** 2 + ((y - cy) / ((BOX[3] - BOX[1]) * 0.66)) ** 2)
+    return Image.fromarray((np.clip((1 - r) / 0.45, 0, 1) ** 1.1 * 215).astype(np.uint8))
+FADE = _fade()
 @functools.lru_cache(None)
 def inset_base():
     mp, cam = draw_map(ICAM, ('Finland',)); ImageDraw.Draw(mp).polygon([cam.p(*q) for q in LADOGA], fill=mapx.SEA, outline=BORDER); return mp
@@ -188,7 +202,7 @@ def inset(can, t, t0, ceded_t=None, home_t=None, sort_t=None, lad_t=None):
     if lad_t is not None: maplabel(can, t, lad_t, 'LADOGASEE', lx - 100, ly, size=36, col=CREAM)
     if home_t is not None: maplabel(can, t, home_t, 'HEIMAT', sx - 26, sy + 34, size=44, col=GOLD, side='l')
     if ceded_t is not None and t > ceded_t + 0.6: q = P(32.2, 62.3); maplabel(can, t, ceded_t + 0.6, 'ABGETRETEN', q[0] + 10, q[1] + 30, size=38, col=CREAM, side='l')
-    f = P(26.5, 62.0); maplabel(can, t, t0 + 0.2, 'FINNLAND', f[0] - 40, f[1], size=40, col=CREAM)
+    f = P(26.6, 62.2); maplabel(can, t, t0 + 0.2, 'FINNLAND', 190, 1225, size=40, col=CREAM)
     return sx, sy
 def pulse(can, t, t0, x, y, col=GOLD):
     if t < t0: return
@@ -219,8 +233,8 @@ def sc_l01(t, w0, w1):
         can.alpha_composite(L)
     reveal(can, t, wt('bestätigte'), 'BESTÄTIGTE LUFTSIEGE', 'cond', 70, CREAM, 1420, t1=tE)
     if t >= tE:
-        focus(can, t, wt('Eino') - 0.04, 'EINO', 'condl', 150, CREAM, 1240, dur=0.3)
-        focus(can, t, wt('Luukkanen') - 0.04, 'LUUKKANEN', 'condl', 150, GOLD, 1400, dur=0.3)
+        focus(can, t, wt('Eino') - 0.04, 'EINO', 'serif_i', 170, CREAM, 1240, dur=0.3)
+        focus(can, t, wt('Luukkanen') - 0.04, 'LUUKKANEN', 'serif_i', 180, GOLD, 1410, dur=0.3)
     return can
 def sc_l13(t, w0, w1):
     can = shot(zoom_lin('l13', t, w0, w1, 768, 1150, 1.06), GRAD_SOFT)
@@ -282,12 +296,12 @@ def sc_l14(t, w0, w1):
     plate(can, t, wt('Fortsetzungskrieg'), 'FORTSETZUNGSKRIEG AB 1941', 1420, size=54, bg=RUST, fg=CREAM); return can
 def sc_l16(t, w0, w1):
     can = shot(pan_lin('l16', t, w0, w1, 1500, -1))
-    reveal(can, t, wt('finnische'), 'FINNISCHE PILOTEN', 'cond', 64, CREAM, 1260)
+    reveal(can, t, wt('finnische', 60), 'FINNISCHE PILOTEN', 'cond', 64, CREAM, 1260)
     focus(can, t, wt('überraschend'), 'ÜBERRASCHEND VIELE ERFOLGE', 'serif', 90, GOLD, 1390); return can
 def sc_l08(t, w0, w1):
     can = shot(pan_lin('l08', t, w0, w1, 1100, 1))
-    digits(can, t, wt('14,5'), '14,5', 1150, 300, step=0.18)
-    focus(can, t, wt('Abschüsse'), 'ABSCHÜSSE MIT DER BREWSTER', 'cond', 60, CREAM, 1320)
+    digits(can, t, wt('14,5'), '14,5', 1090, 280, step=0.18)
+    focus(can, t, wt('Abschüsse'), 'ABSCHÜSSE MIT DER BREWSTER', 'cond', 60, CREAM, 1335)
     plate(can, t, wt('geteilte'), 'GETEILTE ZÄHLTEN ANTEILIG', 1440, size=52, bg=GOLD, fg=DEEP); return can
 def sc_l03(t, w0, w1):
     can = shot(pan_lin('l03', t, w0, w1, 1500, -1)); tj = wt('Major') - 0.2

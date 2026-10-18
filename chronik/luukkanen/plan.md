@@ -47,3 +47,11 @@
 - 14,5 ve 56. italik, çizgiler yok, "LETZTER LUFTSIEG" 56.'nın altında.
 - 1:32 sahnesi en sağdaki adamdan (Luukkanen) başlar. 2:03 fotoğrafı sağdan alındı.
 - Story: portre sona kadar kesintisiz kayar, 7-8. saniyedeki takılma giderildi.
+
+## v3
+- İtalik: aynı Anton fontu, sadece eğik (56, isim, 14,5, 56.). İsim boyut ve aralığı eski haliyle.
+- Harita penceresi yumuşak köşeli dikdörtgen; FINNLAND yazısı Finlandiya alanının sol üstünde.
+- Takvim yine yarı şeffaf panelde.
+- 1:05 hatası: "finnische" araması 18. saniyedeki "finnischen" kelimesini buluyordu; artık 60. saniyeden sonra aranıyor. "finnische" 66,78 sn.
+- 14,5 yukarı alındı, virgül alttaki yazıya değmiyor.
+- Metadaten: `metadata.md`.
