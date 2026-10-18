@@ -5,6 +5,8 @@ import luu
 from luu import *
 
 T_END = 12.0; T_CUT = 8.6
+# the portrait keeps moving through the whole story: its window runs to the end
+luu.SC[:] = [luu.SC[0], (luu.SC[1][0], 12.5, luu.SC[1][2], luu.SC[1][3])]
 
 def icon_follow(sz, col):
     L = Image.new('RGBA', (sz, sz), (0, 0, 0, 0)); d = ImageDraw.Draw(L); c = sz / 2
@@ -28,9 +30,9 @@ def story_frame(t):
     if t < T_CUT: img = frame(t).convert('RGBA')
     else:
         k = eio((t - T_CUT) / 0.8)
-        ph = shot(pan_lin('l01', t, 2.08, 9.07, 900, -1), GRAD_SOFT).filter(ImageFilter.GaussianBlur(4 + 22 * k))
+        ph = shot(pan_lin('l01', t, 2.08, 12.5, 900, -1), GRAD_SOFT).filter(ImageFilter.GaussianBlur(4 + 22 * k))
         ph.alpha_composite(Image.new('RGBA', (W, H), (4, 6, 8, int(165 * k))))
-        img = Image.blend(frame(T_CUT - 0.01).convert('RGBA'), ph, min(1, k * 1.3))
+        img = Image.blend(frame(t).convert('RGBA'), ph, min(1, k * 1.3))
         tt = T_CUT + 0.4
         plate(img, t, tt, 'NEUES VIDEO', 520, size=64, bg=RUST, fg=CREAM)
         focus(img, t, tt + 0.3, 'DIE GANZE GESCHICHTE', 'serif', 110, CREAM, 720)

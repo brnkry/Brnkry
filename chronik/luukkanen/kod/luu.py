@@ -3,6 +3,10 @@ import sys, math, subprocess
 import base
 from base import *
 base.BLUR.clear()
+# Finnish air force swastikas on the aircraft, small blurs only on the symbol
+base.BLUR.update({'l23': [(170, 800, 190), (330, 805, 190)], 'l12': [(470, 870, 170), (580, 870, 150)],
+                  'l07': [(420, 520, 210), (640, 520, 210)], 'l24': [(160, 645, 220), (370, 645, 220)]})
+from PIL import ImageChops
 import mapx
 from mapx import draw_map, Cam, ink_dot, maplabel, LAND, BORDER
 
@@ -92,18 +96,16 @@ def odds(can, t, t0, cy=1060):
     if t > t0 + 0.35: put(can, sprite('VS', 'cond', 64, CREAM), 420, cy + 40, 1.0, clamp((t - t0 - 0.35) / 0.3))
 
 def calendar(can, t, t0, day, month, year, cx=540, cy=1150):
-    """tear-off calendar sheet drops in and settles"""
+    """translucent calendar leaf over the photo"""
     if t < t0: return
-    k = eout((t - t0) / 0.45); w, h = 330, 370
-    L = Image.new('RGBA', (w + 60, h + 60), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-    d.rectangle((36, 40, 30 + w, 36 + h), fill=(0, 0, 0, 120)); L = L.filter(ImageFilter.GaussianBlur(10)); d = ImageDraw.Draw(L)
-    d.rectangle((30, 30, 30 + w, 30 + h), fill=PAPER + (255,)); d.rectangle((30, 30, 30 + w, 112), fill=RUST + (255,))
-    for i in range(6): d.ellipse((58 + i * 52, 20, 74 + i * 52, 36), fill=DEEP + (255,))
-    f = FK['cond'](58); tw = f.getlength(month); d.text((30 + w / 2 - tw / 2, 44), month, font=f, fill=CREAM + (255,))
-    f = FK['serif'](170); tw = f.getlength(day); d.text((30 + w / 2 - tw / 2, 108), day, font=f, fill=INK + (255,))
-    f = FK['cond'](56); tw = f.getlength(year); d.text((30 + w / 2 - tw / 2, 318), year, font=f, fill=SEPIA + (255,))
-    L = L.rotate(lerp(-14, -4, k), resample=Image.BICUBIC, expand=True)
-    put(can, L, cx, cy - (1 - k) * 260, lerp(1.15, 1.0, k), clamp(k * 1.6))
+    k = eout((t - t0) / 0.5); w, h = 320, 330; y = cy + (1 - k) * 40
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); glass(L, (cx - w / 2, y - h / 2, cx + w / 2, y + h / 2), 140)
+    d = ImageDraw.Draw(L); d.line((cx - w / 2 + 24, y - h / 2 + 86, cx + w / 2 - 24, y - h / 2 + 86), fill=RUST + (220,), width=3)
+    if k < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * k)))
+    can.alpha_composite(L)
+    put(can, sprite(month, 'cond', 54, RUST, False, 4), cx, y - h / 2 + 50, 1.0, k)
+    put(can, sprite(day, 'condl', 170, CREAM), cx, y + 10, 1.0, k)
+    put(can, sprite(year, 'cond', 54, GOLD, False, 4), cx, y + h / 2 - 46, 1.0, k)
 
 def strike(can, t, t0, t1, txt, cy, size=130):
     """word appears, then a red pen line crosses it out"""
@@ -126,6 +128,20 @@ def shine(can, t, t0, txt, fk, size, col, cy, dur=0.9):
         m = np.clip(1 - np.abs(xs - c) / 90, 0, 1)[None, :] * a * 0.85
         S = Image.new('RGBA', (a.shape[1], a.shape[0]), (255, 250, 225, 0)); S.putalpha(Image.fromarray(m.astype(np.uint8)))
         put(can, S, 540, cy)
+
+def digits(can, t, t0, txt, cy, size=330, col=GOLD, step=0.28, fk='condl'):
+    """big italic number, its digits arriving one after another"""
+    if t < t0: return
+    size = fit(txt, fk, size, maxw_at(cy)); f = FK[fk](size); x = 540 - textw(txt, fk, size) / 2
+    for i, ch in enumerate(txt):
+        k = eout((t - t0 - i * step) / 0.3); w = f.getlength(ch)
+        if k > 0: put(can, sprite(ch, fk, size, col), x + w / 2, cy + (1 - k) * 30, lerp(1.25, 1.0, k), k)
+        x += w
+
+def glass(can, box, a=150, r=24):
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    d.rounded_rectangle(box, r, fill=(6, 9, 12, int(a))); d.rounded_rectangle(box, r, outline=CREAM + (int(a * 0.6),), width=2)
+    can.alpha_composite(L)
 
 def lifespan(can, t, t0, a, b, cy=1240):
     """two years joined by a line that draws from birth to death"""
@@ -150,22 +166,30 @@ def base_map():
     mp, cam = draw_map(MAPC, ('Finland',))
     d = ImageDraw.Draw(mp); d.polygon([cam.p(*q) for q in LADOGA], fill=mapx.SEA, outline=BORDER)
     return mp
-def karelia(t, w0, w1, ceded_t=None, home_t=None):
-    cam = Cam(*MAPC); can = base_map().copy()
+ICAM = (30.4, 61.3, 11.5); BOX = (150, 1070, 930, 1460)
+@functools.lru_cache(None)
+def inset_base():
+    mp, cam = draw_map(ICAM, ('Finland',)); ImageDraw.Draw(mp).polygon([cam.p(*q) for q in LADOGA], fill=mapx.SEA, outline=BORDER); return mp
+def inset(can, t, t0, ceded_t=None, home_t=None, sort_t=None, lad_t=None):
+    """translucent map window over the photo; the photo stays in front"""
+    if t < t0: return None
+    a = clamp((t - t0) / 0.45); cam = Cam(*ICAM); dy = (BOX[1] + BOX[3]) // 2 - H // 2
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); L.paste(inset_base(), (0, dy))
+    P = lambda lo, la: (cam.p(lo, la)[0], cam.p(lo, la)[1] + dy)
     if ceded_t is not None and t >= ceded_t:
-        k = eio((t - ceded_t) / 1.0)
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); pts = [cam.p(*q) for q in CEDED]
-        d.polygon(pts, fill=RUST + (int(150 * k),))
-        for i in range(-40, 40):   # hatch
-            x = 540 + i * 26; d.line((x - 600, 1500, x + 600, 300), fill=(120, 20, 22, int(110 * k)), width=4)
-        m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).polygon(pts, fill=255)
-        hatch = Image.new('RGBA', (W, H), (0, 0, 0, 0)); hatch.paste(L, (0, 0), m); can.alpha_composite(hatch)
-        stroke(can, partial(pts + [pts[0]], k), RUST, 5)
-        ImageDraw.Draw(can).polygon([cam.p(*q) for q in LADOGA], fill=mapx.SEA + (255,), outline=BORDER)
-    can.alpha_composite(GRAD_SOFT)
-    sx, sy = cam.p(*SORT)
-    lx, ly = cam.p(25.3, 63.0); lx2, ly2 = cam.p(31.5, 60.6)
-    return can, cam, (sx, sy), (lx, ly), (lx2, ly2)
+        k = eio((t - ceded_t) / 1.0); pts = [P(*q) for q in CEDED]
+        R = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(R).polygon(pts, fill=RUST + (int(170 * k),)); L.alpha_composite(R)
+        stroke(L, partial(pts + [pts[0]], k), RUST, 4); ImageDraw.Draw(L).polygon([P(*q) for q in LADOGA], fill=mapx.SEA + (255,), outline=BORDER)
+    m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).rounded_rectangle(BOX, 24, fill=int(185 * a)); m = m.filter(ImageFilter.GaussianBlur(6))
+    L.putalpha(ImageChops.multiply(L.getchannel('A'), m)); can.alpha_composite(L)
+    ImageDraw.Draw(can).rounded_rectangle(BOX, 24, outline=CREAM + (int(110 * a),), width=2)
+    sx, sy = P(*SORT); lx, ly = P(31.4, 60.55)
+    if sort_t is not None: pulse(can, t, sort_t, sx, sy, GOLD if home_t is None else CREAM); maplabel(can, t, sort_t, 'SORTAVALA', sx - 26, sy - 34, size=40, col=GOLD, side='l')
+    if lad_t is not None: maplabel(can, t, lad_t, 'LADOGASEE', lx - 100, ly, size=36, col=CREAM)
+    if home_t is not None: maplabel(can, t, home_t, 'HEIMAT', sx - 26, sy + 34, size=44, col=GOLD, side='l')
+    if ceded_t is not None and t > ceded_t + 0.6: q = P(32.2, 62.3); maplabel(can, t, ceded_t + 0.6, 'ABGETRETEN', q[0] + 10, q[1] + 30, size=38, col=CREAM, side='l')
+    f = P(26.5, 62.0); maplabel(can, t, t0 + 0.2, 'FINNLAND', f[0] - 40, f[1], size=40, col=CREAM)
+    return sx, sy
 def pulse(can, t, t0, x, y, col=GOLD):
     if t < t0: return
     for j in range(2):
@@ -188,23 +212,20 @@ def sc_hook(t, w0, w1):
     return can
 def sc_l01(t, w0, w1):
     can = shot(pan_lin('l01', t, w0, w1, 900, -1)); tE = wt('Eino') - 0.12
-    focus(can, t, wt('zwei') - 0.05, 'ZWEI KRIEGE', 'serif', 110, CREAM, 1020, t1=tE)
+    focus(can, t, wt('zwei') - 0.05, 'ZWEI KRIEGE', 'serif', 110, CREAM, 980, t1=tE)
     if t < tE + 0.3:
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); tally(L, t, wt('56') - 0.05, 56, 1170, per=19, gap=40, rows_gap=90, dur=1.6)
+        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); digits(L, t, wt('56') - 0.05, '56', 1190, 340)
         if t > tE: a = 1 - ease((t - tE) / 0.3); L.putalpha(L.getchannel('A').point(lambda v: int(v * a)))
         can.alpha_composite(L)
-    reveal(can, t, wt('bestätigte'), '56 BESTÄTIGTE LUFTSIEGE', 'cond', 66, GOLD, 1470, t1=tE)
+    reveal(can, t, wt('bestätigte'), 'BESTÄTIGTE LUFTSIEGE', 'cond', 70, CREAM, 1420, t1=tE)
     if t >= tE:
-        focus(can, t, wt('Eino') - 0.04, 'EINO', 'serif', 170, CREAM, 1240, dur=0.3)
-        focus(can, t, wt('Luukkanen') - 0.04, 'LUUKKANEN', 'serif', 180, GOLD, 1410, dur=0.3)
+        focus(can, t, wt('Eino') - 0.04, 'EINO', 'condl', 150, CREAM, 1240, dur=0.3)
+        focus(can, t, wt('Luukkanen') - 0.04, 'LUUKKANEN', 'condl', 150, GOLD, 1400, dur=0.3)
     return can
-def sc_map1(t, w0, w1):
-    can, cam, (sx, sy), (lx, ly), (ax, ay) = karelia(t, w0, w1)
-    maplabel(can, t, w0 + 0.3, 'FINNLAND', lx - 80, ly, size=56, col=CREAM)
-    t1 = wt('Karelien'); focus(can, t, t1, 'KARELIEN', 'serif', 130, GOLD, 440)
-    pulse(can, t, wt('Sortavala'), sx, sy); maplabel(can, t, wt('Sortavala'), 'SORTAVALA', sx - 30, sy - 50, size=50, col=GOLD, side='l')
-    maplabel(can, t, wt('Ladogasee'), 'LADOGASEE', ax - 90, ay, size=44, col=CREAM)
-    return can
+def sc_l13(t, w0, w1):
+    can = shot(zoom_lin('l13', t, w0, w1, 768, 1150, 1.06), GRAD_SOFT)
+    plate(can, t, wt('Karelien') - 0.05, 'KARELIEN', 1010, size=56, bg=GOLD, fg=DEEP)
+    inset(can, t, wt('Karelien') - 0.3, sort_t=wt('Sortavala'), lad_t=wt('Ladogasee')); return can
 def sc_l17(t, w0, w1):
     can = shot(zoom_lin('l17', t, w0, w1, 768, 1150, 1.07))
     focus(can, t, wt('1930er'), 'ANFANG DER 1930ER', 'serif', 100, GOLD, 1250)
@@ -215,32 +236,42 @@ def sc_l10(t, w0, w1):
 def sc_l02(t, w0, w1):
     can = shot(pan_lin('l02', t, w0, w1, 1024, -1), GRAD_SOFT)
     plate(can, t, wt('Sowjetunion'), 'SOWJETISCHER ANGRIFF', 1450, size=60, bg=RUST, fg=CREAM)
-    calendar(can, t, wt('30.'), '30', 'NOVEMBER', '1939', cy=1140); return can
+    calendar(can, t, wt('30.'), '30', 'NOVEMBER', '1939', cy=1150); return can
 def sc_l20(t, w0, w1):
     can = shot(pan_lin('l20', t, w0, w1, 1024, 1))
     reveal(can, t, wt('führte'), 'FÜHRT EINE EINHEIT DER', 'cond', 60, CREAM, 1260)
     focus(can, t, wt('Jagdstaffel'), 'JAGDSTAFFEL 24', 'serif', 130, GOLD, 1390); return can
+def wide(p, t, w0, w1, fx, d, hh=1240, cy=None, yc=860):
+    """landscape photo shown wider than full height: sharp band of height hh over a blurred, darkened copy"""
+    im = src(p); scale = hh / im.height; sw = W / scale
+    span = SPEED * (w1 - w0) / scale; lo, hi = sw / 2, im.width - sw / 2
+    a, b = fx - d * span / 2, fx + d * span / 2
+    if min(a, b) < lo: sh = lo - min(a, b); a += sh; b += sh
+    if max(a, b) > hi: sh = max(a, b) - hi; a -= sh; b -= sh
+    x = lerp(a, b, clamp((t - w0) / (w1 - w0)))
+    bg = PCam(p, x, im.height / 2, 99999).frame().filter(ImageFilter.GaussianBlur(28))
+    bg = Image.blend(bg, Image.new('RGBA', (W, H), (8, 10, 12, 255)), 0.5)
+    bd = im.resize((W, hh), Image.BILINEAR, box=(x - sw / 2, 0, x + sw / 2, im.height)).convert('RGBA')
+    m = Image.new('L', (W, hh), 255); dm = ImageDraw.Draw(m)
+    for i in range(40): dm.line((0, i, W, i), fill=int(255 * i / 40)); dm.line((0, hh - 1 - i, W, hh - 1 - i), fill=int(255 * i / 40))
+    bg.paste(bd, (0, yc - hh // 2), m); bx = x - sw / 2
+    return bg, (lambda sx, sy: ((sx - bx) * scale, (sy) * scale + yc - hh / 2))
 def sc_l23(t, w0, w1):
-    c = pan_lin('l23', t, w0, w1, 1100, -1); can = shot(c)
-    callout(can, t, wt('Fokker'), c.pt(1150, 600), (480, 1250), 'FOKKER D.XXI', col=GOLD, size=70)
-    reveal(can, t, wt('niederländisches'), 'NIEDERLÄNDISCHES MODELL', 'cond', 62, CREAM, 1420); return can
-def sc_l08(t, w0, w1):
-    can = shot(pan_lin('l08', t, w0, w1, 1200, 1)); dim(can, 120 * clamp((t - wt('Gegner') + 0.3) / 0.4))
+    can, pt = wide('l23', t, w0, w1, 900, -1); can.alpha_composite(GRAD_SOFT)
+    callout(can, t, wt('Fokker'), pt(1150, 560), (480, 1330), 'FOKKER D.XXI', col=GOLD, size=70)
+    reveal(can, t, wt('niederländisches'), 'NIEDERLÄNDISCHES MODELL', 'cond', 62, CREAM, 1450); return can
+def sc_l06(t, w0, w1):
+    can = shot(pan_lin('l06', t, w0, w1, 1000, -1)); dim(can, 120 * clamp((t - wt('Gegner') + 0.3) / 0.4))
     odds(can, t, wt('Gegner'), 1000)
     plate(can, t, wt('weit'), 'ZAHLENMÄSSIG WEIT ÜBERLEGEN', 1400, size=52, bg=RUST, fg=CREAM); return can
 def sc_l22(t, w0, w1):
     can = shot(pan_lin('l22', t, w0, w1, 896, -1))
     focus(can, t, wt('nächsten'), '1. DEZEMBER 1939', 'serif', 110, CREAM, 1250)
     plate(can, t, wt('SB-Bomber'), 'ERSTER LUFTSIEG: SB-BOMBER', 1400, size=54, bg=GOLD, fg=DEEP); return can
-def sc_map2(t, w0, w1):
-    can, cam, (sx, sy), (lx, ly), (ax, ay) = karelia(t, w0, w1, ceded_t=wt('große', 45))
-    maplabel(can, t, w0 + 0.3, 'FINNLAND', lx - 80, ly, size=56, col=CREAM)
-    focus(can, t, wt('Winterkrieg'), 'ENDE DES WINTERKRIEGS', 'cond', 64, CREAM, 390)
-    focus(can, t, wt('März', 45), 'MÄRZ 1940', 'serif', 120, GOLD, 510)
-    if t > wt('große', 45) + 0.6: maplabel(can, t, wt('große', 45) + 0.6, 'ABGETRETEN', cam.p(31.6, 62.25)[0] - 60, cam.p(31.6, 62.25)[1], size=48, col=CREAM, side='l')
-    pulse(can, t, wt('Luukkanens', 50), sx, sy, CREAM)
-    maplabel(can, t, wt('Heimat') - 0.1, 'HEIMAT', sx - 30, sy + 45, size=52, col=GOLD, side='l')
-    return can
+def sc_l18m(t, w0, w1):
+    can = shot(pan_lin('l18', t, w0, w1, 1100, 1), GRAD_SOFT)
+    plate(can, t, wt('Winterkrieg') - 0.05, 'ENDE DES WINTERKRIEGS · MÄRZ 1940', 1010, size=48, bg=RUST, fg=CREAM)
+    inset(can, t, wt('Winterkrieg') - 0.3, ceded_t=wt('große', 45), home_t=wt('Heimat') - 0.1, sort_t=wt('Luukkanens', 50)); return can
 def sc_l12(t, w0, w1):
     c = pan_lin('l12', t, w0, w1, 1500, 1); can = shot(c)
     reveal(can, t, wt('kaufte'), 'GEKAUFT IN DEN USA', 'cond', 64, CREAM, 1200)
@@ -253,24 +284,21 @@ def sc_l16(t, w0, w1):
     can = shot(pan_lin('l16', t, w0, w1, 1500, -1))
     reveal(can, t, wt('finnische'), 'FINNISCHE PILOTEN', 'cond', 64, CREAM, 1260)
     focus(can, t, wt('überraschend'), 'ÜBERRASCHEND VIELE ERFOLGE', 'serif', 90, GOLD, 1390); return can
-def sc_l15(t, w0, w1):
-    c = zoom_lin('l15', t, w0, w1, 1180, 1000, 1.14); can = shot(c)
-    t1 = wt('14,5'); focus(can, t, t1, '14,5', 'serif', 170, GOLD, 1080)
-    tally(can, t, t1 + 0.05, 15, 1240, per=15, gap=48, dur=0.9, half_at=14)
-    focus(can, t, wt('Abschüsse'), 'ABSCHÜSSE MIT DER BREWSTER', 'cond', 58, CREAM, 1340)
-    plate(can, t, wt('geteilte'), 'GETEILTE ZÄHLTEN ANTEILIG', 1450, size=52, bg=GOLD, fg=DEEP); return can
-def sc_l13(t, w0, w1):
-    can = shot(zoom_lin('l13', t, w0, w1, 768, 1200, 1.07))
-    focus(can, t, wt('März', 77), 'MÄRZ 1943', 'serif', 140, GOLD, 1300); return can
+def sc_l08(t, w0, w1):
+    can = shot(pan_lin('l08', t, w0, w1, 1100, 1))
+    digits(can, t, wt('14,5'), '14,5', 1150, 300, step=0.18)
+    focus(can, t, wt('Abschüsse'), 'ABSCHÜSSE MIT DER BREWSTER', 'cond', 60, CREAM, 1320)
+    plate(can, t, wt('geteilte'), 'GETEILTE ZÄHLTEN ANTEILIG', 1440, size=52, bg=GOLD, fg=DEEP); return can
 def sc_l03(t, w0, w1):
-    can = shot(pan_lin('l03', t, w0, w1, 1450, -1))
+    can = shot(pan_lin('l03', t, w0, w1, 1500, -1)); tj = wt('Major') - 0.2
+    focus(can, t, wt('März', 77), 'MÄRZ 1943', 'serif', 140, GOLD, 1300, t1=tj)
     plate(can, t, wt('Major'), 'MAJOR', 1250, size=70, bg=CREAM, fg=DEEP)
     focus(can, t, wt('Jagdstaffel', 80), 'JAGDSTAFFEL 34', 'serif', 130, GOLD, 1400); return can
 def sc_l07(t, w0, w1):
     c = pan_lin('l07', t, w0, w1, 1000, 1); can = shot(c)
-    callout(can, t, wt('Messerschmitt'), c.pt(1420, 600), (420, 1300), 'MESSERSCHMITT BF 109 G', col=GOLD, size=60); return can
+    callout(can, t, wt('deutsche') - 0.05, c.pt(800, 470), (480, 1320), 'DEUTSCHE MESSERSCHMITT BF 109 G', col=GOLD, size=56); return can
 def sc_l04(t, w0, w1):
-    can = shot(pan_lin('l04', t, w0, w1, 1200, -1))
+    can = shot(pan_lin('l04', t, w0, w1, 2400, -1))
     focus(can, t, wt('Sommer'), 'SOMMER 1944', 'serif', 140, CREAM, 1200)
     plate(can, t, wt('Großoffensive'), 'SOWJETISCHE GROSSOFFENSIVE', 1340, size=54, bg=RUST, fg=CREAM)
     reveal(can, t, wt('Karelischen'), 'KARELISCHE LANDENGE', 'cond', 62, GOLD, 1450); return can
@@ -279,27 +307,22 @@ def sc_l09(t, w0, w1):
     focus(can, t, wt('18.'), '18. JUNI 1944', 'serif', 110, CREAM, 1170)
     shine(can, t, wt('Mannerheim-Kreuz,'), 'MANNERHEIM-KREUZ', 'serif', 120, GOLD, 1310)
     reveal(can, t, wt('Finnlands', 98), 'FINNLANDS HÖCHSTE MILITÄRISCHE AUSZEICHNUNG', 'cond', 48, CREAM, 1430); return can
-def sc_l06(t, w0, w1):
-    can = shot(pan_lin('l06', t, w0, w1, 1000, -1))
-    focus(can, t, wt('5.', 100), '5. AUGUST 1944', 'serif', 120, CREAM, 1300); return can
 def sc_l05(t, w0, w1):
-    can = shot(pan_lin('l05', t, w0, w1, 1350, 1), GRAD_SOFT); dim(can, 60)
-    tally(can, t, wt('56.') - 0.35, 56, 1130, dur=0.0, done=55, last_col=True) if t >= wt('56.') - 0.35 else None
-    focus(can, t, wt('56.'), '56.', 'serif', 150, GOLD, 980)
-    plate(can, t, wt('letzten'), 'LETZTER LUFTSIEG', 1470, size=60, bg=RUST, fg=CREAM); return can
+    can = shot(pan_lin('l05', t, w0, w1, 1350, 1), GRAD_SOFT); t56 = wt('56.')
+    focus(can, t, wt('5.', 100), '5. AUGUST 1944', 'serif', 120, CREAM, 1250, t1=t56 - 0.25)
+    digits(can, t, t56, '56.', 1170, 320, step=0.22)
+    plate(can, t, wt('letzten'), 'LETZTER LUFTSIEG', 1380, size=66, bg=RUST, fg=CREAM); return can
 def sc_l24(t, w0, w1):
     can = shot(pan_lin('l24', t, w0, w1, 1100, -1))
     focus(can, t, wt('schwiegen'), 'WAFFENSTILLSTAND', 'serif', 120, CREAM, 1260)
     plate(can, t, wt('Karelien', 110), 'KARELIEN BLIEB VERLOREN', 1410, size=58, bg=RUST, fg=CREAM); return can
 def sc_l11(t, w0, w1):
     can = shot(pan_lin('l11', t, w0, w1, 896, 1))
-    plate(can, t, wt('diente'), 'IN DER LUFTWAFFE', 1260, size=56)
-    focus(can, t, wt('1951'), 'BIS 1951', 'serif', 140, GOLD, 1400); return can
-def sc_l18(t, w0, w1):
-    can = shot(pan_lin('l18', t, w0, w1, 1000, 1))
-    reveal(can, t, wt('Erinnerungen') - 0.15, 'SEINE ERINNERUNGEN', 'type', 84, CREAM, 1320, dur=0.9); return can
+    plate(can, t, wt('diente'), 'IN DER LUFTWAFFE', 1180, size=54)
+    focus(can, t, wt('1951'), 'BIS 1951', 'serif', 130, GOLD, 1300)
+    reveal(can, t, wt('Erinnerungen') - 0.15, 'SEINE ERINNERUNGEN', 'type', 80, CREAM, 1440, dur=0.9); return can
 def sc_l19(t, w0, w1):
-    can = shot(pan_lin('l19', t, w0, w1, 900, -1))
+    can = shot(pan_lin('l19', t, w0, w1, 1792, -1))
     lifespan(can, t, wt('1964') - 0.3, '1909', '1964', 1250)
     plate(can, t, wt('54'), '54 JAHRE', 1410, size=64, bg=GOLD, fg=DEEP); return can
 def sc_end(t, w0, w1):
@@ -308,11 +331,11 @@ def sc_end(t, w0, w1):
     focus(can, t, wt('diese', 120), 'DIESE GESCHICHTE?', 'serif', 120, GOLD, 1340)
     plate(can, t, wt('Schreibt'), 'SCHREIBT ES IN DIE KOMMENTARE!', 1460, size=46); return can
 
-SCN = [(0.0, sc_hook, 'cut'), (2.30, sc_l01, 'flash'), (8.85, sc_map1, 'dip'), (13.75, sc_l17, 'fade'), (19.55, sc_l10, 'slide_l'),
-       (22.70, sc_l02, 'fade'), (28.85, sc_l20, 'fade'), (32.55, sc_l23, 'slide_r'), (36.60, sc_l08, 'fade'), (40.15, sc_l22, 'fade'),
-       (44.80, sc_map2, 'dip'), (54.15, sc_l12, 'flash'), (60.00, sc_l14, 'fade'), (64.50, sc_l16, 'slide_l'), (69.60, sc_l15, 'fade'),
-       (77.60, sc_l13, 'dip'), (80.70, sc_l03, 'fade'), (85.35, sc_l07, 'slide_r'), (88.60, sc_l04, 'fade'), (95.35, sc_l09, 'fade'),
-       (102.25, sc_l06, 'slide_l'), (105.10, sc_l05, 'flash'), (108.55, sc_l24, 'dip'), (113.80, sc_l11, 'fade'), (116.95, sc_l18, 'fade'),
+SCN = [(0.0, sc_hook, 'cut'), (2.30, sc_l01, 'flash'), (8.85, sc_l13, 'dip'), (13.75, sc_l17, 'fade'), (19.55, sc_l10, 'slide_l'),
+       (22.70, sc_l02, 'fade'), (28.85, sc_l20, 'fade'), (32.55, sc_l23, 'slide_r'), (36.60, sc_l06, 'fade'), (40.15, sc_l22, 'fade'),
+       (44.80, sc_l18m, 'dip'), (54.15, sc_l12, 'flash'), (60.00, sc_l14, 'fade'), (64.50, sc_l16, 'slide_l'), (69.60, sc_l08, 'fade'),
+       (77.60, sc_l03, 'dip'), (84.00, sc_l07, 'slide_r'), (88.60, sc_l04, 'fade'), (95.35, sc_l09, 'fade'),
+       (102.25, sc_l05, 'slide_l'), (108.55, sc_l24, 'dip'), (113.80, sc_l11, 'fade'),
        (119.40, sc_l19, 'fade'), (124.10, sc_end, 'fade')]
 OV = 0.22
 SC = []

@@ -36,3 +36,14 @@
 - Müzik: Documentary Show 2,0 sn'den başlar, ilk 3,2 sn güçlendirilir, ses altında sidechain ile kısılır.
 - Story: 12 sn, girişin 8,6 sn'si ve ardından "Neues Video / Die ganze Geschichte jetzt im Profil" + Folgen, Liken, Teilen.
 - Fin hava kuvvetleri arması (mavi hakaristi) l07 ve girişteki Fokker bandında görünüyor, blur yok.
+
+## v2 (Boran'ın düzeltmeleri)
+- 56 çizgileri kaldırıldı: büyük italik "56", önce 5 sonra 6. İsim italik (Montserrat Italic).
+- Harita sahneleri kaldırıldı. Yerine fotoğraf (l13 ve l18), üstünde şeffaf harita penceresi.
+- Takvim şeffaf cam panel. Fokker fotoğrafı daha geniş gösteriliyor (bulanık arka plan üstünde).
+- Fin uçaklarındaki gamalı haçlar küçük blur: l23, l12, l07, l24 (girişteki bantlar dahil).
+- Senkron düzeltildi: 1:05 "finnische Piloten", 1:22 "Major / Jagdstaffel 34", 1:24 "Messerschmitt" (`align2.py`, elle düzeltilmiş `words.json`).
+- l15 (l14'ün kopyası) çıkarıldı. 14,5 sahnesinde l08, Übermacht sahnesinde l06; 23 fotoğrafın her biri bir kez.
+- 14,5 ve 56. italik, çizgiler yok, "LETZTER LUFTSIEG" 56.'nın altında.
+- 1:32 sahnesi en sağdaki adamdan (Luukkanen) başlar. 2:03 fotoğrafı sağdan alındı.
+- Story: portre sona kadar kesintisiz kayar, 7-8. saniyedeki takılma giderildi.
