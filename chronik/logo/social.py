@@ -13,9 +13,11 @@ def icons(can, cx, cy, s, label):
     d.rounded_rectangle((x, y0, x + s, y0 + s), s * 0.28, outline=WHITE, width=w)
     d.ellipse((x + s * 0.27, y0 + s * 0.27, x + s * 0.73, y0 + s * 0.73), outline=WHITE, width=w)
     d.ellipse((x + s * 0.70, y0 + s * 0.17, x + s * 0.82, y0 + s * 0.29), fill=WHITE); x += s + gap
-    # Facebook: filled circle with an f
+    # Facebook: the official mark (circle, f cut out, stem running to the bottom edge), traced on a 1500 grid
+    def q(p0, c, p1, n=14): return [((1 - u) ** 2 * p0[0] + 2 * (1 - u) * u * c[0] + u * u * p1[0], (1 - u) ** 2 * p0[1] + 2 * (1 - u) * u * c[1] + u * u * p1[1]) for u in [i / n for i in range(n + 1)]]
+    P = [(633, 1500), (633, 967), (442, 967), (442, 750), (633, 750)] + q((633, 580), (640, 293), (915, 293)) + [(1084, 307), (1084, 492), (990, 492)] + q((990, 492), (867, 492), (867, 610)) + [(867, 750), (1075, 750), (1042, 967), (867, 967), (867, 1500)]
     d.ellipse((x, y0, x + s, y0 + s), fill=WHITE)
-    d.text((x + s * 0.54, y0 + s * 0.56), 'f', font=ImageFont.truetype(F + 'Anton-Regular.ttf', int(s * 0.95)), fill=DARK, anchor='mm'); x += s + gap * 1.3
+    d.polygon([(x + px * s / 1500, y0 + py * s / 1500) for px, py in P], fill=(0, 0, 0, 0)); x += s + gap * 1.3
     d.text((x, cy + s * 0.04), label, font=f, fill=WHITE, anchor='lm')
     sh = Image.new('RGBA', can.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, 170), (0, 0), L.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)), (3, 5)); can.alpha_composite(L)
 def layout(can, w, h, cy, size, tag, ic):
