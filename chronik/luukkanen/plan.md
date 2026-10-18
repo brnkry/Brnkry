@@ -27,3 +27,12 @@
 - https://info.eduard.com/en/04-2024-1/page-47
 - https://catalog.hathitrust.org/Record/000806145
 - https://data.nationallibrary.fi/au/pn/000114865
+
+## Yapım notları (video v1)
+- Ses: ElevenLabs, 128,7 sn, kesilmedi. Kelime zamanlaması `words.json`.
+- 24 fotoğrafın hepsi kullanıldı (l01-l24, eşleme `names.txt`). l14 ve l15 neredeyse aynı fotoğraf: l14 geniş, l15 kuyruktaki zafer işaretlerine yakınlaşma.
+- Giriş: üç uçak fotoğrafı üst üste bantlar halinde (Fokker, Brewster, Bf 109), sonra l01 portre, 56 zafer çizgisi ve isim.
+- Yeni animasyonlar: zafer çizgisi sayacı (56 ve 14,5), Karelya haritası ve 1940'ta bırakılan bölge, takvim yaprağı (30 Kasım 1939), 1'e karşı çok uçak, "VERALTET" üstü çizme, Mannerheim-Kreuz ışık geçişi, 1909-1964 yaşam çizgisi, beyaz flaş geçişi.
+- Müzik: Documentary Show 2,0 sn'den başlar, ilk 3,2 sn güçlendirilir, ses altında sidechain ile kısılır.
+- Story: 12 sn, girişin 8,6 sn'si ve ardından "Neues Video / Die ganze Geschichte jetzt im Profil" + Folgen, Liken, Teilen.
+- Fin hava kuvvetleri arması (mavi hakaristi) l07 ve girişteki Fokker bandında görünüyor, blur yok.
