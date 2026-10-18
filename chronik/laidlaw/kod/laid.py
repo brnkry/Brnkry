@@ -279,9 +279,9 @@ def sc_hook(t, w0, w1):
     focus(can, t, wt('U-Boote') - 0.05, 'DEUTSCHE U-BOOTE', 'serif', 120, GOLD, 1190)
     return can
 def sc_name(t, w0, w1):
-    can, pt = wide('j07', t, w0, w1, 1600, 1, hh=1200, yc=700); can.alpha_composite(GRAD_SOFT)
-    focus(can, t, wt('Jean') - 0.04, 'JEAN', 'serif_i', 170, CREAM, 1220, dur=0.3)
-    focus(can, t, wt('Laidlaw.') - 0.04, 'LAIDLAW', 'serif_i', 190, GOLD, 1400, dur=0.3); return can
+    can = shot(zoom_lin('j07', t, w0, w1, 1600, 768, 1.05))
+    focus(can, t, wt('Jean') - 0.04, 'JEAN', 'serif_i', 160, CREAM, 1330, dur=0.3)
+    focus(can, t, wt('Laidlaw.') - 0.04, 'LAIDLAW', 'serif_i', 180, GOLD, 1480, dur=0.3); return can
 
 def ship_icon(col, s=1.0):
     w, h = int(150 * s), int(60 * s); L = Image.new('RGBA', (w + 20, h + 20), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
@@ -302,12 +302,12 @@ def sinking(can, t, t0, n, cy, gap=180, step=0.2):
         if sk > 0:
             L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); xmark(ImageDraw.Draw(L), x, y + 6, sk, RUST, 30); can.alpha_composite(L)
 def sc_loss(t, w0, w1):
-    can, pt = wide('j12', t, w0, w1, 1250, 1); can.alpha_composite(GRAD_SOFT)
+    can = shot(pan_lin('j12', t, w0, w1, 1150, 1))
     tA = wt('Atlantik')
-    focus(can, t, wt('Anfang') - 0.05, 'ANFANG', 'cond', 80, CREAM, 1080, t1=tA - 0.3)
-    digits(can, t, wt('1942') - 0.05, '1942', 1250, 260, step=0.15, t1=tA - 0.3)
+    focus(can, t, wt('Anfang') - 0.05, 'ANFANG', 'cond', 80, CREAM, 1080, t1=wt('verlor') - 0.35)
+    digits(can, t, wt('1942') - 0.05, '1942', 1250, 260, step=0.15, t1=wt('verlor') - 0.35)
     plate(can, t, tA - 0.05, 'NORDATLANTIK', 1110, size=60, bg=RUST, fg=CREAM)
-    sinking(can, t, wt('Schiff') - 0.05, 8, 1260, step=0.11); return can
+    sinking(can, t, wt('verlor') - 0.05, 8, 1260, step=(wt('Schiff,') - wt('verlor')) / 7.5); return can
 
 def sc_night(t, w0, w1):
     """night sea: a convoy steams on, ships explode, nobody sees where the attacks come from"""
@@ -346,17 +346,20 @@ def night_bg():
     return Image.fromarray(a.clip(0, 255).astype(np.uint8)).convert('RGBA')
 
 def sc_hall(t, w0, w1):
-    can, pt = wide('j13', t, w0, w1, 1200, -1); can.alpha_composite(GRAD_SOFT)
+    can = shot(pan_lin('j13', t, w0, w1, 1200, -1))
     tP = wt('Problem')
     plate(can, t, wt('Liverpool', 20) - 0.05, 'LIVERPOOL', 1130, size=62, bg=GOLD, fg=DEEP)
     reveal(can, t, wt('kleine') - 0.05, 'EINE KLEINE EINHEIT', 'cond', 66, CREAM, 1260, t1=tP - 0.25)
     focus(can, t, tP - 0.05, 'DAS PROBLEM NACHSPIELEN', 'serif', 92, CREAM, 1300); return can
 def sc_door(t, w0, w1):
-    can, pt = wide('j10', t, w0, w1, 1213, 1); can.alpha_composite(GRAD_SOFT)
-    tW = wt('Western')
-    if t >= tW - 0.1:   # the painted letters light up
-        for sx, sy, r in ((660, 800, 70), (900, 800, 70), (1510, 800, 70), (1750, 800, 70)):
-            x, y = pt(sx, sy); ring(can, x, y, r * 0.75, GOLD, 0.8 * clamp((t - tW + 0.1) / 0.3), 4)
+    im = src('j10'); u = eio((t - w0) / (w1 - w0)); c = PCam('j10', lerp(900, 1390, u), im.height / 2, im.height * 9 / 16); can = shot(c, GRAD_SOFT)
+    for (sx, sy, r), key in zip(((657, 783, 132), (864, 783, 120), (1504, 783, 118), (1722, 783, 118)), ('Western', 'Approaches', 'Tactical', 'Unit')):
+        ti = wt(key) - 0.1
+        if t >= ti:
+            x, y = c.pt(sx, sy); k = eout((t - ti) / 0.35); rr = r * W / c.w
+            L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+            d.ellipse((x - rr * k, y - rr * k, x + rr * k, y + rr * k), outline=(10, 7, 4, 150), width=11)
+            d.ellipse((x - rr * k, y - rr * k, x + rr * k, y + rr * k), outline=GOLD + (255,), width=6); can.alpha_composite(L)
     for i, (word, key) in enumerate((('WESTERN', 'Western'), ('APPROACHES', 'Approaches'), ('TACTICAL', 'Tactical'), ('UNIT', 'Unit'))):
         ti = wt(key) - 0.05
         if t < ti: continue
@@ -370,7 +373,7 @@ def sc_roberts(t, w0, w1):
     plate(can, t, wt('Kapitän') - 0.05, 'KAPITÄN', 1230, size=64, bg=CREAM, fg=DEEP)
     focus(can, t, wt('Gilbert') - 0.05, 'GILBERT ROBERTS', 'serif', 130, GOLD, 1380); return can
 def sc_wrens(t, w0, w1):
-    can, pt = wide('j05', t, w0, w1, 1250, 1); can.alpha_composite(GRAD_SOFT)
+    can = shot(pan_lin('j05', t, w0, w1, 1250, 1))
     tWr = wt('Wrens.')
     reveal(can, t, wt('Mitarbeiter') - 0.1, 'FAST ALLE MITARBEITER', 'cond', 66, CREAM, 1110)
     focus(can, t, wt('Frauen') - 0.05, 'FRAUEN', 'serif', 140, GOLD, 1250)
@@ -397,15 +400,13 @@ def sc_slit(t, w0, w1):
     c = pan_lin('j11', t, w0, w1, 1350, 1); can = shot(c); tS = wt('Schlitze')
     plate(can, t, wt('Offiziere') - 0.05, 'DIE OFFIZIERE', 1150, size=60, bg=CREAM, fg=DEEP, t1=tS - 0.3)
     reveal(can, t, wt('Spielfeld') - 0.1, 'SAHEN DAS SPIELFELD', 'cond', 66, CREAM, 1270, t1=tS - 0.3)
-    if t >= tS - 0.1:   # the screen closes down to a narrow slit
-        k = eio((t - tS + 0.1) / 0.6); y0, y1 = lerp(0, 830, k), lerp(H, 990, k)
-        m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).rectangle((0, y0, W, y1), fill=255); m = m.filter(ImageFilter.GaussianBlur(10))
-        dark = Image.new('RGBA', (W, H), (10, 9, 8, 238)); dark.putalpha(Image.fromarray(255 - np.asarray(m)).point(lambda v: int(v * 0.93)))
-        can.alpha_composite(dark)
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-        d.line((0, y0, W, y0), fill=CREAM + (int(120 * k),), width=2); d.line((0, y1, W, y1), fill=CREAM + (int(120 * k),), width=2); can.alpha_composite(L)
-        focus(can, t, tS - 0.05, 'NUR DURCH SCHLITZE', 'serif', 110, GOLD, 1180)
-        reveal(can, t, wt('wie', 51) - 0.1, 'WIE EIN KOMMANDANT AUF SEE', 'cond', 62, CREAM, 1320)
+    focus(can, t, tS - 0.05, 'NUR DURCH SCHLITZE', 'serif', 110, GOLD, 1180)
+    def scr(L):
+        tip = c.pt(1640, 1150)
+        curved_arrow(L, t, wt('Leinwänden,') + 0.05, (700, 1060), (820, 1000), (tip[0] - 10, tip[1] + 20), CREAM, 6)
+        plate(L, t, wt('Leinwänden,') - 0.05, 'LEINWAND', 1060, cx=600, size=50, bg=CREAM, fg=DEEP)
+    layer(can, fade_out(t, wt('wie', 51) - 0.3), scr)
+    reveal(can, t, wt('wie', 51) - 0.1, 'WIE EIN KOMMANDANT AUF SEE', 'cond', 62, CREAM, 1320)
     return can
 def sc_muster(t, w0, w1):
     can = shot(pan_lin('j02', t, w0, w1, 900, -1, 1200))
@@ -423,7 +424,7 @@ def sc_chalk(t, w0, w1):
         else: focus(can, t, ti, txt, 'serif', 84, col, 400, t1=t1, dur=0.35)
     return can
 def sc_rasp(t, w0, w1):
-    can, pt = wide('j06', t, w0, w1, 1200, -1); can.alpha_composite(GRAD_SOFT); tR = wt('Raspberry,')
+    can = shot(pan_lin('j06', t, w0, w1, 1200, -1)); tR = wt('Raspberry,')
     reveal(can, t, wt('Namen') - 0.1, 'DEN NAMEN GAB SIE SELBST', 'cond', 66, CREAM, 1180, t1=tR - 0.3)
     seal(can, t, tR - 0.05, 'RASPBERRY', 540, 1130, r=180, col=RUST, rot=-8)
     plate(can, t, wt('englischen') - 0.05, 'NACH EINER ENGLISCHEN SPOTTGESTE', 1430, size=46, bg=CREAM, fg=DEEP); return can
@@ -457,7 +458,7 @@ def sc_5000(t, w0, w1):
         put(can, OFF_G if i == n - 1 else OFF_C, 540 + (c - 4.5) * 84, 930 + r * 92 - (1 - k) * 20, 1.0, k)
     plate(can, t, wt('Marineoffiziere') - 0.05, 'MARINEOFFIZIERE AUSGEBILDET', 1440, size=54, bg=CREAM, fg=DEEP); return can
 def sc_award(t, w0, w1):
-    can, pt = wide('j08', t, w0, w1, 1180, 1); can.alpha_composite(GRAD_SOFT); tF = wt('Frauen', 95)
+    c = pan_lin('j08', t, w0, w1, 1160, 1); pt = c.pt; can = shot(c, GRAD_SOFT); tF = wt('Frauen', 95)
     def rob(L):
         tip = pt(1160, 850)
         curved_arrow(L, t, wt('Roberts', 92) + 0.05, (540, 1180), (600, 1000), (tip[0], tip[1] + 30), GOLD, 7)
@@ -466,12 +467,12 @@ def sc_award(t, w0, w1):
     layer(can, fade_out(t, tF - 0.3), rob)
     if t >= tF - 0.05:
         for i, (sx, sy) in enumerate(((560, 787), (827, 773), (1433, 773), (1687, 753), (547, 573), (800, 553), (1367, 560), (1573, 560), (1827, 553))):
-            x, y = pt(sx, sy); k = eout((t - tF - i * 0.06) / 0.35); ring(can, x, y, 52 * k, CREAM, 0.85 * k, 4)
+            x, y = pt(sx, sy); k = eout((t - tF - i * 0.06) / 0.35); ring(can, x, y, 84 * k, CREAM, 0.85 * k, 5)
         focus(can, t, tF - 0.05, 'DIE FRAUEN', 'serif', 110, CREAM, 1220)
         plate(can, t, wt('keine', 96) - 0.05, 'KEINE OFFIZIELLE ANERKENNUNG', 1360, size=52, bg=RUST, fg=CREAM)
     return can
 def sc_later(t, w0, w1):
-    can, pt = wide('j03', t, w0, w1, 1420, 1, hh=1060, yc=820); can.alpha_composite(GRAD_SOFT); t08 = wt('2008.') - 0.05
+    can = shot(pan_lin('j03', t, w0, w1, 1420, 1)); t08 = wt('2008.') - 0.05
     reveal(can, t, wt('Krieg', 100) - 0.1, 'NACH DEM KRIEG', 'cond', 66, CREAM, 1200)
     plate(can, t, wt('Beruf') - 0.05, 'ZURÜCK IN DEN BERUF', 1320, size=56, bg=GOLD, fg=DEEP)
     focus(can, t, t08, '† 2008', 'serif', 120, CREAM, 1450); return can

@@ -29,6 +29,10 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Her şey haritayla anlatılmaz; farklı animasyonlar (Mannerheim-Kreuz çizimi gibi çizim animasyonları Boran'ın favorisi).
 - Logo fontu (Anton) kullanılır ama logo birebir kopyalanmaz: video içinde sarı kutu + kırmızı çizgi yok, vurgu kelimesi sarı yazı.
 - Dikey fotoğraf: tamamı net ortada, kenarlar bulanık kopya. Çapraz/zig-zag hareket yok.
+- Shorts'ta fotoğraflar her zaman tam ekran 9:16 (ekranı kaplar). Bulanık arka planlı geniş bant sadece uzun videolarda; Shorts'ta Boran istemedikçe yok.
+- İşaret halkaları (harf, yüz) nesneyi tamamen ve rahatça içine alır; kenardan taşma olmaz.
+- Ekranı karartıp dar yarık bırakma gibi anlaşılmayan efektler yok; anlatımı ok, yazı, çizim ile yap.
+- Bir animasyon, ait olduğu cümle boyunca sürer; cümlenin son kelimesinde başlayıp hemen geçmez (ör. batan gemi ikonları "verlor" ile başlar).
 - Ok uçları tam çizilir.
 - Ses efektleri bol: her ok, rota, damga, sayaç, geçiş kendi sesini alır.
 
