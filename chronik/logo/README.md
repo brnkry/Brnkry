@@ -2,6 +2,11 @@
 
 - Logo: CDM, "C" weiß, "DM" dunkel auf gelber Fläche, roter Strich darunter. Schrift Anton. Farben: Gelb (244,199,15), Rot (196,38,40), Weiß (245,245,240), Dunkel (14,15,18).
 - Banner: CHRONIK + gelbe Fläche DER MACHT, darunter "GESCHICHTE · QUELLEN · ORIGINALAUFNAHMEN" (Bebas Neue).
+- Thumbnail-Regeln (Test immer in 320x180, so klein erscheint es am Handy):
+  - höchstens 3 bis 5 Wörter, eine Hauptaussage, ein Gesicht als Blickfang
+  - Name groß in Anton (mindestens ca. 110 px bei 1920 Breite), nicht klein in Bebas
+  - Schlüsselwort auf gelber Fläche, Text ergänzt den Titel statt ihn zu wiederholen
+  - Hintergrund abdunkeln oder unscharf, damit Gesicht und Text vorne stehen
 - Thumbnails (lang und Shorts): Hauptzeile Anton weiß + Schlüsselwort auf gelber Fläche + roter Strich, Namen in Bebas Neue, kleines CDM-Logo oben (nie unten rechts, dort liegt die Zeitangabe). Keine Schreibschrift.
 
 ## Kanal-Keywords (überarbeitet nach Kanal-Inventar, siehe chronik/kanal/Kanal_Inhalte.xlsx)
