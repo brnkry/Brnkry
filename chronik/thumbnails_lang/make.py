@@ -11,7 +11,7 @@ def brush(s): return ImageFont.truetype(D + 'fontsource-caveat-brush-5.3.0/files
 
 # swastika spots (source px x, y, diameter): cap eagles, Knight's Cross centres, breast eagles
 BLUR = {'i1': [(1134, 150, 80), (1296, 1390, 70)], 'i2': [(1345, 158, 64), (1972, 1272, 60)],
-        'i4': [(1382, 1237, 62)], 'i5': [(1209, 1154, 62), (902, 1400, 66)], 'i7': [(1248, 1117, 60), (934, 1388, 66)]}
+        'i4': [(1383, 1266, 66)], 'i5': [(1209, 1154, 62), (902, 1400, 66)], 'i7': [(1248, 1117, 60), (934, 1388, 66)]}
 def load(n):
     im = Image.open(D + 'src/' + n + '.jpg').convert('RGB')
     for x, y, d in BLUR.get(n, []):
