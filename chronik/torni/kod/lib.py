@@ -38,7 +38,7 @@ def src(n):
 def crop(n, cx, cy, w, ow=W, oh=H):
     im = src(n); w = min(w, im.width, im.height * ow / oh); h = w * oh / ow
     x0 = min(max(cx - w / 2, 0), im.width - w); y0 = min(max(cy - h / 2, 0), im.height - h)
-    return im.resize((ow, oh), Image.BILINEAR, box=(x0, y0, x0 + w, y0 + h)).convert('RGBA')
+    return im.resize((ow, oh), Image.BICUBIC, box=(x0, y0, x0 + w, y0 + h)).convert('RGBA')
 SPEED = 30.0   # screen px per second, always the same, always one direction
 def pan(n, t, w0, w1, d=1, cy=0.5, zoom=1.12):
     """landscape photo: fixed framing, slides horizontally at a constant speed for the whole time it is on screen"""
@@ -51,13 +51,18 @@ def _bg(n):
     im = src(n); s = max(W / im.width, H / im.height) * 1.15; b = im.resize((int(im.width * s), int(im.height * s)), Image.BILINEAR)
     b = b.crop(((b.width - W) // 2, (b.height - H) // 2, (b.width - W) // 2 + W, (b.height - H) // 2 + H)).filter(ImageFilter.GaussianBlur(28))
     return Image.blend(ImageEnhance.Color(b).enhance(0.6), Image.new('RGB', (W, H), (8, 9, 11)), 0.55).convert('RGBA')
-def fit(n, t, w0, w1, z1=1.05, top=0.0):
-    """portrait photo: the whole picture sharp in the middle, blurred copy behind, slow straight zoom-in"""
+def fit(n, t, w0, w1, z1=1.05, top=0.0, blur=0.0):
+    """portrait photo: whole picture sharp in the middle (fixed panel), blurred copy behind, slow straight zoom-in inside the panel"""
     im = src(n); can = _bg(n).copy(); u = clamp((t - w0) / (w1 - w0)); z = lerp(1.0, z1, u)
-    h = int(H * z); w = int(im.width * h / im.height); sh = im.resize((w, h), Image.BILINEAR).convert('RGBA')
-    m = Image.new('L', (w, h), 255); dm = ImageDraw.Draw(m); fe = 70
-    for i in range(fe): v = int(255 * i / fe); dm.line((i, 0, i, h), fill=v); dm.line((w - 1 - i, 0, w - 1 - i, h), fill=v)
-    can.paste(sh, ((W - w) // 2, int((H - h) * (0.5 - top))), m); return can
+    pw = int(round(im.width * H / im.height)); cw, ch = im.width / z, im.height / z; cy = im.height * (0.5 - top * (1 - 1 / z))
+    sh = im.resize((pw, H), Image.BICUBIC, box=(im.width / 2 - cw / 2, cy - ch / 2, im.width / 2 + cw / 2, cy + ch / 2)).convert('RGBA')
+    if blur > 0.3: sh = sh.filter(ImageFilter.GaussianBlur(blur))
+    can.paste(sh, ((W - pw) // 2, 0), _fmask(pw)); return can
+@functools.lru_cache(None)
+def _fmask(pw, fe=70):
+    m = Image.new('L', (pw, H), 255); dm = ImageDraw.Draw(m)
+    for i in range(fe): v = int(255 * i / fe); dm.line((i, 0, i, H), fill=v); dm.line((pw - 1 - i, 0, pw - 1 - i, H), fill=v)
+    return m
 def shade(can, a=210, start=0.5):
     g = (np.clip((np.arange(H) - H * start) / (H * (1 - start)), 0, 1) ** 1.4 * a).astype(np.uint8)
     L = Image.new('RGBA', (W, H), (6, 7, 9, 0)); L.putalpha(Image.fromarray(np.repeat(g[:, None], W, 1))); can.alpha_composite(L); return can
@@ -145,17 +150,31 @@ def arrow(can, a, b, u, col=RED, w=16, head=46, alpha=1.0):
     e, q = pts[-1], pts[-3]; ang = math.atan2(e[1] - q[1], e[0] - q[0])
     d.polygon([(e[0] + 14 * math.cos(ang), e[1] + 14 * math.sin(ang)), (e[0] - head * math.cos(ang - .5), e[1] - head * math.sin(ang - .5)), (e[0] - head * math.cos(ang + .5), e[1] - head * math.sin(ang + .5))], fill=col + (int(255 * alpha),))
     can.alpha_composite(L)
-def dashed(can, pts, u, col=YEL, w=7, seg=22):
+def dashed(can, pts, u, col=YEL, w=7, seg=22, head=34):
+    if u <= 0: return
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-    tot = sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1)); goal = tot * u; acc = 0; on = True
+    tot = sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1)); goal = tot * u; acc = 0; on = True; tip = pts[0]; ang = 0
     for i in range(len(pts) - 1):
-        a, b = pts[i], pts[i + 1]; L_ = math.dist(a, b); s = 0
-        while s < L_ and acc + s < goal:
-            e = min(L_, s + seg, goal - acc)
-            if on: d.line(((lerp(a[0], b[0], s / L_), lerp(a[1], b[1], s / L_)), (lerp(a[0], b[0], e / L_), lerp(a[1], b[1], e / L_))), fill=col + (255,), width=w)
-            on = not on; s = e
+        a, b = pts[i], pts[i + 1]; L_ = math.dist(a, b); s_ = 0
+        while s_ < L_ and acc + s_ < goal:
+            e = min(L_, s_ + seg, goal - acc); p0 = (lerp(a[0], b[0], s_ / L_), lerp(a[1], b[1], s_ / L_)); p1 = (lerp(a[0], b[0], e / L_), lerp(a[1], b[1], e / L_))
+            if on: d.line((p0, p1), fill=(0, 0, 0, 140), width=w + 6); d.line((p0, p1), fill=col + (255,), width=w)
+            on = not on; s_ = e; tip = p1; ang = math.atan2(b[1] - a[1], b[0] - a[0])
         acc += L_
+    if head:
+        hp = [(tip[0] + 12 * math.cos(ang), tip[1] + 12 * math.sin(ang)), (tip[0] - head * math.cos(ang - .5), tip[1] - head * math.sin(ang - .5)), (tip[0] - head * math.cos(ang + .5), tip[1] - head * math.sin(ang + .5))]
+        d.polygon(hp, fill=col + (255,), outline=(0, 0, 0, 140))
     can.alpha_composite(L)
+def route(lonlat, m, z=1.0, n=24):
+    """smooth path through map points (for ship and flight routes)"""
+    P = [m.p(*q, z) for q in lonlat]; out = []
+    for i in range(len(P) - 1):
+        a, b = P[i], P[i + 1]; c = P[i + 2] if i + 2 < len(P) else b; pre = P[i - 1] if i else a
+        for k in range(n):
+            v = k / n; t1 = ((b[0] - pre[0]) * 0.25, (b[1] - pre[1]) * 0.25); t2 = ((c[0] - a[0]) * 0.25, (c[1] - a[1]) * 0.25)
+            h00, h10, h01, h11 = 2*v**3-3*v**2+1, v**3-2*v**2+v, -2*v**3+3*v**2, v**3-v**2
+            out.append((h00*a[0]+h10*t1[0]+h01*b[0]+h11*t2[0], h00*a[1]+h10*t1[1]+h01*b[1]+h11*t2[1]))
+    out.append(P[-1]); return out
 def ring(can, t, t0, x, y, col=RED, r=40, cross=True):
     if t < t0: return
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); k = eout((t - t0) / 0.4)
@@ -179,3 +198,45 @@ def assemble(SC, t, T):
     if fade > 0: img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * fade))))
     a = np.asarray(img.convert('RGB')).astype(np.int16) + _rng.normal(0, 3, (H, W))[..., None].astype(np.int16)
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+# ---------- more graphics ----------
+def blurred(n, t, w0, w1, t_sharp, mode='fit', **kw):
+    """photo that starts out of focus and sharpens at t_sharp"""
+    r = 22 * (1 - eio((t - t_sharp) / 0.9))
+    if mode == 'fit': return fit(n, t, w0, w1, blur=r, **kw)
+    im = pan(n, t, w0, w1, **kw); return im.filter(ImageFilter.GaussianBlur(r)) if r > 0.3 else im
+def stamp(can, t, t0, s, xy, col=RED, size=96, rot=-12):
+    """rubber stamp: double frame, worn ink, presses down"""
+    if t < t0: return
+    k = eout((t - t0) / 0.25); f = anton(size); tw = f.getlength(s); bw, bh = tw + size * 0.8, size * 1.55
+    L = Image.new('RGBA', (int(bw + 40), int(bh + 40)), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    d.rectangle((20, 20, 20 + bw, 20 + bh), outline=col + (235,), width=10); d.rectangle((34, 34, 6 + bw, 6 + bh), outline=col + (235,), width=3)
+    d.text((20 + bw / 2, 20 + bh / 2 + 4), s, font=f, fill=col + (240,), anchor='mm')
+    a = np.asarray(L.getchannel('A')).astype(np.float32); rr = np.random.default_rng(len(s)); a *= (rr.random(a.shape) > 0.15) * 0.3 + 0.7
+    L.putalpha(Image.fromarray(a.astype(np.uint8))); L = L.rotate(rot, expand=True, resample=Image.BICUBIC)
+    sc = lerp(1.6, 1.0, k); L = L.resize((max(1, int(L.width * sc)), max(1, int(L.height * sc))), Image.BICUBIC)
+    if k < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * k)))
+    can.alpha_composite(L, (int(xy[0] - L.width / 2), int(xy[1] - L.height / 2)))
+def doc(can, t, t0, lines, cx=W / 2, cy=H / 2, w=880, t1=None):
+    """aged paper sheet sliding in; typewriter lines [(text, size, colour)]"""
+    if t < t0: return
+    k = eout((t - t0) / 0.5); out = 1.0 if t1 is None else 1 - clamp((t - t1) / 0.4)
+    h = 120 + sum(sz * 1.5 for _, sz, _ in lines); L = Image.new('RGBA', (int(w + 60), int(h + 60)), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    d.rectangle((36, 40, 30 + w, 36 + h), fill=(0, 0, 0, 120)); L = L.filter(ImageFilter.GaussianBlur(12)); d = ImageDraw.Draw(L)
+    d.rectangle((30, 30, 30 + w, 30 + h), fill=(226, 216, 192, 255)); d.rectangle((30, 30, 30 + w, 30 + h), outline=(150, 135, 105, 255), width=3)
+    y = 90; tt = t - t0 - 0.45
+    for txt_, sz, col in lines:
+        n = max(0, min(len(txt_), int(tt / 0.05))); tt -= len(txt_) * 0.05 + 0.15
+        d.text((30 + w / 2, y + sz * 0.5), txt_[:n], font=typew(sz), fill=col + (255,), anchor='mm'); y += sz * 1.5
+    L = L.rotate(-2.5, expand=True, resample=Image.BICUBIC)
+    if out * k < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * out * k)))
+    can.alpha_composite(L, (int(cx - L.width / 2), int(cy - L.height / 2 + (1 - k) * 80)))
+def counter(can, t, t0, a, b, xy, size=200, col=WHITE, dur=1.4, fmt='{:,}', suffix=''):
+    if t < t0: return
+    v = int(round(lerp(a, b, eio((t - t0) / dur)))); s = fmt.format(v).replace(',', '.') + suffix
+    shadowed(can, lambda d: d.text(xy, s, font=anton(size), fill=col + (255,), anchor='mm'))
+def ship(can, x, y, ang, s=60, col=WHITE):
+    L = Image.new('RGBA', (s * 2, s * 2), (0, 0, 0, 0)); d = ImageDraw.Draw(L); c = s
+    d.polygon([(c - s * 0.8, c - s * 0.18), (c + s * 0.55, c - s * 0.18), (c + s * 0.85, c), (c + s * 0.55, c + s * 0.18), (c - s * 0.8, c + s * 0.18)], fill=col + (255,))
+    d.rectangle((c - s * 0.35, c - s * 0.1, c + s * 0.1, c + s * 0.1), fill=DARK + (255,))
+    L = L.rotate(-math.degrees(ang), resample=Image.BICUBIC); can.alpha_composite(L, (int(x - s), int(y - s)))
