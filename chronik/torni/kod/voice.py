@@ -5,7 +5,7 @@ SR = 48000
 def rd(f, a=0, b=None):
     sr, x = wavfile.read(f); x = x.astype(np.float32) / 32768; return x[int(a * SR): int(b * SR) if b else None]
 gap = np.zeros(int(0.35 * SR), np.float32)
-x = np.concatenate([rd('v.wav'), gap, rd('v3.wav'), gap, rd('v45.wav', 0, 223.8)])
+x = np.concatenate([rd('v.wav'), gap, rd('v3new.wav'), gap, rd('v45.wav', 0, 223.8)])
 wavfile.write('vjoin.wav', SR, (x * 32767).astype(np.int16))
 log = subprocess.run(['ffmpeg', '-i', 'vjoin.wav', '-af', 'silencedetect=noise=-35dB:d=0.5', '-f', 'null', '-'], capture_output=True, text=True).stderr
 st = [float(v) for v in re.findall(r'silence_start: ([0-9.]+)', log)]; en = [float(v) for v in re.findall(r'silence_end: ([0-9.]+)', log)]

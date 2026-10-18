@@ -20,6 +20,16 @@ _OLD = [a for _, a, _ in json.load(open(B + 'words_all.json'))]; _NEW = [a for _
 def M(t): return float(np.interp(t, _OLD, _NEW))        # scene times were authored on the previous timeline
 def w(s, after=0.0): return wt(s, M(after) if after else 0.0)
 LOGO0 = None
+def fitpt(n, t, w0, w1, z1, sx, sy):
+    """screen position of a source pixel inside fit() (portrait panel, zoom about the centre)"""
+    im = src(n); u = clamp((t - w0) / (w1 - w0)); z = lerp(1.0, z1, u); pw = im.width * H / im.height
+    cw, ch = im.width / z, im.height / z; x0 = (W - pw) / 2
+    return (x0 + (sx - (im.width / 2 - cw / 2)) * pw / cw, (sy - (im.height / 2 - ch / 2)) * H / ch)
+def point_at(can, t, t0, tip, lab, side=1):
+    """yellow arrow from free space to a person, small name label at its tail"""
+    tail = (tip[0] + side * 360, tip[1] + 70)
+    arrow(can, tail, (tip[0] + side * 60, tip[1] + 10), eio((t - t0) / 0.6), YEL, 14, 44)
+    label(can, t, t0 + 0.4, tail[0] + side * 16, tail[1] + 6, lab, 60, YEL, 'lm' if side > 0 else 'rm')
 INK_ = (40, 32, 24)
 _rr = np.random.default_rng(9)
 _n = Image.fromarray((_rr.normal(128, 30, (H // 6, W // 6))).clip(0, 255).astype(np.uint8)).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(4))
@@ -155,13 +165,13 @@ def s_wien(t, w0, w1):
         dot(can, hx, vy * 0 + hy, YEL, 11); label(can, t, w('Juni', 80) - 0.3, hx + 26, hy, 'HELSINKI', 60, YEL)
         dashed(can, route([HEL, (21.0, 55.0), VIE], EUW, z), eio((t - w('reiste')) / 1.6))
         if t > w('Wien', 80): dot(can, vx, vy, WHITE, 11); label(can, t, w('Wien', 80), vx + 26, vy, 'WIEN', 70, WHITE)
-        typewriter(can, t, w('Juni', 80), (W / 2, 920), 'JUNI 1941', typew(70), CREAM, 0.07)
+        typewriter(can, t, w('Juni', 80), (330, 560), 'JUNI 1941', typew(70), CREAM, 0.07)
         txt(can, t, w('mehrwöchige'), (W / 2, 1015), 'MEHRWÖCHIGE AUSBILDUNG', anton(76), YEL)
     return can
 def s_cont(t, w0, w1):
     can = shade(pan('t29', t, w0, w1, 1, 0.5, 1.15), 220, 0.5)
-    txt(can, t, w('kehrte', 88), (W / 2, 850), 'ZURÜCK NACH FINNLAND', bebas(72), CREAM)
-    txt(can, t, w('Fortsetzungskrieg'), (W / 2, 965), 'FORTSETZUNGSKRIEG', anton(100), YEL); return can
+    txt(can, t, w('Noch', 88), (W / 2, 850), 'ZURÜCK NACH FINNLAND', bebas(72), CREAM)
+    txt(can, t, w('dort', 88), (W / 2, 965), 'FORTSETZUNGSKRIEG', anton(100), YEL); return can
 def s_abt(t, w0, w1):
     can = shade(pan('t08', t, w0, w1, -1, 0.42, 1.0), 230, 0.45)
     txt(can, t, w('1943'), (W / 2, 820), '1943', anton(120), WHITE)
@@ -197,6 +207,7 @@ def s_ilom(t, w0, w1):
     txt(can, t, w('Ilomantsi'), (W / 2, 960), 'ILOMANTSI', anton(110), YEL); return can
 def s_koiv(t, w0, w1):
     can = shade(fit('t28', t, w0, w1, 1.05), 230, 0.45)
+    point_at(can, t, w('Mauno'), fitpt('t28', t, w0, w1, 1.05, 520, 400), 'KOIVISTO')
     txt(can, t, w('Soldaten', 123), (W / 2, 790), 'UNTER SEINEM KOMMANDO', bebas(64), CREAM)
     words(can, t, [('MAUNO', WHITE, w('Mauno')), ('KOIVISTO', YEL, w('Koivisto'))], 905, 120)
     txt(can, t, w('Präsident'), (W / 2, 1015), 'SPÄTER PRÄSIDENT FINNLANDS', bebas(64), WHITE); return can
@@ -251,7 +262,7 @@ def s_akte(t, w0, w1):        # police photos: three portraits revealed one by o
     im = src('t12'); can = _bg('t12').copy(); dim(can, 120)
     full = crop('t12', im.width / 2, im.height / 2, im.width, W, int(W * im.height / im.width))
     ph = full.resize((W - 160, int((W - 160) * full.height / full.width)), Image.BICUBIC); x0, y0 = 80, (H - ph.height) // 2 - 30
-    ts = [w('verhaftete'), w('Aufnahmen'), w('Akte')]
+    ts = [w('verhaftete'), w('Diese', 177), w('Aufnahmen')]
     for i in range(3):
         k = eout((t - ts[i]) / 0.35)
         if k <= 0: continue
@@ -283,21 +294,24 @@ def s_paasi(t, w0, w1):
 def s_nofut(t, w0, w1):
     can = shade(fit('t15', t, w0, w1, 1.05), 230, 0.45)
     chapter(can, t, w0 + 0.3, 4, 'EIN NEUER NAME', w0 + 3.3)
-    txt(can, t, w('Zukunft') + 0.1, (W / 2, 960), 'KEINE ZUKUNFT IN FINNLAND', anton(90), WHITE); return can
+    txt(can, t, w('Doch', 200) + 0.2, (W / 2, 960), 'KEINE ZUKUNFT IN FINNLAND', anton(90), WHITE)
+    point_at(can, t, w('Törni', 200), fitpt('t15', t, w0, w1, 1.05, 560, 560), 'TÖRNI'); return can
 STO, CCS, MOB = (18.07, 59.33), (-66.9, 10.5), (-88.04, 30.69)
 def s_sea(t, w0, w1):
     z = 1.0; can = ATL.frame(z)
     pts = route([STO, (5.0, 56.0), (-10.0, 45.0), (-35.0, 25.0), CCS], ATL)
     pts2 = route([CCS, (-75.0, 16.0), (-84.0, 21.5), (-86.5, 26.0), MOB], ATL)
     sx, sy = ATL.p(*STO); cx_, cy_ = ATL.p(*CCS); mx, my = ATL.p(*MOB)
-    dot(can, sx, sy, YEL, 10); label(can, t, w('Schweden'), sx - 20, sy - 30, 'SCHWEDEN 1949', 52, YEL, 'rm')
+    dot(can, sx, sy, YEL, 10); label(can, t, w('1949', 200), sx - 20, sy - 30, '1949', 52, YEL, 'rm')
+    label(can, t, w('Schweden'), sx - 20 - bebas(52).getlength('1949') - 14, sy - 30, 'SCHWEDEN', 52, YEL, 'rm')
     u1 = eio((t - w('Schiff', 205)) / 3.0); dashed(can, pts, u1, YEL, 6, 18, 0)
     if 0 < u1 < 1: i = int(u1 * (len(pts) - 2)); ship(can, *pts[i + 1], math.atan2(pts[i + 1][1] - pts[i][1], pts[i + 1][0] - pts[i][0]), 44)
     if t > w('Venezuela'): dot(can, cx_, cy_, WHITE, 10); label(can, t, w('Venezuela'), cx_ + 20, cy_ + 30, 'CARACAS', 52, WHITE)
     label(can, t, w('falschem'), sx - 20, sy + 30, 'UNTER FALSCHEM NAMEN', 40, CREAM, 'rm')
     u2 = eio((t - w('fuhr', 208)) / 3.4); dashed(can, pts2, u2, WHITE, 6, 18, 0)
     if 0 < u2 < 1: i = int(u2 * (len(pts2) - 2)); ship(can, *pts2[i + 1], math.atan2(pts2[i + 1][1] - pts2[i][1], pts2[i + 1][0] - pts2[i][0]), 44)
-    if t > w('sprang'): ring(can, t, w('sprang'), mx + 10, my + 40, YEL, 22, False); label(can, t, w('sprang'), mx - 30, my + 80, 'ÜBER BORD', 52, YEL, 'rm')
+    if t > w('sprang'): ring(can, t, w('sprang'), mx + 10, my + 40, YEL, 22, False); label(can, t, w('sprang'), mx + 40, my + 80, 'ÜBER BORD', 52, YEL, 'lm')
+    if u2 >= 0.99: dot(can, mx, my, WHITE, 10)
     if t > w('Alabamas'): label(can, t, w('Alabamas'), mx + 30, my - 40, 'MOBILE, ALABAMA', 54, WHITE)
     txt(can, t, w('Golf'), (W / 2, 1000), 'GOLF VON MEXIKO', anton(76), WHITE); return can
 def s_lodge(t, w0, w1):
@@ -427,16 +441,18 @@ import importlib.util as _iu
 _sp = _iu.spec_from_file_location('anim2', B + '../logo/anim2.py'); _an = _iu.module_from_spec(_sp); _sv = sys.argv; sys.argv = ['x', B + '../logo']; _sp.loader.exec_module(_an); sys.argv = _sv
 def s_sub(t, w0, w1):         # channel logo animation, starts with "abonniert Chronik der Macht"
     return _an.frame(max(0.0, t - LOGO_T)).convert('RGBA')
-SCN = [(0.0, s_date), (3.25, s_heli), (6.6, s_thorne), (11.8, s_years), (15.75, s_three), (27.9, s_name),
-       (33.3, s_born), (42.0, s_viipuri), (47.65, s_1938), (51.2, s_attack), (57.9, s_winter), (62.0, s_motti), (66.9, s_lt), (72.7, s_lost),
-       (78.85, s_wien), (90.4, s_cont), (95.7, s_abt), (103.5, s_raid), (110.9, s_bounty), (117.7, s_ilom), (125.4, s_koiv), (132.9, s_mhk),
-       (140.7, s_armist), (146.6, s_notover), (154.6, s_germ), (161.6, s_ss45), (172.1, s_escape), (177.4, s_akte), (182.4, s_verdict),
-       (186.1, s_prison), (193.6, s_paasi),
-       (200.2, s_nofut), (203.0, s_sea), (221.4, s_lodge), (231.0, s_rename), (239.2, s_sf), (245.8, s_iran), (250.1, s_zagros),
-       (263.7, s_vn), (268.2, s_secret), (276.8, s_crash), (292.2, s_missing), (299.1, s_found), (305.9, s_arl),
-       (317.1, s_outro3), (322.3, s_view), (331.0, s_story), (340.1, s_ask), (344.4, s_sub)]
+# every scene starts on the first word of its sentence (word, search-from on the old timeline)
+ANCH = [(None, s_date), (('verschwindet', 0), s_heli), (('An', 6), s_thorne), (('Erst', 11), s_years), (('Doch', 15), s_three), (('In', 27), s_name),
+        (('Lauri', 33), s_born), (('Damals', 0), s_viipuri), (('1938', 0), s_1938), (('Ein', 51), s_attack), (('Im', 57), s_winter), (('wo', 62), s_motti),
+        (('Als', 66), s_lt), (('Finnland', 72), s_lost), (('Finnland', 78), s_wien), (('Noch', 88), s_cont), (('1943', 0), s_abt), (('Seine', 103), s_raid),
+        (('Berichten', 0), s_bounty), (('Im', 117), s_ilom), (('Einer', 124), s_koiv), (('Im', 132), s_mhk), (('Im', 140), s_armist), (('Für', 146), s_notover),
+        (('und', 154), s_germ), (('In', 161), s_ss45), (('Aus', 172), s_escape), (('Dort', 177), s_akte), (('Wegen', 180), s_verdict), (('Zweimal', 0), s_prison),
+        (('Im', 193), s_paasi), (('Doch', 200), s_nofut), (('1949', 0), s_sea), (('Ein', 221), s_lodge), (('1954', 0), s_rename), (('Er', 239), s_sf),
+        (('1962', 0), s_iran), (('In', 250), s_zagros), (('Ab', 263), s_vn), (('1965', 268), s_secret), (('Am', 276), s_crash), (('Die', 292), s_missing),
+        (('Erst', 299), s_found), (('Am', 305), s_arl), (('Drei', 316), s_outro3), (('In', 322), s_view), (('Seine', 330), s_story), (('Wie', 339), s_ask), (None, s_sub)]
 LOGO_T = w('abonniert', 340) - 0.25
-SCN = [((LOGO_T if fn is s_sub else (0.0 if s == 0 else M(s) - 0.05)), fn) for s, fn in SCN]
+HOLD = {s_view: 1.0, s_verdict: 0.7}   # extra time for the scene before
+SCN = [((0.0 if fn is s_date else LOGO_T if fn is s_sub else w(*an) - 0.15 + HOLD.get(fn, 0.0)), fn) for an, fn in ANCH]
 T = LOGO_T + 6.0
 OV = 0.4
 SC = [(0 if i == 0 else s - OV, T if i == len(SCN) - 1 else SCN[i + 1][0] + OV, fn) for i, (s, fn) in enumerate(SCN)]

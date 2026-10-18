@@ -17,10 +17,10 @@ Diese Dokumentation erzählt sein Leben sachlich und nach Quellen: die Kindheit 
 00:00 Intro
 00:33 Kapitel 1: Viipuri und der Winterkrieg
 01:18 Kapitel 2: Wien und Abteilung Törni
-02:20 Kapitel 3: Verrat und Flucht
-03:16 Kapitel 4: Ein neuer Name
-04:23 Kapitel 5: Vietnam
-05:16 Outro
+02:21 Kapitel 3: Verrat und Flucht
+03:17 Kapitel 4: Ein neuer Name
+04:24 Kapitel 5: Vietnam
+05:17 Outro
 
 📸 Hinweis: Die historischen Originalaufnahmen in diesem Dokumentarfilm wurden von uns detailgetreu restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht oder entfernt.
 
