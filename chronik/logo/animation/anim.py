@@ -6,7 +6,7 @@ D = sys.argv[1] + '/'; F = D + '../sch/fonts/'
 W, H, FPS, T = 1920, 1080, 30, 5.5
 YEL, RED, WHITE, DARK = (244, 199, 15), (196, 38, 40), (245, 245, 240), (14, 15, 18)
 S = 210; f = ImageFont.truetype(F + 'Anton-Regular.ttf', S); ft = ImageFont.truetype(F + 'BebasNeue-Regular.ttf', 64)
-GAP, PAD, CY = S * 0.14, S * 0.11, 520
+GAP, PAD, CY = S * 30 / 380, S * 26 / 380, 540
 def clamp(x): return max(0.0, min(1.0, x))
 def eio(x): x = clamp(x); return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
 def eout(x): x = clamp(x); return 1 - (1 - x) ** 3
@@ -21,7 +21,9 @@ wC, wCH, wDM, wDE = f.getlength('C'), f.getlength('CHRONIK'), f.getlength('DM'),
 a0 = W / 2 - (wC + GAP + 2 * PAD + wDM) / 2; pl0 = a0 + wC + GAP; dm0 = xs('DM', pl0 + PAD); pr0 = pl0 + 2 * PAD + wDM
 # end: CHRONIK [DER MACHT]
 a1 = W / 2 - (wCH + GAP + 2 * PAD + wDE) / 2; ch1 = xs('CHRONIK', a1); pl1 = a1 + wCH + GAP; de1 = xs('DER MACHT', pl1 + PAD); pr1 = pl1 + 2 * PAD + wDE
-bb = f.getbbox('DMACHT', anchor='lm'); TOP, BOT = CY + bb[1] - S * 0.09, CY + bb[3] + S * 0.08
+bb = f.getbbox('DM', anchor='lm'); TOP, BOT = CY + bb[1] - S * 26 / 380, CY + bb[3] + S * 22 / 380
+RY0, RY1 = CY + bb[3] + S * 44 / 380, CY + bb[3] + S * 58 / 380; RLEN = S * (26 + 140) / 380
+Z0 = 2.2   # CDM is shown this much larger, then the whole logo eases down to its final size
 # background: dark with a soft centre light, fresh grain every frame
 y, x = np.mgrid[0:H, 0:W]; r = np.sqrt(((x - W / 2) / (W * 0.55)) ** 2 + ((y - H / 2) / (H * 0.6)) ** 2)
 BG = (np.ones((H, W, 3)) * np.array(DARK, float) * (1 + 0.8 * np.clip(1 - r, 0, 1))[..., None]).astype(np.float32)
@@ -58,14 +60,18 @@ def frame(t):
             kv = clamp((u - 0.12) / 0.2)
             for i, ch in enumerate('DER MACHT'):
                 if ch != ' ': letter(can, ch, pl + PAD + (de1[i] - de1[0]), DARK, kv, clip)
-    # red rule under the plate, drawn after the opening
-    kr = eio((t - 2.35) / 0.4)
+    # red rule, exactly as in the logo: under the left part of the plate, moving with it
+    kr = eout((t - 0.7) / 0.35)
     if kr > 0:
-        pl = lerp(pl0, pl1, u); ImageDraw.Draw(can).rectangle((pl, BOT + S * 0.11, pl + S * 1.1 * kr, BOT + S * 0.16), fill=RED + (255,))
+        pl = lerp(pl0, pl1, u); ImageDraw.Draw(can).rectangle((pl, RY0, pl + RLEN * kr, RY1), fill=RED + (255,))
+    # zoom: CDM large like the avatar, then down to the final size while it opens
+    z = lerp(Z0, 1.0, u)
+    if abs(z - 1) > 1e-3:
+        cxz, cyz = W / 2, CY; can = can.transform((W, H), Image.AFFINE, (1 / z, 0, cxz - cxz / z, 0, 1 / z, cyz - cyz / z), Image.BICUBIC)
     # tagline
     ktag = eout((t - 2.6) / 0.6)
     if ktag > 0:
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).text((W / 2, BOT + S * 0.62 + (1 - ktag) * 20), 'GESCHICHTE  ·  QUELLEN  ·  ORIGINALAUFNAHMEN', font=ft, fill=(215, 210, 200, int(255 * ktag)), anchor='mm'); can.alpha_composite(L)
+        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).text((W / 2, RY1 + S * 0.55 + (1 - ktag) * 20), 'GESCHICHTE  ·  QUELLEN  ·  ORIGINALAUFNAHMEN', font=ft, fill=(215, 210, 200, int(255 * ktag)), anchor='mm'); can.alpha_composite(L)
     sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.paste((0, 0, 0, 170), (0, 0), can.getchannel('A')); img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(14)), (6, 10))
     img.alpha_composite(can)
     fade = clamp((t - (T - 0.6)) / 0.6) if t > T - 0.6 else clamp(1 - t / 0.15)
