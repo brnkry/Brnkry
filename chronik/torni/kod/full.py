@@ -13,9 +13,13 @@ KAR = Map(31.4, 61.78, 7.5, hi=('Finland',), extra=((LADOGA, SEA),))
 KAR2 = Map(29.6, 61.75, 13.0, hi=('Finland',), extra=((LADOGA, SEA),))
 VN = Map(107.6, 15.75, 5.5, hi=('Vietnam',))
 EU = Map(19.0, 57.0, 46.0, hi=('Finland',), extra=((LADOGA, SEA),))
+EUW = Map(20.0, 55.2, 60.0, hi=('Finland', 'Austria'), extra=((LADOGA, SEA),))
 ATL = Map(-30.0, 40.0, 140.0, hi=('United States of America',))
 IRN = Map(31.5, 39.5, 48.0, hi=('Iran',))
-def w(s, after=0.0): return wt(s, after)
+_OLD = [a for _, a, _ in json.load(open(B + 'words_all.json'))]; _NEW = [a for _, a, _ in WORDS]
+def M(t): return float(np.interp(t, _OLD, _NEW))        # scene times were authored on the previous timeline
+def w(s, after=0.0): return wt(s, M(after) if after else 0.0)
+LOGO0 = None
 INK_ = (40, 32, 24)
 _rr = np.random.default_rng(9)
 _n = Image.fromarray((_rr.normal(128, 30, (H // 6, W // 6))).clip(0, 255).astype(np.uint8)).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(4))
@@ -83,7 +87,7 @@ def s_name(t, w0, w1):
 # ================= chapter 1 =================
 def s_born(t, w0, w1):        # birth register card, no photo
     can = plain()
-    chapter(can, t, w0 + 0.3, 1, 'VIIPURI UND DER WINTERKRIEG', w('wurde', 34) - 0.3)
+    chapter(can, t, w0 + 0.3, 1, 'VIIPURI UND DER WINTERKRIEG', w0 + 3.3)
     doc(can, t, w('Lauri', 33) + 0.6, [('GEBURTSREGISTER', 46, INK_), ('LAURI ALLAN TÖRNI', 60, INK_), ('28. MAI 1919', 52, (150, 30, 30)), ('VIIPURI, KARELIEN', 44, INK_)], W / 2, 560, 980)
     return can
 
@@ -144,15 +148,15 @@ def s_lost(t, w0, w1):
 # ================= chapter 2: Wien und Abteilung Törni =================
 HEL, VIE = (24.94, 60.17), (16.37, 48.21)
 def s_wien(t, w0, w1):
-    z = lerp(1.0, 1.08, clamp((t - w0) / (w1 - w0))); can = EU.frame(z)
-    chapter(can, t, w0 + 0.2, 2, 'WIEN UND ABTEILUNG TÖRNI', w('Juni', 80) - 0.3)
-    hx, hy = EU.p(*HEL, z); vx, vy = EU.p(*VIE, z)
-    if t > w('Juni', 80) - 0.3:
+    z = lerp(1.0, 1.08, clamp((t - w0) / (w1 - w0))); can = EUW.frame(z)
+    chapter(can, t, w0 + 0.3, 2, 'WIEN UND ABTEILUNG TÖRNI', w0 + 3.3)
+    hx, hy = EUW.p(*HEL, z); vx, vy = EUW.p(*VIE, z)
+    if t > w0 + 0.3:
         dot(can, hx, vy * 0 + hy, YEL, 11); label(can, t, w('Juni', 80) - 0.3, hx + 26, hy, 'HELSINKI', 60, YEL)
-        dashed(can, route([HEL, (21.0, 55.0), VIE], EU, z), eio((t - w('reiste')) / 1.6))
+        dashed(can, route([HEL, (21.0, 55.0), VIE], EUW, z), eio((t - w('reiste')) / 1.6))
         if t > w('Wien', 80): dot(can, vx, vy, WHITE, 11); label(can, t, w('Wien', 80), vx + 26, vy, 'WIEN', 70, WHITE)
-        typewriter(can, t, w('Juni', 80), (W / 2, 110), 'JUNI 1941', typew(76), CREAM, 0.07)
-        txt(can, t, w('mehrwöchige'), (W / 2, 975), 'MEHRWÖCHIGE AUSBILDUNG', anton(84), YEL)
+        typewriter(can, t, w('Juni', 80), (W / 2, 920), 'JUNI 1941', typew(70), CREAM, 0.07)
+        txt(can, t, w('mehrwöchige'), (W / 2, 1015), 'MEHRWÖCHIGE AUSBILDUNG', anton(76), YEL)
     return can
 def s_cont(t, w0, w1):
     can = shade(pan('t29', t, w0, w1, 1, 0.5, 1.15), 220, 0.5)
@@ -211,7 +215,7 @@ def s_mhk(t, w0, w1):         # Mannerheim Cross drawn as a graphic
 
 def s_armist(t, w0, w1):
     can = plain()
-    chapter(can, t, w0 + 0.2, 3, 'VERRAT UND FLUCHT', w('September') - 0.3)
+    chapter(can, t, w0 + 0.3, 3, 'VERRAT UND FLUCHT', w0 + 3.3)
     doc(can, t, w('September'), [('WAFFENSTILLSTAND', 64, INK_), ('FINNLAND / SOWJETUNION', 40, INK_), ('SEPTEMBER 1944', 46, (150, 30, 30))], W / 2, 560, 900)
     return can
 def s_notover(t, w0, w1):     # typographic: VORBEI crossed out
@@ -278,7 +282,7 @@ def s_paasi(t, w0, w1):
 # ================= chapter 4: Ein neuer Name =================
 def s_nofut(t, w0, w1):
     can = shade(fit('t15', t, w0, w1, 1.05), 230, 0.45)
-    chapter(can, t, w0 + 0.2, 4, 'EIN NEUER NAME', w('Zukunft') - 0.4)
+    chapter(can, t, w0 + 0.3, 4, 'EIN NEUER NAME', w0 + 3.3)
     txt(can, t, w('Zukunft') + 0.1, (W / 2, 960), 'KEINE ZUKUNFT IN FINNLAND', anton(90), WHITE); return can
 STO, CCS, MOB = (18.07, 59.33), (-66.9, 10.5), (-88.04, 30.69)
 def s_sea(t, w0, w1):
@@ -300,12 +304,20 @@ def s_lodge(t, w0, w1):
     can = dim(fit('t07', t, w0, w1, 1.03), 180).filter(ImageFilter.GaussianBlur(4))
     doc(can, t, w('Gesetz') - 0.1, [('LODGE ACT', 72, INK_), ('DIENST IN DER US ARMY', 42, INK_), ('= STAATSBÜRGERSCHAFT', 42, (150, 30, 30))], W / 2, 540, 860)
     return can
-def s_rename(t, w0, w1):      # Lauri Törni becomes Larry Thorne, letter by letter
-    can = shade(fit('t01', t, w0, w1, 1.05), 230, 0.45)
-    txt(can, t, w('1954'), (W / 2, 790), '1954', typew(80), CREAM)
-    A, Bn = 'LAURI TÖRNI ', 'LARRY THORNE'; k = clamp((t - w('Namen', 233)) / 1.2); n = int(k * len(Bn))
-    s = (Bn[:n] + A[n:]).rstrip()
-    if t > w('Lauri', 230): txt(can, t, w('Lauri', 230), (W / 2, 930), s if t > w('Namen', 233) else A, anton(140), YEL if k >= 1 else WHITE, None, 0)
+def s_rename(t, w0, w1):      # old name crossed out, new name typed beneath
+    can = shade(fit('t01', t, w0, w1, 1.05), 235, 0.4)
+    txt(can, t, w('1954'), (W / 2, 640), '1954', typew(80), CREAM)
+    t_old, t_new = w('Lauri', 230), w('Larry', 230)
+    if t > t_old:
+        a_ = 1 - 0.45 * clamp((t - t_new) / 0.4)
+        f = anton(120); tw = f.getlength('LAURI TÖRNI')
+        shadowed(can, lambda d: d.text((W / 2, 790), 'LAURI TÖRNI', font=f, fill=WHITE + (int(255 * a_ * eout((t - t_old) / 0.35)),), anchor='mm'))
+        if t > t_new - 0.25:
+            k = eio((t - t_new + 0.25) / 0.4); L = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+            ImageDraw.Draw(L).line((W / 2 - tw / 2 - 20, 800, W / 2 - tw / 2 - 20 + (tw + 40) * k, 780), fill=RED + (255,), width=14); can.alpha_composite(L)
+    if t > t_new:
+        s_ = 'LARRY THORNE'; n = min(len(s_), int((t - t_new) / 0.06) + 1)
+        shadowed(can, lambda d: d.text((W / 2 - anton(130).getlength(s_) / 2, 950), s_[:n], font=anton(130), fill=YEL + (255,), anchor='lm'))
     return can
 def s_sf(t, w0, w1):
     can = shade(pan('t24', t, w0, w1, -1, 0.45, 1.12), 220, 0.5)
@@ -334,7 +346,7 @@ def s_zagros(t, w0, w1):      # altitude line over the mountain photo
 # ================= chapter 5: Vietnam =================
 def s_vn(t, w0, w1):
     can = shade(pan('t05', t, w0, w1, 1, 0.5, 1.12), 220, 0.5)
-    chapter(can, t, w0 + 0.2, 5, 'VIETNAM', w('1963') - 0.3)
+    chapter(can, t, w0 + 0.3, 5, 'VIETNAM', w0 + 3.3)
     txt(can, t, w('1963'), (W / 2, 960), 'VIETNAM AB 1963', anton(96), YEL); return can
 def s_secret(t, w0, w1):
     can = shade(pan('t11', t, w0, w1, -1, 0.45, 1.1), 220, 0.5)
@@ -390,12 +402,17 @@ def s_outro3(t, w0, w1):      # three uniforms as a timeline, no photos
     words(can, t, [('ZWISCHEN', WHITE, w('zwischen', 318)), ('DEN FRONTEN', YEL, w('Fronten', 318))], 870, 110); return can
 
 def s_view(t, w0, w1):
-    can = shade(pan('t14', t, w0, w1, 1, 0.45, 1.05), 220, 0.5)
+    can = shade(pan('t14', t, w0, w1, 1, 0.30, 1.0), 220, 0.62)
     txt(can, t, w('Kriegsheld'), (W / 2, 850), 'FÜR VIELE EIN KRIEGSHELD', anton(84), YEL)
     txt(can, t, w('erinnern'), (W / 2, 965), 'ANDERE ERINNERN AN DEN DIENST IN DER WAFFEN-SS', bebas(58), WHITE); return can
-def s_story(t, w0, w1):
-    can = shade(pan('t02', t, w0, w1, -1, 0.5, 1.05), 220, 0.5)
-    txt(can, t, w('Schicksale'), (W / 2, 965), 'EINZELNE SCHICKSALE IN GROSSEN KONFLIKTEN', anton(70), WHITE); return can
+def s_story(t, w0, w1):       # team photo, arrow to Captain Thorne (standing, second from left)
+    u = clamp((t - w0) / (w1 - w0)); im = src('t02'); cw = lerp(2400, 2150, u); cx = lerp(1200, 1075, u); cy = 700
+    can = shade(crop('t02', cx, cy, cw), 220, 0.62); ch = cw * H / W; x0, y0 = min(max(cx - cw / 2, 0), im.width - cw), min(max(cy - ch / 2, 0), im.height - ch)
+    fx, fy = (600 - x0) * W / cw, (520 - y0) * W / cw
+    ta = w0 + 0.6
+    arrow(can, (fx + 330, fy - 150), (fx + 70, fy - 40), eio((t - ta) / 0.6), YEL, 14, 44)
+    label(can, t, ta + 0.4, fx + 350, fy - 160, 'CAPT. LARRY THORNE', 64, YEL)
+    txt(can, t, w('Schicksale'), (W / 2, 990), 'EINZELNE SCHICKSALE IN GROSSEN KONFLIKTEN', anton(70), WHITE); return can
 def s_ask(t, w0, w1):         # big question, both names
     can = plain()
     txt(can, t, w('Wie', 335), (W / 2, 330), 'WIE SEHT IHR', anton(110), WHITE)
@@ -405,20 +422,11 @@ def s_ask(t, w0, w1):         # big question, both names
     txt(can, t, w('Lauri', 336) + 0.9, (W / 2, 680), '?', anton(200), WHITE)
     txt(can, t, w('Schreibt', 336), (W / 2, 900), 'SCHREIBT ES IN DIE KOMMENTARE', bebas(70), CREAM); return can
 
-def s_sub(t, w0, w1):         # subscribe call
-    can = plain()
-    words(can, t, [('ABONNIERT', WHITE, w('abonniert')), ('CHRONIK DER MACHT', YEL, w('Chronik', 340))], 430, 110)
-    if t > w('abonniert'):
-        k = eout((t - w('abonniert') - 0.2) / 0.4); bw, bh = 520 * k, 120; L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-        d.rounded_rectangle((W / 2 - bw / 2, 600, W / 2 + bw / 2, 600 + bh), 60, fill=RED + (255,)); can.alpha_composite(L)
-        if k > 0.8: txt(can, t, w('abonniert') + 0.5, (W / 2, 660), 'ABONNIEREN', anton(70), WHITE, None, 0)
-        if t > w('abonniert') + 1.3:   # bell
-            kb = eout((t - w('abonniert') - 1.3) / 0.3); sw = 12 * math.sin((t - w('abonniert')) * 14) * (1 - clamp((t - w('abonniert') - 1.3) / 1.2))
-            B_ = Image.new('RGBA', (160, 160), (0, 0, 0, 0)); d = ImageDraw.Draw(B_)
-            d.pieslice((30, 22, 130, 122), 180, 360, fill=WHITE + (255,)); d.rectangle((30, 70, 130, 112), fill=WHITE + (255,)); d.rectangle((18, 108, 142, 122), fill=WHITE + (255,)); d.ellipse((66, 122, 94, 146), fill=WHITE + (255,))
-            B_ = B_.rotate(sw, resample=Image.BICUBIC); B_.putalpha(B_.getchannel('A').point(lambda v: int(v * kb))); can.alpha_composite(B_, (int(W / 2 + bw / 2 + 40), 580))
-    txt(can, t, w('nächste'), (W / 2, 860), 'DIE NÄCHSTE DOKUMENTATION WARTET', bebas(64), CREAM); return can
-
+sys.path.insert(0, B + '../logo'); sys.argv_ = list(sys.argv)
+import importlib.util as _iu
+_sp = _iu.spec_from_file_location('anim2', B + '../logo/anim2.py'); _an = _iu.module_from_spec(_sp); _sv = sys.argv; sys.argv = ['x', B + '../logo']; _sp.loader.exec_module(_an); sys.argv = _sv
+def s_sub(t, w0, w1):         # channel logo animation, starts with "abonniert Chronik der Macht"
+    return _an.frame(max(0.0, t - LOGO_T)).convert('RGBA')
 SCN = [(0.0, s_date), (3.25, s_heli), (6.6, s_thorne), (11.8, s_years), (15.75, s_three), (27.9, s_name),
        (33.3, s_born), (42.0, s_viipuri), (47.65, s_1938), (51.2, s_attack), (57.9, s_winter), (62.0, s_motti), (66.9, s_lt), (72.7, s_lost),
        (78.85, s_wien), (90.4, s_cont), (95.7, s_abt), (103.5, s_raid), (110.9, s_bounty), (117.7, s_ilom), (125.4, s_koiv), (132.9, s_mhk),
@@ -427,6 +435,9 @@ SCN = [(0.0, s_date), (3.25, s_heli), (6.6, s_thorne), (11.8, s_years), (15.75, 
        (200.2, s_nofut), (203.0, s_sea), (221.4, s_lodge), (231.0, s_rename), (239.2, s_sf), (245.8, s_iran), (250.1, s_zagros),
        (263.7, s_vn), (268.2, s_secret), (276.8, s_crash), (292.2, s_missing), (299.1, s_found), (305.9, s_arl),
        (317.1, s_outro3), (322.3, s_view), (331.0, s_story), (340.1, s_ask), (344.4, s_sub)]
+LOGO_T = w('abonniert', 340) - 0.25
+SCN = [((LOGO_T if fn is s_sub else (0.0 if s == 0 else M(s) - 0.05)), fn) for s, fn in SCN]
+T = LOGO_T + 6.0
 OV = 0.4
 SC = [(0 if i == 0 else s - OV, T if i == len(SCN) - 1 else SCN[i + 1][0] + OV, fn) for i, (s, fn) in enumerate(SCN)]
 def frame(t): return assemble(SC, t, T)
@@ -438,6 +449,6 @@ if __name__ == '__main__':
         P_.save(B + sys.argv[2], quality=85); sys.exit()
     a, b = float(sys.argv[2]), float(sys.argv[3])
     p = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '12M', '-maxrate', '16M', '-bufsize', '24M', '-preset', 'medium', B + sys.argv[1]], stdin=subprocess.PIPE)
+                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '8M', '-maxrate', '10M', '-bufsize', '16M', '-preset', 'medium', B + sys.argv[1]], stdin=subprocess.PIPE)
     for n in range(int(round(a * FPS)), int(round(b * FPS))): p.stdin.write(np.asarray(frame(n / FPS)).tobytes())
     p.stdin.close(); p.wait(); print('rc', p.returncode)

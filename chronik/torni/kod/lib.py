@@ -42,8 +42,9 @@ def crop(n, cx, cy, w, ow=W, oh=H):
 SPEED = 30.0   # screen px per second, always the same, always one direction
 def pan(n, t, w0, w1, d=1, cy=0.5, zoom=1.12):
     """landscape photo: fixed framing, slides horizontally at a constant speed for the whole time it is on screen"""
-    im = src(n); w = min(im.width, im.height * W / H) / zoom; sc = W / w
-    travel = min(SPEED * (w1 - w0) / sc, im.width - w); mid = im.width / 2
+    im = src(n); w = min(im.width, im.height * W / H) / zoom; sc = W / w; need = SPEED * (w1 - w0) / sc
+    if im.width - w < need * 0.6: w = max(im.width - need * 0.6, im.width / 1.35); sc = W / w; need = SPEED * (w1 - w0) / sc   # square/narrow photos: zoom in a little so they can still move
+    travel = min(need, im.width - w); mid = im.width / 2
     a, b = mid - d * travel / 2, mid + d * travel / 2
     u = clamp((t - w0) / (w1 - w0)); return crop(n, lerp(a, b, u), im.height * cy, w)
 @functools.lru_cache(None)
@@ -88,12 +89,15 @@ def typewriter(can, t, t0, xy, s, font, col=CREAM, step=0.07, t1=None):
     cur = '_' if n < len(s) and int(t * 4) % 2 == 0 else ''; x = xy[0] - font.getlength(s) / 2
     shadowed(can, lambda d: d.text((x, xy[1]), s[:n] + cur, font=font, fill=col + (int(255 * out),), anchor='lm'))
 def chapter(can, t, t0, num, title, t1):
-    """chapter card: small number line, title in Anton, thin yellow rule drawing out"""
-    if t < t0 or t > t1 + 0.4: return
-    out = 1 - clamp((t - t1) / 0.4)
-    txt(can, t, t0, (W / 2, 470), f'KAPITEL {num}', bebas(56), YEL, None, 10)
-    txt(can, t, t0 + 0.2, (W / 2, 560), title, anton(110), WHITE, None, 16)
-    k = eio((t - t0 - 0.3) / 0.6); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).line((W / 2 - 260 * k, 640, W / 2 + 260 * k, 640), fill=YEL + (int(255 * out),), width=4); can.alpha_composite(L)
+    """chapter card at the top of the frame; fades out on its own"""
+    if t < t0 or t > t1 + 0.5: return
+    out = 1 - clamp((t - t1) / 0.5)
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    txt(L, t, t0, (W / 2, 70), f'KAPITEL {num}', bebas(50), YEL, None, 8)
+    txt(L, t, t0 + 0.15, (W / 2, 140), title, anton(84), WHITE, None, 10)
+    k = eio((t - t0 - 0.3) / 0.6); ImageDraw.Draw(L).line((W / 2 - 220 * k, 200, W / 2 + 220 * k, 200), fill=YEL + (255,), width=4)
+    if out < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * out)))
+    can.alpha_composite(L)
 
 # ---------- maps ----------
 GJ = json.load(open(B + '../sch/ne50.geojson'))
