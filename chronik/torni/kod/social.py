@@ -123,7 +123,7 @@ def reel_overlay():
     L.save(OUT + 'reel_overlay.png')
 def reel_end(t):
     can = story_bg('t09', 0.36, lerp(1.05, 1.0, clamp(t / 4))); story_text(can)
-    ytlogo(can, SW / 2 - 230, 1450, 62); T(can, (SW / 2 + 70, 1454), 'GANZE DOKU AUF YOUTUBE', anton(56), WHITE)
+    ytlogo(can, SW / 2, 1400, 62); T(can, (SW / 2, 1510), 'GANZE DOKU AUF YOUTUBE', anton(62), WHITE)
     T(can, (SW / 2, 1600), 'LINK IN BIO', anton(90), YEL)
     if t > 3.5: can.alpha_composite(Image.new('RGBA', (SW, SH), (0, 0, 0, int(255 * clamp((t - 3.5) / 0.5)))))
     return can.convert('RGB')
