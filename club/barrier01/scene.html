@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-ext-700-normal.woff2);font-weight:700}
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-700-normal.woff2);font-weight:700;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F}
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-ext-500-normal.woff2);font-weight:500}
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-500-normal.woff2);font-weight:500;unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+html,body{margin:0;padding:0;background:#FAF6F0}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(#FBF8F3,#F3E8DD)}
+svg{position:absolute;inset:0}
+#cap{position:absolute;left:60px;width:960px;top:1215px;height:200px}
+.grp{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;align-items:baseline;text-align:center;font-family:QS;font-weight:700;line-height:1.16;font-size:66px;color:#3B2A22}
+.w{display:inline-block;margin:0 .12em;will-change:transform,opacity}
+.w.e{color:#744834;background:#F1E2D3;border-radius:.28em;padding:0 .14em;margin:0 .06em}
+#flash{position:absolute;inset:0;background:#FFFFFF;opacity:0;pointer-events:none}
+</style></head>
+<body><div id="stage">
+<svg id="ill" width="1080" height="1920" viewBox="0 0 1080 1920">
+ <defs>
+  <filter id="sh"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#744834" flood-opacity=".16"/></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="8"/></filter>
+  <radialGradient id="blush" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E0786A" stop-opacity=".75"/><stop offset="1" stop-color="#E0786A" stop-opacity="0"/></radialGradient>
+  <radialGradient id="glowB" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#F1E2D3" stop-opacity="1"/><stop offset="1" stop-color="#F1E2D3" stop-opacity="0"/></radialGradient>
+  <linearGradient id="phg" x1="0" x2="1"><stop offset="0" stop-color="#D9705F"/><stop offset=".35" stop-color="#E8B26A"/><stop offset=".5" stop-color="#C9C97A"/><stop offset=".7" stop-color="#7FA27B"/><stop offset="1" stop-color="#6E86B8"/></linearGradient>
+  <linearGradient id="film" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F3C9B8" stop-opacity=".2"/><stop offset=".5" stop-color="#F7D9C9" stop-opacity=".9"/><stop offset="1" stop-color="#F3C9B8" stop-opacity=".2"/></linearGradient>
+  <clipPath id="lensC"><circle r="170"/></clipPath>
+  <clipPath id="panelC"><rect x="-450" y="-430" width="900" height="860" rx="56"/></clipPath>
+  <clipPath id="bubC"><circle id="bubR" r="140"/></clipPath>
+ </defs>
+</svg>
+<div id="flash"></div>
+<div id="cap"></div>
+</div>
+<script src="../expert.js"></script>
+<script src="mouth.js"></script>
+<script src="../lib9.js"></script>
+<script src="align.js"></script>
+<script src="captions.js"></script>
+<script src="scenes.js"></script>
+</body></html>

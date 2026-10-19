@@ -12,3 +12,7 @@ wtc/*/frames_*/
 wtc/*/prev/
 wtc/*/contact*.jpg
 wtc/*/events_*.json
+club/*/frames_*/
+club/*/prev/
+club/*/events_*.json
+club/*/contact*.jpg
