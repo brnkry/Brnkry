@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-ext-700-normal.woff2);font-weight:700}
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-ext-500-normal.woff2);font-weight:500}
+@font-face{font-family:"QS";src:url(../../wtc/node_modules/@fontsource/quicksand/files/quicksand-latin-700-normal.woff2);font-weight:700;unicode-range:U+0000-00FF}
+html,body{margin:0;background:#FAF6F0}#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(#FBF8F3,#F1E7DC)}svg{position:absolute;inset:0}
+.cap{position:absolute;left:70px;right:70px;top:1210px;text-align:center;font-family:QS;font-weight:700;font-size:64px;line-height:1.15;color:#3B2A22}.cap b{color:#744834;background:#F1E2D3;padding:0 .18em;border-radius:.3em}
+</style></head><body><div id="stage"><svg id="ill" width="1080" height="1920" viewBox="0 0 1080 1920"><defs>
+<filter id="sh"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#744834" flood-opacity=".18"/></filter>
+<clipPath id="bub"><circle r="190"/></clipPath><clipPath id="panel"><rect x="-440" y="-420" width="880" height="840" rx="56"/></clipPath>
+</defs></svg><div class="cap" id="cap"></div></div>
+<script src="../expert.js"></script>
+<script>
+const NS="http://www.w3.org/2000/svg",svg=document.getElementById('ill');
+function el(t,a={},p=svg){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+const g=(p=svg,a={})=>el('g',a,p);const BR='#744834';
+const img=el('image',{href:'../brand/logo_wtc.png',x:450,y:70,width:180,height:180});
+const mode=new URLSearchParams(location.search).get('v')||'a';
+if(mode==='a'){
+ // intro: expert large, title card
+ const t=el('text',{x:540,y:400,'text-anchor':'middle','font-size':84,style:'font-family:QS;font-weight:700',fill:'#3B2A22'});t.textContent='CİLT BARİYERİ';
+ const t2=el('text',{x:540,y:480,'text-anchor':'middle','font-size':40,style:'font-family:QS;font-weight:500',fill:BR});t2.textContent='görünmez duvarın';
+ el('circle',{cx:540,cy:880,r:330,fill:'#F1E2D3'});
+ const eg=g(svg,{transform:'translate(540 900) scale(1.05)'});const ex=makeExpert(eg);ex.set({mouth:.35,smile:.7,browUp:.2,look:[0,0],hands:{L:{x:-190,y:330,shape:'fist'},R:{x:190,y:330,shape:'fist'}}});
+ document.getElementById('cap').innerHTML='Şu an yüzünde <b>görünmez</b> bir duvar var.';
+}else{
+ // explanation: skin cross-section panel + expert bubble
+ const P=g(svg,{transform:'translate(540 700)',filter:'url(#sh)'});el('rect',{x:-440,y:-420,width:880,height:840,rx:56,fill:'#FFFFFF'},P);const C=g(P,{'clip-path':'url(#panel)'});
+ el('rect',{x:-440,y:150,width:880,height:270,fill:'#F6E3BF'},C);for(let i=0;i<14;i++)el('ellipse',{cx:-400+(i%7)*130+(i>6?65:0),cy:i>6?350:230,rx:62,ry:52,fill:'#FBEFD6',stroke:'#E9CF9E','stroke-width':4},C);
+ el('rect',{x:-440,y:-120,width:880,height:270,fill:'#EFC2B4'},C);for(let i=0;i<6;i++)el('path',{d:`M-440 ${-90+i*42} q110 -26 220 0 t220 0 t220 0 t220 0`,fill:'none',stroke:'#E3A797','stroke-width':6},C);
+ el('rect',{x:-440,y:-300,width:880,height:180,fill:'#F4D2C2'},C);for(let r=0;r<3;r++)for(let i=0;i<9;i++)el('rect',{x:-450+i*104+(r%2?52:0),y:-286+r*56,width:96,height:48,rx:20,fill:'#F7DCCF',stroke:'#E9B9A6','stroke-width':3},C);
+ el('rect',{x:-440,y:-420,width:880,height:120,fill:BR},C);for(let r=0;r<3;r++)for(let i=0;i<8;i++)el('rect',{x:-450+i*118+(r%2?59:0),y:-414+r*38,width:110,height:30,rx:6,fill:'#F4E9DE'},C);
+ [['STRATUM KORNEUM',-360,'#FBF8F3'],['EPİDERMİS',-210,BR],['DERMİS',15,BR],['YAĞ DOKUSU',285,BR]].forEach(([s,y,c])=>{const pl=g(P,{transform:`translate(-400 ${y})`});const w=s.length*20+40;el('rect',{x:0,y:-26,width:w,height:52,rx:26,fill:c==='#FBF8F3'?'rgba(0,0,0,.18)':'rgba(255,255,255,.85)'},pl);const tx=el('text',{x:w/2,y:9,'text-anchor':'middle','font-size':26,style:'font-family:QS;font-weight:700',fill:c},pl);tx.textContent=s});
+ const B=g(svg,{transform:'translate(860 1610)'});el('circle',{r:200,fill:'#FBF8F3',filter:'url(#sh)'},B);el('circle',{r:190,fill:'#F1E2D3'},B);const bc=g(B,{'clip-path':'url(#bub)'});const ex=makeExpert(g(bc,{transform:'translate(0 120) scale(.62)'}));ex.set({mouth:.5,smile:.6,browUp:.3,look:[-.6,-.3],hands:{L:{x:-190,y:330,shape:'fist'},R:{x:190,y:330,shape:'fist'}}});
+ el('circle',{r:192,fill:'none',stroke:BR,'stroke-width':6},B);
+ document.getElementById('cap').innerHTML='Bariyerin asıl yeri en dıştaki <b>stratum korneum.</b>';
+}
+window.render=()=>{};window.__ready=document.fonts.ready.then(()=>true);
+</script></body></html>
