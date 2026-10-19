@@ -43,3 +43,16 @@ Facebook: #ZweiterWeltkrieg #Geschichte #Winterkrieg #Finnland #Militärgeschich
 
 ## Story
 Bild und Video, Link-Sticker unter den Pfeil "LINK ANTIPPEN" setzen.
+
+## Facebook Reel (vertikale Vollversion, 9:16)
+Ein Hubschrauber verschwindet 1965 über Vietnam. An Bord: Larry Thorne, Hauptmann der US Special Forces. In Finnland kannte man ihn als Lauri Törni.
+
+Er kämpfte im Winterkrieg gegen die Sowjetunion und erhielt das Mannerheim-Kreuz. Er ließ sich bei der Waffen-SS ausbilden, saß in Finnland wegen Landesverrats im Gefängnis und floh zweimal. Vor der Küste Alabamas sprang er von einem Frachter und schwamm an Land. Erst 1999 wurde die Absturzstelle gefunden, 2003 wurde er in Arlington beigesetzt.
+
+Wie seht ihr Lauri Törni? Schreibt es in die Kommentare!
+
+📸 Hinweis: Die historischen Originalaufnahmen in diesem Dokumentarfilm wurden von uns detailgetreu restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht oder entfernt.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
+
+#LauriTörni #LarryThorne #ZweiterWeltkrieg #Winterkrieg #Vietnamkrieg #Finnland #GreenBerets #Militärgeschichte #WahreGeschichte #Dokumentation
