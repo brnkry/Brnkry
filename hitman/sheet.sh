@@ -1,0 +1,3 @@
+#!/bin/bash
+# usage: sheet.sh out.jpg files...
+out=$1; shift; n=$#; ffmpeg -v error -y $(for f in "$@"; do echo -i $f; done) -filter_complex "$(for i in $(seq 0 $((n-1))); do echo -n "[$i]scale=360:-1[v$i];"; done)$(for i in $(seq 0 $((n-1))); do echo -n "[v$i]"; done)hstack=$n" $out
