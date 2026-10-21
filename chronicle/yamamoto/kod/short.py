@@ -8,7 +8,7 @@ TXT = open(B + 'code/script.txt').read().strip()
 ST = []; _i = 0
 for _s in re.split(r'(?<=[.!?])\s+', TXT): ST.append(WORDS[_i][1]); _i += len(_s.split())
 def w(word, k): return wt(word, ST[k])
-VEND = WORDS[-1][2]; T = VEND + 0.9
+VEND = WORDS[-1][2]; T = VEND + 0.75
 INK = (40, 32, 24)
 def caveat(z, wg=600):
     f = ImageFont.truetype(F + 'Caveat.ttf', z)
@@ -290,6 +290,7 @@ def s_sixmonths(t, w0, w1):
     for i, (dt, y) in enumerate((('DEC 7, 1941', 620), ('JUNE 4, 1942', 820))):
         t0 = w0 + 0.1 + i * 0.5; txt(can, t, t0, (CX, y), dt, oswald(84, 600), WHITE if i == 0 else YEL)
     if t > w0 + 0.35: lines(can, t, w0 + 0.35, [[(CX, 675), (CX, 760)]], 0.3, CREAM, 5)
+    txt(can, t, w('just', 9) - 0.05, (CX + 28, 718), '6 MONTHS', oswald(54, 600), CREAM, None, 8, 'lm', 0.3)   # his warning came true to the month
     return can
 RAB = Map(156.1, -7.3, 12.0)
 @functools.lru_cache(None)
@@ -317,27 +318,43 @@ def s_code(t, w0, w1):
         if t > t0: dot(can, p_[0], p_[1], col, 10, clamp((t - t0) / 0.2)); txt(can, t, t0, (p_[0] + off[0], p_[1] + off[1]), nm, oswald(48, 600), col, None, 10, 'mm', 0.3)
     if t > tg + 0.9: ring(can, t, tg + 0.9, bl[0], bl[1], RED, 40, False)
     return can
-def s_p38(t, w0, w1):
-    """s4-3: the moment he says P-38s, the name is painted big on the airfield grass, in perspective"""
-    can = grade(fit('s4-3', t, w0, w1, 1.08)); t0 = w('P-38s', 11) - 0.04
+def s_ontime(t, w0, w1):
+    """s4-3, his last morning: 'ON TIME' painted on the airfield grass in perspective, the moment he says it"""
+    can = grade(fit('s4-3', t, w0, w1, 1.08)); t0 = w('on', 11) - 0.04
     if t > t0:
         quad = [fitpt('s4-3', t, w0, w1, 1.08, *p) for p in GR]
-        on_quad(can, quad, 'P-38', 300, clamp((t - t0) / 0.06), (246, 244, 236), anton(300), eio((t - t0) / 0.25), 0.8, mod=0.55, op=0.95)
+        on_quad(can, quad, 'ON TIME', 300, clamp((t - t0) / 0.06), (246, 244, 236), anton(300), eio((t - t0) / 0.35), 0.8, mod=0.55, op=0.95)
+    shade(can, 200, 0.55); return can
+def side(n, sxa, sxb, t, w0, w1, z1=1.05):
+    """landscape photo at full height, the frame sliding from source x sxa to sxb; returns the canvas and a source to screen mapper"""
+    im = src(n); sc = H / im.height; u = prog(t, w0, w1); z = lerp(1.0, z1, u); vw, vh = W / (sc * z), H / (sc * z)
+    sx0 = lerp(sxa, sxb, u) + (W / sc - vw) / 2; sy0 = (im.height - vh) / 2
+    can = grade(im.resize((W, H), Image.BICUBIC, box=(sx0, sy0, sx0 + vw, sy0 + vh)).convert('RGBA'))
+    return can, lambda x, y: ((x - sx0) * sc * z, (y - sy0) * sc * z)
+def s_p38(t, w0, w1):
+    """s4-4, a real P-38: the name is written big into the clouds above it the moment he says P-38s"""
+    can, m = side('s4-4', 430, 470, t, w0, w1); t0 = w('P-38s', 12) - 0.04
+    if t > t0:
+        (x0, y0), (x1, y1) = m(650, 480), m(1230, 750)
+        on_quad(can, [(x0, y0), (x1, y0 + 20), (x1, y1 + 20), (x0, y1)], 'P-38', 300, clamp((t - t0) / 0.06), WHITE, anton(300), eio((t - t0) / 0.3), 1.2, op=0.95, glow=((10, 16, 30), 14, 0.7))
     shade(can, 200, 0.55); return can
 GR = ((800, 1560), (1300, 1560), (1345, 1900), (740, 1900))
-def s_sky(t, w0, w1):
-    """s4-6 framed on the sky and the plane; the two dates are written into the sky like smoke"""
-    im = src('s4-6'); sc = H / im.height; u = prog(t, w0, w1); z = lerp(1.0, 1.05, u); vw, vh = W / (sc * z), H / (sc * z)
-    sx0 = lerp(1130, 1200, u) + (W / sc - vw) / 2; sy0 = (im.height - vh) / 2
-    can = grade(im.resize((W, H), Image.BICUBIC, box=(sx0, sy0, sx0 + vw, sy0 + vh)).convert('RGBA'))
-    g = np.clip(1 - np.arange(H) / 1000, 0, 1) ** 1.5 * 90; top = Image.new('RGBA', (W, H), (14, 18, 30, 0)); top.putalpha(Image.fromarray(np.repeat(g[:, None], W, 1).astype(np.uint8))); can.alpha_composite(top)
-    k = 12
-    for s_, y, f, t0, col in (('April 18, 1943', 400, playfair(112, 700), ST[k] + 0.05, WHITE), ('ONE YEAR AFTER', 525, oswald(66, 600), w('one', k) - 0.05, YEL),
-                              ('April 18, 1942', 665, playfair(112, 700), w('Doolittle', k) - 0.08, WHITE), ('THE DOOLITTLE RAID', 790, oswald(66, 600), w('Raid', k) - 0.05, CREAM)):
+def s_end(t, w0, w1):
+    """s4-6 in one move: held on him for 'the one man who knew', then the camera swings to the sky, where the end of the war is written:
+    the date he never lived to see"""
+    ts = ST[14] - 0.35; u = eio((t - ts) / 0.7) if t > ts else 0.0
+    sxa = lerp(260, 300, prog(t, w0, ts)); sx = lerp(sxa, 1250, u)
+    can, m = side('s4-6', sx, sx, t, w0, w1, 1.04)
+    if u > 0.02:   # a little motion blur while the camera swings
+        sp = math.sin(math.pi * u)
+        if sp > 0.1: can = can.filter(ImageFilter.BoxBlur(int(10 * sp)))
+    g = np.clip(1 - np.arange(H) / 1000, 0, 1) ** 1.5 * 90 * u; top = Image.new('RGBA', (W, H), (14, 18, 30, 0)); top.putalpha(Image.fromarray(np.repeat(g[:, None], W, 1).astype(np.uint8))); can.alpha_composite(top)
+    for s_, y, f, t0, col in (('September 2, 1945', 450, playfair(100, 700), ST[14] + 0.2, WHITE), ('JAPAN SURRENDERS', 575, oswald(70, 600), w('live', 14) - 0.05, YEL)):
         if t <= t0: continue
         tw_ = f.getlength(s_); quad = [(CX - tw_ / 2 - 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y + f.size * 0.75), (CX - tw_ / 2 - 10, y + f.size * 0.75)]
-        on_quad(can, quad, s_, f.size, clamp((t - t0) / 0.06), col, f, eio((t - t0) / 0.55), 1.2, op=0.95, glow=((10, 14, 24), 12, 0.8))
+        on_quad(can, quad, s_, f.size, clamp((t - t0) / 0.06), col, f, eio((t - t0) / 0.5), 1.2, op=0.95, glow=((10, 14, 24), 12, 0.8))
     shade(can, 200, 0.55); return can
+
 # ---- title track: pops on its word, leaves when the next sentence starts ----
 def nxt(t0): n_ = [x for x in ST if x > t0 + 0.05]; return (n_[0] - 0.24) if n_ else None   # gone before the next picture fades in
 TR = [('date', 0.25, 'April 18, 1943', YT, 74, CREAM, w('sixteen', 0) - 0.15),
@@ -348,7 +365,9 @@ TR = [('date', 0.25, 'April 18, 1943', YT, 74, CREAM, w('sixteen', 0) - 0.15),
       ('date', w('strike', 8) - 0.1, 'December 7, 1941', YT, 74, CREAM, nxt(ST[8])), ('plate', w('Pearl', 8) - 0.15, 'PEARL HARBOR', 560, 110, None, nxt(ST[8])),
       ('date', ST[9], 'Midway, June 1942', YT, 74, CREAM, nxt(ST[9])), ('plate', w('four', 9) - 0.04, '4 CARRIERS LOST', 1150, 104, None, nxt(ST[9])),
       ('plate', w('codebreakers', 10) - 0.1, 'CODE CRACKED', 400, 100, None, nxt(ST[10])),
-      ('date', ST[11], 'Bougainville', YT, 74, CREAM, nxt(ST[11])), ('plate', w('shot', 11) - 0.1, 'SHOT DOWN', 1150, 120, None, nxt(ST[11]))]
+      ('date', ST[11], 'April 18, 1943', YT, 74, CREAM, nxt(ST[11])),
+      ('date', ST[12], 'Bougainville', YT, 74, CREAM, nxt(ST[12])), ('plate', w('down', 12) - 0.08, 'SHOT DOWN', 1150, 120, None, nxt(ST[12])),
+      ('plate', w('one', 13) - 0.05, 'THE ONE MAN WHO KNEW', 1150, 92, None, nxt(ST[13]))]
 def titles(can, t):
     for k, t0, s_, y, sz, col, t1 in TR:
         if t < t0 or (t1 is not None and t > t1 + 0.15): continue
@@ -369,10 +388,11 @@ ANCH = [
  (at(8), P('s1-1', 'fit', z1=1.08), ('fade',)), (at(8, 'and'), C(16.45, 19.4, None, 0.5, 1.08, 1.2), ('whip', 1)),   # one unbroken shot: the battleship row blows up on 'Pearl Harbor'
  (at(9), s_sixmonths, ('fade',)),
  (at(10), s_code, ('fade',)),
- (at(11), s_p38, ('whip', -1)), (at(11, 'and'), P('s4-5', 'pan', 1), ('fade',)),
- (at(12), s_sky, ('fade',))]
+ (at(11), s_ontime, ('whip', -1)),
+ (at(12), s_p38, ('whip', 1)), (at(12, 'and'), P('s4-5', 'pan', 1), ('fade',)),
+ (at(13), s_end, ('fade',))]
 DUR = {'fade': 0.2, 'whip': 0.34}
-CAPY += [(at(3), at(4), 1545), (at(7, 'and'), at(8), 1250), (at(11), at(11, 'and'), 960)]
+CAPY += [(at(3), at(4), 1545), (at(7, 'and'), at(8), 1250), (at(11), at(12), 960)]
 SC = []
 for i, (s0, fn, tr) in enumerate(ANCH):
     d_in = DUR[tr[0]] if tr else 0.0; nx = ANCH[i + 1] if i + 1 < len(ANCH) else None
