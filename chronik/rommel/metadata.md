@@ -29,7 +29,7 @@ Kapitel:
 6:45 Die Wahl
 7:48 Der Mythos
 
-Quellen (Auswahl): Rommel, Infanterie greift an (1937); Manfred Rommel, Bericht über den Tod seines Vaters; Dennis Showalter, Patton and Rommel; Peter Lieb, Krieg in Nordafrika; Haus der Geschichte Baden-Württemberg; Stadt Heidenheim, Denkmal und Minenopfer-Skulptur (2020).
+Quellen (Auswahl): Erwin Rommel, Infanterie greift an (1937); Deutsches Historisches Museum, LeMO: Erwin Rommel; Encyclopaedia Britannica: Erwin Rommel; HistoryNet: Rommel's Last Day; rommel-denkmal.de (Heidenheim, Minenopfer-Figur 2020).
 
 Alle Aufnahmen dienen der historischen Dokumentation. Symbole verbotener Organisationen sind unkenntlich gemacht.
 
