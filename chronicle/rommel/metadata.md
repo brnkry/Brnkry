@@ -38,3 +38,15 @@ Hitler sent two generals to his most famous field marshal with a choice: stand t
 He captured 9,000 men in the Alps, led the Ghost Division through France and became the Desert Fox in North Africa. Then he told Hitler the war was lost. This is how Erwin Rommel's story really ended.
 
 #ErwinRommel #DesertFox #WW2 #History #MilitaryHistory #WorldWar2 #ChronicleOfPower
+
+## Instagram (Reel, Chronicle of Power)
+Text:
+Hitler gave him a choice: stand trial, or take poison. ☠️
+
+Erwin Rommel captured 9,000 men in the Alps, led the Ghost Division through France and became the Desert Fox in North Africa, so feared that the British told their officers to stop saying his name.
+
+In 1944 he told Hitler the war was lost. On October 14, he got into the car and took the cyanide. Germany buried him as a hero.
+
+Follow @chronicleofpower for more stories from both World Wars. 🎖️
+
+#ErwinRommel #DesertFox #Rommel #WW2 #WorldWar2 #WWII #History #MilitaryHistory #HistoryFacts #AfrikaKorps #NorthAfrica #WW2History #HistoryBuff #HistoryLovers #ChronicleOfPower
