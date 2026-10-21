@@ -42,3 +42,13 @@ Chronicle of Power, history, history documentary, World War 2, World War II, WW2
 - People: Rommel, Patton, Montgomery, Zhukov, Yamamoto, Simo Häyhä, Audie Murphy, Red Baron, Lawrence of Arabia, Vasily Zaitsev, Erich Hartmann, Desmond Doss
 - Events: Gallipoli, Verdun, Somme, Christmas Truce 1914, Dunkirk, Stalingrad, Midway, Kursk, D-Day, Market Garden, Battle of the Bulge, Iwo Jima
 - Machines and myths: Tiger tank, Spitfire vs Bf 109, U-boats, Schwerer Gustav, kamikaze, "Desert Fox" myth
+
+## Lessons from the Yamamoto short (keep doing this)
+- Write key words inside the photo, shaped by the surface they sit on: on a jacket wrapped round the chest (cylinder + bow), stacked over the heart, grease pencil on a window, handwriting on paper, paint on grass in perspective, smoke-like writing in the sky. Boran liked this a lot.
+- One photo can carry two beats as one continuous camera move: hold on the person, then swing across the same photo to another part of it (Yamamoto: from him to the sky, where the end of the war is written). This is not photo reuse; it is one shot.
+- The ending must close the theme set up by the hook, not add a new fact that needs explaining (the Doolittle line confused viewers). Echo the hook ("to kill one man" / "the one man who knew").
+- Captions stay on in every short; move them out of the way of text written inside a photo instead of removing them.
+- Voice: shorten pauses but keep a little air (sentence breaks about 0.24 s, commas about 0.16 s).
+- Check word timing against the audio (fricative/voicing strip) before keying titles; the automatic alignment can be 0.3 s off.
+- Music bed must be at least as long as the video.
+- Covers: all text and the logo inside y 330..1450 and x 150..930.
