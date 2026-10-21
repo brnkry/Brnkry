@@ -58,3 +58,33 @@ Vom Monte Matajur über die Gespensterdivision bis zum Wüstenfuchs in Afrika: d
 Wie seht ihr Erwin Rommel? Schreibt es in die Kommentare.
 
 #ErwinRommel #Wüstenfuchs #ZweiterWeltkrieg #Geschichte #Doku #Weltkrieg #Afrikakorps #ChronikDerMacht
+
+## YouTube Community-Beitrag
+Bild: `social/YouTube_Post_Rommel.jpg` (1080x1080)
+
+Text:
+14. Oktober 1944: Zwei Generäle stehen vor Erwin Rommels Haus in Herrlingen. Sie bringen ihm eine Wahl: Prozess oder Gift.
+
+Offiziell stirbt der Wüstenfuchs an seinen Verwundungen und bekommt ein Staatsbegräbnis. Die Wahrheit kommt erst nach dem Krieg ans Licht.
+
+Unsere neue Doku erzählt sein ganzes Leben, vom Monte Matajur bis zum Mythos. Jetzt auf dem Kanal! 🎬
+
+Umfrage (optional): Wie seht ihr Erwin Rommel?
+- Genialer Feldherr
+- Mythos der Propaganda
+- Beides
+- Ich schaue erst das Video
+
+## Instagram Story
+Video: `social/Rommel_Insta_Story.mp4` (9:16). Link-Sticker auf das YouTube-Video setzen, Text auf dem Sticker: "Ganze Doku"
+
+## Instagram Reel
+Video: `social/Rommel_Insta_Reel.mp4` (9:16)
+
+Text:
+Zwei Generäle, eine Wahl: Prozess oder Gift. 🕯️
+Das Ende von Erwin Rommel war nicht so, wie man es den Deutschen erzählte.
+
+Die ganze Doku: Link in Bio 🔗
+
+#ErwinRommel #Wüstenfuchs #ZweiterWeltkrieg #Geschichte #Doku #Weltkrieg #Afrikakorps #Militärgeschichte #Zeitgeschichte #ChronikDerMacht

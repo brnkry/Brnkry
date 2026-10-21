@@ -105,9 +105,10 @@ def en_c():   # buried as a hero
     T(can, (VW / 2, 1360), 'BURIED AS A HERO', fitf(oswald, 'BURIED AS A HERO', 140, 900)); plate(can, (VW / 2, 1560), 'BUT IT WAS A LIE', oswald(88))
     save(can, 'EN_C_Buried_as_a_Hero.jpg')
 
-for f in (de_a, de_b, de_c, de_fb_a, de_fb_b, de_fb_c, en_a, en_b, en_c): f()
-# overview sheets
-ims = [Image.open(OUT + n) for n in ('DE_YT_A_Gift_oder_Prozess.jpg', 'DE_YT_B_Die_Luege.jpg', 'DE_YT_C_Held_oder_Mythos.jpg')]
-P = Image.new('RGB', (1920, 360)); [P.paste(im.resize((640, 360)), (i * 640, 0)) for i, im in enumerate(ims)]; P.save(OUT + '_overview_DE_YT.jpg', quality=85)
-ims = [Image.open(OUT + n) for n in sorted(os.listdir(OUT)) if n.startswith(('DE_FB', 'EN_'))]
-P = Image.new('RGB', (len(ims) * 300, 533)); [P.paste(im.resize((300, 533)), (i * 300, 0)) for i, im in enumerate(ims)]; P.save(OUT + '_overview_9x16.jpg', quality=85)
+if __name__ == '__main__':
+    for f in (de_a, de_b, de_c, de_fb_a, de_fb_b, de_fb_c, en_a, en_b, en_c): f()
+    # overview sheets
+    ims = [Image.open(OUT + n) for n in ('DE_YT_A_Gift_oder_Prozess.jpg', 'DE_YT_B_Die_Luege.jpg', 'DE_YT_C_Held_oder_Mythos.jpg')]
+    P = Image.new('RGB', (1920, 360)); [P.paste(im.resize((640, 360)), (i * 640, 0)) for i, im in enumerate(ims)]; P.save(OUT + '_overview_DE_YT.jpg', quality=85)
+    ims = [Image.open(OUT + n) for n in sorted(os.listdir(OUT)) if n.startswith(('DE_FB', 'EN_'))]
+    P = Image.new('RGB', (len(ims) * 300, 533)); [P.paste(im.resize((300, 533)), (i * 300, 0)) for i, im in enumerate(ims)]; P.save(OUT + '_overview_9x16.jpg', quality=85)
