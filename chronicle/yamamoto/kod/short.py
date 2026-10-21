@@ -76,11 +76,11 @@ def P(n, mode='pan', d=1, ov=None, grey=0.0, **kw):
 CLIPN = len([f for f in os.listdir(B + 'clip') if f.endswith('.jpg')])
 @functools.lru_cache(maxsize=6)
 def cframe(i): return Image.open(B + 'clip/f%05d.jpg' % max(1, min(CLIPN, i))).convert('RGB')
-def C(a, b, ov=None, cx=0.5, z1=1.06, speed=1.0):
+def C(a, b, ov=None, cx=0.5, z1=1.06, speed=1.0, z0=1.0, cy=0.5):
     def fn(t, w0, w1):
         rate = min(speed, (b - a) / max(0.1, w1 - w0)); s_ = min(a + (t - w0) * rate, b - 0.05)
-        im = cframe(int(s_ * FPS) + 1); z = lerp(1.0, z1, prog(t, w0, w1)); ch = 1080 / z; cw = ch * W / H
-        x0 = min(max(cx * 1920 - cw / 2, 0), 1920 - cw); y0 = (1080 - ch) / 2
+        im = cframe(int(s_ * FPS) + 1); z = lerp(z0, z1, prog(t, w0, w1)); ch = 1080 / z; cw = ch * W / H
+        x0 = min(max(cx * 1920 - cw / 2, 0), 1920 - cw); y0 = min(max(cy * 1080 - ch / 2, 0), 1080 - ch)
         can = grade(im.resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch)).convert('RGBA'), 0.25, 1.0); shade(can, 200, 0.55)
         if ov: ov(can, t, w0, w1)
         return can
@@ -127,8 +127,12 @@ def s_decoded(t, w0, w1):
     stampit(can, t, t0 + 1.2, 'DECODED', (CX + 150, 1010), 74, -9); return can
 def s_factories(t, w0, w1):
     can = grade(fit('s3-3', t, w0, w1, 1.1)); shade(can, 200, 0.55); return can
+def _smoke(t, w0, w1):
+    """Pearl Harbor smoke (clip 23.0 to 31.0) behind the Midway counter, dark and soft"""
+    s_ = lerp(23.0, 31.0, prog(t, w0, w1)); im = cframe(int(s_ * FPS) + 1); ch = 1080; cw = ch * W / H; x0 = 960 - cw / 2
+    can = grade(im.resize((W, H), Image.BICUBIC, box=(x0, 0, x0 + cw, ch)).convert('RGBA'), 0.25, 1.0).filter(ImageFilter.GaussianBlur(3)); dim(can, 165); return can
 def s_sixmonths(t, w0, w1):
-    can = plain(); k = 9; tc = w('carriers', k)
+    can = _smoke(t, w0, w1); k = 9; tc = w('carriers', k)
     for i, (dt, y) in enumerate((('DEC 7, 1941', 560), ('JUNE 4, 1942', 760))):
         t0 = w0 + 0.1 + i * 0.5; txt(can, t, t0, (CX, y), dt, oswald(84, 600), WHITE if i == 0 else YEL)
     if t > w0 + 0.35: lines(can, t, w0 + 0.35, [[(CX, 615), (CX, 700)]], 0.3, CREAM, 5)
@@ -197,17 +201,17 @@ def titles(can, t):
 
 def at(k, word=None): return (ST[k] if word is None else w(word, k)) - 0.12
 ANCH = [
- (0.0, P('s4-4', 'pan', 1)),
+ (0.0, C(0.4, 4.6, None, 0.55, 1.08)), (at(0, 'sixteen'), P('s4-4', 'pan', 1)),
  (at(1), P('s4-1', 'fit', z1=1.08)), (at(1, 'because'), s_decoded),
- (at(2), P('s1-1', 'fit', z1=1.1)), (at(2, 'who'), C(0.5, 9.8, None, 0.5, 1.05)),
+ (at(2), P('s1-1', 'fit', z1=1.1)), (at(2, 'who'), C(10.4, 15.2, None, 0.6, 1.32, 1.0, 1.25, 0.7)),
  (at(3), P('s3-5', 'fit', z1=1.08)),
  (at(4), P('s2-3', 'fit', z1=1.1)),
  (at(5), P('s2-5', 'fit', z1=1.08)), (at(5, 'Washington'), P('s2-1', 'fit', z1=1.08)),
  (at(6), s_factories),
  (at(7), P('s3-1', 'fit', z1=1.08)), (at(7, 'after'), P('s5', 'fit', z1=1.08)),
- (at(8), P('s1-2', 'fit', z1=1.08)), (at(8, 'strike'), C(17.2, 25.0, None, 0.5, 1.06, 1.0)),
+ (at(8), P('s1-2', 'fit', z1=1.08)), (at(8, 'and'), C(5.2, 9.9, None, 0.55, 1.06)), (at(8, 'Pearl'), C(17.0, 23.0, None, 0.5, 1.06, 1.0)),
  (at(9), s_sixmonths),
- (at(10), s_route),
+ (at(10), C(32.9, 34.9, None, 0.6, 1.1)), (at(10, 'cracked'), s_route),
  (at(11), P('s4-3', 'fit', z1=1.08)), (at(11, 'shot'), P('s4-5', 'pan', 1)),
  (at(12), s_calendar)]
 OV = 0.25
