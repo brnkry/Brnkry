@@ -125,6 +125,20 @@ def s_decoded(t, w0, w1):
     can = grade(dim(fit('s4-1', t, w0, w1, 1.06), 175)); t0 = w('decoded', 1) - 0.25
     doc_card(can, t, t0, [('INTERCEPTED SIGNAL', 40, INK), ('', 10, INK), ('C-IN-C COMBINED FLEET', 34, INK), ('18 APRIL', 34, INK), ('RABAUL 0600', 34, INK), ('BALLALE 0800', 34, INK)], 800, 700)
     stampit(can, t, t0 + 1.2, 'DECODED', (CX + 150, 1010), 74, -9); return can
+@functools.lru_cache(None)
+def _cut():
+    im = Image.open(B + 'img/cut_yamamoto.webp').convert('RGBA'); h = 1080; im = im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
+    g = np.ones(im.size[::-1], np.float32); g[-260:] = np.linspace(1, 0, 260)[:, None]          # soft fade at the bottom edge
+    im.putalpha(Image.fromarray((np.asarray(im.getchannel('A')) * g).astype(np.uint8))); return im
+def s_cutout(t, w0, w1):
+    """the name: archive film keeps running behind, the cut-out portrait large in the middle"""
+    can = C(2.3, 5.2, None, 0.55, 1.12, 1.0, 1.04)(t, w0, w1); dim(can, 70)
+    k = eout((t - w0 - 0.15) / 0.5); sc = lerp(0.92, 1.0, k) * lerp(1.0, 1.04, prog(t, w0, w1)); im = _cut()
+    im = im.resize((int(im.width * sc), int(im.height * sc)), Image.BICUBIC)
+    if k < 1: im.putalpha(im.getchannel('A').point(lambda v: int(v * k)))
+    x, y = int(CX - im.width / 2), int(1270 - im.height)
+    sh = Image.new('RGBA', can.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, int(190 * k)), (x + 12, y + 18), im.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(22)))
+    can.alpha_composite(im, (x, y)); return can
 def s_factories(t, w0, w1):
     can = grade(fit('s3-3', t, w0, w1, 1.1)); shade(can, 200, 0.55); return can
 def _smoke(t, w0, w1):
@@ -203,13 +217,13 @@ def at(k, word=None): return (ST[k] if word is None else w(word, k)) - 0.12
 ANCH = [
  (0.0, C(0.4, 4.6, None, 0.55, 1.08)), (at(0, 'sixteen'), P('s4-4', 'pan', 1)),
  (at(1), P('s4-1', 'fit', z1=1.08)), (at(1, 'because'), s_decoded),
- (at(2), P('s1-1', 'fit', z1=1.1)), (at(2, 'who'), C(10.4, 15.2, None, 0.6, 1.32, 1.0, 1.25, 0.7)),
+ (at(2), s_cutout), (at(2, 'who'), C(10.4, 15.2, None, 0.6, 1.32, 1.0, 1.25, 0.7)),
  (at(3), P('s3-5', 'fit', z1=1.08)),
  (at(4), P('s2-3', 'fit', z1=1.1)),
  (at(5), P('s2-5', 'fit', z1=1.08)), (at(5, 'Washington'), P('s2-1', 'fit', z1=1.08)),
  (at(6), s_factories),
  (at(7), P('s3-1', 'fit', z1=1.08)), (at(7, 'after'), P('s5', 'fit', z1=1.08)),
- (at(8), P('s1-2', 'fit', z1=1.08)), (at(8, 'and'), C(5.2, 9.9, None, 0.55, 1.06)), (at(8, 'Pearl'), C(17.0, 23.0, None, 0.5, 1.06, 1.0)),
+ (at(8), P('s1-1', 'fit', z1=1.08)), (at(8, 'and'), C(5.2, 9.9, None, 0.55, 1.06)), (at(8, 'Pearl'), C(17.0, 23.0, None, 0.5, 1.06, 1.0)),
  (at(9), s_sixmonths),
  (at(10), C(32.9, 34.9, None, 0.6, 1.1)), (at(10, 'cracked'), s_route),
  (at(11), P('s4-3', 'fit', z1=1.08)), (at(11, 'shot'), P('s4-5', 'pan', 1)),
