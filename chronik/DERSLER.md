@@ -45,3 +45,8 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - İsimler tam yazılır (Heinrich Lehmann-Willenbrock gibi).
 - Kanal açıklaması/etiketleri kanaldaki tüm içeriği kapsar, sadece birkaç asker türüyle sınırlanmaz.
 - Uzun tire yok. Övgü yok.
+
+## Render öncesi kontrol (zorunlu)
+- Render'dan ÖNCE her sahnenin önizlemesi alınır ve şunlar tek tek kontrol edilir: üst üste binen yazı (bölüm kartı ile tarih satırı dahil), ekran dışına taşan yazı, UI alanları (9:16), bulanıklaştırma yerleri.
+- Özellikle sahne geçişleri ve bölüm başları için ayrıca kare alınır (kart görünürken + kart kaybolurken).
+- Hata render bittikten sonra bulunursa bu bir süreç hatasıdır: önce önizleme, sonra render.
