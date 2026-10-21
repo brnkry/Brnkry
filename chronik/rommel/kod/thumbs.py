@@ -96,21 +96,23 @@ def de_fb_c():
     save(can, 'DE_FB_C_Held_oder_Mythos.jpg')
 
 # ---------------- English short 9:16, Chronicle of Power (no blur, sepia, Oswald) ----------------
-def en_a():   # Hitler and Rommel: the choice
-    can = Image.new('RGBA', (VW, VH), DARK + (255,)); h = raw('h01')
-    can.alpha_composite(look(cover(h, VW, 900, 0.5, 0.40, 1.0), 0.8, 0.12), (0, 0)); can.alpha_composite(look(cover(raw('r09'), VW, 1020, 0.5, 0.30, 1.0), 0.8, 0.12), (0, 900))
-    ImageDraw.Draw(can).line((0, 900, VW, 900), fill=YEL, width=10); grad(can, 250, 0.72, 120); cp(can, VW / 2 - 70, 120, 92)
-    T(can, (VW / 2, 1610), "HITLER'S CHOICE", fitf(oswald, "HITLER'S CHOICE", 150, 900)); plate(can, (VW / 2, 1790), 'TRIAL OR POISON', oswald(90))
+def en_a():   # Hitler and Rommel: the whole handshake in the middle band, text close to the centre (readable on a phone)
+    h = raw('h01'); bg = cover(h, VW, VH, 0.5, 0.5, 1.0).filter(ImageFilter.GaussianBlur(30)); can = look(bg, 0.6, 0.12)
+    can.alpha_composite(Image.new('RGBA', (VW, VH), (6, 7, 9, 150)))
+    band = look(cover(h, VW, 806, 0.5, 0.45, 1.0), 0.8, 0.12); can.alpha_composite(band, (0, 600))
+    d = ImageDraw.Draw(can); d.line((0, 600, VW, 600), fill=YEL, width=8); d.line((0, 1406, VW, 1406), fill=YEL, width=8)
+    cp(can, VW / 2 - 70, 300, 84)
+    T(can, (VW / 2, 500), "HITLER'S CHOICE", fitf(oswald, "HITLER'S CHOICE", 140, 960)); plate(can, (VW / 2, 1500), 'TRIAL OR POISON', oswald(96))
     save(can, 'EN_A_Hitlers_Choice.jpg')
 def en_b():   # the Desert Fox
     can = look(cover(raw('r07'), VW, VH, 0.5, 0.42, 1.0), 0.8, 0.12); grad(can, 245, 0.5, 120); cp(can, VW / 2 - 70, 120, 92)
-    T(can, (VW / 2, 1290), 'THE DESERT FOX', fitf(oswald, 'THE DESERT FOX', 150, 900), YEL); plate(can, (VW / 2, 1490), 'WHY HE TOOK POISON', oswald(84))
+    T(can, (VW / 2, 1130), 'THE DESERT FOX', fitf(oswald, 'THE DESERT FOX', 150, 900), YEL); plate(can, (VW / 2, 1320), 'WHY HE TOOK POISON', oswald(84))
     save(can, 'EN_B_Desert_Fox.jpg')
 def en_c():   # buried as a hero
     can = Image.new('RGBA', (VW, VH), DARK + (255,)); can.alpha_composite(look(cover(raw('r43'), VW, 1100, 0.45, 0.4, 1.0), 0.8, 0.12), (0, 0))
     can.alpha_composite(look(cover(raw('r29'), VW, 820, 0.45, 0.5, 1.0), 0.8, 0.12), (0, 1100)); ImageDraw.Draw(can).line((0, 1100, VW, 1100), fill=YEL, width=10)
     grad(can, 235, 0.5, 120); cp(can, VW / 2 - 70, 120, 92)
-    T(can, (VW / 2, 1360), 'BURIED AS A HERO', fitf(oswald, 'BURIED AS A HERO', 140, 900)); plate(can, (VW / 2, 1560), 'BUT IT WAS A LIE', oswald(88))
+    T(can, (VW / 2, 1180), 'BURIED AS A HERO', fitf(oswald, 'BURIED AS A HERO', 140, 900)); plate(can, (VW / 2, 1360), 'BUT IT WAS A LIE', oswald(88))
     save(can, 'EN_C_Buried_as_a_Hero.jpg')
 
 if __name__ == '__main__':
