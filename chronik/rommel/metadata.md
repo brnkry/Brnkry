@@ -88,3 +88,21 @@ Das Ende von Erwin Rommel war nicht so, wie man es den Deutschen erzählte.
 Die ganze Doku: Link in Bio 🔗
 
 #ErwinRommel #Wüstenfuchs #ZweiterWeltkrieg #Geschichte #Doku #Weltkrieg #Afrikakorps #Militärgeschichte #Zeitgeschichte #ChronikDerMacht
+
+## Facebook Reel (9:16 Vollversion, 9:11)
+Am 14. Oktober 1944 halten zwei Generäle vor einem Haus in Herrlingen bei Ulm. Wenig später ist Generalfeldmarschall Erwin Rommel tot.
+
+Offiziell stirbt er an den Folgen einer Verwundung und bekommt ein Staatsbegräbnis. Doch die beiden Generäle hatten ihm eine Wahl gebracht: ein Prozess vor dem Volksgerichtshof, mit Folgen für seine Familie, oder Gift. Vom Monte Matajur über die Gespensterdivision in Frankreich bis zum Wüstenfuchs in Nordafrika erzählen wir das Leben des Mannes, aus dem eine Legende wurde.
+
+Und wie viel vom Mythos Rommel stimmt? Auch das klären wir im Video.
+
+Wie seht ihr Erwin Rommel? Schreibt es in die Kommentare!
+
+📸 Hinweis: Die historischen Originalaufnahmen in diesem Dokumentarfilm wurden von uns detailgetreu restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht oder entfernt.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
+
+#ErwinRommel #Wüstenfuchs #ZweiterWeltkrieg #Afrikakorps #ElAlamein #Atlantikwall #Militärgeschichte #WahreGeschichte #Dokumentation #ChronikDerMacht
+
+Cover: thumbnails/DE_FB_A_Gift_oder_Prozess.jpg
+Untertitel: untertitel/captions.de_DE.srt, untertitel/captions.en_US.srt
