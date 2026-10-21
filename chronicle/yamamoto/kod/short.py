@@ -10,6 +10,11 @@ for _s in re.split(r'(?<=[.!?])\s+', TXT): ST.append(WORDS[_i][1]); _i += len(_s
 def w(word, k): return wt(word, ST[k])
 VEND = WORDS[-1][2]; T = VEND + 0.9
 INK = (40, 32, 24)
+def caveat(z, wg=600):
+    f = ImageFont.truetype(F + 'Caveat.ttf', z)
+    try: f.set_variation_by_axes([wg])
+    except Exception: pass
+    return f
 
 def prog(t, w0, w1): return clamp((t - w0) / (w1 - w0))
 def grade(can, warm=0.18, sat=0.75):
@@ -56,10 +61,13 @@ for a_, b_ in zip(WORDS, WORDS[1:]):
     if b_[1] - a_[2] > 0.1 or a_[0][-1] in '.,:?!' or len(_cur) >= 5: PHR.append(_cur); _cur = [b_]
     else: _cur.append(b_)
 PHR.append(_cur)
+CAPY = []   # (t0, t1, y): caption line moved out of the way of text written inside a photo
 def captions(can, t, y=1395):
+    for a_, b_, y_ in CAPY:
+        if a_ <= t < b_: y = y_
     ph = [p for p in PHR if p[0][1] - 0.05 <= t <= p[-1][2] + 0.25]
     if not ph: return
-    p = ph[-1]; ws = [x[0].upper() for x in p]; f = fitfont(lambda z: oswald(z, 600), ' '.join(ws), 64, 720); sp = f.getlength(' ')
+    p = ph[-1]; ws = [x[0].upper().replace('P-38S', 'P-38s') for x in p]; f = fitfont(lambda z: oswald(z, 600), ' '.join(ws), 64, 720); sp = f.getlength(' ')
     tot = sum(f.getlength(s) for s in ws) + sp * (len(ws) - 1); x = CX - tot / 2
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
     nxt = [x[1] for x in p[1:]] + [p[-1][2] + 0.25]
@@ -131,9 +139,34 @@ def fitpt(n, t, w0, w1, z1, sx, sy):
     im = src(n); z = lerp(1.0, z1, clamp((t - w0) / (w1 - w0))); pw = im.width * H / im.height
     cw, ch = im.width / z, im.height / z; x0 = (W - pw) / 2
     return (x0 + (sx - (im.width / 2 - cw / 2)) * pw / cw, (sy - (im.height / 2 - ch / 2)) * H / ch)
-def ink_text(s_, size, col):
-    f = oswald(size); w_ = int(f.getlength(s_)) + 20; L = Image.new('L', (w_, int(size * 1.5)), 0)
-    ImageDraw.Draw(L).text((10, size * 0.75), s_, font=f, fill=255, anchor='lm'); return np.asarray(L).astype(np.float32) / 255
+def ink_text(s_, size, col, font=None, reveal=1.0):
+    f = font or oswald(size); w_ = int(f.getlength(s_)) + 20; L = Image.new('L', (w_, int(size * 1.5)), 0)
+    ImageDraw.Draw(L).text((10, size * 0.75), s_, font=f, fill=255, anchor='lm'); A = np.asarray(L).astype(np.float32) / 255
+    if reveal < 1:   # written left to right: soft pen edge
+        A = A * np.clip((reveal * (w_ + 40) - np.arange(w_) ) / 40, 0, 1)[None, :]
+    return A
+def _lum(can, box, big=40):
+    """local brightness of the photo under the text, relative to its surroundings (folds, grass blades, glass)"""
+    g = can.crop(box).convert('L'); a = np.asarray(g, np.float32); m = np.asarray(g.filter(ImageFilter.GaussianBlur(big)), np.float32)
+    return a / np.maximum(m, 8)
+def on_cyl(can, ax, cy, R, th_c, s_, font, col, a, tilt=0.0, bow=0.0, mod=0.5, blur=0.7, reveal=1.0):
+    """write s_ on a cylinder standing upright in the photo (a chest, a sleeve): axis at screen x ax, radius R; text centred at angle th_c and height cy.
+    tilt (radians) leans the cylinder with the body, bow bends the lines like a rounded chest seen from above"""
+    if a <= 0.01: return
+    A = ink_text(s_, font.size, col, font, reveal); h_, w_ = A.shape
+    xs = [ax + R * math.sin(th_c + d) for d in (-w_ / R * 0.62, w_ / R * 0.62)]
+    x0, x1 = int(max(0, min(xs) - h_)), int(min(W, max(xs) + h_)); y0, y1 = int(max(0, cy - h_ * 1.6)), int(min(H, cy + h_ * 1.6))
+    if x1 <= x0 or y1 <= y0: return
+    yy, xx = np.mgrid[y0:y1, x0:x1].astype(np.float32); ct, st_ = math.cos(tilt), math.sin(tilt)
+    rx = (xx - ax) * ct + (yy - cy) * st_; ry = -(xx - ax) * st_ + (yy - cy) * ct
+    th = np.arcsin(np.clip(rx / R, -1, 1)); ok = np.abs(rx / R) < 0.995
+    u = (th - th_c) * R + w_ / 2; v = ry - bow * R * (1 - np.cos(th)) + h_ / 2
+    al = map_coordinates(A, [v, u], order=1, cval=0) * ok * np.clip(np.cos(th) * 1.6, 0, 1) * a
+    lum = np.clip(_lum(can, (x0, y0, x1, y1)), 0.4, 1.6); sh = np.clip(1 - mod + mod * lum, 0.3, 1.4)[..., None]
+    rgb = np.clip(np.array(col, np.float32)[None, None] * sh, 0, 255)
+    L = Image.fromarray(np.dstack([rgb, al[..., None] * 255]).astype(np.uint8), 'RGBA')
+    if blur: L = L.filter(ImageFilter.GaussianBlur(blur))
+    can.alpha_composite(L, (x0, y0))
 def on_globe(can, cx, cy, r, s_, size, th_c, ph_c, a, col=(28, 38, 70)):
     """write s_ on a sphere (centre cx, cy, radius r on screen) around longitude th_c, latitude ph_c (radians)"""
     if a <= 0.01: return
@@ -151,27 +184,36 @@ def _coeffs(dst, src_):
     M = []
     for (x, y), (X, Y) in zip(dst, src_): M += [[x, y, 1, 0, 0, 0, -X * x, -X * y], [0, 0, 0, x, y, 1, -Y * x, -Y * y]]
     return np.linalg.solve(np.array(M, float), np.array([c for p in src_ for c in p], float)).tolist()
-def on_quad(can, quad, s_, size, a, col=(30, 32, 60)):
-    """write s_ into a screen quad (TL, TR, BR, BL), like ink on paper"""
+def on_quad(can, quad, s_, size, a, col=(30, 32, 60), font=None, reveal=1.0, blur=0.0, mod=0.0, op=0.88, glow=None):
+    """write s_ into a screen quad (TL, TR, BR, BL), like ink on paper, paint on grass, marker on glass"""
     if a <= 0.01: return
-    A = ink_text(s_, size, col); h_, w_ = A.shape; T_ = Image.fromarray((A * 255 * a * 0.88).astype(np.uint8))
+    A = ink_text(s_, size, col, font, reveal); h_, w_ = A.shape; T_ = Image.fromarray((A * 255 * a * op).astype(np.uint8))
     co = _coeffs(quad, [(0, 0), (w_, 0), (w_, h_), (0, h_)])
-    M_ = T_.transform((W, H), Image.PERSPECTIVE, co, Image.BICUBIC); L = Image.new('RGBA', (W, H), col + (0,)); L.putalpha(M_); can.alpha_composite(L)
+    M_ = T_.transform((W, H), Image.PERSPECTIVE, co, Image.BICUBIC)
+    if blur: M_ = M_.filter(ImageFilter.GaussianBlur(blur))
+    if glow:   # soft dark halo so pale ink reads on a pale surface
+        G = Image.new('RGBA', (W, H), glow[0] + (0,)); G.putalpha(M_.filter(ImageFilter.GaussianBlur(glow[1])).point(lambda v: int(v * glow[2]))); can.alpha_composite(G)
+    if mod:
+        bx = M_.getbbox()
+        if not bx: return
+        lum = np.clip(_lum(can, bx, 25), 0.3, 1.8); al = np.asarray(M_.crop(bx), np.float32) * np.clip(1 - mod + mod * lum, 0, 1.2)
+        L = Image.new('RGBA', (bx[2] - bx[0], bx[3] - bx[1]), col + (0,)); L.putalpha(Image.fromarray(np.clip(al, 0, 255).astype(np.uint8))); can.alpha_composite(L, bx[:2]); return
+    L = Image.new('RGBA', (W, H), col + (0,)); L.putalpha(M_); can.alpha_composite(L)
 
 # ---- shots ----
-PLANE = [(0.4, (500, 1000)), (1.0, (550, 1050)), (1.3, (575, 1060)), (1.6, (610, 1140)), (1.9, (640, 1190)), (2.2, (675, 1250)), (2.5, (750, 1340)), (2.8, (775, 1440)), (3.1, (825, 1560))]
 def s_intro(t, w0, w1):
-    """opening film runs through the whole first sentence; '16 FIGHTERS' rides above the plane until it leaves the frame"""
-    can = C(0.4, 6.9, None, 0.55, 1.0, 1.0, 1.0)(t, w0, w1); cs = 0.4 + t
-    ts = w('sixteen', 0); te = w('kill', 0) - 0.05
-    if ts <= t <= te + 0.15:
-        c_ = min(cs, 3.05); xs = [p[0] for p in PLANE]
-        px = float(np.interp(c_, xs, [p[1][0] for p in PLANE])); py = float(np.interp(c_, xs, [p[1][1] for p in PLANE]))
-        plate(can, t, ts, '16 FIGHTERS', py - 190, 92, te, x=min(px - 140, 600))
+    """opening film runs through the whole first sentence; '16 FIGHTERS' stands still above the planes' path"""
+    can = C(0.4, 6.9, None, 0.55, 1.0, 1.0, 1.0)(t, w0, w1)
+    plate(can, t, w('sixteen', 0) - 0.05, '16 FIGHTERS', 760, 96, w('kill', 0) - 0.05)
     return can
 def s_one(t, w0, w1):
     """s4-1 runs through sentence 1 without a cut; the intercepted signal is laid over it, fast but complete"""
     can = grade(fit('s4-1', t, w0, w1, 1.1)); shade(can, 200, 0.55); t0 = w('because', 1) - 0.4
+    tw = w('one', 0) - 0.03
+    if t > tw:   # painted on his dark jacket, wrapped round the chest like the cloth
+        q = lambda x, y: fitpt('s4-1', t, w0, w1, 1.1, x, y); (ax, cy), (bx, _) = q(*JK['axis']), q(JK['axis'][0] + JK['R'], JK['axis'][1])
+        on_cyl(can, ax, cy, bx - ax, JK['th'], 'ONE TARGET', oswald(int(JK['size'] * (bx - ax) / JK['R0'])), (214, 204, 178), clamp((t - tw) / 0.1),
+               JK['tilt'], JK['bow'], 0.55, 0.8, eio((t - tw) / 0.3))
     if t > t0: dim(can, 125 * clamp((t - t0) / 0.3))
     if t > t0:
         k = eout((t - t0) / 0.2); rows = [('INTERCEPTED SIGNAL', 40), ('', 10), ('C-IN-C COMBINED FLEET', 34), ('18 APRIL', 34), ('RABAUL 0600', 34), ('BALLALE 0800', 34)]
@@ -192,6 +234,7 @@ def _cut():
     im = Image.open(B + 'img/cut_yamamoto.webp').convert('RGBA'); h = 1080; im = im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
     g = np.ones(im.size[::-1], np.float32); g[-260:] = np.linspace(1, 0, 260)[:, None]
     im.putalpha(Image.fromarray((np.asarray(im.getchannel('A')) * g).astype(np.uint8))); return im
+JK = dict(axis=(880, 1100), R=470, R0=600, th=0.26, size=132, tilt=-0.08, bow=0.4)
 def s_cutout(t, w0, w1):
     """the name: archive film keeps running behind, the cut-out portrait large in the middle"""
     can = C(2.3, 5.2, None, 0.55, 1.12, 1.0, 1.04)(t, w0, w1); dim(can, 70)
@@ -208,15 +251,36 @@ def s_globe(t, w0, w1):
     vw, vh = W / (sc * z), H / (sc * z); sx0 = ax / sc - (ax / sc) / z; sy0 = (ay / sc) - (ay / sc) / z
     can = grade(im.resize((W, H), Image.BICUBIC, box=(sx0, sy0, sx0 + vw, sy0 + vh)).convert('RGBA')); k = 7
     cx, cy, r = (166 - sx0) * sc * z, (700 - sy0) * sc * z, 492 * sc * z
-    on_globe(can, cx, cy, r, 'SIX MONTHS', 96, 0.36, -0.22, clamp((t - w('six', k) + 0.05) / 0.12))
-    on_globe(can, cx, cy, r, 'MAYBE A YEAR', 80, 0.36, 0.02, clamp((t - w('year', k) + 0.15) / 0.12))
+    on_globe(can, cx, cy, r, 'SIX MONTHS', 96, 0.36, -0.22, clamp((t - w('six', k) + 0.04) / 0.08))
+    on_globe(can, cx, cy, r, 'MAYBE A YEAR', 80, 0.36, 0.02, clamp((t - w('maybe', k) + 0.04) / 0.08))
     shade(can, 200, 0.55); return can
 def s_paper(t, w0, w1):
     """'no confidence' written on the paper under his hand, readable for us"""
     can = grade(fit('s5', t, w0, w1, 1.06)); k = 7
-    q = [fitpt('s5', t, w0, w1, 1.06, *p) for p in ((845, 1792), (1330, 1815), (1345, 1885), (850, 1893))]
-    on_quad(can, q, 'NO CONFIDENCE', 90, clamp((t - w('no', k) + 0.05) / 0.12))
+    q = [fitpt('s5', t, w0, w1, 1.06, *p) for p in ((795, 1755), (1290, 1780), (1310, 1900), (805, 1912))]
+    t0 = w('no', k) - 0.04   # handwritten in ink, the pen running left to right while he says it
+    on_quad(can, q, 'no confidence.', 120, clamp((t - t0) / 0.05), (24, 28, 58), caveat(120, 650), eio((t - t0) / 0.75), 0.6, op=0.92)
     shade(can, 170, 0.62); return can
+def s_heart(t, w0, w1):
+    """s3-5: the words stacked over his heart, following the round of the white jacket"""
+    can = grade(fit('s3-5', t, w0, w1, 1.08)); t0 = w('never', 3) - 0.08
+    q = lambda x, y: fitpt('s3-5', t, w0, w1, 1.08, x, y)
+    for i, (ln, y) in enumerate(HT['lines']):
+        tl = t0 + i * 0.22
+        if t <= tl: continue
+        (ax, cy), (bx, _) = q(HT['ax'], y), q(HT['ax'] + HT['R'], y); r = bx - ax
+        on_cyl(can, ax, cy, r, HT['th'], ln, oswald(int(HT['size'] * r / HT['R0']), 700), (34, 30, 44), clamp((t - tl) / 0.1), HT['tilt'], HT['bow'], 0.6, 0.8, eio((t - tl) / 0.25))
+    shade(can, 200, 0.55); return can
+HT = dict(ax=830, R=900, R0=900 * 0.8, th=0.34, size=70, tilt=0.0, bow=0.12, lines=(('HE NEVER', 1560), ('WANTED', 1665), ('THIS WAR', 1770)))
+def s_glass(t, w0, w1):
+    """s3-3: what he saw with his own eyes, written on the bridge window he looks through"""
+    can = grade(fit('s3-3', t, w0, w1, 1.1)); k = 6
+    for s_, t0, (x0, y0, x1, y1) in (('FACTORIES', w('factories', k) - 0.04, GL[0]), ('OIL FIELDS', w('oil', k) - 0.04, GL[1])):
+        if t <= t0: continue
+        quad = [fitpt('s3-3', t, w0, w1, 1.1, *p) for p in ((x0, y0), (x1, y0), (x1, y1), (x0, y1))]
+        on_quad(can, quad, s_, 120, clamp((t - t0) / 0.06), (26, 30, 44), oswald(120, 600), eio((t - t0) / 0.35), 0.9, mod=0.35, op=0.8)   # grease pencil on the bridge glass
+    shade(can, 200, 0.55); return can
+GL = ((500, 470, 930, 600), (530, 630, 900, 750))
 def _smoke(t, w0, w1):
     """Pearl Harbor smoke (clip 23.0 to 31.0) behind the Midway dates, dark and soft"""
     s_ = lerp(23.0, 31.0, prog(t, w0, w1)); im = cframe(int(s_ * FPS) + 1); ch = 1080; cw = ch * W / H; x0 = 960 - cw / 2
@@ -229,58 +293,62 @@ def s_sixmonths(t, w0, w1):
     return can
 RAB = Map(156.1, -7.3, 12.0)
 @functools.lru_cache(None)
-def _mapcard():
-    return grade(RAB.frame(1.0), 0.15, 1.0).crop((60, 520, 1020, 1290))
+def _maplayer():
+    """the islands as a see-through layer: light fill, bright coastline, nothing else"""
+    k = 2; L = Image.new('RGBA', (W * k, H * k), (0, 0, 0, 0)); d = ImageDraw.Draw(L); span = W / RAB.sc; lon0, lon1 = RAB.c[0] - span, RAB.c[0] + span
+    for nm, xs, ys, a, b_, c, e in ALLP:
+        if b_ < lon0 - 5 or a > lon1 + 5: continue
+        pts = [(((x - RAB.c[0]) * RAB.sc + W / 2) * k, (H / 2 - (y - RAB.c[1]) * RAB.sc) * k) for x, y in zip(xs, ys)]
+        if len(pts) >= 3: d.polygon(pts, fill=CREAM + (70,)); d.line(pts + [pts[0]], fill=CREAM + (230,), width=5)
+    L = L.resize((W, H), Image.LANCZOS); sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.paste((0, 0, 0, 150), (0, 0), L.getchannel('A'))
+    out = sh.filter(ImageFilter.GaussianBlur(8)); out.alpha_composite(L); return out
 def s_code(t, w0, w1):
-    """the flag film keeps running; the route map comes in as a card at the start of the sentence and finishes its animation"""
-    can = C(32.9, 34.9, None, 0.6, 1.1)(t, w0, w1); dim(can, 90); ts = ST[10] + 0.05
-    k = eout((t - ts) / 0.3)
+    """the flag film keeps running; the islands and both routes are drawn straight over it, see-through"""
+    can = C(32.9, 34.9, None, 0.6, 1.1)(t, w0, w1); ts = ST[10] + 0.05; k = eout((t - ts) / 0.4)
+    dim(can, 70 + 60 * k)
     if k <= 0: return can
-    card = _mapcard().copy(); ox, oy = 60, 520
-    def P_(lon, lat): q = RAB.p(lon, lat); return (q[0] - ox, q[1] - oy)
-    rb, bl, gc = P_(152.2, -4.2), P_(155.88, -6.87), P_(160.0, -9.43)
-    for p_, nm, col, off in ((rb, 'RABAUL', WHITE, (0, -46)), (bl, 'BALLALE', YEL, (-20, 44)), (gc, 'GUADALCANAL', CREAM, (-150, -44))):
-        d = ImageDraw.Draw(card); d.ellipse((p_[0] - 10, p_[1] - 10, p_[0] + 10, p_[1] + 10), fill=col + (255,)); d.text((p_[0] + off[0], p_[1] + off[1]), nm, font=oswald(44, 600), fill=col + (255,), anchor='mm')
-    def dash(pts, u, col):
-        if u <= 0: return
-        d = ImageDraw.Draw(card); (ax, ay), (bx, by) = pts; L_ = math.dist(pts[0], pts[1]); n = int(L_ / 22)
-        for i in range(int(n * u)):
-            if i % 2 == 0: d.line((lerp(ax, bx, i / n), lerp(ay, by, i / n), lerp(ax, bx, (i + 1) / n), lerp(ay, by, (i + 1) / n)), fill=col + (255,), width=7)
-    dash((rb, bl), eio((t - ts - 0.3) / 0.9), YEL)
-    tg = ts + 1.3; dash((gc, (lerp(gc[0], bl[0], 0.9), lerp(gc[1], bl[1], 0.9))), eio((t - tg) / 0.9), RED)
-    if t > tg + 0.9: d = ImageDraw.Draw(card); d.ellipse((bl[0] - 34, bl[1] - 34, bl[0] + 34, bl[1] + 34), outline=RED + (255,), width=6)
-    bord = Image.new('RGBA', (card.width + 16, card.height + 16), CREAM + (255,)); bord.alpha_composite(card, (8, 8))
-    sc = lerp(0.9, 1.0, k); bord = bord.resize((int(bord.width * sc), int(bord.height * sc)), Image.BICUBIC)
-    if k < 1: bord.putalpha(bord.getchannel('A').point(lambda v: int(v * k)))
-    x, y = int(CX - bord.width / 2), int(900 - bord.height / 2)
-    sh = Image.new('RGBA', can.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, int(170 * k)), (x + 14, y + 20), bord.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)))
-    can.alpha_composite(bord, (x, y)); return can
-def s_calendar(t, w0, w1):
-    can = grade(dim(pan('s4-6', t, w0, w1, 1), 170)); k = 12
-    for i, (yr, t0) in enumerate((('1942', w('Doolittle', k) - 0.3), ('1943', w('Doolittle', k) + 0.9))):
-        if t < t0: continue
-        u = eout((t - t0) / 0.3); x = CX - 190 + i * 380; y = 760 + (1 - u) * 60
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); a = int(255 * u)
-        d.rectangle((x - 160, y - 190, x + 160, y + 190), fill=(236, 230, 214, a)); d.rectangle((x - 160, y - 190, x + 160, y - 110), fill=RED + (a,))
-        d.text((x, y - 150), 'APRIL', font=oswald(56), fill=WHITE + (a,), anchor='mm'); d.text((x, y + 10), '18', font=oswald(170), fill=INK + (a,), anchor='mm')
-        d.text((x, y + 140), yr, font=oswald(56, 600), fill=INK + (a,), anchor='mm')
-        sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.paste((0, 0, 0, int(150 * u)), (0, 0), L.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(14)), (8, 14)); can.alpha_composite(L)
+    lay = _maplayer()
+    if k < 1: lay = lay.copy(); lay.putalpha(lay.getchannel('A').point(lambda v: int(v * k)))
+    can.alpha_composite(lay)
+    rb, bl, gc = RAB.p(152.2, -4.2), RAB.p(155.88, -6.87), RAB.p(160.0, -9.43)
+    dashed(can, [rb, bl], eio((t - ts - 0.3) / 0.9), YEL, 8, 24, 0)
+    tg = ts + 1.3; dashed(can, [gc, (lerp(gc[0], bl[0], 0.9), lerp(gc[1], bl[1], 0.9))], eio((t - tg) / 0.9), RED, 8, 24, 0)
+    for p_, nm, col, off, t0 in ((rb, 'RABAUL', WHITE, (60, -40), ts + 0.15), (bl, 'BALLALE', YEL, (-30, 56), ts + 0.6), (gc, 'GUADALCANAL', CREAM, (-130, -52), tg)):
+        if t > t0: dot(can, p_[0], p_[1], col, 10, clamp((t - t0) / 0.2)); txt(can, t, t0, (p_[0] + off[0], p_[1] + off[1]), nm, oswald(48, 600), col, None, 10, 'mm', 0.3)
+    if t > tg + 0.9: ring(can, t, tg + 0.9, bl[0], bl[1], RED, 40, False)
     return can
-
+def s_p38(t, w0, w1):
+    """s4-3: the moment he says P-38s, the name is painted big on the airfield grass, in perspective"""
+    can = grade(fit('s4-3', t, w0, w1, 1.08)); t0 = w('P-38s', 11) - 0.04
+    if t > t0:
+        quad = [fitpt('s4-3', t, w0, w1, 1.08, *p) for p in GR]
+        on_quad(can, quad, 'P-38', 300, clamp((t - t0) / 0.06), (246, 244, 236), anton(300), eio((t - t0) / 0.25), 0.8, mod=0.55, op=0.95)
+    shade(can, 200, 0.55); return can
+GR = ((800, 1560), (1300, 1560), (1345, 1900), (740, 1900))
+def s_sky(t, w0, w1):
+    """s4-6 framed on the sky and the plane; the two dates are written into the sky like smoke"""
+    im = src('s4-6'); sc = H / im.height; u = prog(t, w0, w1); z = lerp(1.0, 1.05, u); vw, vh = W / (sc * z), H / (sc * z)
+    sx0 = lerp(1130, 1200, u) + (W / sc - vw) / 2; sy0 = (im.height - vh) / 2
+    can = grade(im.resize((W, H), Image.BICUBIC, box=(sx0, sy0, sx0 + vw, sy0 + vh)).convert('RGBA'))
+    g = np.clip(1 - np.arange(H) / 1000, 0, 1) ** 1.5 * 90; top = Image.new('RGBA', (W, H), (14, 18, 30, 0)); top.putalpha(Image.fromarray(np.repeat(g[:, None], W, 1).astype(np.uint8))); can.alpha_composite(top)
+    k = 12
+    for s_, y, f, t0, col in (('April 18, 1943', 400, playfair(112, 700), ST[k] + 0.05, WHITE), ('ONE YEAR AFTER', 525, oswald(66, 600), w('one', k) - 0.05, YEL),
+                              ('April 18, 1942', 665, playfair(112, 700), w('Doolittle', k) - 0.08, WHITE), ('THE DOOLITTLE RAID', 790, oswald(66, 600), w('Raid', k) - 0.05, CREAM)):
+        if t <= t0: continue
+        tw_ = f.getlength(s_); quad = [(CX - tw_ / 2 - 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y + f.size * 0.75), (CX - tw_ / 2 - 10, y + f.size * 0.75)]
+        on_quad(can, quad, s_, f.size, clamp((t - t0) / 0.06), col, f, eio((t - t0) / 0.55), 1.2, op=0.95, glow=((10, 14, 24), 12, 0.8))
+    shade(can, 200, 0.55); return can
 # ---- title track: pops on its word, leaves when the next sentence starts ----
 def nxt(t0): n_ = [x for x in ST if x > t0 + 0.05]; return (n_[0] - 0.24) if n_ else None   # gone before the next picture fades in
 TR = [('date', 0.25, 'April 18, 1943', YT, 74, CREAM, w('sixteen', 0) - 0.15),
-      ('plate', w('one', 0) + 0.12, 'ONE TARGET', 1150, 110, None, w('knew', 1)),
       ('plate', w('Isoroku', 2) - 0.1, 'ISOROKU YAMAMOTO', 1150, 96, None, w('who', 2) - 0.12),
       ('plate', w('Pearl', 2) - 0.22, 'PEARL HARBOR', 520, 110, None, nxt(w('Pearl', 2))),
-      ('plate', w('never', 3) - 0.1, 'HE NEVER WANTED THIS WAR', 1150, 84, None, nxt(w('never', 3))),
       ('date', ST[4], 'Tsushima, 1905', 1010, 74, CREAM, nxt(ST[4])), ('plate', w('fingers', 4) - 0.1, 'LOST TWO FINGERS', 1150, 100, None, nxt(ST[4])),
       ('plate', w('Harvard', 5) - 0.08, 'HARVARD', 860, 64, None, nxt(ST[5])), ('plate', w('Washington', 5) - 0.08, 'WASHINGTON', 960, 64, None, nxt(ST[5])),
       ('date', w('strike', 8) - 0.1, 'December 7, 1941', YT, 74, CREAM, nxt(ST[8])), ('plate', w('Pearl', 8) - 0.15, 'PEARL HARBOR', 560, 110, None, nxt(ST[8])),
-      ('date', ST[9], 'Midway, June 1942', YT, 74, CREAM, nxt(ST[9])), ('plate', w('carriers', 9) - 0.1, '4 CARRIERS LOST', 1150, 104, None, nxt(ST[9])),
+      ('date', ST[9], 'Midway, June 1942', YT, 74, CREAM, nxt(ST[9])), ('plate', w('four', 9) - 0.04, '4 CARRIERS LOST', 1150, 104, None, nxt(ST[9])),
       ('plate', w('codebreakers', 10) - 0.1, 'CODE CRACKED', 400, 100, None, nxt(ST[10])),
-      ('date', ST[11], 'Bougainville', YT, 74, CREAM, nxt(ST[11])), ('plate', w('shot', 11) - 0.1, 'SHOT DOWN', 1150, 120, None, nxt(ST[11])),
-      ('plate', w('Doolittle', 12) - 0.1, 'ONE YEAR AFTER DOOLITTLE', 1150, 88, None, None)]
+      ('date', ST[11], 'Bougainville', YT, 74, CREAM, nxt(ST[11])), ('plate', w('shot', 11) - 0.1, 'SHOT DOWN', 1150, 120, None, nxt(ST[11]))]
 def titles(can, t):
     for k, t0, s_, y, sz, col, t1 in TR:
         if t < t0 or (t1 is not None and t > t1 + 0.15): continue
@@ -293,17 +361,18 @@ ANCH = [
  (0.0, s_intro, None),
  (w('one', 0) - 0.02, s_one, ('whip', 1)),
  (at(2), s_cutout, ('fade',)), (at(2, 'who'), C(10.4, 15.2, None, 0.6, 1.32, 1.0, 1.25, 0.7), ('whip', -1)),
- (at(3), P('s3-5', 'fit', z1=1.08), ('fade',)),
+ (at(3), s_heart, ('fade',)),
  (at(4), P('s2-3', 'fit', z1=1.1), ('fade',)),
  (at(5), P('s2-5', 'fit', z1=1.08), ('fade',)), (at(5, 'Washington'), P('s2-1', 'fit', z1=1.08), ('fade',)),
- (at(6), P('s3-3', 'fit', z1=1.1), ('fade',)),
+ (at(6), s_glass, ('fade',)),
  (at(7), s_globe, ('fade',)), (at(7, 'and'), s_paper, ('fade',)),
- (at(8), P('s1-1', 'fit', z1=1.08), ('fade',)), (at(8, 'and'), C(5.2, 9.9, None, 0.55, 1.06), ('whip', 1)), (at(8, 'Pearl'), C(17.0, 23.0, None, 0.5, 1.06, 1.0), ('fade',)),
+ (at(8), P('s1-1', 'fit', z1=1.08), ('fade',)), (at(8, 'and'), C(16.45, 19.4, None, 0.5, 1.08, 1.2), ('whip', 1)),   # one unbroken shot: the battleship row blows up on 'Pearl Harbor'
  (at(9), s_sixmonths, ('fade',)),
  (at(10), s_code, ('fade',)),
- (at(11), P('s4-3', 'fit', z1=1.08), ('whip', -1)), (at(11, 'and'), P('s4-5', 'pan', 1), ('fade',)),
- (at(12), s_calendar, ('fade',))]
+ (at(11), s_p38, ('whip', -1)), (at(11, 'and'), P('s4-5', 'pan', 1), ('fade',)),
+ (at(12), s_sky, ('fade',))]
 DUR = {'fade': 0.2, 'whip': 0.34}
+CAPY += [(at(3), at(4), 1545), (at(7, 'and'), at(8), 1250), (at(11), at(11, 'and'), 960)]
 SC = []
 for i, (s0, fn, tr) in enumerate(ANCH):
     d_in = DUR[tr[0]] if tr else 0.0; nx = ANCH[i + 1] if i + 1 < len(ANCH) else None
@@ -328,7 +397,7 @@ def frame(t):
     if len(act) > 1:
         b = act[1]; u = clamp((t - b[0]) / (act[0][1] - b[0])); nimg = b[2](t, b[0], b[1])
         img = whip(img, nimg, u, b[3][1]) if b[3] and b[3][0] == 'whip' else Image.blend(img, nimg, eio(u))
-    img.alpha_composite(VIG); titles(img, t)
+    img.alpha_composite(VIG); titles(img, t); captions(img, t)
     fade = clamp(1 - t / 0.3)
     if fade > 0: img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * fade))))
     a = np.asarray(img.convert('RGB')).astype(np.int16) + np.random.default_rng(int(t * 30)).normal(0, 5, (H, W))[..., None].astype(np.int16)
