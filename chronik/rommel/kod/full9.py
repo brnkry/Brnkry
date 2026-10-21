@@ -59,7 +59,11 @@ def person(can, x, y, s=1.0, col=YEL, a=1.0):
                        [(x - 26 * s, y), (x, y - 50 * s), (x + 26 * s, y)]], 0.01, col, 5, a)
 
 # ---------- text in the safe area: one top line and three lower lines ----------
-def top(can, t, t0, s, size=66, col=CREAM, y=YT): typewriter(can, t, t0, (CX, y), s, typew(size), col, 0.06)
+_CHAPK = (11, 23, 27, 38, 56, 67, 78, 89, 101)
+def top(can, t, t0, s, size=66, col=CREAM, y=YT):
+    for k in _CHAPK:     # the chapter card owns the top of the frame for its 3.4 s: the top line waits until it has faded
+        if ST[k] - 0.3 <= t0 < ST[k] + 3.45: t0 = ST[k] + 3.45
+    typewriter(can, t, t0, (CX, y), s, typew(size), col, 0.06)
 def l1(can, t, t0, s, size=96, col=WHITE, t1=None): txt(can, t, t0, (CX, Y1), s, anton(size), col, t1)
 def l2(can, t, t0, s, size=66, col=CREAM, t1=None): txt(can, t, t0, (CX, Y2), s, bebas(size), col, t1)
 def l3(can, t, t0, s, size=58, col=CREAM, t1=None): txt(can, t, t0, (CX, Y3), s, bebas(size), col, t1)
