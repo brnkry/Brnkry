@@ -51,12 +51,14 @@ def cp(can, x, y, h=100):
     can.alpha_composite(s_.filter(ImageFilter.GaussianBlur(6))); d = ImageDraw.Draw(can)
     d.text((x, cy), 'C', font=f, fill=WHITE, anchor='lm'); d.rectangle((b[0] - pad, b[1] - h * 0.08, b[2] + pad, b[3] + h * 0.07), fill=YEL)
     d.text((xd, cy), 'P', font=f, fill=DARK, anchor='lm'); d.rectangle((b[0] - pad, b[3] + h * 0.13, b[0] + h * 0.36, b[3] + h * 0.17), fill=RED)
+def feather_paste(can, im, x, fe=320):
+    m = Image.fromarray(np.tile((np.clip(np.arange(im.width) / fe, 0, 1) * 255).astype(np.uint8), (im.height, 1))); can.paste(im, (x, 0), m)
 def save(can, name): can.convert('RGB').save(OUT + name, quality=93); print(name)
 
 # ---------------- German YouTube 16:9 (1920x1080) ----------------
 TW, TH = 1920, 1080
 def de_a():   # the face of the legend, the choice
-    can = Image.new('RGBA', (TW, TH), DARK + (255,)); can.alpha_composite(look(cover(src('r07'), 1150, TH, 0.5, 0.40, 1.05)), (770, 0))
+    can = Image.new('RGBA', (TW, TH), DARK + (255,)); feather_paste(can, look(cover(src('r07'), 1250, TH, 0.5, 0.40, 1.05)), 670)
     side(can, 255, False, 0.62); grad(can, 120, 0.7); cdm(can, 70, 50, 92)
     T(can, (90, 470), 'ROMMEL', anton(250), WHITE, 'lm'); plate(can, (440, 700), 'GIFT ODER PROZESS', anton(96))
     save(can, 'DE_YT_A_Gift_oder_Prozess.jpg')
@@ -70,6 +72,12 @@ def de_c():   # desert fox: archive film + portrait
     side(can, 220, False, 0.6); grad(can, 200, 0.55); cdm(can, 70, 50, 92)
     T(can, (90, 430), 'WÜSTENFUCHS', anton(190), YEL, 'lm'); plate(can, (420, 650), 'HELD ODER MYTHOS?', anton(84))
     save(can, 'DE_YT_C_Held_oder_Mythos.jpg')
+
+def en_long():   # English version of A for the long video on Chronik der Macht (symbols stay blurred: same channel)
+    can = Image.new('RGBA', (TW, TH), DARK + (255,)); feather_paste(can, look(cover(src('r07'), 1250, TH, 0.5, 0.40, 1.05)), 670)
+    side(can, 255, False, 0.62); grad(can, 120, 0.7); cdm(can, 70, 50, 92)
+    T(can, (90, 470), 'ROMMEL', anton(250), WHITE, 'lm'); plate(can, (400, 700), 'POISON OR TRIAL', anton(96))
+    save(can, 'EN_YT_Long_Poison_or_Trial.jpg')
 
 # ---------------- German Facebook 9:16 (1080x1920) ----------------
 VW, VH = 1080, 1920
