@@ -19,7 +19,7 @@ On April 18, 1943, sixteen American P-38 fighters flew low over the Pacific to k
 
 But Yamamoto never wanted war with America. He had lost two fingers at Tsushima in 1905, studied at Harvard and served as naval attaché in Washington. He had seen American factories and oil fields with his own eyes. He warned Tokyo he could run wild for six months, maybe a year, and after that he had no confidence at all. Six months after Pearl Harbor, Japan lost four carriers at Midway.
 
-Then US codebreakers read his travel plans. Yamamoto was known for being punctual, and on that morning he was. The Americans called the mission Operation Vengeance. Japan surrendered on September 2, 1945. He did not live to see it.
+Then US codebreakers read his travel plans. Yamamoto was known for being punctual, and on that morning he was. Over Bougainville, P-38s shot his bomber down into the jungle. The Americans called the mission Operation Vengeance. Japan surrendered on September 2, 1945. He did not live to see it.
 
 Which commander should we cover next? Tell me in the comments.
 
@@ -43,7 +43,7 @@ He warned Japan it could not win. Then he was ordered to plan Pearl Harbor. 🇯
 
 Isoroku Yamamoto studied at Harvard and served in Washington. He knew American industry better than anyone in Tokyo and said he could run wild for six months, maybe a year. Six months later came Midway.
 
-On April 18, 1943, American codebreakers knew exactly where he would be. Sixteen P-38s were waiting over Bougainville.
+On April 18, 1943, American codebreakers knew exactly where he would be. Over Bougainville, P-38s shot his bomber down. The Americans called it Operation Vengeance.
 
 Follow Chronicle of Power for more true stories from both World Wars.
 

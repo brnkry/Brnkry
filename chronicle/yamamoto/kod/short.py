@@ -339,17 +339,25 @@ def s_p38(t, w0, w1):
         on_quad(can, [(x0, y0), (x1, y0 + 20), (x1, y1 + 20), (x0, y1)], 'P-38', 300, clamp((t - t0) / 0.06), WHITE, anton(300), eio((t - t0) / 0.3), 1.2, op=0.95, glow=((10, 16, 30), 14, 0.7))
     shade(can, 200, 0.55); return can
 GR = ((800, 1560), (1300, 1560), (1345, 1900), (740, 1900))
+def s_wreck(t, w0, w1):
+    """s4-5, the wreck in the jungle: the mission name is stencilled onto the tail fin, each word on its word"""
+    can, m = side('s4-5', 1180, 1290, t, w0, w1)
+    for s_, (x0, y0, x1, y1), t0 in (('OPERATION', (1455, 590, 1860, 690), w('Operation', 13) - 0.04), ('VENGEANCE', (1455, 715, 1860, 815), w('Vengeance', 13) - 0.04)):
+        if t <= t0: continue
+        q = [m(x0, y0), m(x1, y0 - 25), m(x1, y1 - 25), m(x0, y1)]   # the fin leans back a little
+        on_quad(can, q, s_, 200, clamp((t - t0) / 0.05), (236, 232, 220), anton(200), eio((t - t0) / 0.22), 0.8, mod=0.45, op=0.92)
+    shade(can, 200, 0.55); return can
 def s_end(t, w0, w1):
     """s4-6 in one move: held on him for 'the one man who knew', then the camera swings to the sky, where the end of the war is written:
     the date he never lived to see"""
-    ts = ST[14] - 0.35; u = eio((t - ts) / 0.7) if t > ts else 0.0
+    ts = ST[15] - 0.35; u = eio((t - ts) / 0.7) if t > ts else 0.0
     sxa = lerp(260, 300, prog(t, w0, ts)); sx = lerp(sxa, 1250, u)
     can, m = side('s4-6', sx, sx, t, w0, w1, 1.04)
     if u > 0.02:   # a little motion blur while the camera swings
         sp = math.sin(math.pi * u)
         if sp > 0.1: can = can.filter(ImageFilter.BoxBlur(int(10 * sp)))
     g = np.clip(1 - np.arange(H) / 1000, 0, 1) ** 1.5 * 90 * u; top = Image.new('RGBA', (W, H), (14, 18, 30, 0)); top.putalpha(Image.fromarray(np.repeat(g[:, None], W, 1).astype(np.uint8))); can.alpha_composite(top)
-    for s_, y, f, t0, col in (('September 2, 1945', 450, playfair(100, 700), ST[14] + 0.2, WHITE), ('JAPAN SURRENDERS', 575, oswald(70, 600), w('live', 14) - 0.05, YEL)):
+    for s_, y, f, t0, col in (('September 2, 1945', 450, playfair(100, 700), ST[15] + 0.2, WHITE), ('JAPAN SURRENDERS', 575, oswald(70, 600), w('live', 15) - 0.05, YEL)):
         if t <= t0: continue
         tw_ = f.getlength(s_); quad = [(CX - tw_ / 2 - 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y - f.size * 0.75), (CX + tw_ / 2 + 10, y + f.size * 0.75), (CX - tw_ / 2 - 10, y + f.size * 0.75)]
         on_quad(can, quad, s_, f.size, clamp((t - t0) / 0.06), col, f, eio((t - t0) / 0.5), 1.2, op=0.95, glow=((10, 14, 24), 12, 0.8))
@@ -366,8 +374,8 @@ TR = [('date', 0.25, 'April 18, 1943', YT, 74, CREAM, w('sixteen', 0) - 0.15),
       ('date', ST[9], 'Midway, June 1942', YT, 74, CREAM, nxt(ST[9])), ('plate', w('four', 9) - 0.04, '4 CARRIERS LOST', 1150, 104, None, nxt(ST[9])),
       ('plate', w('codebreakers', 10) - 0.1, 'CODE CRACKED', 400, 100, None, nxt(ST[10])),
       ('date', ST[11], 'April 18, 1943', YT, 74, CREAM, nxt(ST[11])),
-      ('date', ST[12], 'Bougainville', YT, 74, CREAM, nxt(ST[12])), ('plate', w('down', 12) - 0.08, 'SHOT DOWN', 1150, 120, None, nxt(ST[12])),
-      ('plate', w('one', 13) - 0.05, 'THE ONE MAN WHO KNEW', 1150, 92, None, nxt(ST[13]))]
+      ('date', ST[12], 'Bougainville', YT, 74, CREAM, w('bomber', 12) - 0.35), ('plate', w('down', 12) - 0.08, 'SHOT DOWN', 1150, 120, None, nxt(ST[12])),
+      ('plate', w('one', 14) - 0.05, 'THE ONE MAN WHO KNEW', 1150, 92, None, nxt(ST[14]))]
 def titles(can, t):
     for k, t0, s_, y, sz, col, t1 in TR:
         if t < t0 or (t1 is not None and t > t1 + 0.15): continue
@@ -389,8 +397,8 @@ ANCH = [
  (at(9), s_sixmonths, ('fade',)),
  (at(10), s_code, ('fade',)),
  (at(11), s_ontime, ('whip', -1)),
- (at(12), s_p38, ('whip', 1)), (at(12, 'and'), P('s4-5', 'pan', 1), ('fade',)),
- (at(13), s_end, ('fade',))]
+ (at(12), s_p38, ('whip', 1)), (at(12, 'bomber'), s_wreck, ('fade',)),
+ (at(14), s_end, ('fade',))]
 DUR = {'fade': 0.2, 'whip': 0.34}
 CAPY += [(at(3), at(4), 1545), (at(7, 'and'), at(8), 1250), (at(11), at(12), 960)]
 SC = []
