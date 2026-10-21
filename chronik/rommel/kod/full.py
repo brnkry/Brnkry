@@ -6,7 +6,8 @@ TXT = open(B + 'code/script.txt').read().strip()
 ST = []; _i = 0
 for _s in re.split(r'(?<=[.!?])\s+', TXT): ST.append(WORDS[_i][1]); _i += len(_s.split())
 def w(word, k): return wt(word, ST[k])
-VEND = WORDS[-1][2]; T = VEND + 1.6
+VEND = WORDS[-1][2]; LOGO = os.environ.get('NOLOGO') is None
+LOGO_T = VEND + 1.0; T = LOGO_T + 6.0 if LOGO else VEND + 1.6
 INK = (40, 32, 24); SAND = (214, 190, 140); BLUE = (110, 150, 190)
 
 # ---------- backgrounds ----------
@@ -701,6 +702,9 @@ def s_ask(t, w0, w1):
     txt(can, t, w('Wie', k), (W / 2, 330), 'WIE SEHT IHR', anton(110), WHITE); txt(can, t, w('Erwin', k), (W / 2, 500), 'ERWIN ROMMEL?', anton(150), YEL)
     txt(can, t, w('Schreibt', 115), (W / 2, 760), 'SCHREIBT ES IN DIE KOMMENTARE', bebas(76), CREAM); return can
 
+import importlib.util as _iu
+_sp = _iu.spec_from_file_location('anim2', B + '../logo/anim2.py'); _an = _iu.module_from_spec(_sp); _sv = sys.argv; sys.argv = ['x', B + '../logo']; _sp.loader.exec_module(_an); sys.argv = _sv
+def s_logo(t, w0, w1): return _an.frame(max(0.0, t - LOGO_T)).convert('RGBA')
 # ---------- timeline: (start time, scene) ; each scene starts at the first word of its sentence ----------
 def at(k, word=None): return (ST[k] if word is None else w(word, k)) - 0.15
 ANCH = [
@@ -728,7 +732,7 @@ ANCH = [
  (at(101), C(13.8, 18.4, ov_1945)), (at(102), s_books), (at(103), C(4.2, 8.1, ov_fair)), (at(103, 'Hier'), C(18.7, 22.0, ov_sand)), (at(104), s_kaserne),
  (at(105), P('r22', 'pan', -1, ov_krit, grey=0.5)), (at(106), s_stairs), (at(107), C(55.2, 60.7, ov_civ)), (at(107, 'Tunesien'), MAP(TUNM, ov_tunj)),
  (at(108), P('r06', 'pan', 1, ov_resp)), (at(109), P('r08', 'pan', -1, ov_open)), (at(110), s_minefield), (at(111), s_memorial),
- (at(112), P('r35', 'pan', 1, ov_officer)), (at(113), P('r10', 'fit', ov=ov_general, z1=1.08)), (at(114), s_ask)]
+ (at(112), P('r35', 'pan', 1, ov_officer)), (at(113), P('r10', 'fit', ov=ov_general, z1=1.08)), (at(114), s_ask)] + ([(LOGO_T, s_logo)] if LOGO else [])
 CHAP = [(11, 1, 'EIN BERG IN DEN ALPEN'), (23, 2, 'IN DER NÄHE DER MACHT'), (27, 3, 'DIE GESPENSTERDIVISION'), (38, 4, 'DER WÜSTENFUCHS'), (56, 5, 'EL ALAMEIN'),
         (67, 6, 'DER ATLANTIKWALL'), (78, 7, 'DER 20. JULI'), (89, 8, 'DIE WAHL'), (101, 9, 'DER MYTHOS')]
 OV = 0.4

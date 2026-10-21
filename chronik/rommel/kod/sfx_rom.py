@@ -104,6 +104,9 @@ hit(w('Minen', 110), 0.08, 70); for_ = [add(w('Minen', 110) + i * 0.15, metal(11
 draw(ST[111], 1.2); add(w('Figur', 111), swell(2.0, 52), 0.07)
 add(ST[112], swell(3.0, 55), 0.06); add(w('Tod', 113) - 0.3, tone(73, 3.0), 0.07)
 hit(w('Wie', 114), 0.10, 90); hit(w('Erwin', 114), 0.10, 75); hit(w('Schreibt', 115), 0.09, 100)
+if V.LOGO:
+    _lw = wavfile.read(sys.argv[1] + '/../logo/logo_sfx.wav')[1].astype(np.float32) / 32768
+    i0 = int(V.LOGO_T * SR); sfxlib.out[i0:i0 + len(_lw)] += _lw[:len(sfxlib.out) - i0] * 0.9
 o = sfxlib.out; n = len(o); tt = np.arange(n) / SR; o *= np.minimum(1, (T - tt) / 1.2)[:, None]
 o /= max(1.0, np.abs(o).max() / 0.95)
 wavfile.write(sys.argv[1] + '/sfx.wav', SR, (o * 32767).astype(np.int16)); print('sfx ok', T)
