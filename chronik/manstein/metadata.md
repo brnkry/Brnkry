@@ -54,9 +54,9 @@ Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
 
 **Text**
 ```
-Sein Plan besiegte Frankreich in sechs Wochen. Warum stand er 1949 vor Gericht?
+Erich von Manstein: Sein Plan besiegte Frankreich in sechs Wochen. Warum stand er 1949 vor Gericht?
 
-Erich von Manstein galt jahrzehntelang als der "saubere Stratege" der Wehrmacht. Doch 1941 unterschrieb er einen Befehl gegen Juden, und in seinem Befehlsbereich wurden Zehntausende ermordet. 1949 bekam er in Hamburg 18 Jahre Haft.
+Der Generalfeldmarschall galt jahrzehntelang als der "saubere Stratege" der Wehrmacht im Zweiten Weltkrieg. Doch 1941 unterschrieb er einen Befehl gegen Juden, und in seinem Befehlsbereich wurden Zehntausende ermordet. 1949 bekam er in Hamburg 18 Jahre Haft.
 
 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
@@ -64,7 +64,7 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Manstein #ZweiterWeltkrieg #Geschichte #Militärgeschichte #ChronikDerMacht
+#ErichVonManstein #ZweiterWeltkrieg #Wehrmacht #Geschichte #ChronikDerMacht
 ```
 **Alternativtext:** `Kurzdoku über Erich von Manstein: Sichelschnitt 1940, Befehl von 1941, Prozess in Hamburg 1949 und seine Erinnerungen "Verlorene Siege".`
 
@@ -73,7 +73,7 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 - Kein Link-Sticker nötig. Optional eine zweite Story mit Umfrage: "Manstein: Stratege oder Täter?" mit den Antworten "Stratege" und "Beides".
 
 ## Facebook (Reel)
-**Titel:** Sein Plan besiegte Frankreich. Dann kam Hamburg 1949
+**Titel:** Erich von Manstein: Der Mythos vom sauberen Strategen
 
 **Text**
 ```
@@ -89,7 +89,7 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Manstein #ZweiterWeltkrieg #Geschichte #Militärgeschichte #ChronikDerMacht
+#ErichVonManstein #ZweiterWeltkrieg #Wehrmacht #Geschichte #ChronikDerMacht
 ```
 Cover: `thumbnails/DE_A_18_Jahre_Haft.jpg`
 
