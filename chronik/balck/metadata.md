@@ -1,6 +1,6 @@
 # Hermann Balck: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Hermann_Balck_Shorts_DE.mp4` (9:16, 1:47, v3). Cover: `thumbnails/DE_Balck_Lehrer_oder_Taeter.jpg`. Story: `Balck_Story_DE.mp4` (16,5 s; Code `kod/story_b.py`).
+Video: `Hermann_Balck_Shorts_DE.mp4` (9:16, 1:47, v3). Cover: `thumbnails/DE_Balck_Lehrer_oder_Taeter.jpg` (Porträt, feste Yamamoto-Anordnung). Story: `Balck_Story_DE.mp4` (16,5 s; Code `kod/story_b.py`).
 
 ## Faktencheck (Türkçe not)
 | İddia | Durum |
@@ -59,6 +59,23 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 #HermannBalck #ZweiterWeltkrieg #Wehrmacht #Geschichte #Militärgeschichte #Doku #KalterKrieg #ChronikDerMacht
 ```
 
+## YouTube Community-Beitrag
+Bild: `social/YouTube_Post_Balck.jpg` (1080x1080)
+
+Text:
+```
+1980 wollte das Pentagon wissen, wie man die Rote Armee aufhält. Gefragt wurde Hermann Balck, ein General, den ein deutsches Gericht 1948 verurteilt hatte.
+
+Er hatte 1944 einen Offizier ohne Gerichtsverfahren erschießen lassen. Jahrzehnte später saß er vor amerikanischen Planern.
+
+Die ganze Geschichte jetzt im neuen Short auf dem Kanal. 👇
+```
+Umfrage: "Hermann Balck: Wie seht ihr ihn?"
+- Lehrer
+- Täter
+- Beides
+- Ich schaue erst das Video
+
 ## Instagram (Reel)
 - Seit Dezember 2025 höchstens 5 Hashtags pro Beitrag.
 - Nur die erste Zeile ist vor "mehr" sichtbar, darum steht die Frage oben.
@@ -79,6 +96,12 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
 ## Instagram / Facebook Story
 - Video: `Balck_Story_DE.mp4` (16,5 s). Der Einstieg des Shorts bis "verurteilt hatte:", dann läuft die Nahaufnahme aus der Wochenschau abgedunkelt weiter, darüber: "SCHNELL INS PROFIL UND ANSEHEN!" (oben, Pfeil zum Profilnamen, etwas höher als bei Manstein), "NEUES VIDEO · HERMANN BALCK · LEHRER ODER TÄTER?".
+
+## Untertitel (YouTube Studio)
+- `untertitel/captions.en_US.srt`: englische Untertitelspur, auf die Stimme getaktet (31 Einblendungen). YouTube Studio > Untertitel > Sprache hinzufügen: Englisch > Hochladen > "Mit Zeitangaben".
+- Unter derselben Sprache auch Titel und Beschreibung auf Englisch eintragen:
+  - Titel: `Hermann Balck: The Pentagon Asked a Convicted General`
+  - Beschreibung: `Hermann Balck, a Wehrmacht panzer general in World War II: the breakthrough at Sedan in 1940, the Chir River in 1942, Army Group G against Patton in 1944. In 1944 he had an officer shot without trial, and in 1948 a court in Stuttgart convicted him. In 1980 the Pentagon asked him for advice. #HermannBalck #WW2 #History`
 
 ## Reihenfolge (Türkçe not)
 1. Önce YouTube Shorts, yaklaşık 1 saat sonra Instagram ve Facebook Reel, her biri kendi metniyle.
