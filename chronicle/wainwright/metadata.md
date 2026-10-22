@@ -1,6 +1,6 @@
 # Jonathan Wainwright: Shorts package (English, Chronicle of Power)
 
-Video: `Jonathan_Wainwright_Short_EN.mp4` (9:16, 1:02, v3). Cover: `thumbnails/EN_Wainwright_Surrendered.jpg` (official portrait, no name: "1942: SURRENDERED TO / JAPAN / 1945: WATCHED IT SURRENDER", fixed Yamamoto layout, code `chronicle/brand/covers4.py`).
+Video: `Jonathan_Wainwright_Short_EN.mp4` (9:16, 1:02, v3). Cover: `thumbnails/EN_Wainwright_Surrendered.jpg` (official portrait, no name: "1942: SURRENDERED TO / JAPAN / 1945: WATCHED IT SURRENDER", fixed Yamamoto layout, code `chronicle/brand/covers4.py`). Variant with arrows from TO and IT into JAPAN: `thumbnails/EN_Wainwright_Arrows.jpg`.
 
 ## Fact check (Türkçe not)
 | İddia | Durum |

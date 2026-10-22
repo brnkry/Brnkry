@@ -9,7 +9,25 @@ VW, VH = 1080, 1920; MAXW = 780            # 780: keeps clear of the right-hand 
 LOGO_Y, L1, L2, PL = 340, 1110, 1250, 1400  # fixed positions
 def project(code):
     sys.path.insert(0, S + code); sys.modules.pop('lib9', None); L = importlib.import_module('lib9'); sys.path.pop(0); return L
-def build(code, img, crop, mark, lines, sub, sub_size, out):
+def curve(can, a, c, b, col, w=9, head=30):
+    """curved arrow a -> b through control point c, dark edge so it reads on the photo"""
+    pts = [((1 - v) ** 2 * a[0] + 2 * (1 - v) * v * c[0] + v * v * b[0], (1 - v) ** 2 * a[1] + 2 * (1 - v) * v * c[1] + v * v * b[1]) for v in np.linspace(0, 1, 40)]
+    L = Image.new('RGBA', can.size, (0, 0, 0, 0)); d = ImageDraw.Draw(L); e, q = pts[-1], pts[-4]; import math; ang = math.atan2(e[1] - q[1], e[0] - q[0])
+    tri = [(e[0] + 8 * math.cos(ang), e[1] + 8 * math.sin(ang)), (e[0] - head * math.cos(ang - .5), e[1] - head * math.sin(ang - .5)), (e[0] - head * math.cos(ang + .5), e[1] - head * math.sin(ang + .5))]
+    for wd, cl in ((w + 7, (0, 0, 0, 170)), (w, col + (255,))):
+        d.line(pts[:-3], fill=cl, width=wd, joint='curve')
+        d.polygon(tri, fill=cl) if wd == w else d.polygon([(x + 2, y + 2) for x, y in tri], fill=cl)
+    can.alpha_composite(L)
+def shared_arrows(can, fs, lines, pf, pl, py_, pb, col):
+    """Wainwright: one arrow from TO (end of line 1) and one from IT (start of the plate's 2nd line) into the shared JAPAN"""
+    f1, f2 = fs; s1, s2 = lines[0][0], lines[1][0]
+    x1 = VW / 2 - f1.getlength(s1) / 2; to_x = x1 + f1.getlength(s1[:-2]) + f1.getlength('TO') / 2; to_y = L1 + f1.size * 0.42
+    jl, jr = VW / 2 - f2.getlength(s2) / 2, VW / 2 + f2.getlength(s2) / 2
+    curve(can, (to_x, to_y), (to_x + 10, L2 - 10), (jr + 14, L2 - 8), col)
+    k = [i for i, x in enumerate(pl) if x.startswith('IT')][0]; lh = (pb[3] - pb[1] - 24) / len(pl); iy = pb[1] + 12 + lh * (k + 0.5)
+    it_x = VW / 2 - pf.getlength(pl[k]) / 2
+    curve(can, (pb[0] - 6, iy), (pb[0] - 70, iy - 10), (jl - 14, L2 + 4), col)
+def build(code, img, crop, mark, lines, sub, sub_size, out, arrows=False):
     L = project(code); oswald = L.oswald; YEL, RED, WHITE, DARK = L.YEL, L.RED, L.WHITE, L.DARK
     def fitf(s, size, maxw=MAXW):
         f = oswald(size)
@@ -18,6 +36,7 @@ def build(code, img, crop, mark, lines, sub, sub_size, out):
     def T(can, y, s, size, col):
         f = fitf(s, size); La = Image.new('RGBA', can.size, (0, 0, 0, 0)); ImageDraw.Draw(La).text((VW / 2, y), s, font=f, fill=col + (255,), anchor='mm')
         sh = Image.new('RGBA', can.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, 230), (0, 0), La.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(14)), (5, 9)); can.alpha_composite(La)
+        return f
     def plate(can, y, s, size):
         """yellow plate; a long line goes onto two lines so the words stay big"""
         f = fitf(s, size, MAXW - 56)
@@ -30,6 +49,7 @@ def build(code, img, crop, mark, lines, sub, sub_size, out):
         s_ = Image.new('RGBA', can.size, (0, 0, 0, 0)); ImageDraw.Draw(s_).rectangle((b[0] - px + 8, b[1] - py + 10, b[2] + px + 8, b[3] + py + 10), fill=(0, 0, 0, 190)); can.alpha_composite(s_.filter(ImageFilter.GaussianBlur(14)))
         d = ImageDraw.Draw(can); d.rectangle((b[0] - px, b[1] - py, b[2] + px, b[3] + py), fill=YEL); d.multiline_text((VW / 2, y), s, font=f, fill=DARK, anchor='mm', align='center', spacing=2)
         d.rectangle((b[0] - px, b[3] + py + 14, b[0] - px + 150, b[3] + py + 24), fill=RED)
+        return f, s.split('\n'), y, (b[0] - px, b[1] - py, b[2] + px, b[3] + py)
     def logo(can, a, bpart, h=80):
         """channel logo centred on the screen: white a, bpart on a yellow plate, red rule; soft dark backing like the Yamamoto cover"""
         f = oswald(int(h * 0.86)); d = ImageDraw.Draw(can); wa = d.textlength(a, font=f); wb = d.textlength(bpart, font=f); gap, pad = h * 0.06, h * 0.08
@@ -46,13 +66,14 @@ def build(code, img, crop, mark, lines, sub, sub_size, out):
     g = np.clip(np.minimum((np.arange(VH) - 1050 + 160) / 160, (1400 + 160 - np.arange(VH)) / 160), 0, 1) * 215   # dark band behind the text block
     B_ = Image.new('RGBA', can.size, (6, 7, 9, 0)); B_.putalpha(Image.fromarray(np.repeat(g.astype(np.uint8)[:, None], VW, 1))); can.alpha_composite(B_)
     logo(can, *mark)
-    for y, (s, size, col) in zip((L1, L2), lines): T(can, y, s, size, {'w': WHITE, 'y': YEL}[col])
-    plate(can, PL, sub, sub_size)
+    fs = [T(can, y, s, size, {'w': WHITE, 'y': YEL}[col]) for y, (s, size, col) in zip((L1, L2), lines)]
+    pf, pl, py_, pb = plate(can, PL, sub, sub_size)
+    if arrows: shared_arrows(can, fs, lines, pf, pl, py_, pb, WHITE)
     os.makedirs(os.path.dirname(out), exist_ok=True); can.convert('RGB').save(out, quality=93); return out
 JOBS = {
  'yamamoto': ('yama/code', 's3-5', (0.5, 0.36, 1.12), ('C', 'P'), [('HE KNEW JAPAN', 130, 'w'), ('WOULD LOSE', 130, 'y')], 'THEN HE PLANNED PEARL HARBOR', 88, S + 'yama/thumbs/EN_A_He_Knew.jpg'),
  'rommel': ('en/code', 'r12', (0.48, 0.44, 1.12), ('C', 'P'), [('THE DESERT FOX', 130, 'w'), ('WHY HE TOOK POISON', 130, 'y')], 'HITLER GAVE HIM A CHOICE', 88, S + 'en/thumbs/EN_Desert_Fox_Poison.jpg'),
- 'wainwright': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'P'), [('1942: SURRENDERED TO', 130, 'w'), ('JAPAN', 158, 'y')], '1945: WATCHED IT SURRENDER', 88, S + 'wain/thumbs/EN_Wainwright_Surrendered.jpg'),
+ 'wainwright': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'P'), [('1942: SURRENDERED TO', 130, 'w'), ('JAPAN', 158, 'y')], '1945: WATCHED IT SURRENDER', 88, S + 'wain/thumbs/EN_Wainwright_Arrows.jpg', True),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
