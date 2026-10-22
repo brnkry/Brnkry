@@ -110,6 +110,12 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 ```
 Cover: `thumbnails/DE_A_18_Jahre_Haft.jpg`
 
+## Untertitel (YouTube Studio)
+- `untertitel/captions.en_US.srt`: englische Untertitelspur, auf die Stimme getaktet (31 Einblendungen). YouTube Studio > Untertitel > Sprache hinzufügen: Englisch > Hochladen > "Mit Zeitangaben".
+- Unter derselben Sprache auch Titel und Beschreibung auf Englisch eintragen:
+  - Titel: `Erich von Manstein: The Myth of the Clean Strategist`
+  - Beschreibung: `Erich von Manstein, field marshal of the Wehrmacht in World War II: his plan through the Ardennes defeated France in six weeks in 1940. In 1941 he signed an order against Jews in Crimea, and in 1949 a British military court in Hamburg sentenced him to 18 years in prison. #ErichVonManstein #WW2 #History`
+
 ## Reihenfolge (Türkçe not)
 1. Önce YouTube Shorts, yaklaşık 1 saat sonra Instagram Reel ve Facebook Reel, her biri kendi metniyle.
 2. Reel yayınlandıktan sonra story'yi link stickerıyla paylaş.
