@@ -21,12 +21,12 @@ def curve(can, a, c, b, col, w=9, head=30):
 def shared_arrows(can, fs, lines, pf, pl, py_, pb, col):
     """Wainwright: one arrow from TO (end of line 1) and one from IT (start of the plate's 2nd line) into the shared JAPAN"""
     f1, f2 = fs; s1, s2 = lines[0][0], lines[1][0]
-    x1 = VW / 2 - f1.getlength(s1) / 2; to_x = x1 + f1.getlength(s1[:-2]) + f1.getlength('TO') / 2; to_y = L1 + f1.size * 0.42
+    x1 = VW / 2 - f1.getlength(s1) / 2; to_x = x1 + f1.getlength(s1[:-2]) + f1.getlength('TO') / 2; to_y = L1 + f1.size * 0.62   # starts clearly under TO
     jl, jr = VW / 2 - f2.getlength(s2) / 2, VW / 2 + f2.getlength(s2) / 2
     curve(can, (to_x, to_y), (to_x + 10, L2 - 10), (jr + 14, L2 - 8), col)
     k = [i for i, x in enumerate(pl) if x.startswith('IT')][0]; lh = (pb[3] - pb[1] - 24) / len(pl); iy = pb[1] + 12 + lh * (k + 0.5)
     it_x = VW / 2 - pf.getlength(pl[k]) / 2
-    curve(can, (pb[0] - 6, iy), (pb[0] - 70, iy - 10), (jl - 14, L2 + 4), col)
+    curve(can, (it_x - 14, iy), (pb[0] - 150, iy + 10), (jl - 16, L2 + 6), col)   # from right beside IT, over the plate, swinging out left and up
 def build(code, img, crop, mark, lines, sub, sub_size, out, arrows=False):
     L = project(code); oswald = L.oswald; YEL, RED, WHITE, DARK = L.YEL, L.RED, L.WHITE, L.DARK
     def fitf(s, size, maxw=MAXW):
