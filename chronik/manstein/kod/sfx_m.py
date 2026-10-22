@@ -31,7 +31,7 @@ stamp_(w('nicht', 0) - 0.03)
 add(w('sechs', 1) - 0.05, whoosh(0.8, 200, 1200), 0.07)
 # name
 hit(w('Manstein', 2), 0.10, 70); add(w('Manstein', 2), swell(2.0, 52), 0.06)
-pen(w('Lewinski', 2) - 0.3, 0.7); add(w('Namen', 3) - 0.05, scratch(0.35), 0.08); pen(w('Namen', 3) + 0.25, 0.55)
+pen(w('Fritz', 2) - 0.05, 0.5); pen(w('Lewinski', 2) - 0.35, 0.5); add(w('Namen', 3) - 0.05, scratch(0.35), 0.08)
 add(w('Ersten', 4) - 0.05, whoosh(0.7, 200, 1200), 0.06)
 # the plan
 pen(w('Ardennen', 5) - 0.1, 0.9, 0.06); add(w('passierbar', 5) - 0.25, whoosh(0.6, 250, 1500), 0.06)

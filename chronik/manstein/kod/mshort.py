@@ -73,13 +73,13 @@ def strike(can, t, t0, box, col=RED, wd=9, dur=0.35):
 CAPY0 = 1520
 PHR = []; _cur = [WORDS[0]]
 for a_, b_ in zip(WORDS, WORDS[1:]):
-    if b_[1] - a_[2] > 0.1 or a_[0][-1] in '.,:?!' or len(_cur) >= 4: PHR.append(_cur); _cur = [b_]
+    if b_[1] - a_[2] > 0.1 or (a_[0][-1] in '.,:?!' and not re.fullmatch(r'\d+\.', a_[0])) or len(_cur) >= 4: PHR.append(_cur); _cur = [b_]
     else: _cur.append(b_)
 PHR.append(_cur)
 def captions(can, t, y=CAPY0):
     ph = [p for p in PHR if p[0][1] - 0.05 <= t <= p[-1][2] + 0.25]
     if not ph: return
-    p = ph[-1]; ws = [x[0].upper() for x in p]; f = oswald(64, 600)
+    p = ph[-1]; ws = [x[0].replace('ß', '\u1e9e').upper() for x in p]; f = oswald(64, 600)
     while f.getlength(' '.join(ws)) > 760 and f.size > 40: f = oswald(f.size - 4, 600)
     sp = f.getlength(' '); tot = sum(f.getlength(s) for s in ws) + sp * (len(ws) - 1); x = CX - tot / 2
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); nx_ = [q[1] for q in p[1:]] + [p[-1][2] + 0.25]
@@ -168,34 +168,42 @@ def s_france(t, w0, w1):   # seg 1, framed on the planes at the left: the flag a
     return can
 def s_name(t, w0, w1):   # m03, the whole of sentences 2 and 3: the birth name is written and then crossed out
     can = grade(fit('m03', t, w0, w1, 1.08)); shade(can, 230, 0.5); k = 2
-    title(can, t, w('Manstein', k) - 0.05, 'ERICH VON MANSTEIN', 1060, 104, CREAM, ST[4] - 0.22)
-    if t > w('Lewinski', k) - 0.3:
-        bx = hand(can, t, w('Lewinski', k) - 0.3, 'Fritz Erich von Lewinski', (CX, 1285), 84, CREAM, 0.7, ST[4] - 0.22)
-        if bx and t < ST[4]: strike(can, t, w('Namen', 3) - 0.05, bx)
-    if t > w('Namen', 3): hand(can, t, w('Namen', 3) + 0.25, 'von Manstein', (CX, 1390), 92, GOLD, 0.55, ST[4] - 0.22)
+    t_end = ST[4] - 0.22; title(can, t, w('Manstein', k) - 0.05, 'ERICH VON MANSTEIN', 985, 104, CREAM, t_end)
+    q = lambda x, y: fitpt('m03', t, w0, w1, 1.08, x, y); out = 1 - clamp((t - t_end) / 0.25)
+    for s_, quad, t0 in (('Fritz Erich', LEW1, w('Fritz', k) - 0.05), ('von Lewinski', LEW2, w('Lewinski', k) - 0.35)):
+        if t > t0: on_quad(can, [q(*p) for p in quad], s_, 120, out, CREAM, caveat(120, 650), eio((t - t0) / 0.5), 0.7, mod=0.5, op=0.95)
+    tn = w('Namen', 3) - 0.05
+    if t > tn and out > 0:   # red pen through the birth name, gold pen under the new one
+        a, b = q(LEW2[0][0] - 10, (LEW2[0][1] + LEW2[3][1]) / 2 + 8), q(LEW2[1][0] + 10, (LEW2[1][1] + LEW2[2][1]) / 2 + 2); u = eio((t - tn) / 0.35)
+        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); d.line((a, (lerp(a[0], b[0], u), lerp(a[1], b[1], u))), fill=RED + (int(245 * out),), width=10)
+        can.alpha_composite(L.filter(ImageFilter.GaussianBlur(0.6)))
     return can
+LEW1 = [(300, 1395), (640, 1385), (642, 1478), (302, 1488)]   # plain cloth between the collar and the breast eagle
+LEW2 = [(300, 1500), (700, 1490), (702, 1590), (302, 1600)]
 def s_ww1(t, w0, w1):   # m02, sky behind him
     can = grade(fit('m02', t, w0, w1, 1.07)); shade(can, 200, 0.55); k = 4
-    sky(can, t, w('Ersten', k) - 0.05, '1914', 330, 470, 190, CREAM, None, 0.5)
+    sky(can, t, w('Ersten', k) - 0.05, '1914', 300, 380, 165, CREAM, None, 0.5)
     return can
 def s_plan(t, w0, w1):   # m05, the sickle arrow is drawn on the paper map on the table
-    can = grade(fit('m05', t, w0, w1, 1.06)); shade(can, 200, 0.6); k = 5
+    can, q = side('m05', 330, 370, t, w0, w1, 1.04); shade(can, 200, 0.6); k = 5
     t0 = w('Ardennen', k) - 0.1
     if t > t0:
-        q = lambda x, y: fitpt('m05', t, w0, w1, 1.06, x, y)
-        pts = [q(*p) for p in MAP05]; u = eio((t - t0) / 0.9); n = max(2, int(len(pts) * u))
+        src_ = []
+        for i in range(len(MAP05) - 1):
+            for v in np.linspace(0, 1, 8, endpoint=False): src_.append((lerp(MAP05[i][0], MAP05[i + 1][0], v), lerp(MAP05[i][1], MAP05[i + 1][1], v)))
+        src_.append(MAP05[-1]); pts = [q(*p) for p in src_]; u = eio((t - t0) / 0.9); n = max(2, int(len(pts) * u))
         L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); d.line(pts[:n], fill=RED + (235,), width=12, joint='curve')
         e, p_ = pts[n - 1], pts[max(0, n - 3)]; ang = math.atan2(e[1] - p_[1], e[0] - p_[0]); hd = 40
         d.polygon([(e[0] + 10 * math.cos(ang), e[1] + 10 * math.sin(ang)), (e[0] - hd * math.cos(ang - .5), e[1] - hd * math.sin(ang - .5)), (e[0] - hd * math.cos(ang + .5), e[1] - hd * math.sin(ang + .5))], fill=RED + (235,))
         can.alpha_composite(L.filter(ImageFilter.GaussianBlur(0.8)))
         on_quad(can, [q(*p) for p in ARD05], 'ARDENNEN', 120, clamp((t - t0) / 0.06), INK, anton(120), eio((t - t0) / 0.4), 0.8, mod=0.4, op=0.85)
     return can
-MAP05 = [(820, 1720), (700, 1660), (560, 1640), (420, 1680), (300, 1760), (190, 1820)]   # on the paper, east to west
-ARD05 = [(500, 1560), (860, 1545), (880, 1620), (515, 1640)]
+MAP05 = [(1100, 1805), (980, 1797), (850, 1788), (720, 1770), (610, 1735), (520, 1690)]   # on the top sheet, under the middle man's hand, east to west
+ARD05 = [(500, 1600), (770, 1578), (772, 1672), (502, 1694)]
 def s_forest(t, w0, w1):   # seg 3: wooded hills from the air, the words laid onto the forest
     can = C(7.95, 10.0, None, 0.62, 1.1, 0.6, 1.0, 0.5)(t, w0, w1); k = 5
     t0 = w('passierbar', k) - 0.25
-    if t > t0: on_quad(can, [(170, 1080), (910, 1040), (960, 1250), (130, 1300)], 'KAUM PASSIERBAR', 150, clamp((t - t0) / 0.06), CREAM, anton(150), eio((t - t0) / 0.45), 1.0, mod=0.35, op=0.92, glow=((8, 10, 14), 10, 0.6))
+    if t > t0: on_quad(can, [(130, 1080), (870, 1040), (910, 1250), (95, 1300)], 'KAUM PASSIERBAR', 150, clamp((t - t0) / 0.06), CREAM, anton(150), eio((t - t0) / 0.45), 1.0, mod=0.35, op=0.92, glow=((8, 10, 14), 10, 0.6))
     return can
 def s_reject(t, w0, w1):   # m21: the plan put aside, a stamp on the table map
     can = grade(side('m21', 300, 420, t, w0, w1)[0]); shade(can, 200, 0.6); k = 6
@@ -207,7 +215,7 @@ def s_car(t, w0, w1):   # m16: sent off to a corps
     can, m = side('m16', 990, 1030, t, w0, w1); shade(can, 200, 0.6); k = 6; t0 = w('Korpskommando', k) - 0.05
     if t > t0: on_quad(can, [m(*p) for p in CAR16], 'KORPSKOMMANDO', 120, clamp((t - t0) / 0.06), CREAM, anton(120), eio((t - t0) / 0.4), 0.8, mod=0.45, op=0.9)
     return can
-CAR16 = [(1120, 720), (1720, 692), (1730, 815), (1125, 852)]
+CAR16 = [(1100, 845), (1650, 822), (1655, 945), (1105, 972)]
 def s_up(t, w0, w1):   # m04: 'nach oben' chalked on the barn door with an arrow going up
     can = grade(fit('m04', t, w0, w1, 1.06)); shade(can, 200, 0.6); k = 7; t0 = w('oben', k) - 0.25
     if t > t0:
@@ -215,10 +223,10 @@ def s_up(t, w0, w1):   # m04: 'nach oben' chalked on the barn door with an arrow
         on_quad(can, [q(*p) for p in DOOR04], 'NACH OBEN', 120, clamp((t - t0) / 0.06), (240, 238, 228), anton(120), eio((t - t0) / 0.35), 1.0, mod=0.45, op=0.9)
         u = eio((t - t0 - 0.2) / 0.4)
         if u > 0:
-            a, b = q(860, 660), q(860, 330 + 330 * (1 - u)); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+            a, b = q(882, 580), q(882, 360 + 220 * (1 - u)); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
             d.line((a, b), fill=(240, 238, 228, 220), width=12); d.polygon([(b[0], b[1] - 34), (b[0] - 28, b[1] + 14), (b[0] + 28, b[1] + 14)], fill=(240, 238, 228, 220)); can.alpha_composite(L.filter(ImageFilter.GaussianBlur(1)))
     return can
-DOOR04 = [(645, 690), (1080, 678), (1080, 815), (645, 828)]
+DOOR04 = [(665, 600), (1100, 592), (1100, 712), (665, 722)]   # door planks above the general's shoulder
 FR = Map(3.6, 49.6, 6.8, hi=('France',))
 def s_map(t, w0, w1):   # Mai 1940: the sickle cut from the Ardennes to the Channel
     can = grade(FR.frame(lerp(1.0, 1.05, prog(t, w0, w1))), 0.1, 1.0); k = 8; z = lerp(1.0, 1.05, prog(t, w0, w1))
@@ -274,13 +282,13 @@ def s_order(t, w0, w1):   # sentences 10 and 11: the order of 20 November 1941
     pass
     return can
 def s_victims(t, w0, w1):   # m19, drained of colour; the numbers on the sand slope
-    can = grade(fit('m19', t, w0, w1, 1.05), 0.05, 0.25); shade(can, 220, 0.5); dim(can, 60); k = 12
-    q = lambda x, y: fitpt('m19', t, w0, w1, 1.05, x, y); t1 = w('Einsatzgruppe', k) - 0.05; t2 = w('Zehntausende', k) - 0.05
+    can = grade(fit('m19', t, w0, w1, 1.02), 0.05, 0.25); shade(can, 220, 0.5); dim(can, 60); k = 12
+    q = lambda x, y: fitpt('m19', t, w0, w1, 1.02, x, y); t1 = w('Einsatzgruppe', k) - 0.05; t2 = w('Zehntausende', k) - 0.05
     if t > t1: on_quad(can, [q(*p) for p in SLOPE19A], 'EINSATZGRUPPE D', 110, clamp((t - t1) / 0.06), CREAM, anton(110), eio((t - t1) / 0.4), 1.0, mod=0.3, op=0.9, glow=((8, 8, 8), 10, 0.6))
     if t > t2: on_quad(can, [q(*p) for p in SLOPE19B], 'ZEHNTAUSENDE', 130, clamp((t - t2) / 0.06), RED, anton(130), eio((t - t2) / 0.45), 1.0, mod=0.2, op=0.95, glow=((8, 8, 8), 10, 0.7))
     return can
-SLOPE19A = [(560, 430), (1280, 405), (1290, 510), (565, 535)]
-SLOPE19B = [(500, 560), (1330, 530), (1340, 690), (505, 720)]
+SLOPE19A = [(700, 362), (1460, 297), (1460, 397), (700, 462)]   # sand face of the hill, rising with the crest line, clear of the heads
+SLOPE19B = [(700, 470), (1480, 405), (1480, 520), (700, 585)]
 def s_sevastopol(t, w0, w1): return C(15.5, 17.9, None, 0.6, 1.08)(t, w0, w1)
 def s_dora(t, w0, w1): return C(17.95, 21.15, None, 0.55, 1.08, 1.3)(t, w0, w1)
 def s_ruins(t, w0, w1):
@@ -292,10 +300,12 @@ def s_marshal(t, w0, w1):   # seg 10, his face, the rank on its word
     title(can, t, w('Generalfeldmarschall', 13) - 0.05, 'GENERALFELDMARSCHALL', 1300, 96, GOLD, nxt(ST[13])); return can
 def s_stalingrad(t, w0, w1):   # m20 over the map: the city written on the map
     can = grade(fit('m20', t, w0, w1, 1.06)); shade(can, 200, 0.6); k = 14
-    pass
-    title(can, t, w('Stalingrad', k) - 0.05, 'STALINGRAD', 1340, 130, GOLD, nxt(ST[k]))
+    t0 = w('Stalingrad', k) - 0.05
+    if t > t0:
+        q = lambda x, y: fitpt('m20', t, w0, w1, 1.06, x, y)
+        on_quad(can, [q(*p) for p in CAP20], 'STALINGRAD', 130, clamp((t - t0) / 0.06), CREAM, anton(130), eio((t - t0) / 0.45), 0.8, mod=0.55, op=0.9)
     return can
-MAP20 = [(330, 2190), (1050, 2170), (1060, 2290), (335, 2320)]
+CAP20 = [(715, 440), (1325, 835), (1235, 965), (630, 575)]   # side of his field cap, along the piping
 def s_50km(t, w0, w1):   # seg 5 and 6: guns firing, the distance
     can = C(12.0, 15.45, None, 0.6, 1.08)(t, w0, w1)
     title(can, t, w('50', 15) - 0.05, '50 KM', 1160, 210, GOLD, nxt(ST[15]))
@@ -322,16 +332,22 @@ def s_trial(t, w0, w1):   # m07 in one move: on him for 'Hamburg', then across t
             x, y = m(150 + (i % 9) * 95, 420 + (i // 9) * 230); col = RED if i < n9 else CREAM
             d.line((x, y, x + 8, y + 150), fill=col + (235,), width=12)
         can.alpha_composite(L.filter(ImageFilter.GaussianBlur(1.2)))
-        title(can, t, w('neun', 19) - 0.05, '9 VON 17', 1110, 140, CREAM, ST[20] - 0.22)
+        tn = w('neun', 19) - 0.05; out = 1 - clamp((t - ST[20] + 0.22) / 0.25)
+        on_quad(can, [m(*p) for p in PANEL07], '9 VON 17', 130, clamp((t - tn) / 0.06) * out, INK, anton(130), eio((t - tn) / 0.4), 0.8, mod=0.45, op=0.9)
     pass
     return can
+PANEL07 = [(425, 1100), (850, 1022), (850, 1152), (425, 1230)]   # cream front of the dock, slanting with its top rail
 def s_verdict(t, w0, w1):   # m15
     can = grade(fit('m15', t, w0, w1, 1.06)); shade(can, 220, 0.5); k = 20
     stamp(can, t, w('18', k) - 0.05, '18 JAHRE HAFT', (CX, 1330), 104, -6, nxt(ST[k])); return can
 def s_free(t, w0, w1):   # m01
     can = grade(fit('m01', t, w0, w1, 1.06)); shade(can, 200, 0.55); k = 21
-    title(can, t, ST[k] + 0.05, '1953', 1180, 150, CREAM, nxt(ST[k]))
+    t0 = ST[k] + 0.05
+    if t > t0:
+        q = lambda x, y: fitpt('m01', t, w0, w1, 1.06, x, y); out = 1 - clamp((t - nxt(ST[k])) / 0.25) if nxt(ST[k]) else 1.0
+        on_quad(can, [q(*p) for p in SHOULDER01], '1953', 130, clamp((t - t0) / 0.06) * out, CREAM, anton(130), eio((t - t0) / 0.4), 0.8, mod=0.5, op=0.92)
     return can
+SHOULDER01 = [(1080, 1215), (1345, 1290), (1318, 1415), (1053, 1340)]   # upper arm under the shoulder board, following its slope
 def s_book(t, w0, w1):   # 1955: the memoirs
     can = Image.new('RGBA', (W, H), (16, 15, 14, 255)); k = 22
     if t > w('Buch', k) - 0.25:

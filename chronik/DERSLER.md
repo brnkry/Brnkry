@@ -46,6 +46,9 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 ## Altyazı ve ekran metni (Manstein'dan itibaren)
 - Shorts'ta altyazı var: İngilizce kanaldaki gibi Oswald 600, 64 px, söylenen kelime sarı, y≈1520.
 - Altyazı olduğu için ekrana altyazıyı tekrar eden başlık konmaz. Sahne başına en fazla bir-iki önemli kelime, mümkünse görselin içine yazılır (harita kâğıdı, gökyüzü, kapı, kumaş, perde).
+- Altyazıda ß büyük harfte ẞ olarak kalır (Oswald'da var), sıra sayıları ("20.") ifadeyi bölmez.
+- Render öncesi `kod/uicheck.py` ile her 0,2 sn'de metin katmanının sağ butonlara, üst bara ve alt başlık alanına girmediği ölçülür.
+- Görsel içine yazı: kafa, el ve rozetlerden uzak, yüzeyin eğimini takip eden quad (üniforma göğsü, şapka yanı, omuz, kapı, tepe yamacı, panel).
 - Haber filmindeki filigran (arşiv logosu) kadraja girmez; kırpma o bölgeden uzak tutulur.
 
 ## Metinler
