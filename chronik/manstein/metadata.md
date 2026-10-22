@@ -46,6 +46,23 @@ Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
 ```
 **Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": Ja (KI-Stimme, kolorierte Fotos) · nicht für Kinder · Cover A.
 
+## YouTube Community-Beitrag
+Bild: `social/YouTube_Post_Manstein.jpg` (1080x1080)
+
+Text:
+```
+Erich von Manstein: Sein Plan besiegte Frankreich in sechs Wochen. Jahrzehntelang galt er als der saubere Stratege der Wehrmacht.
+
+Doch 1941 unterschrieb er auf der Krim einen Befehl gegen Juden, und 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft.
+
+Die ganze Geschichte jetzt im neuen Short auf dem Kanal. 👇
+```
+Umfrage: "Erich von Manstein: Wie seht ihr ihn?"
+- Genialer Stratege
+- Kriegsverbrecher
+- Beides
+- Ich schaue erst das Video
+
 ## Instagram (Reel)
 - Seit Dezember 2025 sind auf Instagram **höchstens 5 Hashtags** pro Beitrag erlaubt (Caption und Kommentare zusammen).
 - Nur die erste Zeile ist vor "mehr" sichtbar, darum steht die Frage oben.
