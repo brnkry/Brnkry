@@ -1,6 +1,6 @@
 # Erich von Manstein: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Erich_von_Manstein_Shorts_DE_v3.mp4` (9:16, 1:56). Cover: `thumbnails/DE_A_Sieg_und_Haft.jpg` (empfohlen), `thumbnails/DE_B_Der_saubere_Stratege.jpg`. Story: `social/Manstein_Story_DE.mp4` (10,9 s).
+Video: `Erich_von_Manstein_Shorts_DE_v3.mp4` (9:16, 1:56). Cover: `thumbnails/DE_A_18_Jahre_Haft.jpg` (empfohlen), `thumbnails/DE_B_Der_saubere_Stratege.jpg`. Story: `social/Manstein_Story_DE.mp4` (10,9 s).
 
 ## Faktencheck (Türkçe not)
 | İddia | Durum |
@@ -52,7 +52,7 @@ Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
 ## Instagram (Reel)
 - Seit Dezember 2025 sind auf Instagram **höchstens 5 Hashtags** pro Beitrag erlaubt (Caption und Kommentare zusammen).
 - Nur die erste Zeile ist vor "mehr" sichtbar, darum steht die Frage oben.
-- Cover: `DE_A_Sieg_und_Haft.jpg`. Im Profilraster wird auf 3:4 (Mitte) beschnitten, Gesicht und Name bleiben sichtbar.
+- Cover: `DE_A_18_Jahre_Haft.jpg`. Im Profilraster wird auf 3:4 (Mitte) beschnitten, Gesicht und Name bleiben sichtbar.
 - "Auch auf Facebook teilen" ausschalten, Facebook bekommt einen eigenen Text.
 
 **Text**
@@ -68,9 +68,8 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare 👇
 **Alternativtext:** `Kurzdoku über Erich von Manstein: Sichelschnitt 1940, Befehl von 1941, Prozess in Hamburg 1949 und seine Erinnerungen "Verlorene Siege".`
 
 ## Instagram / Facebook Story
-- Video: `social/Manstein_Story_DE.mp4`. Erst der Einstieg des Shorts, dann eine Karte mit "NEUES VIDEO · ERICH VON MANSTEIN · DER SAUBERE STRATEGE? · JETZT ANSEHEN" und einem Pfeil.
-- Unter den Pfeil (etwa Bildmitte, unteres Drittel) einen **Link-Sticker** zum Reel bzw. Short setzen, Sticker-Text: "Ganzes Video".
-- Optional eine Umfrage auf der zweiten Story: "Manstein: Stratege oder Täter?" mit den Antworten "Stratege" und "Beides".
+- Video: `social/Manstein_Story_DE.mp4` (10,9 s). Erst der Einstieg des Shorts, dann läuft das Video abgedunkelt weiter, darüber: "NEUES VIDEO · ERICH VON MANSTEIN · DER SAUBERE STRATEGE? · SCHNELL INS PROFIL UND ANSEHEN!" mit einem Pfeil nach oben links zum Profilnamen.
+- Kein Link-Sticker nötig. Optional eine zweite Story mit Umfrage: "Manstein: Stratege oder Täter?" mit den Antworten "Stratege" und "Beides".
 
 ## Facebook (Reel)
 **Titel:** Sein Plan besiegte Frankreich. Dann kam Hamburg 1949
@@ -89,7 +88,7 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 
 #Manstein #ZweiterWeltkrieg #Geschichte #Militärgeschichte #ChronikDerMacht
 ```
-Cover: `thumbnails/DE_A_Sieg_und_Haft.jpg`
+Cover: `thumbnails/DE_A_18_Jahre_Haft.jpg`
 
 ## Reihenfolge (Türkçe not)
 1. Önce YouTube Shorts, yaklaşık 1 saat sonra Instagram Reel ve Facebook Reel, her biri kendi metniyle.

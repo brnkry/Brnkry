@@ -1,6 +1,7 @@
 # Manstein 9:16 covers in the CDM style (logo band on top, name as the biggest line in yellow, swastikas blurred via lib9.src)
-#  A: 1940 victor above, 1949 defendant below (like the Hartmann cover)
-#  B: the studio portrait with the birth name written on the uniform and struck through, as in the video
+#  A: Hamburg 1949, in the dock, 18 years
+#  B: the studio portrait with the legend 'der saubere Stratege' struck through
+#  no heroic framing: no victories on the cover
 import sys
 from lib9 import *
 OUT = B + 'thumbs/'
@@ -25,38 +26,32 @@ def grad(can, rows):
 def tag(d, x, y, s, bg):
     f = bebas(70); b = d.textbbox((x, y), s, font=f, anchor='mm'); d.rectangle((b[0] - 20, b[1] - 10, b[2] + 20, b[3] + 10), fill=bg); d.text((x, y), s, font=f, fill=DARK, anchor='mm')
 
-def cover_a():
+SAFE = (330, 1450)   # what a phone shows of a 9:16 cover in the feed and the profile grid: all text and the logo stay inside
+def photo(can, n, x0, y0, w, top):
+    """source box (x0, y0, w wide) scaled to the canvas width, placed from y=top down"""
+    im = src(n); s_ = W / w; h = min(im.height - y0, (H - top) / s_)
+    p = im.resize((W, int(h * s_)), Image.LANCZOS, box=(x0, y0, x0 + w, y0 + h)).convert('RGBA'); can.alpha_composite(p, (0, top)); return s_
+def cover_a():   # Hamburg 1949: in the dock
     can = Image.new('RGBA', (W, H), DARK + (255,))
-    can.alpha_composite(band('m03', 330, 0, 1150, 890), (0, 170))      # face and collar, 1940s portrait
-    can.alpha_composite(band('m07', 980, 40, 1000, 860), (0, 1060))    # Hamburg 1949, in the dock
-    grad(can, [(720, 1040, 230, 0, 1060), (260, 170, 220, 0, 1060), (1460, 1760, 240, 1060, H), (1140, 1060, 160, 1060, H)])
-    d = ImageDraw.Draw(can); d.line((0, 1060, W, 1060), fill=YEL, width=8)
-    tag(d, 150, 230, '1940', YEL); tag(d, 150, 1110, '1949', WHITE)
-    badge(can, W / 2 - 75, 50, 92)
-    T(can, (CX + 20, 960), 'SIEG IN 6 WOCHEN', 130, WHITE)
-    T(can, (CX + 20, 1650), '18 JAHRE HAFT', 110, RED, bold=1)
-    T(can, (CX + 20, 1810), 'ERICH VON MANSTEIN', 150, YEL)
-    can.convert('RGB').save(OUT + 'DE_A_Sieg_und_Haft.jpg', quality=93)
-
-def cover_b():
+    photo(can, 'm07', 990, 0, 1010, 400)
+    grad(can, [(520, 400, 255, 0, 640), (980, 1240, 235, 0, H)])
+    d = ImageDraw.Draw(can); badge(can, W / 2 - 75, 330, 92)
+    tag(d, 300, 520, 'HAMBURG 1949', YEL)
+    T(can, (CX, 1120), 'ERICH VON', 124, WHITE)
+    T(can, (CX, 1265), 'MANSTEIN', 210, YEL)
+    T(can, (CX, 1405), '18 JAHRE HAFT', 92, RED, bold=1)
+    can.convert('RGB').save(OUT + 'DE_A_18_Jahre_Haft.jpg', quality=93)
+def cover_b():   # the portrait, with the legend struck through
     can = Image.new('RGBA', (W, H), DARK + (255,))
-    im = src('m03'); s = 1750 / im.height; w = int(im.width * s); p = im.resize((w, 1750), Image.LANCZOS).convert('RGBA')
-    can.alpha_composite(p.crop(((w - W) // 2 + 30, 0, (w - W) // 2 + 30 + W, 1750)), (0, 170))
-    grad(can, [(1250, 1620, 245, 0, H), (260, 170, 220, 0, H)])
-    d = ImageDraw.Draw(can); badge(can, W / 2 - 75, 50, 92)
-    # the birth name, handwritten on the uniform (left chest) and struck through in red, as in the video
-    def toS(x, y): return ((x - (im.width - W / s) / 2 - 30 / s) * s, y * s + 170)
-    f = ImageFont.truetype(F + 'Caveat.ttf', 66)
-    try: f.set_variation_by_axes([650])
-    except Exception: pass
-    x, y = toS(290, 1430)
-    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); dl = ImageDraw.Draw(L); dl.text((x, y), 'Fritz Erich', font=f, fill=CREAM + (240,), anchor='lm'); dl.text((x, y + 70), 'von Lewinski', font=f, fill=CREAM + (240,), anchor='lm')
-    wl = f.getlength('von Lewinski'); dl.line((x - 8, y + 78, x + wl + 8, y + 66), fill=RED + (250,), width=9)
-    sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.paste((0, 0, 0, 200), (0, 0), L.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6)), (2, 5)); can.alpha_composite(L)
-    T(can, (CX, 1500), 'DER SAUBERE STRATEGE?', 96, WHITE, bold=1)
-    a, b_ = anton(96), 'DER SAUBERE STRATEGE?'; tw = a.getlength(b_); x0 = CX - tw / 2 + a.getlength('DER '); x1 = x0 + a.getlength('SAUBERE')
-    d = ImageDraw.Draw(can); d.line((x0 - 6, 1506, x1 + 6, 1494), fill=RED, width=11)
-    T(can, (CX, 1650), 'ERICH VON', 130, WHITE)
-    T(can, (CX, 1800), 'MANSTEIN', 190, YEL)
+    photo(can, 'm03', 330, 0, 1140, 400)
+    grad(can, [(520, 400, 255, 0, 640), (960, 1200, 235, 0, H)])
+    d = ImageDraw.Draw(can); badge(can, W / 2 - 75, 330, 92)
+    T(can, (CX, 1120), 'ERICH VON', 124, WHITE)
+    T(can, (CX, 1265), 'MANSTEIN', 210, YEL)
+    f = anton(84); s_ = 'DER SAUBERE STRATEGE?'
+    while f.getlength(s_) > 900: f = anton(f.size - 4)
+    T(can, (CX, 1405), s_, f.size, WHITE, bold=1)
+    x0 = CX - f.getlength(s_) / 2 + f.getlength('DER '); x1 = x0 + f.getlength('SAUBERE')
+    d = ImageDraw.Draw(can); d.line((x0 - 6, 1412, x1 + 6, 1400), fill=RED, width=10)
     can.convert('RGB').save(OUT + 'DE_B_Der_saubere_Stratege.jpg', quality=93)
 if __name__ == '__main__': cover_a(); cover_b(); print('ok')

@@ -60,3 +60,9 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Render'dan ÖNCE her sahnenin önizlemesi alınır ve şunlar tek tek kontrol edilir: üst üste binen yazı (bölüm kartı ile tarih satırı dahil), ekran dışına taşan yazı, UI alanları (9:16), bulanıklaştırma yerleri.
 - Özellikle sahne geçişleri ve bölüm başları için ayrıca kare alınır (kart görünürken + kart kaybolurken).
 - Hata render bittikten sonra bulunursa bu bir süreç hatasıdır: önce önizleme, sonra render.
+
+## Kapak ve story (Manstein'dan)
+- Kapakta bütün yazılar ve logo y 330..1450 bandında; isim en büyük satır, ortanın biraz altında (y ≈ 1100..1300). Üst 330 ve alt 470 piksel telefonda kesiliyor.
+- Kapakta kahramanlaştırma yok: zafer ve övgü yazısı konmaz; olgu (mahkeme, ceza) veya sorgulayan cümle kullanılır.
+- Story kartında arka plan durmaz ve bulanıklaşmaz: kısa video arkada karartılmış olarak oynamaya devam eder, kendi yazıları ve altyazısı gizlenir.
+- Story çağrısı: "Schnell ins Profil und ansehen!", ok profil adına (sol üst). "Jetzt ansehen" kullanılmaz.
