@@ -1,6 +1,6 @@
 # Hermann Balck: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Hermann_Balck_Shorts_DE.mp4` (9:16, 1:47, v2). Cover: `thumbnails/DE_Balck_Lehrer_oder_Taeter.jpg`. Story: `Balck_Story_DE.mp4` (16,5 s; Code `kod/story_b.py`).
+Video: `Hermann_Balck_Shorts_DE.mp4` (9:16, 1:47, v3). Cover: `thumbnails/DE_Balck_Lehrer_oder_Taeter.jpg`. Story: `Balck_Story_DE.mp4` (16,5 s; Code `kod/story_b.py`).
 
 ## Faktencheck (Türkçe not)
 | İddia | Durum |

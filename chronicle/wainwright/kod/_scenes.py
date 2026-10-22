@@ -65,9 +65,9 @@ def s_sign(t, w0, w1):
         if t > t2: on_quad(can, [m(*p) for p in DOC2], 'SURRENDER', 120, out, RED, anton(120), eio((t - t2) / 0.4), 0.7, mod=0.3, op=0.95)
         if t > FREEZE_AT + 0.15:
             tip = m(1180, 718); arrow_to(can, (tip[0] - 160, tip[1] - 330), (tip[0] - 15, tip[1] - 25), eio((t - FREEZE_AT - 0.15) / 0.35) * out)
-    if t > ws('thin') - 0.15:   # an arrow from the right, stopping short of his head, following him as he moves
-        hx, hy = HEAD(ct); tip = m(hx + 95, hy); tip = (tip[0] + 10, tip[1]); tail = (min(tip[0] + 330, 900), tip[1] - 170)
-        arrow_to(can, tail, tip, eio((t - ws('thin') + 0.15) / 0.35) * (1 - clamp((t - ws('Three') + 0.35) / 0.25)), YEL, 14, 46)
+    if t > ws('thin') - 0.15:   # a still arrow from the right, stopping short of his head where he bows to take the pen
+        tip, tail = (585, 505), (905, 335)
+        arrow_to(can, tail, tip, eio((t - ws('thin') + 0.15) / 0.35) * (1 - clamp((t - ws('behind') - 0.1) / 0.25)), YEL, 14, 46)
     return can
 HEADK = [(5.0, 330, 225), (5.4, 390, 240), (5.75, 480, 330), (6.3, 410, 265), (7.0, 300, 230), (9.6, 295, 230)]   # Wainwright's head centre (film)
 def HEAD(ct):
@@ -157,14 +157,14 @@ def s_missouri_date(t, w0, w1):   # w10, the reunion with MacArthur, two days be
     return can
 def s_medal(t, w0, w1):   # w02, Truman pins the medal; then BLOCKED 1942
     can, m = side('w02', 760, 760, t, w0, w1, 1.03); shade(can, 200, 0.55)
-    tm = ws('Medal', w0 - 0.5); te = ws('award', w0) - 0.2; tb = ws('blocked', w0) - 0.05
+    tm = ws('Medal', w0 - 0.5); tb = ws('blocked', w0) - 0.05; te = tb - 0.12   # MEDAL OF HONOR and the arrow stay until 'blocked'
     for i, (s_, q) in enumerate(zip(('MEDAL', 'OF', 'HONOR'), TREES02)):
-        tt = tm + i * 0.15; out = 1 - clamp((t - te) / 0.25)
+        tt = tm + i * 0.15; out = 1 - clamp((t - te) / 0.12)
         if tm <= t and out > 0: on_quad(can, [m(*p) for p in q], s_, 120, clamp((t - tt) / 0.06) * out, YEL, anton(120), eio((t - tt) / 0.3), 0.8, op=0.95, glow=((6, 8, 6), 10, 0.7))
-    if tm + 0.5 < t < te + 0.25:
-        a = m(1080, 560); b = m(1505, 930); arrow_to(can, a, b, eio((t - tm - 0.5) / 0.4) * (1 - clamp((t - te) / 0.25)), YEL, 12, 40)
+    if tm + 0.5 < t < te + 0.12:
+        a = m(1080, 560); b = m(1505, 930); arrow_to(can, a, b, eio((t - tm - 0.5) / 0.4) * (1 - clamp((t - te) / 0.12)), YEL, 12, 40)
     for i, (s_, q) in enumerate(zip(('BLOCKED', 'IN', '1942'), TREES02)):
-        tt = tb + i * 0.15
+        tt = tb + i * 0.1
         if t > tt: on_quad(can, [m(*p) for p in q], s_, 120, clamp((t - tt) / 0.06), RED, anton(120), eio((t - tt) / 0.3), 0.8, op=0.95, glow=((6, 8, 6), 10, 0.7))
     return can
 TREES02 = [[(840, 200), (1300, 200), (1300, 310), (840, 310)], [(980, 320), (1160, 320), (1160, 400), (980, 400)], [(840, 410), (1300, 410), (1300, 520), (840, 520)]]   # foliage left of his head

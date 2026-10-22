@@ -217,8 +217,8 @@ def pen(can, t, t0, s_, xy, font, col, dur=0.9):
     L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).text((30 - bb[0], 30 - bb[1]), s_, font=font, fill=col + (255,))
     u = eio((t - t0) / dur); m = np.clip((u * (w_ + 40) - np.arange(w_)) / 40, 0, 1)
     L.putalpha(Image.fromarray((np.asarray(L.getchannel('A'), np.float32) * m[None, :]).astype(np.uint8)))
-    sh = Image.new('RGBA', L.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, 170), (0, 0), L.getchannel('A'))
-    x, y = int(xy[0] - w_ / 2), int(xy[1] - h_ / 2); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(7)), (x + 3, y + 5)); can.alpha_composite(L, (x, y))
+    sh = Image.new('RGBA', L.size, (0, 0, 0, 0)); sh.paste((12, 10, 8, 235), (0, 0), L.getchannel('A').filter(ImageFilter.MaxFilter(11)))   # dark halo: readable on the bright wall too
+    x, y = int(xy[0] - w_ / 2), int(xy[1] - h_ / 2); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(12)), (x + 2, y + 4)); can.alpha_composite(L, (x, y))
 def tank(can, x, y, s=1.0, col=YEL, flip=False, a=1.0):
     """small tank symbol for the maps (hull, tracks, turret, gun)"""
     if a <= 0: return
@@ -339,21 +339,21 @@ def s_day(t, w0, w1):   # Panther moving in daylight
 def s_25(t, w0, w1):   # b22: Panzer III column, '25' painted on the turret side, then the arrow round behind
     can, m = side('b22', 760, 860, t, w0, w1, 1.04); shade(can, 200, 0.55)
     t1 = ws('25', 39)
-    paint(can, t, t1, [m(*q) for q in pin('b22', 760, 860, w0, w1, 1.04, 41.0, qbox(585, 990, 'NUR 25', 96, tilt=4))], 'NUR 25', 96, CREAM, dur=0.4, mod=0.4, op=0.92)
+    paint(can, t, t1, [m(*q) for q in pin('b22', 760, 860, w0, w1, 1.04, 41.0, qbox(585, 1035, 'NUR 25', 112, tilt=4))], 'NUR 25', 112, CREAM, dur=0.4, mod=0.4, op=0.92)
     t2 = ws('Angreifern', 39) - 0.1
-    if t > t2: path_arrow(can, [(140, 700), (400, 520), (760, 560), (900, 700), (830, 860)], eio((t - t2) / 1.0), YEL, 16, 50)
+    if t > t2: path_arrow(can, [(140, 700), (400, 520), (760, 560), (870, 720), (725, 945)], eio((t - t2) / 1.0), YEL, 16, 50)
     return can
 TURRET22 = [(1040, 980), (1560, 990), (1560, 1120), (1040, 1115)]
 def s_hq(t, w0, w1):   # b24: at the map table, the army group written on the map
     can, m = side('b24', 700, 760, t, w0, w1, 1.04); shade(can, 200, 0.5)
     t1 = ws('Heeresgruppe', 44)
-    pen(can, t, t1 - 0.05, 'Heeresgruppe', (800, 470), playfair(84, 700), (236, 210, 150), 0.8)
+    pen(can, t, t1 - 0.05, 'Heeresgruppe', (770, 470), playfair(80, 800), (246, 214, 120), 0.8)
     return can
 MAP24 = [(720, 1440), (1620, 1430), (1700, 1600), (680, 1612)]
 def s_lorraine(t, w0, w1):   # b25: Panthers under foliage in a French village, autumn 1944
     can, m = side('b25', 900, 1150, t, w0, w1, 1.04); shade(can, 200, 0.55)
     pq = lambda tr, q: [m(*v) for v in pin('b25', 900, 1150, w0, w1, 1.04, tr, q)]
-    paint(can, t, ws('Herbst', 47.5), pq(50.0, qbox(660, 628, 'HERBST 1944', 74, tilt=-5)), 'HERBST 1944', 74, (236, 230, 214), dur=0.6, mod=0.5, op=0.92)
+    paint(can, t, ws('Herbst', 47.5), pq(50.0, qbox(660, 650, 'HERBST 1944', 74, tilt=-5)), 'HERBST 1944', 74, (236, 230, 214), dur=0.6, mod=0.5, op=0.92)
     sky(can, t, ws('Lothringen', 49), 'LOTHRINGEN', CX, 420, 120, CREAM, None, 0.5)
     paint(can, t, ws('George', 51), pq(52.9, qbox(600, 1370, 'GEORGE PATTON', 84, keyst=0.06)), 'GEORGE PATTON', 84, YEL, dur=0.45, mod=0.35, op=0.95)
     return can
@@ -369,14 +369,14 @@ def s_exec(t, w0, w1):   # b12: a gun crew; the stamp
     return can
 def s_relieved(t, w0, w1):   # b20: with Major Walter, summer
     can = grade(fit('b20', t, w0, w1, 1.05)); shade(can, 210, 0.5)
-    sky(can, t, ws('abgelöst', 60) - 0.03, 'ABGELÖST', CX, 300, 124, (222, 62, 54), None, 0.45)
-    title(can, t, ws('Ungarn', 60), 'UNGARN', 1390, 100, YEL)
+    sky(can, t, ws('abgelöst', 60) - 0.03, 'ABGELÖST', CX, 270, 124, (222, 62, 54), None, 0.45)
+    sky(can, t, ws('Ungarn', 60), 'NACH UNGARN', CX, 368, 60, YEL, None, 0.4)
     return can
 def s_captive(t, w0, w1):   # b10: German soldiers surrendering, 1945; the word on the white wall
     can, m = side('b10', 300, 500, t, w0, w1, 1.04); shade(can, 200, 0.55)
     pq = lambda q: [m(*v) for v in pin('b10', 300, 500, w0, w1, 1.04, 64.5, q)]; chalk = (238, 234, 224)
-    paint(can, t, ws('Kriegsende', 63), pq(qbox(590, 240, 'KRIEGSENDE', 88)), 'KRIEGSENDE', 92, chalk, dur=0.5, mod=0.45)
-    paint(can, t, ws('Gefangenschaft', 63) - 0.05, pq(qbox(590, 326, 'GEFANGENSCHAFT', 60)), 'GEFANGENSCHAFT', 62, YEL, dur=0.6, mod=0.4)
+    paint(can, t, ws('Kriegsende', 63), pq(qbox(850, 300, 'KRIEGSENDE', 78)), 'KRIEGSENDE', 78, chalk, dur=0.5, mod=0.45)
+    paint(can, t, ws('Gefangenschaft', 63) - 0.05, pq(qbox(850, 405, 'GEFANGENSCHAFT', 54)), 'GEFANGENSCHAFT', 54, YEL, dur=0.6, mod=0.4)
     return can
 WALL10 = [(330, 330), (560, 320), (560, 480), (330, 488)]
 def s_court(t, w0, w1):   # b14, profile: Stuttgart 1948
