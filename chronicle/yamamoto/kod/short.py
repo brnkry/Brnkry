@@ -342,7 +342,7 @@ GR = ((800, 1560), (1300, 1560), (1345, 1900), (740, 1900))
 def s_wreck(t, w0, w1):
     """s4-5, the wreck in the jungle: the mission name is stencilled onto the tail fin, each word on its word"""
     can, m = side('s4-5', 1180, 1290, t, w0, w1)
-    for s_, (x0, y0, x1, y1), t0 in (('OPERATION', (1455, 590, 1860, 690), w('Operation', 13) - 0.04), ('VENGEANCE', (1455, 715, 1860, 815), w('Vengeance', 13) - 0.04)):
+    for s_, (x0, y0, x1, y1), t0 in (('OPERATION', (1455, 590, 1860, 690), w('Operation', 13) - 0.04), ('VENGEANCE', (1455, 692, 1860, 792), w('Vengeance', 13) - 0.04)):
         if t <= t0: continue
         q = [m(x0, y0), m(x1, y0 - 25), m(x1, y1 - 25), m(x0, y1)]   # the fin leans back a little
         on_quad(can, q, s_, 200, clamp((t - t0) / 0.05), (236, 232, 220), anton(200), eio((t - t0) / 0.22), 0.8, mod=0.45, op=0.92)

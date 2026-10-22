@@ -7,7 +7,7 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Sahne, önceki cümle bitmeden değişmez: her sahne kendi cümlesinin ilk kelimesine bağlanır (0,15 sn önce).
 - Her yazı ekranda en az ~1,5 sn kalır; kalamıyorsa yazı cümlenin başında gelir ya da sonraki sahne biraz bekler.
 - Animasyonlar bittikten sonra sahne ~1 sn daha ekranda kalır, hemen geçmez.
-- Kelime eşleştirmesi: duraklama + hece çekirdeği + süre birlikte (align3.py). Render öncesi her sahnenin kelimelerinin kendi penceresinde olduğu kontrol edilir.
+- Kelime eşleştirmesi: `werkzeuge/align_ps.py` (pocketsphinx, akustik modelle zorlamalı hizalama). align3.py duraklamalardan cümleyi yanlış bölebiliyor ve 0,5 sn kayıyor (Yamamoto'da "warned", "oil"). Kulakla/enerjiyle elle düzeltme de güvenilir değil; hizalayıcıya güven, sonra kritik kelimeleri önizlemede kontrol et. Almanca için pocketsphinx Almanca modeli gerekir; yoksa align3 + kelime kelime kontrol.
 - Ses parça parça gelirse birleştirince cümle araları kısaltılır ama cümleler birbirine yapışmaz (~0,4 sn).
 
 ## Yerleşim
