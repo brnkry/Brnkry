@@ -11,6 +11,7 @@
 - A: `thumbnails/EN_A_Hitlers_Choice.jpg`
 - B: `thumbnails/EN_B_Desert_Fox.jpg`
 - C: `thumbnails/EN_C_Buried_as_a_Hero.jpg`
+- D (new layout, recommended): `thumbnails/EN_Desert_Fox_Poison.jpg` (THE DESERT FOX / WHY HE TOOK POISON)
 
 ### Description
 Hitler sent two generals to his most famous field marshal with a choice: stand trial, or take poison.

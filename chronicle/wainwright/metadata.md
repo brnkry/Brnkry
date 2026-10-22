@@ -1,6 +1,6 @@
 # Jonathan Wainwright: Shorts package (English, Chronicle of Power)
 
-Video: `Jonathan_Wainwright_Short_EN.mp4` (9:16, 1:02, v3). Cover: `thumbnails/EN_Wainwright_Surrendered.jpg` (full-bleed portrait, CP logo on top, name in two big lines, yellow plate "FORCED TO SURRENDER IN 1942"; same layout as the Yamamoto cover).
+Video: `Jonathan_Wainwright_Short_EN.mp4` (9:16, 1:02, v3). Cover: `thumbnails/EN_Wainwright_Surrendered.jpg` (official portrait, no name: "1942: SURRENDERED TO / JAPAN / 1945: WATCHED IT SURRENDER", fixed Yamamoto layout, code `chronicle/brand/covers4.py`).
 
 ## Fact check (Türkçe not)
 | İddia | Durum |
