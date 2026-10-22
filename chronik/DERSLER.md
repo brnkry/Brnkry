@@ -10,6 +10,8 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Kelime eşleştirmesi: `werkzeuge/align_ps.py` (pocketsphinx, akustik modelle zorlamalı hizalama). align3.py duraklamalardan cümleyi yanlış bölebiliyor ve 0,5 sn kayıyor (Yamamoto'da "warned", "oil"). Kulakla/enerjiyle elle düzeltme de güvenilir değil; hizalayıcıya güven, sonra kritik kelimeleri önizlemede kontrol et. Almanca için pocketsphinx Almanca modeli gerekir; yoksa align3 + kelime kelime kontrol.
 - Ses parça parça gelirse birleştirince cümle araları kısaltılır ama cümleler birbirine yapışmaz (~0,4 sn).
 
+- Almanca hizalama: `werkzeuge/align_de.py` (pocketsphinx + CMU VoxForge Almanca modeli, SourceForge'dan indirilir). Sözlükte olmayan kelimeler sayılarla/parçalarla açılır veya fonem olarak eklenir. `free` argümanı kaydın senaryoya uyduğunu da kontrol eder.
+
 ## Yerleşim
 - Yazılar birbirinin, okların ve harita etiketlerinin üstüne binmez. Tarih/yıl yazıları rotanın ve şehir etiketinin olmadığı yere konur.
 - Hiçbir yazı ekranın dışına taşmaz (sol kenardaki etiketler sağa açılır).
@@ -40,6 +42,11 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Arka plan müziği hiç düşmez, sonu sönen parçalar kesilip döngüyle birleştirilir.
 - Kanal logo animasyonu son cümleyle ("abonniert Chronik der Macht...") birlikte başlar, ayrı en sona eklenmez.
 - Kapanışta "Wir sehen uns" yok.
+
+## Altyazı ve ekran metni (Manstein'dan itibaren)
+- Shorts'ta altyazı var: İngilizce kanaldaki gibi Oswald 600, 64 px, söylenen kelime sarı, y≈1520.
+- Altyazı olduğu için ekrana altyazıyı tekrar eden başlık konmaz. Sahne başına en fazla bir-iki önemli kelime, mümkünse görselin içine yazılır (harita kâğıdı, gökyüzü, kapı, kumaş, perde).
+- Haber filmindeki filigran (arşiv logosu) kadraja girmez; kırpma o bölgeden uzak tutulur.
 
 ## Metinler
 - İsimler tam yazılır (Heinrich Lehmann-Willenbrock gibi).
