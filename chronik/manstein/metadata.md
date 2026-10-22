@@ -74,7 +74,7 @@ Sein Plan besiegte Frankreich in sechs Wochen. Warum stand er 1949 vor Gericht? 
 **Alternativtext:** `Kurzdoku über Erich von Manstein: Sichelschnitt 1940, Befehl von 1941, Prozess in Hamburg 1949 und seine Erinnerungen "Verlorene Siege".`
 
 ## Instagram / Facebook Story
-- Video: `social/Manstein_Story_DE.mp4` (10,9 s). Erst der Einstieg des Shorts, dann läuft das Video abgedunkelt weiter, darüber: "NEUES VIDEO · ERICH VON MANSTEIN · DER SAUBERE STRATEGE? · SCHNELL INS PROFIL UND ANSEHEN!" mit einem Pfeil nach oben links zum Profilnamen.
+- Video: `social/Manstein_Story_DE.mp4` (10,9 s). Der Einstieg des Shorts, dann läuft die Stuka-Aufnahme abgedunkelt weiter, darüber: "NEUES VIDEO · ERICH VON MANSTEIN · DER SAUBERE STRATEGE? · SCHNELL INS PROFIL UND ANSEHEN!"
 - Kein Link-Sticker nötig. Optional eine zweite Story mit Umfrage: "Manstein: Stratege oder Täter?" mit den Antworten "Stratege" und "Beides".
 
 ## Facebook (Reel)

@@ -1,5 +1,5 @@
 # Manstein Instagram/Facebook story (9:16): the hook of the short (plan rejected, France in six weeks), then a "Neues Video" card
-# telling viewers to go to the profile, with an arrow to the profile name. Story UI: everything between y 250 and 1670.
+# over the Stuka shot that keeps playing behind it, ending on 'Schnell ins Profil und ansehen!'. Story UI: everything between y 250 and 1670.
 import sys, subprocess
 sys.argv = ['x', 'list']
 import mshort as V
@@ -7,14 +7,13 @@ from mshort import *
 from thumb_m import badge
 A0, A1 = 0.0, V.ST[2] - 0.15
 CARD = 5.0
-TXT_LAYERS = ('title', 'stamp', 'hand', 'on_quad', 'sky', 'captions', 'strike')
+# the Stuka newsreel shot that ends the hook keeps running behind the card (same crop as in the short, so flag and watermark stay out)
+_fr = [x for x in V.SC if x[2] is V.s_france][0]
+CLIP_T = 0.2 + (A1 - _fr[0])   # newsreel time at the cut (the shot plays at normal speed in the short)
+BG = V.C(CLIP_T, CLIP_T + CARD + 0.3, None, 0.15, 1.3, 1.0, 1.3, 0.3)
 def card(t):
-    # the short keeps playing behind the card, only darkened; its own texts and captions are hidden so they do not clash
-    keep = {n: getattr(V, n) for n in TXT_LAYERS}
-    for n in TXT_LAYERS: setattr(V, n, lambda *a, **k: None)
-    img = V.frame(A1 + t).convert('RGBA')
-    for n, f in keep.items(): setattr(V, n, f)
-    img.alpha_composite(Image.new('RGBA', (W, H), (6, 7, 9, int(165 * eio(t / 0.5)))))
+    img = BG(t, 0.0, CARD + 0.3)
+    img.alpha_composite(Image.new('RGBA', (W, H), (6, 7, 9, int(170 * eio(t / 0.6)))))
     if t > 0.3:
         L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); badge(L, CX - 92, 330, 100); L.putalpha(L.getchannel('A').point(lambda v: int(v * clamp((t - 0.3) / 0.4)))); img.alpha_composite(L)
     stamp(img, t, 0.5, 'NEUES VIDEO', (CX, 610), 70, -4, None, YEL)
@@ -24,13 +23,10 @@ def card(t):
         f = bebas(84); s_ = 'DER SAUBERE STRATEGE?'; x0 = CX - f.getlength(s_) / 2 + f.getlength('DER '); x1 = x0 + f.getlength('SAUBERE'); u = eio((t - 1.5) / 0.35)
         if u > 0: L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).line((x0 - 6, 962, lerp(x0 - 6, x1 + 6, u), 950), fill=RED + (250,), width=9); img.alpha_composite(L)
     title(img, t, 1.9, 'SCHNELL INS PROFIL', 1150, 120, YEL, maxw=900)
-    title(img, t, 2.15, 'UND ANSEHEN!', 1285, 100, WHITE)
-    if t > 2.4:   # arrow up-left to the profile name in the story header
-        u = eio((t - 2.4) / 0.35); bob = 10 * math.sin((t - 2.4) * 6); a_, b_ = (330, 520), (lerp(330, 150, u), lerp(520, 280, u))
-        a_ = (a_[0] + bob * 0.6, a_[1] + bob * 0.8); b_ = (b_[0] + bob * 0.6, b_[1] + bob * 0.8)
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); ang = math.atan2(b_[1] - a_[1], b_[0] - a_[0]); hd = 60
-        d.line((a_, b_), fill=YEL + (255,), width=22)
-        d.polygon([(b_[0] + 20 * math.cos(ang), b_[1] + 20 * math.sin(ang)), (b_[0] - hd * math.cos(ang - .55), b_[1] - hd * math.sin(ang - .55)), (b_[0] - hd * math.cos(ang + .55), b_[1] - hd * math.sin(ang + .55))], fill=YEL + (255,))
+    title(img, t, 2.1, 'UND ANSEHEN!', 1280, 100, WHITE)
+    if t > 2.2:   # the bobbing arrow from the first version, moved down under the second line
+        u = clamp((t - 2.2) / 0.3); bob = 12 * math.sin((t - 2.2) * 6); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+        d.rectangle((CX - 18, 1365 + bob, CX + 18, 1425 + bob), fill=YEL + (int(255 * u),)); d.polygon([(CX, 1500 + bob), (CX - 55, 1420 + bob), (CX + 55, 1420 + bob)], fill=YEL + (int(255 * u),))
         img.alpha_composite(L)
     img.alpha_composite(VIG); return img.convert('RGB')
 if __name__ == '__main__':
@@ -43,8 +39,8 @@ if __name__ == '__main__':
     p.stdin.close(); p.wait()
     L_ = (n1 + n2) / FPS; F_ = L_ - 1.0
     # sound: the short's mix for the hook, then the music bed under the card with a stamp hit, fade out
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-t', f'{n1 / FPS:.3f}', '-i', B + 'mix.wav', '-ss', f'{A1:.3f}', '-t', f'{CARD + 0.5:.3f}', '-i', B + 'mix.wav',
-                    '-filter_complex', f'[1:a]aresample=48000,volume=0.45[y];[0:a]aresample=48000[x];[x][y]concat=n=2:v=0:a=1,atrim=0:{L_:.3f},afade=t=out:st={F_:.3f}:d=1.0[o]',
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-t', f'{n1 / FPS:.3f}', '-i', B + 'mix.wav', '-ss', f'{A1:.3f}', '-t', f'{CARD + 0.5:.3f}', '-i', B + 'bed_lev.wav',
+                    '-filter_complex', f'[1:a]aresample=48000,volume=0.55,afade=t=in:d=0.3[y];[0:a]aresample=48000[x];[x][y]concat=n=2:v=0:a=1,atrim=0:{L_:.3f},afade=t=out:st={F_:.3f}:d=1.0[o]',
                     '-map', '[o]', '-ar', '48000', B + 'story_a.wav'], check=True)
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', B + 'story_v.mp4', '-i', B + 'story_a.wav', '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', out], check=True)
     print(out, round(L_, 2), 's')

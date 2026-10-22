@@ -64,5 +64,5 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 ## Kapak ve story (Manstein'dan)
 - Kapakta bütün yazılar ve logo y 330..1450 bandında; isim en büyük satır, ortanın biraz altında (y ≈ 1100..1300). Üst 330 ve alt 470 piksel telefonda kesiliyor.
 - Kapakta kahramanlaştırma yok: zafer ve övgü yazısı konmaz; olgu (mahkeme, ceza) veya sorgulayan cümle kullanılır.
-- Story kartında arka plan durmaz ve bulanıklaşmaz: kısa video arkada karartılmış olarak oynamaya devam eder, kendi yazıları ve altyazısı gizlenir.
-- Story çağrısı: "Schnell ins Profil und ansehen!", ok profil adına (sol üst). "Jetzt ansehen" kullanılmaz.
+- Story kartında arka plan durmaz ve bulanıklaşmaz: kesitin son çekimi (Manstein'da Stuka'lar) kartın arkasında karartılmış olarak oynamaya devam eder. Bir sonraki sahneye geçilmez.
+- Story çağrısı: "Schnell ins Profil und ansehen!" ("Jetzt ansehen" değil). Düzeltme istenince yalnız istenen değişir, gerisi aynı kalır.
