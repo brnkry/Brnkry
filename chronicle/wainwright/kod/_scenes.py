@@ -17,11 +17,36 @@ def arrow_to(can, a, b, u, col=YEL, w_=14, head=44):
     d.polygon([(e[0] + 12 * math.cos(ang), e[1] + 12 * math.sin(ang)), (e[0] - head * math.cos(ang - .5), e[1] - head * math.sin(ang - .5)), (e[0] - head * math.cos(ang + .5), e[1] - head * math.sin(ang + .5))], fill=col + (255,))
     can.alpha_composite(L)
 
+def typed(can, t, t0, s_, y, size=120, col=CREAM, step=0.075, x=CX, t1=None, font=None):
+    """letters arrive one by one (flat, centred)"""
+    if t < t0 or (t1 is not None and t > t1 + 0.25): return
+    f = font or anton(size); a = 1.0 if t1 is None else 1 - clamp((t - t1) / 0.25)
+    tw_ = f.getlength(s_); xx = x - tw_ / 2
+    for i, ch in enumerate(s_):
+        k = eout((t - t0 - i * step) / 0.18)
+        if k > 0 and ch != ' ':
+            sp = _spr(ch, 'anton', f.size, col) if font is None else None
+            if sp is not None:
+                sp = sp.copy(); sp.putalpha(sp.getchannel('A').point(lambda v: int(v * k * a)))
+                can.alpha_composite(sp, (int(xx - 40 + f.getbbox(ch)[0]), int(y - sp.height / 2 + (1 - k) * 18)))
+        xx += f.getlength(ch)
+class MapNB(Map):
+    """coastlines only: no modern borders on a 1940s map"""
+    @functools.lru_cache(None)
+    def base(s):
+        k = 2; im = Image.new('RGB', (W * k, H * k), SEA); d = ImageDraw.Draw(im); span = W / s.sc
+        lon0, lon1 = s.c[0] - span, s.c[0] + span
+        for nm, xs, ys, a, b_, c, e in ALLP:
+            if b_ < lon0 - 5 or a > lon1 + 5: continue
+            pts = [(((x - s.c[0]) * s.sc + W / 2) * k, (H / 2 - (y - s.c[1]) * s.sc) * k) for x, y in zip(xs, ys)]
+            if len(pts) >= 3: d.polygon(pts, fill=LAND_HI if nm in s.hi else LAND, outline=LAND_HI if nm in s.hi else LAND)
+        return im.resize((W, H), Image.LANCZOS)
+
 # Missouri: MacArthur signs (film 0..3.30), the picture freezes on 'signed', the words are written on the open document, then it runs on
 # and the frame slides left with him as he turns and hands the pen to Wainwright (film 5.03..5.63)
 FREEZE_AT = 3.30; RESUME = None   # set below from the words
-DOC1 = [(1108, 742), (1392, 738), (1426, 792), (1138, 797)]   # right page of the open folder, line 1 (film coords)
-DOC2 = [(1140, 803), (1430, 798), (1466, 852), (1170, 858)]
+DOC1 = [(1045, 724), (1320, 721), (1342, 776), (1063, 780)]   # upper page of the open folder, above the fold (film coords)
+DOC2 = [(1075, 798), (1395, 793), (1430, 860), (1103, 866)]   # lower page
 def s_sign(t, w0, w1):
     t_res = ws('Then') + 0.05
     if t < FREEZE_AT: ct = t
@@ -39,13 +64,22 @@ def s_sign(t, w0, w1):
         if t > t1: on_quad(can, [m(*p) for p in DOC1], "JAPAN'S", 120, out, INK, anton(120), eio((t - t1) / 0.35), 0.7, mod=0.35, op=0.92)
         if t > t2: on_quad(can, [m(*p) for p in DOC2], 'SURRENDER', 120, out, RED, anton(120), eio((t - t2) / 0.4), 0.7, mod=0.3, op=0.95)
         if t > FREEZE_AT + 0.15:
-            tip = m(1240, 735); arrow_to(can, (tip[0] - 160, tip[1] - 330), (tip[0] - 15, tip[1] - 25), eio((t - FREEZE_AT - 0.15) / 0.35) * out)
-    if t > ws('thin') - 0.1 and t < ws('Three') - 0.1:   # ring on the thin general as he takes the pen
-        p = m(400, 260); ring(can, t, ws('thin') - 0.1, p[0], p[1], YEL, 60, False)
+            tip = m(1180, 718); arrow_to(can, (tip[0] - 160, tip[1] - 330), (tip[0] - 15, tip[1] - 25), eio((t - FREEZE_AT - 0.15) / 0.35) * out)
+    if t > ws('thin') - 0.15:   # an arrow from the right, stopping short of his head, following him as he moves
+        hx, hy = HEAD(ct); tip = m(hx + 95, hy); tip = (tip[0] + 10, tip[1]); tail = (min(tip[0] + 330, 900), tip[1] - 170)
+        arrow_to(can, tail, tip, eio((t - ws('thin') + 0.15) / 0.35) * (1 - clamp((t - ws('Three') + 0.35) / 0.25)), YEL, 14, 46)
     return can
+HEADK = [(5.0, 330, 225), (5.4, 390, 240), (5.75, 480, 330), (6.3, 410, 265), (7.0, 300, 230), (9.6, 295, 230)]   # Wainwright's head centre (film)
+def HEAD(ct):
+    for (a, x0, y0), (b, x1, y1) in zip(HEADK, HEADK[1:]):
+        if ct <= b: u = clamp((ct - a) / (b - a)); return lerp(x0, x1, u), lerp(y0, y1, u)
+    return HEADK[-1][1:]
 def s_then(t, w0, w1):   # w09, pre-war portrait: 'three years earlier'
-    can = grade(fit('w09', t, w0, w1, 1.06)); shade(can, 220, 0.5)
-    stamp(can, t, ws('surrendered', 10) - 0.03, 'SURRENDERED 1942', (CX, 1330), 86, -6)
+    ts = ws('surrendered', 10); bw = eio((t - ts) / 0.4) if t > ts else 0.0   # the photo turns black and white on 'surrendered'
+    can = grade(fit('w09', t, w0, w1, 1.06), 0.12, lerp(0.78, 0.0, bw)); shade(can, 220, 0.5)
+    if bw > 0: can.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(70 * bw))))
+    title(can, t, ts, 'SURRENDERED', 900, 104, CREAM, None, 'anton')
+    title(can, t, ts + 0.25, '1942', 1035, 150, YEL, None, 'anton')
     return can
 def s_name(t, w0, w1):   # w08, the name
     can = grade(fit('w08', t, w0, w1, 1.06)); shade(can, 220, 0.5)
@@ -59,11 +93,13 @@ def s_pt(t, w0, w1):   # PT boat (MacArthur leaves), 'MARCH 1942' in the grey sk
 def s_command(t, w0, w1):   # w01, the two men in 1941: names on the sky with pointers
     can, m = side('w01', 700, 820, t, w0, w1, 1.04); shade(can, 200, 0.55)
     tt = ws('Wainwright', w0 - 0.5)
-    if t > tt: f = m(1030, 260); ring(can, t, tt, f[0], f[1], YEL, 95, False)
+    if t > tt: f = m(1030, 235); ring(can, t, tt, f[0], f[1], YEL, 190, False)
     return can
-def s_corr(t, w0, w1):   # the island under fire
-    ct = 20.85 + (t - w0) * 0.72; can, m = film(min(ct, 22.9), 900, 540, 1.0)
-    sky(can, t, ws('Corregidor'), 'CORREGIDOR', CX, 470, 130, CREAM, None, 0.5)
+def s_corr(t, w0, w1):   # the island under fire, the ships, the landing craft: one continuous run of the newsreel
+    ct = 20.85 + (t - w0); can, m = film(min(ct, 29.3), 900 if ct < 22.95 else 960, 540, 1.0)
+    sky(can, t, ws('Corregidor'), 'CORREGIDOR', CX, 470, 130, CREAM, None, 0.5, 0.0, ws('under', 22) - 0.1)
+    title(can, t, ws('May', 23), 'MAY 6, 1942', 450, 120, CREAM, ws('surrendered', 24.5) - 0.35)
+    typed(can, t, ws('surrendered', 24.5) - 0.05, 'SURRENDER', 450, 130, RED)
     return can
 def s_ships(t, w0, w1):   # warships firing; the date on the cliff behind
     ct = 22.99 + (t - w0) * 0.55; can, m = film(min(ct, 24.15), 960, 540, 1.0)
@@ -87,9 +123,11 @@ def s_pow(t, w0, w1):   # w05, the gaunt general: POW on the wall behind him
     if t > t1 - 0.2: on_quad(can, [q(*p) for p in WALL05], 'P.O.W.', 150, clamp((t - t1 + 0.2) / 0.06), CREAM, anton(150), eio((t - t1 + 0.2) / 0.4), 1.0, mod=0.35, op=0.9, glow=((8, 8, 8), 10, 0.6))
     return can
 WALL05 = [(260, 430), (660, 420), (665, 640), (262, 655)]
-PAC = Map(124.5, 29.6, 38, hi=('Philippines',))
+PAC = MapNB(124.5, 29.6, 38, hi=('Philippines',))
 def s_map(t, w0, w1):   # camp to camp: Corregidor, Tarlac, Formosa, Manchuria
     z = lerp(1.0, 1.04, prog(t, w0, w1)); can = grade(PAC.frame(z), 0.1, 1.0); p = lambda lon, lat: PAC.p(lon, lat, z)
+    for nm, lon, lat in (('MANCHUKUO', 126.5, 46.0), ('KOREA', 127.8, 37.0), ('CHINA', 113.5, 31.0), ('JAPAN', 138.0, 37.5)):
+        x, y = p(lon, lat); title(can, t, w0 + 0.2, nm, y, 46, (150, 160, 170), None, 'bebas', min(max(x, 140), 900))
     stops = [('CORREGIDOR', 120.57, 14.38, ws('more', w0 - 0.5)), ('FORMOSA', 121.6, 23.97, ws('camp', w0 - 0.5)), ('MANCHURIA', 125.1, 42.9, ws('Manchuria', w0 - 0.5))]
     pts = [p(lon, lat) for _, lon, lat, _ in stops]
     for i, (nm, lon, lat, tt) in enumerate(stops):
@@ -106,23 +144,37 @@ def s_fear(t, w0, w1):   # w07, the cup: GAVE UP? on the wall
     return can
 WALL07 = [(1150, 480), (1460, 468), (1464, 600), (1153, 612)]
 def s_free(t, w0, w1):   # the general saluting at the aircraft, August 1945
-    ct = 36.0 + (t - w0) * 0.85; can, m = film(min(ct, 38.9), 1000, 560, 1.0, 1.0)
+    ct = 36.0 + (t - w0) * 0.85; can, m = film(min(ct, 38.9), 1050, 560, 1.0, 1.0)
     title(can, t, ws('August', w0 - 0.5), 'AUGUST 1945', 420, 110, CREAM)
-    stamp(can, t, ws('freed', w0) - 0.03, 'FREED', (CX, 1300), 120, -6, None, YEL)
+    t1 = ws('freed', w0) - 0.1
+    if t > t1: on_quad(can, [m(*q) for q in PLANE11], 'FREED', 120, clamp((t - t1) / 0.06), INK, anton(120), eio((t - t1) / 0.35), 0.8, mod=0.35, op=0.92)
     return can
+PLANE11 = [(1080, 380), (1265, 380), (1265, 470), (1080, 470)]   # white fuselage right of his head (film coords)
 def s_missouri_date(t, w0, w1):   # w10, the reunion with MacArthur, two days before the ceremony
     can, m = side('w10', 500, 380, t, w0, w1, 1.04); shade(can, 200, 0.55)
     title(can, t, ws('Two', w0 - 0.5), 'SEPTEMBER 2, 1945', 1180, 92, CREAM)
     title(can, t, ws('USS', w0 - 0.5), 'USS MISSOURI', 1310, 120, YEL)
     return can
 def s_medal(t, w0, w1):   # w02, Truman pins the medal; then BLOCKED 1942
-    can, m = side('w02', 1100, 700, t, w0, w1, 1.04); shade(can, 200, 0.55)
-    title(can, t, ws('Medal', w0 - 0.5), 'MEDAL OF HONOR', 1180, 104, YEL, ws('award', w0) - 0.15)
-    stamp(can, t, ws('blocked', w0) - 0.03, 'BLOCKED IN 1942', (CX, 1300), 92, -6)
+    can, m = side('w02', 760, 760, t, w0, w1, 1.03); shade(can, 200, 0.55)
+    tm = ws('Medal', w0 - 0.5); te = ws('award', w0) - 0.2; tb = ws('blocked', w0) - 0.05
+    for i, (s_, q) in enumerate(zip(('MEDAL', 'OF', 'HONOR'), TREES02)):
+        tt = tm + i * 0.15; out = 1 - clamp((t - te) / 0.25)
+        if tm <= t and out > 0: on_quad(can, [m(*p) for p in q], s_, 120, clamp((t - tt) / 0.06) * out, YEL, anton(120), eio((t - tt) / 0.3), 0.8, op=0.95, glow=((6, 8, 6), 10, 0.7))
+    if tm + 0.5 < t < te + 0.25:
+        a = m(1080, 560); b = m(1505, 930); arrow_to(can, a, b, eio((t - tm - 0.5) / 0.4) * (1 - clamp((t - te) / 0.25)), YEL, 12, 40)
+    for i, (s_, q) in enumerate(zip(('BLOCKED', 'IN', '1942'), TREES02)):
+        tt = tb + i * 0.15
+        if t > tt: on_quad(can, [m(*p) for p in q], s_, 120, clamp((t - tt) / 0.06), RED, anton(120), eio((t - tt) / 0.3), 0.8, op=0.95, glow=((6, 8, 6), 10, 0.7))
     return can
+TREES02 = [[(840, 200), (1300, 200), (1300, 310), (840, 310)], [(980, 320), (1160, 320), (1160, 400), (980, 400)], [(840, 410), (1300, 410), (1300, 520), (840, 520)]]   # foliage left of his head
 def s_end(t, w0, w1):   # back on the Missouri, MacArthur signing again: Japan does the same
-    ct = 7.35 + (t - w0) * 0.5; can, m = film(min(ct, 9.45), 1150, 560, lerp(1.0, 1.08, prog(t, w0, w1)))
-    title(can, t, ws('watched', w0 - 0.5), 'JAPAN SURRENDERS', 1300, 110, YEL)
+    ct = 7.35 + (t - w0) * 0.5; can, m = film(min(ct, 9.45), 520, 540, lerp(1.0, 1.05, prog(t, w0, w1)))
+    t1 = ws('forced', w0 - 0.5); t2 = ws('watched', w0 - 0.5)
+    title(can, t, t1, 'FORCED TO', 470, 96, CREAM, None, 'anton', 650, 520)
+    title(can, t, t1 + 0.2, 'SURRENDER', 580, 110, CREAM, None, 'anton', 650, 520)
+    title(can, t, t2, 'WATCHED JAPAN', 760, 90, YEL, None, 'anton', 650, 520)
+    title(can, t, t2 + 0.25, 'SURRENDER', 870, 110, YEL, None, 'anton', 650, 520)
     return can
 
 ANCH = [
@@ -132,8 +184,6 @@ ANCH = [
  (ws('In', 13.5) - 0.1, s_pt, ('whip', 1)),
  (ws('and', 17) - 0.1, s_command, ('fade',)),
  (ws('On', 19.5) - 0.1, s_corr, ('whip', -1)),
- (ws('under', 22) - 0.1, s_ships, ('fade',)),
- (ws('Then', 24.5) - 0.1, s_beach, ('fade',)),
  (ws('The', 28) - 0.1, s_radio, ('fade',)),
  (ws('He', 33) - 0.1, s_pow, ('fade',)),
  (ws('For', 36) - 0.1, s_map, ('fade',)),
