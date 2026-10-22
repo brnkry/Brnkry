@@ -1,5 +1,5 @@
 # Manstein Instagram/Facebook story (9:16): the hook of the short (plan rejected, France in six weeks), then a "Neues Video" card
-# over the Stuka shot that keeps playing behind it, ending on 'Schnell ins Profil und ansehen!'. Story UI: everything between y 250 and 1670.
+# over the Stuka shot that keeps playing behind it; 'Schnell ins Profil und ansehen!' on top with an arrow to the profile name. Story UI: everything between y 250 and 1670.
 import sys, subprocess
 sys.argv = ['x', 'list']
 import mshort as V
@@ -14,20 +14,24 @@ BG = V.C(CLIP_T, CLIP_T + CARD + 0.3, None, 0.15, 1.3, 1.0, 1.3, 0.3)
 def card(t):
     img = BG(t, 0.0, CARD + 0.3)
     img.alpha_composite(Image.new('RGBA', (W, H), (6, 7, 9, int(170 * eio(t / 0.6)))))
-    if t > 0.3:
-        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); badge(L, CX - 92, 330, 100); L.putalpha(L.getchannel('A').point(lambda v: int(v * clamp((t - 0.3) / 0.4)))); img.alpha_composite(L)
-    stamp(img, t, 0.5, 'NEUES VIDEO', (CX, 610), 70, -4, None, YEL)
-    title(img, t, 0.8, 'ERICH VON MANSTEIN', 820, 112, WHITE, bold=1, maxw=900)
-    title(img, t, 1.05, 'DER SAUBERE STRATEGE?', 950, 84, CREAM, fname='bebas', maxw=900)
-    if t > 1.05:   # red line through SAUBERE once the line has settled
-        f = bebas(84); s_ = 'DER SAUBERE STRATEGE?'; x0 = CX - f.getlength(s_) / 2 + f.getlength('DER '); x1 = x0 + f.getlength('SAUBERE'); u = eio((t - 1.5) / 0.35)
-        if u > 0: L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).line((x0 - 6, 962, lerp(x0 - 6, x1 + 6, u), 950), fill=RED + (250,), width=9); img.alpha_composite(L)
-    title(img, t, 1.9, 'SCHNELL INS PROFIL', 1150, 120, YEL, maxw=900)
-    title(img, t, 2.1, 'UND ANSEHEN!', 1280, 100, WHITE)
-    if t > 2.2:   # the bobbing arrow from the first version, moved down under the second line
-        u = clamp((t - 2.2) / 0.3); bob = 12 * math.sin((t - 2.2) * 6); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-        d.rectangle((CX - 18, 1365 + bob, CX + 18, 1425 + bob), fill=YEL + (int(255 * u),)); d.polygon([(CX, 1500 + bob), (CX - 55, 1420 + bob), (CX + 55, 1420 + bob)], fill=YEL + (int(255 * u),))
+    # call to action on top, right under the story header, with an arrow to the profile name (top left) that viewers tap
+    title(img, t, 0.4, 'SCHNELL INS PROFIL', 400, 116, YEL, maxw=900)
+    title(img, t, 0.6, 'UND ANSEHEN!', 525, 96, WHITE)
+    if t > 0.8:
+        u = eio((t - 0.8) / 0.35); bob = 8 * math.sin((t - 0.8) * 6); a_, b_ = (255, 300), (140, 232)
+        a_ = (a_[0] + bob, a_[1] + bob * 0.6); b_ = (b_[0] + bob, b_[1] + bob * 0.6)
+        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); ang = math.atan2(b_[1] - a_[1], b_[0] - a_[0]); hd = 50
+        d.line((a_, b_), fill=YEL + (int(255 * u),), width=18)
+        d.polygon([(b_[0] + 16 * math.cos(ang), b_[1] + 16 * math.sin(ang)), (b_[0] - hd * math.cos(ang - .55), b_[1] - hd * math.sin(ang - .55)), (b_[0] - hd * math.cos(ang + .55), b_[1] - hd * math.sin(ang + .55))], fill=YEL + (int(255 * u),))
         img.alpha_composite(L)
+    if t > 1.0:
+        L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); badge(L, CX - 92, 760, 100); L.putalpha(L.getchannel('A').point(lambda v: int(v * clamp((t - 1.0) / 0.4)))); img.alpha_composite(L)
+    stamp(img, t, 1.2, 'NEUES VIDEO', (CX, 1010), 70, -4, None, YEL)
+    title(img, t, 1.5, 'ERICH VON MANSTEIN', 1200, 112, WHITE, bold=1, maxw=900)
+    title(img, t, 1.75, 'DER SAUBERE STRATEGE?', 1330, 84, CREAM, fname='bebas', maxw=900)
+    if t > 1.75:   # red line through SAUBERE once the line has settled
+        f = bebas(84); s_ = 'DER SAUBERE STRATEGE?'; x0 = CX - f.getlength(s_) / 2 + f.getlength('DER '); x1 = x0 + f.getlength('SAUBERE'); u = eio((t - 2.2) / 0.35)
+        if u > 0: L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).line((x0 - 6, 1342, lerp(x0 - 6, x1 + 6, u), 1330), fill=RED + (250,), width=9); img.alpha_composite(L)
     img.alpha_composite(VIG); return img.convert('RGB')
 if __name__ == '__main__':
     out = B + 'social/Manstein_Story_DE.mp4'; os.makedirs(B + 'social', exist_ok=True)

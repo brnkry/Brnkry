@@ -19,14 +19,14 @@ Video: `Erich_von_Manstein_Shorts_DE_v3.mp4` (9:16, 1:56). Cover: `thumbnails/DE
 | "Verlorene Siege" 1955 | Doğru |
 
 ## YouTube Shorts
-**Titel** (3 Varianten, empfohlen A)
-- A: Sein Plan besiegte Frankreich. Dann kam Hamburg 1949
-- B: Erich von Manstein: Der saubere Stratege?
-- C: Er wurde Fritz Erich von Lewinski geboren
+**Titel** (Name vorne, unter 60 Zeichen; empfohlen A)
+- A: Erich von Manstein: Der Mythos vom sauberen Strategen
+- B: Erich von Manstein: Vom Sieg über Frankreich zu 18 Jahren Haft
+- C: Manstein vor Gericht: Der Mythos vom sauberen Strategen
 
 **Beschreibung**
 ```
-Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über Frankreich in sechs Wochen: Erich von Manstein. 1941 unterschrieb er einen Befehl gegen Juden, 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft.
+Erich von Manstein, Generalfeldmarschall der Wehrmacht im Zweiten Weltkrieg: Sein Sichelschnittplan besiegte Frankreich 1940 in sechs Wochen. 1941 unterschrieb er auf der Krim einen Befehl gegen Juden, 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft.
 
 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
@@ -34,18 +34,17 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Manstein #ZweiterWeltkrieg #Geschichte #Wehrmacht #Militärgeschichte
+#ErichVonManstein #ZweiterWeltkrieg #Wehrmacht #Geschichte #Doku
 ```
-**Tags** (unter 500 Zeichen)
+**Tags** (490 von 500 Zeichen, nach YouTube-Zählung)
 ```
-Erich von Manstein, Manstein, Generalfeldmarschall, Sichelschnitt, Sichelschnittplan, Ardennen 1940, Westfeldzug, Frankreich 1940, 11. Armee, Krim, Sewastopol, Stalingrad, Wintergewitter, Einsatzgruppe D, Manstein Prozess, Hamburg 1949, Verlorene Siege, saubere Wehrmacht, Mythos Wehrmacht, Zweiter Weltkrieg, Wehrmacht, Ostfront, Militärgeschichte, Zeitgeschichte, Geschichte Shorts, Chronik der Macht
+Erich von Manstein, Manstein, von Manstein, Manstein Doku, Erich von Manstein Doku, Zweiter Weltkrieg, 2. Weltkrieg, Zweiter Weltkrieg Doku, Wehrmacht, Wehrmacht Generäle, Generalfeldmarschall, Sichelschnittplan, Westfeldzug 1940, Frankreichfeldzug, Ardennen, Sewastopol, Stalingrad, Ostfront, Einsatzgruppe D, Kriegsverbrecherprozess, Manstein Prozess, Verlorene Siege, saubere Wehrmacht, Mythos Wehrmacht, Militärgeschichte, Zeitgeschichte, Geschichte, Dokumentation, Chronik der Macht
 ```
-**Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": **Ja** (KI-Stimme, kolorierte Fotos) · nicht für Kinder · Untertitel: im Video eingebrannt.
-
 **Angepinnter Kommentar**
 ```
 Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
 ```
+**Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": Ja (KI-Stimme, kolorierte Fotos) · nicht für Kinder · Cover A.
 
 ## Instagram (Reel)
 - Seit Dezember 2025 sind auf Instagram **höchstens 5 Hashtags** pro Beitrag erlaubt (Caption und Kommentare zusammen).
