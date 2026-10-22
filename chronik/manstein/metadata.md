@@ -81,7 +81,7 @@ Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über 
 
 Doch 1941 unterschrieb er als Oberbefehlshaber auf der Krim einen Befehl, der Verständnis für harte Maßnahmen gegen Juden verlangte. In seinem Befehlsbereich ermordete die Einsatzgruppe D Zehntausende Menschen.
 
- 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. Seine Erinnerungen nannte er später "Verlorene Siege".
+1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. Seine Erinnerungen nannte er später "Verlorene Siege".
 
 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
