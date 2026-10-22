@@ -27,7 +27,7 @@ add(V.at(13), boom_far(), 0.08); add(V.at(13, 'Sewastopol') + 0.2, boom_far(), 0
 for k in range(4): add(ST[15] + 0.2 + k * 0.85, boom_far(2.5), 0.07)
 add(ST[16], fio(static(2.0, 0.6), 0.3, 0.6), 0.03); add(ST[16] + 0.2, boom_far(2.0), 0.05)
 # hook, France
-stamp_(w('nicht', 0) - 0.03)
+stamp_(w('Plan', 0) - 0.05)
 add(w('sechs', 1) - 0.05, whoosh(0.8, 200, 1200), 0.07)
 # name
 hit(w('Manstein', 2), 0.10, 70); add(w('Manstein', 2), swell(2.0, 52), 0.06)

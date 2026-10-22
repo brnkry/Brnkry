@@ -28,18 +28,18 @@ def grade(can, warm=0.12, sat=0.78):
 
 # ---------- CDM text ----------
 @functools.lru_cache(maxsize=512)
-def _spr(s, fname, size, col):
+def _spr(s, fname, size, col, bold=0):
     f = {'anton': anton, 'bebas': bebas}[fname](size); bb = f.getbbox(s); w_, h_ = bb[2] - bb[0] + 80, bb[3] - bb[1] + 80
-    L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).text((40 - bb[0], 40 - bb[1]), s, font=f, fill=col + (255,))
+    L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).text((40 - bb[0], 40 - bb[1]), s, font=f, fill=col + (255,), stroke_width=bold, stroke_fill=col + (255,))
     sh = Image.new('RGBA', L.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, 210), (0, 0), L.getchannel('A')); sh = sh.filter(ImageFilter.GaussianBlur(9))
     out = Image.new('RGBA', L.size, (0, 0, 0, 0)); out.alpha_composite(sh, (3, 7)); out.alpha_composite(L); return out
-def title(can, t, t0, s, y, size=110, col=CREAM, t1=None, fname='anton', x=CX, maxw=760):
+def title(can, t, t0, s, y, size=110, col=CREAM, t1=None, fname='anton', x=CX, maxw=760, bold=0):
     """focus pull: soft and slightly large, settles sharp in 0.35 s; fades in 0.25 s at t1"""
     if t < t0 or (t1 is not None and t > t1 + 0.25): return
     f = {'anton': anton, 'bebas': bebas}[fname]
     while f(size).getlength(s) > maxw and size > 24: size -= 4
     k = eout((t - t0) / 0.35); a = k * (1.0 if t1 is None else 1 - clamp((t - t1) / 0.25))
-    sp = _spr(s, fname, size, col); sc = lerp(1.08, 1.0, k)
+    sp = _spr(s, fname, size, col, bold); sc = lerp(1.08, 1.0, k)
     if k < 1: sp = sp.filter(ImageFilter.GaussianBlur((1 - k) * 6)); sp = sp.resize((int(sp.width * sc), int(sp.height * sc)), Image.BICUBIC)
     if a < 1: sp = sp.copy(); sp.putalpha(sp.getchannel('A').point(lambda v: int(v * a)))
     can.alpha_composite(sp, (int(x - sp.width / 2), int(y - sp.height / 2)))
@@ -160,7 +160,7 @@ def C(a, b, ov=None, cx=0.5, z1=1.06, speed=1.0, z0=1.0, cy=0.5, dim_=0):
 # ---- scenes ----
 def s_hook(t, w0, w1):   # seg 9: Manstein on the observation post
     can = C(21.25, 23.35, None, 0.66, 1.18, 1.0, 1.08, 0.35)(t, w0, w1)
-    stamp(can, t, w('nicht', 0) - 0.03, 'ABGELEHNT', (CX, 1360), 104, -7, nxt(w('nicht', 0)))
+    stamp(can, t, w('Plan', 0) - 0.05, 'ABGELEHNT', (CX, 1360), 104, -7)
     return can
 def s_france(t, w0, w1):   # seg 1, framed on the planes at the left: the flag and its swastika stay outside the crop
     can = C(0.2, 5.3, None, 0.15, 1.3, 1.0, 1.3, 0.3)(t, w0, w1); k = 1
@@ -168,7 +168,7 @@ def s_france(t, w0, w1):   # seg 1, framed on the planes at the left: the flag a
     return can
 def s_name(t, w0, w1):   # m03, the whole of sentences 2 and 3: the birth name is written and then crossed out
     can = grade(fit('m03', t, w0, w1, 1.08)); shade(can, 230, 0.5); k = 2
-    t_end = ST[4] - 0.22; title(can, t, w('Manstein', k) - 0.05, 'ERICH VON MANSTEIN', 985, 104, CREAM, t_end)
+    t_end = ST[4] - 0.22; title(can, t, w('Manstein', k) - 0.05, 'ERICH VON MANSTEIN', 985, 118, CREAM, t_end, bold=1, maxw=840)
     q = lambda x, y: fitpt('m03', t, w0, w1, 1.08, x, y); out = 1 - clamp((t - t_end) / 0.25)
     for s_, quad, t0 in (('Fritz Erich', LEW1, w('Fritz', k) - 0.05), ('von Lewinski', LEW2, w('Lewinski', k) - 0.35)):
         if t > t0: on_quad(can, [q(*p) for p in quad], s_, 120, out, CREAM, caveat(120, 650), eio((t - t0) / 0.5), 0.7, mod=0.5, op=0.95)
@@ -185,7 +185,7 @@ def s_ww1(t, w0, w1):   # m02, sky behind him
     sky(can, t, w('Ersten', k) - 0.05, '1914', 300, 380, 165, CREAM, None, 0.5)
     return can
 def s_plan(t, w0, w1):   # m05, the sickle arrow is drawn on the paper map on the table
-    can, q = side('m05', 330, 370, t, w0, w1, 1.04); shade(can, 200, 0.6); k = 5
+    can, q = side('m05', 215, 245, t, w0, w1, 1.04); shade(can, 200, 0.6); k = 5
     t0 = w('Ardennen', k) - 0.1
     if t > t0:
         src_ = []
@@ -198,8 +198,8 @@ def s_plan(t, w0, w1):   # m05, the sickle arrow is drawn on the paper map on th
         can.alpha_composite(L.filter(ImageFilter.GaussianBlur(0.8)))
         on_quad(can, [q(*p) for p in ARD05], 'ARDENNEN', 120, clamp((t - t0) / 0.06), INK, anton(120), eio((t - t0) / 0.4), 0.8, mod=0.4, op=0.85)
     return can
-MAP05 = [(1100, 1805), (980, 1797), (850, 1788), (720, 1770), (610, 1735), (520, 1690)]   # on the top sheet, under the middle man's hand, east to west
-ARD05 = [(500, 1600), (770, 1578), (772, 1672), (502, 1694)]
+MAP05 = [(1100, 1805), (980, 1797), (850, 1788), (740, 1776), (660, 1762), (600, 1748)]   # on the top sheet, under the middle man's hand, east to west
+ARD05 = [(300, 1625), (570, 1605), (572, 1707), (302, 1727)]
 def s_forest(t, w0, w1):   # seg 3: wooded hills from the air, the words laid onto the forest
     can = C(7.95, 10.0, None, 0.62, 1.1, 0.6, 1.0, 0.5)(t, w0, w1); k = 5
     t0 = w('passierbar', k) - 0.25
@@ -302,8 +302,7 @@ def s_stalingrad(t, w0, w1):   # m20 over the map: the city written on the map
     can = grade(fit('m20', t, w0, w1, 1.06)); shade(can, 200, 0.6); k = 14
     t0 = w('Stalingrad', k) - 0.05
     if t > t0:
-        q = lambda x, y: fitpt('m20', t, w0, w1, 1.06, x, y)
-        on_quad(can, [q(*p) for p in CAP20], 'STALINGRAD', 130, clamp((t - t0) / 0.06), CREAM, anton(130), eio((t - t0) / 0.45), 0.8, mod=0.55, op=0.9)
+        title(can, t, t0, 'STALINGRAD', 1340, 130, GOLD, nxt(ST[k]))
     return can
 CAP20 = [(715, 440), (1325, 835), (1235, 965), (630, 575)]   # side of his field cap, along the piping
 def s_50km(t, w0, w1):   # seg 5 and 6: guns firing, the distance
@@ -391,7 +390,7 @@ def s_end(t, w0, w1):   # m11
 # ---------- timeline: (start, scene, transition into it) ----------
 def at(k, word=None): return (ST[k] if word is None else w(word, k)) - 0.05
 ANCH = [
- (0.0, s_hook, None), (at(1), s_france, ('whip', 1)),
+ (0.0, s_hook, None), (at(1, 'zum'), s_france, ('whip', 1)),
  (at(2), s_name, ('fade',)),
  (at(4), s_ww1, ('fade',)),
  (at(5), s_plan, ('fade',)), (at(5, 'ein'), s_forest, ('fade',)),
