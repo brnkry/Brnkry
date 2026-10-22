@@ -26,15 +26,17 @@ Video: `Erich_von_Manstein_Shorts_DE_v3.mp4` (9:16, 1:56). Cover: `thumbnails/DE
 
 **Beschreibung**
 ```
-Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über Frankreich in sechs Wochen: Erich von Manstein.
+Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über Frankreich in sechs Wochen: Erich von Manstein. 🗺️
 
-Geboren 1887 als Fritz Erich von Lewinski, Erfinder des Sichelschnitt-Plans durch die Ardennen, 1942 Generalfeldmarschall nach Sewastopol. Doch im November 1941 unterschrieb er als Oberbefehlshaber der 11. Armee einen Befehl, der von seinen Soldaten Verständnis für harte Maßnahmen gegen Juden verlangte. In seinem Befehlsbereich ermordete die Einsatzgruppe D Zehntausende Menschen.
+📜 Geboren 1887 als Fritz Erich von Lewinski, Urheber des Sichelschnitt-Plans durch die Ardennen, 1942 Generalfeldmarschall nach Sewastopol. Doch im November 1941 unterschrieb er als Oberbefehlshaber der 11. Armee einen Befehl, der von seinen Soldaten Verständnis für harte Maßnahmen gegen Juden verlangte. In seinem Befehlsbereich ermordete die Einsatzgruppe D Zehntausende Menschen.
 
-1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. 1953 war er frei, 1955 erschienen seine Erinnerungen: Verlorene Siege. Jahrzehntelang galt er als der saubere Stratege. Historiker sehen das heute anders.
+⚖️ 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. 1953 war er frei, 1955 erschienen seine Erinnerungen: Verlorene Siege. Jahrzehntelang galt er als der saubere Stratege. Historiker sehen das heute anders.
 
-Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
+💬 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 
-Die Aufnahmen dienen der historischen Dokumentation. Symbole verbotener Organisationen sind unkenntlich gemacht.
+📸 Hinweis: Die historischen Originalaufnahmen wurden von uns restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #Manstein #ZweiterWeltkrieg #Geschichte #Wehrmacht #Militärgeschichte
 ```
@@ -46,7 +48,7 @@ Erich von Manstein, Manstein, Generalfeldmarschall, Sichelschnitt, Sichelschnitt
 
 **Angepinnter Kommentar**
 ```
-Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
+📖 Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides? 👇
 ```
 
 ## Instagram (Reel)
@@ -59,9 +61,13 @@ Sein Buch heißt "Verlorene Siege". Was meint ihr: Stratege, Täter oder beides?
 ```
 Sein Plan besiegte Frankreich in sechs Wochen. Warum stand er 1949 vor Gericht? ⚖️
 
-Erich von Manstein galt jahrzehntelang als der "saubere Stratege" der Wehrmacht. Doch 1941 unterschrieb er einen Befehl gegen Juden, und in seinem Befehlsbereich wurden Zehntausende ermordet. 1949 bekam er in Hamburg 18 Jahre Haft.
+📜 Erich von Manstein galt jahrzehntelang als der "saubere Stratege" der Wehrmacht. Doch 1941 unterschrieb er einen Befehl gegen Juden, und in seinem Befehlsbereich wurden Zehntausende ermordet. 1949 bekam er in Hamburg 18 Jahre Haft.
 
-Kanntet ihr diese Geschichte? Schreibt es in die Kommentare 👇
+💬 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare 👇
+
+📸 Hinweis: Die historischen Originalaufnahmen wurden von uns restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht.
+
+⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
 #Manstein #ZweiterWeltkrieg #Geschichte #Militärgeschichte #ChronikDerMacht
 ```
@@ -76,11 +82,13 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare 👇
 
 **Text**
 ```
-Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über Frankreich in sechs Wochen: Erich von Manstein.
+Seine eigenen Vorgesetzten wollten seinen Plan nicht. Er führte zum Sieg über Frankreich in sechs Wochen: Erich von Manstein. 🗺️
 
-Doch 1941 unterschrieb er als Oberbefehlshaber auf der Krim einen Befehl, der Verständnis für harte Maßnahmen gegen Juden verlangte. 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. Seine Erinnerungen nannte er später "Verlorene Siege".
+📜 Doch 1941 unterschrieb er als Oberbefehlshaber auf der Krim einen Befehl, der Verständnis für harte Maßnahmen gegen Juden verlangte. In seinem Befehlsbereich ermordete die Einsatzgruppe D Zehntausende Menschen.
 
-Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
+⚖️ 1949 verurteilte ihn ein britisches Militärgericht in Hamburg zu 18 Jahren Haft. Seine Erinnerungen nannte er später "Verlorene Siege".
+
+💬 Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!
 
 📸 Hinweis: Die historischen Originalaufnahmen wurden von uns restauriert, in der Qualität verbessert und koloriert. Spezifische sensible historische Symbole wurden dabei unkenntlich gemacht.
 
