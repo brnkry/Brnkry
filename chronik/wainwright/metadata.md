@@ -1,6 +1,6 @@
 # Jonathan Wainwright: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Jonathan_Wainwright_Shorts_DE.mp4` (9:16, 1:18; gleiche Bilder wie die englische CoP-Fassung, deutsche Stimme, Texte und Untertitel). Cover: `thumbnails/DE_Wainwright_Kapitulation.jpg` (feste Yamamoto-Anordnung, Pfeile von VOR und ES in das gemeinsame JAPAN). Story und englische Untertitel folgen mit dem Video.
+Video: `Jonathan_Wainwright_Shorts_DE.mp4` (9:16, 1:18; gleiche Bilder wie die englische CoP-Fassung, deutsche Stimme, Texte und Untertitel). Cover: `thumbnails/DE_Wainwright_Kapitulation.jpg` (feste Yamamoto-Anordnung, Pfeile von VOR und ES in das gemeinsame JAPAN). Story: `Wainwright_Story_DE.mp4` (19,8 s; Code `kod/story_w.py`).
 
 ## YouTube Shorts
 **Titel** (unter 70 Zeichen; empfohlen A)
@@ -79,6 +79,15 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 ```
 **Alternativtext:** `Kurzdoku über General Jonathan Wainwright: Kapitulation von Corregidor 1942, drei Jahre Kriegsgefangenschaft und die Kapitulation Japans auf der USS Missouri 1945.`
 
+## Instagram / Facebook Story
+- Video: `Wainwright_Story_DE.mp4` (19,8 s). Der Einstieg des Shorts bis "vor Japan kapituliert.", dann zoomt das Schwarzweißporträt abgedunkelt weiter, darüber: "SCHNELL INS PROFIL UND ANSEHEN!" (oben, Pfeil zum Profilnamen), "NEUES VIDEO · JONATHAN WAINWRIGHT · ERST KAPITULIERTE ER".
+
+## Untertitel (YouTube Studio)
+- `untertitel/captions.en_US.srt`: englische Untertitelspur (der englische Originaltext), auf die deutsche Stimme getaktet (20 Einblendungen). YouTube Studio > Untertitel > Sprache hinzufügen: Englisch > Hochladen > "Mit Zeitangaben".
+- Unter derselben Sprache auch Titel und Beschreibung auf Englisch eintragen:
+  - Titel: `Jonathan Wainwright: He Surrendered, Then Watched Japan Surrender`
+  - Beschreibung: `Jonathan Wainwright surrendered Corregidor and every American soldier in the Philippines to Japan on May 6, 1942. He spent more than three years as a prisoner of war, afraid he would be remembered as the general who gave up. On September 2, 1945, he stood behind Douglas MacArthur on the USS Missouri and watched Japan surrender. #JonathanWainwright #WW2 #History`
+
 ## Reihenfolge (Türkçe not)
 1. Önce YouTube Shorts, yaklaşık 1 saat sonra Instagram ve Facebook Reel, her biri kendi metniyle.
-2. Reel yayınlandıktan sonra story'yi paylaş (ses gelince hazırlanacak).
+2. Reel yayınlandıktan sonra story'yi paylaş.
