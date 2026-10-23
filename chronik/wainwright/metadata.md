@@ -1,6 +1,6 @@
 # Jonathan Wainwright: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Jonathan_Wainwright_Shorts_DE.mp4` (9:16, entsteht nach der deutschen Stimme; gleiche Bilder wie die englische CoP-Fassung). Cover: `thumbnails/DE_Wainwright_Kapitulation.jpg` (feste Yamamoto-Anordnung, Pfeile von VOR und ES in das gemeinsame JAPAN). Story und englische Untertitel folgen mit dem Video.
+Video: `Jonathan_Wainwright_Shorts_DE.mp4` (9:16, 1:18; gleiche Bilder wie die englische CoP-Fassung, deutsche Stimme, Texte und Untertitel). Cover: `thumbnails/DE_Wainwright_Kapitulation.jpg` (feste Yamamoto-Anordnung, Pfeile von VOR und ES in das gemeinsame JAPAN). Story und englische Untertitel folgen mit dem Video.
 
 ## YouTube Shorts
 **Titel** (unter 70 Zeichen; empfohlen A)
