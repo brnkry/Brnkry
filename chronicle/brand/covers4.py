@@ -19,12 +19,12 @@ def curve(can, a, c, b, col, w=9, head=30):
         d.polygon(tri, fill=cl) if wd == w else d.polygon([(x + 2, y + 2) for x, y in tri], fill=cl)
     can.alpha_composite(L)
 def shared_arrows(can, fs, lines, pf, pl, py_, pb, col):
-    """Wainwright: one arrow from TO (end of line 1) and one from IT (start of the plate's 2nd line) into the shared JAPAN"""
-    f1, f2 = fs; s1, s2 = lines[0][0], lines[1][0]
-    x1 = VW / 2 - f1.getlength(s1) / 2; to_x = x1 + f1.getlength(s1[:-2]) + f1.getlength('TO') / 2; to_y = L1 + f1.size * 0.62   # starts clearly under TO
+    """Wainwright: one arrow from the last word of line 1 (TO / VOR) and one from the first word of the plate's 2nd line (IT / ES) into the shared JAPAN"""
+    f1, f2 = fs; s1, s2 = lines[0][0], lines[1][0]; w1 = s1.split(' ')[-1]
+    x1 = VW / 2 - f1.getlength(s1) / 2; to_x = x1 + f1.getlength(s1[:-len(w1)]) + f1.getlength(w1) / 2; to_y = L1 + f1.size * 0.62   # starts clearly under TO
     jl, jr = VW / 2 - f2.getlength(s2) / 2, VW / 2 + f2.getlength(s2) / 2
     curve(can, (to_x, to_y), (to_x + 10, L2 - 10), (jr + 14, L2 - 8), col)
-    k = [i for i, x in enumerate(pl) if x.startswith('IT')][0]; lh = (pb[3] - pb[1] - 24) / len(pl); iy = pb[1] + 12 + lh * (k + 0.5)
+    k = len(pl) - 1; lh = (pb[3] - pb[1] - 24) / len(pl); iy = pb[1] + 12 + lh * (k + 0.5)
     it_x = VW / 2 - pf.getlength(pl[k]) / 2
     curve(can, (it_x - 14, iy), (pb[0] - 150, iy + 10), (jl - 16, L2 + 6), col)   # from right beside IT, over the plate, swinging out left and up
 def build(code, img, crop, mark, lines, sub, sub_size, out, arrows=False):
@@ -40,7 +40,11 @@ def build(code, img, crop, mark, lines, sub, sub_size, out, arrows=False):
     def plate(can, y, s, size):
         """yellow plate; a long line goes onto two lines so the words stay big"""
         f = fitf(s, size, MAXW - 56)
-        if f.size < size * 0.85 and ' ' in s:
+        if '\n' in s:   # split given by the caller
+            f = oswald(int(size * 0.9))
+            while max(f.getlength(x) for x in s.split('\n')) > MAXW - 56: f = oswald(f.size - 4)
+            y += 42
+        elif f.size < size * 0.85 and ' ' in s:
             w_ = s.split(' '); k = min(range(1, len(w_)), key=lambda i: abs(len(' '.join(w_[:i])) - len(' '.join(w_[i:])))); s = ' '.join(w_[:k]) + '\n' + ' '.join(w_[k:])
             f = oswald(int(size * 0.9))
             while max(f.getlength(x) for x in s.split('\n')) > MAXW - 56: f = oswald(f.size - 4)
@@ -74,6 +78,7 @@ JOBS = {
  'yamamoto': ('yama/code', 's3-5', (0.5, 0.36, 1.12), ('C', 'P'), [('HE KNEW JAPAN', 130, 'w'), ('WOULD LOSE', 130, 'y')], 'THEN HE PLANNED PEARL HARBOR', 88, S + 'yama/thumbs/EN_A_He_Knew.jpg'),
  'rommel': ('en/code', 'r12', (0.48, 0.44, 1.12), ('C', 'P'), [('THE DESERT FOX', 130, 'w'), ('WHY HE TOOK POISON', 130, 'y')], 'HITLER GAVE HIM A CHOICE', 88, S + 'en/thumbs/EN_Desert_Fox_Poison.jpg'),
  'wainwright': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'P'), [('1942: SURRENDERED TO', 130, 'w'), ('JAPAN', 158, 'y')], '1945: WATCHED IT SURRENDER', 88, S + 'wain/thumbs/EN_Wainwright_Arrows.jpg', True),
+ 'wainwright_de': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'DM'), [('1942: KAPITULIERTE VOR', 130, 'w'), ('JAPAN', 158, 'y')], '1945: SAH ER\nES KAPITULIEREN', 88, S + 'wain/thumbs/DE_Wainwright_Kapitulation.jpg', True),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
