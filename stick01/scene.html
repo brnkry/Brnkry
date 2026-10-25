@@ -3,6 +3,7 @@
 <style>
 @font-face{font-family:Hand;src:url(fonts/hand.woff2)}
 @font-face{font-family:Marker;src:url(fonts/marker.woff2)}
+@font-face{font-family:Neon;src:url(fonts/neon.woff2)}
 html,body{margin:0;background:#000}
 #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6F2E8}
 #cam{position:absolute;inset:0;transform-origin:0 0}
@@ -26,9 +27,11 @@ svg{position:absolute;inset:0}
 <div id="texts"></div>
 <svg id="front" viewBox="0 0 1080 1920" width="1080" height="1920"><g id="fx" filter="url(#boil2)"></g>
  <defs><filter id="boil2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence id="turb2" type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="1"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></defs></svg>
-</div><div id="tint"></div></div>
+</div><div id="tint"></div><svg id="sign" viewBox="0 0 1080 1920" width="1080" height="1920"></svg></div>
 <script src="lines.js"></script>
 <script src="mouth.js"></script>
+<script src="../replyguys/brand_assets/neon.js"></script>
+<script src="sign.js"></script>
 <script>
 // ================= helpers =================
 const NS='http://www.w3.org/2000/svg';
@@ -245,6 +248,7 @@ const masks=badge(fx,'DRAMATIC EFFECT',PAPER,'#8E3BC9',46,430,80);const spot=el(
 // ================= render =================
 const tint=document.getElementById('tint'),cam=document.getElementById('cam');
 window.render=function(t){
+  renderSign(t);
   const seed=1+Math.floor(t*10)%6;document.getElementById('turb').setAttribute('seed',seed);document.getElementById('turb2').setAttribute('seed',seed+3);
   const he=V(t,M.he[0],M.he[1],.18,.18),roar=V(t,M.roar[0],M.roar[1],.12,.2),sour=V(t,M.sour[0],M.sour[1],.12,.2);
   // camera
@@ -345,6 +349,6 @@ window.render=function(t){
   {const o=V(t,54.3,56.9,.2,.4);spot.style.opacity=o;}
 };
 window.DUR=window.DUR;
-document.fonts.load('56px Hand').then(()=>document.fonts.load('40px Marker')).then(()=>document.fonts.ready).then(()=>{layoutBubbles();window.render(0);window.__readyDone=true});
+document.fonts.load('40px Neon').then(()=>document.fonts.load('56px Hand')).then(()=>document.fonts.load('40px Marker')).then(()=>document.fonts.ready).then(()=>{layoutBubbles();window.render(0);window.__readyDone=true});
 window.__ready=new Promise(res=>{const c=()=>window.__readyDone?res():setTimeout(c,50);c()});
 </script></body></html>

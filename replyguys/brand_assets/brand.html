@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Neon;src:url(neon.woff2)}@font-face{font-family:Hand;src:url(hand.woff2)}
+html,body{margin:0;background:#000}#stage{position:relative;overflow:hidden;background:#15121F}svg{position:absolute;inset:0}
+</style></head><body><div id="stage"><svg id="s"></svg></div><script src="neon.js"></script><script>
+const NS='http://www.w3.org/2000/svg';const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+const mode=location.hash.slice(1)||'logo';const [W,H]=mode==='logo'?[800,800]:[2560,1440];
+const st=document.getElementById('stage');st.style.width=W+'px';st.style.height=H+'px';const s=document.getElementById('s');s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
+const d=el('defs',{},s);const rg=el('radialGradient',{id:'v',cx:'50%',cy:'45%',r:'70%'},d);el('stop',{offset:0,'stop-color':'#2A2140'},rg);el('stop',{offset:1,'stop-color':'#0E0C15'},rg);
+el('rect',{width:W,height:H,fill:'url(#v)'},s);
+// brick wall texture
+const b=el('g',{stroke:'#ffffff',opacity:.045,'stroke-width':3},s);const bh=mode==='logo'?50:64,bw=bh*2.3;
+for(let y=0;y<H;y+=bh){el('line',{x1:0,y1:y,x2:W,y2:y},b);for(let x=((y/bh)%2)*bw/2;x<W;x+=bw)el('line',{x1:x,y1:y,x2:x,y2:y+bh},b)}
+const g=el('g',{},s);
+if(mode==='logo'){const m=makeMark(s,g,{wordY:165,wordSize:62});g.setAttribute('transform','translate(400 410) scale(1.22)');}
+else{
+  // safe area 1546x423 centred: mark on the left, name + tagline on the right
+  const m=makeMark(s,g,{word:false});g.setAttribute('transform','translate(762 735) scale(1.0)');
+  const t=el('g',{},s);const C=NEON;
+  const w1=el('g',{},t);
+  [['#FF3DA5',.9,'url(#gl)'],['#FFD3EA',1,'']].forEach(([f,o,flt])=>{const x=el('text',{x:1050,y:735,'font-family':'Neon','font-size':160,'letter-spacing':8,fill:f,opacity:o},w1);if(flt)x.setAttribute('filter',flt);x.textContent='REPLY GUYS'});
+  const gl=el('filter',{id:'gl',x:'-20%',y:'-50%',width:'140%',height:'200%'},d);el('feGaussianBlur',{stdDeviation:14},gl);
+  el('text',{x:1058,y:830,'font-family':'Hand','font-size':54,fill:'#EDE7F7'},t).textContent='Comment section fights, acted out as a podcast.';
+  el('text',{x:1058,y:900,'font-family':'Hand','font-size':46,fill:'#3DE6FF'},t).textContent='New episodes every week';
+}
+document.fonts.load('40px Neon').then(()=>document.fonts.load('40px Hand')).then(()=>{window.__done=true});
+</script></body></html>

@@ -18,3 +18,4 @@ window.LINES=[
 // Meme cut-ins of the source video (their sounds stay in the original audio track)
 window.MEMES={he:[18.3,19.8],roar:[28.85,30.35],sour:[36.35,37.65]};
 window.DUR=57.5;
+window.EPISODE='EPISODE 01'; // text the neon sign switches to
