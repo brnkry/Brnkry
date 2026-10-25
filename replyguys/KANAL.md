@@ -39,3 +39,8 @@ Comment section fights, acted out as a podcast by stick figures. New episodes ev
 - Başlık: `He said 4 billion people died in WW1 🤯`
 - Açıklama ilk satırı: `Why did they call it World War 1? The comment section had questions.`
 - Hashtag: `#commentsection #history #funny`
+
+## Kategoriler
+- YouTube: **Comedy** (Studio > Settings > Upload defaults > Advanced settings > Category). Kanalın kendi kategori ayarı yok, her videoya buradan varsayılan olarak atanır.
+- Facebook sayfası: **Podcast**, **Video Creator**, **Entertainment Website** (en fazla 3).
+- Instagram (profesyonel hesap, Creator): **Video creator**. Listede "Podcast" çıkarsa o da olur.
