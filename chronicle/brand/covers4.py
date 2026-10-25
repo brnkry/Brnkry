@@ -81,7 +81,8 @@ JOBS = {
  'wainwright_de': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'DM'), [('1942: KAPITULIERTE VOR', 130, 'w'), ('JAPAN', 158, 'y')], '1945: SAH ER\nES KAPITULIEREN', 88, S + 'wain/thumbs/DE_Wainwright_Kapitulation.jpg', True),
  'bader': ('bader/code', 'd11', (0.49, 0.5, 1.0), ('C', 'P'), [('THE RAF DROPPED', 130, 'w'), ('HIM A NEW LEG', 130, 'y')], 'IN THE MIDDLE OF A BOMBING RAID', 88, S + 'bader/thumbs/EN_Bader_New_Leg.jpg'),
  'bader_de': ('bader_de/code', 'd08', (0.55, 0.42, 1.2), ('C', 'DM'), [('DIE RAF WARF IHM', 130, 'w'), ('EIN NEUES BEIN AB', 130, 'y')], 'MITTEN IM BOMBENANGRIFF', 88, S + 'bader_de/thumbs/DE_Bader_Neues_Bein.jpg'),
- 'udet_de': ('ju87/code', 'u03', (0.5, 0.42, 1.0), ('C', 'DM'), [('ER GAB DER STUKA', 130, 'w'), ('IHRE SIRENE', 150, 'y')], 'SEIN TOD WURDE VERTUSCHT', 88, S + 'ju87/thumbs/DE_Udet_Sirene.jpg'),
+ 'udet_de': ('ju87/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('ER GAB DER STUKA', 130, 'w'), ('IHRE SIRENE', 150, 'y')], 'SEIN TOD WURDE VERTUSCHT', 88, S + 'ju87/thumbs/DE_Udet_Sirene.jpg'),
+ 'udet': ('ju87en/code', 'cov_en', (0.5, 0.5, 1.0), ('C', 'P'), [('HE GAVE THE STUKA', 130, 'w'), ('ITS SIREN', 150, 'y')], 'HIS DEATH WAS COVERED UP', 88, S + 'ju87en/thumbs/EN_Udet_Siren.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
