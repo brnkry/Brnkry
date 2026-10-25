@@ -189,7 +189,7 @@ def ringp(can, t, t0, x, y, r, col=YEL, label=None, ly=None, size=58):
     u = eio((t - t0) / 0.45); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
     for wd, c in ((14, (0, 0, 0, 140)), (8, col + (255,))): d.arc((x - r, y - r, x + r, y + r), -90, -90 + 360 * u, fill=c, width=wd)
     can.alpha_composite(L)
-    if label: title(can, t, t0 + 0.2, label, ly if ly is not None else y + r + 50, size, col, None, 'bebas', min(max(x, 170), 910))
+    if label and 120 < x < 960: title(can, t, t0 + 0.2, label, ly if ly is not None else y + r + 50, size, col, None, 'bebas', x)   # the name stays with the face
 def paper(can, t, w0, w1, lines_, top=360, pw=780, ph=760, rot=-1.2):
     """a typed message on a sheet of paper, lines typed in at their own times"""
     k0 = eout((t - w0 - 0.05) / 0.45); L = Image.new('RGBA', (pw + 60, ph + 60), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
@@ -204,6 +204,16 @@ def paper(can, t, w0, w1, lines_, top=360, pw=780, ph=760, rot=-1.2):
     sc = lerp(1.0, 1.04, prog(t, w0, w1)); L = L.resize((int(L.width * sc), int(L.height * sc)), Image.BICUBIC)
     sh = Image.new('RGBA', can.size, (0, 0, 0, 0)); sh.paste((0, 0, 0, 170), (int(CX - L.width / 2 + 14), int(top + 22)), L.getchannel('A')); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)))
     can.alpha_composite(L, (int(CX - L.width / 2), int(top + (1 - k0) * 40)))
+def film_fit(ct, cy=760, wscale=1.0):
+    """the whole 16:9 frame across the screen (no crop into the face), the empty space above and below filled with a blurred copy"""
+    im = fr(ct).convert('RGB'); bg = im.resize((int(H * 16 / 9), H), Image.BILINEAR); x0 = (bg.width - W) // 2
+    bg = bg.crop((x0, 0, x0 + W, H)).filter(ImageFilter.GaussianBlur(28)); bg = ImageEnhance.Brightness(bg).enhance(0.55)
+    fw = int(W * wscale); fh = int(fw * 9 / 16); fg = im.resize((fw, fh), Image.BICUBIC)
+    bg.paste(fg, ((W - fw) // 2, int(cy - fh / 2))); return grade(bg.convert('RGBA'), 0.14, 1.0)
+def tquad(cx, cy, s_, h, font=None, tilt=0.0):
+    """quad (source coords) for s_ with its true aspect, h high, centred on (cx, cy); tilt lifts the right end"""
+    f = font or anton(200); bb = f.getbbox(s_); w = h * (bb[2] - bb[0] + 20) / (bb[3] - bb[1] + 20)
+    return [(cx - w / 2, cy - h / 2 + tilt), (cx + w / 2, cy - h / 2 - tilt), (cx + w / 2, cy + h / 2 - tilt), (cx - w / 2, cy + h / 2 + tilt)]
 def night(can, k=1.0):
     rgb = can.convert('RGB'); n = Image.blend(rgb, ImageEnhance.Brightness(ImageEnhance.Color(rgb).enhance(0.3)).enhance(0.45), k)
     return Image.blend(n, Image.new('RGB', (W, H), (18, 30, 58)), 0.28 * k).convert('RGBA')
@@ -233,19 +243,15 @@ class MapNB(Map):
             if len(pts) >= 3: d.polygon(pts, fill=LAND_HI if nm in s.hi else LAND, outline=LAND_HI if nm in s.hi else LAND)
         return im.resize((W, H), Image.LANCZOS)
 
-# --- a bomber formation over France; a crate under a parachute falls away from it (what is inside stays open)
+# --- planes over occupied France (what was in the box stays open until the end)
 def s_open(t, w0, w1):
-    can, m = film(17.5 + (t - w0) * min(1.0, 2.15 / (w1 - w0)), 960, 700, 1.05)
-    t1 = ws('dropped') - 0.1
-    if t > t1:
-        u = clamp((t - t1) / 3.4); x = lerp(560, 600, u) + 14 * math.sin(t * 2.2); y = lerp(660, 1080, eio(u))
-        chute(can, x, y, 1.15, clamp((t - t1) / 0.3), 10 * math.sin(t * 2.2), True)
+    can, m = film(17.0 + (t - w0), 960, 620, 1.05)   # the formation, the bomber, the fighters: the film at its own speed
     sky(can, t, ws('occupied'), 'OCCUPIED FRANCE', CX, 430, 104, CREAM, None, 0.5)
     title(can, t, ws('August'), 'AUGUST 1941', 1290, 110, YEL)
     return can
 # --- who it was for: the man himself, close up (post-war footage)
 def s_name(t, w0, w1):
-    can, m = film(0.4 + (t - w0) * 0.9, 960, 520, 1.0, pic=FULL)
+    can = film_fit(0.4 + (t - w0), 760); shade(can, 200, 0.55)
     title(can, t, ws('prisoner') - 0.1, 'ONE PRISONER', 430, 96, CREAM, ws('Douglas') - 0.1)
     title(can, t, ws('Douglas'), 'DOUGLAS', 1150, 130, CREAM, None, bold=1)
     title(can, t, ws('Bader'), 'BADER', 1290, 170, YEL, None, bold=1)
@@ -253,23 +259,32 @@ def s_name(t, w0, w1):
 # --- 1931: the wrecked Bulldog; the year in the sky, both legs lost
 def s_crash(t, w0, w1):
     can = grade(fit('d06', t, w0, w1, 1.06), 0.1, 0.8); shade(can, 220, 0.5)
-    sky(can, t, ws('Ten') - 0.05, '1931', CX, 420, 150, CREAM, None, 0.5)
-    t2 = ws('both')
-    title(can, t, t2, 'BOTH LEGS', 1250, 120, RED)
+    sky(can, t, ws('Ten') - 0.05, '1931', CX, 320, 150, CREAM, None, 0.5)
+    t2 = ws('both') - 0.05; q = lambda x, y: fitpt('d06', t, w0, w1, 1.06, x, y)
+    if t > t2: on_quad(can, [q(*v) for v in tquad(1060, 1250, 'BOTH LEGS', 150, tilt=22)], 'BOTH LEGS', 150, clamp((t - t2) / 0.06), (178, 62, 40), anton(150), eio((t - t2) / 0.4), 0.9, mod=0.45, op=0.95, glow=((10, 6, 4), 8, 0.45))
     title(can, t, ws('crash'), 'AMPUTATED', 1370, 70, CREAM, None, 'bebas')
     return can
 # --- back in a Spitfire (his initials DB on the side): arrow to the legs as he climbs in
+FLY0 = None   # set after ANCH (start of s_fly): the map keeps this film running behind it
+CANOPY = [(14.4, 1370, 598), (15.0, 1410, 615), (15.6, 1420, 620), (16.2, 1520, 622), (16.8, 1540, 628)]   # centre of the canopy glass (film coords)
+def canopy(ct):
+    for (a, x0, y0), (b, x1, y1) in zip(CANOPY, CANOPY[1:]):
+        if ct <= b: u = clamp((ct - a) / (b - a)); return lerp(x0, x1, u), lerp(y0, y1, u)
+    return CANOPY[-1][1:]
 def s_fly(t, w0, w1):
-    ct = 15.55 + (t - w0) * min(1.0, 1.4 / (w1 - w0)); can, m = film(ct, 1260, 560, 1.1)
+    ct = 14.4 + (t - w0); gx, gy = canopy(ct); can, m = film(ct, gx - 60, 560, 1.1)
     t1 = ws('artificial', 11) - 0.1
     if t > t1:
-        lx, ly = m(1330, 720); arrow_to(can, (lx - 330, ly - 420), (lx - 50, ly - 60), eio((t - t1) / 0.35), YEL, 14, 46)
-        title(can, t, t1, 'ARTIFICIAL LEGS', 440, 100, YEL)
+        a = clamp((t - t1) / 0.06)
+        on_quad(can, [m(*v) for v in tquad(gx - 40, gy - 27, 'ARTIFICIAL', 40, tilt=2)], 'ARTIFICIAL', 120, a, YEL, anton(120), eio((t - t1) / 0.35), 0.7, mod=0.25, op=0.95, glow=((0, 0, 0), 8, 0.6))
+        on_quad(can, [m(*v) for v in tquad(gx - 40, gy + 24, 'LEGS', 40, tilt=2)], 'LEGS', 120, a, YEL, anton(120), eio((t - t1 - 0.2) / 0.3), 0.7, mod=0.25, op=0.95, glow=((0, 0, 0), 8, 0.6))
     return can
 # --- the Channel: from England to Saint-Omer, shot down over France
 CH = MapNB(1.55, 51.05, 4.4, hi=('United Kingdom',))
 def s_map(t, w0, w1):
-    z = lerp(1.0, 1.05, prog(t, w0, w1)); can = grade(CH.frame(z), 0.1, 1.0); p = lambda lon, lat: CH.p(lon, lat, z)
+    z = lerp(1.0, 1.05, prog(t, w0, w1)); p = lambda lon, lat: CH.p(lon, lat, z)
+    bg, _ = film(14.4 + (t - FLY0), 1500, 560, 1.1); bg = bg.filter(ImageFilter.GaussianBlur(9))   # the film keeps running behind the map
+    can = Image.blend(bg, grade(CH.frame(z), 0.1, 1.0), 0.5)
     title(can, t, w0 + 0.1, '9 AUGUST 1941', 430, 110, CREAM)
     for nm, lon, lat in (('ENGLAND', 0.2, 51.75), ('FRANCE', 2.7, 49.95)):
         x, y = p(lon, lat); title(can, t, w0 + 0.3, nm, y, 54, (150, 160, 172), None, 'bebas', min(max(x, 170), 820))
@@ -299,39 +314,47 @@ def s_galland(t, w0, w1):
     return can
 # --- at Galland's airfield: the two men in one picture, rings on both
 def s_airfield(t, w0, w1):
-    can, m = side('d03', 0, 560, t, w0, w1, 1.04); shade(can, 200, 0.55)
-    gx, gy = m(300, 300); bx, by = m(1260, 420)
-    ringp(can, t, ws('invited', 23) - 0.05, gx, gy, 115, CREAM, 'GALLAND')
-    ringp(can, t, ws('sit', 25), bx, by, 135, YEL, 'BADER')
+    ti, tsit = ws('invited', 23) - 0.05, ws('sit', 25)   # hold on Galland, then glide to Bader
+    can, m = side('d03', 0, 800, t, w0, w1, 1.04, eio((t - ti - 0.9) / max(0.3, tsit - ti - 1.0)) if t > ti + 0.9 else 0.0); shade(can, 200, 0.55)
+    gx, gy = m(345, 360); bx, by = m(1275, 500); k = m(1, 0)[0] - m(0, 0)[0]   # head centres and screen scale
+    ringp(can, t, ws('invited', 23) - 0.05, gx, gy, 185 * k, CREAM, 'GALLAND')
+    ringp(can, t, ws('sit', 25), bx, by, 195 * k, YEL, 'BADER')
     title(can, t, ws('Messerschmitt') - 0.3, 'HIS OWN', 1150, 80, CREAM, None, 'bebas')
     title(can, t, ws('Messerschmitt') - 0.1, 'MESSERSCHMITT', 1260, 110, YEL)
     return can
 # --- the Germans with his repaired leg; REPAIRED painted on the brick wall
 WALL13 = [(1960, 820), (2330, 790), (2335, 930), (1965, 960)]
 def s_leg(t, w0, w1):
-    can, m = side('d13', 900, 1250, t, w0, w1, 1.04); shade(can, 200, 0.55)
-    t1 = ws('leg', 27.5) - 0.1
-    if t > t1:
-        lx, ly = m(1400, 980); arrow_to(can, (lx + 300, ly - 380), (lx + 60, ly - 60), eio((t - t1) / 0.35), YEL, 14, 46)
-    t2 = ws('repaired', 29) - 0.05
-    sky(can, t, t2, 'REPAIRED', CX - 60, 430, 130, CREAM, None, 0.45)
-    title(can, t, ws('escape', 30.5) - 0.05, 'ESCAPE', 1290, 140, RED)
-    return can
-# --- night: knotted sheets down the wall from a window, then CAUGHT
-def s_window(t, w0, w1):
-    can, m = side('d13', 1392, 1392, t, w0, w1, 1.05); can = night(can, 1.0); shade(can, 210, 0.5)
-    t1 = ws('climbed', 31.5) - 0.05; u = eio((t - t1) / 2.2) if t > t1 else 0.0
-    if u > 0:
-        top = m(2200, 760); bot = m(2215, 1650); bot = (bot[0], min(bot[1], 1440)); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-        yb = lerp(top[1], bot[1], u); n = int((yb - top[1]) / 120)
-        for wd, c in ((22, (0, 0, 0, 150)), (14, (226, 222, 210, 255))): d.line((top[0], top[1], lerp(top[0], bot[0], u), yb), fill=c, width=wd)
-        for i in range(1, n + 1):
-            ky = top[1] + i * 120; kx = lerp(top[0], bot[0], (ky - top[1]) / (bot[1] - top[1])); d.ellipse((kx - 17, ky - 13, kx + 17, ky + 13), fill=(240, 236, 224, 255), outline=(0, 0, 0, 160), width=3)
-        can.alpha_composite(L)
+    tw = ws('He', 31.6) - 0.1; tc = ws('climbed', 31.5) - 0.05
+    u = 0.25 * clamp((t - w0) / (tw - w0)) + 0.75 * eio((t - tw) / 0.9) if t > tw else 0.25 * clamp((t - w0) / (tw - w0))
+    can, m = side('d13', 900, 1392, t, w0, w1, 1.06, u); nk = eio((t - tw) / 0.9) if t > tw else 0.0
+    if nk > 0: can = night(can, nk)
+    shade(can, 200, 0.55)
+    if t < tw + 0.4: can = leg_marks(can, m, t, 1 - clamp((t - tw) / 0.4))
+    window_rope(can, m, t, tc)
     title(can, t, ws('knotted', 32) - 0.05, 'KNOTTED BEDSHEETS', 440, 92, CREAM)
-    stamp(can, t, ws('caught', 34) - 0.03, 'CAUGHT', (CX, 1210), 130, -6)
+    stamp(can, t, ws('caught', 34) - 0.03, 'CAUGHT', (CX, 1210), 130, 0)
     title(can, t, ws('next', 34.5), 'THE NEXT DAY', 1370, 80, CREAM, None, 'bebas')
     return can
+def leg_marks(can, m, t, a):
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    t1 = ws('leg', 27.5) - 0.1
+    if t > t1:
+        lx, ly = m(1400, 980); arrow_to(L, (lx + 300, ly - 380), (lx + 60, ly - 60), eio((t - t1) / 0.35), YEL, 14, 46)
+    sky(L, t, ws('repaired', 29) - 0.05, 'REPAIRED', CX - 60, 430, 130, CREAM, None, 0.45)
+    title(L, t, ws('escape', 30.5) - 0.05, 'ESCAPE', 1290, 140, RED)
+    if a < 1: L.putalpha(L.getchannel('A').point(lambda v: int(v * a)))
+    can.alpha_composite(L); return can
+def window_rope(can, m, t, t1):
+    """knotted sheets let down from the window, growing as he climbs"""
+    u = eio((t - t1) / 2.2) if t > t1 else 0.0
+    if u <= 0: return
+    top = m(2200, 760); bot = m(2215, 1650); bot = (bot[0], min(bot[1], 1440)); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    yb = lerp(top[1], bot[1], u); n = int((yb - top[1]) / 120)
+    for wd, c in ((22, (0, 0, 0, 150)), (14, (226, 222, 210, 255))): d.line((top[0], top[1], lerp(top[0], bot[0], u), yb), fill=c, width=wd)
+    for i in range(1, n + 1):
+        ky = top[1] + i * 120; kx = lerp(top[0], bot[0], (ky - top[1]) / (bot[1] - top[1])); d.ellipse((kx - 17, ky - 13, kx + 17, ky + 13), fill=(240, 236, 224, 255), outline=(0, 0, 0, 160), width=3)
+    can.alpha_composite(L)
 # --- Galland's message to England, typed
 def s_word(t, w0, w1):
     can = Image.new('RGBA', (W, H), (16, 15, 14, 255))
@@ -340,26 +363,22 @@ def s_word(t, w0, w1):
                            ('IT WILL NOT', 60, ws('will', 39.5) - 0.15, RED), ('BE SHOT AT.', 60, ws('shot', 40) - 0.1, RED)])
     return can
 # --- the RAF pilots: NO FAVORS written on the Hurricane
-FUSE01 = [(1080, 250), (1600, 240), (1605, 360), (1085, 372)]
+FUSE01 = tquad(1480, 300, 'NO FAVORS', 115, tilt=14)   # on the Hurricane's fuselage, tilted with it
 def s_nofavor(t, w0, w1):
-    can, m = side('d01', 650, 820, t, w0, w1, 1.04); shade(can, 200, 0.55)
+    can, m = side('d01', 820, 900, t, w0, w1, 1.04); shade(can, 200, 0.55)
     t1 = ws('favor', 41.5) - 0.1
     if t > t1: on_quad(can, [m(*q) for q in FUSE01], 'NO FAVORS', 110, clamp((t - t1) / 0.06), CREAM, anton(110), eio((t - t1) / 0.4), 0.8, mod=0.4, op=0.95, glow=((6, 6, 6), 10, 0.55))
     title(can, t, ws('enemy', 42.5) - 0.05, 'FROM THE ENEMY', 1260, 96, YEL)
     return can
-# --- the raid: fighters over France, the crate falls again
+# --- the raid: a Spitfire over France at its own speed
 def s_raid(t, w0, w1):
-    can, m = film(21.3 + (t - w0) * min(1.0, 2.6 / (w1 - w0)), 960, 540, 1.05)
+    can, m = film(5.25 + (t - w0), 1000, 560, 1.0, pic=FULL)
     title(can, t, w0 + 0.1, '19 AUGUST 1941', 430, 100, CREAM)
-    t1 = ws('dropped', 44) - 0.1
-    if t > t1:
-        u = clamp((t - t1) / 2.4); x = lerp(640, 600, u) + 12 * math.sin(t * 2.4); y = lerp(560, 1060, eio(u))
-        chute(can, x, y, 1.15, clamp((t - t1) / 0.3), 9 * math.sin(t * 2.4), True)
     title(can, t, ws('raid', 45) - 0.1, 'DURING A RAID', 1290, 100, YEL)
     return can
 # --- what was inside: the crate with the leg
 def s_reveal(t, w0, w1):
-    can, m = side('d14', 1000, 900, t, w0, w1, 1.06); shade(can, 200, 0.55)
+    can, m = side('d14', 230, 330, t, w0, w1, 1.06); shade(can, 200, 0.55)
     title(can, t, ws('new', 46.5) - 0.05, 'A NEW LEG', 1290, 140, YEL, None, bold=1)
     return can
 # --- with two legs again: escape after escape, then the threat at night
@@ -385,9 +404,8 @@ def s_colditz(t, w0, w1):
 # --- after the war: Galland and Bader laughing together
 def s_end(t, w0, w1):
     can, m = side('d12', 430, 530, t, w0, w1, 1.04); shade(can, 210, 0.5)
-    title(can, t, ws('enemy', 57) - 0.05, 'THE ENEMY', 1150, 100, CREAM)
-    title(can, t, ws('friend', 59.5) - 0.05, 'FRIENDS', 1280, 150, YEL, None, bold=1)
-    title(can, t, ws('forty', 60) - 0.05, 'FOR 40 YEARS', 1400, 80, CREAM, None, 'bebas')
+    for s_, cy, h, col, t0 in (('THE ENEMY', 262, 62, INK, ws('enemy', 57) - 0.05), ('FRIENDS', 350, 104, (150, 30, 28), ws('friend', 59.5) - 0.05), ('FOR 40 YEARS', 445, 58, INK, ws('forty', 60) - 0.05)):
+        if t > t0: on_quad(can, [m(*v) for v in tquad(950, cy, s_, h)], s_, 120, clamp((t - t0) / 0.06), col, anton(120), eio((t - t0) / 0.4), 0.7, mod=0.4, op=0.93)
     return can
 
 ANCH = [
@@ -395,19 +413,19 @@ ANCH = [
  (ws('It', 5) - 0.1, s_name, ('fade',)),
  (ws('Ten', 7.5) - 0.1, s_crash, ('fade',)),
  (ws('but', 11) - 0.1, s_fly, ('fade',)),
- (ws('Earlier', 13) - 0.1, s_map, ('whip', 1)),
+ (ws('Earlier', 13) - 0.1, s_map, ('fade',)),
  (ws('As', 16.8) - 0.1, s_bail, ('fade',)),
  (ws('The', 21.5) - 0.1, s_galland, ('fade',)),
  (ws('invited', 23.4) - 0.1, s_airfield, ('fade',)),
  (ws('The', 27) - 0.1, s_leg, ('fade',)),
- (ws('He', 31.6) - 0.1, s_window, ('fade',)),
  (ws('Galland', 36) - 0.1, s_word, ('fade',)),
  (ws('The', 41.2) - 0.1, s_nofavor, ('fade',)),
- (ws('One', 43.6) - 0.1, s_raid, ('whip', -1)),
+ (ws('One', 43.6) - 0.1, s_raid, ('fade',)),
  (ws('Inside', 46) - 0.1, s_reveal, ('fade',)),
  (ws('With', 48.2) - 0.1, s_again, ('fade',)),
  (ws('In', 54.2) - 0.1, s_colditz, ('fade',)),
  (ws('And', 56.6) - 0.1, s_end, ('fade',))]
+FLY0 = [a for a, fn, tr in ANCH if fn is s_fly][0]
 
 DUR = {'fade': 0.2, 'whip': 0.34}
 SC = []
