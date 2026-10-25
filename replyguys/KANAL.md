@@ -122,6 +122,26 @@ Sabitlenmiş yorum: `Ok well what is it then? 🤨👇`
 
 Thumbnail: `node replyguys/engine/thumb.js stickNN <saniye>` (ayar: `stickNN/thumb/cfg.js`).
 
+## Bölüm 05 (YouTube) — video4'ün ikinci kesiti
+Başlık:
+```
+Gemini made the easiest guessing game ever 🤖
+```
+Açıklama:
+```
+"I chose red. Try to guess it." 💀
+
+Real internet chaos, acted out as a podcast by stick figures. New episode every day.
+
+#gemini #ai #funny
+```
+Etiketler:
+```
+gemini, google gemini, gemini fail, ai fail, funny ai, ai chatbot, guess my color, ai guessing game, funny ai chat, chatbot fail, funny texts, funny comments, instagram comments, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `How did he guess it though? 🤔👇`
+Not: Kaynağa olmayan şaka eklenmez; sahne efektleri sadece replikleri görselleştirir.
+
 ## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
 iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
 
