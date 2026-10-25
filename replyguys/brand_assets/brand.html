@@ -3,7 +3,7 @@
 html,body{margin:0;background:#000}#stage{position:relative;overflow:hidden;background:#15121F}svg{position:absolute;inset:0}
 </style></head><body><div id="stage"><svg id="s"></svg></div><script src="neon.js"></script><script>
 const NS='http://www.w3.org/2000/svg';const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
-const mode=location.hash.slice(1)||'logo';const [W,H]=mode==='logo'?[800,800]:[2560,1440];
+const mode=location.hash.slice(1)||'logo';const [W,H]=mode==='logo'?[800,800]:mode==='wide'?[1024,576]:[2560,1440];
 const st=document.getElementById('stage');st.style.width=W+'px';st.style.height=H+'px';const s=document.getElementById('s');s.setAttribute('viewBox',`0 0 ${W} ${H}`);s.setAttribute('width',W);s.setAttribute('height',H);
 const d=el('defs',{},s);const rg=el('radialGradient',{id:'v',cx:'50%',cy:'45%',r:'70%'},d);el('stop',{offset:0,'stop-color':'#2A2140'},rg);el('stop',{offset:1,'stop-color':'#0E0C15'},rg);
 el('rect',{width:W,height:H,fill:'url(#v)'},s);
@@ -11,7 +11,8 @@ el('rect',{width:W,height:H,fill:'url(#v)'},s);
 const b=el('g',{stroke:'#ffffff',opacity:.045,'stroke-width':3},s);const bh=mode==='logo'?50:64,bw=bh*2.3;
 for(let y=0;y<H;y+=bh){el('line',{x1:0,y1:y,x2:W,y2:y},b);for(let x=((y/bh)%2)*bw/2;x<W;x+=bw)el('line',{x1:x,y1:y,x2:x,y2:y+bh},b)}
 const g=el('g',{},s);
-if(mode==='logo'){const m=makeMark(s,g,{wordY:165,wordSize:62});g.setAttribute('transform','translate(400 410) scale(1.22)');}
+if(mode==='wide'){const m=makeMark(s,g,{wordY:168,wordSize:60});g.setAttribute('transform','translate(512 270) scale(1.12)');}
+else if(mode==='logo'){const m=makeMark(s,g,{wordY:165,wordSize:62});g.setAttribute('transform','translate(400 410) scale(1.22)');}
 else{
   // safe area 1546x423 centred: mark on the left, name + tagline on the right
   const m=makeMark(s,g,{word:false});g.setAttribute('transform','translate(762 735) scale(1.0)');

@@ -6,7 +6,7 @@ Konsept: Yorumlarda tartışan insanlar, çöp adam podcast'i olarak canlandır�
 - Kullanıcı adı önerisi (her platformda aynı): `@ReplyGuysPod` (yedekler: `@ReplyGuysShow`, `@TheReplyGuys`)
 - Renkler: neon pembe #FF3DA5, neon camgöbeği #3DE6FF, neon lime #C6FF3D, zemin #15121F
 - Fontlar: Tilt Neon (logo, tabela), Patrick Hand (baloncuk yazısı), Permanent Marker (çıkartmalar). Hepsi OFL.
-- Dosyalar: `brand_assets/logo_800.png`, `brand_assets/banner_2560x1440.png`. Yeniden üretmek için `node brand_assets/shot.js`.
+- Dosyalar: `brand_assets/logo_800.png` (profil), `brand_assets/logo_1024x576.png` (16:9 logo), `brand_assets/banner_2560x1440.png`. Yeniden üretmek için `node brand_assets/shot.js`.
 - Videodaki neon tabela: `stick01/sign.js`. 13 saniyelik döngü: logo + REPLY GUYS (her döngüde renk değişir), sonra `window.EPISODE` yazısı (lines.js içinde), aralarda neon kıpırtısı.
 
 ## YouTube açıklaması
@@ -18,10 +18,16 @@ Someone drops a very confident take. Someone else replies with the facts. We sit
 New episodes every day. Subscribe so you don't miss the next fight in the replies.
 ```
 
-## YouTube kanal etiketleri
+## YouTube kanal etiketleri (v2, genel komedi)
 ```
-comment section, funny comments, internet arguments, comment wars, reply guys, animated podcast, podcast animation, stick figure animation, stickman comedy, funny debates, dumb vs smart, history facts, comedy shorts, internet comedy, funny reels, animated comedy, comments reenacted, instagram comments, reddit stories, hot takes
+reply guys, funny comments, comment section, internet arguments, funny arguments, comment wars, dumb comments, funny instagram comments, funny tiktok comments, social media fails, hot takes, debate gone wrong, stickman animation, stick figure comedy, animated podcast, podcast animation, funny animation, animated comedy, comedy shorts, funny videos, internet comedy, try not to laugh
 ```
+- 22 etiket, YouTube'un tırnak saymasıyla ~407/500 karakter. Konudan bağımsız (history yok); konuya özel kelimeler videonun kendi etiketlerine girer.
+- Sıra: önce kanal adı, sonra içeriğin ne olduğu (yorum kavgaları), sonra format (çöp adam, animasyonlu podcast), en son geniş komedi terimleri.
+- Etiketlerin etkisi küçük (YouTube Yardım). Asıl iş başlık, thumbnail ve açıklamada. Açıklamaya etiket yığmak spam sayılır.
+
+## Video etiketi şablonu (her bölüm, ~8-12 etiket)
+1. Bölümün ana konusu (ör. `world war 1`), 2. konu varyasyonu / soru kalıbı (ör. `why is it called world war 1`), 3. tartışmanın komik kancası (ör. `4 billion people died`), 4-6. sabit format etiketleri: `funny comments`, `comment section`, `stickman animation`, 7. `reply guys`.
 
 ## Facebook sayfası (kısa açıklama, 101 karakter sınırı)
 ```
