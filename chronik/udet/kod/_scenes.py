@@ -206,8 +206,8 @@ def s_name(t, w0, w1):
     return can
 def s_ww1(t, w0, w1):
     can, m = side('u02', 700, 820, t, w0, w1, 1.05)
-    for s_, cx_, cy_, h_, t0 in (('62', 1080, 660, 230, ws('62') - 0.05), ('ABSCHÜSSE', 1075, 870, 58, ws('Flugzeuge', 15) - 0.05)):   # on the white panel beside his face
-        if t > t0: on_quad(can, [m(*v) for v in tquad(cx_, cy_, s_, h_)], s_, 200, clamp((t - t0) / 0.06), INK, anton(200), eio((t - t0) / 0.4), 0.8, mod=0.35, op=0.93)
+    for s_, cx_, cy_, h_, t0 in (('62', 1150, 722, 170, ws('62') - 0.05), ('ABSCHÜSSE', 1150, 836, 46, ws('Flugzeuge', 15) - 0.05)):   # on the bright white gap between the strut and his head, stacked tight
+        if t > t0: on_quad(can, [m(*v) for v in tquad(cx_, cy_, s_, h_)], s_, 200, clamp((t - t0) / 0.06), (168, 30, 28), anton(200), eio((t - t0) / 0.4), 0.7, mod=0.2, op=0.97)
     return can
 def s_richt(t, w0, w1):
     can = grade(fit('u09', t, w0, w1, 1.07)); shade(can, 210, 0.5)
@@ -227,7 +227,7 @@ def s_goering(t, w0, w1):
 def s_buy(t, w0, w1):
     can, m = side('u01', 450, 600, t, w0, w1, 1.05)
     t0 = ws('1933') - 0.05   # on his jacket, across the chest
-    if t > t0: on_quad(can, [m(*v) for v in tquad(1180, 930, '1933', 170, tilt=-6)], '1933', 200, clamp((t - t0) / 0.06), INK, anton(200), eio((t - t0) / 0.4), 0.9, mod=0.45, op=0.9)
+    if t > t0: on_quad(can, [m(*v) for v in tquad(1180, 930, '1933', 170, tilt=-6)], '1933', 200, clamp((t - t0) / 0.06), WHITE, anton(200), eio((t - t0) / 0.4), 0.9, mod=0.25, op=0.97, glow=((0, 0, 0), 9, 0.55))
     title(can, t, ws('zwei', 29) - 0.05, 'ZWEI MASCHINEN', 1300, 96, CREAM, None, 'bebas')
     return can
 def s_germany(t, w0, w1):
