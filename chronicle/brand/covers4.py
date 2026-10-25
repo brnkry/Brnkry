@@ -79,6 +79,7 @@ JOBS = {
  'rommel': ('en/code', 'r12', (0.48, 0.44, 1.12), ('C', 'P'), [('THE DESERT FOX', 130, 'w'), ('WHY HE TOOK POISON', 130, 'y')], 'HITLER GAVE HIM A CHOICE', 88, S + 'en/thumbs/EN_Desert_Fox_Poison.jpg'),
  'wainwright': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'P'), [('1942: SURRENDERED TO', 130, 'w'), ('JAPAN', 158, 'y')], '1945: WATCHED IT SURRENDER', 88, S + 'wain/thumbs/EN_Wainwright_Arrows.jpg', True),
  'wainwright_de': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'DM'), [('1942: KAPITULIERTE VOR', 130, 'w'), ('JAPAN', 158, 'y')], '1945: SAH ER\nES KAPITULIEREN', 88, S + 'wain/thumbs/DE_Wainwright_Kapitulation.jpg', True),
+ 'bader': ('bader/code', 'd11', (0.49, 0.5, 1.0), ('C', 'P'), [('THE RAF DROPPED', 130, 'w'), ('HIM A NEW LEG', 130, 'y')], 'IN THE MIDDLE OF A BOMBING RAID', 88, S + 'bader/thumbs/EN_Bader_New_Leg.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
