@@ -7,7 +7,7 @@ TXT = open(B + 'code/script.txt').read().strip()
 ST = []; _i = 0
 for _s in re.split(r'(?<=[^\d][.!?])\s+', TXT): ST.append(WORDS[_i][1]); _i += len(_s.split())
 def w(word, k): return wt(word, ST[k])
-VEND = WORDS[-1][2]; T = VEND + 1.0
+VEND = WORDS[-1][2]; T = VEND + 0.55
 INK = (34, 30, 28); PAPER = (226, 216, 192); GOLD = YEL
 def prog(t, w0, w1): return clamp((t - w0) / (w1 - w0))
 def nxt(t0): n_ = [x for x in ST if x > t0 + 0.05]; return (n_[0] - 0.22) if n_ else None
@@ -210,6 +210,11 @@ def film_fit(ct, cy=760, wscale=1.0):
     bg = bg.crop((x0, 0, x0 + W, H)).filter(ImageFilter.GaussianBlur(28)); bg = ImageEnhance.Brightness(bg).enhance(0.55)
     fw = int(W * wscale); fh = int(fw * 9 / 16); fg = im.resize((fw, fh), Image.BICUBIC)
     bg.paste(fg, ((W - fw) // 2, int(cy - fh / 2))); return grade(bg.convert('RGBA'), 0.14, 1.0)
+def rquad(cx, cy, s_, h, ang, font=None):
+    """quad (source coords) for s_ with its true aspect, h high, centred on (cx, cy), turned by ang degrees (along a slanted surface)"""
+    f = font or anton(200); bb = f.getbbox(s_); w = h * (bb[2] - bb[0] + 20) / (bb[3] - bb[1] + 20); a = math.radians(ang)
+    ux, uy, vx, vy = math.cos(a) * w / 2, math.sin(a) * w / 2, -math.sin(a) * h / 2, math.cos(a) * h / 2
+    return [(cx - ux - vx, cy - uy - vy), (cx + ux - vx, cy + uy - vy), (cx + ux + vx, cy + uy + vy), (cx - ux + vx, cy - uy + vy)]
 def tquad(cx, cy, s_, h, font=None, tilt=0.0):
     """quad (source coords) for s_ with its true aspect, h high, centred on (cx, cy); tilt lifts the right end"""
     f = font or anton(200); bb = f.getbbox(s_); w = h * (bb[2] - bb[0] + 20) / (bb[3] - bb[1] + 20)
@@ -252,7 +257,7 @@ def s_open(t, w0, w1):
 # --- who it was for: the man himself, close up (post-war footage)
 def s_name(t, w0, w1):
     can = film_fit(0.4 + (t - w0), 760); shade(can, 200, 0.55)
-    title(can, t, ws('prisoner') - 0.1, 'ONE PRISONER', 430, 96, CREAM, ws('Douglas') - 0.1)
+    title(can, t, ws('prisoner') - 0.1, 'ONE PRISONER', 300, 96, CREAM, ws('Douglas') - 0.1)
     title(can, t, ws('Douglas'), 'DOUGLAS', 1150, 130, CREAM, None, bold=1)
     title(can, t, ws('Bader'), 'BADER', 1290, 170, YEL, None, bold=1)
     return can
@@ -272,7 +277,7 @@ def canopy(ct):
         if ct <= b: u = clamp((ct - a) / (b - a)); return lerp(x0, x1, u), lerp(y0, y1, u)
     return CANOPY[-1][1:]
 def s_fly(t, w0, w1):
-    ct = 14.4 + (t - w0); gx, gy = canopy(ct); can, m = film(ct, gx - 60, 560, 1.1)
+    ct = 14.4 + (t - w0); gx, gy = canopy(ct); can, m = film(ct, gx - 150, 560, 1.0)   # the window follows the glass, so the words stay put on it
     t1 = ws('artificial', 11) - 0.1
     if t > t1:
         a = clamp((t - t1) / 0.06)
@@ -357,7 +362,7 @@ def window_rope(can, m, t, t1):
     can.alpha_composite(L)
 # --- Galland's message to England, typed
 def s_word(t, w0, w1):
-    can = Image.new('RGBA', (W, H), (16, 15, 14, 255))
+    can, _ = film(8.1 + (t - w0), 960, 540, 1.0); can = ImageEnhance.Brightness(can.filter(ImageFilter.GaussianBlur(10))).enhance(0.55)   # unused newsreel keeps running behind the sheet
     paper(can, t, w0, w1, [('FROM: LUFTWAFFE, SAINT-OMER', 28, w0 + 0.2, INK), ('TO: ROYAL AIR FORCE', 28, w0 + 0.6, INK), ('', 0, 0, INK),
                            ('SEND ONE PLANE', 60, ws('send', 37.5) - 0.1, INK), ('WITH A SPARE LEG.', 60, ws('spare', 38.5) - 0.3, INK), ('', 0, 0, INK),
                            ('IT WILL NOT', 60, ws('will', 39.5) - 0.15, RED), ('BE SHOT AT.', 60, ws('shot', 40) - 0.1, RED)])
@@ -379,33 +384,37 @@ def s_raid(t, w0, w1):
 # --- what was inside: the crate with the leg
 def s_reveal(t, w0, w1):
     can, m = side('d14', 230, 330, t, w0, w1, 1.06); shade(can, 200, 0.55)
-    title(can, t, ws('new', 46.5) - 0.05, 'A NEW LEG', 1290, 140, YEL, None, bold=1)
+    t1 = ws('new', 46.5) - 0.1
+    if t > t1: on_quad(can, [m(*v) for v in rquad(935, 768, 'A NEW LEG', 108, -31)], 'A NEW LEG', 120, clamp((t - t1) / 0.06), (165, 38, 30), anton(120), eio((t - t1) / 0.4), 0.8, mod=0.5, op=0.95)
     return can
 # --- with two legs again: escape after escape, then the threat at night
 def s_again(t, w0, w1):
     tn = ws('night', 53); k = eio((t - tn + 0.6) / 0.6) if t > tn - 0.6 else 0.0
     can = night(fit('d08', t, w0, w1, 1.06), 0.3 + 0.7 * k); shade(can, 210, 0.5)
-    t1 = ws('escape', 49.5) - 0.1; tt = ws('threatened', 51.5) - 0.3; out = 1 - clamp((t - tt) / 0.25)
-    title(can, t, t1, 'ESCAPE', 1150, 120, CREAM, tt)
-    if t1 < t and out > 0:   # tally of attempts drawn under the word
-        n = min(5, int((t - t1) / 0.4) + 1); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L); A = int(255 * out)
+    q = lambda x, y: fitpt('d08', t, w0, w1, 1.06, x, y)
+    t1 = ws('escape', 49.5) - 0.1; ex, ey = q(548, 950)
+    title(can, t, t1, 'ESCAPE', ey, 96, CREAM, None, 'anton', ex)   # right above the raised thumb
+    if t > t1:   # one stroke per attempt, in the gap between thumb and index finger
+        n = min(4, int((t - t1) / 0.4) + 1); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
         for i in range(n):
-            if i < 4: x = 450 + i * 60; d.line((x, 1250, x - 10, 1370), fill=(0, 0, 0, int(150 * out)), width=18); d.line((x, 1250, x - 10, 1370), fill=CREAM + (A,), width=11)
-            else: d.line((425, 1340, 655, 1270), fill=(0, 0, 0, int(150 * out)), width=18); d.line((425, 1340, 655, 1270), fill=RED + (A,), width=11)
+            a, b = q(645 + i * 40, 1075), q(635 + i * 40, 1215)
+            d.line((a, b), fill=(0, 0, 0, 150), width=16); d.line((a, b), fill=CREAM + (255,), width=9)
         can.alpha_composite(L)
-    title(can, t, ws('threatened', 51.5) - 0.05, 'TAKE HIS LEGS', 1180, 100, RED)
-    title(can, t, tn - 0.05, 'AT NIGHT', 1300, 120, (190, 205, 235))
+    lx, ly = q(1180, 1330)
+    title(can, t, ws('threatened', 51.5) - 0.05, 'TAKE HIS', ly - 60, 80, RED, None, 'anton', lx)   # right of the four fingers
+    title(can, t, ws('threatened', 51.5) + 0.15, 'LEGS', ly + 30, 100, RED, None, 'anton', lx)
+    title(can, t, tn - 0.05, 'AT NIGHT', ly + 140, 80, (190, 205, 235), None, 'anton', lx)
     return can
 # --- Colditz
 def s_colditz(t, w0, w1):
     can = grade(fit('d16', t, w0, w1, 1.06, 0.1)); shade(can, 210, 0.5)
-    sky(can, t, ws('Colditz') - 0.15, 'COLDITZ', CX, 430, 150, CREAM, None, 0.5)
+    sky(can, t, ws('Colditz') - 0.15, 'COLDITZ', 200, 330, 86, CREAM, None, 0.5)
     return can
 # --- after the war: Galland and Bader laughing together
 def s_end(t, w0, w1):
     can, m = side('d12', 430, 530, t, w0, w1, 1.04); shade(can, 210, 0.5)
-    for s_, cy, h, col, t0 in (('THE ENEMY', 262, 62, INK, ws('enemy', 57) - 0.05), ('FRIENDS', 350, 104, (150, 30, 28), ws('friend', 59.5) - 0.05), ('FOR 40 YEARS', 445, 58, INK, ws('forty', 60) - 0.05)):
-        if t > t0: on_quad(can, [m(*v) for v in tquad(950, cy, s_, h)], s_, 120, clamp((t - t0) / 0.06), col, anton(120), eio((t - t0) / 0.4), 0.7, mod=0.4, op=0.93)
+    for s_, cy, h, col, t0 in (('THE ENEMY', 280, 36, INK, ws('enemy', 57) - 0.05), ('FRIENDS', 334, 58, (150, 30, 28), ws('friend', 59.5) - 0.05), ('FOR 40 YEARS', 388, 32, INK, ws('forty', 60) - 0.05)):
+        if t > t0: on_quad(can, [m(*v) for v in tquad(1095, cy, s_, h)], s_, 120, clamp((t - t0) / 0.06), col, anton(120), eio((t - t0) / 0.4), 0.7, mod=0.4, op=0.93)
     return can
 
 ANCH = [
@@ -451,7 +460,7 @@ def frame(t):
         b = act[1]; u = clamp((t - b[0]) / (act[0][1] - b[0])); nimg = b[2](t, b[0], b[1])
         img = whip(img, nimg, u, b[3][1]) if b[3] and b[3][0] == 'whip' else Image.blend(img, nimg, eio(u))
     img.alpha_composite(VIG); captions(img, t)
-    fade = clamp(1 - t / 0.3)
+    fade = clamp((t - (T - 0.45)) / 0.45)   # no fade in: the film starts at once; a short fade out at the very end
     if fade > 0: img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * fade))))
     a = np.asarray(img.convert('RGB')).astype(np.int16) + np.random.default_rng(int(t * 30)).normal(0, 5, (H, W))[..., None].astype(np.int16)
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
