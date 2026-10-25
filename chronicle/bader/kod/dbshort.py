@@ -256,7 +256,7 @@ def s_open(t, w0, w1):
     return can
 # --- who it was for: the man himself, close up (post-war footage)
 def s_name(t, w0, w1):
-    can = film_fit(0.4 + (t - w0), 760); shade(can, 200, 0.55)
+    n = int((t - w0) * FPS) + 1; can = grade(Image.open(B + 'clip2/f%04d.jpg' % max(1, min(108, n))).convert('RGB').resize((W, H)).convert('RGBA'), 0.14, 1.0); shade(can, 200, 0.55)   # the portrait film, already 9:16
     title(can, t, ws('prisoner') - 0.1, 'ONE PRISONER', 300, 96, CREAM, ws('Douglas') - 0.1)
     title(can, t, ws('Douglas'), 'DOUGLAS', 1150, 130, CREAM, None, bold=1)
     title(can, t, ws('Bader'), 'BADER', 1290, 170, YEL, None, bold=1)
@@ -267,7 +267,8 @@ def s_crash(t, w0, w1):
     sky(can, t, ws('Ten') - 0.05, '1931', CX, 320, 150, CREAM, None, 0.5)
     t2 = ws('both') - 0.05; q = lambda x, y: fitpt('d06', t, w0, w1, 1.06, x, y)
     if t > t2: on_quad(can, [q(*v) for v in tquad(1060, 1250, 'BOTH LEGS', 150, tilt=22)], 'BOTH LEGS', 150, clamp((t - t2) / 0.06), (178, 62, 40), anton(150), eio((t - t2) / 0.4), 0.9, mod=0.45, op=0.95, glow=((10, 6, 4), 8, 0.45))
-    title(can, t, ws('crash'), 'AMPUTATED', 1370, 70, CREAM, None, 'bebas')
+    t3 = ws('crash') - 0.05
+    if t > t3: on_quad(can, [q(*v) for v in tquad(1075, 1395, 'AMPUTATED', 110, tilt=22)], 'AMPUTATED', 150, clamp((t - t3) / 0.06), (178, 62, 40), anton(150), eio((t - t3) / 0.4), 0.9, mod=0.45, op=0.95, glow=((10, 6, 4), 8, 0.45))
     return can
 # --- back in a Spitfire (his initials DB on the side): arrow to the legs as he climbs in
 FLY0 = None   # set after ANCH (start of s_fly): the map keeps this film running behind it
@@ -395,19 +396,23 @@ def s_again(t, w0, w1):
     t1 = ws('escape', 49.5) - 0.1; ex, ey = q(548, 950)
     title(can, t, t1, 'ESCAPE', ey, 96, CREAM, None, 'anton', ex)   # right above the raised thumb
     if t > t1:   # one stroke per attempt, in the gap between thumb and index finger
-        n = min(4, int((t - t1) / 0.4) + 1); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+        n = min(4, int((t - t1) / 0.35) + 1); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
         for i in range(n):
             a, b = q(645 + i * 40, 1075), q(635 + i * 40, 1215)
             d.line((a, b), fill=(0, 0, 0, 150), width=16); d.line((a, b), fill=CREAM + (255,), width=9)
+        tr = ws('threatened', 51.5) - 0.1; u = eio((t - tr) / 0.35)
+        if u > 0:   # the fifth, red stroke across the four
+            a, b = q(620, 1185), q(790, 1105); e = (lerp(a[0], b[0], u), lerp(a[1], b[1], u))
+            d.line((a, e), fill=(0, 0, 0, 150), width=18); d.line((a, e), fill=RED + (255,), width=11)
         can.alpha_composite(L)
-    lx, ly = q(1180, 1330)
+    lx, ly = q(1010, 1330)
     title(can, t, ws('threatened', 51.5) - 0.05, 'TAKE HIS', ly - 60, 80, RED, None, 'anton', lx)   # right of the four fingers
     title(can, t, ws('threatened', 51.5) + 0.15, 'LEGS', ly + 30, 100, RED, None, 'anton', lx)
     title(can, t, tn - 0.05, 'AT NIGHT', ly + 140, 80, (190, 205, 235), None, 'anton', lx)
     return can
 # --- Colditz
 def s_colditz(t, w0, w1):
-    can = grade(fit('d16', t, w0, w1, 1.06, 0.1)); shade(can, 210, 0.5)
+    can = grade(crop('d16', 900, 900, lerp(1300, 1180, prog(t, w0, w1)))); shade(can, 210, 0.5)   # closer on the tower
     sky(can, t, ws('Colditz') - 0.15, 'COLDITZ', 200, 330, 86, CREAM, None, 0.5)
     return can
 # --- after the war: Galland and Bader laughing together
@@ -460,8 +465,6 @@ def frame(t):
         b = act[1]; u = clamp((t - b[0]) / (act[0][1] - b[0])); nimg = b[2](t, b[0], b[1])
         img = whip(img, nimg, u, b[3][1]) if b[3] and b[3][0] == 'whip' else Image.blend(img, nimg, eio(u))
     img.alpha_composite(VIG); captions(img, t)
-    fade = clamp((t - (T - 0.45)) / 0.45)   # no fade in: the film starts at once; a short fade out at the very end
-    if fade > 0: img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * fade))))
     a = np.asarray(img.convert('RGB')).astype(np.int16) + np.random.default_rng(int(t * 30)).normal(0, 5, (H, W))[..., None].astype(np.int16)
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
