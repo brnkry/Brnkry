@@ -17,13 +17,14 @@ function ntext(p,x,y,size,str,anchor='middle'){const g=el('g',{},p);const a={x,y
 const A=el('g',{},root);const mk=el('g',{transform:`translate(${CX-186} ${CY+13}) scale(.25)`},A);const mark=makeMark(svg,mk,{word:false});
 const name=ntext(A,CX-116,CY+21,60,'REPLY GUYS','start');
 const B=el('g',{},root);const ep=ntext(B,CX,CY+21,58,window.EPISODE||'EPISODE 01');
-const PER=13,SPLIT=9.5;
+// short videos (<20 s) use a faster cycle so the episode label still shows up
+const PER=(window.DUR||60)<20?window.DUR/2:13,SPLIT=PER*(PER<13?.6:9.5/13);
 const hash=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
 window.renderSign=function(t){
   const cyc=Math.floor(t/PER),u=t-cyc*PER;const showA=u<SPLIT;
   // switch flicker around each state change
   const sw=Math.min(Math.abs(u),Math.abs(u-SPLIT),Math.abs(u-PER));let on=1;
-  if(t>0.6&&sw<.45){on=hash(Math.floor(t*20))>.45?1:.08}
+  if(t>0.6&&sw<(PER<13?.22:.45)){on=hash(Math.floor(t*20))>.45?1:.08}
   else if(hash(Math.floor(t*15)+7)<.025)on=.25; // random buzz
   const g=on;A.style.display=showA?'':'none';B.style.display=showA?'none':'';
   name.col(cyc);ep.col(cyc+2);name.style.opacity=ep.style.opacity=.15+.85*g;name.glow.style.opacity=ep.glow.style.opacity=g;
