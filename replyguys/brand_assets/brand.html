@@ -20,7 +20,7 @@ else{
   [['#FF3DA5',.9,'url(#gl)'],['#FFD3EA',1,'']].forEach(([f,o,flt])=>{const x=el('text',{x:1050,y:735,'font-family':'Neon','font-size':160,'letter-spacing':8,fill:f,opacity:o},w1);if(flt)x.setAttribute('filter',flt);x.textContent='REPLY GUYS'});
   const gl=el('filter',{id:'gl',x:'-20%',y:'-50%',width:'140%',height:'200%'},d);el('feGaussianBlur',{stdDeviation:14},gl);
   el('text',{x:1058,y:830,'font-family':'Hand','font-size':54,fill:'#EDE7F7'},t).textContent='Comment section fights, acted out as a podcast.';
-  el('text',{x:1058,y:900,'font-family':'Hand','font-size':46,fill:'#3DE6FF'},t).textContent='New episodes every week';
+  el('text',{x:1058,y:900,'font-family':'Hand','font-size':46,fill:'#3DE6FF'},t).textContent='New episodes every day';
 }
 document.fonts.load('40px Neon').then(()=>document.fonts.load('40px Hand')).then(()=>{window.__done=true});
 </script></body></html>

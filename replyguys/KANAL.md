@@ -15,7 +15,7 @@ Real comment section arguments, acted out as a podcast by stick figures.
 
 Someone drops a very confident take. Someone else replies with the facts. We sit them both down behind a mic and let it play out, word for word.
 
-New episodes every week. Subscribe so you don't miss the next fight in the replies.
+New episodes every day. Subscribe so you don't miss the next fight in the replies.
 ```
 
 ## YouTube kanal etiketleri
@@ -25,14 +25,14 @@ comment section, funny comments, internet arguments, comment wars, reply guys, a
 
 ## Facebook sayfası (kısa açıklama, 101 karakter sınırı)
 ```
-Comment section fights, acted out as a podcast by stick figures. New episodes every week. 🎙️
+Comment section fights, acted out as a podcast by stick figures. New episodes every day. 🎙️
 ```
 
 ## Instagram biyografisi (150 karakter sınırı)
 ```
 🎙️ Comment section fights, acted out as a podcast
 ✏️ Stick figures. Real threads. Zero chill.
-👇 New episode every week
+👇 New episodes every day
 ```
 
 ## Bölüm 01 için öneri
