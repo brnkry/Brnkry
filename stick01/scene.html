@@ -1,0 +1,350 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Hand;src:url(fonts/hand.woff2)}
+@font-face{font-family:Marker;src:url(fonts/marker.woff2)}
+html,body{margin:0;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6F2E8}
+#cam{position:absolute;inset:0;transform-origin:0 0}
+svg{position:absolute;inset:0}
+.bt{position:absolute;font-family:Hand;font-size:64px;line-height:1.13;color:#1B1B1F;word-spacing:2px}
+.bt span{display:inline-block;margin-right:.24em;transform-origin:50% 80%}
+.bt span.eS{color:#E0353B}.bt span.eB{color:#2463D9}
+.hand{font-family:Hand}.mk{font-family:Marker}
+#tint{position:absolute;inset:0;pointer-events:none}
+</style></head><body>
+<div id="stage"><div id="cam">
+<svg id="world" viewBox="0 0 1080 1920" width="1080" height="1920">
+ <defs>
+  <filter id="boil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence id="turb" type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="1"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  <radialGradient id="spot" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#FFF3B0" stop-opacity=".9"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></radialGradient>
+ </defs>
+ <g transform="translate(540 1572) scale(1.15) translate(-540 -1572)"><g id="room" filter="url(#boil)"></g>
+ <g id="actors" filter="url(#boil)"></g></g>
+ <g id="bubbles" filter="url(#boil)"></g>
+</svg>
+<div id="texts"></div>
+<svg id="front" viewBox="0 0 1080 1920" width="1080" height="1920"><g id="fx" filter="url(#boil2)"></g>
+ <defs><filter id="boil2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence id="turb2" type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="1"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></defs></svg>
+</div><div id="tint"></div></div>
+<script src="lines.js"></script>
+<script src="mouth.js"></script>
+<script>
+// ================= helpers =================
+const NS='http://www.w3.org/2000/svg';
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),P=(t,t0,d)=>cl((t-t0)/d),lerp=(a,b,k)=>a+(b-a)*k;
+const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c1=2.2,c3=c1+1;return x<=0?0:1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const V=(t,a,b,fi=.25,fo=.2)=>Math.min(eo(P(t,a,fi)),1-P(t,b-fo,fo));
+function el(tag,a={},p){const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+const G=(p,a={})=>el('g',a,p);
+const tr=(e,x,y,s=1,r=0)=>e.setAttribute('transform',`translate(${x} ${y}) rotate(${r}) scale(${s})`);
+const op=(e,o)=>{e.style.opacity=o;e.style.display=o>0.001?'':'none'};
+const INK='#1B1B1F',RED='#E0353B',BLUE='#2463D9',PAPER='#F6F2E8',GREY='#8C8A84',LIME='#9BC53D';
+const ln=(p,x1,y1,x2,y2,w=9,c=INK)=>el('line',{x1,y1,x2,y2,stroke:c,'stroke-width':w,'stroke-linecap':'round'},p);
+const T=(p,x,y,s,size,cls,fill=INK,anchor='middle')=>{const e=el('text',{x,y,'font-size':size,class:cls,fill,'text-anchor':anchor},p);e.textContent=s;return e};
+const L=window.LINES,M=window.MEMES;const ID={};L.forEach((l,i)=>ID[l.id]=l);
+const SC=1.15,W=(x,y)=>[540+(x-540)*SC,1572-(1572-y)*SC];
+const inM=(t,k,pad=0)=>t>=M[k][0]-pad&&t<M[k][1]+pad;
+const anyMeme=t=>inM(t,'he')||inM(t,'roar')||inM(t,'sour');
+const mouthAt=t=>{const A=window.MOUTH;const f=t*30,i=Math.floor(f);return lerp(A[i]||0,A[i+1]||0,f-i)};
+const speaking=(who,t)=>L.some(l=>l.who===who&&t>=l.w[0][1]-.1&&t<l.end);
+const blink=(t,per,off)=>{const p=((t+off)%per+per)%per;return p<.13?1-Math.sin(p/.13*Math.PI):1};
+function poser(POSE,KEYS,d=.3){return t=>{let i=0;while(i<KEYS.length-1&&t>=KEYS[i+1][0])i++;const a=POSE[KEYS[Math.max(0,i-1)][1]],b=POSE[KEYS[i][1]];const k=eio(P(t,KEYS[i][0],d));
+  const o={name:KEYS[i][1],k};for(const key of ['lean','tilt'])o[key]=lerp(a[key]||0,b[key]||0,k);
+  for(const h of ['n','f'])o[h]=[lerp(a[h][0],b[h][0],k),lerp(a[h][1],b[h][1],k)];return o}}
+
+// ================= room =================
+const room=document.getElementById('room');const FLOOR=1572;
+(()=>{
+  // acoustic foam panels
+  [[70,1110],[930,1110]].forEach(([x,y])=>{const g=G(room);for(let i=0;i<3;i++)for(let j=0;j<2;j++){el('rect',{x:x-50+j*52,y:y+i*52,width:46,height:46,rx:6,fill:'#E6E0D2',stroke:'#C9C2B2','stroke-width':4},g);
+    el('path',{d:`M${x-44+j*52} ${y+23+i*52} q12 -14 24 0 t20 0`,fill:'none',stroke:'#C9C2B2','stroke-width':3},g)}});
+  ln(room,0,FLOOR,1080,FLOOR,7);for(let x=30;x<1080;x+=90)ln(room,x,FLOOR+14,x+40,FLOOR+14,4,'#CFC8B8');
+  // rug
+  el('ellipse',{cx:540,cy:FLOOR-2,rx:330,ry:14,fill:'#E9DFC9',stroke:'#CFC2A6','stroke-width':4},room);
+})();
+// ON AIR sign
+const onair=G(room,{transform:'translate(540 1052)'});
+const oaBox=el('rect',{x:-82,y:-30,width:164,height:60,rx:14,fill:'#3A3A40',stroke:INK,'stroke-width':6},onair);
+const oaTxt=T(onair,0,13,'ON AIR',38,'mk','#77777E');
+ln(onair,0,-30,0,-70,4,'#999');
+// table + mics (drawn later in front of chairs, but behind bodies' near arms is fine)
+const table=G(room);
+function chair(p,x,f){// x = seat centre, f = facing
+  const g=G(p);el('path',{d:`M${x-75*f} ${1405} H${x+65*f}`,stroke:INK,'stroke-width':10,'stroke-linecap':'round',fill:'none'},g);
+  ln(g,x-70*f,1405,x-80*f,1150,9);ln(g,x-70*f,1405,x-62*f,FLOOR,8);ln(g,x+58*f,1405,x+66*f,FLOOR,8);
+  el('rect',{x:Math.min(x-92*f,x-62*f),y:1170,width:30,height:150,rx:12,fill:'#D9534F',stroke:INK,'stroke-width':6,transform:`rotate(${-2*f} ${x-77*f} 1240)`},g);return g}
+chair(room,250,1);chair(room,828,-1);
+
+// ================= stick figures =================
+const actors=document.getElementById('actors');
+const L1=86,L2=84;
+function ik(S,Tg,bend){let dx=Tg[0]-S[0],dy=Tg[1]-S[1];let d=Math.hypot(dx,dy);const mx=L1+L2-1;if(d>mx){dx*=mx/d;dy*=mx/d;d=mx}d=Math.max(d,30);
+  const a=Math.atan2(dy,dx);const c=cl((L1*L1+d*d-L2*L2)/(2*L1*d),-1,1);const b=Math.acos(c);
+  const cand=[a+b,a-b].map(q=>[S[0]+L1*Math.cos(q),S[1]+L1*Math.sin(q)]);const sc=e=>e[1]-0.5*bend*(e[0]-S[0]);
+  return {E:sc(cand[0])>=sc(cand[1])?cand[0]:cand[1],W:[S[0]+dx,S[1]+dy]}}
+function makeStick(f,hip,kind){
+  const r={f,hip,kind};const g=G(actors);r.g=g;
+  r.armF=el('polyline',{fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},g);r.handF=el('circle',{r:10,fill:INK},g);
+  r.legs=G(g);r.torso=el('line',{stroke:INK,'stroke-width':10,'stroke-linecap':'round'},g);
+  r.head=G(g);r.armN=el('polyline',{fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},g);r.handN=el('circle',{r:10,fill:INK},g);
+  r.prop=G(g);return r}
+const SH=makeStick(1,[252,1392],'S'),BN=makeStick(-1,[826,1392],'B');
+// legs
+(()=>{const [x,y]=SH.hip;// Shaun: lazy, knees apart
+  el('polyline',{points:`${x},${y} ${x+120},${y-22} ${x+150},${FLOOR-4} ${x+182},${FLOOR-4}`,fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},SH.legs);
+  el('polyline',{points:`${x},${y} ${x+100},${y+10} ${x+92},${FLOOR-4} ${x+124},${FLOOR-4}`,fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},SH.legs);
+  const [u,v]=BN.hip;// Ben: legs crossed
+  el('polyline',{points:`${u},${v} ${u-112},${v+4} ${u-118},${FLOOR-4} ${u-150},${FLOOR-4}`,fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},BN.legs);
+  el('polyline',{points:`${u},${v} ${u-108},${v-22} ${u-178},${v+70} ${u-206},${v+60}`,fill:'none',stroke:INK,'stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'},BN.legs);})();
+
+// --- heads ---
+// Shaun: propeller beanie, uneven derpy eyes, buck teeth
+(()=>{const h=SH.head;
+  h.hairs=G(h);['M-30 -52 q-14 -30 -2 -48','M-48 -38 q-30 -10 -34 -36','M40 -46 q22 -16 18 -40'].forEach(d=>el('path',{d,fill:'none',stroke:INK,'stroke-width':6,'stroke-linecap':'round'},h.hairs));
+  el('circle',{r:62,fill:PAPER,stroke:INK,'stroke-width':9},h);
+  h.cap=G(h);el('path',{d:'M-58 -22 A60 60 0 0 1 58 -22 Z',fill:'#F2C230',stroke:INK,'stroke-width':7,'stroke-linejoin':'round'},h.cap);
+  el('path',{d:'M-20 -58 L-14 -24 M18 -58 L14 -24',stroke:'#E0353B','stroke-width':9},h.cap);
+  ln(h.cap,0,-62,0,-86,5);h.blades=G(h.cap,{transform:'translate(0 -88)'});h.bl=el('ellipse',{cx:0,cy:0,rx:44,ry:8,fill:'#2C8CD6',stroke:INK,'stroke-width':4},h.blades);el('circle',{r:6,fill:'#E0353B',stroke:INK,'stroke-width':3},h.blades);
+  h.face=G(h);
+  h.eyeA=G(h.face);h.eA=el('circle',{r:13,fill:'#fff',stroke:INK,'stroke-width':4},h.eyeA);h.pA=el('circle',{r:6,fill:INK},h.eyeA);
+  h.eyeB=G(h.face);h.eB=el('circle',{r:9,fill:'#fff',stroke:INK,'stroke-width':4},h.eyeB);h.pB=el('circle',{r:5,fill:INK},h.eyeB);
+  h.mouth=el('path',{fill:'#5A1E22',stroke:INK,'stroke-width':5,'stroke-linejoin':'round'},h.face);
+  h.teeth=el('path',{fill:'#fff',stroke:INK,'stroke-width':3},h.face);
+  h.drool=el('path',{d:'',fill:'#9FD3F0',stroke:'#4C9CC9','stroke-width':3},h.face);
+})();
+// Ben: neat hair, round glasses, bow tie
+(()=>{const h=BN.head;
+  h.mane=G(h);{let d='';for(let i=0;i<=28;i++){const a=i/28*Math.PI*2,rr=i%2?118:150;d+=(i?'L':'M')+(rr*Math.cos(a)).toFixed(1)+' '+(rr*Math.sin(a)).toFixed(1)}el('path',{d:d+'Z',fill:'#F0A23A',stroke:INK,'stroke-width':6,'stroke-linejoin':'round'},h.mane)}
+  h.skull=el('circle',{r:62,fill:PAPER,stroke:INK,'stroke-width':9},h);
+  h.hair=el('path',{d:'M-60 -14 Q-62 -66 -6 -66 Q52 -66 60 -18 Q30 -34 6 -40 Q-22 -26 -60 -14 Z',fill:INK},h);
+  h.face=G(h);
+  h.brows=G(h.face);h.brA=ln(h.brows,-6,-34,-34,-36,5);h.brB=ln(h.brows,-46,-34,-62,-30,5);
+  h.eyes=G(h.face);h.eA=el('circle',{cx:-20,cy:-12,r:5,fill:INK},h.eyes);h.eB=el('circle',{cx:-50,cy:-12,r:4,fill:INK},h.eyes);
+  h.squint=el('path',{d:'M-30 -22 L-12 -12 L-30 -2 M-40 -22 L-58 -12 L-40 -2',fill:'none',stroke:INK,'stroke-width':5,'stroke-linecap':'round','stroke-linejoin':'round'},h.face);
+  h.glasses=G(h.face);el('circle',{cx:-20,cy:-12,r:19,fill:'rgba(200,230,255,.25)',stroke:INK,'stroke-width':5},h.glasses);el('circle',{cx:-56,cy:-12,r:15,fill:'rgba(200,230,255,.25)',stroke:INK,'stroke-width':5},h.glasses);
+  ln(h.glasses,-39,-14,-41,-14,5);ln(h.glasses,-1,-14,34,-20,5);
+  h.glint=el('path',{d:'M-30 -24 l8 -6 M-28 -16 l14 -10',stroke:'#fff','stroke-width':5,'stroke-linecap':'round'},h.glasses);
+  h.crack=el('path',{d:'M-20 -31 L-24 -18 L-14 -12 L-22 -2 L-18 6 M-24 -18 L-34 -14',fill:'none',stroke:INK,'stroke-width':3},h.glasses);
+  h.mouth=el('path',{fill:'#5A1E22',stroke:INK,'stroke-width':5,'stroke-linejoin':'round','stroke-linecap':'round'},h.face);
+  h.lips=G(h.face);el('ellipse',{cx:-58,cy:30,rx:16,ry:11,fill:'#D9475A',stroke:INK,'stroke-width':4},h.lips);el('ellipse',{cx:-58,cy:44,rx:14,ry:9,fill:'#D9475A',stroke:INK,'stroke-width':4},h.lips);
+  h.bow=G(BN.g);el('path',{d:'M0 0 L-22 -14 L-22 14 Z M0 0 L22 -14 L22 14 Z',fill:RED,stroke:INK,'stroke-width':4,'stroke-linejoin':'round'},h.bow);el('circle',{r:6,fill:RED,stroke:INK,'stroke-width':3},h.bow);
+})();
+
+// table in front of torsos (after actors so it overlaps hips nicely)
+const tableG=G(document.getElementById('actors'));
+(()=>{const g=tableG;
+  el('rect',{x:420,y:1318,width:240,height:18,rx:6,fill:'#C88D58',stroke:INK,'stroke-width':6},g);ln(g,540,1336,540,FLOOR-6,10);ln(g,488,FLOOR-4,592,FLOOR-4,10);
+  // mics on boom arms
+  [[455,1,352,1188],[625,-1,712,1188]].forEach(([x,f,mx,my])=>{ln(g,x,1318,x,1240,7);ln(g,x,1240,mx+28*f,my+12,7);
+    el('rect',{x:mx-16,y:my-34,width:32,height:62,rx:16,fill:'#3A3A40',stroke:INK,'stroke-width':5,transform:`rotate(${-60*f} ${mx} ${my})`},g)});
+  // props: juice box (Shaun), book (Ben)
+  el('rect',{x:432,y:1270,width:34,height:48,rx:4,fill:'#7AC943',stroke:INK,'stroke-width':5},g);ln(g,456,1270,470,1240,4);
+  el('rect',{x:590,y:1300,width:62,height:18,rx:3,fill:'#2463D9',stroke:INK,'stroke-width':5},g);el('rect',{x:596,y:1284,width:54,height:16,rx:3,fill:'#E0353B',stroke:INK,'stroke-width':5},g);
+})();
+// Ben's coffee mug (moves to his hand when sipping)
+const mug=G(document.getElementById('actors'));el('path',{d:'M-20 -40 h40 v38 q0 10 -10 10 h-20 q-10 0 -10 -10 Z',fill:'#fff',stroke:INK,'stroke-width':5},mug);el('path',{d:'M20 -30 q16 0 16 12 q0 12 -16 12',fill:'none',stroke:INK,'stroke-width':5},mug);
+const steam=el('path',{d:'M-6 -52 q-8 -12 0 -24 q8 -12 0 -24 M8 -52 q-8 -12 0 -24',fill:'none',stroke:'#B9B3A6','stroke-width':4,'stroke-linecap':'round'},mug);
+
+// ---------- poses (hand targets relative to near shoulder, x = facing direction) ----------
+const SPOSE={idle:{lean:-8,n:[70,130],f:[40,140]},talk:{lean:-2,n:[115,10],f:[40,140]},scratch:{lean:-6,tilt:-8,n:[30,-150],f:[40,140]},
+  cross:{lean:-10,n:[55,55],f:[40,60]},shrug:{lean:-4,tilt:8,n:[120,-40],f:[-80,-40]},think:{lean:0,tilt:-6,n:[62,-62],f:[40,140]},
+  guns:{lean:12,n:[160,-20],f:[150,10]},recoil:{lean:-28,tilt:-10,n:[70,-100],f:[50,-90]},jazz:{lean:0,tilt:6,n:[130,-130],f:[-90,-130]},deadpan:{lean:-8,n:[70,130],f:[40,140]}};
+const SKEYS=[[0,'scratch'],[1.9,'talk'],[3.6,'scratch'],[4.5,'idle'],[14.45,'talk'],[15.0,'cross'],[18.2,'deadpan'],[19.9,'idle'],[25.25,'shrug'],[26.3,'talk'],[28.7,'recoil'],[30.4,'idle'],[33.3,'think'],[35.0,'talk'],[36.2,'idle'],[38.0,'cross'],[42.9,'guns'],[45.0,'talk'],[46.2,'guns'],[48.2,'idle'],[50.5,'scratch'],[52.5,'idle'],[54.2,'jazz'],[56.6,'jazz']];
+const BPOSE={idle:{lean:4,n:[70,135],f:[60,140]},glasses:{lean:6,n:[48,-92],f:[60,140]},explain:{lean:8,n:[125,-10],f:[60,140]},count:{lean:6,n:[95,-70],f:[60,140]},
+  facepalm:{lean:12,tilt:14,n:[48,-92],f:[60,140]},offer:{lean:10,n:[150,30],f:[60,140]},sip:{lean:4,n:[52,-62],f:[60,140]},point:{lean:18,n:[165,-35],f:[60,140]},
+  roar:{lean:30,tilt:-10,n:[150,-90],f:[120,-60]},stare:{lean:2,n:[70,135],f:[60,140]},listen:{lean:2,tilt:-6,n:[60,60],f:[40,70]}};
+const BKEYS=[[0,'listen'],[4.9,'glasses'],[5.9,'explain'],[9.7,'count'],[11.0,'explain'],[13.6,'idle'],[16.6,'listen'],[19.8,'facepalm'],[20.8,'explain'],[22.8,'count'],[24.2,'idle'],[28.85,'roar'],[30.4,'idle'],[31.0,'offer'],[32.9,'idle'],[34.5,'sip'],[36.3,'idle'],[37.85,'facepalm'],[39.1,'explain'],[42.7,'listen'],[48.3,'point'],[50.1,'explain'],[52.2,'point'],[53.9,'idle'],[56.0,'stare']];
+const sPose=poser(SPOSE,SKEYS),bPose=poser(BPOSE,BKEYS);
+
+function placeStick(r,pz,t,face){
+  const f=r.f,[hx,hy]=r.hip,rad=pz.lean*Math.PI/180;const breathe=Math.sin(t*2.1+(f>0?0:1.7))*3;
+  const N=[hx+Math.sin(rad)*178*f,hy-Math.cos(rad)*178+breathe];const S=[lerp(hx,N[0],.86),lerp(hy,N[1],.86)];
+  r.torso.setAttribute('x1',hx);r.torso.setAttribute('y1',hy);r.torso.setAttribute('x2',N[0]);r.torso.setAttribute('y2',N[1]);
+  const C=[N[0]+Math.sin(rad)*66*f+(face.dx||0),N[1]-Math.cos(rad)*66+(face.dy||0)];r.C=C;r.N=N;
+  tr(r.head,C[0],C[1],face.s||1,(pz.tilt||0)*f+(face.rot||0));r.Cs=W(C[0],C[1]);
+  const arm=(pl,hd,tg,bend)=>{const W=[S[0]+tg[0]*f,S[1]+tg[1]];const k=ik(S,W,bend);pl.setAttribute('points',`${S[0]},${S[1]} ${k.E[0]},${k.E[1]} ${k.W[0]},${k.W[1]}`);hd.setAttribute('cx',k.W[0]);hd.setAttribute('cy',k.W[1]);return k.W};
+  r.Wn=arm(r.armN,r.handN,pz.n,-f);r.Wf=arm(r.armF,r.handF,pz.f,-f);return r}
+
+// ================= bubbles =================
+const bubG=document.getElementById('bubbles'),texts=document.getElementById('texts');
+const BUB={S:{x:44,w:820,tip:[206,996],base:[190,272]},B:{x:96,w:810,tip:[862,996],base:[772,846]}};const BOTTOM=926;
+L.forEach((l,i)=>{const b=BUB[l.who];const d=document.createElement('div');d.className='bt';d.style.left=(b.x+40)+'px';d.style.width=(b.w-80)+'px';texts.appendChild(d);
+  l.spans=l.w.map(([w],j)=>{const s=document.createElement('span');s.textContent=w;if(l.em.includes(j))s.className='e'+l.who;d.appendChild(s);return s});l.div=d;});
+function bubblePath(x,y,w,h,b){const r=44,[t0,t1]=b.base,[tx,ty]=b.tip;
+  return `M${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+h-r} Q${x+w} ${y+h} ${x+w-r} ${y+h} H${t1} L${tx} ${ty} L${t0} ${y+h} H${x+r} Q${x} ${y+h} ${x} ${y+h-r} V${y+r} Q${x} ${y} ${x+r} ${y} Z`}
+function layoutBubbles(){L.forEach((l,i)=>{const b=BUB[l.who];const th=l.div.getBoundingClientRect().height;const h=92+th+66,y=BOTTOM-h;l.top=y;l.div.style.top=(y+88)+'px';
+  const g=G(bubG);l.g=g;el('path',{d:bubblePath(b.x,y,b.w,h,b),fill:'#fff',stroke:INK,'stroke-width':7,'stroke-linejoin':'round'},g);
+  const av=G(g,{transform:`translate(${b.x+56} ${y+50})`});el('circle',{r:22,fill:l.who==='S'?'#F2C230':'#2463D9',stroke:INK,'stroke-width':4},av);
+  if(l.who==='S'){el('circle',{cx:-6,cy:-2,r:4,fill:INK},av);el('circle',{cx:8,cy:-4,r:3,fill:INK},av)}else{el('circle',{cx:-7,cy:-3,r:7,fill:'none',stroke:'#fff','stroke-width':3},av);el('circle',{cx:8,cy:-3,r:7,fill:'none',stroke:'#fff','stroke-width':3},av)}
+  T(g,b.x+90,y+61,(l.who==='S'?'shaun_73':'ben_soir4')+'  3d',34,'hand',GREY,'start');
+  l.foot=G(g);if(!l.likes)l.foot.style.visibility='hidden';T(l.foot,b.x+44,y+h-22,'Reply',30,'hand',GREY,'start');
+  l.heart=el('path',{d:'M0 8 C-16 -4 -14 -18 -6 -18 C-2 -18 0 -14 0 -12 C0 -14 2 -18 6 -18 C14 -18 16 -4 0 8 Z',fill:'none',stroke:INK,'stroke-width':4,'stroke-linejoin':'round'},l.foot);l.hx=b.x+b.w-150;l.hy=y+h-34;
+  T(l.foot,b.x+b.w-126,y+h-22,l.likes,32,'hand',INK,'start');
+  l.show=i===0?-1:l.w[0][1]-.3;});
+  L.forEach((l,i)=>{const nx=L[i+1];l.hide=nx?nx.show:99;for(const k in M){if(M[k][0]>l.w[0][1]&&M[k][0]<l.hide)l.hide=M[k][0]}});
+  ID.b3.show=M.he[1];ID.s10.hide=56.45;ID.b5.show=M.roar[1]+.05;}
+function renderBubbles(t){L.forEach((l,i)=>{const vis=t>=l.show&&t<l.hide+.2;op(l.g,vis?1:0);l.div.style.display=vis?'':'none';if(!vis)return;
+  const kin=i===0?1:back(P(t,l.show,.32)),kout=P(t,l.hide,.18);const s=kin*(1-kout*.9);const b=BUB[l.who];
+  const tf=`translate(${b.tip[0]}px,${b.tip[1]}px) scale(${s}) translate(${-b.tip[0]}px,${-b.tip[1]}px)`;l.g.style.transform=tf;l.div.style.transform=tf;l.div.style.transformOrigin='0 0';l.g.style.opacity=l.div.style.opacity=1-kout;
+  l.spans.forEach((sp,j)=>{const k=P(t,l.w[j][1]-.06,.22);sp.style.opacity=eo(k);sp.style.transform=`translateY(${(1-eo(k))*16}px) scale(${.7+.3*back(k)})`;
+    if(sp.className){const pulse=Math.sin(P(t,l.w[j][1],.35)*Math.PI)*.12;sp.style.transform+=` scale(${1+pulse})`}});
+  const lk=P(t,l.end-.1,.3);op(l.foot,eo(P(t,l.end-.25,.25)));l.heart.setAttribute('fill',lk>.3?RED:'none');l.heart.setAttribute('stroke',lk>.3?RED:INK);
+  l.heart.setAttribute('transform',`translate(${l.hx} ${l.hy}) scale(${1.2+Math.sin(lk*Math.PI)*.6})`);});}
+
+// ================= stickers / effects (front layer) =================
+const fx=document.getElementById('fx');
+function badge(p,txt,fill,col,size,w,h,rot){const g=G(p);el('rect',{x:-w/2,y:-h/2,width:w,height:h,rx:14,fill,stroke:INK,'stroke-width':6},g);g.t=T(g,0,size*.36,txt,size,'mk',col);g.r=rot;return g}
+const pop=(e,x,y,t,t0,t1,rot=0,sc=1)=>{const k=back(P(t,t0,.3)),o=t>=t0&&t<t1+.25?1-P(t,t1,.25):0;op(e,o);tr(e,x,y,k*sc*(1+P(t,t1,.25)*.3),rot);return k};
+const topOf=i=>ID[i].top;
+// L0: sequels
+const ww1=badge(fx,'WORLD WAR 1',PAPER,INK,40,300,74),ww2=badge(fx,'WW2 ?',PAPER,RED,40,170,74),ww3=badge(fx,'WW3 ??',PAPER,RED,40,180,74);
+const qmarks=G(fx);[0,1,2].forEach(i=>T(qmarks,i*46-46,0,'?',70-i*8,'mk',RED));
+// L1: calendar + great war banner
+const cal=G(fx);el('rect',{x:-90,y:-80,width:180,height:170,rx:12,fill:'#fff',stroke:INK,'stroke-width':6},cal);el('rect',{x:-90,y:-80,width:180,height:46,rx:12,fill:RED,stroke:INK,'stroke-width':6},cal);
+[-50,50].forEach(x=>ln(cal,x,-96,x,-66,8));const calY=T(cal,0,50,'1914',64,'mk');
+const ww2b=badge(fx,'WW2 STARTS',PAPER,INK,34,250,64);
+const banner=G(fx);el('path',{d:'M-300 -58 H300 L270 0 L300 58 H-300 L-270 0 Z',fill:'#F2C230',stroke:INK,'stroke-width':7,'stroke-linejoin':'round'},banner);
+T(banner,0,22,'"THE GREAT WAR"',60,'mk');const scrib=el('path',{d:'M-120 -12 L100 22 M-110 22 L110 -14',stroke:RED,'stroke-width':12,'stroke-linecap':'round',fill:'none',pathLength:100},banner);
+const dust=G(fx);for(let i=0;i<8;i++)el('circle',{cx:0,cy:0,r:14,fill:'#D8D2C2'},dust);
+const thumb=G(fx);el('circle',{r:46,fill:'#fff',stroke:INK,'stroke-width':6},thumb);el('path',{d:'M-18 -12 h18 l-4 -22 q10 0 14 14 v8 h8 q8 0 6 10 l-6 26 q-2 6 -10 6 h-26 Z',fill:'#F2C230',stroke:INK,'stroke-width':5,'stroke-linejoin':'round',transform:'rotate(180) translate(-4 0)'},thumb);
+// HE meme
+const heG=G(fx);const heC=el('circle',{cx:0,cy:0,r:118,fill:'none',stroke:RED,'stroke-width':16,pathLength:100},heG);
+const heA=el('path',{d:'M260 -250 Q230 -150 140 -110',fill:'none',stroke:RED,'stroke-width':18,'stroke-linecap':'round',pathLength:100},heG);
+const heH=el('path',{d:'M140 -110 l52 6 M140 -110 l40 -34',fill:'none',stroke:RED,'stroke-width':18,'stroke-linecap':'round'},heG);const heT=T(heG,250,-270,'HE',80,'mk',RED);
+// L3: great != good, scale bar
+const neq=G(fx);const nqG=badge(neq,'GREAT',PAPER,BLUE,46,200,76);const nqS=G(neq);ln(nqS,-30,-12,30,-12,10);ln(nqS,-30,12,30,12,10);ln(nqS,22,-34,-22,34,10,RED);const nqO=badge(neq,'GOOD',PAPER,INK,46,180,76);
+const scaleG=G(fx);const scBar=el('rect',{x:0,y:-26,width:10,height:52,rx:10,fill:BLUE,stroke:INK,'stroke-width':6},scaleG);const scT=T(scaleG,0,-44,'GREAT = HUGE',44,'mk',BLUE);
+// L4: shrug face + scribble cloud
+const meh=G(fx);el('circle',{r:56,fill:'#F2C230',stroke:INK,'stroke-width':6},meh);el('circle',{cx:-18,cy:-12,r:6,fill:INK},meh);el('circle',{cx:18,cy:-12,r:6,fill:INK},meh);el('path',{d:'M-22 26 q12 -14 22 -2 q10 12 22 -4',fill:'none',stroke:INK,'stroke-width':6,'stroke-linecap':'round'},meh);
+const cloud=el('path',{d:'',fill:'none',stroke:INK,'stroke-width':5,'stroke-linecap':'round'},fx);
+// ROAR
+const roarL=G(fx);for(let i=0;i<7;i++)el('path',{d:'',fill:'none',stroke:INK,'stroke-width':7,'stroke-linecap':'round'},roarL);
+// L5/L6 name tag
+const tag=G(fx);el('rect',{x:-200,y:-120,width:400,height:240,rx:20,fill:RED,stroke:INK,'stroke-width':7},tag);T(tag,0,-70,'HELLO',52,'mk','#fff');T(tag,0,-34,'my name is',30,'hand','#fff');
+el('rect',{x:-180,y:-14,width:360,height:118,rx:8,fill:'#fff',stroke:INK,'stroke-width':4},tag);const tagCur=ln(tag,-8,20,-8,80,5);const tagTxt=T(tag,0,62,'',50,'mk',INK);
+const bulb=G(fx);const bulbGlow=el('circle',{r:80,fill:'#FFE45C',opacity:0},bulb);const bulbB=el('path',{d:'M0 -50 a36 36 0 0 1 22 64 v14 h-44 v-14 a36 36 0 0 1 22 -64 Z',fill:'#fff',stroke:INK,'stroke-width':6},bulb);el('rect',{x:-20,y:30,width:40,height:20,rx:4,fill:'#B9B3A6',stroke:INK,'stroke-width':5},bulb);
+// spit take
+const spray=G(fx);for(let i=0;i<14;i++)el('circle',{r:6+i%3*3,fill:'#8B5A2B'},spray);
+// L7 storybook
+const book=G(fx);const bL=el('path',{d:'M0 -90 Q-90 -110 -190 -86 V90 Q-90 70 0 90 Z',fill:'#fff',stroke:INK,'stroke-width':6,'stroke-linejoin':'round'},book);const bR=el('path',{d:'M0 -90 Q90 -110 190 -86 V90 Q90 70 0 90 Z',fill:'#fff',stroke:INK,'stroke-width':6,'stroke-linejoin':'round'},book);
+const bTx=G(book);T(bTx,-96,-36,'Once upon',34,'hand');T(bTx,-96,0,'a time...',34,'hand');T(bTx,96,-30,'The Big',38,'mk',RED);T(bTx,96,14,'Bad War',38,'mk',RED);
+el('path',{d:'M-150 60 v-40 h20 v14 h14 v-14 h20 v40 Z M-60 40 l6 -14 6 14 -14 -9 h16 Z',fill:'none',stroke:INK,'stroke-width':4},bTx);el('path',{d:'M60 66 l10 -20 l10 20 l-24 -12 h28 Z M130 50 l6 -12 6 12 -14 -7 h16 Z',fill:'#F2C230',stroke:INK,'stroke-width':3},bTx);
+const sparks=G(fx);for(let i=0;i<6;i++)el('path',{d:'M0 -18 L5 -5 L18 0 L5 5 L0 18 L-5 5 L-18 0 L-5 -5 Z',fill:'#F2C230',stroke:INK,'stroke-width':3},sparks);
+// L8/L9 counter
+const ctr=G(fx);const ctrBox=el('rect',{x:-300,y:-62,width:600,height:124,rx:18,fill:'#2B2B31',stroke:INK,'stroke-width':7},ctr);const ctrT=T(ctr,0,26,'0',70,'mk','#fff');
+const ctrX=el('path',{d:'M-280 -50 L280 50 M-280 50 L280 -50',stroke:RED,'stroke-width':16,'stroke-linecap':'round',fill:'none',pathLength:100},ctr);
+const src=G(fx);el('rect',{x:-150,y:-34,width:300,height:68,rx:8,fill:'#FFF59A',stroke:INK,'stroke-width':4},src);T(src,0,12,'source: trust me bro',34,'hand',INK);
+const fix=el('path',{d:'M-14 -2 l16 18 l30 -40',fill:'none',stroke:'#7AE582','stroke-width':12,'stroke-linecap':'round','stroke-linejoin':'round'},ctr);
+const globe=G(fx);el('circle',{r:62,fill:'#BFE3F5',stroke:INK,'stroke-width':6},globe);const land=G(globe);el('path',{d:'M-40 -30 q20 -16 34 4 q10 18 -8 28 q-20 6 -26 -12 Z M10 20 q24 -8 30 10 q-8 20 -30 8 Z',fill:'#7AC943',stroke:INK,'stroke-width':4},land);
+T(globe,52,-50,'?',70,'mk',RED);const popT=G(fx);el('rect',{x:-250,y:-34,width:500,height:66,rx:10,fill:'#fff',stroke:INK,'stroke-width':4},popT);T(popT,0,12,'whole planet in 1914: ~1.8 billion',34,'hand',INK);
+// L10 drama
+const masks=badge(fx,'DRAMATIC EFFECT',PAPER,'#8E3BC9',46,430,80);const spot=el('path',{d:'M200 300 L60 1580 L470 1580 L330 300 Z',fill:'url(#spot)'},document.getElementById('room'));
+
+// ================= render =================
+const tint=document.getElementById('tint'),cam=document.getElementById('cam');
+window.render=function(t){
+  const seed=1+Math.floor(t*10)%6;document.getElementById('turb').setAttribute('seed',seed);document.getElementById('turb2').setAttribute('seed',seed+3);
+  const he=V(t,M.he[0],M.he[1],.18,.18),roar=V(t,M.roar[0],M.roar[1],.12,.2),sour=V(t,M.sour[0],M.sour[1],.12,.2);
+  // camera
+  let cs=1,cx=540,cy=960;const z=(k,s,x,y)=>{const hw=540/s,hh=960/s;x=cl(x,hw,1080-hw);y=cl(y,hh,1920-hh);cs=lerp(cs,s,k);cx=lerp(cx,x,k);cy=lerp(cy,y,k)};
+  z(eio(he),1.85,170,1060);z(eio(sour),1.75,850,1060);z(eio(P(t,56.35,1.1)),1.45,850,1000);
+  let shx=0,shy=0;if(roar>0){shx=Math.sin(t*83)*14*roar;shy=Math.cos(t*67)*10*roar}
+  cam.style.transform=`translate(${540-cx*cs+shx}px,${960-cy*cs+shy}px) scale(${cs})`;
+  tint.style.background=roar>0?`rgba(240,140,40,${.22*roar})`:sour>0?`rgba(155,197,61,${.12*sour})`:'none';
+  // ON AIR
+  const talking=speaking('S',t)||speaking('B',t);oaBox.setAttribute('fill',talking?RED:'#3A3A40');oaTxt.setAttribute('fill',talking?'#fff':'#77777E');
+  // ----- Shaun -----
+  let sp=sPose(t);const sMouth=speaking('S',t)?mouthAt(t):0;
+  if(sp.name==='talk'||sp.name==='guns'){sp.n[1]+=Math.sin(t*9)*10}
+  if(sp.name==='scratch'){sp.n[0]+=Math.sin(t*22)*8}
+  const shrink=roar;placeStick(SH,sp,t,{dx:-26*shrink,s:1-.18*shrink});
+  {const h=SH.head;const wide=Math.max(he*0,roar,P(t,14.5,.2)*(1-P(t,15.1,.3)));
+    tr(h.eyeA,10,-10,1+wide*.45);tr(h.eyeB,40,-14,1+wide*.5);
+    const lk=Math.sin(t*.9)*3;h.pA.setAttribute('cx',4+lk);h.pA.setAttribute('cy',2);h.pB.setAttribute('cx',-2-lk);h.pB.setAttribute('cy',-2);
+    const bl=blink(t,3.7,.4);h.eyeA.setAttribute('transform',h.eyeA.getAttribute('transform')+` scale(1 ${bl})`);h.eyeB.setAttribute('transform',h.eyeB.getAttribute('transform')+` scale(1 ${bl})`);
+    const o=Math.max(sMouth*30,roar*26,he?4:0),mx=34;h.mouth.setAttribute('d',`M${mx-22} 22 Q${mx} ${30+o*.3} ${mx+22} 20 Q${mx+20} ${26+o} ${mx} ${28+o} Q${mx-20} ${28+o} ${mx-22} 22 Z`);
+    h.teeth.setAttribute('d',`M${mx-8} 23 h8 v${9+o*.1} h-8 Z M${mx+1} 23 h8 v${9+o*.1} h-8 Z`);
+    const dr=Math.max(he,P(t,56.4,.6))*1;h.drool.setAttribute('d',dr>0?`M${mx-14} 30 q-4 ${14*dr} 0 ${26*dr} q6 6 6 -2 q0 -14 -2 ${-22*dr} Z`:'');
+    h.blades.setAttribute('transform',`translate(0 -88) scale(${Math.cos(t*(roar>0?40:8))} 1)`);
+    h.hairs.setAttribute('transform',roar>0?`translate(${-30*roar} 0) skewX(${-30*roar})`:'');h.cap.setAttribute('transform',roar>0?`translate(${-60*roar} ${-50*roar}) rotate(${-40*roar})`:'');}
+  // ----- Ben -----
+  let bp=bPose(t);const bMouth=speaking('B',t)?mouthAt(t):0;
+  if(bp.name==='explain'||bp.name==='point'){bp.n[1]+=Math.sin(t*7)*12}
+  const stare=P(t,56.0,.25);
+  placeStick(BN,bp,t,{s:1+.55*roar,dx:-40*roar,dy:-30*roar});
+  {const h=BN.head;op(h.mane,roar);
+    h.skull.setAttribute('fill',sour>0?LIME:PAPER);
+    const fx_=lerp(0,30,stare);h.face.setAttribute('transform',`translate(${fx_} 0)`+(sour>0?` scale(${1-.12*sour} ${1+.06*sour})`:''));
+    const sq=sour>.5;op(h.eyes,sq?0:1);op(h.squint,sq?1:0);op(h.glasses,sq||roar>.3?0:1);op(h.lips,sq?1:0);
+    const bl=blink(t,4.1,1.3);h.eyes.setAttribute('transform',`translate(0 -12) scale(1 ${bl}) translate(0 12)`);
+    // brows: raise on "Actually", frown on serious/facepalm, raised at the end
+    const raise=Math.max(V(t,5.0,6.2),V(t,48.3,52.5),stare),frown=Math.max(V(t,16.6,18.2),V(t,25.3,28.8),V(t,33.4,36.3),V(t,43.2,48.2));
+    tr(h.brows,0,-10*raise+4*frown);h.brA.setAttribute('y2',-36+10*frown);h.brB.setAttribute('y1',-34+8*frown);
+    op(h.glint,Math.max(V(t,5.3,6.0,.1,.2),V(t,49.0,49.7,.1,.2))>0?1:0);op(h.crack,t>56.5?1:0);
+    const o=Math.max(bMouth*26,roar*46);const mx=-36;
+    if(sq)h.mouth.setAttribute('d','');
+    else if(o<2){const fr=Math.max(frown,stare);h.mouth.setAttribute('d',`M${mx-18} ${26+fr*4} Q${mx} ${30-fr*10} ${mx+18} ${26+fr*4}`);h.mouth.setAttribute('fill','none')}
+    else{h.mouth.setAttribute('fill','#5A1E22');h.mouth.setAttribute('d',`M${mx-20} 22 Q${mx} 20 ${mx+20} 22 Q${mx+18} ${26+o} ${mx} ${28+o} Q${mx-18} ${28+o} ${mx-20} 22 Z`)}
+    tr(h.bow,BN.N[0]-6,BN.N[1]+12);}
+  // mug: on the table, in Ben's hand while sipping
+  const sipK=bp.name==='sip'?bp.k:(BKEYS.find(k=>k[1]==='sip')&&t>=36.3&&t<36.7?1-P(t,36.3,.4):0);
+  const tx=lerp(625,BN.Wn[0]-10,sipK),ty=lerp(1318,BN.Wn[1]+22,sipK);tr(mug,tx,ty,1,-sipK*25);op(steam,sipK>0?0:.8);
+  // ----- bubbles -----
+  renderBubbles(t);
+  // ----- stickers -----
+  let k;
+  // L0
+  const y0=topOf('s0')-70;
+  pop(ww1,300,y0,t,1.22,4.6,-4);pop(ww2,560,y0-6,t,3.2,4.6,5);pop(ww3,780,y0+4,t,3.73,4.6,-6);
+  {const o=V(t,0,4.4)*(t<0.05?1:1);op(qmarks,o);tr(qmarks,SH.Cs[0]+10,SH.Cs[1]-110-Math.sin(t*3)*8,1,Math.sin(t*4)*8)}
+  // L1
+  const y1=topOf('b1a')-100;
+  k=pop(cal,250,y1,t,7.5,9.85,-5);if(t>=7.5){const yrs=['1914','1918','1925','1933','1939'];calY.textContent=yrs[Math.min(4,Math.floor(P(t,7.5,.5)*5))];}
+  pop(ww2b,620,y1+20,t,8.73,9.85,4);
+  {const kb=P(t,12.49,.22);const out=P(t,M.he[0],.2);const o=t>=12.49&&t<M.he[0]+.2?1-out:0;op(banner,o);
+    const by=t<14.3?topOf('b1b')-80:lerp(topOf('b1b')-80,topOf('s2')-90,eio(P(t,14.3,.3)));tr(banner,540,by,lerp(2.6,1,eo(kb)),-3);
+    scrib.setAttribute('stroke-dasharray',`${P(t,16.68,.35)*100} 100`);
+    const dk=P(t,12.6,.5);op(dust,t>12.6&&dk<1?1-dk:0);[...dust.children].forEach((c,i)=>{const a=i/8*Math.PI*2;c.setAttribute('cx',540+Math.cos(a)*(280+dk*90));c.setAttribute('cy',by+Math.sin(a)*(40+dk*60));c.setAttribute('r',16*(1-dk)+2)})}
+  pop(thumb,800,topOf('s2')-80,t,17.36,18.25,10);
+  // HE meme (world coordinates around Shaun's head)
+  {op(heG,he>0?1:0);tr(heG,SH.Cs[0],SH.Cs[1]);heC.setAttribute('stroke-dasharray',`${P(t,M.he[0],.3)*100} 100`);heA.setAttribute('stroke-dasharray',`${P(t,M.he[0]+.1,.25)*100} 100`);
+    op(heH,P(t,M.he[0]+.3,.05));op(heT,P(t,M.he[0]+.05,.05))}
+  // L3
+  const y3=topOf('b3')-75;
+  {const o=V(t,19.95,24.6);op(neq,o);tr(neq,0,0);pop(nqG,240,y3,t,19.95,24.4,-4);op(nqS,P(t,20.51,.2)*o);tr(nqS,450,y3,back(P(t,20.51,.3)));pop(nqO,650,y3,t,21.24,24.4,4)}
+  {const o=t>=23.0&&t<24.6?1-P(t,24.4,.2):0;op(scaleG,o);const w=lerp(10,560,eo(P(t,23.08,.8)));tr(scaleG,250,y3-120);scBar.setAttribute('width',w);scT.setAttribute('x',w/2)}
+  // L4
+  pop(meh,760,topOf('s4')-80,t,25.4,28.8,-8);
+  {const o=V(t,26.9,28.8);op(cloud,o);if(o>0){let d='';const cx_=SH.Cs[0]+30,cy_=SH.Cs[1]-150;for(let i=0;i<40;i++){const a=i*.9+t*6,rr=26+(i%5)*6;d+=(i?'L':'M')+(cx_+Math.cos(a)*rr*1.5).toFixed(1)+' '+(cy_+Math.sin(a)*rr*.7).toFixed(1)}cloud.setAttribute('d',d)}}
+  // ROAR lines from Ben's mouth towards Shaun
+  {op(roarL,roar);if(roar>0){const ox=BN.Cs[0]-60,oy=BN.Cs[1]+30;[...roarL.children].forEach((p,i)=>{const a=Math.PI+(i-3)*.18;const ph=((t*3+i*.37)%1);const r0=60+ph*260,r1=r0+70;
+    p.setAttribute('d',`M${ox+Math.cos(a)*r0} ${oy+Math.sin(a)*r0} L${ox+Math.cos(a)*r1} ${oy+Math.sin(a)*r1}`);p.style.opacity=1-ph})}}
+  // L5 / L6: name tag
+  {const show=31.4,hide=37.85;const o=t>=show&&t<hide+.25?1-P(t,hide,.25):0;op(tag,o);const ty_=Math.min(topOf('b5'),topOf('s6'))-140;tr(tag,700,ty_,back(P(t,show,.3))*.82,4);
+    const full='BIG BAD WAR';const n=Math.floor(cl((t-35.1)/.7)*full.length);tagTxt.textContent=full.slice(0,n);op(tagCur,n===0&&Math.floor(t*3)%2?1:0)}
+  {const o=t>=33.3&&t<36.2?1-P(t,36.0,.2):0;op(bulb,o);tr(bulb,SH.Cs[0]-10,SH.Cs[1]-170,back(P(t,33.3,.3))*.9);
+    const on=t>35.05?1:(t>33.5&&Math.floor(t*7)%3===0?.35:0);bulbB.setAttribute('fill',on>.5?'#FFE45C':on>0?'#FFF4B8':'#fff');bulbGlow.setAttribute('opacity',on*.5)}
+  // spit take
+  {const sk=P(t,M.sour[0]+.05,.6);op(spray,t>M.sour[0]&&sk<1?1-sk*.6:0);[...spray.children].forEach((c,i)=>{const a=Math.PI+(i/13-.5)*.9;const e=eo(sk),d=30+e*(260+i*18);c.setAttribute('cx',BN.Cs[0]-70+Math.cos(a)*d);c.setAttribute('cy',BN.Cs[1]+30+Math.sin(a)*d+e*e*90)})}
+  // L7 storybook
+  {const o=t>=40.8&&t<42.9?1-P(t,42.7,.2):0;op(book,o);op(sparks,o);const by=topOf('b7')-110;const ko=eo(P(t,40.94,.45));tr(book,540,by,back(P(t,40.85,.3))*.95);
+    bL.setAttribute('transform',`scale(${ko} 1)`);bR.setAttribute('transform',`scale(${ko} 1)`);op(bTx,P(t,41.2,.2));
+    [...sparks.children].forEach((s,i)=>{const a=i/6*Math.PI*2+t;tr(s,540+Math.cos(a)*260,by+Math.sin(a)*90,.8+.4*Math.sin(t*6+i),t*90)})}
+  // L8/L9 counter: rolls up to 4 billion, gets slashed, flips to the real ~40 million
+  {const show=43.2,hide=53.9;const o=t>=show&&t<hide+.25?1-P(t,hide,.25):0;op(ctr,o);const yc=t<48.3?topOf('s8')-95:lerp(topOf('s8')-95,topOf('b9')-170,eio(P(t,48.3,.4)));
+    const fl=P(t,48.85,.3),flip=Math.abs(Math.cos(fl*Math.PI));const real=fl>=.5;tr(ctr,540,yc,back(P(t,show,.3))*.9);ctr.setAttribute('transform',ctr.getAttribute('transform')+` scale(1 ${t>48.85&&fl<1?flip:1})`);
+    ctrT.textContent=real?'~40,000,000':Math.floor(4e9*eo(P(t,43.25,.7))).toLocaleString('en-US');ctrT.setAttribute('x',real?-30:0);ctrBox.setAttribute('fill',real?'#1F5E2E':'#2B2B31');
+    ctrX.setAttribute('stroke-dasharray',`${P(t,48.48,.3)*100} 100`);op(ctrX,real?0:1);op(fix,real?1:0);fix.setAttribute('transform','translate(230 0)');
+    const so=t>=44.75&&t<48.6?1-P(t,48.4,.2):0;op(src,so);tr(src,770,yc+70,back(P(t,44.75,.3))*.9,-6);}
+  {const o=t>=50.16&&t<53.9?1-P(t,53.7,.2):0;op(globe,o);tr(globe,890,topOf('b9')-250,back(P(t,50.16,.3))*.85,Math.sin(t*2)*6);land.setAttribute('transform',`translate(${((t*40)%120)-60} 0)`);
+    op(popT,o>0?eo(P(t,50.8,.3))*o:0);tr(popT,540,topOf('b9')-60,back(P(t,50.8,.3))*.95,-2)}
+  // L10 drama
+  pop(masks,540,topOf('s10')-90,t,55.0,56.45,-3);
+  {const o=V(t,54.3,56.9,.2,.4);spot.style.opacity=o;}
+};
+window.DUR=window.DUR;
+document.fonts.load('56px Hand').then(()=>document.fonts.load('40px Marker')).then(()=>document.fonts.ready).then(()=>{layoutBubbles();window.render(0);window.__readyDone=true});
+window.__ready=new Promise(res=>{const c=()=>window.__readyDone?res():setTimeout(c,50);c()});
+</script></body></html>
