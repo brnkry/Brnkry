@@ -96,11 +96,11 @@ function layoutBubbles(){BUBL.forEach((l,i)=>{const s=U[l.who].side;const th=l.d
   T(g,BX+86,y+59,U[l.who].name+'  '+(U[l.who].age??'3w'),32,'hand',GREY,'start');
   l.foot=G(g);if(!l.likes)l.foot.style.visibility='hidden';T(l.foot,BX+42,y+h-20,'Reply',28,'hand',GREY,'start');
   l.heart=el('path',{d:'M0 8 C-16 -4 -14 -18 -6 -18 C-2 -18 0 -14 0 -12 C0 -14 2 -18 6 -18 C14 -18 16 -4 0 8 Z',fill:'none',stroke:INK,'stroke-width':4,'stroke-linejoin':'round'},l.foot);l.hx=BX+BW-150;l.hy=y+h-32;
-  T(l.foot,BX+BW-126,y+h-20,l.likes||'',30,'hand',INK,'start');l.show=i===0?-1:l.w[0][1]-.3});
+  T(l.foot,BX+BW-126,y+h-20,l.likes||'',30,'hand',INK,'start');l.show=l.w[0][1]<.35?-1:l.w[0][1]-.3});
   BUBL.forEach((l,i)=>{const nx=BUBL[i+1];l.hide=l.hideAt||(nx?nx.show:99);for(const k in M){if(M[k][0]>l.w[0][1]&&M[k][0]<l.hide)l.hide=M[k][0]}});
   BUBL.forEach(l=>{for(const k in M){if(l.show<M[k][1]&&l.show>M[k][0]-.5)l.show=M[k][1]}})}
 function renderBubbles(t){BUBL.forEach((l,i)=>{const vis=t>=l.show&&t<l.hide+.2;op(l.g,vis?1:0);l.div.style.display=vis?'':'none';if(!vis)return;
-  const kin=i===0?1:back(P(t,l.show,.32)),kout=P(t,l.hide,.18);const s=kin*(1-kout*.9);const tp=TIP[U[l.who].side];
+  const kin=l.show<0?1:back(P(t,l.show,.32)),kout=P(t,l.hide,.18);const s=kin*(1-kout*.9);const tp=TIP[U[l.who].side];
   const tf=`translate(${tp[0]}px,${tp[1]}px) scale(${s}) translate(${-tp[0]}px,${-tp[1]}px)`;l.g.style.transform=tf;l.div.style.transform=tf;l.div.style.transformOrigin='0 0';l.g.style.opacity=l.div.style.opacity=1-kout;
   l.spans.forEach((sp,j)=>{const k=P(t,l.w[j][1]-.06,.22);sp.style.opacity=eo(k);sp.style.transform=`translateY(${(1-eo(k))*16}px) scale(${.7+.3*back(k)})`;
     if(sp.className){const pulse=Math.sin(P(t,l.w[j][1],.35)*Math.PI)*.12;sp.style.transform+=` scale(${1+pulse})`}});

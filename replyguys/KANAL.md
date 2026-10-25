@@ -101,6 +101,27 @@ bogos binted, bogos binted meme, photos printed, zinky zoogle, vorp, alien meme,
 ```
 Sabitlenmiş yorum: `Translate this for me pls 👽👇`
 
+## Bölüm 04 (YouTube) — video4'ün ilk kesiti
+Başlık:
+```
+Is there a word between yes and no? 🤔
+```
+Açıklama:
+```
+Someone found the answer. Someone else did not. 💀
+
+Real comment fights, acted out as a podcast by stick figures. New episode every day.
+
+#funnycomments #commentsection #funny
+```
+Etiketler:
+```
+yes or no, word between yes and no, maybe, funny comments, funny instagram comments, instagram comments, comment section, dumb comments, funniest comments, internet arguments, comment wars, big brain, iq test, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `Ok well what is it then? 🤨👇`
+
+Thumbnail: `node replyguys/engine/thumb.js stickNN <saniye>` (ayar: `stickNN/thumb/cfg.js`).
+
 ## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
 iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
 
