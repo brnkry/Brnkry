@@ -63,6 +63,28 @@ funny instagram comments, funny comments, instagram comments, comment section, d
 Sabitlenmiş yorum: `Who's worse, the 4 billion guy or the "big bad war" guy? 👇`
 Kategori: Comedy
 
+## Bölüm 02 (YouTube)
+Başlık:
+```
+He asked what gaslighting is and got gaslit 💀
+```
+Açıklama:
+```
+He just wanted to know what gaslighting means. The comment section had other plans. 😭
+
+Real comment fights, acted out as a podcast by stick figures. New episode every day.
+
+#funnycomments #commentsection #funny
+```
+Etiketler (~410/500):
+```
+funny instagram comments, funny comments, instagram comments, comment section, gaslighting meme, gaslighting comments, getting gaslit, you know what it is, internet trolls, trolling comments, funny trolls, dumb comments, internet arguments, comment wars, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `So... what IS gaslighting? 👀👇`
+
+## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
+iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
+
 ## Kategoriler
 - YouTube: **Comedy** (Studio > Settings > Upload defaults > Advanced settings > Category). Kanalın kendi kategori ayarı yok, her videoya buradan varsayılan olarak atanır.
 - Facebook sayfası: **Podcast**, **Video Creator**, **Entertainment Website** (en fazla 3).

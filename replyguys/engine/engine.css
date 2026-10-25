@@ -1,0 +1,12 @@
+@font-face{font-family:Hand;src:url(fonts/hand.woff2)}
+@font-face{font-family:Marker;src:url(fonts/marker.woff2)}
+@font-face{font-family:Neon;src:url(fonts/neon.woff2)}
+html,body{margin:0;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6F2E8}
+#cam{position:absolute;inset:0;transform-origin:0 0}
+svg{position:absolute;inset:0}
+.bt{position:absolute;font-family:Hand,'Noto Color Emoji';font-size:56px;line-height:1.13;color:#1B1B1F;word-spacing:2px}
+.bt span{display:inline-block;margin-right:.24em;transform-origin:50% 80%}
+.bt span.eL{color:#E0353B}.bt span.eR{color:#2463D9}
+.hand{font-family:Hand,'Noto Color Emoji'}.mk{font-family:Marker,'Noto Color Emoji'}
+#tint{position:absolute;inset:0;pointer-events:none}
