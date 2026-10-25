@@ -80,6 +80,7 @@ JOBS = {
  'wainwright': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'P'), [('1942: SURRENDERED TO', 130, 'w'), ('JAPAN', 158, 'y')], '1945: WATCHED IT SURRENDER', 88, S + 'wain/thumbs/EN_Wainwright_Arrows.jpg', True),
  'wainwright_de': ('wain/code', 'w08', (0.506, 0.56, 1.12), ('C', 'DM'), [('1942: KAPITULIERTE VOR', 130, 'w'), ('JAPAN', 158, 'y')], '1945: SAH ER\nES KAPITULIEREN', 88, S + 'wain/thumbs/DE_Wainwright_Kapitulation.jpg', True),
  'bader': ('bader/code', 'd11', (0.49, 0.5, 1.0), ('C', 'P'), [('THE RAF DROPPED', 130, 'w'), ('HIM A NEW LEG', 130, 'y')], 'IN THE MIDDLE OF A BOMBING RAID', 88, S + 'bader/thumbs/EN_Bader_New_Leg.jpg'),
+ 'bader_de': ('bader_de/code', 'd11', (0.49, 0.5, 1.0), ('C', 'DM'), [('DIE RAF WARF IHM', 130, 'w'), ('EIN NEUES BEIN AB', 130, 'y')], 'MITTEN IM BOMBENANGRIFF', 88, S + 'bader_de/thumbs/DE_Bader_Neues_Bein.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':

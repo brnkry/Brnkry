@@ -308,7 +308,7 @@ def s_map(t, w0, w1):
 def s_bail(t, w0, w1):
     ct = 22.55 + (t - w0) * min(1.0, 5.1 / (w1 - w0)); can, m = film(ct, 960, 540, 1.0)   # the fighters, then the gun camera, at their own speed
     title(can, t, ws('rechte', 21) - 0.05, 'DAS RECHTE BEIN', 430, 100, CREAM)
-    typed(can, t, ws('riss', 24) - 0.05, 'ABGERISSEN', 1260, 120, RED)
+    typed(can, t, ws('hängen', 24) - 0.1, 'ABGERISSEN', 1260, 120, RED, 0.055)   # starts early enough to be complete before the cut
     return can
 # --- Adolf Galland, the German ace
 def s_galland(t, w0, w1):
@@ -434,15 +434,15 @@ def s_flypast(t, w0, w1):
 # --- after the war: Galland in a cockpit, Bader leaning on it; the frame moves from Bader to Galland
 def s_cockpit(t, w0, w1):
     """the whole photo across the screen (both men in it), a blurred copy fills above and below; rings on Bader, then on Galland"""
-    im = src('d02').convert('RGB'); z = lerp(1.0, 1.06, prog(t, w0, w1)); fw = int(W * z); fh = int(fw * im.height / im.width); y0 = 980 - fh / 2; x0 = (W - fw) / 2 - 110   # a little to the left: Bader's ring stays clear of the buttons
+    im = src('d02').convert('RGB'); z = lerp(1.0, 1.06, prog(t, w0, w1)); fw = int(W * z); fh = int(fw * im.height / im.width); y0 = 760 - fh / 2; x0 = (W - fw) / 2 - 90   # a little to the left: Bader's ring stays clear of the buttons
     bg = im.resize((int(H * im.width / im.height), H), Image.BILINEAR); bx0 = (bg.width - W) // 2
     can = ImageEnhance.Brightness(bg.crop((bx0, 0, bx0 + W, H)).filter(ImageFilter.GaussianBlur(28))).enhance(0.5)
     can.paste(im.resize((fw, fh), Image.BICUBIC), (int(x0), int(y0))); can = grade(can.convert('RGBA')); shade(can, 200, 0.55)
     m = lambda x, y: (x0 + x * fw / im.width, y0 + y * fh / im.height); k = fw / im.width
     bx, by = m(2040, 600); gx, gy = m(560, 1330); tg = ws('Galland', 79.4) - 0.05
-    ringp(can, t, w0 + 0.1, bx, by, 260 * k, YEL, 'BADER', by - 260 * k - 45)
-    ringp(can, t, tg, gx, gy, 220 * k, CREAM, 'GALLAND', gy - 220 * k - 45)
-    title(can, t, ws('Feind', 80) - 0.05, 'DER FEIND', 430, 120, RED)
+    ringp(can, t, w0 + 0.1, bx, by, 300 * k, YEL, 'BADER', by - 300 * k - 45)
+    ringp(can, t, tg, gx, gy, 275 * k, CREAM, 'GALLAND', gy - 275 * k - 45)
+    title(can, t, ws('Feind', 80) - 0.05, 'DER FEIND', 1330, 120, RED)
     return can
 # --- after the war: Galland and Bader laughing together
 def s_end(t, w0, w1):
