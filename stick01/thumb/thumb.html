@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Hand;src:url(../fonts/hand.woff2)}@font-face{font-family:Marker;src:url(../fonts/marker.woff2)}
+html,body{margin:0}#stage{position:relative;overflow:hidden;background:#F6F2E8}
+.big{position:absolute;font-family:Marker;color:#E0353B;-webkit-text-stroke:10px #1B1B1F;paint-order:stroke fill;line-height:.9;text-shadow:0 10px 0 #1B1B1F}
+.card{position:absolute;background:#fff;border:7px solid #1B1B1F;border-radius:34px;font-family:Hand;color:#1B1B1F;box-shadow:10px 12px 0 rgba(0,0,0,.18)}
+.card .u{color:#8C8A84}.card .h{position:absolute;right:26px;bottom:18px;color:#E0353B}
+.bg{position:absolute}
+</style></head><body><div id="stage"></div><script>
+const m=location.hash.slice(1)||'wide';const st=document.getElementById('stage');
+const add=(h)=>{st.insertAdjacentHTML('beforeend',h)};
+if(m==='wide'){st.style.width='1280px';st.style.height='720px';
+  // characters: crop of the scene frame (Shaun jazz hands, Ben deadpan)
+  add(`<div class="bg" style="left:300px;top:0;width:1026px;height:720px;background:url(bg.png) 0 -770px/1026px 1824px"></div>`);
+  add(`<div class="big" style="left:40px;top:40px;font-size:150px;transform:rotate(-5deg)">4 BILLION</div>`);
+  add(`<div class="big" style="left:60px;top:200px;font-size:96px;color:#fff;transform:rotate(-5deg)">DIED?!</div>`);
+  add(`<div class="card" style="left:40px;top:430px;width:400px;padding:22px 26px 54px;font-size:40px;transform:rotate(-3deg)"><div class="u" style="font-size:28px">shaun_73 · 3d</div>4 billion people died bro.<div class="h" style="font-size:30px">♥ 11.6K</div></div>`);
+}else{st.style.width='1080px';st.style.height='1920px';
+  add(`<div class="bg" style="left:0;top:0;width:1080px;height:1920px;background:url(bg.png) 0 0/1080px 1920px"></div>`);
+  add(`<div class="big" style="left:0;width:1080px;text-align:center;top:340px;font-size:172px;transform:rotate(-4deg)">4 BILLION</div>`);
+  add(`<div class="big" style="left:0;width:1080px;text-align:center;top:520px;font-size:130px;color:#fff;transform:rotate(-4deg)">DIED?!</div>`);
+  add(`<div class="card" style="left:150px;top:760px;width:700px;padding:26px 34px 64px;font-size:58px;transform:rotate(-2deg)"><div class="u" style="font-size:36px">shaun_73 · 3d</div>4 billion people died bro.<div class="h" style="font-size:40px">♥ 11.6K</div></div>`);
+}
+document.fonts.load('40px Marker').then(()=>document.fonts.load('40px Hand')).then(()=>{window.__done=true});
+</script></body></html>
