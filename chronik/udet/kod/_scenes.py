@@ -196,16 +196,18 @@ def s_anim2(t, w0, w1):
 
 # ---------- the film and the photos ----------
 def s_intro(t, w0, w1):
-    k = min(NI - 1, int(t * FPS)); can = Image.open(B + 'intro/c%04d.jpg' % k).convert('RGBA')
+    # the old film from just below its burned-in headline: a 9:16 window (x 360..1080, y 640..1920 of the 1080x1920 frame)
+    k = min(437, int(t * FPS)); im = Image.open(B + 'intro/o%04d.jpg' % (265 + 2 * k)).convert('RGB')
+    can = im.resize((W, H), Image.BICUBIC, box=(360, 640, 1080, 1920)).convert('RGBA')
     can = ww2(can, t); shade(can, 170, 0.6); return can
 def s_name(t, w0, w1):
     can = vshot(min(2.15, t - w0), 1.06, 0.5, 0.48, 0.1, 0.95)
     title(can, t, ws('Ernst') - 0.05, 'ERNST UDET', 1260, 150, CREAM, None, bold=1)
     return can
 def s_ww1(t, w0, w1):
-    can, m = side('u02', 800, 1050, t, w0, w1, 1.05)
-    sky(can, t, ws('62') - 0.05, '62', 800, 330, 220, CREAM, None, 0.45)
-    title(can, t, ws('Flugzeuge', 15) - 0.05, 'ABSCHÜSSE', 520, 80, CREAM, None, 'bebas', 800)
+    can, m = side('u02', 700, 820, t, w0, w1, 1.05)
+    for s_, cx_, cy_, h_, t0 in (('62', 1080, 660, 230, ws('62') - 0.05), ('ABSCHÜSSE', 1075, 870, 58, ws('Flugzeuge', 15) - 0.05)):   # on the white panel beside his face
+        if t > t0: on_quad(can, [m(*v) for v in tquad(cx_, cy_, s_, h_)], s_, 200, clamp((t - t0) / 0.06), INK, anton(200), eio((t - t0) / 0.4), 0.8, mod=0.35, op=0.93)
     return can
 def s_richt(t, w0, w1):
     can = grade(fit('u09', t, w0, w1, 1.07)); shade(can, 210, 0.5)
@@ -219,12 +221,13 @@ def s_show(t, w0, w1):
 def s_dive(t, w0, w1):
     return vshot(28.4 + (t - w0), 1.12, 0.5, 0.5, 0.12, 0.9)
 def s_goering(t, w0, w1):
-    can, m = side('u04', 500, 1000, t, w0, w1, 1.05)
-    gx, gy = m(1500, 520); ringp(can, t, ws('Göring') - 0.05, gx, gy, 190, YEL, 'HERMANN GÖRING', gy + 250)
+    can, m = side('u04', 900, 1300, t, w0, w1, 1.05)
+    gx, gy = m(1530, 520); ringp(can, t, ws('Hermann', 26) - 0.05, gx, gy, 250, YEL, 'HERMANN GÖRING', gy + 305)
     return can
 def s_buy(t, w0, w1):
     can, m = side('u01', 450, 600, t, w0, w1, 1.05)
-    sky(can, t, ws('1933') - 0.05, '1933', 290, 330, 140, CREAM, None, 0.45)
+    t0 = ws('1933') - 0.05   # on his jacket, across the chest
+    if t > t0: on_quad(can, [m(*v) for v in tquad(1180, 930, '1933', 170, tilt=-6)], '1933', 200, clamp((t - t0) / 0.06), INK, anton(200), eio((t - t0) / 0.4), 0.9, mod=0.45, op=0.9)
     title(can, t, ws('zwei', 29) - 0.05, 'ZWEI MASCHINEN', 1300, 96, CREAM, None, 'bebas')
     return can
 def s_germany(t, w0, w1):
@@ -255,7 +258,7 @@ def s_d(t, w0, w1):
     t_ab = ws('abgebaut')
     if t > t_ab - 0.05:
         x, y = m(870, 1240); ringp(can, t, t_ab - 0.05, x, y, 95, RED)
-        title(can, t, t_ab - 0.05, 'ABGEBAUT', 400, 120, RED)
+        sky(can, t, t_ab - 0.05, 'ABGEBAUT', 300, 650, 96, RED, None, 0.45)   # in the empty sky left of the planes
     return can
 def s_glzm(t, w0, w1):
     can = grade(fit('u03', t, w0, w1, 1.08, top=0.4)); shade(can, 220, 0.5)
@@ -283,7 +286,8 @@ def s_death(t, w0, w1):
 def s_official(t, w0, w1):
     can = grade(fit('u05', t, w0, w1, 1.06)); shade(can, 200, 0.55)
     title(can, t, ws('Offiziell') - 0.05, 'OFFIZIELL', 255, 96, CREAM, None, bold=1)
-    stamp(can, t, ws('verunglückt') - 0.05, 'UNFALL', (CX, 1180), 120, -8)
+    q = lambda x, y: fitpt('u05', t, w0, w1, 1.06, x, y); t0 = ws('verunglückt') - 0.05   # on his jacket
+    if t > t0: on_quad(can, [q(*v) for v in rquad(1060, 1460, 'UNFALL', 190, -6)], 'UNFALL', 200, clamp((t - t0) / 0.06), (178, 34, 32), anton(200), eio((t - t0) / 0.35), 0.8, mod=0.35, op=0.95)
     return can
 
 ANCH = [
@@ -294,7 +298,7 @@ ANCH = [
  (ws('In', 21) - 0.1, s_show, ('fade',)),
  (ws('die', 23.5) - 0.1, s_dive, ('fade',)),
  (ws('Mit', 26) - 0.1, s_goering, ('fade',)),
- (ws('kaufte') - 0.1, s_buy, ('fade',)),
+ (ws('1933') - 0.15, s_buy, ('fade',)),
  (ws('brachte') - 0.1, s_germany, ('fade',)),
  (ws('Viele') - 0.1, s_danger, ('fade',)),
  (ws('Er', 38.5) - 0.1, s_stuka, ('fade',)),
