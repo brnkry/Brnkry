@@ -21,4 +21,11 @@ u = ImageEnhance.Contrast(ImageEnhance.Color(u).enhance(0.7)).enhance(1.05)
 yy, xx = np.mgrid[0:VH, 0:VW]; fade = np.clip((1060 - yy) / 160, 0, 1) * np.clip(1 - (np.abs(xx - 540) - 300) / 240, 0, 1) * (1 - front)
 U = np.zeros((VH, VW, 3), np.float32); U[:993] = np.asarray(u, np.float32)
 a = (fade * 0.92)[..., None]; out = np.asarray(can, np.float32) * (1 - a) + U * a
-Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).save(B + 'img/cov.jpg', quality=95); print('ok')
+res = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+# below the text: a Stuka tipping over into its dive (the archive film, band 110.0 s), tilted a little further nose-down
+dv = Image.open(B + 'band/a%05d.jpg' % (int((110.0 - 79) * 30) + 1)).convert('RGB').rotate(16, resample=Image.BICUBIC, expand=False, fillcolor=(120, 118, 100))
+dv = dv.crop((150, 40, 1770, 1080)); dv = dv.resize((VW, int(dv.height * VW / dv.width)), Image.LANCZOS)
+dv = ImageEnhance.Contrast(Image.blend(dv, Image.new('RGB', dv.size, (92, 70, 40)), 0.08)).enhance(1.08)
+Y = VH - dv.height; m = np.clip((np.arange(dv.height) - 0) / 160, 0, 1)[:, None] * np.ones((1, VW))
+res.paste(dv, (0, Y), Image.fromarray((m * 255).astype(np.uint8)))
+res.save(B + 'img/cov.jpg', quality=95); print('ok', Y)
