@@ -93,7 +93,7 @@ BUBL.forEach(l=>{const d=document.createElement('div');d.className='bt';d.style.
 function layoutBubbles(){BUBL.forEach((l,i)=>{const s=U[l.who].side;const th=l.div.getBoundingClientRect().height;const h=86+th+62,y=BOTTOM-h;l.top=y;l.div.style.top=(y+82)+'px';
   const g=G(bubG);l.g=g;el('path',{d:bubblePath(BX,y,BW,h,s),fill:'#fff',stroke:INK,'stroke-width':7,'stroke-linejoin':'round'},g);
   const av=G(g,{transform:`translate(${BX+54} ${y+48})`});el('circle',{r:21,fill:U[l.who].color,stroke:INK,'stroke-width':4},av);
-  T(g,BX+86,y+59,U[l.who].name+'  '+(U[l.who].age||'3w'),32,'hand',GREY,'start');
+  T(g,BX+86,y+59,U[l.who].name+'  '+(U[l.who].age??'3w'),32,'hand',GREY,'start');
   l.foot=G(g);if(!l.likes)l.foot.style.visibility='hidden';T(l.foot,BX+42,y+h-20,'Reply',28,'hand',GREY,'start');
   l.heart=el('path',{d:'M0 8 C-16 -4 -14 -18 -6 -18 C-2 -18 0 -14 0 -12 C0 -14 2 -18 6 -18 C14 -18 16 -4 0 8 Z',fill:'none',stroke:INK,'stroke-width':4,'stroke-linejoin':'round'},l.foot);l.hx=BX+BW-150;l.hy=y+h-32;
   T(l.foot,BX+BW-126,y+h-20,l.likes||'',30,'hand',INK,'start');l.show=i===0?-1:l.w[0][1]-.3});

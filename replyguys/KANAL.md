@@ -82,6 +82,25 @@ funny instagram comments, funny comments, instagram comments, comment section, g
 ```
 Sabitlenmiş yorum: `So... what IS gaslighting? 👀👇`
 
+## Bölüm 03 (YouTube)
+Başlık:
+```
+He just wanted his photos printed 👽
+```
+Açıklama:
+```
+Bogos binted? 👽 Vorp.
+
+Real internet chaos, acted out as a podcast by stick figures. New episode every day.
+
+#bogosbinted #memes #funny
+```
+Etiketler:
+```
+bogos binted, bogos binted meme, photos printed, zinky zoogle, vorp, alien meme, funny texts, funny text messages, text message fails, funny chats, meme reenacted, memes animated, funny comments, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `Translate this for me pls 👽👇`
+
 ## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
 iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
 
