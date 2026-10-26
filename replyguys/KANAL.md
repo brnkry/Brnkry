@@ -179,7 +179,26 @@ Etiketler:
 usa only 2 letters, united states of america, united stays of america, how many letters in usa, funny comments, funny instagram comments, instagram comments, comment section, dumb comments, funniest comments, internet arguments, comment wars, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
 ```
 Sabitlenmiş yorum: `Count the letters in USA for him 👇`
-Not: video4'ün 5. kesiti (Kobe / "19 is legal" / claustrophobic) yapılmadı: gerçek bir cinsel saldırı davasını ve mağduru espri konusu yapıyor.
+Not: video4'teki Kobe tweet kesiti yapılmadı (gerçek bir cinsel saldırı davası). Claustrophobic kesiti ondan bağımsız, bölüm 08 oldu.
+
+## Bölüm 08 (YouTube) — video4'ün son kesiti
+Başlık:
+```
+What does claustrophobic mean? 🎅💀
+```
+Açıklama:
+```
+Claus-trophobic. Think about it. 🎅
+
+Real comment fights, acted out as a podcast by stick figures. New episode every day.
+
+#funnycomments #commentsection #funny
+```
+Etiketler:
+```
+claustrophobic, claustrophobic meaning, what does claustrophobic mean, hating santa, santa claus, funny comments, funny instagram comments, instagram comments, comment section, dumb comments, funniest comments, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `Took me a second 💀👇`
 
 ## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
 iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
