@@ -9,5 +9,5 @@ window.LINES=[
 window.MEMES={};
 window.SONG=13.3;
 window.SERIES='GTA RADIO';
-window.EPISODE='EPISODE 09';
+window.EPISODE='';  // GTA Radio videos carry no episode number
 window.DUR=15.95;

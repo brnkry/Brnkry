@@ -200,7 +200,7 @@ claustrophobic, claustrophobic meaning, what does claustrophobic mean, hating sa
 ```
 Sabitlenmiş yorum: `Took me a second 💀👇`
 
-## Bölüm 09 — GTA RADIO serisi #1 (YouTube)
+## GTA RADIO #1 (YouTube) — bölüm numarası yok
 Seri: üstteki neon tabela `window.SERIES='GTA RADIO'` ile en uzun süre "GTA RADIO" yazar. Solda "Non-Stop-Pop" diyen DJ, sağda espriyi anlatan sunucu.
 Başlık:
 ```
