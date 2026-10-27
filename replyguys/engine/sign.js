@@ -23,9 +23,10 @@ const S=el('g',{},root);const ser=window.SERIES?ntext(S,CX,CY+21,64,window.SERIE
 const PER=(window.DUR||60)<20?window.DUR/2:13,SPLIT=PER*(PER<13?.6:9.5/13);
 const hash=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
 window.renderSign=function(t){
-  const cyc=Math.floor(t/PER),u=t-cyc*PER;const SP=ser?PER*.8:SPLIT,MID=ser?PER*.25:SP;const showA=u<MID,showS=ser&&u>=MID&&u<SP;  // a series title gets the longest slot
+  // a series title opens the video for HOOK seconds (hook), then the normal cycle starts
+  const HOOK=ser?4:0;const tt=Math.max(0,t-HOOK);const cyc=Math.floor(tt/PER),u=t<HOOK?-1:tt-cyc*PER;const SP=ser?PER*.8:SPLIT,MID=ser?PER*.25:SP;const showA=u>=0&&u<MID,showS=ser&&(u<0||(u>=MID&&u<SP));  // a series title gets the longest slot
   // switch flicker around each state change
-  const sw=Math.min(Math.abs(u),Math.abs(u-MID),Math.abs(u-SP),Math.abs(u-PER));let on=1;
+  const sw=u<0?9:Math.min(Math.abs(u),Math.abs(u-MID),Math.abs(u-SP),Math.abs(u-PER));let on=1;
   if(t>0.6&&sw<(PER<13?.22:.45)){on=hash(Math.floor(t*20))>.45?1:.08}
   else if(hash(Math.floor(t*15)+7)<.025)on=.25; // random buzz
   const g=on;A.style.display=showA?'':'none';S.style.display=showS?'':'none';B.style.display=showA||showS?'none':'';
