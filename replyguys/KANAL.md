@@ -200,6 +200,26 @@ claustrophobic, claustrophobic meaning, what does claustrophobic mean, hating sa
 ```
 Sabitlenmiş yorum: `Took me a second 💀👇`
 
+## Bölüm 09 — GTA RADIO serisi #1 (YouTube)
+Seri: üstteki neon tabela `window.SERIES='GTA RADIO'` ile en uzun süre "GTA RADIO" yazar. Solda "Non-Stop-Pop" diyen DJ, sağda espriyi anlatan sunucu.
+Başlık:
+```
+GTA radio's horror story is too real 💀
+```
+Açıklama:
+```
+The scariest horror movie ever written. 😱📞
+
+GTA radio, acted out by stick figures. New episode every day.
+
+#gta5 #gtaradio #funny
+```
+Etiketler:
+```
+gta radio, gta 5 radio, non stop pop fm, gta 5 funny, gta radio jokes, gta v radio, horror screenplay, mom computer question, dark humor, funny radio, radio jokes, stickman animation, stick figure comedy, animated podcast, funny animation, animated comedy, comedy shorts, funny videos, reply guys
+```
+Sabitlenmiş yorum: `Who else has received this call? 📞👇`
+
 ## Ekran düzeni (bölüm 02'den itibaren, `replyguys/engine/engine.js`)
 iPhone Shorts ekran görüntüsüne göre: telefon her iki yandan ~47 px kırpıyor, üst ikonlar y<215, kanal adı ve başlık y>1530, beğen/yorum butonları x>880 ve y>1035. Bu yüzden her şey ortalı: zemin y=1500, kafalar x 160..870, baloncuklar x 110..970 (alt kenar y=950), neon tabela y≈250. Yeni bölüm = `lines.js` + `ep.js` + `scene.html` (stick02 örnek).
 

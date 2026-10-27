@@ -17,16 +17,19 @@ function ntext(p,x,y,size,str,anchor='middle'){const g=el('g',{},p);const a={x,y
 const A=el('g',{},root);const mk=el('g',{transform:`translate(${CX-186} ${CY+13}) scale(.25)`},A);const mark=makeMark(svg,mk,{word:false});
 const name=ntext(A,CX-116,CY+21,60,'REPLY GUYS','start');
 const B=el('g',{},root);const ep=ntext(B,CX,CY+21,58,window.EPISODE||'EPISODE 01');
+// optional series title (e.g. window.SERIES='GTA RADIO'): gets its own state between the logo and the episode label
+const S=el('g',{},root);const ser=window.SERIES?ntext(S,CX,CY+21,64,window.SERIES):null;
 // short videos (<20 s) use a faster cycle so the episode label still shows up
 const PER=(window.DUR||60)<20?window.DUR/2:13,SPLIT=PER*(PER<13?.6:9.5/13);
 const hash=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
 window.renderSign=function(t){
-  const cyc=Math.floor(t/PER),u=t-cyc*PER;const showA=u<SPLIT;
+  const cyc=Math.floor(t/PER),u=t-cyc*PER;const SP=ser?PER*.8:SPLIT,MID=ser?PER*.25:SP;const showA=u<MID,showS=ser&&u>=MID&&u<SP;  // a series title gets the longest slot
   // switch flicker around each state change
-  const sw=Math.min(Math.abs(u),Math.abs(u-SPLIT),Math.abs(u-PER));let on=1;
+  const sw=Math.min(Math.abs(u),Math.abs(u-MID),Math.abs(u-SP),Math.abs(u-PER));let on=1;
   if(t>0.6&&sw<(PER<13?.22:.45)){on=hash(Math.floor(t*20))>.45?1:.08}
   else if(hash(Math.floor(t*15)+7)<.025)on=.25; // random buzz
-  const g=on;A.style.display=showA?'':'none';B.style.display=showA?'none':'';
+  const g=on;A.style.display=showA?'':'none';S.style.display=showS?'':'none';B.style.display=showA||showS?'none':'';
+  if(ser){ser.col(cyc+1);ser.style.opacity=.15+.85*g;ser.glow.style.opacity=g}
   name.col(cyc);ep.col(cyc+2);name.style.opacity=ep.style.opacity=.15+.85*g;name.glow.style.opacity=ep.glow.style.opacity=g;
   // the two reply bubbles take turns lighting up, like a back-and-forth
   const P=mark.parts,side=Math.floor(t/1.6)%2;P.L.set(g*(side?1:.55));P.R.set(g*(side?.55:1));P.Q.set(g*(.6+.4*Math.abs(Math.sin(t*2))));
