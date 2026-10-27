@@ -24,7 +24,7 @@ def framed(pg, t, t0, key, box, cap=None, speed=1.0, still=None):
     k = eout((t - t0) / 0.45); x0, y0, bw, bh = [int(v) for v in box]
     g = still if still is not None else film_at(key, t, t0, speed); w, h = g.size
     sc = max(bw / w, bh / h); cw, ch = bw / sc, bh / sc
-    fr = tone(g.convert('L').resize((bw, bh), Image.LANCZOS, box=((w - cw) / 2, (h - ch) / 2, (w + cw) / 2, (h + ch) / 2)))
+    fr = tone(g.convert('L').resize((bw, bh), Image.BICUBIC, box=((w - cw) / 2, (h - ch) / 2, (w + cw) / 2, (h + ch) / 2)))
     sh = Image.new('L', (bw + 80, bh + 80), 0); ImageDraw.Draw(sh).rectangle((40 + 8, 40 + 12, 40 + bw + 8, 40 + bh + 12), fill=int(120 * k))
     stamp_ink(pg, sh.filter(ImageFilter.GaussianBlur(12)), (x0 - 40, y0 - 40), (40, 34, 28))
     if k < 1: fr = Image.blend(Image.new('RGB', fr.size, PAPER), fr, k)
@@ -182,7 +182,7 @@ def s5R(t):
         ink(pg, t, -1, 0.001, notes, wd=3, a=0.5 * clamp((t - P('druckte')) / 0.5) * clamp((P('Dollar') - t) / 0.8))
     head(pg, t, t0, '1923', 'Hyperinflation', size=120)
     label(pg, t, P('druckte'), 'Der Staat bezahlt den Widerstand', (110, 410), italic(42), GREY); label(pg, t, P('bezahlen'), 'mit frisch gedrucktem Geld.', (110, 462), italic(42), GREY)
-    label(pg, t, P('Dollar') - 0.3, 'November 1923: 1 Dollar =', (110, 920), serif(64, 400))
+    label(pg, t, P('Im', 79.5), 'November 1923: 1 Dollar =', (110, 920), serif(64, 400))
     counter(pg, t, P('Dollar'), 1.3, 4.2e12, (110, 1000), serif(110, 800), ACC)
     label(pg, t, P('Billionen'), 'Mark', (110, 1140), serif(60, 400))
     rule(pg, t, P('Brot', 84) - 0.2, 1240)
@@ -541,15 +541,18 @@ cam(P('Am', 310) - 0.05, fr('R', 170, 1700)); cam(P('eröffnete') - 0.4, fill('R
 cam(TURNS[15] + 0.05, OV, 0.9); cam(P('Zwei', 323) + 0.9, fr('L', 170, 1420)); cam(P('Zwanzig', 328) - 0.05, fr('R', 170, 1360))
 cam(TURNS[16] + 0.3, OV, 0.6); cam(TURNS[16] + 2.0, (MID, 860, 0.68))
 MAG = Book(SPREADS, TURNS, CAMS, spine=100)
-# captions on screen while a film fills the frame
-OVL = [(0.3, P('durfte') - 1.3, 'Deutsche Panzer, 1939', None), (TURNS[0] + 2.2, P('Wie', 15) - 1.1, '1. September 1939', 'Linienschiff Schleswig-Holstein'),
-       (P('Kaiser') + 0.2, P('Viele') - 0.8, 'Deutschland, 1918/19', 'Das Kaiserreich ist am Ende'),
-       (P('Adolf', 93) + 0.1, P('Der', 96) - 0.9, 'München, November 1923', 'Adolf Hitler, Aufnahme Anfang der 1930er Jahre'),
-       (P('Davon') + 0.1, P('1928') - 1.2, 'Berlin, 1933', 'Kundgebung'), (P('Am', 138) + 1.4, P('Konservative') - 1.2, 'Berlin, 30. Januar 1933', 'Adolf Hitler wird Reichskanzler'),
-       (P('Vier') + 0.1, TURNS[8] - 0.2, 'Berlin, 27. Februar 1933', 'Der Reichstag brennt'),
-       (TURNS[8] + 2.1, P('Gewerkschaften') - 1.2, 'Berlin, 23. März 1933', 'Krolloper: Abstimmung über das Ermächtigungsgesetz'),
-       (P('Im', 265.5) + 1.4, P('Böhmen') - 1.7, 'Prag, 15. März 1939', 'Die Wehrmacht marschiert ein'),
-       (P('eröffnete') - 0.2, P('und', 319) - 1.2, 'Danzig, 1. September 1939', 'Die Schleswig-Holstein beschießt die Westerplatte')]
+# captions on screen while a film fills the frame: in when the camera has arrived, out together with the pull-back
+CAPS = [('Deutsche Panzer, 1939', None), ('1. September 1939', 'Linienschiff Schleswig-Holstein'), ('Deutschland, 1918/19', 'Das Kaiserreich ist am Ende'),
+        ('München, November 1923', 'Adolf Hitler, Aufnahme Anfang der 1930er Jahre'), ('Berlin, 1933', 'Kundgebung'), ('Berlin, 30. Januar 1933', 'Adolf Hitler wird Reichskanzler'),
+        ('Berlin, 27. Februar 1933', 'Der Reichstag brennt'), ('Berlin, 23. März 1933', 'Krolloper: Abstimmung über das Ermächtigungsgesetz'),
+        ('Prag, 15. März 1939', 'Die Wehrmacht marschiert ein'), ('Prag, 15. März 1939', 'Prager Bürger am Straßenrand'),
+        ('Danzig, 1. September 1939', 'Die Schleswig-Holstein beschießt die Westerplatte'), ('1. September 1939', 'Deutsche Truppen überschreiten die Grenze')]
+OVL = []; _fills = [i for i, c in enumerate(CAMS) if c[3] > 1.5]
+for (i, (c1, c2)) in zip(_fills, CAPS):
+    c = CAMS[i]; arr = c[0] + (c[4] if len(c) > 4 else 0) if i else 0.0; nxt = CAMS[i + 1][0] if i + 1 < len(CAMS) else T_END
+    OVL.append((max(0.0, arr - 0.5), nxt + 0.5, c1, c2))
+for j in range(len(OVL) - 1):   # back-to-back films: the first caption gives way to the next
+    if OVL[j][1] > OVL[j + 1][0]: OVL[j] = (OVL[j][0], OVL[j + 1][0] + 0.15, OVL[j][2], OVL[j][3])
 def frame(t):
     img = MAG(t)
     for a, b, c1, c2 in OVL:
@@ -574,6 +577,6 @@ if __name__ == '__main__':
     if sys.argv[1] == 'T': print(round(T_END, 3)); sys.exit()
     a, b, out = float(sys.argv[1]), float(sys.argv[2]), sys.argv[3]
     p = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-preset', 'medium', out], stdin=subprocess.PIPE)
+                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '19', '-preset', 'veryfast', out], stdin=subprocess.PIPE)
     for n in range(int(round(a * FPS)), int(round(b * FPS))): p.stdin.write(np.asarray(frame(n / FPS)).tobytes())
     p.stdin.close(); p.wait(); print('rc', p.returncode)
