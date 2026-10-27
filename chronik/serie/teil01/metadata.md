@@ -20,11 +20,11 @@ Was war für euch der entscheidende Schritt in den Krieg? Schreibt es in die Kom
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#ZweiterWeltkrieg #Geschichte #Versailles #Weltkrieg #Dokumentation
+#ZweiterWeltkrieg #DeutscheGeschichte #Geschichte #Versailles #Dokumentation
 ```
-**Tags** (487 von 500 Zeichen, nach YouTube-Zählung)
+**Tags** (484 von 500 Zeichen, nach YouTube-Zählung)
 ```
-Zweiter Weltkrieg, Wie kam es zum Zweiten Weltkrieg, Ursachen Zweiter Weltkrieg, Weg in den Krieg, Deutschland im Zweiten Weltkrieg, Versailler Vertrag, Vertrag von Versailles, Hyperinflation 1923, Weltwirtschaftskrise, Adolf Hitler, Machtergreifung 1933, Aufrüstung, Wehrpflicht 1935, Rheinlandbesetzung, Anschluss Österreich, Sudetenland, Münchner Abkommen, Westerplatte, Überfall auf Polen, 1. September 1939, Weimarer Republik, Geschichte, Dokumentation, Chronik der Macht
+Zweiter Weltkrieg, Wie kam es zum Zweiten Weltkrieg, Ursachen Zweiter Weltkrieg, Weg in den Krieg, Deutschland im Zweiten Weltkrieg, Deutsche Geschichte, Versailler Vertrag, Hyperinflation 1923, Weltwirtschaftskrise, Adolf Hitler, Machtergreifung 1933, Aufrüstung, Wehrpflicht 1935, Rheinlandbesetzung, Anschluss Österreich, Sudetenland, Münchner Abkommen, Westerplatte, Überfall auf Polen, 1. September 1939, Weimarer Republik, Geschichte, Dokumentation, Chronik der Macht
 ```
 **Angepinnter Kommentar**
 ```
@@ -64,7 +64,7 @@ Was war für euch der entscheidende Schritt in den Krieg? Schreibt es in die Kom
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#ZweiterWeltkrieg #Geschichte #Versailles #Weltkrieg #Zeitgeschichte #Dokumentation #Geschichtsunterricht #ChronikDerMacht
+#ZweiterWeltkrieg #Geschichte #Versailles #Weltkrieg #Zeitgeschichte #Dokumentation #DeutscheGeschichte #ChronikDerMacht
 ```
 
 ## Instagram (Reel)
@@ -80,7 +80,7 @@ Was war für euch der entscheidende Schritt? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#ZweiterWeltkrieg #Geschichte #Versailles #Dokumentation #ChronikDerMacht
+#ZweiterWeltkrieg #DeutscheGeschichte #Geschichte #Dokumentation #ChronikDerMacht
 ```
 **Alternativtext:** `Kurzdoku im Stil eines Geschichtsmagazins: der Weg Deutschlands in den Zweiten Weltkrieg von 1919 bis 1939, mit Versailler Vertrag, Inflation, Weltwirtschaftskrise, Aufrüstung, einer Karte der Gebietserweiterungen und dem 1. September 1939.`
 
