@@ -19,9 +19,9 @@ table();
   h.mouth=el('path',{fill:'#C2394A',stroke:INK,'stroke-width':5,'stroke-linejoin':'round','stroke-linecap':'round'},h)})();
 
 const DPOSE={hype:{lean:6,n:[120,-90],f:[-60,-100]},idle:{lean:-8,n:[70,130],f:[40,140]},listen:{lean:4,tilt:8,n:[60,60],f:[40,70]},scream:{lean:-26,tilt:-8,n:[60,-120],f:[30,-120]},dance:{lean:0,n:[110,-120],f:[-70,-120]}};
-const DKEYS=[[0,'hype'],[4.7,'idle'],[7.0,'listen'],[12.4,'scream'],[13.3,'dance']];
+const DKEYS=[[0,'listen'],[.8,'hype'],[4.7,'idle'],[7.0,'listen'],[12.4,'scream'],[13.3,'dance']];
 const HPOSE={idle:{lean:2,n:[70,135],f:[60,140]},tell:{lean:8,n:[125,-10],f:[60,140]},phone:{lean:6,n:[52,-60],f:[60,140]},dance:{lean:0,n:[110,-120],f:[-70,-120]}};
-const HKEYS=[[0,'idle'],[5.0,'tell'],[8.9,'phone'],[10.0,'tell'],[13.3,'dance']];
+const HKEYS=[[0,'tell'],[.95,'idle'],[5.0,'tell'],[8.9,'phone'],[10.0,'tell'],[13.3,'dance']];
 const dPose=poser(DPOSE,DKEYS,.25),hPose=poser(HPOSE,HKEYS,.25);
 
 // ---------- stickers: what the lines say ----------
@@ -52,7 +52,7 @@ EP.render=function(t){
   if(t>12.3&&t<13.4)tint.style.background=`rgba(224,53,59,${.18*V(t,12.34,13.3,.05,.2)})`;
   if(song>0)tint.style.background=`rgba(${Math.floor(t*4)%2?'255,61,165':'61,230,255'},${.08*song})`;
   // ----- stickers -----
-  {const k=pop(dial,540,topOf('d1')-100,t,.6,2.6,-2,.95);const x=lerp(-190,190,eo(P(t,.91,1.0))*.535);needle.setAttribute('transform',`translate(${x} 0)`);freq.textContent=t>=.91?'100.7 FM':''}
+  {const k=pop(dial,540,topOf('d1')-100,t,.91,2.6,-2,.95);const x=lerp(-190,190,eo(P(t,.91,1.0))*.535);needle.setAttribute('transform',`translate(${x} 0)`);freq.textContent=t>=.91?'100.7 FM':''}
   {const o=t>=2.71&&t<4.9?1-P(t,4.7,.2):0;op(nsp,o);tr(nsp,540,topOf('d1')-100,1);[...nsp.children].forEach((b,i)=>{const s=[2.71,3.0,3.42][i];const s2=[3.78,3.92,4.28][i];const k=back(P(t,s,.25))*(1+.15*Math.sin(P(t,s2,.25)*Math.PI));b.setAttribute('transform',`translate(${(i-1)*200} 0) scale(${k})`)})}
   pop(script,250,topOf('h1')-150,t,5.58,8.0,-6,.9);
   {const o=t>=8.11&&t<13.2?1-P(t,13.0,.2):0;op(phone,o);const ring=t<9.33;tr(phone,800,topOf('h1')-170,back(P(t,8.11,.3))*.8,ring?Math.sin(t*40)*8:0);op(waves,ring?1:0);
