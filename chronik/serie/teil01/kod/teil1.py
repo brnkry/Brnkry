@@ -22,10 +22,10 @@ VEND = WORDS[-1][2]; T_END = VEND + 4.4          # the last page (Teil 2) stays 
 LIGHT = (215, 215, 215)
 def runhead(pg, left_side, page_no):
     d = ImageDraw.Draw(pg); x0, x1 = 150, 980
-    for k, c in enumerate((ACC, (150, 150, 150), (205, 205, 205))): d.ellipse((x0 + k * 34, 150, x0 + k * 34 + 22, 172), fill=c)
-    d.text((x0 + 120, 161), 'CHRONIK DER MACHT', font=sans(26, 600), fill=GREY, anchor='lm')
-    d.text((x1, 161), 'TEIL 1', font=sans(28, 700), fill=ACC, anchor='rm')
-    d.line((x0, 200, x1, 200), fill=LIGHT, width=2)
+    for k, c in enumerate((ACC, (150, 150, 150), (205, 205, 205))): d.ellipse((x0 + k * 34, 196, x0 + k * 34 + 22, 218), fill=c)
+    d.text((x0 + 120, 207), 'CHRONIK DER MACHT', font=sans(26, 600), fill=GREY, anchor='lm')
+    d.text((x1, 207), 'TEIL 1', font=sans(28, 700), fill=ACC, anchor='rm')
+    d.line((x0, 240, x1, 240), fill=LIGHT, width=2)
     d.text((x0 if left_side else x1, PH - 160), str(page_no), font=sans(30, 500), fill=GREY, anchor='lm' if left_side else 'rm')
 def fade_col(c, k): return tuple(int(lerp(249, v, k)) for v in c)
 def label(pg, t, t0, s, xy, font, col=ACC, anchor='la', dur=0.3):
@@ -137,38 +137,143 @@ def weimar(pg, x, y, w, h, k):
     d = ImageDraw.Draw(pg)
     for i, c in enumerate(((22, 22, 22), (205, 24, 24), (250, 196, 0))): d.rectangle((x, y + i * h / 3, x + w, y + (i + 1) * h / 3), fill=fade_col(c, k))
 
-# ---------- the map, 1936 to 1939 ----------
-GJ = json.load(open(S + 'sch/ne50.geojson'))
-def country(name):
+
+# ---------- moving drawings: once drawn, they keep running in place ----------
+def drawing(pg, t, t0, dur, make, wd=3):
+    """make(ph) -> (lines, shade, motion): the drawing is inked in over dur, its shading after it, then the motion marks
+    (dust, speed lines, waves, steam) fade in; everything is rebuilt each frame from the running phase ph = t - t0"""
+    if t < t0: return
+    lines, shade, motion = make(t - t0)
+    ink(pg, t, t0, dur, lines, wd=wd); ink(pg, t, t0 + dur, dur * 0.4, shade, wd=2, a=0.6)
+    if t > t0 + dur and motion:
+        k = eout((t - t0 - dur) / 0.4)
+        for paths, a in motion: ink(pg, t, -1, 0.001, paths, wd=2, a=a * k)
+def _rot(cx, cy, r, a): return (cx + r * math.cos(a), cy + r * math.sin(a))
+def tank_m(cx, cy, s, ph):
+    """the tank drives on the spot: body rocks, road wheels turn, track links run, the ground and dust slide away behind"""
+    bob = 2.2 * math.sin(ph * 15); cyb = cy + bob
+    P = lambda pts, yy=cyb: [(cx + x * s, yy + y * s) for x, y in pts]
+    hull = P([(-330, -10), (-300, -95), (250, -95), (330, -30), (330, 25), (-330, 25)])
+    tur = P([(-150, -110), (-120, -205), (120, -205), (165, -110)])
+    lines = [poly(hull + [hull[0]]), poly(P([(-300, -95), (-270, -110), (210, -110), (250, -95)])), poly(tur + [tur[0]]),
+             poly(P([(-80, -205), (-70, -240), (10, -240), (20, -205)]) + [P([(-80, -205)])[0]]), poly(P([(150, -170), (470, -168), (470, -150), (150, -146), (150, -170)])),
+             poly(P([(140, -185), (178, -185), (178, -132), (140, -132), (140, -185)])), poly(P([(-360, 20), (330, 20), (380, 70), (330, 150), (-330, 150), (-385, 75), (-360, 20)], cy))]
+    rot = ph * 7.0
+    for wx in np.linspace(-270, 230, 7):
+        c = (cx + wx * s, cy + 105 * s); r = 34 * s; lines.append(arc(c[0], c[1], r))
+        for k in range(3): lines.append(poly([c, _rot(c[0], c[1], r * 0.8, rot + k * 2.094)], 4))
+    for c_, r_ in (((cx + 330 * s, cy + 72 * s), 40 * s), ((cx - 335 * s, cy + 75 * s), 40 * s)):
+        lines.append(arc(c_[0], c_[1], r_))
+        for k in range(4): lines.append(poly([c_, _rot(c_[0], c_[1], r_ * 0.85, rot + k * 1.571)], 4))
+    sp = 28; off = (ph * 160) % sp
+    for k in range(-1, 26):   # links on the bottom run move back with the ground, those on top run forward
+        xb = -330 + k * sp - off; xt = -320 + k * sp + off
+        if -335 < xb < 330: lines.append(poly(P([(xb, 146), (xb + 6, 156)], cy)))
+        if -350 < xt < 320: lines.append(poly(P([(xt, 18), (xt + 6, 28)], cy)))
+    for k in range(9): lines.append(arc(cx + lerp(-260, 220, k / 8) * s, cyb - 70 * s, 4 * s, n=6))
+    shade = hatch(P([(-330, -10), (330, -30), (330, 25), (-330, 25)]), 10, 60) + hatch(P([(-330, 120), (330, 120), (330, 150), (-330, 150)], cy), 8, 60)
+    gy = cy + 162 * s; ground = [poly([(cx - 480 * s, gy), (cx + 480 * s, gy)], 10)]
+    goff = (ph * 160 * s) % (90 * s)
+    for k in range(13):
+        x0 = cx - 520 * s + k * 90 * s - goff
+        if cx - 480 * s < x0 < cx + 460 * s: ground.append(poly([(x0, gy + 14 * s), (x0 + 30 * s, gy + 14 * s)], 6))
+    dust = []
+    for k in range(4):
+        u = ((ph * 0.9) + k / 4) % 1.0; r_ = (10 + 26 * u) * s
+        dust.append(arc(cx - (400 + 160 * u) * s, gy - (16 + 40 * u) * s, r_, n=14))
+    return lines, shade, [(ground, 0.8), (dust, 0.35)]
+def speedlines(cx, cy, s, ph, x0, ys, length=120, span=260):
     out = []
-    for f in GJ['features']:
-        if f['properties'].get('NAME') == name:
-            g = f['geometry']; polys = g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]
-            out += [p[0] for p in polys]
+    for i, y in enumerate(ys):
+        u = ((ph * 1.6) + i * 0.37) % 1.0; xa = cx + (x0 + 40 + span * u) * s
+        out.append(poly([(xa, cy + y * s), (xa + length * s * (1 - u), cy + y * s)], 6))
     return out
-LON0, LON1, LAT0, LAT1 = 4.6, 24.2, 46.0, 56.0
-MX0, MY0, MW = 150, 380, 830
-def mp(lon, lat):
-    k = MW / (LON1 - LON0); y = math.degrees(math.log(math.tan(math.pi / 4 + math.radians(lat) / 2)))
-    y1 = math.degrees(math.log(math.tan(math.pi / 4 + math.radians(LAT1) / 2)))
-    return MX0 + (lon - LON0) * k, MY0 + (y1 - y) * k
-EAST = [(14.2, 53.95), (15.0, 54.05), (16.2, 54.4), (17.0, 54.7), (17.6, 54.8), (17.4, 54.0), (16.9, 53.4), (16.6, 52.9), (15.9, 52.35), (16.4, 51.8), (17.0, 51.5), (17.8, 51.2),
-        (18.2, 50.9), (18.6, 50.4), (18.3, 49.95), (17.7, 50.1), (16.9, 50.4), (16.3, 50.65), (15.5, 50.8), (14.85, 50.9), (14.8, 51.6), (14.6, 52.3), (14.4, 53.0), (14.2, 53.95)]
-EPRUSSIA = [(19.3, 54.35), (19.6, 54.45), (20.0, 54.6), (20.6, 54.95), (21.2, 55.25), (22.2, 55.05), (22.8, 54.85), (22.9, 54.35), (22.8, 53.95), (22.0, 53.5), (21.0, 53.25),
-            (20.2, 53.2), (19.7, 53.45), (19.2, 53.9), (19.3, 54.35)]
-RHINE = [(5.95, 51.8), (6.2, 51.85), (7.4, 51.9), (8.0, 51.3), (8.5, 50.6), (8.9, 50.0), (8.7, 49.3), (8.3, 48.97), (7.6, 49.05), (6.4, 49.5), (6.1, 49.9), (6.1, 50.6), (5.95, 51.0), (5.95, 51.8)]
+def biplane_m(cx, cy, s, ph):
+    """flying on the spot: a gentle rise and fall, the propeller turning, air streaming past the tail"""
+    cy = cy + 6 * math.sin(ph * 2.2) * s
+    lines, shade = biplane(cx, cy, s); lines = lines[:-2] + [lines[-1]]   # without the static propeller
+    c = abs(math.cos(ph * 38)); lines.append(poly([(cx - 196 * s, cy - 60 * s * c), (cx - 196 * s, cy + 60 * s * c)], 4))
+    disc = [poly([(cx - 199 * s, cy - 62 * s), (cx - 193 * s, cy - 62 * s)], 4), poly([(cx - 199 * s, cy + 62 * s), (cx - 193 * s, cy + 62 * s)], 4)]
+    return lines, shade, [(speedlines(cx, cy, s, ph, 240, (-80, -20, 30, 60)), 0.45), (disc, 0.4)]
+def uboat_m(cx, cy, s, ph):
+    """riding the swell: the boat rises and falls, the sea runs past"""
+    b = 5 * math.sin(ph * 2.0) * s
+    lines, shade = uboat(cx, cy + b, s); lines = lines[:-3]
+    waves = []
+    for row, (yy, amp, sp) in enumerate(((10, 6, 1.0), (24, 4, 0.7))):
+        pts = [(cx + x * s, cy + (yy + amp * math.sin(x / 30 - ph * 4 * sp)) * s) for x in range(-380, 381, 8)]
+        waves.append(pts)
+    bow = [poly([(cx + 330 * s, cy + (2 + b / s) * s), (cx + 370 * s, cy - 6 * s + 4 * math.sin(ph * 6) * s)], 4)]
+    return lines, shade, [(waves, 0.7), (bow, 0.5)]
+def monoplane_m(cx, cy, s, ph):
+    cy = cy + 6 * math.sin(ph * 2.0) * s
+    lines, shade = monoplane(cx, cy, s); lines = lines[:-1]
+    c = abs(math.cos(ph * 40)); lines.append(poly([(cx - 256 * s, cy - 70 * s * c), (cx - 256 * s, cy + 70 * s * c)], 4))
+    return lines, shade, [(speedlines(cx, cy, s, ph, 290, (-60, -10, 20, 50), 80, 120), 0.45)]
+def loaf_m(cx, cy, s, ph):
+    lines, shade = loaf(cx, cy, s); steam = []
+    for k in range(3):
+        u = ((ph * 0.5) + k / 3) % 1.0; x0 = cx + (-70 + k * 70) * s; ya = cy - (90 + 120 * u) * s
+        steam.append([(x0 + 12 * s * math.sin((y - ya) / (18 * s) + ph * 3 + k), y) for y in np.linspace(ya, ya - 70 * s, 14)])
+    return lines, shade, [(steam, 0.35)]
+def wave_flag(pg, t, t0, x, y, w, h, paint, pole=True):
+    """a cloth flag on a pole, waving: columns shifted by a travelling sine, light and shade on the folds"""
+    if t < t0: return
+    k = eout((t - t0) / 0.3); ph = t - t0
+    F = Image.new('RGB', (w, h)); paint(F); a = np.asarray(F, np.float32); A_ = h * 0.09; out = np.full((h + int(2 * A_) + 4, w, 3), 249, np.float32)
+    msk = np.zeros((h + int(2 * A_) + 4, w), np.float32)
+    for xx in range(w):
+        f = (xx / w) ** 0.8; ang = 2 * math.pi * xx / (w * 0.75) - ph * 5.5
+        dy = int(round(A_ * f * math.sin(ang) + A_ + 2)); sh = 1 + 0.22 * f * math.cos(ang)
+        out[dy:dy + h, xx] = a[:, xx] * sh; msk[dy:dy + h, xx] = 1
+    out = out * k + 249 * (1 - k)
+    reg = np.asarray(pg.crop((x, y - int(A_) - 2, x + w, y - int(A_) - 2 + out.shape[0])), np.float32); m = msk[..., None]
+    pg.paste(Image.fromarray((reg * (1 - m) + out * m).clip(0, 255).astype(np.uint8)), (x, y - int(A_) - 2))
+    if pole: ImageDraw.Draw(pg).line((x - 4, y - 30, x - 4, y + h + 70), fill=fade_col((60, 56, 50), k), width=7)
+def paint_weimar(F):
+    d = ImageDraw.Draw(F); w, h = F.size
+    for i, c in enumerate(((22, 22, 22), (205, 24, 24), (250, 196, 0))): d.rectangle((0, i * h / 3, w, (i + 1) * h / 3), fill=c)
+def paint_uk(F):
+    w, h = F.size; d = ImageDraw.Draw(F); d.rectangle((0, 0, w, h), fill=(1, 33, 105))
+    for a_, b_ in (((0, 0), (w, h)), ((w, 0), (0, h))): d.line((a_, b_), fill=(255, 255, 255), width=int(h * 0.2))
+    for a_, b_ in (((0, 0), (w, h)), ((w, 0), (0, h))): d.line((a_, b_), fill=(200, 16, 46), width=int(h * 0.07))
+    d.rectangle((w / 2 - h * 0.17, 0, w / 2 + h * 0.17, h), fill=(255, 255, 255)); d.rectangle((0, h / 2 - h * 0.17, w, h / 2 + h * 0.17), fill=(255, 255, 255))
+    d.rectangle((w / 2 - h * 0.1, 0, w / 2 + h * 0.1, h), fill=(200, 16, 46)); d.rectangle((0, h / 2 - h * 0.1, w, h / 2 + h * 0.1), fill=(200, 16, 46))
+def paint_fr(F):
+    w, h = F.size; d = ImageDraw.Draw(F)
+    for i, c in enumerate(((0, 85, 164), (255, 255, 255), (239, 65, 53))): d.rectangle((i * w / 3, 0, (i + 1) * w / 3, h), fill=c)
+
+# ---------- the map, 1936 to 1939 (borders from historical-basemaps 1930/1938, see geo_build.py) ----------
+GEO = json.load(open(T1 + 'geo/shapes.json')); NBR = json.load(open(T1 + 'geo/neighbours.json'))
+def rings(g):
+    polys = g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]
+    return [p[0] for p in polys]
+LON0, LON1, LAT0, LAT1 = 5.0, 23.4, 46.35, 55.5
+MX0, MY0, MW = 150, 400, 790
+def _my(lat): return math.degrees(math.log(math.tan(math.pi / 4 + math.radians(lat) / 2)))
+MK = MW / (LON1 - LON0); MH = int((_my(LAT1) - _my(LAT0)) * MK)
+def mp(lon, lat): return MX0 + (lon - LON0) * MK, MY0 + (_my(LAT1) - _my(lat)) * MK
 @functools.lru_cache(None)
 def map_masks():
-    def mask(polys):
+    def mask(rs):
         m = Image.new('L', (PW, PH), 0); d = ImageDraw.Draw(m)
-        for p in polys: d.polygon([mp(*q) for q in p], fill=255)
-        return m
-    reich = mask(country('Germany') + [EAST, EPRUSSIA]); rhine = ImageChops.multiply(mask([RHINE]), reich)
-    aut = mask(country('Austria')); cz = mask(country('Czechia'))
-    core = cz.filter(ImageFilter.MinFilter(41)); sud = ImageChops.subtract(cz, core)
-    return reich, rhine, aut, sud, core
+        for p in rs: d.polygon([mp(*q) for q in p], fill=255)
+        return ImageChops.multiply(m, clipm())
+    return tuple(mask(rings(GEO[k])) for k in ('reich', 'rhineland', 'austria', 'sudeten', 'bohemia'))
+@functools.lru_cache(None)
+def clipm():
+    c = Image.new('L', (PW, PH), 0); ImageDraw.Draw(c).rectangle((MX0, MY0, MX0 + MW, MY0 + MH), fill=255); return c
+@functools.lru_cache(None)
+def map_ground():
+    """the neighbours of 1930 as thin grey borders, the Reich (with the Saar and East Prussia) in ink"""
+    nb = Image.new('L', (PW, PH), 0); d = ImageDraw.Draw(nb)
+    for gs in NBR.values():
+        for g in gs:
+            for p in rings(g): d.line([mp(*q) for q in p] + [mp(*p[0])], fill=255, width=2, joint='curve')
+    reich = map_masks()[0]
+    return ImageChops.multiply(nb, clipm()), outline(reich)
 def outline(m):
-    e = ImageChops.subtract(m.filter(ImageFilter.MaxFilter(5)), m.filter(ImageFilter.MinFilter(3))); return e
+    return ImageChops.subtract(m.filter(ImageFilter.MaxFilter(5)), m.filter(ImageFilter.MinFilter(3)))
 def hatch_fill(pg, m, k, col=ACC, step=14, ang=45, a=0.75):
     """red hatching over a region, swept in from the left as k goes 0..1"""
     if k <= 0: return
@@ -178,26 +283,41 @@ def hatch_fill(pg, m, k, col=ACC, step=14, ang=45, a=0.75):
     A = (np.asarray(m) > 0) & lines & (xx <= x_edge)
     stamp_ink(pg, Image.fromarray((A * 255 * a).astype(np.uint8)), (0, 0), col)
     E = np.asarray(outline(m)).astype(np.float32) * (xx <= x_edge); stamp_ink(pg, Image.fromarray((E * 0.9).astype(np.uint8)), (0, 0), col)
-def map_page(pg, t, t0):
-    """pen-and-ink map: neighbours in light grey, the Reich of 1937 in ink, then each step hatched in red with its year"""
+def halo(pg, t, t0, s, xy, font, col, anchor='mm', dur=0.3, sw=6):
+    """a map label on a paper-coloured halo so it stays readable over borders and hatching"""
     if t < t0: return
-    reich, rhine, aut, sud, core = map_masks(); k = eout((t - t0) / 0.8)
-    nb = Image.new('L', (PW, PH), 0); d = ImageDraw.Draw(nb)
-    for n in ('France', 'Belgium', 'Netherlands', 'Luxembourg', 'Switzerland', 'Italy', 'Poland', 'Lithuania', 'Hungary', 'Slovakia', 'Denmark', 'Austria', 'Czechia', 'Slovenia'):
-        for p in country(n): d.polygon([mp(*q) for q in p], outline=255)
-    clip = Image.new('L', (PW, PH), 0); ImageDraw.Draw(clip).rectangle((MX0, MY0, MX0 + MW, MY0 + 900), fill=255)
-    nb = ImageChops.multiply(nb.filter(ImageFilter.MaxFilter(3)), clip)
-    stamp_ink(pg, nb.point(lambda v: int(v * 0.45 * k)), (0, 0), (150, 150, 150))
-    stamp_ink(pg, ImageChops.multiply(outline(reich), clip).point(lambda v: int(v * k)), (0, 0), TXT)
-    stamp_ink(pg, ImageChops.multiply(reich, clip).point(lambda v: int(v * 0.07 * k)), (0, 0), TXT)
-    ImageDraw.Draw(pg).rectangle((MX0, MY0, MX0 + MW, MY0 + 900), outline=fade_col((200, 200, 200), k), width=2)
-    label(pg, t, t0 + 0.3, 'DEUTSCHES REICH', mp(9.6, 52.4), sans(30, 700), GREY, 'mm')
-    steps = ((ws('Rheinland') - 0.6, rhine, '1936', 'Rheinland', (9.4, 50.3), 'mm', (0, 0)), (ws('Österreich'), aut, '1938', 'Österreich', (14.4, 47.4), 'mm', (0, 50)),
-             (ws('Sudetenland'), sud, '1938', 'Sudetenland', (13.0, 51.3), 'mm', (0, -30)), (ws('Tschechoslowakei'), core, '1939', 'Böhmen und Mähren', (17.6, 49.0), 'mm', (40, 70)))
-    for ts, m, yr, nm, ll, anc, off in steps:
-        if t < ts: continue
-        hatch_fill(pg, ImageChops.multiply(m, clip), clamp((t - ts) / 0.6))
-        x, y = mp(*ll); label(pg, t, ts + 0.2, yr, (x + off[0], y + off[1] - 26), serif(44, 800), ACC, 'mm'); label(pg, t, ts + 0.3, nm, (x + off[0], y + off[1] + 14), sans(26, 700), TXT, 'mm')
+    k = eout((t - t0) / dur)
+    ImageDraw.Draw(pg).text(xy, s, font=font, fill=fade_col(col, k), anchor=anchor, stroke_width=sw, stroke_fill=(249, 248, 245))
+def leader(pg, t, t0, a_, b_, col=TXT):
+    if t < t0: return
+    k = eout((t - t0) / 0.3); d = ImageDraw.Draw(pg)
+    d.line((a_, (lerp(a_[0], b_[0], k), lerp(a_[1], b_[1], k))), fill=col, width=2); d.ellipse((b_[0] - 5, b_[1] - 5, b_[0] + 5, b_[1] + 5), fill=col) if k > 0.95 else None
+def map_page(pg, t, t0):
+    """pen-and-ink map: neighbours in light grey, the Reich of 1936 in ink, then each step hatched in red with its year"""
+    if t < t0: return
+    reich, rhine, aut, sud, boh = map_masks(); nb, ro = map_ground(); k = eout((t - t0) / 0.8)
+    stamp_ink(pg, nb.point(lambda v: int(v * 0.5 * k)), (0, 0), (150, 150, 150))
+    stamp_ink(pg, reich.point(lambda v: int(v * 0.07 * k)), (0, 0), TXT)
+    stamp_ink(pg, ro.point(lambda v: int(v * k)), (0, 0), TXT)
+    ImageDraw.Draw(pg).rectangle((MX0, MY0, MX0 + MW, MY0 + MH), outline=fade_col((200, 200, 200), k), width=2)
+    for nm, ll in (('Nordsee', (6.4, 55.25)), ('Ostsee', (16.2, 55.05))): halo(pg, t, t0 + 0.4, nm, mp(*ll), italic(26), GREY, sw=0)
+    for nm, ll, an in (('FRANKREICH', (5.2, 47.1), 'lm'), ('POLEN', (19.6, 52.2), 'mm'), ('UNGARN', (19.0, 46.9), 'mm'), ('ITALIEN', (11.0, 46.6), 'mm')):
+        halo(pg, t, t0 + 0.4, nm, mp(*ll), sans(22, 600), (150, 150, 150), an, sw=4)
+    halo(pg, t, t0 + 0.3, 'DEUTSCHES REICH', mp(10.9, 52.6), sans(30, 700), GREY)
+    yr, nm = serif(44, 800), sans(26, 700)
+    T36, T38a, T38b, T39 = ws('Rheinland') - 0.6, ws('Österreich'), ws('Sudetenland'), ws('März')
+    if t >= T36:   # Rhineland: the label sits over the North Sea, a leader points down to the zone
+        hatch_fill(pg, rhine, clamp((t - T36) / 0.6)); a_ = mp(6.6, 54.25); leader(pg, t, T36 + 0.3, (a_[0], a_[1] + 34), mp(6.9, 51.0))
+        halo(pg, t, T36 + 0.2, '1936', (a_[0], a_[1] - 26), yr, ACC); halo(pg, t, T36 + 0.3, 'Rheinland', (a_[0], a_[1] + 16), nm, TXT)
+    if t >= T38a:
+        hatch_fill(pg, aut, clamp((t - T38a) / 0.6)); c = mp(14.6, 47.55)
+        halo(pg, t, T38a + 0.2, '1938', (c[0], c[1] - 22), yr, ACC); halo(pg, t, T38a + 0.3, 'Österreich', (c[0], c[1] + 18), nm, TXT)
+    if t >= T38b:  # Sudetenland: label in the Reich north of the border, leader to the rim
+        hatch_fill(pg, sud, clamp((t - T38b) / 0.6)); c = mp(11.6, 51.45); leader(pg, t, T38b + 0.3, (c[0] + 30, c[1] + 34), mp(12.6, 50.2))
+        halo(pg, t, T38b + 0.2, '1938', (c[0], c[1] - 30), yr, ACC); halo(pg, t, T38b + 0.3, 'Sudetenland', (c[0], c[1] + 12), nm, TXT)
+    if t >= T39:   # Bohemia and Moravia: label in the open ground south-east, leader into the core
+        hatch_fill(pg, boh, clamp((t - T39) / 0.6)); c = mp(19.4, 48.45); leader(pg, t, T39 + 0.3, (c[0] - 60, c[1] - 52), mp(16.6, 49.6))
+        halo(pg, t, T39 + 0.2, '1939', (c[0], c[1] - 40), yr, ACC); halo(pg, t, T39 + 0.3, 'Böhmen und Mähren', (c[0], c[1] + 2), nm, TXT)
 
 # ---------- the pages ----------
 @functools.lru_cache(None)
@@ -216,9 +336,9 @@ def P1(t):
             ('durfte', ws('durfte'), 'n'), ('Deutschland', ws('Deutschland'), 'b'), ('keinen', ws('keinen'), 'a'), ('einzigen', ws('einzigen'), 'a'), ('Panzer', ws('Panzer'), 'a'), ('besitzen.', ws('besitzen'), 'n')]
     words_in(pg, t, 150, 760, spec, lambda st: serif(60, 700 if st in 'ab' else 400), 80, 840)
     if t > ws('Deutschland'):
-        k = eout((t - ws('Deutschland')) / 0.3); weimar(pg, 150, 1105, 130, 78, k)
+        wave_flag(pg, t, ws('Deutschland'), 158, 1100, 130, 80, paint_weimar)
         label(pg, t, ws('Deutschland'), 'Weimarer Republik', (300, 1120), sans(30, 600), TXT); label(pg, t, ws('Deutschland'), 'Flagge ab 1919', (300, 1158), italic(26), GREY)
-    lines, shade = tank_ink(540, 1360, 0.74); ink(pg, t, ws('keinen'), 0.75, lines, wd=3); ink(pg, t, ws('keinen') + 0.75, 0.35, shade, wd=2, a=0.6)
+    drawing(pg, t, ws('keinen'), 0.75, lambda ph: tank_m(560, 1340, 0.7, ph))
     strike(pg, t, ws('besitzen'), (230, 1200), (900, 1500)); label(pg, t, ws('besitzen'), 'Abb. 1 · Panzer: verboten', (150, 1530), italic(30), GREY)
     return pg
 def P2(t):
@@ -235,8 +355,8 @@ def P2(t):
 def P3(t):
     pg = base(3, False).copy()
     body(pg, t, 150, 250, 'Luftwaffe und U-Boote: verboten.', 10.0, accent=('verboten',), bold=('Luftwaffe', 'U-Boote'), size=62)
-    l1, s1 = biplane(340, 560, 0.66); ink(pg, t, ws('Luftwaffe'), 0.6, l1, wd=3); ink(pg, t, ws('Luftwaffe') + 0.6, 0.3, s1, wd=2, a=0.6)
-    l2, s2 = uboat(700, 790, 0.62); ink(pg, t, ws('U-Boote'), 0.6, l2, wd=3); ink(pg, t, ws('U-Boote') + 0.6, 0.3, s2, wd=2, a=0.6)
+    drawing(pg, t, ws('Luftwaffe'), 0.6, lambda ph: biplane_m(380, 560, 0.66, ph))
+    drawing(pg, t, ws('U-Boote'), 0.6, lambda ph: uboat_m(660, 790, 0.6, ph))
     strike(pg, t, ws('verboten', 11), (170, 470), (930, 860))
     label(pg, t, ws('verboten', 11) + 0.3, 'Abb. 2 · Luftwaffe und U-Boote: verboten', (150, 900), italic(30), GREY)
     rule(pg, t, ws('und', 12), 990)
@@ -248,8 +368,8 @@ def P4(t):
     pg = base(4, True).copy()
     body(pg, t, 150, 250, 'Dann brach das Geld zusammen.', 16.0, bold=('Geld',), size=62)
     label(pg, t, ws('1923'), '1923', (150, 420), serif(150, 800), ACC)
-    l, s_ = loaf(760, 515, 0.9); ink(pg, t, ws('kostete'), 0.6, l, wd=3); ink(pg, t, ws('kostete') + 0.6, 0.3, s_, wd=2, a=0.6)
-    body(pg, t, 150, 640, 'Ein Brot in Berlin kostete', 19.5, bold=('Brot',), size=56)
+    drawing(pg, t, ws('kostete'), 0.6, lambda ph: loaf_m(760, 515, 0.9, ph))
+    body(pg, t, 150, 640, 'kostete ein Brot in Berlin', 19.5, bold=('Brot',), size=56)
     label(pg, t, ws('Hunderte'), 'Hunderte Milliarden Mark', (150, 715), serif(64, 800), ACC)
     L, sh = banknote(565, 1010, 760, 340); ink(pg, t, ws('Hunderte') + 0.2, 0.7, L, wd=3); ink(pg, t, ws('Hunderte') + 0.9, 0.3, sh, wd=2, a=0.35)
     label(pg, t, ws('Mark') + 0.1, 'REICHSBANKNOTE', (565, 935), sans(30, 700), TXT, 'mm')
@@ -293,14 +413,14 @@ def P7(t):
     still(pg, t, ws('Wehrpflicht') - 0.1, soldier(), (150, 600, 400, 388), 'Soldat der Wehrmacht')
     label(pg, t, ws('Wehrpflicht'), 'Wehrpflicht', (600, 620), serif(66, 800), TXT); label(pg, t, ws('zurück'), 'kehrt zurück', (600, 700), serif(50, 400), GREY)
     label(pg, t, ws('Luftwaffe', 56), 'Luftwaffe', (600, 820), serif(66, 800), TXT); label(pg, t, ws('vorgestellt'), 'offiziell vorgestellt', (600, 900), serif(50, 400), GREY)
-    l, s_ = monoplane(560, 1200, 0.95); ink(pg, t, ws('Luftwaffe', 56), 0.9, l, wd=3); ink(pg, t, ws('Luftwaffe', 56) + 0.9, 0.4, s_, wd=2, a=0.6)
+    drawing(pg, t, ws('Luftwaffe', 56), 0.9, lambda ph: monoplane_m(480, 1200, 0.85, ph))
     label(pg, t, ws('vorgestellt') + 0.3, 'Abb. 2 · Jagdflugzeug der 1930er Jahre', (150, 1340), italic(30), GREY)
     return pg
 def P8(t):
     pg = base(8, True).copy()
     label(pg, t, ws('1936') - 0.3, 'Schritt für Schritt', (150, 250), serif(78, 800), TXT)
     map_page(pg, t, ws('1936') - 0.2)
-    label(pg, t, ws('niemand'), 'Niemand hielt sie auf.', (150, 1300), serif(54, 400), TXT)
+    label(pg, t, ws('niemand'), 'Niemand hielt sie auf.', (150, MY0 + MH + 90), serif(54, 400), TXT)
     return pg
 def P9(t):
     pg = base(9, False).copy()
@@ -315,8 +435,8 @@ def P10(t):
     pg = base(10, True).copy()
     label(pg, t, ws('Zwei', 89), '3. September 1939', (150, 250), serif(56, 700), ACC)
     label(pg, t, ws('erklärten'), 'Kriegserklärung', (150, 320), serif(96, 800), TXT)
-    if t > ws('Großbritannien', 90): k = eout((t - ws('Großbritannien', 90)) / 0.3); union_jack(pg, 150, 480, 180, 100, k); label(pg, t, ws('Großbritannien', 90), 'Großbritannien', (360, 530), sans(40, 700), TXT, 'lm')
-    if t > ws('Frankreich', 91): k = eout((t - ws('Frankreich', 91)) / 0.3); tricolore(pg, 150, 620, 180, 100, k); label(pg, t, ws('Frankreich', 91), 'Frankreich', (360, 670), sans(40, 700), TXT, 'lm')
+    wave_flag(pg, t, ws('Großbritannien', 90), 160, 480, 180, 100, paint_uk); label(pg, t, ws('Großbritannien', 90), 'Großbritannien', (380, 530), sans(40, 700), TXT, 'lm')
+    wave_flag(pg, t, ws('Frankreich', 91), 160, 660, 180, 100, paint_fr); label(pg, t, ws('Frankreich', 91), 'Frankreich', (380, 710), sans(40, 700), TXT, 'lm')
     rule(pg, t, ws('Er', 94), 790)
     label(pg, t, ws('sechs', 94), '6 Jahre', (150, 820), serif(130, 800), TXT); label(pg, t, ws('dauern') , 'Krieg', (590, 880), serif(70, 400), GREY)
     label(pg, t, ws('sechzig'), 'über 60', (150, 1010), serif(170, 800), ACC); label(pg, t, ws('Millionen', 97), 'Millionen Tote', (150, 1220), serif(70, 700), TXT)
@@ -366,6 +486,7 @@ if __name__ == '__main__':
             f = frame(t); d = ImageDraw.Draw(f)
             if os.environ.get('UI'):
                 d.rectangle((0, 0, W, 170), outline=(0, 255, 255), width=4); d.rectangle((940, 700, W, 1580), outline=(0, 255, 255), width=4); d.rectangle((0, 1590, W, H), outline=(0, 255, 255), width=4)
+            f.save(T1 + 'chk/f_%.2f.jpg' % t, quality=88) if os.environ.get('FULL') else None
             d.text((10, 300), '%.2f' % t, fill=(255, 0, 255), font=sans(40, 700)); P.paste(f.resize((270, 480)), ((i % 6) * 270, (i // 6) * 480))
         P.save(T1 + sys.argv[2 + n] if False else T1 + 'chk/prev.jpg', quality=85); sys.exit()
     if sys.argv[1] == 'T': print(round(T_END, 3)); sys.exit()
