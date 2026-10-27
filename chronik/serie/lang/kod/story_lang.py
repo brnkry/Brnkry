@@ -7,10 +7,10 @@ from PIL import Image, ImageDraw, ImageFilter
 import lang as V
 sys.path.insert(0, V.S + 'teil1/covlib'); import lib9 as L
 SW_, SH_, FPS = 1080, 1920, 30; YEL, RED, WHITE, DARK = L.YEL, L.RED, L.WHITE, L.DARK
-A = V.we('besitzen') + 0.35; CARD = 3.2; T = A + CARD
+A = V.wt('Das', 5.5) - 0.03; CARD = 3.2; T = A + CARD   # the voice is cut right where the next sentence begins
 def osw(s): return L.oswald(s)
 def bg(t, blur=0):
-    g = V.clip_at('tanks', 0.2 + min(t, A) * 0.55); w, h = g.size; cw = h * SW_ / SH_
+    g = V.clip_at('tanks', 0.2 + t * 0.55); w, h = g.size; cw = h * SW_ / SH_   # the film keeps running behind the card
     im = V.tone(g.resize((SW_, SH_), Image.BICUBIC, box=((w - cw) / 2 + 30, 0, (w + cw) / 2 + 30, h)))
     if blur: im = im.filter(ImageFilter.GaussianBlur(blur))
     a = np.asarray(im, np.float32) * V.vignette(SW_, SH_, 0.6) + V.grain(int(t * FPS), 5)[:SH_ // 2 * 2, :SW_][:SH_, :SW_] if False else np.asarray(im, np.float32) * V.vignette(SW_, SH_, 0.6)
@@ -55,7 +55,7 @@ def frame(t):
 if __name__ == '__main__':
     out = V.LB + 'social/Teil1_Lang_Story.mp4'; import os; os.makedirs(V.LB + 'social', exist_ok=True)
     p = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{SW_}x{SH_}', '-r', str(FPS), '-i', '-', '-i', V.LB + 'mix2.wav', '-i', V.LB + 'bed_lev.wav',
-                          '-filter_complex', f'[1:a]atrim=0:{A},asetpts=PTS-STARTPTS,afade=t=out:st={A - 0.25}:d=0.25[x];[2:a]atrim=30:{30 + CARD},asetpts=PTS-STARTPTS,volume=0.5,afade=t=in:d=0.4,afade=t=out:st={CARD - 0.6}:d=0.6[y];[x][y]concat=n=2:v=0:a=1[a]',
+                          '-filter_complex', f'[1:a]atrim=0:{A},asetpts=PTS-STARTPTS,afade=t=out:st={A - 0.08}:d=0.08[x];[2:a]atrim=30:{30 + CARD},asetpts=PTS-STARTPTS,volume=0.5,afade=t=in:d=0.4,afade=t=out:st={CARD - 0.6}:d=0.6[y];[x][y]concat=n=2:v=0:a=1[a]',
                           '-map', '0:v', '-map', '[a]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '10M', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', out], stdin=subprocess.PIPE)
     for n in range(int(T * FPS)): p.stdin.write(np.asarray(frame(n / FPS)).tobytes())
     p.stdin.close(); p.wait()
