@@ -6,7 +6,7 @@ TXT = open(B + 'code/script.txt').read().strip()
 ST = []; _i = 0
 for _s in re.split(r'(?<=[^\d][.!?])\s+', TXT): ST.append(WORDS[_i][1]); _i += len(_s.split())
 def w(word, k): return wt(word, ST[k])
-VEND = WORDS[-1][2]; T = VEND + 1.0
+VEND = WORDS[-1][2]; T = VEND + 0.15
 INK = (34, 30, 28); PAPER = (226, 216, 192); GOLD = YEL
 def prog(t, w0, w1): return clamp((t - w0) / (w1 - w0))
 def nxt(t0): n_ = [x for x in ST if x > t0 + 0.05]; return (n_[0] - 0.22) if n_ else None

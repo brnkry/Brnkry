@@ -47,10 +47,15 @@ TOPSH = Image.new('RGBA', (W, H), (6, 7, 9, 0)); TOPSH.putalpha(Image.fromarray(
 def S_(n, sxa, sxb, z1=1.05, ov=None, sh=200):
     def fn(t, w0, w1):
         can, m = side(n, sxa, sxb, t, w0, w1, z1); shade(can, sh, 0.55); can.alpha_composite(TOPSH)
-        if ov: ov(can, t, w0, w1)
+        if ov: ov(can, t, w0, w1, m)
         return can
     return fn
 
+def paint(can, t, t0, quad, s_, size, col, font=None, dur=0.5, mod=0.45, op=0.9, glow=((8, 9, 12), 10, 0.55), t1=None):
+    """words painted on a surface of the photo, wiped in left to right"""
+    if t <= t0: return
+    a = clamp((t - t0) / 0.06) * (1.0 if t1 is None else 1 - clamp((t - t1) / 0.3))
+    on_quad(can, quad, s_, size, a, col, font or anton(size), eio((t - t0) / dur), 0.8, mod=mod, op=op, glow=glow)
 # ---------- paper ----------
 def newsprint(name, w_=700, sub=None, seed=1):
     """a newspaper front page: masthead, rule, grey column blocks"""
@@ -96,12 +101,12 @@ def sheet(can, t, t0, lines, cx=CX, cy=900, w_=900, rot=-2.0):
 
 # ---------- scenes ----------
 TOP = 330
-def o_hook(can, t, w0, w1):
+def o_hook(can, t, w0, w1, m=None):
     title(can, t, ws('Hitlers'), 'HITLERS', 1190, 120, CREAM, None, bold=1)
     title(can, t, ws('Nachfolger'), 'NACHFOLGER', 1335, 150, YEL, None, bold=1)
-def o_school(can, t, w0, w1):
+def o_school(can, t, w0, w1, m=None):
     title(can, t, ws('achtzehn'), '18 JAHRE SPÄTER', TOP, 104, CREAM)
-    stamp(can, t, ws('Schulklasse'), '1963', (790, 1330), 92, -8)
+    title(can, t, ws('Schulklasse'), '1963', 1330, 150, YEL, None, bold=1)
 def s_school(t, w0, w1):
     can = card(src('p01'), t, w0, w1, 1.0, 1.12, 0.62, 0.45, 0.1); o_school(can, t, w0, w1); return can
 def s_name(t, w0, w1):
@@ -109,26 +114,26 @@ def s_name(t, w0, w1):
     title(can, t, ws('Karl', 4.5), 'KARL', 1150, 120, CREAM, None, bold=1)
     title(can, t, ws('Dönitz', 5), 'DÖNITZ', 1310, 210, YEL, None, bold=2)
     return can
-def o_cmd(can, t, w0, w1):
+def o_cmd(can, t, w0, w1, m=None):
     title(can, t, ws('Befehlshaber'), 'BEFEHLSHABER', TOP - 40, 100, CREAM)
     title(can, t, ws('U-Boote'), 'DER U-BOOTE', TOP + 70, 100, YEL)
-def o_crew(can, t, w0, w1):
+def o_crew(can, t, w0, w1, m=None):
     z = ws('Zehntausende')
     title(can, t, w0 + 0.05, 'BEFEHLSHABER', TOP - 40, 100, CREAM, z - 0.1)
     title(can, t, w0 + 0.05, 'DER U-BOOTE', TOP + 70, 100, YEL, z - 0.1)
     title(can, t, z, 'ZEHNTAUSENDE', TOP - 40, 110, YEL)
     title(can, t, ws('junge', 9), 'JUNGE MÄNNER', TOP + 70, 100, CREAM)
-def o_sink(can, t, w0, w1):
+def o_sink(can, t, w0, w1, m=None):
     title(can, t, w0 + 0.05, 'ATLANTIK', TOP, 120, CREAM)
-    stamp(can, t, ws('nie', 11), '3 VON 4 STARBEN', (CX, 1330), 74, -6)
+    stamp(can, t, ws('nie', 11), '3 VON 4 STARBEN', (CX, 1330), 74, 0)
 def s_test(t, w0, w1):
     can = grade(fit('p05', t, w0, w1, 1.05, blur=10)); dim(can, 120)
     l = [('POLITISCHES TESTAMENT', 52, INK, w0 + 0.25), ('Berlin, 29. April 1945', 34, (90, 80, 70), w0 + 0.6), ('', 20, INK, 0),
          ('Ich ernenne daher', 42, INK, ws('ernannte')), ('Großadmiral Dönitz', 54, INK, ws('Hitler', 13.5)), ('zum Reichspräsidenten', 50, RED, ws('Reichspräsidenten'))]
-    p = sheet(can, t, w0 + 0.05, l, CX, 900, 900)
+    p = sheet(can, t, w0 + 0.05, l, CX, 900, 900, 0.0)
     if p and t > ws('Reichspräsidenten') + 0.5:
         u = eio((t - ws('Reichspräsidenten') - 0.5) / 0.35); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); x0, x1, y = 250, 830, 1140
-        ImageDraw.Draw(L).line((x0, y, lerp(x0, x1, u), y - 8 * u), fill=RED + (230,), width=8); can.alpha_composite(L)
+        ImageDraw.Draw(L).line((x0, y, lerp(x0, x1, u), y), fill=RED + (230,), width=8); can.alpha_composite(L)
     return can
 MP = Map(11.2, 53.9, 7.4)
 def s_map(t, w0, w1):
@@ -145,35 +150,43 @@ def s_map(t, w0, w1):
     title(can, t, ws('drei', 17.5), '3 WOCHEN', TOP, 130, CREAM)
     title(can, t, ws('regierte'), 'REGIERUNG DÖNITZ', yf + 64, 56, CREAM, None, 'bebas', max(xf, 250))
     return can
-def o_arrest(can, t, w0, w1):
+def o_arrest(can, t, w0, w1, m=None):
     title(can, t, ws('Am', 20.5), '23. MAI 1945', TOP, 120, CREAM)
     title(can, t, ws('britische'), 'BRITISCHE SOLDATEN', 1330, 70, CREAM, None, 'bebas')
-def o_p13(can, t, w0, w1):
-    stamp(can, t, ws('verhaftet'), 'VERHAFTET', (CX, 1300), 110, -7)
-def o_nu(can, t, w0, w1):
+WALL13 = [(1330, 245), (1800, 195), (1800, 355), (1330, 415)]   # the concrete wall behind the prisoners (source px), following its ledge
+def o_p13(can, t, w0, w1, m):
+    paint(can, t, ws('verhaftet'), [m(*q) for q in WALL13], 'VERHAFTET', 150, RED, None, 0.45, 0.5, 0.88)
+def o_nu(can, t, w0, w1, m=None):
     title(can, t, ws('Nürnberg'), 'NÜRNBERG 1946', TOP, 120, CREAM)
-    stamp(can, t, ws('zehn', 29), '10 JAHRE HAFT', (CX, 1330), 88, -6)
-def o_sp(can, t, w0, w1):
+    stamp(can, t, ws('zehn', 29), '10 JAHRE HAFT', (CX, 1330), 88, 0)
+def o_sp(can, t, w0, w1, m=None):
     title(can, t, w0 + 0.05, 'SPANDAU', TOP, 130, CREAM)
-def o_rel(can, t, w0, w1):
+def o_rel(can, t, w0, w1, m=None):
     title(can, t, w0 + 0.05, 'SPANDAU', TOP, 130, CREAM, ws('Tag', 32) - 0.1)
     title(can, t, ws('Tag', 32), 'FREI: OKTOBER 1956', TOP, 100, YEL)
-def o_63(can, t, w0, w1):
-    title(can, t, ws('Januar'), 'JANUAR 1963', TOP, 120, CREAM)
-    title(can, t, ws('Gymnasium'), 'GYMNASIUM', 1240, 70, CREAM, None, 'bebas')
-    title(can, t, ws('Geesthacht'), 'GEESTHACHT', 1330, 110, YEL)
-def o_bar(can, t, w0, w1):
+def o_63(can, t, w0, w1, m=None):
+    e = ws('Organisiert') - 0.35
+    title(can, t, ws('Januar'), 'JANUAR 1963', TOP, 120, CREAM, e)
+    title(can, t, ws('Gymnasium'), 'GYMNASIUM', 1240, 70, CREAM, e, 'bebas')
+    title(can, t, ws('Geesthacht'), 'GEESTHACHT', 1330, 110, YEL, e)
+def s_63(t, w0, w1):
+    u = eio((t - ws('Organisiert') + 0.4) / 1.5)   # holds on Dönitz, then one slow move across the hall to the student who invited him
+    can, m = side('p01', 1850, 60, t, w0, w1, 1.05, u); shade(can, 200, 0.55); can.alpha_composite(TOPSH)
+    o_63(can, t, w0, w1); o_bar(can, t, w0, w1); return can
+def o_bar(can, t, w0, w1, m=None):
     title(can, t, ws('Schülersprecher'), 'SCHÜLERSPRECHER', TOP, 100, CREAM)
     hand(can, t, ws('Uwe'), 'Uwe Barschel', (CX, 1180), 120, CREAM, 0.7)
     title(can, t, ws('später', 41), 'SPÄTER MINISTERPRÄSIDENT', 1330, 64, YEL, None, 'anton', CX, 820)
     title(can, t, ws('Schleswig-Holstein'), 'VON SCHLESWIG-HOLSTEIN', 1410, 54, CREAM, None, 'bebas')
-def o_talk(can, t, w0, w1):
+def s_talk(t, w0, w1):
+    can = grade(fit('p07', t, w0, w1, 1.06)); shade(can, 220, 0.5); o_talk(can, t, w0, w1); return can
+def o_talk(can, t, w0, w1, m=None):
     title(can, t, ws('Krieg', 46), 'ÜBER DEN KRIEG', TOP, 110, CREAM)
     b1 = hand(can, t, ws('Kritik'), 'Kritik?', (330, 1270), 120, CREAM, 0.5)
     if b1: strike(can, t, ws('Kritik') + 0.5, b1)
     b2 = hand(can, t, ws('Reue'), 'Reue?', (760, 1270), 120, CREAM, 0.5)
     if b2: strike(can, t, ws('Reue') + 0.45, b2)
-def o_clap(can, t, w0, w1):
+def o_clap(can, t, w0, w1, m=None):
     title(can, t, ws('applaudierten'), 'APPLAUS', TOP, 140, YEL)
     drop(can, t, ws('Lokalzeitung'), 'LOKALZEITUNG', (CX, 1150), -3, 760, 'JANUAR 1963', 2)
 def s_press(t, w0, w1, dark=0.0):
@@ -190,10 +203,10 @@ def s_head(t, w0, w1):
     k = eio((t - ws('Leben', 61)) / 0.8)
     if k > 0: dim(can, 170 * k)
     return can
-def o_end(can, t, w0, w1):
-    title(can, t, ws('Dönitz', 62), 'KARL DÖNITZ', 1090, 110, CREAM, None, bold=1)
-    title(can, t, ws('1980'), 'GESTORBEN 1980', 1220, 96, YEL)
-    stamp(can, t, ws('Rolle', 65), 'OHNE REUE', (CX, 1375), 100, -6)
+HULL10 = [(345, 1352), (905, 1345), (905, 1470), (370, 1452)]   # grey side of the model's hull near the bow (source px)
+def o_end(can, t, w0, w1, m):
+    title(can, t, ws('1980'), 'GESTORBEN 1980', TOP, 110, YEL)
+    paint(can, t, ws('Rolle', 65), [m(*q) for q in HULL10], 'OHNE REUE', 120, RED, None, 0.5, 0.5, 0.9)
 
 ANCH = [
  (0.0, S_('p06', 160, 420, 1.06, o_hook), None),
@@ -205,14 +218,13 @@ ANCH = [
  (ws('In', 12.3) - 0.1, s_test, ('fade',)),
  (ws('Von', 15.4) - 0.1, s_map, ('whip', 1)),
  (ws('Am', 20.5) - 0.1, FL('fr_a', 0.0, 1.0, 1.0, 1.06, 0.55, 0.5, o_arrest), ('fade',)),
- (ws('Dönitz', 25) - 0.1, S_('p13', 700, 830, 1.05, o_p13), ('fade',)),
+ (ws('Dönitz', 25) - 0.1, S_('p13', 840, 940, 1.05, o_p13), ('fade',)),
  (ws('In', 28) - 0.1, FL('nu', 37.6, 1.0, 1.55, 1.75, 0.53, 0.3, o_nu), ('whip', -1)),
  (ws('Spandau') - 0.1, FL('fr_sp', 4.55, 1.0, 1.0, 1.08, 0.5, 0.55, o_sp), ('fade',)),
  (ws('letzten', 32) - 0.15, FL('fr_rel', 4.0, 1.0, 1.15, 1.25, 0.6, 0.35, o_rel), ('fade',)),
- (ws('Im', 33.5) - 0.1, S_('p01', 1820, 1880, 1.05, o_63), ('whip', 1)),
- (ws('Organisiert') - 0.1, S_('p01', 60, 160, 1.06, o_bar), ('fade',)),
- (ws('Dönitz', 44) - 0.1, S_('p01', 1300, 900, 1.04, o_talk), ('fade',)),
- (ws('Lehrer', 49.5) - 0.1, S_('p01', 900, 650, 1.04, o_clap), ('fade',)),
+ (ws('Im', 33.5) - 0.1, s_63, ('whip', 1)),
+ (ws('Dönitz', 44) - 0.1, s_talk, ('fade',)),
+ (ws('Lehrer', 49.5) - 0.1, FL('fr_rel', 0.2, 1.0, 1.0, 1.08, 0.55, 0.45, o_clap), ('fade',)),
  (ws('Dann', 53.3) - 0.1, s_press, ('whip', -1)),
  (ws('Der', 58.6) - 0.1, s_head, ('fade',)),
  (ws('Dönitz', 62) - 0.15, S_('p10', 40, 260, 1.06, o_end), ('fade',))]
