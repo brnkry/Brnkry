@@ -3,10 +3,8 @@
 Video: `Deutschland_im_2WK_Teil1_v2.mp4` (9:16, 1:45). Cover: `thumbnails/DE_Teil1_Niemand_Flagge.jpg` (feste Yamamoto-Anordnung, Hitler vor einer leicht unscharfen schwarz-rot-goldenen Fahne; Abzeichen am Revers unkenntlich; Code `kod/cover_t1_flag.py`). Alternative: `thumbnails/DE_Teil1_Niemand.jpg` (dunkler Hintergrund). Story: `social/Teil1_Story_DE.mp4` (Code `kod/story_t1.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 ## YouTube Shorts
-**Titel** (empfohlen A)
-- A: Wie kam es zum Zweiten Weltkrieg? Teil 1: Der Weg in den Krieg
-- B: Niemand hielt ihn auf: Der Weg in den Zweiten Weltkrieg (Teil 1)
-- C: Von Versailles bis Polen: Deutschland im Zweiten Weltkrieg, Teil 1
+**Titel** (verwendet): Von Versailles bis Polen: Deutschland im Zweiten Weltkrieg, Teil 1
+- Schema für alle Teile: `<Thema>: Deutschland im Zweiten Weltkrieg, Teil N` (der Serienname bleibt immer gleich, gut für Suche und Playlist)
 
 **Beschreibung**
 ```
@@ -92,7 +90,7 @@ Was war für euch der entscheidende Schritt? Schreibt es in die Kommentare! 👇
 ## Untertitel (YouTube Studio)
 - `untertitel/captions.en_US.srt`: englische Untertitelspur, auf die deutsche Stimme getaktet (28 Einblendungen). YouTube Studio > Untertitel > Sprache hinzufügen: Englisch > Hochladen > "Mit Zeitangaben".
 - Unter derselben Sprache auch Titel und Beschreibung auf Englisch eintragen:
-  - Titel: `How Did World War II Begin? Part 1: The Road to War`
+  - Titel: `From Versailles to Poland: Germany in World War II, Part 1`
   - Beschreibung: `How did the Second World War begin? Part 1 of our series follows Germany from the Treaty of Versailles in 1919 through hyperinflation, the Great Depression, Hitler's rise to power in 1933, rearmament, the Rhineland, Austria and Czechoslovakia, to the first shots on the Westerplatte on 1 September 1939. #WW2 #History #Versailles #Documentary`
 
 ## Reihenfolge (Türkçe not)
