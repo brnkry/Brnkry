@@ -2,8 +2,8 @@
 def ws(word, after=0.0): return wt(word, after) - 0.05
 
 # ---------- archive films: 640x480 newsreels shown in a framed panel over a blurred copy of themselves ----------
-SEG = {'adm_d': 81, 'adm_p': 104, 'adm_s': 259, 'fr_sp': 183, 'fr_a': 241, 'fr_rel': 180, 'nu': 1531}
-CROP = {'adm_d': (40, 0, 560, 390), 'adm_p': (0, 0, 620, 465), 'adm_s': (10, 0, 630, 465), 'fr_sp': (12, 8, 555, 415), 'fr_a': (12, 8, 555, 415), 'fr_rel': (12, 8, 555, 415), 'nu': (0, 0, 640, 480)}   # Pathé logo, name supers and black edges stay outside
+SEG = {'adm_w': 255, 'adm_d': 81, 'adm_p': 104, 'adm_s': 259, 'fr_sp': 183, 'fr_a': 241, 'fr_rel': 180, 'nu': 1531}
+CROP = {'adm_w': (20, 0, 620, 450), 'adm_d': (40, 0, 560, 390), 'adm_p': (0, 0, 620, 465), 'adm_s': (10, 0, 630, 465), 'fr_sp': (12, 8, 555, 415), 'fr_a': (12, 8, 555, 415), 'fr_rel': (12, 8, 555, 415), 'nu': (0, 0, 640, 480)}   # Pathé logo, name supers and black edges stay outside
 TRK = {int(k): v for k, v in json.load(open(B + 'clip/adm_d_track.json')).items()}
 def _soft(im, x, y, d):
     r = d / 2; bx = (int(x - d), int(y - d), int(x + d), int(y + d)); reg = im.crop(bx)
@@ -132,7 +132,10 @@ def s_test(t, w0, w1):
     return can
 MP = Map(11.2, 53.9, 7.4)
 def s_map(t, w0, w1):
-    z = lerp(1.0, 1.06, prog(t, w0, w1)); can = grade(MP.frame(z), 0.08, 1.0); p = lambda lo, la: MP.p(lo, la, z)
+    z = lerp(1.0, 1.06, prog(t, w0, w1)); p = lambda lo, la: MP.p(lo, la, z)
+    fm = fat('adm_w', (t - w0) * 1.0); bg = fm.resize((W, H), Image.BICUBIC, box=_cover(fm.size, 9 / 16)).filter(ImageFilter.GaussianBlur(9))
+    bg = grade(ImageEnhance.Brightness(bg).enhance(0.9).convert('RGBA'), 0.12, 0.8)   # the archive film keeps running behind the map, out of focus
+    mp = MP.frame(z); mp.putalpha(150); can = bg; can.alpha_composite(mp)
     for nm, lo, la in (('DÄNEMARK', 9.6, 55.9), ('NORDSEE', 8.2, 54.15), ('OSTSEE', 12.9, 54.9)):
         x, y = p(lo, la); title(can, t, w0 + 0.3, nm, y, 46, (140, 150, 168), None, 'bebas', x)
     xb, yb = p(13.4, 52.52); dot(can, xb, yb, GREY, 9); title(can, t, w0 + 0.4, 'BERLIN', yb + 50, 50, GREY, None, 'bebas', xb)
