@@ -174,10 +174,11 @@ class Book:
                 return M.turn(base_, R0(t), L1(t), (t - a) / self.TD)
         L, R = self.sp[k]; return spread_img(L(t) if L else None, R(t) if R else None, self.spine)
     def cam(self, t):
-        p = self.cams[0][1:]
+        p = self.cams[0][1:4]
         for c in self.cams[1:]:
             if t < c[0]: break
-            u = eio((t - c[0]) / self.CD); p = tuple(lerp(x, y, u) for x, y in zip(p, c[1:]))
+            cd = c[4] if len(c) > 4 else self.CD
+            u = eio((t - c[0]) / cd); p = tuple(lerp(x, y, u) for x, y in zip(p, c[1:4]))
         return p
     def __call__(self, t):
         cx, cy, s = self.cam(t); s *= 1 + 0.012 * math.sin(t * 0.11)          # a very slow breathing of the camera

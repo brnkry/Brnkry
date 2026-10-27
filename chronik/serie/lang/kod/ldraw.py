@@ -23,14 +23,15 @@ def factory_m(cx, cy, s, ph):
             smoke.append(arc(cx + (cxh + 160 * u) * s, cy + (top - 30 - 190 * u) * s, r_, n=18))
     return lines, shade, [(smoke, 0.45)]
 def coins_m(cx, cy, s, ph, n_max=9):
-    """a stack of gold marks growing coin by coin"""
-    n = min(n_max, int(ph / 0.22) + 1); lines = []
-    for i in range(n):
-        y = cy - i * 26 * s; lines.append(arc(cx, y, 120 * s, 0, 360, 60)); lines[-1] = [(x_, y + (y_ - y) * 0.3) for x_, y_ in lines[-1]]
-        lines.append(poly([(cx - 120 * s, y), (cx - 120 * s, y + 24 * s)])); lines.append(poly([(cx + 120 * s, y), (cx + 120 * s, y + 24 * s)]))
+    """a stack of gold marks growing coin by coin: each coin a rim seen from the side, the top one as a full disc with its edge"""
+    n = min(n_max, int(ph / 0.22) + 1); lines = []; rx, ry, th = 120 * s, 36 * s, 24 * s
+    def coin(y, top):
+        lines.append(poly([(cx - rx, y), (cx - rx, y + th)])); lines.append(poly([(cx + rx, y), (cx + rx, y + th)]))
+        lines.append(arc(cx, y + th, rx, 0, 180, 50)[::-1] if False else [(cx + rx * math.cos(math.radians(a)), y + th + ry * math.sin(math.radians(a))) for a in range(0, 181, 6)])
+        if top: lines.append([(cx + rx * math.cos(math.radians(a)), y + ry * math.sin(math.radians(a))) for a in range(0, 361, 6)]); lines.append([(cx + rx * 0.7 * math.cos(math.radians(a)), y + ry * 0.7 * math.sin(math.radians(a))) for a in range(0, 361, 8)])
+    for i in range(n): coin(cy - i * th, i == n - 1)
     if n < n_max:   # the next coin falling
-        u = (ph % 0.22) / 0.22; y = cy - n * 26 * s - (1 - u) * 220 * s
-        lines.append([(x_, y + (y_ - y) * 0.3) for x_, y_ in arc(cx, y, 120 * s, 0, 360, 60)])
+        u = (ph % 0.22) / 0.22; y = cy - n * th - (1 - u) * 220 * s; coin(y, True)
     return lines, [], []
 def notes_m(x0, y0, w, h, ph, n=14, seed=3):
     """banknotes fluttering down"""
