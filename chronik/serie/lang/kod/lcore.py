@@ -135,15 +135,10 @@ def photo(pg, t, t0, name, box, cap=None, start=0.0, speed=1.0, still=None, fx=0
 # ---------- the magazine on the desk ----------
 @functools.lru_cache(None)
 def desk_tex():
-    """dark walnut: long grain streaks, a few slow rings, fine pores"""
-    r = np.random.default_rng(5); h, w = H * 2, W * 2
-    s1 = np.asarray(Image.fromarray((r.random((h // 6, 24)) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
-    s2 = np.asarray(Image.fromarray((r.random((h // 40, 8)) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
-    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); ring = 0.5 + 0.5 * np.sin((yy + 60 * np.sin(xx / 700) + 140 * s2) / 23)
-    pore = r.random((h, w)).astype(np.float32)
-    v = 0.55 * s1 + 0.25 * ring + 0.12 * s2 + 0.08 * pore
-    col = np.array([62, 42, 30], np.float32)[None, None] * (0.72 + 0.5 * v[..., None])
-    return Image.fromarray(col.clip(0, 255).astype(np.uint8))
+    """neutral dark backdrop"""
+    h, w = H * 2, W * 2; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    g = 30 + 10 * np.exp(-(((xx - w / 2) / (w * 0.6)) ** 2 + ((yy - h / 2) / (h * 0.6)) ** 2))
+    return Image.fromarray(np.repeat(g[..., None], 3, 2).clip(0, 255).astype(np.uint8))
 @functools.lru_cache(None)
 def lamp():
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
@@ -155,9 +150,9 @@ def _spine(spine):
 @functools.lru_cache(None)
 def _alpha(hasL, hasR):
     m = Image.new('L', (SW, PH), 0); d = ImageDraw.Draw(m)
-    if hasL: d.rectangle((0, 0, PW - 1, PH), fill=255)
-    if hasR: d.rectangle((PW, 0, SW, PH), fill=255)
-    return m
+    if hasL: d.rectangle((3, 3, PW - 1, PH - 4), fill=255)
+    if hasR: d.rectangle((PW, 3, SW - 4, PH - 4), fill=255)
+    return m.filter(ImageFilter.GaussianBlur(2.0))
 def spread_img(left, right, spine=110):
     """both pages side by side; the paper darkens where it curves into the spine"""
     can = Image.new('RGB', (SW, PH), (0, 0, 0))
@@ -174,10 +169,9 @@ def view(sp, cx, cy, s, ang, t):
     bx0, by0 = max(0, int(min(xs)) - 4), max(0, int(min(ys)) - 4); bx1, by1 = min(sp.width, int(max(xs)) + 5), min(sp.height, int(max(ys)) + 5)
     if bx1 > bx0 and by1 > by0:
         sp = sp.crop((bx0, by0, bx1, by1)); co = (co[0], co[1], co[2] - bx0, co[3], co[4], co[5] - by0)
-    v = sp.transform((W, H), Image.AFFINE, co, Image.BILINEAR if s >= 1.0 else Image.BICUBIC, fillcolor=(0, 0, 0, 0))
-    ox = int((cx * s * 0.5) % W); oy = int((cy * s * 0.5) % H)
-    can = desk_tex().crop((ox, oy, ox + W, oy + H)).convert('RGBA')
-    al = v.getchannel('A').resize((W // 4, H // 4), Image.BILINEAR).filter(ImageFilter.GaussianBlur(max(2, 7 * s))).resize((W, H), Image.BILINEAR)
+    v = sp.transform((W, H), Image.AFFINE, co, Image.BICUBIC, fillcolor=(0, 0, 0, 0))
+    can = desk_tex().crop((W // 2, H // 2, W // 2 + W, H // 2 + H)).convert('RGBA')
+    al = v.getchannel('A').resize((W // 2, H // 2), Image.BILINEAR).filter(ImageFilter.GaussianBlur(max(3, 14 * s))).resize((W, H), Image.BICUBIC)
     sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.paste((8, 5, 3, 170), (int(18 * s), int(26 * s)), al); can.alpha_composite(sh); can.alpha_composite(v)
     a_ = np.asarray(can.convert('RGB'), np.float32) * lamp() * vignette(k=0.42)
     a_ += grain(int(t * FPS), 2.2)
