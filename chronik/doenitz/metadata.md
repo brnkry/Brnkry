@@ -1,6 +1,6 @@
 # Karl Dönitz: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Karl_Doenitz_Shorts_DE_v2.mp4` (9:16, 1:07). Cover: `thumbnails/DE_Doenitz_Schulklasse.jpg` (feste Yamamoto-Anordnung, Dönitz 1963 vor den Schülern; Job `doenitz` in `chronicle/brand/covers4.py`). Story: `social/Doenitz_Story_DE.mp4` (9,2 s; Code `kod/story_d.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Karl_Doenitz_Shorts_DE_v2.mp4` (9:16, 1:07). Cover: `thumbnails/DE_Doenitz_Schulklasse.jpg` (feste Yamamoto-Anordnung, Farbporträt p08 mit großem Gesicht; Bild `kod/cover_d.py`, Job `doenitz` in `chronicle/brand/covers4.py`). Story: `social/Doenitz_Story_DE.mp4` (9,2 s; Code `kod/story_d.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 ## Faktencheck (Türkçe not)
 | İddia | Durum |

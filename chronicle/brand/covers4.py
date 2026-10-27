@@ -83,7 +83,7 @@ JOBS = {
  'bader_de': ('bader_de/code', 'd08', (0.55, 0.42, 1.2), ('C', 'DM'), [('DIE RAF WARF IHM', 130, 'w'), ('EIN NEUES BEIN AB', 130, 'y')], 'MITTEN IM BOMBENANGRIFF', 88, S + 'bader_de/thumbs/DE_Bader_Neues_Bein.jpg'),
  'udet_de': ('ju87/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('ER GAB DER STUKA', 130, 'w'), ('IHRE SIRENE', 150, 'y')], 'SEIN TOD WURDE VERTUSCHT', 88, S + 'ju87/thumbs/DE_Udet_Sirene.jpg'),
  'udet': ('ju87en/code', 'cov_en', (0.5, 0.5, 1.0), ('C', 'P'), [('HE GAVE THE STUKA', 130, 'w'), ('ITS SIREN', 150, 'y')], 'HIS DEATH WAS COVERED UP', 88, S + 'ju87en/thumbs/EN_Udet_Siren.jpg'),
- 'doenitz': ('doen/code', 'p01', (0.69, 0.5, 1.0), ('C', 'DM'), [('HITLERS NACHFOLGER', 130, 'w'), ('VOR DER SCHULKLASSE', 124, 'y')], 'OHNE EIN WORT DER REUE', 88, S + 'doen/thumbs/DE_Doenitz_Schulklasse.jpg'),
+ 'doenitz': ('doen/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('HITLERS NACHFOLGER', 130, 'w'), ('VOR DER SCHULKLASSE', 124, 'y')], 'OHNE EIN WORT DER REUE', 88, S + 'doen/thumbs/DE_Doenitz_Schulklasse.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
