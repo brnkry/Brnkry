@@ -28,24 +28,19 @@ def _skel(m):
         e = cv2.erode(m, el); sk |= m - cv2.dilate(e, el); m = e
     return sk
 def _scratch_mask(s_, size, seed):
-    """letters scratched into paint with a metal point: the centre line of a hand-written stroke, gone over two or three times
-    with a slightly shaky hand, thin and uneven, plus a few short slips of the point"""
+    """big white capitals scratched into the paint: solid letters with rough, chipped edges and fine scratch lines running through them"""
     import cv2
-    f = caveat(size, 650); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 60, bb[3] - bb[1] + 60
+    f = anton(size); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 60, bb[3] - bb[1] + 60
     M = Image.new('L', (tw, th), 0); ImageDraw.Draw(M).text((30 - bb[0], 30 - bb[1]), s_, font=f, fill=255)
-    sk = _skel(np.asarray(M)).astype(np.float32); rng = np.random.default_rng(seed); acc = np.zeros((th, tw), np.float32)
-    yy, xx = np.mgrid[0:th, 0:tw].astype(np.float32)
-    for k in range(3):
-        wob = 1.6 * np.sin(xx / rng.uniform(18, 30) + rng.uniform(0, 6)) + rng.uniform(-1.2, 1.2)   # shaky hand
-        P = _mc(sk, [yy - wob, xx - rng.uniform(-1.5, 1.5)], order=1)
-        P = cv2.dilate((P > 0.25).astype(np.float32), np.ones((2, 2), np.uint8)) * rng.uniform(0.55, 1.0)
-        acc = np.maximum(acc, P * (0.55 + 0.45 * rng.random((th, tw)).astype(np.float32)))
+    A = np.asarray(M, np.float32) / 255; rng = np.random.default_rng(seed)
+    n = cv2.GaussianBlur(rng.random((th, tw)).astype(np.float32), (0, 0), 1.6)
+    A = np.clip((cv2.GaussianBlur(A, (0, 0), 1.2) - 0.5 + (n - 0.5) * 0.9) * 6 + 0.5, 0, 1)   # chipped edges
     S = Image.new('L', (tw, th), 0); d = ImageDraw.Draw(S)
-    for _ in range(4):   # slips of the point
-        x = rng.uniform(0, tw); y = rng.uniform(th * 0.3, th * 0.8); L_ = rng.uniform(15, 45); an = rng.uniform(-0.3, 0.3)
-        d.line((x, y, x + L_ * math.cos(an), y + L_ * math.sin(an)), fill=110, width=1)
-    acc = np.maximum(acc, np.asarray(S, np.float32) / 255)
-    return np.asarray(Image.fromarray((acc * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6)), np.float32) / 255
+    for _ in range(int(tw / 6)):   # tool marks along the letters
+        x = rng.uniform(0, tw); y = rng.uniform(0, th); L_ = rng.uniform(10, 50); an = rng.uniform(-0.25, 0.25)
+        d.line((x, y, x + L_ * math.cos(an), y + L_ * math.sin(an)), fill=int(rng.uniform(80, 200)), width=1)
+    st = np.asarray(S, np.float32) / 255
+    return np.clip(A * (0.88 - 0.35 * st) + (rng.random((th, tw)) < 0.004) * 0.6, 0, 1)
 _SM = {}
 def engrave(can, t, t0, s_, sp, y0, span, size):
     """text scratched into the curved turret steel: wraps round the cylinder, bright bare-metal lines with a dark lip, scratched in left to right"""
@@ -65,7 +60,7 @@ def engrave(can, t, t0, s_, sp, y0, span, size):
     shade_ = np.cos(th_) ** 0.6
     base = np.asarray(can.crop((bx0, by0, bx1, by1)).convert('RGB'), np.float32)
     lip = np.clip(np.roll(G, 2, 0) - G, 0, 1)        # thin dark wall beside each scratch
-    cut = (G * shade_)[..., None]; metal = np.clip(base * 0.35 + np.array([168, 166, 160], np.float32), 0, 255)   # bare steel, still tinted by the dirt around it
+    cut = (G * shade_)[..., None]; metal = np.clip(base * 0.12 + np.array([226, 224, 218], np.float32), 0, 255)   # bare steel, still tinted by the dirt around it
     out = base * (1 - cut) + metal * cut; out = out * (1 - (lip * 0.45 * shade_)[..., None])
     can.paste(Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA'), (bx0, by0))
 HELM = (1380, 640, 610, 560)   # k09: helmet dome centre and radii (source px)
@@ -94,8 +89,8 @@ TOP = 330
 def s_hook(t, w0, w1):
     can = grade(fit('k04', t, w0, w1, 1.08)); shade(can, 230, 0.45)
     sp = lambda x, y: fitpt('k04', t, w0, w1, 1.08, x, y)
-    engrave(can, t, ws('siebzig') - 0.1, 'Fast 70 Jahre', sp, 1235, 0.62, 165)
-    engrave(can, t, ws('namenlosen'), 'namenlos', sp, 1560, 0.62, 220)
+    engrave(can, t, ws('siebzig') - 0.1, 'FAST 70 JAHRE', sp, 1232, 0.62, 175)
+    engrave(can, t, ws('namenlosen'), 'NAMENLOS', sp, 1565, 0.62, 250)
     return can
 def o_wall(can, t, w0, w1, m=None):
     title(can, t, ws('hinter'), 'HINTER EINER KIRCHENMAUER', TOP, 80, CREAM)
