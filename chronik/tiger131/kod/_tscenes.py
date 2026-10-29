@@ -173,10 +173,15 @@ def _t20parts():
     hull = cv2.addWeighted(hull, 1.0, np.zeros_like(hull), 0, 0) * (1 - 0.35 * cv2.GaussianBlur(tur.astype(np.float32), (0, 0), 6))[..., None]   # a shadow where the turret sat
     top = im.convert('RGBA'); top.putalpha(Image.fromarray((cv2.GaussianBlur(tur.astype(np.float32), (0, 0), 1.2) * 255).astype(np.uint8)))
     return im, top, Image.fromarray(np.clip(hull, 0, 255).astype(np.uint8)).convert('RGBA')
+def s_rest(t, w0, w1):
+    """army workshop footage, then Tiger 131's own turret number in colour; the two shots dissolve into each other inside the panel"""
+    u = t - w0; d1 = 3.45
+    nf = lambda im: im.resize((1200, 900), Image.BICUBIC, box=_cover(im.size, 4 / 3))   # both shots to the panel's shape so they can dissolve
+    im = nf(fat('o_flat', u)) if u < d1 else (Image.blend(nf(fat('o_flat', min(u, 3.8))), nf(fat('o_131', u - d1)), eio((u - d1) / 0.4)) if u < d1 + 0.4 else nf(fat('o_131', u - d1)))
+    can = card(im, t, w0, w1, 1.0, 1.06); o_restore(can, t, w0, w1); return can
 def o_restore(can, t, w0, w1, m=None):
     title(can, t, ws('1990'), 'AB 1990', TOP - 60, 130, CREAM)
-    title(can, t, ws('zerlegt'), 'ZERLEGT', 1320, 110, RED, ws('restauriert') - 0.25)
-    title(can, t, ws('restauriert'), 'RESTAURIERT', 1320, 110, YEL)
+    title(can, t, ws('zerlegt'), 'ZERLEGT', 1320, 110, RED)
 def s_restore(t, w0, w1):
     """1990: the tank comes apart (turret lifts off the hull), then goes back together when it is restored"""
     can = BG('o_flat', 0.3, 70)(t, w0); im, top, hull = _t20parts(); pw = 1000; ph = int(pw * im.height / im.width); sc = pw / im.width
@@ -190,6 +195,7 @@ def s_restore(t, w0, w1):
     return can
 def s_engine(t, w0, w1):
     can, mp = photo_card('t21', (0, 0, 1920, 1280), t, w0, w1, 'm_close', 0.5, 1.05, 820, 1000, 667, 60)
+    title(can, t, w0 + 0.1, 'RESTAURIERT', TOP - 60, 120, YEL, ws('Antrieb') - 0.25)
     title(can, t, ws('Maybach-Motor'), 'MAYBACH-MOTOR', TOP - 60, 120, CREAM)
     title(can, t, ws('Königstiger'), 'AUS DEM KÖNIGSTIGER', 1250, 70, YEL)
     title(can, t, ws('2003'), 'SEIT 2003', 1350, 90, CREAM)
@@ -246,8 +252,8 @@ ANCH = [
  (ws('Im', 45.3) - 0.1, s_route, ('whip', -1)),
  (ws('Die', 48.5) - 0.1, s_report, ('fade',)),
  (ws('übernahm') - 0.1, S_('t12', 600, 900, 1.05, o_bov), ('whip', 1)),
- (ws('Ab', 60.2) - 0.1, FL('o_flat', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_restore), ('fade',)),
- (ws('Als', 66) - 0.1, s_engine, ('fade',)),
+ (ws('Ab', 60.2) - 0.1, s_rest, ('fade',)),
+ (ws('restauriert') - 0.05, s_engine, ('fade',)),
  (ws('fährt', 71.5) - 0.1, FL('m_rain', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_run), ('fade',)),
  (ws('Bei', 75.5) - 0.1, S_('t11', 300, 650, 1.05, o_plans), ('fade',)),
  (ws('2014') - 0.1, S_('t04', 150, 330, 1.05, o_fury), ('whip', -1)),

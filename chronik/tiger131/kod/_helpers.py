@@ -3,7 +3,7 @@ def ws(word, after=0.0): return wt(word, after) - 0.05
 
 # ---------- archive films: shown in a framed panel over a blurred copy of themselves ----------
 SEG = {k: len(os.listdir(B + 'clip/' + k)) for k in os.listdir(B + 'clip')}
-CROP = {'o_mov': (0, 470, 1080, 1290), 'o_flat': (0, 560, 1080, 1480)}   # old-footage clips that are a landscape band inside the vertical frame
+CROP = {'o_mov': (0, 470, 1080, 1290), 'o_flat': (0, 560, 1080, 1480), 'o_131': (0, 100, 1080, 910)}   # old-footage clips that are a landscape band inside the vertical frame
 def _soft(im, x, y, d):
     r = d / 2; bx = (int(x - d), int(y - d), int(x + d), int(y + d)); reg = im.crop(bx)
     bl = reg.resize((max(1, reg.width // 8), max(1, reg.height // 8)), Image.BILINEAR).resize(reg.size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(d * 0.12))
