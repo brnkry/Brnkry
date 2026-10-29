@@ -8,8 +8,8 @@ from thumb_m import badge
 A0, A1 = 0.0, V.ws('Sein', 5.8) - 0.12   # the hook: the Desert Fox, killed by his own regime; the name comes on the card
 CARD = 5.0
 def bg(t):
-    """Rommel's car in the desert runs behind the card, full frame"""
-    im = V.fat('car2', 0.2 + t); return grade(im.resize((W, H), Image.BICUBIC, box=V._cover(im.size, 9 / 16)).convert('RGBA'), 0.12, 0.85)
+    """the Afrikakorps tank film (9 s, longer than the card) runs behind the card, full frame"""
+    im = V.fat('tank1', 0.0 + t); return grade(im.resize((W, H), Image.BICUBIC, box=V._cover(im.size, 9 / 16)).convert('RGBA'), 0.12, 0.85)
 def card(t):
     img = bg(t)
     img.alpha_composite(Image.new('RGBA', (W, H), (6, 7, 9, int(170 * eio(t / 0.6)))))
