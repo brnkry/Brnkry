@@ -20,14 +20,29 @@ def up_arrow(can, t, t0, x, y0, y1, col=YEL):
 
 from scipy.ndimage import map_coordinates as _mc
 TUR = (790, 1020)   # k04: turret axis x and its visible half width (source px); the text wraps round the cylinder
+def _scratch_mask(s_, size, seed):
+    """letters scratched by hand with a metal point: several thin, slightly offset strokes per letter, broken here and there, a few stray marks"""
+    f = caveat(size, 700); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 60, bb[3] - bb[1] + 60
+    rng = np.random.default_rng(seed); acc = np.zeros((th, tw), np.float32)
+    for k in range(4):
+        M = Image.new('L', (tw, th), 0); dx, dy = rng.uniform(-3, 3), rng.uniform(-2.5, 2.5)
+        ImageDraw.Draw(M).text((30 - bb[0] + dx, 30 - bb[1] + dy), s_, font=f, fill=255)
+        E = np.asarray(M.filter(ImageFilter.FIND_EDGES).filter(ImageFilter.MaxFilter(3)), np.float32) / 255   # only the outline of each stroke: thin lines
+        acc = np.maximum(acc, E * rng.uniform(0.55, 1.0))
+    acc *= (rng.random((th, tw)) > 0.22) * 0.5 + 0.5   # broken, uneven scratches
+    M = Image.new('L', (tw, th), 0); d = ImageDraw.Draw(M)
+    for _ in range(5):
+        x = rng.uniform(0, tw); y = rng.uniform(th * 0.2, th * 0.9); L_ = rng.uniform(20, 70); an = rng.uniform(-0.4, 0.4)
+        d.line((x, y, x + L_ * math.cos(an), y + L_ * math.sin(an)), fill=150, width=2)
+    return np.maximum(acc, np.asarray(M, np.float32) / 255)
+_SM = {}
 def engrave(can, t, t0, s_, sp, y0, span, size):
-    """letters cut into the curved turret steel: the text wraps round the cylinder, dark groove with a light lower lip, scratched in left to right"""
+    """text scratched into the curved turret steel: wraps round the cylinder, bright bare-metal lines with a dark lip, scratched in left to right"""
     if t < t0: return
-    f = anton(size); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 20, bb[3] - bb[1] + 20
-    M = Image.new('L', (tw, th), 0); ImageDraw.Draw(M).text((10 - bb[0], 10 - bb[1]), s_, font=f, fill=255)
-    A = np.asarray(M, np.float32) / 255; rev = eio((t - t0) / 0.8); A = A * np.clip((rev * (tw + 60) - np.arange(tw)) / 60, 0, 1)[None, :]
-    cx, R = TUR; a = math.asin(min(0.95, tw * 0.5 / R * span / 0.62 * 0.62))   # angular half width of the text on the cylinder
-    hsrc = th * (2 * R * math.sin(a)) / tw            # keep letter proportions at the centre
+    if (s_, size) not in _SM: _SM[(s_, size)] = _scratch_mask(s_, size, len(s_))
+    A0 = _SM[(s_, size)]; th, tw = A0.shape; rev = eio((t - t0) / 0.9); A = A0 * np.clip((rev * (tw + 60) - np.arange(tw)) / 60, 0, 1)[None, :]
+    cx, R = TUR; a = math.asin(min(0.95, tw * 0.5 / R))
+    hsrc = th * (2 * R * math.sin(a)) / tw
     (X0, Y0), (X1, Y1) = sp(0, 0), sp(1000, 1000); kx, ky = (X1 - X0) / 1000, (Y1 - Y0) / 1000
     xs0, xs1 = cx - R * math.sin(a), cx + R * math.sin(a); ys0 = y0 - hsrc / 2
     bx0, bx1 = int(X0 + kx * xs0) - 4, int(X0 + kx * xs1) + 4; by0, by1 = int(Y0 + ky * ys0) - 4, int(Y0 + ky * (ys0 + hsrc)) + 4
@@ -36,24 +51,40 @@ def engrave(can, t, t0, s_, sp, y0, span, size):
     yy, xx = np.mgrid[by0:by1, bx0:bx1].astype(np.float32); sx = (xx - X0) / kx; sy = (yy - Y0) / ky
     th_ = np.arcsin(np.clip((sx - cx) / R, -1, 1)); u = (th_ + a) / (2 * a) * tw; v = (sy - ys0) / hsrc * th
     G = _mc(A, [v, u], order=1, cval=0.0); G[(th_ < -a) | (th_ > a)] = 0
-    shade_ = np.cos(th_) ** 0.6                       # letters fade into the curve towards the sides
+    shade_ = np.cos(th_) ** 0.6
     base = np.asarray(can.crop((bx0, by0, bx1, by1)).convert('RGB'), np.float32)
-    lum = base.mean(2, keepdims=True) / 255
-    grit = np.random.default_rng(len(s_)).random(G.shape).astype(np.float32) * 0.35 + 0.65   # scratched, uneven bare metal
-    top = np.clip(np.roll(G, -4, 0) - G, 0, 1)        # shadow on the upper wall of the cut
-    cut = (G * grit * shade_)[..., None]
-    metal = np.array([214, 212, 204], np.float32) * (0.75 + 0.5 * lum)
-    out = base * (1 - cut * 0.85) + metal * cut * 0.85
-    out = out * (1 - (top * 0.55 * shade_)[..., None])
-    out = np.clip(out, 0, 255).astype(np.uint8); can.paste(Image.fromarray(out).convert('RGBA'), (bx0, by0))
+    lip = np.clip(np.roll(G, 2, 0) - G, 0, 1)        # dark lower lip of each groove
+    cut = (G * shade_)[..., None]; metal = np.array([226, 224, 216], np.float32)
+    out = base * (1 - cut * 0.9) + metal * cut * 0.9; out = out * (1 - (lip * 0.6 * shade_)[..., None])
+    can.paste(Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA'), (bx0, by0))
+HELM = (1380, 640, 610, 560)   # k09: helmet dome centre and radii (source px)
+def arc_text(can, t, t0, s_, sp, r0, r1, a0, a1, size, col, dur=0.6, mod=0.5):
+    """words painted round the dome of the helmet: letters stand on an arc of the oval, painted in left to right, taking the texture of the steel"""
+    if t < t0: return
+    f = anton(size); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 20, bb[3] - bb[1] + 20
+    M = Image.new('L', (tw, th), 0); ImageDraw.Draw(M).text((10 - bb[0], 10 - bb[1]), s_, font=f, fill=255)
+    A = np.asarray(M, np.float32) / 255 * np.clip((eio((t - t0) / dur) * (tw + 60) - np.arange(tw)) / 60, 0, 1)[None, :]
+    cx, cy, rx, ry = HELM; (X0, Y0), (X1, Y1) = sp(0, 0), sp(1000, 1000); kx, ky = (X1 - X0) / 1000, (Y1 - Y0) / 1000
+    bx0, bx1 = int(X0 + kx * (cx - rx * r1)), int(X0 + kx * (cx + rx * r1)); by0, by1 = int(Y0 + ky * (cy - ry * r1)), int(Y0 + ky * cy)
+    bx0, by0 = max(0, bx0), max(0, by0); bx1, by1 = min(W, bx1), min(H, by1)
+    if bx1 <= bx0 or by1 <= by0: return
+    yy, xx = np.mgrid[by0:by1, bx0:bx1].astype(np.float32); ex = ((xx - X0) / kx - cx) / rx; ey = ((yy - Y0) / ky - cy) / ry
+    r = np.sqrt(ex ** 2 + ey ** 2); ph = np.degrees(np.arctan2(ey, ex))
+    u = (ph - a0) / (a1 - a0) * tw; v = (r1 - r) / (r1 - r0) * th
+    G = _mc(A, [v, u], order=1, cval=0.0); G[(ph < a0) | (ph > a1) | (r < r0) | (r > r1)] = 0
+    base = np.asarray(can.crop((bx0, by0, bx1, by1)).convert('RGB'), np.float32); lum = base.mean(2) / 255
+    al = np.clip(G * (1 - mod + mod * np.clip(lum / max(lum.mean(), 0.05), 0.4, 1.6)), 0, 1) * 0.92
+    glow = np.clip(np.asarray(Image.fromarray((G * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(5)), np.float32) / 255, 0, 1) * 0.45
+    out = base * (1 - glow[..., None]) ; out = out * (1 - al[..., None]) + np.array(col, np.float32) * al[..., None]
+    can.paste(Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA'), (bx0, by0))
 
 # ---------- scenes ----------
 TOP = 330
 def s_hook(t, w0, w1):
     can = grade(fit('k04', t, w0, w1, 1.08)); shade(can, 230, 0.45)
     sp = lambda x, y: fitpt('k04', t, w0, w1, 1.08, x, y)
-    engrave(can, t, ws('siebzig') - 0.1, 'FAST 70 JAHRE', sp, 1235, 0.62, 170)
-    engrave(can, t, ws('namenlosen'), 'NAMENLOS', sp, 1560, 0.62, 230)
+    engrave(can, t, ws('siebzig') - 0.1, 'FAST 70 JAHRE', sp, 1235, 0.62, 140)
+    engrave(can, t, ws('namenlosen'), 'NAMENLOS', sp, 1560, 0.62, 190)
     return can
 def o_wall(can, t, w0, w1, m=None):
     title(can, t, ws('hinter'), 'HINTER EINER KIRCHENMAUER', TOP, 80, CREAM)
@@ -67,7 +98,7 @@ def s_name(t, w0, w1):
 def o_wm(can, t, w0, w1, m=None):
     title(can, t, ws('Wehrmacht'), 'PANZERSOLDAT', TOP, 110, CREAM)
 def s_career(t, w0, w1):
-    can = BG('ku_sol', 0.3, 0.8, 60, 1.6)(t, w0)
+    can = BG('ku_sol', 0.3, 1.0, 60, 1.6)(t, w0)
     t1, t2, t3 = ws('Ladeschütze', 10.5), ws('Richtschütze', 11.5), ws('Kommandant', 13)
     plate(can, t, t1, 'LADESCHÜTZE', 1180, 84, CREAM if t >= t2 else YEL, 0.75 if t >= t2 else 1.0)
     up_arrow(can, t, t2 - 0.15, CX, 1110, 1040)
@@ -78,11 +109,12 @@ def s_career(t, w0, w1):
 def o_tiger(can, t, w0, w1, m=None):
     title(can, t, ws('Tigers'), 'TIGER', TOP, 140, CREAM)
     title(can, t, ws('schweren'), 'SCHWERE PANZERABTEILUNG 503', 1330, 66, YEL, None, 'bebas')
-def o_ost(can, t, w0, w1, m=None):
-    title(can, t, ws('Ostfront'), 'OSTFRONT', TOP, 130, CREAM)
+SKIRT5 = [(1500, 730), (2120, 700), (2120, 880), (1500, 950)]   # k05: the side skirt plates of the Panzer IV (source px)
+def o_ost(can, t, w0, w1, m):
+    paint(can, t, ws('Ostfront'), [m(*q) for q in SKIRT5], 'OSTFRONT', 160, (236, 232, 220), None, 0.55, 0.55, 0.9)
 MK = Map(26.0, 52.6, 30.0)
 def s_kursk(t, w0, w1):
-    can = BG('ku_t34', 0.2, 0.7, 40, 1.6)(t, w0); z = lerp(1.0, 1.08, prog(t, w0, w1)); mp = MK.frame(z); mp.putalpha(130); can.alpha_composite(mp)
+    can = BG('ku_t34', 0.2, 1.0, 40, 1.6)(t, w0); z = lerp(1.0, 1.08, prog(t, w0, w1)); mp = MK.frame(z); mp.putalpha(130); can.alpha_composite(mp)
     p = lambda lo, la: MK.p(lo, la, z)
     for nm, lo, la in (('BERLIN', 13.4, 52.52), ('MOSKAU', 37.62, 55.75)):
         x, y = p(lo, la); dot(can, x, y, GREY, 9); title(can, t, w0 + 0.25, nm, y + 48, 48, GREY, None, 'bebas', x)
@@ -91,7 +123,7 @@ def s_kursk(t, w0, w1):
     title(can, t, ws('1943'), '1943', TOP, 140, CREAM)
     return can
 def s_count(t, w0, w1):
-    can = BG('ti', 12.0, 0.45, 80, 1.8)(t, w0)
+    can = BG('ku_ht', 3.0, 1.0, 80, 1.6)(t, w0)
     title(can, t, ws('Büchern'), 'IN VIELEN BÜCHERN', TOP, 96, CREAM, ws('nicht', 33) - 0.15)
     t0 = ws('168')
     if t >= t0:
@@ -113,9 +145,9 @@ def s_crew(t, w0, w1):
     title(can, t, ws('keine', 35), 'KEINE ZÄHLUNG PRO BESATZUNG', 1330, 70, CREAM, None, 'anton', CX, 840)
     return can
 def s_legend(t, w0, w1):
-    can = grade(fit('k09', t, w0, w1, 1.06)); shade(can, 220, 0.5)
-    title(can, t, ws('Geschichten'), 'DIE LEGENDE', 1200, 110, CREAM)
-    hand(can, t, ws('ausgeschmückt'), 'ausgeschmückt?', (CX, 1350), 120, YEL, 0.6)
+    can, m = side('k09', 840, 920, t, w0, w1, 1.04); shade(can, 200, 0.6)
+    arc_text(can, t, ws('Geschichten'), 'DIE LEGENDE', m, 0.70, 0.93, -146, -34, 150, CREAM)
+    arc_text(can, t, ws('ausgeschmückt'), 'AUSGESCHMÜCKT?', m, 0.50, 0.68, -148, -32, 150, YEL)
     return can
 def o_gold(can, t, w0, w1, m=None):
     title(can, t, ws('1944'), '1944', TOP, 140, CREAM)
@@ -134,7 +166,7 @@ def o_burn(can, t, w0, w1, m=None):
     title(can, t, ws('Granatsplitter'), 'GRANATSPLITTER', TOP, 110, RED)
 MS = Map(16.32, 48.96, 1.45)
 def s_mahren(t, w0, w1):
-    can = BG('kt', 7.0, 0.6, 50, 1.6)(t, w0); z = lerp(1.0, 1.06, prog(t, w0, w1)); mp = MS.frame(z); mp.putalpha(130); can.alpha_composite(mp)
+    can = BG('ku_ex', 0.0, 1.0, 50, 1.6)(t, w0); z = lerp(1.0, 1.06, prog(t, w0, w1)); mp = MS.frame(z); mp.putalpha(130); can.alpha_composite(mp)
     p = lambda lo, la: MS.p(lo, la, z); fade_ = 1 - 0.55 * eio((t - ws('Spur', 75)) / 0.8)
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     xb, yb = p(16.61, 49.19); dot(L, xb, yb, GREY, 9); title(L, t, w0 + 0.3, 'BRÜNN', yb - 50, 52, GREY, None, 'bebas', xb)
@@ -156,7 +188,7 @@ def o_16(can, t, w0, w1, m=None):
 TAG = Image.open(B + 'img/tag.png').convert('RGBA')
 def s_tag(t, w0, w1):
     """the dog tag cut out of its photo, floating over the cleaning footage"""
-    can = BG('dig', 19.0, 0.8, 70, 1.6)(t, w0); k = eout((t - w0 - 0.05) / 0.6); u = prog(t, w0, w1)
+    can = BG('dig', 19.0, 1.0, 70, 1.6)(t, w0); k = eout((t - w0 - 0.05) / 0.6); u = prog(t, w0, w1)
     if k > 0:
         wd = int(lerp(780, 880, u) * lerp(0.85, 1.0, k)); tg = TAG.resize((wd, int(TAG.height * wd / TAG.width)), Image.LANCZOS).rotate(lerp(-4, 2, u), expand=True, resample=Image.BICUBIC)
         if k < 1: tg.putalpha(tg.getchannel('A').point(lambda v: int(v * k)))
@@ -166,17 +198,28 @@ def s_tag(t, w0, w1):
     title(can, t, ws('Erkennungsmarke'), 'ERKENNUNGSMARKE', 1330, 96, YEL)
     return can
 def cta(can, t, t0):
-    """small 'Kanntet ihr diese Geschichte?' card in the lower left, while the voice is still running"""
+    """small comment card in the lower left while the voice still runs: the bubble rocks, the question mark bounces, both lines wipe in left to right"""
     if t < t0: return
-    k = eout((t - t0) / 0.45); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
+    k = eout((t - t0) / 0.45); A = int(255 * k); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
     x0, y0 = 70 - (1 - k) * 60, 1330; f1, f2 = oswald(46, 600), oswald(38, 500)
-    s1, s2 = 'Kanntet ihr diese Geschichte?', 'Schreibt es in die Kommentare!'; wd = max(f1.getlength(s1), f2.getlength(s2)) + 140
+    s1, s2 = 'Kanntet ihr diese Geschichte', 'Schreibt es in die Kommentare!'; w1_ = f1.getlength(s1); wq = f1.getlength('?')
+    wd = max(w1_ + wq, f2.getlength(s2)) + 150
     d.rounded_rectangle((x0, y0, x0 + wd, y0 + 140), 22, fill=(10, 11, 14, int(185 * k)), outline=YEL + (int(220 * k),), width=3)
-    bx, by = x0 + 30, y0 + 38   # speech bubble
-    d.rounded_rectangle((bx, by, bx + 66, by + 50), 12, fill=YEL + (int(255 * k),)); d.polygon([(bx + 14, by + 48), (bx + 30, by + 48), (bx + 10, by + 66)], fill=YEL + (int(255 * k),))
-    for i in range(3): d.ellipse((bx + 15 + i * 15, by + 21, bx + 23 + i * 15, by + 29), fill=DARK + (int(255 * k),))
-    d.text((x0 + 120, y0 + 46), s1, font=f1, fill=WHITE + (int(255 * k),), anchor='lm'); d.text((x0 + 120, y0 + 100), s2, font=f2, fill=YEL + (int(255 * k),), anchor='lm')
     can.alpha_composite(L)
+    B_ = Image.new('RGBA', (90, 90), (0, 0, 0, 0)); db = ImageDraw.Draw(B_)   # the bubble, rocking left and right
+    db.rounded_rectangle((12, 14, 78, 64), 12, fill=YEL + (A,)); db.polygon([(26, 62), (42, 62), (22, 80)], fill=YEL + (A,))
+    for i in range(3): db.ellipse((27 + i * 15, 35, 35 + i * 15, 43), fill=DARK + (A,))
+    B_ = B_.rotate(9 * math.sin((t - t0) * 4.2), resample=Image.BICUBIC); can.alpha_composite(B_, (int(x0 + 18), int(y0 + 22)))
+    def wipe(s_, f, col, xy, ts_, dur=0.7):
+        if t < ts_: return
+        bb = f.getbbox(s_); T_ = Image.new('RGBA', (bb[2] + 20, bb[3] + 20), (0, 0, 0, 0)); ImageDraw.Draw(T_).text((0, 0), s_, font=f, fill=col + (255,))
+        u = eio((t - ts_) / dur); m = np.clip((u * (T_.width + 40) - np.arange(T_.width)) / 40, 0, 1)
+        T_.putalpha(Image.fromarray((np.asarray(T_.getchannel('A'), np.float32) * m[None, :] * k).astype(np.uint8))); can.alpha_composite(T_, (int(xy[0]), int(xy[1])))
+    tx = x0 + 125; wipe(s1, f1, WHITE, (tx, y0 + 20), t0 + 0.25); wipe(s2, f2, YEL, (tx, y0 + 82), t0 + 0.9)
+    tq = t0 + 0.9
+    if t > tq:   # the question mark drops in and keeps bouncing
+        bo = -abs(math.sin((t - tq) * 5.0)) * 10 * min(1, (t - tq) / 0.3); Q = Image.new('RGBA', (60, 80), (0, 0, 0, 0)); ImageDraw.Draw(Q).text((4, 0), '?', font=f1, fill=YEL + (A,))
+        Q = Q.rotate(12 * math.sin((t - tq) * 3.0), resample=Image.BICUBIC); can.alpha_composite(Q, (int(tx + w1_ + 2), int(y0 + 20 + bo)))
 def s_grave(t, w0, w1):
     can = grade(fit('k02', t, w0, w1, 1.06)); shade(can, 200, 0.55); can.alpha_composite(TOPSH)
     title(can, t, ws('2014'), 'NOVEMBER 2014', TOP, 110, CREAM)
@@ -186,24 +229,23 @@ def s_grave(t, w0, w1):
 
 ANCH = [
  (0.0, s_hook, None),
- (ws('hinter') - 0.1, FL('dig', 2.0, 1.0, 1.0, 1.08, 0.5, 0.5, o_wall), ('fade',)),
  (ws('Metallmarke') - 0.1, FL('dig', 15.0, 1.0, 1.05, 1.15, 0.5, 0.5, o_lens), ('fade',)),
  (ws('Sein', 7) - 0.1, s_name, ('whip', 1)),
- (ws('Er', 8.5) - 0.05, S_('k01', 1000, 1300, 1.05, o_wm), ('fade',)),
+ (ws('Er', 8.5) - 0.05, S_('k01', 400, 470, 1.05, o_wm), ('fade',)),
  (ws('erst', 10.5) - 0.1, s_career, ('fade',)),
  (ws('Tigers') - 0.15, FL('ti', 4.0, 1.0, 1.0, 1.08, 0.5, 0.5, o_tiger), ('whip', -1)),
- (ws('Mit', 17) - 0.1, S_('k05', 1050, 1300, 1.05, o_ost), ('fade',)),
+ (ws('Mit', 17) - 0.1, S_('k05', 1350, 1480, 1.05, o_ost), ('fade',)),
  (ws('1943') - 0.1, s_kursk, ('fade',)),
  (ws('In', 21.5) - 0.1, s_count, ('whip', 1)),
  (ws('denn', 33.5) - 0.1, s_crew, ('fade',)),
  (ws('Auch', 37.3) - 0.1, s_legend, ('fade',)),
  (ws('Sicher') - 0.1, S_('k06', 100, 330, 1.05, o_gold), ('whip', -1)),
- (ws('Das', 46.3) - 0.1, FL('ku_tig', 4.8, 0.8, 1.0, 1.08, 0.35, 0.5, o_rk), ('fade',)),
+ (ws('Das', 46.3) - 0.1, FL('ku_tig', 4.8, 1.0, 1.0, 1.08, 0.35, 0.5, o_rk), ('fade',)),
  (ws('Berichten') - 0.1, S_('k07', 950, 1120, 1.05, o_rebel), ('fade',)),
  (ws('Ende', 59) - 0.1, FL('kt', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_kt), ('whip', 1)),
  (ws('Nach', 66) - 0.1, FL('ku_burn', 2.0, 1.0, 1.0, 1.08, 0.5, 0.5, o_burn), ('fade',)),
  (ws('Knispel', 69.5) - 0.1, s_mahren, ('fade',)),
- (ws('Erst', 76) - 0.1, FL('dig', 0.0, 0.9, 1.0, 1.06, 0.5, 0.5, o_2013), ('whip', -1)),
+ (ws('Erst', 76) - 0.1, FL('dig', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_2013), ('fade',)),
  (ws('Archäologen') - 0.1, FL('dig', 9.5, 1.0, 1.0, 1.08, 0.5, 0.5, o_16), ('fade',)),
  (ws('Bei', 81) - 0.1, s_tag, ('fade',)),
  (ws('Im', 84) - 0.1, s_grave, ('fade',))]

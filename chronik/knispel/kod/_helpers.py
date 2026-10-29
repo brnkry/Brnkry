@@ -2,9 +2,11 @@
 def ws(word, after=0.0): return wt(word, after) - 0.05
 
 # ---------- archive films: shown in a framed panel over a blurred copy of themselves ----------
-SEG = {k: len(os.listdir(B + 'clip/' + k)) for k in ('ku_sol', 'ku_burn', 'ku_t34', 'ku_tig', 'ti', 'kt', 'dig')}
+SEG = {k: len(os.listdir(B + 'clip/' + k)) for k in ('ku_sol', 'ku_burn', 'ku_t34', 'ku_tig', 'ku_ht', 'ku_ex', 'ti', 'kt', 'dig')}
+UNI = json.load(open(B + 'clip/unique.json'))   # screen recordings: paused stretches and repeated frames dropped, only real motion is kept
+RATE = {'kt': 24.0, 'dig': 30.0}
 KU = (150, 0, 1130, 720)
-CROP = {'ku_sol': KU, 'ku_burn': KU, 'ku_t34': KU, 'ku_tig': KU, 'ti': (0, 0, 1280, 720), 'kt': (165, 0, 1280, 845), 'dig': (10, 55, 1590, 925)}   # black pillar bars, the archive watermark and the player controls stay outside
+CROP = {'ku_ht': KU, 'ku_ex': KU, 'ku_sol': KU, 'ku_burn': KU, 'ku_t34': KU, 'ku_tig': KU, 'ti': (0, 0, 1280, 720), 'kt': (165, 0, 1280, 845), 'dig': (10, 55, 1590, 925)}   # black pillar bars, the archive watermark and the player controls stay outside
 def _soft(im, x, y, d):
     r = d / 2; bx = (int(x - d), int(y - d), int(x + d), int(y + d)); reg = im.crop(bx)
     bl = reg.resize((max(1, reg.width // 8), max(1, reg.height // 8)), Image.BILINEAR).resize(reg.size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(d * 0.12))
@@ -13,7 +15,9 @@ def _soft(im, x, y, d):
 @functools.lru_cache(maxsize=24)
 def ff(k, i):
     i = max(1, min(SEG[k], i)); return Image.open(B + 'clip/%s/%05d.jpg' % (k, i)).convert('RGB').crop(CROP[k])
-def fat(k, ct): return ff(k, int(round(ct * FPS)) + 1)
+def fat(k, ct):
+    if k in UNI: u = UNI[k]; return ff(k, u[max(0, min(len(u) - 1, int(ct * RATE[k])))])
+    return ff(k, int(round(ct * FPS)) + 1)
 PW, PH, PY = 1000, 750, 860
 @functools.lru_cache(maxsize=8)
 def _panelmask():
