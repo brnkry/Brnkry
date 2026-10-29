@@ -3,7 +3,7 @@
 def BG(k, a, rate=1.0, dimv=120, bl=2.2):
     def fn(t, w0):
         im = fat(k, a + max(0.0, t - w0) * rate)
-        sm = im.resize((108, 192), Image.BILINEAR, box=_cover(im.size, 9 / 16)).filter(ImageFilter.GaussianBlur(bl)).resize((W, H), Image.BICUBIC)
+        sm = im.resize((360, 640), Image.BILINEAR, box=_cover(im.size, 9 / 16)).filter(ImageFilter.GaussianBlur(bl)).resize((W, H), Image.BICUBIC)   # soft, but the film stays readable
         can = grade(sm.convert('RGBA'), 0.12, 0.85); dim(can, dimv); return can
     return fn
 def plate(can, t, t0, s_, y, size, col, a=1.0, w_=760):
@@ -18,12 +18,42 @@ def up_arrow(can, t, t0, x, y0, y1, col=YEL):
     u = eio((t - t0) / 0.3); y = lerp(y0, y1, u); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
     d.line((x, y0, x, y), fill=col + (230,), width=8); d.polygon([(x - 18, y + 14), (x + 18, y + 14), (x, y - 12)], fill=col + (230,)); can.alpha_composite(L)
 
+from scipy.ndimage import map_coordinates as _mc
+TUR = (790, 1020)   # k04: turret axis x and its visible half width (source px); the text wraps round the cylinder
+def engrave(can, t, t0, s_, sp, y0, span, size):
+    """letters cut into the curved turret steel: the text wraps round the cylinder, dark groove with a light lower lip, scratched in left to right"""
+    if t < t0: return
+    f = anton(size); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 20, bb[3] - bb[1] + 20
+    M = Image.new('L', (tw, th), 0); ImageDraw.Draw(M).text((10 - bb[0], 10 - bb[1]), s_, font=f, fill=255)
+    A = np.asarray(M, np.float32) / 255; rev = eio((t - t0) / 0.8); A = A * np.clip((rev * (tw + 60) - np.arange(tw)) / 60, 0, 1)[None, :]
+    cx, R = TUR; a = math.asin(min(0.95, tw * 0.5 / R * span / 0.62 * 0.62))   # angular half width of the text on the cylinder
+    hsrc = th * (2 * R * math.sin(a)) / tw            # keep letter proportions at the centre
+    (X0, Y0), (X1, Y1) = sp(0, 0), sp(1000, 1000); kx, ky = (X1 - X0) / 1000, (Y1 - Y0) / 1000
+    xs0, xs1 = cx - R * math.sin(a), cx + R * math.sin(a); ys0 = y0 - hsrc / 2
+    bx0, bx1 = int(X0 + kx * xs0) - 4, int(X0 + kx * xs1) + 4; by0, by1 = int(Y0 + ky * ys0) - 4, int(Y0 + ky * (ys0 + hsrc)) + 4
+    bx0, by0 = max(0, bx0), max(0, by0); bx1, by1 = min(W, bx1), min(H, by1)
+    if bx1 <= bx0 or by1 <= by0: return
+    yy, xx = np.mgrid[by0:by1, bx0:bx1].astype(np.float32); sx = (xx - X0) / kx; sy = (yy - Y0) / ky
+    th_ = np.arcsin(np.clip((sx - cx) / R, -1, 1)); u = (th_ + a) / (2 * a) * tw; v = (sy - ys0) / hsrc * th
+    G = _mc(A, [v, u], order=1, cval=0.0); G[(th_ < -a) | (th_ > a)] = 0
+    shade_ = np.cos(th_) ** 0.6                       # letters fade into the curve towards the sides
+    base = np.asarray(can.crop((bx0, by0, bx1, by1)).convert('RGB'), np.float32)
+    lum = base.mean(2, keepdims=True) / 255
+    grit = np.random.default_rng(len(s_)).random(G.shape).astype(np.float32) * 0.35 + 0.65   # scratched, uneven bare metal
+    top = np.clip(np.roll(G, -4, 0) - G, 0, 1)        # shadow on the upper wall of the cut
+    cut = (G * grit * shade_)[..., None]
+    metal = np.array([214, 212, 204], np.float32) * (0.75 + 0.5 * lum)
+    out = base * (1 - cut * 0.85) + metal * cut * 0.85
+    out = out * (1 - (top * 0.55 * shade_)[..., None])
+    out = np.clip(out, 0, 255).astype(np.uint8); can.paste(Image.fromarray(out).convert('RGBA'), (bx0, by0))
+
 # ---------- scenes ----------
 TOP = 330
 def s_hook(t, w0, w1):
     can = grade(fit('k04', t, w0, w1, 1.08)); shade(can, 230, 0.45)
-    title(can, t, ws('siebzig'), 'FAST 70 JAHRE', 1180, 120, CREAM, None, bold=1)
-    title(can, t, ws('namenlosen'), 'NAMENLOS', 1330, 150, YEL, None, bold=1)
+    sp = lambda x, y: fitpt('k04', t, w0, w1, 1.08, x, y)
+    engrave(can, t, ws('siebzig') - 0.1, 'FAST 70 JAHRE', sp, 1235, 0.62, 170)
+    engrave(can, t, ws('namenlosen'), 'NAMENLOS', sp, 1560, 0.62, 230)
     return can
 def o_wall(can, t, w0, w1, m=None):
     title(can, t, ws('hinter'), 'HINTER EINER KIRCHENMAUER', TOP, 80, CREAM)
@@ -62,7 +92,7 @@ def s_kursk(t, w0, w1):
     return can
 def s_count(t, w0, w1):
     can = BG('ti', 12.0, 0.45, 80, 1.8)(t, w0)
-    title(can, t, ws('Büchern'), 'IN VIELEN BÜCHERN', TOP, 96, CREAM)
+    title(can, t, ws('Büchern'), 'IN VIELEN BÜCHERN', TOP, 96, CREAM, ws('nicht', 33) - 0.15)
     t0 = ws('168')
     if t >= t0:
         counter(can, t, t0, 0, 168, (CX, 720), 280, YEL, 1.1)

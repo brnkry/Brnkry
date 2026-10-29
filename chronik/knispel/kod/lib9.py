@@ -38,7 +38,7 @@ def wt(s, after=0.0):
 # ---------- photos ----------
 # German channel: small exact blur on every readable swastika (Knight's Cross centres included) (centre x, centre y, diameter in source px; boxes checked on zoomed crops)
 BLUR = {'k01': [(1480, 235, 75), (1344, 536, 85), (2454, 150, 60)],
-        'k03': [(470, 1870, 140), (1556, 2346, 75)],
+        'k03': [(510, 1900, 230), (1556, 2346, 75)],
         'k06': [(575, 400, 60), (372, 1255, 90), (372, 1322, 125), (1470, 75, 60), (1665, 960, 95), (1650, 1179, 75), (1560, 1215, 80), (1746, 1185, 65), (1695, 1425, 60)],
         'k08': [(980, 504, 60)]}
 @functools.lru_cache(None)
