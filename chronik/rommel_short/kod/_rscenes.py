@@ -2,7 +2,15 @@
 # ---------- scenes ----------
 TOP = 330
 def FV(k, a=0.0, ov=None, z1=1.06, fx=0.5, fy=0.5):
-    return FL(k, a, 1.0, 1.0, z1, fx, fy, ov)
+    """archive film spread over the full 9:16 frame: a vertical slice around fx, slow push-in"""
+    def fn(t, w0, w1):
+        im = fat(k, a + max(0.0, t - w0)); z = lerp(1.0, z1, prog(t, w0, w1))
+        ch = im.height / z; cw = ch * 9 / 16
+        x0 = min(max(fx * im.width - cw / 2, 0), im.width - cw); y0 = min(max(fy * im.height - ch / 2, 0), im.height - ch)
+        can = grade(im.resize((W, H), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch)).convert('RGBA'), 0.1, 0.9); shade(can, 200, 0.55); can.alpha_composite(TOPSH)
+        if ov: ov(can, t, w0, w1)
+        return can
+    return fn
 def o_hook(can, t, w0, w1, m=None):
     title(can, t, ws('Wüstenfuchs'), 'DER WÜSTENFUCHS', TOP, 120, CREAM)
     title(can, t, ws('Feind'), 'NICHT DER FEIND', 1250, 80, CREAM)
@@ -10,23 +18,28 @@ def o_hook(can, t, w0, w1, m=None):
 def o_name(can, t, w0, w1, m=None):
     title(can, t, ws('Erwin'), 'ERWIN', 1295, 90, CREAM, None, bold=1)
     title(can, t, ws('Rommel', 6.8), 'ROMMEL', 1405, 140, YEL, None, bold=2)
+def s_name(t, w0, w1):
+    can = grade(fit('r12', t, w0, w1, 1.06)); shade(can, 230, 0.5); o_name(can, t, w0, w1); return can
 def o_port(can, t, w0, w1, m=None):
     title(can, t, ws('12.'), '12. FEBRUAR 1941', TOP, 110, CREAM)
 def o_crane(can, t, w0, w1, m=None):
     title(can, t, w0 + 0.05, '12. FEBRUAR 1941', TOP, 110, CREAM)
     title(can, t, ws('Tripolis'), 'TRIPOLIS', 1320, 130, YEL, None, bold=1)
-ML = Map(21.5, 31.2, 19.0)
+ML = Map(20.4, 31.0, 17.0)   # Italian Libya and the Egyptian frontier, 1941 (the Libyan-Egyptian border has not moved since 1925)
 def s_libya(t, w0, w1):
-    can = BG('tank1', 0.0, 40)(t, w0); z = lerp(1.0, 1.05, prog(t, w0, w1)); mp = ML.frame(z); mp.putalpha(140); can.alpha_composite(mp)
+    can = BG('tank1', 0.0, 40)(t, w0); z = lerp(1.0, 1.04, prog(t, w0, w1)); mp = ML.frame(z); mp.putalpha(150); can.alpha_composite(mp)
     p = lambda lo, la: ML.p(lo, la, z)
-    for nm, lo, la in (('LIBYEN', 19.0, 28.6), ('ÄGYPTEN', 28.8, 27.6), ('MITTELMEER', 20.0, 34.2)):
-        x, y = p(lo, la); title(can, t, w0 + 0.3, nm, y, 56, (150, 160, 178), None, 'bebas', x)
-    xt, yt = p(13.19, 32.89); dot(can, xt, yt, YEL, 11); title(can, t, w0 + 0.2, 'TRIPOLIS', yt - 50, 50, CREAM, None, 'bebas', max(xt, 140))
-    xa, ya = p(20.2, 30.6); xb, yb = p(25.1, 31.5)
-    arrow(can, (xa, ya), (xb, yb), eio((t - ws('griff')) / 1.2), RED, 16, 46)
-    if t > ws('Grenze') - 0.1: ring(can, t, ws('Grenze') - 0.1, xb, yb, YEL, 30, False)
+    for nm, lo, la in (('ITALIENISCH-LIBYEN', 18.0, 28.2), ('ÄGYPTEN', 26.4, 28.0), ('MITTELMEER', 19.6, 34.0)):
+        x, y = p(lo, la); title(can, t, w0 + 0.3, nm, y, 50, (150, 160, 178), None, 'bebas', x)
+    for nm, lo, la, dy in (('TRIPOLIS', 13.19, 32.89, -48), ('EL AGHEILA', 19.12, 30.27, 52), ('BENGASI', 20.07, 32.12, -48), ('TOBRUK', 23.96, 32.08, -48)):
+        x, y = p(lo, la); dot(can, x, y, CREAM if nm != 'TOBRUK' else YEL, 9); title(can, t, w0 + 0.25, nm, y + dy, 44, CREAM, None, 'bebas', min(max(x, 120), 960))
+    route_ = [p(19.12, 30.27), p(20.6, 31.0), p(22.0, 31.5), p(23.4, 31.6), p(24.9, 31.6)]   # spring 1941: from El Agheila across the Cyrenaica to the Egyptian frontier
+    dashed(can, route_, eio((t - ws('griff')) / 1.6), RED, 9, 24, 40)
+    xb, yb = p(25.15, 31.57)
+    if t > ws('Grenze') - 0.1: ring(can, t, ws('Grenze') - 0.1, xb, yb, YEL, 30, False); title(can, t, ws('Grenze') - 0.1, 'GRENZE', yb + 55, 44, YEL, None, 'bebas', min(xb, 960))
     title(can, t, ws('Italiener'), 'NUR VERTEIDIGEN', TOP, 100, CREAM, ws('griff') - 0.2)
     title(can, t, ws('griff'), 'ER GREIFT AN', TOP, 110, YEL)
+    title(can, t, ws('griff'), 'MÄRZ 1941', TOP + 90, 60, CREAM, None, 'bebas')
     return can
 def o_storch(can, t, w0, w1, m=None):
     title(can, t, ws('vorne'), 'VON VORNE', TOP, 120, CREAM)
@@ -57,10 +70,14 @@ def s_marsch(t, w0, w1):
     return can
 def o_ala(can, t, w0, w1, m=None):
     title(can, t, ws('El', 42.9), 'EL ALAMEIN', TOP, 140, CREAM)
-    stamp(can, t, ws('scheiterte'), 'GESCHEITERT', (CX, 1320), 100, -6)
+    stamp(can, t, ws('scheiterte'), 'GESCHEITERT', (CX, 1320), 100, 0)
 def s_hitler(t, w0, w1):
-    can, m = side('r51', 0, 600, t, w0, w1, 1.04); shade(can, 210, 0.55); can.alpha_composite(TOPSH)
+    """Hitler first; when the voice says Rommel, the frame slides across the same photo to Rommel"""
+    u = eio((t - ws('Rommel', 46.0) + 0.25) / 0.9)
+    can, m = side('r51', 0, 1100, t, w0, w1, 1.03, u); shade(can, 210, 0.55); can.alpha_composite(TOPSH)
+    title(can, t, ws('Hitler', 43.9), 'HITLER', TOP, 120, CREAM, ws('Rommel', 46.0) - 0.2)
     title(can, t, ws('Sieg'), 'SIEG ODER TOD', 1320, 130, RED, None, bold=1)
+    title(can, t, ws('zog'), 'RÜCKZUG TROTZDEM', TOP, 110, YEL)
     return can
 def o_ret(can, t, w0, w1, m=None):
     title(can, t, w0 + 0.05, 'SIEG ODER TOD', TOP - 50, 90, (170, 160, 150))
@@ -85,7 +102,7 @@ def s_july(t, w0, w1):
     can = grade(fit('r10', t, w0, w1, 1.06)); shade(can, 230, 0.5)
     title(can, t, ws('Attentat'), '20. JULI 1944', 1150, 110, CREAM)
     title(can, t, ws('Attentat') + 0.2, 'ATTENTAT AUF HITLER', 1260, 64, CREAM, None, 'bebas')
-    stamp(can, t, ws('Verhören'), 'VERHÖRE', (CX, 1390), 96, -6)
+    stamp(can, t, ws('Verhören'), 'VERHÖRE', (CX, 1390), 96, 0)
     return can
 def o_herr(can, t, w0, w1, m=None):
     title(can, t, ws('14.'), '14. OKTOBER 1944', TOP, 110, CREAM)
@@ -99,14 +116,15 @@ def s_choice(t, w0, w1):
     return can
 def s_family(t, w0, w1):
     can = grade(fit('r48', t, w0, w1, 1.05)); shade(can, 220, 0.5)
-    title(can, t, ws('Frau'), 'LUCIE', 1260, 90, CREAM, None, 'anton', 760)
-    title(can, t, ws('Sohn', 75.8), 'MANFRED, 15', 1260, 90, CREAM, None, 'anton', 300)
+    pt = lambda x, y: fitpt('r48', t, w0, w1, 1.05, x, y)
+    lx, ly = pt(1330, 600); arrow_at(can, t, ws('Frau'), (lx, ly), (lx, ly + 330), YEL, 12, 40); title(can, t, ws('Frau'), 'LUCIE', ly + 390, 80, CREAM, None, 'anton', min(lx, 940))
+    mx, my = pt(420, 700); arrow_at(can, t, ws('Sohn', 75.8), (mx, my), (mx, my + 300), YEL, 12, 40); title(can, t, ws('Sohn', 75.8), 'MANFRED, 15', my + 360, 80, CREAM, None, 'anton', max(mx, 240))
     title(can, t, ws('Wagen'), 'DER LETZTE ABSCHIED', 1380, 70, YEL)
     return can
 def s_dead(t, w0, w1):
     can, m = side('r41', 700, 1000, t, w0, w1, 1.05); shade(can, 220, 0.55); can.alpha_composite(TOPSH)
     title(can, t, ws('tot'), 'TOT', TOP, 150, CREAM)
-    stamp(can, t, ws('Verwundungen'), 'OFFIZIELL: VERWUNDUNG', (CX, 1320), 70, -5)
+    stamp(can, t, ws('Verwundungen'), 'OFFIZIELL: VERWUNDUNG', (CX, 1320), 70, 0)
     return can
 def s_wreath(t, w0, w1):
     can, m = side('r29', 900, 1100, t, w0, w1, 1.04); shade(can, 210, 0.55); can.alpha_composite(TOPSH)
@@ -128,26 +146,25 @@ def s_end(t, w0, w1):
     return can
 
 ANCH = [
- (0.0, FV('jeep', 0.0, o_hook), None),
- (ws('Sein', 5.8) - 0.1, FV('cam', 0.0, o_name, 1.08, 0.5, 0.4), ('whip', 1)),
+ (0.0, FV('jeep', 0.0, o_hook, 1.06, 0.64), None),
+ (ws('Sein', 5.8) - 0.1, s_name, ('whip', 1)),
  (ws('Am', 7.5) - 0.1, FV('port', 0.0, o_port), ('fade',)),
  (ws('landete') - 0.1, FV('crane', 2.0, o_crane), ('fade',)),
  (ws('Er', 11.6) - 0.1, s_libya, ('whip', -1)),
- (ws('Er', 18.8) - 0.1, FV('storch', 0.0, o_storch), ('fade',)),
+ (ws('Er', 18.8) - 0.1, FV('storch', 0.0, o_storch, 1.04, 0.47), ('fade',)),
  (ws('kleinen') - 0.1, s_storch, ('fade',)),
- (ws('Nur', 22.2) - 0.1, FV('gun', 0.0, o_tob), ('whip', 1)),
- (ws('Seine', 25.2) - 0.1, FV('rom1', 0.0, o_opp), ('fade',)),
+ (ws('Nur', 22.2) - 0.1, FV('gun', 0.0, o_tob, 1.04, 0.78), ('whip', 1)),
+ (ws('Seine', 25.2) - 0.1, FV('rom1', 0.0, o_opp, 1.04, 0.74), ('fade',)),
  (ws('britische', 27.5) - 0.1, s_auch, ('fade',)),
  (ws('Im', 35) - 0.1, FV('pris', 0.0, o_jun), ('whip', -1)),
  (ws('Rommel', 38) - 0.1, s_marsch, ('fade',)),
- (ws('Wenige', 40.9) - 0.1, FV('dust', 0.0, o_ala), ('whip', 1)),
+ (ws('Wenige', 40.9) - 0.1, FV('dust', 0.0, o_ala, 1.04, 0.42), ('whip', 1)),
  (ws('Hitler', 43.9) - 0.1, s_hitler, ('fade',)),
- (ws('Rommel', 46.0) - 0.1, FV('cars', 0.0, o_ret), ('fade',)),
  (ws('1944', 48) - 0.1, s_wall, ('whip', -1)),
  (ws('und', 52.2) - 0.1, s_spargel, ('fade',)),
- (ws('Doch', 55.2) - 0.1, FV('car', 0.0, o_lost), ('fade',)),
+ (ws('Doch', 55.2) - 0.1, FV('car', 0.0, o_lost, 1.04, 0.42), ('fade',)),
  (ws('Nach', 59.8) - 0.1, s_july, ('fade',)),
- (ws('Am', 64.3) - 0.1, FV('meet', 0.0, o_herr), ('whip', 1)),
+ (ws('Am', 64.3) - 0.1, FV('meet', 0.0, o_herr, 1.04, 0.42), ('whip', 1)),
  (ws('Sie', 69.9) - 0.1, s_choice, ('fade',)),
  (ws('Rommel', 73.4) - 0.1, s_family, ('fade',)),
  (ws('Wenig', 77.6) - 0.1, s_dead, ('fade',)),
