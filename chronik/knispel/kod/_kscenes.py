@@ -20,21 +20,32 @@ def up_arrow(can, t, t0, x, y0, y1, col=YEL):
 
 from scipy.ndimage import map_coordinates as _mc
 TUR = (790, 1020)   # k04: turret axis x and its visible half width (source px); the text wraps round the cylinder
+def _skel(m):
+    """morphological skeleton (Lantuejoul): the centre line of each pen stroke"""
+    import cv2
+    m = (m > 127).astype(np.uint8); sk = np.zeros_like(m); el = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    while m.any():
+        e = cv2.erode(m, el); sk |= m - cv2.dilate(e, el); m = e
+    return sk
 def _scratch_mask(s_, size, seed):
-    """letters scratched by hand with a metal point: several thin, slightly offset strokes per letter, broken here and there, a few stray marks"""
-    f = caveat(size, 700); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 60, bb[3] - bb[1] + 60
-    rng = np.random.default_rng(seed); acc = np.zeros((th, tw), np.float32)
-    for k in range(4):
-        M = Image.new('L', (tw, th), 0); dx, dy = rng.uniform(-3, 3), rng.uniform(-2.5, 2.5)
-        ImageDraw.Draw(M).text((30 - bb[0] + dx, 30 - bb[1] + dy), s_, font=f, fill=255)
-        E = np.asarray(M.filter(ImageFilter.FIND_EDGES).filter(ImageFilter.MaxFilter(3)), np.float32) / 255   # only the outline of each stroke: thin lines
-        acc = np.maximum(acc, E * rng.uniform(0.55, 1.0))
-    acc *= (rng.random((th, tw)) > 0.22) * 0.5 + 0.5   # broken, uneven scratches
-    M = Image.new('L', (tw, th), 0); d = ImageDraw.Draw(M)
-    for _ in range(5):
-        x = rng.uniform(0, tw); y = rng.uniform(th * 0.2, th * 0.9); L_ = rng.uniform(20, 70); an = rng.uniform(-0.4, 0.4)
-        d.line((x, y, x + L_ * math.cos(an), y + L_ * math.sin(an)), fill=150, width=2)
-    return np.maximum(acc, np.asarray(M, np.float32) / 255)
+    """letters scratched into paint with a metal point: the centre line of a hand-written stroke, gone over two or three times
+    with a slightly shaky hand, thin and uneven, plus a few short slips of the point"""
+    import cv2
+    f = caveat(size, 650); bb = f.getbbox(s_); tw, th = bb[2] - bb[0] + 60, bb[3] - bb[1] + 60
+    M = Image.new('L', (tw, th), 0); ImageDraw.Draw(M).text((30 - bb[0], 30 - bb[1]), s_, font=f, fill=255)
+    sk = _skel(np.asarray(M)).astype(np.float32); rng = np.random.default_rng(seed); acc = np.zeros((th, tw), np.float32)
+    yy, xx = np.mgrid[0:th, 0:tw].astype(np.float32)
+    for k in range(3):
+        wob = 1.6 * np.sin(xx / rng.uniform(18, 30) + rng.uniform(0, 6)) + rng.uniform(-1.2, 1.2)   # shaky hand
+        P = _mc(sk, [yy - wob, xx - rng.uniform(-1.5, 1.5)], order=1)
+        P = cv2.dilate((P > 0.25).astype(np.float32), np.ones((2, 2), np.uint8)) * rng.uniform(0.55, 1.0)
+        acc = np.maximum(acc, P * (0.55 + 0.45 * rng.random((th, tw)).astype(np.float32)))
+    S = Image.new('L', (tw, th), 0); d = ImageDraw.Draw(S)
+    for _ in range(4):   # slips of the point
+        x = rng.uniform(0, tw); y = rng.uniform(th * 0.3, th * 0.8); L_ = rng.uniform(15, 45); an = rng.uniform(-0.3, 0.3)
+        d.line((x, y, x + L_ * math.cos(an), y + L_ * math.sin(an)), fill=110, width=1)
+    acc = np.maximum(acc, np.asarray(S, np.float32) / 255)
+    return np.asarray(Image.fromarray((acc * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6)), np.float32) / 255
 _SM = {}
 def engrave(can, t, t0, s_, sp, y0, span, size):
     """text scratched into the curved turret steel: wraps round the cylinder, bright bare-metal lines with a dark lip, scratched in left to right"""
@@ -53,9 +64,9 @@ def engrave(can, t, t0, s_, sp, y0, span, size):
     G = _mc(A, [v, u], order=1, cval=0.0); G[(th_ < -a) | (th_ > a)] = 0
     shade_ = np.cos(th_) ** 0.6
     base = np.asarray(can.crop((bx0, by0, bx1, by1)).convert('RGB'), np.float32)
-    lip = np.clip(np.roll(G, 2, 0) - G, 0, 1)        # dark lower lip of each groove
-    cut = (G * shade_)[..., None]; metal = np.array([226, 224, 216], np.float32)
-    out = base * (1 - cut * 0.9) + metal * cut * 0.9; out = out * (1 - (lip * 0.6 * shade_)[..., None])
+    lip = np.clip(np.roll(G, 2, 0) - G, 0, 1)        # thin dark wall beside each scratch
+    cut = (G * shade_)[..., None]; metal = np.clip(base * 0.35 + np.array([168, 166, 160], np.float32), 0, 255)   # bare steel, still tinted by the dirt around it
+    out = base * (1 - cut) + metal * cut; out = out * (1 - (lip * 0.45 * shade_)[..., None])
     can.paste(Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert('RGBA'), (bx0, by0))
 HELM = (1380, 640, 610, 560)   # k09: helmet dome centre and radii (source px)
 def arc_text(can, t, t0, s_, sp, r0, r1, a0, a1, size, col, dur=0.6, mod=0.5):
@@ -83,8 +94,8 @@ TOP = 330
 def s_hook(t, w0, w1):
     can = grade(fit('k04', t, w0, w1, 1.08)); shade(can, 230, 0.45)
     sp = lambda x, y: fitpt('k04', t, w0, w1, 1.08, x, y)
-    engrave(can, t, ws('siebzig') - 0.1, 'FAST 70 JAHRE', sp, 1235, 0.62, 140)
-    engrave(can, t, ws('namenlosen'), 'NAMENLOS', sp, 1560, 0.62, 190)
+    engrave(can, t, ws('siebzig') - 0.1, 'Fast 70 Jahre', sp, 1235, 0.62, 165)
+    engrave(can, t, ws('namenlosen'), 'namenlos', sp, 1560, 0.62, 220)
     return can
 def o_wall(can, t, w0, w1, m=None):
     title(can, t, ws('hinter'), 'HINTER EINER KIRCHENMAUER', TOP, 80, CREAM)
@@ -133,7 +144,7 @@ def s_count(t, w0, w1):
         if t < ts_: continue
         y = 990 + i * 150; u = eio((t - ts_) / 0.6); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
         d.rounded_rectangle((160, y - 30, 920, y + 30), 10, fill=(10, 11, 14, 150)); d.rounded_rectangle((160, y - 30, 160 + 760 * n / 168 * u, y + 30), 10, fill=YEL + (220,))
-        can.alpha_composite(L); title(can, t, ts_, f'{n}', y, 52, DARK if n > 60 else WHITE, None, 'anton', 200 + 760 * n / 168 * u - (60 if n > 60 else -50), 300)
+        can.alpha_composite(L); title(can, t, ts_, f'{n}', y, 52, WHITE, None, 'anton', 840, 300)
         title(can, t, ts_ + 0.1, lab, y + 62, 40, CREAM, None, 'bebas', 340)
     tn = ws('nicht', 33)
     if t >= tn:
@@ -146,8 +157,8 @@ def s_crew(t, w0, w1):
     return can
 def s_legend(t, w0, w1):
     can, m = side('k09', 840, 920, t, w0, w1, 1.04); shade(can, 200, 0.6)
-    arc_text(can, t, ws('Geschichten'), 'DIE LEGENDE', m, 0.70, 0.93, -146, -34, 150, CREAM)
-    arc_text(can, t, ws('ausgeschmückt'), 'AUSGESCHMÜCKT?', m, 0.50, 0.68, -148, -32, 150, YEL)
+    arc_text(can, t, ws('Geschichten'), 'DIE LEGENDE', m, 0.80, 0.92, -122, -58, 75, CREAM)
+    hand(can, t, ws('ausgeschmückt'), 'ausgeschmückt?', (CX, 1350), 120, YEL, 0.6)
     return can
 def o_gold(can, t, w0, w1, m=None):
     title(can, t, ws('1944'), '1944', TOP, 140, CREAM)
@@ -188,7 +199,7 @@ def o_16(can, t, w0, w1, m=None):
 TAG = Image.open(B + 'img/tag.png').convert('RGBA')
 def s_tag(t, w0, w1):
     """the dog tag cut out of its photo, floating over the cleaning footage"""
-    can = BG('dig', 19.0, 1.0, 70, 1.6)(t, w0); k = eout((t - w0 - 0.05) / 0.6); u = prog(t, w0, w1)
+    can = BG('dig', 16.0, 1.0, 70, 1.6)(t, w0); k = eout((t - w0 - 0.05) / 0.6); u = prog(t, w0, w1)
     if k > 0:
         wd = int(lerp(780, 880, u) * lerp(0.85, 1.0, k)); tg = TAG.resize((wd, int(TAG.height * wd / TAG.width)), Image.LANCZOS).rotate(lerp(-4, 2, u), expand=True, resample=Image.BICUBIC)
         if k < 1: tg.putalpha(tg.getchannel('A').point(lambda v: int(v * k)))
@@ -229,7 +240,7 @@ def s_grave(t, w0, w1):
 
 ANCH = [
  (0.0, s_hook, None),
- (ws('Metallmarke') - 0.1, FL('dig', 15.0, 1.0, 1.05, 1.15, 0.5, 0.5, o_lens), ('fade',)),
+ (ws('erkannte') - 0.1, FL('dig', 12.3, 1.0, 1.05, 1.15, 0.5, 0.5, o_lens), ('fade',)),
  (ws('Sein', 7) - 0.1, s_name, ('whip', 1)),
  (ws('Er', 8.5) - 0.05, S_('k01', 400, 470, 1.05, o_wm), ('fade',)),
  (ws('erst', 10.5) - 0.1, s_career, ('fade',)),
@@ -246,6 +257,6 @@ ANCH = [
  (ws('Nach', 66) - 0.1, FL('ku_burn', 2.0, 1.0, 1.0, 1.08, 0.5, 0.5, o_burn), ('fade',)),
  (ws('Knispel', 69.5) - 0.1, s_mahren, ('fade',)),
  (ws('Erst', 76) - 0.1, FL('dig', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_2013), ('fade',)),
- (ws('Archäologen') - 0.1, FL('dig', 9.5, 1.0, 1.0, 1.08, 0.5, 0.5, o_16), ('fade',)),
+ (ws('Archäologen') - 0.1, FL('dig', 4.8, 1.0, 1.0, 1.08, 0.5, 0.5, o_16), ('fade',)),
  (ws('Bei', 81) - 0.1, s_tag, ('fade',)),
  (ws('Im', 84) - 0.1, s_grave, ('fade',))]

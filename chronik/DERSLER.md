@@ -66,3 +66,12 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Kapakta kahramanlaştırma yok: zafer ve övgü yazısı konmaz; olgu (mahkeme, ceza) veya sorgulayan cümle kullanılır.
 - Story kartında arka plan durmaz ve bulanıklaşmaz: kesitin son çekimi (Manstein'da Stuka'lar) kartın arkasında karartılmış olarak oynamaya devam eder. Bir sonraki sahneye geçilmez.
 - Story çağrısı: "Schnell ins Profil und ansehen!" ("Jetzt ansehen" değil). Düzeltme istenince yalnız istenen değişir, gerisi aynı kalır.
+
+## Knispel yeniden çekimi (Ekim 2026) dersleri
+- El yazısı kelimeler (ör. "unbequem", "ausgeschmückt?", üstü çizilen "Ritterkreuz") için Caveat yazı tipi: Boran bunu beğendi, el yazısı gereken her yerde kullan.
+- Yazıyı nesnenin üstüne yaz: tank yazısı taretin kavisine kazınır (metal uçla çizik), plaka yazısı plakanın açısına boyanır, miğfer yazısı miğferin ovaline oturur. Düz başlık yerine bunu tercih et ama yazı yüzü kapatmayacak kadar küçük kalsın.
+- Animasyonun arkasındaki film hafif bulanık olur, izlenebilir kalır; ağır çekim yok, film normal hızda akar. Film biterse sahne biraz daha erken başlatılır, kare donmaz.
+- Ekran kayıtlarında durdurulan yerler ve tekrarlanan kareler çıkarılır (kare farkı ile tespit), video pürüzsüz akar.
+- Bir video ya da fotoğraf bir kez kullanılır; aynı videonun farklı kesitleri bile ayrı sahnelerde tekrar edilmez, uzun kaynak videodan yeni kesit bulunur.
+- Sondaki "Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!" kutusu küçük ve hareketli: balon sallanır, soru işareti zıplar, yazılar soldan sağa açılır.
+- Yanlış kişi gösterilmez: grup fotoğrafında kadraj anlatılan kişiye ortalanır; başka birinin fotoğrafı (ör. SS subayı) kahramanmış gibi kullanılmaz.
