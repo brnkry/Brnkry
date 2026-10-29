@@ -75,3 +75,4 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Bir video ya da fotoğraf bir kez kullanılır; aynı videonun farklı kesitleri bile ayrı sahnelerde tekrar edilmez, uzun kaynak videodan yeni kesit bulunur.
 - Sondaki "Kanntet ihr diese Geschichte? Schreibt es in die Kommentare!" kutusu küçük ve hareketli: balon sallanır, soru işareti zıplar, yazılar soldan sağa açılır.
 - Yanlış kişi gösterilmez: grup fotoğrafında kadraj anlatılan kişiye ortalanır; başka birinin fotoğrafı (ör. SS subayı) kahramanmış gibi kullanılmaz.
+- Documentary_Show.mp3 2,27 sn sessizlikle başlar: müzik her zaman 2,27 sn'den kesilir, video başlar başlamaz duyulur. Sonda müzik son 2,5 sn'de azalarak biter.
