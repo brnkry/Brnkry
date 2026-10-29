@@ -1,6 +1,6 @@
 # Tiger 131: Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Tiger_131_Shorts_DE_v3.mp4` (9:16, 1:31). Cover: `thumbnails/DE_Tiger131.jpg` (feste Yamamoto-Anordnung, Tiger 131 in Tunesien; Bild `kod/cover_t.py`, Job `tiger131` in `chronicle/brand/covers4.py`). Story: `social/Tiger131_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Tiger_131_Shorts_DE_v3.mp4` (9:16, 1:31). Cover: `thumbnails/DE_Tiger131.jpg` (feste Yamamoto-Anordnung, Tiger 131 in Tunesien; Bild `kod/cover_t.py`, Job `tiger131` in `chronicle/brand/covers4.py`). Story: `social/Tiger131_Story_DE.mp4` (13,5 s; Code `kod/story_t.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 ## Faktencheck (Türkçe not)
 | İddia | Durum |
