@@ -1,6 +1,6 @@
 # Erwin Rommel (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Erwin_Rommel_Shorts_DE_v3.mp4` (9:16, 1:33). Cover: `thumbnails/DE_Rommel_Short.jpg` (feste Yamamoto-Anordnung, etwas größere Schrift; Bild `kod/cover_r.py`, Job `rommel_short` in `chronicle/brand/covers4.py`). Story: `social/Rommel_Short_Story_DE.mp4` (10,8 s; Code `kod/story_r.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Erwin_Rommel_Shorts_DE_v4.mp4` (9:16, 1:33). Cover: `thumbnails/DE_Rommel_Short.jpg` (feste Yamamoto-Anordnung, Porträt am Atlantikwall 1943, etwas größere Schrift; Bild `kod/cover_r.py`, Job `rommel_short` in `chronicle/brand/covers4.py`). Story: `social/Rommel_Short_Story_DE.mp4` (10,8 s; Code `kod/story_r.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 **Verknüpfung mit der langen Doku:** YouTube Studio (Desktop) > Short bearbeiten > "Ähnliches Video" / "Related video" > die lange Rommel-Doku auswählen. Im Video steht am Ende "GANZE DOKU AUF DEM KANAL".
 

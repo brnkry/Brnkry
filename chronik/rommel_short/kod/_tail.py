@@ -22,8 +22,7 @@ def frame(t):
         b = act[1]; u = clamp((t - b[0]) / (act[0][1] - b[0])); nimg = b[2](t, b[0], b[1])
         img = whip(img, nimg, u, b[3][1]) if b[3] and b[3][0] == 'whip' else Image.blend(img, nimg, eio(u))
     img.alpha_composite(VIG); captions(img, t)
-    fade = clamp(1 - t / 0.3)
-    if fade > 0: img.alpha_composite(Image.new('RGBA', (W, H), (0, 0, 0, int(255 * fade))))
+    # no fade from black at the start: the video opens directly on the picture
     a = np.asarray(img.convert('RGB')).astype(np.int16) + np.random.default_rng(int(t * 30)).normal(0, 5, (H, W))[..., None].astype(np.int16)
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
