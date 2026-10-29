@@ -32,7 +32,7 @@ def ring_at(can, t, t0, x, y, col=RED, r=44):
     d.ellipse((x - r * k, y - r * k, x + r * k, y + r * k), outline=col + (255,), width=8); can.alpha_composite(L)
 def photo_card(n, box, t, w0, w1, bgk, bga, z1=1.06, py=PY, pw=PW, ph=PH, dimbg=80):
     """a photo in a cream-edged panel over the blurred running film; returns the canvas and a source -> screen mapper"""
-    can = BG(bgk, bga, dimbg)(t, w0); im = src(n).crop(box); z = lerp(1.0, z1, eio(prog(t, w0, w1)))
+    can = BG(bgk, bga, dimbg)(t, w0); im = src(n).crop(box); z = lerp(1.0, z1, prog(t, w0, w1))
     cw, ch = im.width / z, im.height / z; x0, y0 = (im.width - cw) / 2, (im.height - ch) / 2
     pn = grade(im.resize((pw, ph), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch)).convert('RGBA'), 0.08, 0.95)
     x, y = (W - pw) // 2, py - ph // 2
@@ -54,7 +54,7 @@ def _t02():
     im = src('t02').crop((260, 40, 1790, 1000)); return im
 def s_131(t, w0, w1):
     """the turret number: the photo dimmed, each digit lights up in yellow as it is explained"""
-    can = BG('o_grass', 0.0, 90)(t, w0); im = _t02(); z = lerp(1.0, 1.08, eio(prog(t, w0, w1)))
+    can = BG('o_field', 0.0, 90)(t, w0); im = _t02(); z = lerp(1.0, 1.08, prog(t, w0, w1))
     pw, ph = 1000, int(1000 * im.height / im.width); cw, ch = im.width / z, im.height / z; x0, y0 = (im.width - cw) / 2, (im.height - ch) / 2
     pn = im.resize((pw, ph), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch)); sx = pw / cw
     base = ImageEnhance.Brightness(pn).enhance(0.55).convert('RGBA'); a = np.asarray(pn.convert('L'), np.float32)
@@ -76,15 +76,16 @@ def o_504(can, t, w0, w1, m=None):
     title(can, t, ws('schweren', 15.8), 'SCHWERE PANZERABTEILUNG 504', 1330, 62, YEL, None, 'bebas')
 def s_map(t, w0, w1):
     can, mp = photo_card('t18', (0, 120, 2048, 1900), t, w0, w1, 'o_land', 0.0, 1.05, 820, 900, 782, 60)
-    x, y = mp(1025, 560); ring_at(can, t, ws('Medjez'), x, y, YEL, 34)
-    x2, y2 = mp(1088, 1584); ring_at(can, t, ws('Churchill-Panzer'), x2, y2, RED, 40)
-    title(can, t, ws('Hügeln'), 'MEDJEZ EL BAB', TOP - 60, 110, CREAM)
+    for hx, hy in ((1088, 1584), (1946, 318)):   # the two hills circled on the wartime map: Djebel Djaffa and Point 174
+        x2, y2 = mp(hx, hy); ring_at(can, t, ws('Hügeln'), x2, y2, RED, 40)
+    x, y = mp(1000, 510); ring_at(can, t, ws('Medjez'), x, y, YEL, 30)   # the town itself
+    title(can, t, ws('Hügeln'), 'IN DEN HÜGELN', TOP - 60, 110, CREAM)
     title(can, t, ws('Churchill-Panzer'), 'GEGEN CHURCHILL-PANZER', 1300, 70, YEL)
     return can
 def s_dmg(t, w0, w1):
     can, mp = photo_card('t16', (500, 0, 2400, 1425), t, w0, w1, 'o_sil', 0.0, 1.04, 820, 1000, 750, 70)
     a = mp(1360, 1110); arrow_at(can, t, ws('Drehkranz'), a, (a[0] - 260, a[1] + 300), RED, lab='DREHKRANZ', lab_xy=(a[0] - 260, a[1] + 360))
-    b = mp(1470, 860); arrow_at(can, t, ws('zweiter', 25.4), b, (b[0] + 220, b[1] - 330), YEL, lab='HÖHENRICHTUNG', lab_xy=(min(b[0] + 220, 760), b[1] - 400))
+    title(can, t, ws('Höhenrichtung'), 'HÖHENRICHTUNG BESCHÄDIGT', 1330, 62, YEL)
     title(can, t, ws('Treffer'), 'ZWEI TREFFER', TOP - 60, 110, CREAM)
     return can
 def s_hatch(t, w0, w1):
@@ -93,7 +94,7 @@ def s_hatch(t, w0, w1):
     title(can, t, ws('auf', 30.5), 'AUFGEGEBEN', 1330, 120, RED, None, bold=1)
     return can
 def o_luck(can, t, w0, w1, m=None):
-    hand(can, t, ws('Glücksfall'), 'Glücksfall', (CX, 1300), 140, YEL, 0.7)
+    hand(can, t, ws('Glücksfall'), 'Glücksfall', (CX, 1300), 150, YEL, 0.6)
 CLIP = {}
 def clipping(can, t, t0, n, box, xy, wd, rot):
     """a newspaper cutting dropped onto the pile"""
@@ -105,10 +106,10 @@ def clipping(can, t, t0, n, box, xy, wd, rot):
     sh = Image.new('RGBA', P_.size, (0, 0, 0, 0)); sh.putalpha(P_.getchannel('A').point(lambda v: int(v * 0.7)))
     x, y = int(xy[0] - P_.width / 2), int(xy[1] - P_.height / 2); can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(16)), (x + 10, y + 20)); can.alpha_composite(P_, (x, y))
 def s_press(t, w0, w1):
-    can = BG('o_dust', 0.5, 90)(t, w0)
-    clipping(can, t, ws('denn', 33), 't07', (0, 0, 2400, 1792), (CX, 700), 900, -3)
-    clipping(can, t, ws('Nähe') - 0.2, 't06', (0, 0, 2400, 1792), (CX, 1080), 860, 4)
-    title(can, t, ws('denn', 33), 'MAI 1943', TOP - 60, 110, CREAM)
+    can = BG('o_work', 0.0, 90)(t, w0)
+    clipping(can, t, w0 + 0.1, 't07', (0, 0, 2400, 1792), (CX, 700), 900, -3)
+    clipping(can, t, ws('untersuchen'), 't06', (0, 0, 2400, 1792), (CX, 1080), 860, 4)
+    title(can, t, w0 + 0.1, 'MAI 1943', TOP - 60, 110, CREAM)
     return can
 def o_parts(can, t, w0, w1, m=None):
     title(can, t, ws('Luken'), 'LUKEN UND TEILE', TOP, 100, CREAM)
@@ -118,13 +119,27 @@ def o_tunis(can, t, w0, w1):
 def o_king(can, t, w0, w1, m=None):
     title(can, t, ws('König'), 'KÖNIG GEORG VI.', TOP, 110, CREAM)
     title(can, t, ws('besichtigte'), 'JUNI 1943', 1330, 90, YEL)
-ME = Map(3.5, 44.5, 34.0)
+class Coast(Map):
+    """coastlines only: land in one tone, no country borders (the borders of 1943 differ from today's)"""
+    @functools.lru_cache(None)
+    def base(s):
+        k = 2; im = Image.new('RGB', (W * k, H * k), SEA); d = ImageDraw.Draw(im); span = W / s.sc; lon0, lon1 = s.c[0] - span, s.c[0] + span
+        for lon in range(int(lon0) - 1, int(lon1) + 2):
+            if lon % 5 == 0: x = ((lon - s.c[0]) * s.sc + W / 2) * k; d.line((x, 0, x, H * k), fill=GRID, width=2)
+        for lat in range(0, 85, 5): y = (H / 2 - (merc(lat) - s.c[1]) * s.sc) * k; d.line((0, y, W * k, y), fill=GRID, width=2)
+        for nm, xs, ys, a, b_, c, e in ALLP:
+            if b_ < lon0 - 5 or a > lon1 + 5: continue
+            pts = [(((x - s.c[0]) * s.sc + W / 2) * k, (H / 2 - (y - s.c[1]) * s.sc) * k) for x, y in zip(xs, ys)]
+            if len(pts) >= 3: d.polygon(pts, fill=LAND, outline=LAND)
+        return im.resize((W, H), Image.LANCZOS)
+ME = Coast(3.5, 44.5, 34.0)
 def s_route(t, w0, w1):
-    can = BG('o_sil', 0.5, 50)(t, w0); z = lerp(1.0, 1.05, prog(t, w0, w1)); mp = ME.frame(z); mp.putalpha(140); can.alpha_composite(mp)
+    can = BG('o_smoke', 0.3, 50)(t, w0); z = lerp(1.0, 1.05, prog(t, w0, w1)); mp = ME.frame(z); mp.putalpha(140); can.alpha_composite(mp)
     p = lambda lo, la: ME.p(lo, la, z)
     pts = route([(10.18, 36.80), (9.0, 37.6), (3.0, 37.4), (-5.6, 36.0), (-10.5, 38.5), (-10.5, 44.0), (-6.0, 48.8), (-2.0, 50.6)], ME, z)
     dashed(can, pts, eio((t - ws('Oktober')) / 2.0), YEL, 7, 22, 34)
     xa, ya = p(10.18, 36.80); dot(can, xa, ya, YEL, 11); title(can, t, w0 + 0.2, 'TUNIS', ya + 55, 52, CREAM, None, 'bebas', xa)
+    xg, yg = p(-5.35, 36.14); title(can, t, ws('Oktober') + 0.9, 'GIBRALTAR', yg + 50, 44, (170, 178, 192), None, 'bebas', xg)
     xb, yb = p(-2.0, 50.6); title(can, t, ws('England'), 'ENGLAND', yb - 60, 64, YEL, None, 'bebas', xb + 30)
     if t > ws('England'): dot(can, xb, yb, YEL, 12)
     title(can, t, ws('Oktober'), 'OKTOBER 1943', TOP, 120, CREAM)
@@ -135,10 +150,12 @@ def o_test(can, t, w0, w1):
     title(can, t, ws('Motor', 52), 'MOTOR', 1270, 70, CREAM, None, 'bebas')
     title(can, t, ws('Kanone', 53), 'KANONE', 1350, 70, CREAM, None, 'bebas')
 def s_report(t, w0, w1):
-    can = BG('o_mov', 0.5, 80)(t, w0); t0 = ws('schrieb')
-    l = [('BERICHT', 60, INK, t0 + 0.2), ('PANZERKAMPFWAGEN TIGER', 42, INK, t0 + 0.5), ('', 20, INK, 0), ('Panzerung vorn: 100 mm', 36, (90, 80, 70), t0 + 1.0),
-         ('Motor: Maybach HL 210', 36, (90, 80, 70), t0 + 1.4), ('Kanone: 8,8 cm KwK 36', 36, (90, 80, 70), t0 + 1.8)]
-    sheet(can, t, t0 - 0.1, l, CX, 860, 880, 0.0)
+    can = BG('o_mov', 0.0, 80)(t, w0); t0 = ws('Schule')
+    l = [('SCHULE FÜR PANZERTECHNIK', 46, (90, 80, 70), t0), ('BERICHT: TIGER', 62, INK, ws('vermaß')), ('', 16, INK, 0),
+         ('Panzerung vorn: 100 mm', 50, INK, ws('Panzerung')), ('Motor: Maybach HL 210', 50, INK, ws('Motor', 52)), ('Kanone: 8,8 cm KwK 36', 50, INK, ws('Kanone', 53)), ('', 16, INK, 0),
+         ('Schwächen: siehe Anhang', 50, RED, ws('Schwäche'))]
+    sheet(can, t, t0 - 0.2, l, CX, 900, 960, 0.0)
+    title(can, t, ws('Oktober') if False else ws('Schule'), 'IN ENGLAND', TOP - 60, 110, CREAM)
     return can
 def o_bov(can, t, w0, w1, m=None):
     title(can, t, ws('1951'), '1951', TOP, 140, CREAM)
@@ -156,6 +173,10 @@ def _t20parts():
     hull = cv2.addWeighted(hull, 1.0, np.zeros_like(hull), 0, 0) * (1 - 0.35 * cv2.GaussianBlur(tur.astype(np.float32), (0, 0), 6))[..., None]   # a shadow where the turret sat
     top = im.convert('RGBA'); top.putalpha(Image.fromarray((cv2.GaussianBlur(tur.astype(np.float32), (0, 0), 1.2) * 255).astype(np.uint8)))
     return im, top, Image.fromarray(np.clip(hull, 0, 255).astype(np.uint8)).convert('RGBA')
+def o_restore(can, t, w0, w1, m=None):
+    title(can, t, ws('1990'), 'AB 1990', TOP - 60, 130, CREAM)
+    title(can, t, ws('zerlegt'), 'ZERLEGT', 1320, 110, RED, ws('restauriert') - 0.25)
+    title(can, t, ws('restauriert'), 'RESTAURIERT', 1320, 110, YEL)
 def s_restore(t, w0, w1):
     """1990: the tank comes apart (turret lifts off the hull), then goes back together when it is restored"""
     can = BG('o_flat', 0.3, 70)(t, w0); im, top, hull = _t20parts(); pw = 1000; ph = int(pw * im.height / im.width); sc = pw / im.width
@@ -178,11 +199,10 @@ def o_run(can, t, w0, w1, m=None):
 def o_plans(can, t, w0, w1, m=None):
     title(can, t, ws('zweiten', 75.8), 'ZWEITE ÜBERHOLUNG', TOP, 96, CREAM)
     hand(can, t, ws('Originalplänen'), 'nach Originalplänen', (CX, 1330), 110, YEL, 0.7)
+PLATE4 = [(345, 690), (745, 680), (745, 930), (345, 950)]   # t04: the flat side plate of the turret under the crew (source px)
 def o_fury(can, t, w0, w1, m=None):
     title(can, t, ws('2014'), '2014', TOP - 70, 120, CREAM)
-    if t >= ws('Fury'):
-        k = eout((t - ws('Fury')) / 0.3); sz = int(lerp(330, 250, k))
-        title(can, t, ws('Fury'), 'FURY', 1250, sz, YEL, None, bold=3)
+    if m: paint(can, t, ws('Fury'), [m(*q) for q in PLATE4], 'FURY', 260, YEL, anton(260), 0.4, 0.35, 0.95, ((8, 9, 12), 12, 0.6))
 def cta(can, t, t0):
     """small comment card in the lower left: the bubble rocks, the question mark bounces, both lines wipe in"""
     if t < t0: return
@@ -219,17 +239,16 @@ ANCH = [
  (ws('Ein', 22.7) - 0.1, s_dmg, ('fade',)),
  (ws('Die', 28.4) - 0.1, s_hatch, ('fade',)),
  (ws('Für', 31.2) - 0.1, S_('t19', 900, 1200, 1.05, o_luck), ('whip', 1)),
- (ws('denn', 33) - 0.1, s_press, ('fade',)),
+ (ws('nie', 34.9) - 0.1, s_press, ('fade',)),
  (ws('Mit', 36.8) - 0.1, S_('t08', 700, 1000, 1.05, o_parts), ('fade',)),
  (ws('und', 40.8) - 0.1, V9('o_tunis', 0.0, 1.0, 1.05, o_tunis), ('fade',)),
  (ws('auch', 43.1) - 0.1, S_('t17', 500, 700, 1.05, o_king), ('fade',)),
  (ws('Im', 45.3) - 0.1, s_route, ('whip', -1)),
- (ws('Die', 48.5) - 0.1, V9('o_deck', 0.0, 1.0, 1.06, o_test), ('fade',)),
- (ws('schrieb') - 0.15, s_report, ('fade',)),
+ (ws('Die', 48.5) - 0.1, s_report, ('fade',)),
  (ws('1951') - 0.1, S_('t12', 600, 900, 1.05, o_bov), ('whip', 1)),
- (ws('Ab', 60.2) - 0.1, s_restore, ('fade',)),
+ (ws('Ab', 60.2) - 0.1, FL('o_flat', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_restore), ('fade',)),
  (ws('Als', 66) - 0.1, s_engine, ('fade',)),
  (ws('fährt', 71.5) - 0.1, FL('m_rain', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_run), ('fade',)),
  (ws('Bei', 75.5) - 0.1, S_('t11', 300, 650, 1.05, o_plans), ('fade',)),
- (ws('2014') - 0.1, S_('t04', 500, 800, 1.05, o_fury), ('whip', -1)),
+ (ws('2014') - 0.1, S_('t04', 150, 330, 1.05, o_fury), ('whip', -1)),
  (ws('Heute', 85.3) - 0.1, FL('n_b', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_end), ('fade',))]
