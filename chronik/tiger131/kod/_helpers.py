@@ -12,7 +12,12 @@ def _soft(im, x, y, d):
 @functools.lru_cache(maxsize=24)
 def ff(k, i):
     i = max(1, min(SEG[k], i)); im = Image.open(B + 'clip/%s/%05d.jpg' % (k, i)).convert('RGB')
-    return im.crop(CROP[k]) if k in CROP else im
+    if k in CROP: return im.crop(CROP[k])
+    if k.startswith('o_'):   # some archive shots are a landscape band inside the vertical frame, with a blurred fill above and below: keep only the band
+        r = np.asarray(im.convert('L'), np.float32).mean(1); dv = np.abs(np.diff(r))
+        top = int(np.argmax(dv[100:960])) + 100; bot = int(np.argmax(dv[960:1820])) + 960
+        if dv[top] > 25 and dv[bot] > 25: return im.crop((0, top + 4, im.width, bot - 4))
+    return im
 def fat(k, ct): return ff(k, int(ct * 25) + 1)   # all clips were extracted at their native 25 fps
 PW, PH, PY = 1000, 750, 860
 @functools.lru_cache(maxsize=8)

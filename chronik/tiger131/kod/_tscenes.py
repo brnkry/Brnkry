@@ -1,8 +1,8 @@
 
 # ---------- full-screen vertical archive film (the old footage is already 9:16) ----------
-def V9(k, a, z0=1.0, z1=1.06, ov=None, sh=200, warm=0.06, sat=0.9):
+def V9(k, a, z0=1.0, z1=1.06, ov=None, sh=200, warm=0.06, sat=0.9, k2=None, d1=None):   # k2: a second archive shot that follows after d1 s
     def fn(t, w0, w1):
-        im = fat(k, a + max(0.0, t - w0)); z = lerp(z0, z1, eio(prog(t, w0, w1))); cw, ch = im.width / z, im.height / z
+        tt = a + max(0.0, t - w0); im = fat(k2, tt - d1) if k2 and tt >= d1 else fat(k, tt); z = lerp(z0, z1, eio(prog(t, w0, w1))); cw, ch = im.width / z, im.height / z
         box = _cover((cw, ch), 9 / 16); x0 = (im.width - cw) / 2 + box[0]; y0 = (im.height - ch) / 2 + box[1]
         can = grade(im.resize((W, H), Image.BICUBIC, box=(max(0, x0), max(0, y0), min(im.width, x0 + box[2] - box[0]), min(im.height, y0 + box[3] - box[1]))).convert('RGBA'), warm, sat); shade(can, sh, 0.55)
         can.alpha_composite(TOPSH)
@@ -85,7 +85,7 @@ def s_map(t, w0, w1):
 def s_dmg(t, w0, w1):
     can, mp = photo_card('t16', (500, 0, 2400, 1425), t, w0, w1, 'o_sil', 0.0, 1.04, 820, 1000, 750, 70)
     a = mp(1360, 1110); arrow_at(can, t, ws('Drehkranz'), a, (a[0] - 260, a[1] + 300), RED, lab='DREHKRANZ', lab_xy=(a[0] - 260, a[1] + 360))
-    title(can, t, ws('Höhenrichtung'), 'HÖHENRICHTUNG BESCHÄDIGT', 1330, 62, YEL)
+    title(can, t, ws('Höhenrichtung'), 'HÖHENRICHTUNG BESCHÄDIGT', 510, 62, YEL)
     title(can, t, ws('Treffer'), 'ZWEI TREFFER', TOP - 60, 110, CREAM)
     return can
 def s_hatch(t, w0, w1):
@@ -158,7 +158,7 @@ def s_report(t, w0, w1):
     title(can, t, ws('Oktober') if False else ws('Schule'), 'IN ENGLAND', TOP - 60, 110, CREAM)
     return can
 def o_bov(can, t, w0, w1, m=None):
-    title(can, t, ws('1951'), '1951', TOP, 140, CREAM)
+    title(can, t, w0 + 0.1, '1951', TOP, 140, CREAM)
     title(can, t, ws('Bovington'), 'PANZERMUSEUM BOVINGTON', 1330, 66, YEL)
 TURRET20 = [(300, 330), (1960, 330), (1960, 640), (1440, 680), (300, 600)]   # t20: turret and gun above the hull line (source px)
 @functools.lru_cache(None)
@@ -231,7 +231,7 @@ def o_end(can, t, w0, w1, m=None):
     cta(can, t, ws('Tiger', 86))
 
 ANCH = [
- (0.0, V9('o_dust', 0.0, 1.0, 1.06, o_hook), None),
+ (0.0, V9('o_dust', 0.0, 1.0, 1.06, o_hook, k2='o_grass', d1=3.3), None),
  (ws('und', 6.2) - 0.1, FL('n_a', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_today), ('whip', 1)),
  (ws('Sein', 8.5) - 0.1, s_131, ('fade',)),
  (ws('Er', 15.3) - 0.1, S_('t03', 900, 1300, 1.05, o_504), ('fade',)),
@@ -245,7 +245,7 @@ ANCH = [
  (ws('auch', 43.1) - 0.1, S_('t17', 500, 700, 1.05, o_king), ('fade',)),
  (ws('Im', 45.3) - 0.1, s_route, ('whip', -1)),
  (ws('Die', 48.5) - 0.1, s_report, ('fade',)),
- (ws('1951') - 0.1, S_('t12', 600, 900, 1.05, o_bov), ('whip', 1)),
+ (ws('übernahm') - 0.1, S_('t12', 600, 900, 1.05, o_bov), ('whip', 1)),
  (ws('Ab', 60.2) - 0.1, FL('o_flat', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_restore), ('fade',)),
  (ws('Als', 66) - 0.1, s_engine, ('fade',)),
  (ws('fährt', 71.5) - 0.1, FL('m_rain', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_run), ('fade',)),
