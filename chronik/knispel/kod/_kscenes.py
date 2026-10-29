@@ -239,7 +239,7 @@ ANCH = [
  (ws('In', 21.5) - 0.1, s_count, ('whip', 1)),
  (ws('denn', 33.5) - 0.1, s_crew, ('fade',)),
  (ws('Auch', 37.3) - 0.1, s_legend, ('fade',)),
- (ws('Sicher') - 0.1, S_('k06', 100, 330, 1.05, o_gold), ('whip', -1)),
+ (ws('dass', 42.3) - 0.1, S_('k06', 100, 330, 1.05, o_gold), ('whip', -1)),
  (ws('Das', 46.3) - 0.1, FL('ku_tig', 4.8, 1.0, 1.0, 1.08, 0.35, 0.5, o_rk), ('fade',)),
  (ws('Berichten') - 0.1, S_('k07', 950, 1120, 1.05, o_rebel), ('fade',)),
  (ws('Ende', 59) - 0.1, FL('kt', 0.0, 1.0, 1.0, 1.06, 0.5, 0.5, o_kt), ('whip', 1)),
