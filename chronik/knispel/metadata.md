@@ -1,6 +1,6 @@
 # Kurt Knispel (Neufassung): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Kurt_Knispel_Shorts_DE_v4.mp4` (9:16, 1:34). Cover: `thumbnails/DE_Knispel_168.jpg` (feste Yamamoto-Anordnung, das Eröffnungsfoto im Turm; Bild `kod/cover_k.py`, Job `knispel` in `chronicle/brand/covers4.py`). Story: `social/Knispel_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Kurt_Knispel_Shorts_DE_v4.mp4` (9:16, 1:34). Cover: `thumbnails/DE_Knispel_168.jpg` (feste Yamamoto-Anordnung, das Eröffnungsfoto im Turm; Bild `kod/cover_k.py`, Job `knispel` in `chronicle/brand/covers4.py`). Story: `social/Knispel_Story_DE.mp4` (12 s; Code `kod/story_k.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 Neufassung des alten Knispel-Shorts: neues Skript (`script_de_v2.txt`), neue Stimme, neue Bilder. Das alte Video kann nach dem Upload gelöscht werden.
 
