@@ -7,6 +7,7 @@ V1 = ('storch', 'meet', 'map1', 'walk', 'pris', 'pris2', 'car', 'car2', 'tank1',
 CROP = {k: (40, 12, 1222, 948) for k in V1}   # v1 newsreel: inside the black film frame
 CROP.update({k: (0, 0, 1100, 720) for k in ('port', 'crane', 'rom1', 'rom2', 'rom3', 'tankc', 'sal', 'goggle', 'stand', 'arty', 'road', 'cars', 'jeep')})   # v2: channel logo top right stays outside
 CROP['cam'] = (0, 0, 1100, 560)   # and the name super at the bottom
+CROP.update({'hookA': (60, 18, 1833, 1422), 'hookB': (60, 18, 1833, 1422)})   # full-resolution v1 shots for the opening
 def _soft(im, x, y, d):
     r = d / 2; bx = (int(x - d), int(y - d), int(x + d), int(y + d)); reg = im.crop(bx)
     bl = reg.resize((max(1, reg.width // 8), max(1, reg.height // 8)), Image.BILINEAR).resize(reg.size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(d * 0.12))

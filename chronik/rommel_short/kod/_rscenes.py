@@ -11,6 +11,12 @@ def FV(k, a=0.0, ov=None, z1=1.06, fx=0.5, fy=0.5):
         if ov: ov(can, t, w0, w1)
         return can
     return fn
+def o_hookA(can, t, w0, w1, m=None):
+    title(can, t, ws('Wüstenfuchs'), 'DER WÜSTENFUCHS', TOP, 120, CREAM)
+def o_hookB(can, t, w0, w1, m=None):
+    title(can, t, w0 + 0.05, 'DER WÜSTENFUCHS', TOP, 120, CREAM)
+    title(can, t, ws('Feind'), 'NICHT DER FEIND', 1250, 80, CREAM)
+    title(can, t, ws('Regime'), 'SEIN EIGENES REGIME', 1350, 92, RED, None, bold=1)
 def o_hook(can, t, w0, w1, m=None):
     title(can, t, ws('Wüstenfuchs'), 'DER WÜSTENFUCHS', TOP, 120, CREAM)
     title(can, t, ws('Feind'), 'NICHT DER FEIND', 1250, 80, CREAM)
@@ -23,7 +29,7 @@ def s_name(t, w0, w1):
 def o_port(can, t, w0, w1, m=None):
     title(can, t, ws('12.'), '12. FEBRUAR 1941', TOP, 110, CREAM)
 def o_crane(can, t, w0, w1, m=None):
-    title(can, t, w0 + 0.05, '12. FEBRUAR 1941', TOP, 110, CREAM)
+    title(can, t, ws('12.'), '12. FEBRUAR 1941', TOP, 110, CREAM)
     title(can, t, ws('Tripolis'), 'TRIPOLIS', 1320, 130, YEL, None, bold=1)
 ML = Map(20.4, 31.0, 17.0)   # Italian Libya and the Egyptian frontier, 1941 (the Libyan-Egyptian border has not moved since 1925)
 def s_libya(t, w0, w1):
@@ -146,10 +152,10 @@ def s_end(t, w0, w1):
     return can
 
 ANCH = [
- (0.0, FV('jeep', 0.0, o_hook, 1.06, 0.64), None),
+ (0.0, FV('hookA', 0.0, o_hookA, 1.05, 0.74, 0.45), None),
+ (ws('doch', 2.0) + 0.9, FV('hookB', 0.0, o_hookB, 1.05, 0.32, 0.45), ('fade',)),
  (ws('Sein', 5.8) - 0.1, s_name, ('whip', 1)),
- (ws('Am', 7.5) - 0.1, FV('port', 0.0, o_port), ('fade',)),
- (ws('landete') - 0.1, FV('crane', 2.0, o_crane), ('fade',)),
+ (ws('Am', 7.5) - 0.1, S_('r05', 600, 1100, 1.05, o_crane), ('fade',)),
  (ws('Er', 11.6) - 0.1, s_libya, ('whip', -1)),
  (ws('Er', 18.8) - 0.1, FV('storch', 0.0, o_storch, 1.04, 0.47), ('fade',)),
  (ws('kleinen') - 0.1, s_storch, ('fade',)),
