@@ -83,7 +83,7 @@ JOBS = {
  'bader_de': ('bader_de/code', 'd08', (0.55, 0.42, 1.2), ('C', 'DM'), [('DIE RAF WARF IHM', 130, 'w'), ('EIN NEUES BEIN AB', 130, 'y')], 'MITTEN IM BOMBENANGRIFF', 88, S + 'bader_de/thumbs/DE_Bader_Neues_Bein.jpg'),
  'udet_de': ('ju87/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('ER GAB DER STUKA', 130, 'w'), ('IHRE SIRENE', 150, 'y')], 'SEIN TOD WURDE VERTUSCHT', 88, S + 'ju87/thumbs/DE_Udet_Sirene.jpg'),
  'udet': ('ju87en/code', 'cov_en', (0.5, 0.5, 1.0), ('C', 'P'), [('HE GAVE THE STUKA', 130, 'w'), ('ITS SIREN', 150, 'y')], 'HIS DEATH WAS COVERED UP', 88, S + 'ju87en/thumbs/EN_Udet_Siren.jpg'),
- 'greif': ('greif/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('UNTERNEHMEN', 120, 'w'), ('GREIF', 200, 'y')], 'DEUTSCHE IN US-UNIFORM', 84, S + 'greif/thumbs/DE_Unternehmen_Greif.jpg'),
+ 'greif': ('greif/code', 'cov', (0.52, 0.56, 1.05), ('C', 'DM'), [('UNTERNEHMEN', 120, 'w'), ('GREIF', 200, 'y')], 'DEUTSCHE IN US-UNIFORM', 84, S + 'greif/thumbs/DE_Unternehmen_Greif.jpg'),
  'rommel_short': ('romS/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('ERWIN ROMMEL', 160, 'y'), ('DER WÜSTENFUCHS', 130, 'w')], 'GETÖTET VOM EIGENEN REGIME', 72, S + 'romS/thumbs/DE_Rommel_Short.jpg'),
  'tiger131': ('t131/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('TIGER I', 190, 'y'), ('FÄHRT BIS HEUTE', 112, 'w')], 'DER EINZIGE DER WELT', 84, S + 't131/thumbs/DE_Tiger131.jpg'),
  'knispel': ('knis/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('KURT KNISPEL', 130, 'w'), ('168 ABSCHÜSSE?', 140, 'y')], 'BIS HEUTE NICHT BELEGT', 88, S + 'knis/thumbs/DE_Knispel_168.jpg'),
