@@ -89,3 +89,7 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Boran'ın verdiği bir görselin renklendirilmiş hali varsa siyah beyaz film yerine o kullanılır. Drive'daki bütün görseller bir şekilde kullanılır.
 - Bir çizim (üstünü çizme vb.) bittikten sonra geçişten önce en az yarım saniye görünür kalır; işaret oku da nesneyle birlikte kısa bir süre ekranda kalır.
 - Haritalar kontrol noktalarıyla (bilinen şehirlerin koordinatları) doğrulanır ve kadraj anlatılan bölgeye daraltılır.
+
+## Başlık ve kapak (Ekim 2026)
+- Başlık kısa: yaklaşık 40-45 karakter (mobil akışta sonrası kesiliyor). İsim, sayı veya tarih içersin.
+- Başlık ile kapak yazısı aynı şeyi söylemez: kapak bir vaat, başlık başka bir merak açar.
