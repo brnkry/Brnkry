@@ -5,7 +5,7 @@ sys.argv = ['x', 'list']
 import kshort as V
 from kshort import *
 from thumb_m import badge
-A0, A1 = 0.0, V.ws('gemessen') - 0.12   # the hook: one torpedo, one ship, then his name on the archive film
+A0, A1 = 0.0, 3.88   # the hook ends in the pause after 'Kretschmer' (the word ends at 3.86 s, 'gemessen' starts at 3.94 s)
 CARD = 5.0
 def bg(t):
     """the night convoy film with burning ships (6.8 s, longer than the card) runs behind the card, full frame"""
@@ -44,8 +44,13 @@ if __name__ == '__main__':
     for i in range(n2): p.stdin.write(np.asarray(card(i / FPS)).tobytes())
     p.stdin.close(); p.wait()
     L_ = (n1 + n2) / FPS; F_ = L_ - 1.0
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-t', f'{n1 / FPS:.3f}', '-i', B + 'mix.wav', '-ss', f'{A1:.3f}', '-t', f'{CARD + 0.5:.3f}', '-i', B + 'bed_lev.wav',
-                    '-filter_complex', f'[1:a]aresample=48000,volume=0.55,afade=t=in:d=0.3[y];[0:a]aresample=48000[x];[x][y]concat=n=2:v=0:a=1,atrim=0:{L_:.3f},afade=t=out:st={F_:.3f}:d=1.0[o]',
+    # voice and effects end with the hook; the music runs on as one continuous track, rises from under the voice and fades out slowly to the end
+    h = n1 / FPS
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', B + 'vcut.wav', '-i', B + 'sfx.wav', '-i', B + 'bed_lev.wav',
+                    '-filter_complex', f'[0:a]loudnorm=I=-15:TP=-1.5:LRA=9,aresample=48000,aformat=channel_layouts=stereo,atrim=0:{h:.3f},afade=t=out:st={h - 0.08:.3f}:d=0.08[v];'
+                    f'[1:a]atrim=0:{h:.3f},afade=t=out:st={h - 0.3:.3f}:d=0.3[x];'
+                    f"[2:a]aresample=48000,atrim=0:{L_:.3f},volume='if(lt(t,{h:.3f}),0.2,0.2+0.35*min(1,(t-{h:.3f})/0.6))':eval=frame,afade=t=out:st={L_ - 3.0:.3f}:d=3.0[b];"
+                    f'[v][x][b]amix=inputs=3:normalize=0:duration=longest,atrim=0:{L_:.3f},alimiter=limit=0.93[o]',
                     '-map', '[o]', '-ar', '48000', B + 'story_a.wav'], check=True)
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', B + 'story_v.mp4', '-i', B + 'story_a.wav', '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', out], check=True)
     print(out, round(L_, 2), 's')

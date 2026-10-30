@@ -104,3 +104,4 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Haritalar: kaynakta göller yok; gerekli göl (ör. Ontario) elle çizilir, anlatılan ülke renkle vurgulanır, noktalar bilinen şehirlerle doğrulanır.
 - Geçiş sesleri eskisinin yarısı seviyede.
 - Tarih aralığı "1912 - 1998" (normal tire, uzun tire değil), italik.
+- Story: giriş kesiti bir kelimenin ortasında kesilmez; kesim kelimenin bittiği sessizliğe konur (ses enerjisiyle kontrol). Müzik kesintisiz devam eder, sesin altından yükselir ve sonda yavaşça azalarak biter.

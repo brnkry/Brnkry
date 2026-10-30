@@ -1,6 +1,6 @@
 # Otto Kretschmer (Neufassung): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Otto_Kretschmer_Shorts_DE_v2.mp4` (9:16, 2:00). Cover: `thumbnails/DE_Kretschmer.jpg` (feste Yamamoto-Anordnung, farbiges Nahporträt; Bild `kod/cover_k.py`, Job `kretschmer` in `chronicle/brand/covers4.py`). Story: `social/Kretschmer_Story_DE.mp4` (8,7 s; Code `kod/story_k.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Otto_Kretschmer_Shorts_DE_v2.mp4` (9:16, 2:00). Cover: `thumbnails/DE_Kretschmer.jpg` (feste Yamamoto-Anordnung, farbiges Nahporträt; Bild `kod/cover_k.py`, Job `kretschmer` in `chronicle/brand/covers4.py`). Story: `social/Kretschmer_Story_DE.mp4` (8,9 s; Code `kod/story_k.py`). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 Neufassung des alten Kretschmer-Shorts (Mai 2026). Das alte Video kann nach dem Upload gelöscht werden.
 
