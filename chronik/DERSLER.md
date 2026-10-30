@@ -80,3 +80,12 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Story'nin arka plan filmi, kartın süresinden uzun bir kesitten alınır; sonda video donmaz.
 - Kapakta kanalda daha önce kullanılmış fotoğraf kullanılmaz (aynı kişinin uzun videosu dahil).
 - Küçük bir düzeltmede bütün videoyu yeniden render etme: sadece etkilenen saniyeleri render edip parçaları birleştir.
+
+## Unternehmen Greif (Ekim 2026) dersleri
+- Boran yan duran kırmızı dikdörtgenli damga yazılardan (stamp) sıkıldı: artık kullanılmaz. Vurgu yazıları düz durur ve sahneye göre değişir (alt çizgi akan başlık, üstü çizilip elle düzeltilen kelime, zıplayan soru işareti, iki ince çizgi arasında karar yazısı).
+- Boran'ın çok beğendiği efekt: "GEKAPPT" yazısı, önce ince kırmızı bir çizgi kelimenin ortasından geçer, sonra üst yarı kayıp kelime ikiye bölünür (`sliced` fonksiyonu, chronik/greif/kod/_gscenes.py). Kesme, kopma, bölünme anlatılan yerlerde tekrar kullan.
+- Kâğıtlar, defterler, mahkeme kâğıtları düz durur (eğik koyma).
+- Grafik efekt scripte uymalı: "Passwort" için giriş kutusu fazla süslü ve uyumsuz bulundu; sade başlık tercih edilir.
+- Boran'ın verdiği bir görselin renklendirilmiş hali varsa siyah beyaz film yerine o kullanılır. Drive'daki bütün görseller bir şekilde kullanılır.
+- Bir çizim (üstünü çizme vb.) bittikten sonra geçişten önce en az yarım saniye görünür kalır; işaret oku da nesneyle birlikte kısa bir süre ekranda kalır.
+- Haritalar kontrol noktalarıyla (bilinen şehirlerin koordinatları) doğrulanır ve kadraj anlatılan bölgeye daraltılır.

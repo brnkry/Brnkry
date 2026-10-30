@@ -279,7 +279,8 @@ def o_ayw(can, t, w0, w1):
     title(can, t, ws('Drei'), 'DREI MÄNNER', TOP, 120, CREAM)
     title(can, t, ws('Aywaille'), 'AYWAILLE', 1310, 130, YEL, None, bold=1)
 def o_pw(can, t, w0, w1):
-    pwfield(can, t, ws('kannten'), 1250, ws('nicht', 81.8))
+    title(can, t, ws('Passwort'), 'PASSWORT', 1210, 120, CREAM, None, bold=1)
+    title(can, t, ws('nicht', 81.8), 'UNBEKANNT', 1330, 110, YEL, None, bold=1)
 def s_court(t, w0, w1):
     can = BG('court', 0.0, 70, 1.4)(t, w0)
     l = [('MILITÄRGERICHT', 60, INK, ws('Militärgericht')), ('', 10, INK, 0), ('Urteil: Spionage', 48, INK, ws('verurteilte')), ('Tod durch Erschießen', 48, RED, ws('Spione'))]
