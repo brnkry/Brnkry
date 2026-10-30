@@ -93,3 +93,14 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 ## Başlık ve kapak (Ekim 2026)
 - Başlık kısa: yaklaşık 40-45 karakter (mobil akışta sonrası kesiliyor). İsim, sayı veya tarih içersin.
 - Başlık ile kapak yazısı aynı şeyi söylemez: kapak bir vaat, başlık başka bir merak açar.
+
+## Otto Kretschmer (Ekim 2026) dersleri
+- Bulanıklaştırma sadece gamalı haçın üstüne, küçük ve tam yerinde: kartalın tamamı, nişanın tamamı, kasket bulanıklaştırılmaz. Her nokta yakın çekimde kontrol edilir; filmde haç merkezi kare kare takip edilir.
+- Ekranda büyük yazıyla söylenen cümle (hook, ünvan cümlesi) altyazıda tekrar görünmez; o aralıkta başlayan altyazı ifadeleri gizlenir.
+- Her sahneye büyük yazı konmaz: görüntünün öne çıkacağı yerlerde yazı yok. Yazı yüzü veya başı kapatmaz; yer seçerken görsel kontrol edilir.
+- Yazı stillerini değiştir: el yazısı (Caveat), italik Anton, zıplayan sayaç, kayan italik sayaç, nesneyi gösteren oklar. Hep aynı yer ve aynı tarz sıkıcı.
+- İsimler mümkünse yüzeye yazılır (gemi adı geminin önündeki denize perspektifle, denizaltı adı denize).
+- Animasyonun arkasındaki blur film sahneden kısa olursa donar: her animasyon sahnesine kendi uzunluğunda ayrı klip. Render öncesi tüm sahneler için süre kontrolü (FV ve BG).
+- Haritalar: kaynakta göller yok; gerekli göl (ör. Ontario) elle çizilir, anlatılan ülke renkle vurgulanır, noktalar bilinen şehirlerle doğrulanır.
+- Geçiş sesleri eskisinin yarısı seviyede.
+- Tarih aralığı "1912 - 1998" (normal tire, uzun tire değil), italik.

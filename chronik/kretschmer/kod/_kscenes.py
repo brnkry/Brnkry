@@ -1,12 +1,13 @@
 
 # ================= Otto Kretschmer (short) scenes =================
-# the archive close-up of Kretschmer (a screen recording): the Knight's Cross centre moves with him and is blurred on every frame,
-# his cap badge at the top edge is blurred as a band; the other officers on the right stay outside the 9:16 slice (fx below)
+# the archive close-up of Kretschmer (a screen recording): the Knight's Cross centre moves with him and is blurred on every frame;
+# the other officers on the right stay outside the 9:16 slice (fx below)
 def _kclose_spots(i):
-    k = [(1, 490, 980), (23, 490, 1000), (46, 380, 980)]
+    """centre of the Knight's Cross, tracked by hand on key frames (the cap badge is cut off at the top edge, so only the cross needs it)"""
+    k = [(1, 512, 988), (12, 484, 1052), (23, 484, 1032), (35, 460, 1024), (46, 352, 980)]
     for (a, xa, ya), (b, xb, yb) in zip(k, k[1:]):
-        if a <= i <= b: u = (i - a) / (b - a); return [(lerp(xa, xb, u), lerp(ya, yb, u), 80), (450, 30, 150), (570, 30, 150)]
-    return [(380, 980, 80), (450, 30, 150), (570, 30, 150)]
+        if a <= i <= b: u = (i - a) / (b - a); return [(lerp(xa, xb, u), lerp(ya, yb, u), 48)]
+    return [(352, 980, 48)]
 _ff0 = ff
 @functools.lru_cache(maxsize=24)
 def ff(k, i):
@@ -16,6 +17,31 @@ def ff(k, i):
         for x, y, d in _kclose_spots(i): _soft(im, x, y, d)
     return im
 
+def _ital(s_, size, col, bold=1, shear=0.22):
+    sp = _spr(s_, 'anton', size, col, bold); w_, h_ = sp.size
+    return sp.transform((int(w_ + h_ * shear), h_), Image.AFFINE, (1, shear, -h_ * shear, 0, 1, 0), Image.BICUBIC)
+def ititle(can, t, t0, s_, y, size, col=CREAM, x=CX, maxw=900, slide=80):
+    """the same Anton, set in italics, sliding in from the left"""
+    if t < t0: return
+    while anton(size).getlength(s_) > maxw and size > 24: size -= 4
+    k = eout((t - t0) / 0.4); sp = _ital(s_, size, col)
+    if k < 1: sp = sp.copy(); sp.putalpha(sp.getchannel('A').point(lambda v: int(v * k)))
+    can.alpha_composite(sp, (int(x - sp.width / 2 - (1 - k) * slide), int(y - sp.height / 2)))
+def popnum(can, t, t0, a, b, y, size, col=YEL, dur=0.8, x=CX):
+    """a number counting up while it drops in large and settles with a small bounce"""
+    if t < t0: return
+    u = clamp((t - t0) / dur); v = int(round(lerp(a, b, eout(u)))); sc = 1.0 + 0.7 * (1 - eout(clamp((t - t0) / 0.45))) - 0.08 * math.sin(math.pi * clamp((t - t0 - 0.3) / 0.35))
+    sp = _spr('{:,}'.format(v).replace(',', '.'), 'anton', size, col, 2); sp = sp.resize((max(1, int(sp.width * sc)), max(1, int(sp.height * sc))), Image.BICUBIC)
+    k = clamp((t - t0) / 0.2)
+    if k < 1: sp.putalpha(sp.getchannel('A').point(lambda q: int(q * k)))
+    can.alpha_composite(sp, (int(x - sp.width / 2), int(y - sp.height / 2)))
+def inum(can, t, t0, a, b, y, size, col=CREAM, dur=1.4, x=CX):
+    """a number counting up in italics, sliding in"""
+    if t < t0: return
+    v = int(round(lerp(a, b, eout((t - t0) / dur)))); s_ = '{:,}'.format(v).replace(',', '.')
+    k = eout((t - t0) / 0.35); sp = _ital(s_, size, col, 2)
+    if k < 1: sp = sp.copy(); sp.putalpha(sp.getchannel('A').point(lambda q: int(q * k)))
+    can.alpha_composite(sp, (int(x - sp.width / 2 + (1 - k) * 120), int(y - sp.height / 2)))
 def counter(can, t, t0, a, b, y, size, col=YEL, dur=0.9, fmt='{:,}', x=CX):
     """a number counting up, straight, with the channel shadow"""
     if t < t0: return
@@ -24,16 +50,17 @@ def counter(can, t, t0, a, b, y, size, col=YEL, dur=0.9, fmt='{:,}', x=CX):
 
 # 0-2: the hook (the opening photo of the first Kretschmer short), his name on the archive film, the top tonnage
 def s_hook(t, w0, w1):
-    can = grade(fit('k_img7', t, w0, w1, 1.06)); shade(can, 230, 0.5)
-    title(can, t, ws('Ein'), 'EIN TORPEDO,', 1200, 110, CREAM, None, bold=1)
-    title(can, t, ws('ein', 0.6), 'EIN SCHIFF.', 1330, 140, YEL, None, bold=2)
+    can = grade(fit('k_img7', t, w0, w1, 1.06)); shade(can, 240, 0.42)
+    title(can, t, ws('Ein'), 'EIN TORPEDO,', 1000, 140, CREAM, None, bold=1, maxw=780)
+    title(can, t, ws('ein', 0.6), 'EIN SCHIFF.', 1180, 178, YEL, None, bold=2, maxw=780)
     return can
 def o_name(can, t, w0, w1):
     title(can, t, ws('Otto'), 'OTTO', 1270, 90, CREAM, None, bold=1)
     title(can, t, ws('Kretschmer'), 'KRETSCHMER', 1385, 140, YEL, None, bold=2)
 def o_bow(can, t, w0, w1):
-    title(can, t, ws('erfolgreichsten'), 'DER ERFOLGREICHSTE', TOP, 96, CREAM)
-    title(can, t, ws('U-Boot-Kommandanten'), 'U-BOOT-KOMMANDANT', TOP + 110, 96, YEL, None, bold=1)
+    title(can, t, ws('erfolgreichsten'), 'DER ERFOLGREICHSTE', 800, 96, CREAM, None, bold=1)
+    title(can, t, ws('U-Boot-Kommandanten'), 'U-BOOT-KOMMANDANT', 920, 104, YEL, None, bold=1)
+    ititle(can, t, ws('Zweiten'), 'DES ZWEITEN WELTKRIEGS', 1040, 76, CREAM)
 def s_vorbei(t, w0, w1):
     can = grade(fit('k_img5', t, w0, w1, 1.05)); shade(can, 230, 0.5)
     title(can, t, ws('schon', 10), 'SCHON IM MÄRZ 1941', 1190, 90, CREAM, None, bold=1)
@@ -93,23 +120,24 @@ def o_sc7(can, t, w0, w1):
 def o_smoke(can, t, w0, w1):
     title(can, t, ws('britischen', 41), 'ZWEI BRITISCHE HILFSKREUZER', 1330, 76, YEL, None, bold=1)
 def s_ships(t, w0, w1):
+    """both cruisers, each name written flat on the water in front of its ship"""
     can = Image.new('RGBA', (W, H), (8, 9, 11, 255)); z = lerp(1.0, 1.04, prog(t, w0, w1))
-    for n, y0, box, q, nm, tw in (('k_laurentic', 300, (60, 520, 2340, 1560), [(1000, 1015), (1880, 1015), (1880, 1150), (1000, 1150)], 'LAURENTIC', ws('Laurentic')),
-                                  ('k_patroclus', 980, (80, 380, 2460, 1520), [(780, 1110), (1900, 1100), (1900, 1250), (780, 1260)], 'PATROCLUS', ws('Patroclus'))):
+    for n, y0, box, q, nm, tw in (('k_laurentic', 300, (60, 520, 2340, 1600), [(820, 1290), (1880, 1290), (1960, 1470), (740, 1470)], 'LAURENTIC', ws('Laurentic')),
+                                  ('k_patroclus', 960, (80, 480, 2460, 1664), [(1200, 1400), (2140, 1400), (2210, 1560), (1130, 1560)], 'PATROCLUS', ws('Patroclus'))):
         im = src(n); bw, bh = box[2] - box[0], box[3] - box[1]; cw, ch = bw / z, bh / z; x0 = box[0] + (bw - cw) / 2; y0b = box[1] + (bh - ch) / 2
         ph = int(W * bh / bw); P_ = grade(im.resize((W, ph), Image.BICUBIC, box=(x0, y0b, x0 + cw, y0b + ch)).convert('RGBA'), 0.08, 0.95)
         sx, sy = W / cw, ph / ch; mp = lambda X, Y: ((X - x0) * sx, (Y - y0b) * sy)
-        paint(P_, t, tw, [mp(*p) for p in q], nm, 120, CREAM, dur=0.4, mod=0.4, op=0.92, glow=None)
+        paint(P_, t, tw, [mp(*p) for p in q], nm, 120, CREAM, dur=0.4, mod=0.35, op=0.9, glow=((8, 9, 12), 8, 0.5))
         can.alpha_composite(P_, (0, y0))
-    title(can, t, w0 + 0.05, 'IN EINER NACHT', 880, 80, YEL, None, bold=1)
+    hand(can, t, w0 + 0.05, 'in einer Nacht', (CX, 885), 100, YEL, 0.5)
     return can
 # 8: the total, and the dead
 def s_total(t, w0, w1):
-    can = grade(fit('k_43816', t, w0, w1, 1.05)); shade(can, 240, 0.45)
-    counter(can, t, ws('47', 45.5), 0, 47, 1120, 170, YEL)
-    title(can, t, ws('versenkte', 46.5), 'VERSENKTE SCHIFFE', 1240, 70, CREAM, None, bold=1)
-    counter(can, t, ws('274.000'), 0, 274333, 1350, 110, CREAM, 1.4)
-    title(can, t, ws('Bruttoregistertonnen'), 'BRUTTOREGISTERTONNEN', 1440, 52, CREAM, None, 'bebas')
+    can = grade(fit('k_43816', t, w0, w1, 1.05)); shade(can, 240, 0.35)
+    popnum(can, t, ws('47', 45.5), 0, 47, 820, 200, YEL)
+    hand(can, t, ws('versenkte', 46.5), 'versenkte Schiffe', (CX, 960), 92, CREAM, 0.5)
+    inum(can, t, ws('274.000'), 0, 274333, 1110, 130, CREAM, 1.4)
+    title(can, t, ws('Bruttoregistertonnen'), 'BRUTTOREGISTERTONNEN', 1220, 56, YEL, None, 'bebas')
     return can
 def o_seaburn(can, t, w0, w1):
     title(can, t, ws('Hunderte'), 'HUNDERTE SEELEUTE', 1240, 100, CREAM, None, bold=1)
@@ -124,19 +152,20 @@ def s_schepke(t, w0, w1):
     title(can, t, ws('Joachim'), 'JOACHIM SCHEPKE', 1330, 110, YEL, None, bold=1)
     return can
 def s_u100(t, w0, w1):
-    can = grade(fit('k_u100', t, w0, w1, 1.05)); shade(can, 220, 0.5)
-    title(can, t, w0 + 0.1, 'U 100', 1330, 150, YEL, None, bold=2)
+    can = grade(fit('k_u100', t, w0, w1, 1.05)); shade(can, 220, 0.55)
+    pt = lambda x, y: fitpt('k_u100', t, w0, w1, 1.05, x, y)
+    paint(can, t, w0 + 0.1, [pt(980, 830), pt(1370, 815), pt(1400, 1080), pt(960, 1105)], 'U 100', 150, CREAM, dur=0.35, mod=0.35, op=0.92, glow=((8, 9, 12), 8, 0.5))
     return can
 # 10: depth charges, surfaced, scuttled
 def s_dc(t, w0, w1):
-    can = BG('dcbg', 0.0, 100, 2.2)(t, w0)
+    """the destroyer passes over the boat; depth charges sink and burst around it; labels sit next to what they name, with arrows"""
+    can = BG('dcbg', 0.0, 100, 2.2)(t, w0); sea = 760; dx = lerp(820, 300, eio(prog(t, w0, w1))); ux, uy = 540, 1130
     def draw(L):
-        d = ImageDraw.Draw(L); sea = 760
+        d = ImageDraw.Draw(L)
         d.rectangle((0, sea, W, sea + 4), fill=CREAM + (150,))
-        dx = lerp(820, 300, eio(prog(t, w0, w1)))   # the destroyer passes over the boat
         d.polygon([(dx - 230, sea), (dx + 230, sea), (dx + 260, sea - 40), (dx - 200, sea - 40)], fill=CREAM + (255,))
         d.rectangle((dx - 60, sea - 110, dx + 40, sea - 40), fill=CREAM + (255,)); d.rectangle((dx - 10, sea - 170, dx + 10, sea - 110), fill=CREAM + (255,))
-        ux, uy = 540, 1130; d.rounded_rectangle((ux - 220, uy - 26, ux + 220, uy + 26), 26, fill=YEL + (255,)); d.rectangle((ux - 40, uy - 70, ux + 40, uy - 26), fill=YEL + (255,))
+        d.rounded_rectangle((ux - 220, uy - 26, ux + 220, uy + 26), 26, fill=YEL + (255,)); d.rectangle((ux - 40, uy - 70, ux + 40, uy - 26), fill=YEL + (255,))
         for i in range(5):
             t0 = ws('Wasserbomben') + i * 0.45
             if t < t0: continue
@@ -146,7 +175,13 @@ def s_dc(t, w0, w1):
                 y = uy - 60 + (i % 2) * 90; uu = min(1, (u - 1) / 0.6); r = 30 + 150 * uu
                 d.ellipse((x - r, y - r, x + r, y + r), outline=CREAM + (int(220 * (1 - uu)),), width=8)
     see(can, draw, 0.88)
-    title(can, t, ws('Walker'), 'ZERSTÖRER HMS WALKER', 1330, 84, YEL, None, bold=1)
+    if t > ws('Wasserbomben') + 0.2:   # the word written by hand on the left, an arrow from it down along the falling charges
+        hand(can, t, ws('Wasserbomben') + 0.2, 'Wasserbomben', (300, sea + 110), 80, YEL, 0.5)
+        arrow(can, (300, sea + 170), (ux - 120, uy - 80), eio((t - ws('Wasserbomben') - 0.4) / 0.6), YEL, 12, 40)
+    if t > ws('Walker'):
+        arrow(can, (dx + 90, sea - 330), (dx + 10, sea - 190), eio((t - ws('Walker')) / 0.4), CREAM, 10, 36)
+        title(can, t, ws('Walker'), 'HMS WALKER', sea - 380, 70, CREAM, None, 'anton', min(max(dx + 120, 200), 880))
+    title(can, t, ws('Wasserbomben'), 'U 99', uy + 100, 64, YEL, None, 'anton', ux)
     return can
 def o_surface(can, t, w0, w1):
     pass   # the film speaks for itself here
@@ -179,12 +214,13 @@ def s_glass(t, w0, w1):
     hand(can, t, ws('als', 80.9), 'als Andenken', (CX + 150, y - 250), 110, YEL, 0.55)
     return can
 # 12: the escape plan from Canada (map), the intercepted letters, the trap
-MC = Map(-71.5, 46.0, 17.0)
+LAKE_ONT = [(-79.8, 43.28), (-79.0, 43.25), (-78.0, 43.35), (-77.0, 43.25), (-76.2, 43.5), (-76.2, 44.1), (-76.9, 44.02), (-77.6, 43.97), (-78.7, 43.87), (-79.4, 43.62)]
+MC = Map(-71.9, 46.0, 18.5, hi=('Canada',), extra=((LAKE_ONT, SEA),))
 BOW, PM = (-78.69, 43.91), (-65.02, 47.82)   # Camp 30 Bowmanville, Ontario; Pointe de Maisonnette, Chaleur Bay, New Brunswick
 def s_canada(t, w0, w1):
-    can = BG('mapbg', 0.0, 50, 1.6)(t, w0); z = lerp(1.0, 1.04, prog(t, w0, w1)); mp = MC.frame(z); mp.putalpha(170); can.alpha_composite(mp)
+    can = BG('canbg', 0.0, 50, 1.6)(t, w0); z = lerp(1.0, 1.04, prog(t, w0, w1)); mp = MC.frame(z); mp.putalpha(170); can.alpha_composite(mp)
     p = lambda lo, la: MC.p(lo, la, z)
-    for nm, lo, la in (('KANADA', -74.5, 49.3), ('USA', -76.0, 42.4), ('NEW BRUNSWICK', -66.3, 46.4)):
+    for nm, lo, la in (('KANADA', -74.5, 49.3), ('ONTARIO', -79.6, 45.6), ('USA', -76.0, 42.2), ('NEW BRUNSWICK', -66.3, 46.6)):
         x, y = p(lo, la); title(can, t, w0 + 0.2, nm, y, 46, (150, 160, 178), None, 'bebas', min(max(x, 140), 940))
     bx, by = p(*BOW); dot(can, bx, by, YEL, 10)
     if t > ws('Kanada'): title(can, t, ws('Kanada'), 'LAGER BOWMANVILLE', by + 55, 48, YEL, None, 'bebas', max(bx + 60, 220))
@@ -198,7 +234,7 @@ def s_canada(t, w0, w1):
         dot(can, px + 60, py - 20, RED, 12); title(can, t, ws('U-Boot', 92.5), 'U-BOOT', py - 80, 52, RED, None, 'bebas', min(px + 40, 950))
     return can
 def s_letters(t, w0, w1):
-    can = BG('mapbg2', 0.0, 80, 1.8)(t, w0)
+    can = BG('letbg', 0.0, 80, 1.8)(t, w0)
     def page(L):
         k = eout((t - w0) / 0.35); P_ = Image.new('RGBA', (820, 640), (236, 230, 212, 255)); d = ImageDraw.Draw(P_); rng = np.random.default_rng(3)
         for i, yy in enumerate(range(80, 600, 56)):   # handwriting as wavy strokes, not readable words
@@ -216,7 +252,7 @@ def s_letters(t, w0, w1):
     return can
 MB = Map(-65.4, 47.9, 3.2)   # Chaleur Bay
 def s_trap(t, w0, w1):
-    can = BG('mapbg', 2.0, 50, 1.6)(t, w0); z = lerp(1.0, 1.04, prog(t, w0, w1)); mp = MB.frame(z); mp.putalpha(170); can.alpha_composite(mp)
+    can = BG('trapbg', 0.0, 50, 1.6)(t, w0); z = lerp(1.0, 1.04, prog(t, w0, w1)); mp = MB.frame(z); mp.putalpha(170); can.alpha_composite(mp)
     p = lambda lo, la: MB.p(lo, la, z)
     px, py = p(*PM); dot(can, px, py, YEL, 10); title(can, t, w0 + 0.2, 'POINTE DE MAISONNETTE', py + 60, 44, YEL, None, 'bebas', min(max(px, 300), 780))
     for i, (lo, la) in enumerate(((-64.75, 47.95), (-64.55, 48.05), (-64.9, 48.08))):
@@ -237,19 +273,19 @@ def o_interview(can, t, w0, w1):
     title(can, t, ws('Flottillenadmiral') - 0.2, 'FLOTTILLENADMIRAL', 1330, 100, YEL, None, bold=1)
 # 14: 1998
 def s_old(t, w0, w1):
-    can = grade(fit('k_img12', t, w0, w1, 1.05)); shade(can, 230, 0.5)
-    title(can, t, ws('1998'), '1998', TOP, 130, CREAM)
-    title(can, t, ws('Donau'), 'AUF DER DONAU', 1330, 100, YEL, None, bold=1)
+    can = grade(fit('k_img12', t, w0, w1, 1.05)); shade(can, 240, 0.45)
+    title(can, t, ws('1998'), '1998', 1150, 130, YEL, None, bold=2)
+    title(can, t, ws('Donau'), 'AUF DER DONAU', 1290, 96, CREAM, None, bold=1)
     return can
 def s_end(t, w0, w1):
     can = grade(fit('k_h0579', t, w0, w1, 1.04)); shade(can, 230, 0.5)
-    title(can, t, w0 + 0.05, 'OTTO KRETSCHMER', TOP, 100, CREAM)
-    title(can, t, w0 + 0.25, '1912 · 1998', TOP + 95, 64, YEL, None, 'bebas')
-    hand(can, t, ws('goldene'), 'Goldene Hochzeit', (CX, 1180), 104, YEL, 0.6)
+    hand(can, t, ws('goldene'), 'Goldene Hochzeit', (CX, 950), 100, YEL, 0.6)
+    title(can, t, w0 + 0.05, 'OTTO KRETSCHMER', 1100, 96, CREAM, None, bold=1)
+    ititle(can, t, w0 + 0.25, '1912 - 1998', 1210, 70, YEL)
     cta(can, t, ws('während') - 0.6)
     return can
 
-NOCAP = [(0.0, ws('Nach') - 0.02)]   # the opening words are already on screen in big letters
+NOCAP = [(0.0, ws('Nach') - 0.02), (ws('zum') - 0.1, ws('und', 9) - 0.2)]   # the opening words are already on screen in big letters
 ANCH = [
  (0.0, s_hook, None),
  (ws('Otto') + 0.08, FV('kclose', 0.0, o_name, 1.03, 0.375), ('fade',)),

@@ -73,7 +73,7 @@ for a_, b_ in zip(WORDS, WORDS[1:]):
     else: _cur.append(b_)
 PHR.append(_cur)
 def captions(can, t, y=CAPY0):
-    ph = [p for p in PHR if p[0][1] - 0.05 <= t <= p[-1][2] + 0.25]
+    ph = [p for p in PHR if p[0][1] - 0.05 <= t <= p[-1][2] + 0.25 and not any(a_ - 0.06 <= p[0][1] < b_ for a_, b_ in globals().get('NOCAP', []))]   # phrases that begin while their words are already on screen stay hidden
     if not ph: return
     p = ph[-1]; ws = [x[0].replace('ß', '\u1e9e').upper() for x in p]; f = oswald(64, 600)
     while f.getlength(' '.join(ws)) > 760 and f.size > 40: f = oswald(f.size - 4, 600)
