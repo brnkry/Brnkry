@@ -1,186 +1,170 @@
-# Pilot 01: 20 saniyelik test videosu (Somerton Man açılışı)
+# Pilot 01 (v2): 20 saniyelik test, gerçekçi animasyon, anlatıcısız
 
-Amaç: stili, karakter tutarlılığını ve Claude'un görsellerden animasyon üretme hattını test etmek.
-Format: 16:9, 1920×1080, 30 fps, 20 saniye, İngilizce.
+Format: 16:9, 20 saniye, İngilizce. Anlatıcı yok. Hikaye sahnedeki diyaloglar, ortam sesleri ve ekran yazılarıyla anlatılıyor.
+Yapı: 3 Flow klibi (her biri 8 sn üretilir, kurguda yaklaşık 6.5 sn'ye kırpılır) + Claude'un eklediği yazılar, ses katmanları ve kapanış kartı.
 
-## Nasıl çalışıyoruz
-1. Önce iki karakter sayfasını üret (DET_01, CON_01). Beğendiğin sayfa artık kilitli referanstır.
-2. Poz görsellerini üretirken ilgili karakter sayfasını **referans olarak ekle**.
-3. Poz ve eşya görselleri **düz yeşil zeminde** (#00B140) olacak. Zemini ben temizleyip karakterleri hareket ettireceğim (cutout animasyon).
-4. Yüz hareketlerini (göz kırpma, kaş, ağız) ben çizeceğim. Bu yüzden ifadesiz "boş yüz" bir kafa görseli de istiyoruz.
-5. Görselleri dosya adlarıyla gönder. ElevenLabs sesini de gönderirsen ona göre kurgularım. Göndermezsen geçici zamanlamayla yaparım.
+## Hava durumu
+1 Aralık 1948, Adelaide'de yaz başı. Ceset sabah saat 06:30 civarında bulundu, yani güneş doğmuştu (fenere gerek yok). Bir önceki akşam sahilde insanlar vardı, bu da havanın ılık olduğunu gösteriyor. O sabah yağmur yağdığına dair bir kayıt bilmiyorum. Bu yüzden sakin, açık, hafif rüzgarlı bir yaz sabahı kullanıyoruz. Uzun videodan önce meteoroloji kaydına bakıp doğrulayacağım.
 
-Dosya adları: `DET_01_sheet`, `CON_01_sheet`, `VIC_01_pose`, `P1a`, `P1b`, `P2`, `P3`, `H1`, `L1`, `L2`, `PR1`, `PR2`, `PR3`
+## İş akışı
+1. **Gemini:** 3 karakter görseli (DET_01, CON_01, VIC_01) ve 1 mekan görseli (L1) üret. Bunlar referanslardır.
+2. **Gemini:** 3 başlangıç karesi (F1, F2, F3) üret. Her birinde ilgili karakter görsellerini ve L1'i referans olarak **ekle**, sonra prompt'u yapıştır.
+3. **Flow:** Her başlangıç karesini "Frames to Video" ile ilk kare olarak yükle, ilgili video prompt'unu (V1, V2, V3) yapıştır. 16:9, 8 saniye. Test için hızlı model, beğenince kaliteli model. Her prompt'tan 2 sonuç al, en iyisini seç.
+4. **Bana gönder:** V1, V2, V3 mp4 dosyaları. Kırpma, ses katmanları (dalga, martı, rüzgar, uzak kalabalık), ses eşitleme, renk, tarih damgası, delil kartı ve kapanış kartını ben yaparım.
 
-Not: Sahne bir dramatizasyondur. Cesedi ilk bulan sivillerdi, olay yerine önce bir polis memuru geldi. Dedektif karakteri temsilidir.
+Ayrı poz görseli (çömelme vb.) yok. Çömelme gibi hareketleri Flow, videonun içinde yapıyor. Gemini'de sadece klibin **ilk anı** üretiliyor.
 
----
-
-## STYLE BLOCK (her prompt'un içinde aynen yer alır)
-```
-Locked style: clean flat 2D stickman animation style. Perfectly round bone-white heads (#F2EEE6) with a uniform thick black outline, solid black dot eyes, small expressive black eyebrows, no nose, no ears, a simple thin black mouth line. Thin black stick arms and legs of uniform thickness, small round hands, simple rounded shoes. Clothing is drawn as simple flat shapes over the stick body with the same thick black outline. Flat colors only: no gradients, no 3D, no photorealism, no detailed anatomy, no heavy texture. Scenery lines are thinner and lighter than character outlines. Muted 1940s noir palette: ink black #1A1A1A, bone white #F2EEE6, aged paper #E8E0CF, slate blue #3E4C5E, fog grey #9AA0A6, sand #CDBB94, with evidence red #B3262E used only as a tiny accent. No text, no letters, no numbers, no logos, no watermark.
-```
+Not: Sahne bir dramatizasyondur. Diyaloglar uydurmadır. Dedektif ve memur temsili karakterlerdir. Ceplerde bulunan eşyalar (kullanılmamış tren bileti dahil) kayıtlara dayanır.
 
 ---
 
-## KARAKTERLER
+## 1. REFERANS GÖRSELLER (Gemini)
 
-### DET_01: Detective (temsili karakter)
-Palet: fötr #5A4A3A, şerit #1A1A1A, trençkot #8C7A5B, yaka #6E5F45, kravat #2B2B2B, pantolon #3A3A40
-Değişmez: fötr şapka, bıyık, trençkot rengi ve düğmeleri, defter. Değişebilir: ifade, poz, defterin açık/kapalı olması.
-
-**Identity paragraph**
+### DET_01: Detective
 ```
-DET_01 is a 1940s police detective, an adult man in his forties. Round bone-white head, total height of 6 head units, thin black stick limbs, slightly forward-leaning posture. Solid black dot eyes set fairly close together, thick straight black eyebrows, a short neat black rectangular mustache directly above the thin mouth line. Grey-brown fedora (#5A4A3A) with a black band (#1A1A1A), a pinched crown and a brim tilted slightly forward. Belted beige trench coat (#8C7A5B) reaching the knees, double row of four dark buttons, flat darker lapels (#6E5F45), belt tied at the waist. White shirt collar and a dark charcoal tie (#2B2B2B) visible at the neck. Dark grey trousers (#3A3A40), black rounded shoes. Signature prop: a small black notebook in his left hand and a short yellow pencil in his right hand.
-```
+Character reference sheet of ONE character only, on a plain flat light grey background, 16:9 landscape, no scenery, no text, no labels, no watermark.
 
-**CHARACTER REFERENCE SHEET PROMPT**
-```
-Create a clean character reference sheet of ONE character only, on a plain flat light off-white background (#F4F1EA), 16:9 landscape, no scenery.
+Art style: semi-realistic 2D animated feature film style with a noir graphic novel look. Clean confident ink linework, realistic adult human proportions (about 7.5 heads tall), cel-shaded flat color areas with soft two-tone shadows, subtle painterly texture, subtle film grain. Muted 1940s palette. Not photorealistic, not 3D, not anime, not cartoonish, not chibi.
 
-[Locked style] Clean flat 2D stickman animation style. Perfectly round bone-white heads (#F2EEE6) with a uniform thick black outline, solid black dot eyes, small expressive black eyebrows, no nose, no ears, a simple thin black mouth line. Thin black stick arms and legs of uniform thickness, small round hands, simple rounded shoes. Clothing drawn as simple flat shapes over the stick body with the same thick black outline. Flat colors only, no gradients, no 3D, no photorealism.
+Character DET_01: an Australian police detective in 1948, man in his mid forties, lean build, tall. Long narrow face, strong square jaw, deep-set tired grey eyes, heavy straight dark eyebrows, a short neat dark brown mustache, light stubble, a small vertical crease between the brows. Short dark brown hair with grey at the temples, mostly hidden under a hat. Mid-grey felt fedora (#6B6A66) with a black band and a slightly forward-tilted brim. Charcoal grey single-breasted wool suit (#3A3A3E), jacket buttoned, white shirt, dark navy tie (#1E2533) with a small tie clip, black leather shoes. Signature prop: a small black leather notebook held in his left hand and a short pencil in his right hand. Calm, observant, serious presence.
 
-[Character] DET_01 is a 1940s police detective, an adult man in his forties. Round bone-white head, total height of 6 head units, thin black stick limbs, slightly forward-leaning posture. Solid black dot eyes set fairly close together, thick straight black eyebrows, a short neat black rectangular mustache directly above the thin mouth line. Grey-brown fedora (#5A4A3A) with a black band (#1A1A1A), a pinched crown and a brim tilted slightly forward. Belted beige trench coat (#8C7A5B) reaching the knees, double row of four dark buttons, flat darker lapels (#6E5F45), belt tied at the waist. White shirt collar and a dark charcoal tie (#2B2B2B) visible at the neck. Dark grey trousers (#3A3A40), black rounded shoes. Signature prop: a small black notebook in his left hand and a short yellow pencil in his right hand.
+Layout: top row, four full-body views at exactly the same scale standing on one thin ground line: front, three-quarter, side profile facing right, back. Bottom row, six head-and-shoulders expressions of the same man with the fedora on: neutral, suspicious (narrowed eyes, one brow lowered), worried, shocked, angry, quietly determined. Right side: one large close-up portrait of the face with the fedora, and the notebook with pencil drawn alone.
 
-[Layout] Top row: four full-body views at exactly the same scale, standing on one thin grey ground line, evenly spaced: front view, three-quarter view, side view facing right, back view. Bottom row: six head-and-shoulders expression studies of the same character with the fedora on: neutral, suspicious (one eyebrow lowered, eyes narrowed), worried, shocked (eyebrows high, small round mouth), angry, determined. At the right side: one large close-up of the head with the fedora, and the black notebook with pencil drawn alone.
-
-Keep anatomy, outline thickness, costume, proportions and colors identical in every panel. Do not show any other character, alternate costumes, realistic shading, extra limbs, extra fingers or redesigned faces. No text, no labels, no letters, no watermark.
+Keep face, proportions, costume, colors and line weight identical in every panel. No other characters, no alternate outfits, no extra fingers, no extra limbs.
 ```
 
-### CON_01: Constable (temsili karakter)
-Palet: üniforma #1F2A3A, düğme ve rozet #B8963E, siper #1A1A1A, pantolon #1F2A3A, fener başı #B8963E
-Değişmez: kasket, pirinç düğmeler, fener. Değişebilir: ifade, poz, fenerin açık/kapalı olması.
-
-**Identity paragraph**
+### CON_01: Constable
 ```
-CON_01 is a young 1940s police constable in his early twenties. Round bone-white head, total height of 5.5 head units, thin black stick limbs, upright eager posture. Solid black dot eyes set slightly wide apart, thin curved black eyebrows, clean shaven, no mustache. Dark navy peaked police cap (#1F2A3A) with a black visor (#1A1A1A) and a small round brass badge (#B8963E) at the front. Dark navy buttoned tunic (#1F2A3A) with a single row of four small brass buttons (#B8963E) and a thin black belt, matching dark navy trousers, black rounded boots. Signature prop: a long black hand torch with a brass head (#B8963E), always held in his right hand.
-```
+Character reference sheet of ONE character only, on a plain flat light grey background, 16:9 landscape, no scenery, no text, no labels, no watermark.
 
-**CHARACTER REFERENCE SHEET PROMPT**
-```
-Create a clean character reference sheet of ONE character only, on a plain flat light off-white background (#F4F1EA), 16:9 landscape, no scenery.
+Art style: semi-realistic 2D animated feature film style with a noir graphic novel look. Clean confident ink linework, realistic adult human proportions (about 7.5 heads tall), cel-shaded flat color areas with soft two-tone shadows, subtle painterly texture, subtle film grain. Muted 1940s palette. Not photorealistic, not 3D, not anime, not cartoonish, not chibi.
 
-[Locked style] Clean flat 2D stickman animation style. Perfectly round bone-white heads (#F2EEE6) with a uniform thick black outline, solid black dot eyes, small expressive black eyebrows, no nose, no ears, a simple thin black mouth line. Thin black stick arms and legs of uniform thickness, small round hands, simple rounded shoes. Clothing drawn as simple flat shapes over the stick body with the same thick black outline. Flat colors only, no gradients, no 3D, no photorealism.
+Character CON_01: a young South Australian police constable in 1948, man in his early twenties, slim, average height. Round open face, clean shaven, slightly sunburnt cheeks, wide alert brown eyes, thin arched eyebrows, a few freckles on the nose, short neat light brown hair under the cap. Dark navy police uniform (#1C2433): peaked cap with a black visor and a small silver badge at the front, buttoned tunic with a single row of silver buttons and a black leather belt, matching navy trousers, polished black boots. Signature prop: a small notebook in his breast pocket and a whistle chain across the chest. Eager, slightly nervous presence.
 
-[Character] CON_01 is a young 1940s police constable in his early twenties. Round bone-white head, total height of 5.5 head units, thin black stick limbs, upright eager posture. Solid black dot eyes set slightly wide apart, thin curved black eyebrows, clean shaven, no mustache. Dark navy peaked police cap (#1F2A3A) with a black visor (#1A1A1A) and a small round brass badge (#B8963E) at the front. Dark navy buttoned tunic (#1F2A3A) with a single row of four small brass buttons (#B8963E) and a thin black belt, matching dark navy trousers, black rounded boots. Signature prop: a long black hand torch with a brass head (#B8963E), always held in his right hand.
+Layout: top row, four full-body views at exactly the same scale standing on one thin ground line: front, three-quarter, side profile facing right, back. Bottom row, six head-and-shoulders expressions of the same man with the cap on: neutral, eager, worried, shocked, nervous, determined. Right side: one large close-up portrait of the face with the cap.
 
-[Layout] Top row: four full-body views at exactly the same scale, standing on one thin grey ground line, evenly spaced: front view, three-quarter view, side view facing right, back view. Bottom row: six head-and-shoulders expression studies of the same character with the cap on: neutral, happy, worried, shocked (eyebrows high, small round mouth), nervous (eyebrows tilted up in the middle), determined. At the right side: one large close-up of the head with the cap, and the hand torch drawn alone.
-
-Keep anatomy, outline thickness, costume, proportions and colors identical in every panel. Do not show any other character, alternate costumes, realistic shading, extra limbs, extra fingers or redesigned faces. No text, no labels, no letters, no watermark.
+Keep face, proportions, costume, colors and line weight identical in every panel. No other characters, no alternate outfits, no extra fingers, no extra limbs.
 ```
 
-### VIC_01: The Unknown Man (tek poz, saygılı)
-Kıyafetler kayıtlara göre: gri-kahve kruvaze ceket, kahve örgü kazak, beyaz gömlek, kırmızı-beyaz-mavi çizgili kravat, kahve pantolon, parlak kahve ayakkabı, şapkasız. Yaralanma veya kan yok.
-
-**VIC_01_pose**
+### VIC_01: The Unknown Man (tek görsel, saygılı)
 ```
-[Locked style] Clean flat 2D stickman animation style. Perfectly round bone-white head (#F2EEE6) with a uniform thick black outline, no nose, no ears, thin black stick limbs of uniform thickness, small round hands, simple rounded shoes. Clothing drawn as simple flat shapes over the stick body with the same thick black outline. Flat colors only, no gradients, no 3D, no photorealism, no text, no watermark.
+Single full-body reference image of ONE man, on a plain flat light grey background, 16:9 landscape, no scenery, no text, no watermark.
 
-Single character on a perfectly flat solid chroma green background (#00B140), no shadow, no ground, no scenery, the whole body fully visible with generous margin, 16:9 landscape.
+Art style: semi-realistic 2D animated feature film style with a noir graphic novel look. Clean confident ink linework, realistic adult proportions, cel-shaded flat color areas with soft two-tone shadows, subtle painterly texture, subtle film grain. Not photorealistic, not 3D, not cartoonish.
 
-VIC_01 is a well-dressed man from 1948, in his forties, tall and athletic, total height of 6.5 head units. Neatly combed short hair drawn as a smooth dark brown cap shape (#2A211B) on top of the head, no hat. Grey-brown double-breasted jacket (#6B5E50), brown knitted pullover (#7A5536) under it, white shirt collar, a tie with thin red, white and blue diagonal stripes (#8A2F35, #F2EEE6, #2F4A6B), brown trousers (#5C4430), polished brown shoes (#4A3324).
+Character VIC_01: a well-dressed man in 1948, in his forties, tall, athletic build, broad shoulders. Calm face with a strong jaw, short neatly combed light brown hair, clean shaven, no hat. Grey-brown double-breasted jacket (#6B5E50), brown knitted pullover (#7A5536) underneath, white shirt, a tie with thin red, white and blue diagonal stripes, brown trousers (#5C4430), polished brown lace-up shoes.
 
-Pose, seen from the side: he lies peacefully on his back, head and shoulders slightly raised as if resting against a low wall at the left edge of the frame, legs stretched out straight toward the right with the ankles crossed, arms relaxed at his sides. Eyes closed, drawn as two short gentle curved lines, calm neutral face, thin relaxed mouth line. No injuries, no blood, nothing disturbing. Do not add any other character or object.
+Pose, seen from his left side: he lies on his back on the ground, head and shoulders slightly raised as if resting against a low wall at the left edge, legs stretched out straight toward the right with the ankles crossed, arms relaxed at his sides. Eyes closed, peaceful expression, as if asleep. No injuries, no blood, nothing graphic or disturbing.
+```
+
+### L1: Mekan, Somerton Beach
+```
+Empty location background, 16:9 landscape, no people, no animals, no text, no signs, no watermark.
+
+Art style: semi-realistic 2D animated feature film background, hand-painted noir graphic novel look, clean ink linework, cel-shaded flat color areas, soft painterly texture, subtle film grain. Not photorealistic, not 3D.
+
+Somerton Beach near Adelaide, South Australia, early morning of 1 December 1948, early summer. Clear calm morning with low warm sunlight from the right, long soft shadows, a few thin high clouds, light sea breeze. Eye-level wide shot. Background: calm blue-grey sea with small gentle waves and a pale blue sky. Middle ground: a low old concrete and stone sea wall running horizontally across the frame, about waist height, with steps at the far right; behind it a row of modest 1940s seaside houses, a couple of tall Norfolk pines and a large old institutional brick building in the distance. Foreground: wide flat pale sand with footprints and small tufts of dry grass. The sand area along the wall in the left half of the frame is clear and empty. Period correct, nothing modern.
 ```
 
 ---
 
-## POZLAR (yeşil zemin, ilgili karakter sayfası referans olarak eklenecek)
+## 2. BAŞLANGIÇ KARELERİ (Gemini, referansları ekleyerek)
 
-Her poz prompt'unun başına şunu koy:
+### F1 (ekle: DET_01, CON_01, VIC_01, L1)
 ```
-Use the attached character reference sheet. Same character, same proportions, same colors, same outline thickness. Single character on a perfectly flat solid chroma green background (#00B140), no shadow, no ground line, no scenery, the whole body fully visible with generous margin, 1:1 square. Flat 2D stickman style, flat colors, no gradients, no text, no watermark.
-```
+Use the attached reference images for the characters and the location. Keep every face, costume, color and proportion exactly as in the references.
 
-**P1a: DET_01 walking, step A**
-```
-[başlık bloğu] + [DET_01 identity paragraph]
-Pose: full body, pure side view facing right, mid-stride walking: left leg forward, right leg back, right arm swinging forward, left arm back holding the closed black notebook. Calm focused expression, eyebrows slightly lowered.
-```
+A single cinematic still frame, 16:9 landscape. Art style: semi-realistic 2D animated feature film style with a noir graphic novel look, clean confident ink linework, realistic human proportions, cel-shaded flat colors with soft two-tone shadows, painterly background, subtle film grain. Not photorealistic, not 3D, not cartoonish. No text, no watermark.
 
-**P1b: DET_01 walking, step B**
-```
-[başlık bloğu] + [DET_01 identity paragraph]
-Pose: full body, pure side view facing right, the opposite walking step: right leg forward, left leg back, left arm with the closed notebook swinging forward, right arm back. Same calm focused expression, eyebrows slightly lowered. Exactly the same size and head height as a standing pose.
+Scene: Somerton Beach, South Australia, early morning of 1 December 1948, clear calm summer morning, low warm sun from the right, long soft shadows, gentle waves.
+
+Composition: medium wide shot from eye level. Left third: the low stone sea wall; against it the man VIC_01 (well-dressed man in his forties, grey-brown double-breasted jacket, brown knitted pullover, white shirt, red white and blue striped tie, brown trousers, polished brown shoes, no hat) lies on his back with head and shoulders resting against the wall, legs stretched toward the right, ankles crossed, eyes closed, peaceful, partly in the shadow of the wall. Nothing graphic. Center: the young constable CON_01 (early twenties, clean shaven, freckles, dark navy uniform with peaked cap, silver buttons, black belt, whistle chain) crouches on one knee beside the man's feet, looking up toward the right with a nervous expression. Right third, entering from the right edge: the detective DET_01 (mid forties, lean, long narrow face, short dark mustache, mid-grey fedora, charcoal grey suit, white shirt, dark navy tie) walking across the sand toward the wall, notebook closed in his left hand, serious expression. Background: calm sea, distant houses and Norfolk pines behind the wall.
 ```
 
-**P2: DET_01 crouching**
+### F2 (ekle: DET_01, VIC_01, L1)
 ```
-[başlık bloğu] + [DET_01 identity paragraph]
-Pose: full body, side view facing left, crouching low on the right knee with the left foot flat, upper body leaning forward. The notebook is open in the left hand, the pencil in the right hand resting on the page. Head tilted down toward the ground at the left, suspicious expression with one eyebrow lowered.
+Use the attached reference images for the characters and the location. Keep every face, costume, color and proportion exactly as in the references.
+
+A single cinematic still frame, 16:9 landscape. Art style: semi-realistic 2D animated feature film style with a noir graphic novel look, clean confident ink linework, realistic human proportions, cel-shaded flat colors with soft two-tone shadows, painterly background, subtle film grain. Not photorealistic, not 3D, not cartoonish. No text, no watermark.
+
+Scene: the same spot against the stone sea wall at Somerton Beach, 1 December 1948, early morning, low warm sunlight from the right.
+
+Composition: medium close shot, slightly low angle. The detective DET_01 (mid forties, lean, long narrow face, deep-set grey eyes, short dark mustache, light stubble, mid-grey fedora, charcoal grey suit, white shirt, dark navy tie) crouches on his right knee on the sand, facing left, leaning in. His right hand is reaching toward the left side of the jacket of VIC_01, whose torso is visible at the lower left of the frame (grey-brown double-breasted jacket, brown knitted pullover, white shirt, red white and blue striped tie); the man's face is out of frame. The detective's notebook sticks out of his own left jacket pocket. Expression: focused, eyes narrowed. Background: the stone wall on the left, sand and a strip of blue-grey sea at the top right.
 ```
 
-**P3: CON_01 pointing the torch**
+### F3 (ekle: DET_01, L1)
 ```
-[başlık bloğu] + [CON_01 identity paragraph]
-Pose: full body, side view facing right, standing, right arm extended straight forward and slightly downward holding the switched-on torch. A soft pale yellow cone of light (#F3E3A0, semi-transparent) extends from the torch toward the right edge. Left arm relaxed. Nervous expression, eyebrows tilted up in the middle, small mouth.
-```
+Use the attached reference images for the character and the location. Keep the face, costume, colors and proportions exactly as in the references.
 
-**H1: DET_01 boş yüz kafa (yüz animasyonunu ben çizeceğim)**
-```
-Use the attached character reference sheet. Head and shoulders close-up of DET_01, front view, centered, on a perfectly flat solid chroma green background (#00B140), 1:1 square, no shadow.
-DET_01 identity: round bone-white head (#F2EEE6) with a thick black outline, grey-brown fedora (#5A4A3A) with a black band and a slightly forward brim, short neat black rectangular mustache, beige trench coat collar (#8C7A5B) with darker lapels (#6E5F45), white shirt collar, dark charcoal tie (#2B2B2B).
-IMPORTANT: the face is completely blank. NO eyes, NO eyebrows, NO mouth. Only the mustache stays on the face. Flat 2D style, flat colors, no gradients, no text, no watermark.
+A single cinematic still frame, 16:9 landscape. Art style: semi-realistic 2D animated feature film style with a noir graphic novel look, clean confident ink linework, realistic human proportions, cel-shaded flat colors with soft two-tone shadows, painterly background, subtle film grain. Not photorealistic, not 3D, not cartoonish. No text, no watermark.
+
+Scene: Somerton Beach, 1 December 1948, early morning, low warm sunlight from the right.
+
+Composition: close-up of the detective DET_01 (mid forties, lean, long narrow face, strong square jaw, deep-set tired grey eyes, heavy dark eyebrows, short neat dark mustache, light stubble, mid-grey fedora with black band, charcoal grey suit, white shirt, dark navy tie) from the chest up, crouching, three-quarter view facing left. He holds up a small unused 1940s railway ticket made of thick pale green card between the thumb and finger of his right hand, at chin height, looking at it. Its printed text is too small and blurred to read. Warm sunlight on the right side of his face, soft shadow under the hat brim. Background: softly out-of-focus sea and sand.
 ```
 
 ---
 
-## MEKANLAR (karakter yok)
+## 3. FLOW VİDEO PROMPT'LARI (Frames to Video, ilk kare olarak F1/F2/F3)
 
-**L1: Geniş sahil**
+### V1 (ilk kare: F1)
 ```
-[Locked style] Flat 2D stickman animation style background, scenery lines thin and light, flat colors, no gradients, no photorealism, no text, no signs, no watermark. 16:9 landscape.
+The provided image is the first frame. Keep the exact art style: semi-realistic 2D animated feature film with a noir graphic novel look, clean ink linework, cel-shaded flat colors, painterly background, subtle film grain. Keep both characters' faces, costumes and colors exactly as in the first frame. Not photorealistic, not 3D.
 
-Empty location plate, no people, no characters, no animals. Somerton Beach, near Adelaide, South Australia, early morning of 1 December 1948, soft pale dawn light. Wide shot from eye level. Background: calm grey-blue sea (#6F8496) and a pale peach and fog grey dawn sky (#E9D6C0, #9AA0A6), a few flat simple clouds. Middle ground: a low old stone sea wall (#A79F8F) running horizontally across the whole frame, about knee to waist height, with a few simple 1940s seaside houses and pine trees behind it in muted slate blue (#3E4C5E). Foreground: wide flat sand (#CDBB94) with a few faint footprints and small tufts of dry grass. Keep the sand area in the left and center of the frame clear and empty so characters can be added later. Period correct, nothing modern.
+Setting: Somerton Beach, South Australia, early morning, 1 December 1948. Clear calm summer morning, light sea breeze moving the dry grass, gentle waves rolling in.
+
+Action: 0 to 2 seconds, the detective keeps walking across the sand toward the wall, small puffs of sand at each step; the constable looks up at him. 2 to 5 seconds, the constable stands up quickly and speaks. 5 to 8 seconds, the detective stops beside him, looks down at the still man by the wall and answers quietly. The man lying against the wall does not move at all.
+
+Camera: static, very slight slow push in.
+
+Dialogue, Australian accents:
+Constable, young and nervous: "Found him like this, sir. Couple of blokes on the beach saw him."
+Detective, low and calm: "Anyone know who he is?"
+
+Audio: soft waves, light wind, a distant seagull, footsteps on sand. No music.
+Avoid: character redesign, style change, modern objects, extra people, extra limbs, flicker, scene cuts, text, subtitles, watermark, blood or injuries.
 ```
 
-**L2: Duvar dibi yakın plan**
+### V2 (ilk kare: F2)
 ```
-[Locked style] Flat 2D stickman animation style background, scenery lines thin and light, flat colors, no gradients, no photorealism, no text, no watermark. 16:9 landscape.
+The provided image is the first frame. Keep the exact art style: semi-realistic 2D animated feature film with a noir graphic novel look, clean ink linework, cel-shaded flat colors, painterly background, subtle film grain. Keep the detective's face, hat, suit and colors exactly as in the first frame. Not photorealistic, not 3D.
 
-Empty location plate, no people. A closer low-angle view of the same old stone sea wall (#A79F8F) at Somerton Beach, 1948, early morning. The wall fills the left third of the frame, its stones drawn as simple flat rounded rectangles with thin lines. Flat sand (#CDBB94) covers the lower half of the frame, a strip of grey-blue sea (#6F8496) and pale dawn sky (#E9D6C0) visible at the top right. A few small shells and a scrap of dry seaweed on the sand. Leave the sand directly next to the wall and the center of the frame clear for characters.
+Setting: beside the stone sea wall at Somerton Beach, early morning, 1 December 1948, warm low sunlight, gentle breeze.
+
+Action: 0 to 2 seconds, the detective leans in a little closer. 2 to 5 seconds, he carefully lifts the edge of the man's jacket with two fingers and slides his hand into the inside pocket. 5 to 8 seconds, he slowly draws out a small pale green railway ticket, holds it up and frowns at it. The man lying down never moves.
+
+Camera: static, slight drift toward the detective's hand.
+
+Dialogue, Australian accent:
+Detective, quietly to himself: "No papers. Nothing with a name on it." (pause) "But a train ticket."
+
+Audio: soft waves, light wind, fabric rustle, faint distant voices of onlookers further along the beach. No music.
+Avoid: character redesign, style change, showing the lying man's face, modern objects, extra hands, extra fingers, flicker, scene cuts, readable text on the ticket, subtitles, watermark, blood or injuries.
+```
+
+### V3 (ilk kare: F3)
+```
+The provided image is the first frame. Keep the exact art style: semi-realistic 2D animated feature film with a noir graphic novel look, clean ink linework, cel-shaded flat colors, painterly background, subtle film grain. Keep the detective's face, hat, suit and colors exactly as in the first frame. Not photorealistic, not 3D.
+
+Setting: Somerton Beach, early morning, 1 December 1948, warm low sunlight, light breeze.
+
+Action: 0 to 3 seconds, the detective turns the small ticket over in his fingers and studies it, eyes narrowing. 3 to 5 seconds, he lowers the ticket and looks slowly to the left, toward the man by the wall (off screen). 5 to 8 seconds, he holds that look, jaw tight, and speaks quietly. Hold on his face at the end.
+
+Camera: static close-up, very slow push in on his eyes.
+
+Dialogue, Australian accent:
+Detective, almost a whisper: "Bought a ticket and never used it." (pause) "So who are you, mate?"
+
+Audio: soft waves, light wind, a single distant seagull. No music.
+Avoid: character redesign, style change, modern objects, extra fingers, flicker, scene cuts, readable text on the ticket, subtitles, watermark.
 ```
 
 ---
 
-## EŞYALAR (yeşil zemin, tek tek)
-
-Her eşya prompt'unun başına:
-```
-Single object only, centered, on a perfectly flat solid chroma green background (#00B140), no shadow, 1:1 square. Flat 2D stickman animation prop style, uniform thick black outline, flat colors, no gradients, no photorealism. No text, no letters, no numbers, no logos, no watermark.
-```
-
-**PR1: Etiketi kesilmiş yaka**
-```
-[başlık bloğu]
-The inside back collar of a 1940s white shirt (#F2EEE6), seen flat from the front, with a small rectangular spot where a clothing label has been cut away: a few short loose thread ends and a slightly darker rectangle outline. A thin evidence red circle (#B3262E) drawn around the cut spot.
-```
-
-**PR2: Kullanılmamış tren bileti**
-```
-[başlık bloğu]
-A small unused 1940s railway ticket made of thick card, pale green-grey (#B9C4B0), rectangular with rounded corners, slightly tilted. Its surface is completely blank, only a few thin decorative border lines. No printed words or numbers.
-```
-
-**PR3: Sigara paketi ve kibrit**
-```
-[başlık bloğu]
-A simple 1940s soft cigarette packet in muted cream and dark red (#E8E0CF, #7A2A2E) with no brand name, lying next to a small box of safety matches (#C9A86A) slightly open with a few matches visible. Both objects drawn together as one small evidence group.
-```
-
----
-
-## SENARYO (ElevenLabs, düz metin)
-```
-On the morning of December first, 1948, a man was found lying on Somerton Beach in South Australia. He was neatly dressed. He had no papers and no ID. And someone had cut the labels from his clothes. So who was he?
-```
-Not: Ayrıntılar (etiketler, kıyafetler) uzun video senaryosu öncesinde kaynaklarla tek tek doğrulanacak.
-
-## STORYBOARD (20 sn)
-| Zaman | Sahne | Görseller | Claude'un ekleyeceği |
-|---|---|---|---|
-| 0-5 | Geniş sahil, yavaş yaklaşma | L1 | Dalga ve bulut hareketi, tarih/yer damgası "SOMERTON BEACH · 1 DEC 1948" |
-| 5-9 | Polis feneri duvara tutuyor, dedektif soldan yürüyerek giriyor | L1, P3, P1a/P1b | Yürüme döngüsü, fener ışığı titremesi |
-| 9-13 | Duvar dibi: adam yatıyor, dedektif çömeliyor ve not alıyor | L2, VIC_01_pose, P2 | Defterde yazı animasyonu, hafif kamera kayması |
-| 13-17 | Dedektifin yakın planı, ardından delil kartları | H1, PR1, PR2, PR3 | Göz kırpma, kaş kalkışı, polaroid delil kartları, kırmızı daire |
-| 17-20 | Dosya kapanışı | Hepsi | "UNIDENTIFIED" damgası, "WHO WAS HE?" yazısı |
+## 4. CLAUDE'UN EKLEYECEKLERİ
+- 0-6.5 sn (V1): sol alttan daktilo efektiyle gelen "SOMERTON BEACH · SOUTH AUSTRALIA · 1 DECEMBER 1948" yazısı
+- 6.5-13 sn (V2): bilet çıktığı anda küçük bir delil etiketi: "EVIDENCE 01 · UNUSED RAIL TICKET"
+- 13-18 sn (V3): yüzde hafif kararma
+- 18-20 sn: siyah ekran, kırmızı "UNIDENTIFIED" damgası, daktilo sesi
+- Ses: dalga, rüzgar ve martı katmanları; klipler arasında kesintisiz ortam sesi; diyalogların seviye eşitlemesi; son saniyelerde alçak bir drone sesi
+- Renk: üç klibin rengini birbirine eşitleme
