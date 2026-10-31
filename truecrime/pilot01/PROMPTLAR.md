@@ -45,6 +45,8 @@ Keep face, proportions, costume, colors and line weight identical in every panel
 
 ## CON_01_sheet
 ```
+Match ONLY the art style, line weight and coloring of the attached reference image; do not copy its character, clothes or face.
+
 Character reference sheet of ONE character only, on a plain flat light grey background, 16:9 landscape, no scenery, no text, no labels, no watermark.
 
 Art style: semi-realistic 2D animated feature film style with a noir graphic novel look. Clean confident ink linework, realistic adult human proportions (about 7.5 heads tall), cel-shaded flat color areas with soft two-tone shadows, subtle painterly texture, subtle film grain. Muted 1940s palette. Not photorealistic, not 3D, not anime, not cartoonish.
@@ -58,6 +60,8 @@ Keep face, proportions, costume, colors and line weight identical in every panel
 
 ## VIC_01_ref
 ```
+Match ONLY the art style, line weight and coloring of the attached reference image; do not copy its character, clothes or face.
+
 Single full-body character reference of ONE man standing, front view, on a plain flat light grey background, 3:4 portrait, no scenery, no text, no watermark.
 
 Art style: semi-realistic 2D animated feature film style with a noir graphic novel look. Clean confident ink linework, realistic adult proportions (about 7.5 heads tall), cel-shaded flat color areas with soft two-tone shadows, subtle painterly texture, subtle film grain. Not photorealistic, not 3D, not cartoonish.
@@ -72,6 +76,8 @@ Ben ne yapacağım: kamera soldan sağa yavaş kayar, deniz ve gökyüzü daha y
 
 ## S1_bg (en arka katman)
 ```
+Match ONLY the art style, line weight and coloring of the attached reference image; do not include any person.
+
 Background layer only, 21:9 ultra-wide landscape, no people, no animals, no text, no signs, no watermark.
 
 Art style: semi-realistic 2D animated feature film background, hand-painted noir graphic novel look, clean ink linework, cel-shaded flat color areas, soft painterly texture, subtle film grain. Not photorealistic, not 3D.
@@ -81,6 +87,8 @@ Somerton Beach near Adelaide, South Australia, early morning of 1 December 1948,
 
 ## S1_fg (ön katman: duvar ve kum)
 ```
+Use the attached sky and sea image as the matching background layer: same art style, same light direction, same colors, same horizon height.
+
 Foreground layer only, 21:9 ultra-wide landscape, on a perfectly flat solid chroma green background (#00B140) above the drawn elements, no people, no text, no watermark.
 
 Art style: semi-realistic 2D animated feature film background, hand-painted noir graphic novel look, clean ink linework, cel-shaded flat color areas, soft painterly texture, subtle film grain. Not photorealistic, not 3D.
@@ -184,7 +192,7 @@ Ben ne yapacağım: çok yavaş zoom, göz kırpma, bilete bakarken (k1) konuşu
 
 ## S3_k1 (ana kare)
 ```
-A single cinematic still frame, 16:9 landscape, no text, no watermark. Use the attached DET_01 reference sheet: same face, same hat, same suit, same colors.
+A single cinematic still frame, 16:9 landscape, no text, no watermark. Use the attached DET_01 reference sheet for his face, hat, suit and colors, and the attached scene image for the same lighting, colors and the same ticket.
 
 Art style: semi-realistic 2D animated feature film style with a noir graphic novel look, clean confident ink linework, realistic human proportions, cel-shaded flat colors with soft two-tone shadows, painterly background, subtle film grain. Not photorealistic, not 3D, not cartoonish.
 
