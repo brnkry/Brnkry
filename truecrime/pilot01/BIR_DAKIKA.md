@@ -45,7 +45,7 @@ Wide, calm, symmetrical shot of Somerton Beach, South Australia, early morning i
 ```
 **Flow (ilk kare N1):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 6 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 6 seconds long. Video length: 6 seconds.
 0 to 6 seconds: the two small figures walk slowly from the right toward the man by the wall, steady pace, still far from him at the end. Gentle waves roll in and out along the shore, foam lines slide sideways. A very slow camera push in toward the man lying by the wall. The man by the wall never moves.
 Sound: soft waves, light wind, distant gull. No music, no voices.
 Avoid: people running, faces, blood, text, numbers, modern objects, outlines, 3D.
@@ -59,7 +59,7 @@ Close-up from above of the chest of a man lying on pale sand: a neat grey-brown 
 ```
 **Flow (ilk kare N2):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 3 seconds: very slow camera slide upward along the tie toward the collar, stopping before any face appears. A light breeze lifts the tip of the tie slightly and a few sand grains roll off the lapel. The man does not move.
 Sound: light wind, faint distant waves. No music, no voices.
 Avoid: showing the face, blood, text, outlines, 3D.
@@ -73,7 +73,7 @@ Macro close-up of the inside back collar of a grey-brown jacket lying on a dark 
 ```
 **Flow (ilk kare N3):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 1 second: the fingers fold the collar open a little wider.
 1 to 3 seconds: the hands hold still, the loose threads in the empty label spot tremble slightly. Slow push in on the empty rectangle.
 Sound: soft fabric rustle. No music, no voices.
@@ -88,7 +88,7 @@ Frontal, symmetrical view of a 1940s railway station cloakroom counter: a long b
 ```
 **Flow (ilk kare N4):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 1 second: the hands flip both latches open with a snap.
 1 to 3 seconds: the lid lifts up and back, revealing neatly folded clothes inside in plum, grey-brown and cream shapes.
 3 to 4 seconds: hold. The hanging lamp sways very slightly.
@@ -104,7 +104,7 @@ A dim office at night. The detective stands with his back to the camera in the c
 ```
 **Flow (ilk kare N5):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 3 seconds: slow camera push in over the detective's shoulder toward the board. The detective stays completely still. The lamp flickers once. Dust specks drift in the light cone.
 Sound: low lamp hum, one faint flicker buzz. No music, no voices.
 Avoid: the detective turning, a face, readable text, outlines, 3D.
@@ -118,7 +118,7 @@ Macro close-up of the waistband of brown trousers lying flat on a dark plum tabl
 ```
 **Flow (ilk kare N6):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 5 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 5 seconds long. Video length: 5 seconds.
 0 to 2 seconds: the fingertips slowly draw the tiny rolled paper all the way out of the pocket.
 2 to 4 seconds: the fingers lift it toward the camera into the lamp light and turn it once.
 4 to 5 seconds: hold, slight push in on the tiny scroll.
@@ -134,7 +134,7 @@ Top-down macro of a dark plum desk under a warm amber lamp. In the exact center,
 ```
 **Flow (ilk kare N7):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 1.5 seconds: the tweezers slowly pull the two ends apart and the paper strip flattens out fully, staying in the exact center of the frame.
 1.5 to 3 seconds: hold perfectly still. Static locked camera.
 Sound: soft paper uncurl, lamp hum. No music, no voices.
@@ -149,7 +149,7 @@ A small old hardback book lying closed on a dark plum desk under amber lamp ligh
 ```
 **Flow (ilk kare N8):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 1 second: the cover lifts open on its own as if by a draft.
 1 to 3 seconds: cream pages flutter and turn quickly from right to left, then settle. Slow push in.
 Sound: book cover creak, pages fluttering. No music, no voices.
@@ -164,7 +164,7 @@ Top-down view of the same small book lying open near its end on the dark plum de
 ```
 **Flow (ilk kare N9):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 1 second: the finger slides slowly toward the torn gap and stops at its edge.
 1 to 4 seconds: hold, slow push in on the torn gap, its ragged paper fibres tremble slightly.
 Sound: soft paper rustle, lamp hum. No music, no voices.
@@ -179,7 +179,7 @@ Straight-on close-up of the inside back cover of the same small book, a plain cr
 ```
 **Flow (ilk kare N10):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 4 seconds: a very slow push in on the blank cream page. A soft beam of light slowly sweeps across the page from left to right like a torch. The page stays blank and still.
 Sound: low ominous room tone. No music, no voices.
 Avoid: any writing or marks appearing on the page, hands, text, letters, numbers, outlines, 3D.
@@ -193,7 +193,7 @@ A 1940s pathology laboratory bench seen straight on and symmetrical. Teal tiled 
 ```
 **Flow (ilk kare N11):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 2 seconds: the doctor gently swirls the test tube; the teal liquid circles inside.
 2 to 4 seconds: he lowers it slowly and holds still. A tiny bubble rises in one flask. Slow push in on the test tube.
 Sound: glass clink, quiet liquid swirl, distant clock tick. No music, no voices.
@@ -208,7 +208,7 @@ A quiet cemetery in Adelaide, seen straight on and symmetrical. In the center, a
 ```
 **Flow (ilk kare N12):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 3 seconds: a few dry leaves drift across the frame from right to left, the grass sways gently, the light slowly dims from dusk toward night. Very slow push in on the blank headstone. The headstone stays blank.
 Sound: soft wind, rustling leaves. No music, no voices.
 Avoid: any writing on the headstone, people, text, outlines, 3D.
@@ -222,7 +222,7 @@ A single tall DNA double helix in the center of the frame, made of flat paper-cu
 ```
 **Flow (ilk kare N13):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 4 seconds: the DNA helix slowly rotates around its vertical axis, rungs passing in front and behind, while the camera slowly pushes in. The cream glow pulses softly once.
 Sound: soft low hum, gentle shimmer. No music, no voices.
 Avoid: realistic 3D rendering, text, numbers, outlines.
@@ -236,7 +236,7 @@ The same cork evidence board, close-up straight on. In the center, the same pinn
 ```
 **Flow (ilk kare N14):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 3 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 3 seconds long. Video length: 3 seconds.
 0 to 1 second: the hand pins the blank paper strip under the portrait with one firm press.
 1 to 2 seconds: both hands slide out of frame to the right.
 2 to 3 seconds: hold, the strip stays perfectly still and blank, slight push in.
@@ -252,7 +252,7 @@ Somerton Beach at dusk, seen straight on and symmetrical. In the exact center, t
 ```
 **Flow (ilk kare N15):**
 ```
-Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Duration: 4 seconds.
+Continue from the provided first frame. Keep the exact flat grainy editorial illustration style and palette. Not photorealistic, not 3D. Generate a video that is exactly 4 seconds long. Video length: 4 seconds.
 0 to 4 seconds: the detective stands completely still. Waves roll in slowly, foam lines slide toward his feet and back. The sun sinks a little lower, the sky darkens slightly. His coat hem moves in the wind. Locked static camera.
 Sound: slow waves, wind. No music, no voices.
 Avoid: the detective turning or walking, a face, text, outlines, 3D.
