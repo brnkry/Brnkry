@@ -38,6 +38,8 @@ def wt(s, after=0.0):
 # ---------- photos ----------
 # German channel: small exact blur on every readable swastika (Knight's Cross centres included) (centre x, centre y, diameter in source px; boxes checked on zoomed crops)
 BLUR = {
+ 'l_8576': [(992, 200, 48), (624, 1640, 46), (694, 1956, 130), (690, 2158, 42), (1300, 2172, 40)], 'l_2279': [(770, 124, 62), (1013, 1690, 56), (442, 2321, 54), (1679, 2350, 72)],
+ 'l_doenitz': [(966, 261, 48), (968, 1566, 64)],
  'k_img7': [(617, 1402, 40)], 'k_img5': [(850, 1978, 86)], 'k_h0579': [(1147, 1250, 40), (780, 1619, 62)],
  'k_43816': [(540, 1125, 44), (934, 1422, 40), (936, 1530, 46)], 'k_ba_recolored': [(767, 937, 40), (471, 1210, 48)],
  'k_img1': [(470, 528, 46), (852, 690, 46), (1051, 1447, 40)], 'k_schepke': [(732, 1289, 44), (1187, 1413, 36), (1181, 1489, 40)],
@@ -192,7 +194,9 @@ def dashed(can, pts, u, col=YEL, w=7, seg=22, head=34):
     for i in range(len(pts) - 1):
         a, b = pts[i], pts[i + 1]; L_ = math.dist(a, b); s_ = 0
         while s_ < L_ and acc + s_ < goal:
-            e = min(L_, s_ + seg, goal - acc); p0 = (lerp(a[0], b[0], s_ / L_), lerp(a[1], b[1], s_ / L_)); p1 = (lerp(a[0], b[0], e / L_), lerp(a[1], b[1], e / L_))
+            e = min(L_, s_ + seg, goal - acc)
+            if e <= s_ + 1e-6: break   # float rounding at the tip could otherwise loop forever
+            p0 = (lerp(a[0], b[0], s_ / L_), lerp(a[1], b[1], s_ / L_)); p1 = (lerp(a[0], b[0], e / L_), lerp(a[1], b[1], e / L_))
             if on: d.line((p0, p1), fill=(0, 0, 0, 140), width=w + 6); d.line((p0, p1), fill=col + (255,), width=w)
             on = not on; s_ = e; tip = p1; ang = math.atan2(b[1] - a[1], b[0] - a[0])
         acc += L_
