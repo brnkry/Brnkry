@@ -39,12 +39,15 @@ def SIDE(n, sxa, sxb, ov=None, z1=1.04, sh=210):
 # 0: the hook, written beside Hartenstein as it is spoken (no captions here)
 def s_hook(t, w0, w1):
     """Hartenstein on the left, the opening sentence written word by word in the space beside him"""
-    im = src('l_8576'); z = lerp(1.0, 1.04, prog(t, w0, w1)); h_ = int(H * 1.08 * z); w_ = int(im.width * h_ / im.height)
-    can = Image.new('RGBA', (W, H), (14, 13, 12, 255)); P_ = grade(im.resize((w_, h_), Image.BICUBIC).convert('RGBA'))
-    can.alpha_composite(P_, (int(330 - 992 * h_ / im.height), int(-60 * z)))   # his face (source x 992) sits at screen x 330
+    im = src('l_8576'); z = lerp(1.0, 1.04, eio(prog(t, w0, w1))); sc = H * 1.08 * z / im.height   # screen px per source px, eased
+    x0 = 992 - 330 / sc; y0 = (60 * z) / sc   # his face (source x 992) stays at screen x 330; fractional box, so the zoom has no 1-px steps
+    box = (x0, y0, x0 + W / sc, y0 + H / sc); pad = Image.new('RGB', (int(W / sc) + 4, im.height), (14, 13, 12))
+    if x0 < 0:   # left of the photo: dark fill
+        pad.paste(im.crop((0, 0, min(im.width, int(W / sc) + 4), im.height)), (int(-x0), 0)); box = (x0 - int(x0), y0, x0 - int(x0) + W / sc, y0 + H / sc); im = pad
+    can = grade(im.resize((W, H), Image.BICUBIC, box=box).convert('RGBA'))
     g = np.clip((np.arange(W) - 420) / 260, 0, 1) ** 1.2 * 225; L = Image.new('RGBA', (W, H), (10, 10, 12, 0)); L.putalpha(Image.fromarray(np.repeat(g.astype(np.uint8)[None, :], H, 0))); can.alpha_composite(L)
     shade(can, 200, 0.62)
-    X = 700   # column 480..910: clear of the like/comment buttons on the right
+    X = 670   # column 460..880: clear of the like/comment buttons on the right
     for s_, w_t, col, sz, y in (('Er versenkte', ws('Er'), CREAM, 80, 430), ('ein Schiff,', ws('ein', 0.5), CREAM, 80, 530), ('rettete danach', ws('rettete'), CREAM, 70, 650),
                                 ('Hunderte', ws('Hunderte'), YEL, 112, 770), ('Schiffbrüchige', ws('Schiffbrüchige', 2.5), CREAM, 66, 885), ('und wurde dafür', ws('und', 3.3), CREAM, 64, 995),
                                 ('bombardiert.', ws('bombardiert'), RED, 96, 1110)):
@@ -82,7 +85,7 @@ def s_list(t, w0, w1):
     can = BG('women', 0.0, 130, 1.8)(t, w0)
     title(can, t, w0 + 0.05, '2.700 MENSCHEN', TOP, 96, YEL)
     for (s_, w_, y) in (('britische Soldaten', ws('Soldaten', 21), 560), ('Zivilisten, Frauen und Kinder', ws('Zivilisten'), 680), ('polnische Wachsoldaten', ws('polnische'), 800)):
-        hand(can, t, w_, s_, (CX, y), 86, CREAM, 0.5)
+        hand(can, t, w_, s_, (CX - 20, y), 76, CREAM, 0.5)
     popnum(can, t, ws('1.800'), 0, 1800, 1020, 200, YEL, 0.9)
     ititle(can, t, ws('italienische', 26.5), 'ITALIENISCHE KRIEGSGEFANGENE', 1170, 70, YEL)
     return can
@@ -93,8 +96,7 @@ def o_side(can, t, w0, w1):
     title(can, t, ws('Wasser', 32), 'AUS DEM WASSER', 300, 90, CREAM)
 def o_water(can, t, w0, w1):
     title(can, t, w0 + 0.05, 'AUS DEM WASSER', 300, 90, CREAM)
-    hand(can, t, ws('Hilferufe'), '„Aiuto! Aiuto!“', (CX, 1330), 130, YEL, 0.6)
-    title(can, t, ws('Italienisch') - 0.1, 'HILFERUFE AUF ITALIENISCH', 1440, 52, CREAM, None, 'bebas')
+    hand(can, t, ws('Hilferufe'), 'Hilferufe auf Italienisch', (CX - 20, 1340), 88, YEL, 0.7)
 # 5: the decision to rescue
 def s_hart(t, w0, w1):
     can, m = side('l_hart2', 500, 760, t, w0, w1, 1.04); shade(can, 230, 0.5); can.alpha_composite(TOPSH)
@@ -102,7 +104,7 @@ def s_hart(t, w0, w1):
     if t > ws('Hartenstein', 34.5): arrow_at(can, t, ws('Hartenstein', 34.5), (x, y - 40), (x + 40, y - 260), YEL, 10, 36)
     hand(can, t, ws('Hartenstein', 34.5), 'Hartenstein', (min(x + 120, 860), y - 320), 92, YEL, 0.45)
     hand(can, t, ws('Verbündeten'), 'Verbündete!', (CX, 1290), 110, CREAM, 0.45)
-    underlined(can, t, ws('Rettung'), 'DIE RETTUNG', 1410, 100, YEL, RED)
+    underlined(can, t, ws('begann') - 0.05, 'DIE RETTUNG', 1410, 100, YEL, RED)
     return can
 def o_climb(can, t, w0, w1, m):
     pass
@@ -146,16 +148,20 @@ def s_flag(t, w0, w1):
     hand(can, t, ws('Rotkreuzflagge') + 0.1, 'Rotkreuzflagge', (CX, 1130), 120, CREAM, 0.5)
     hand(can, t, ws('Brücke'), 'auf der Brücke', (CX, 1250), 96, YEL, 0.4)
     return can
+CONAKRY, COTONOU = (-13.71, 9.51), (2.43, 6.37)
 def s_map2(t, w0, w1):
+    """Vichy French ships from Dakar (Gloire), Conakry (Annamite) and Cotonou (Dumont d'Urville) towards the survivors; U 156 waits there under the red cross"""
     can = BG('gl1', 6.0, 60, 1.6)(t, w0); z = lerp(1.0, 1.03, prog(t, w0, w1)); mp = MA.frame(z); mp.putalpha(175); can.alpha_composite(mp)
     p = lambda lo, la: MA.p(lo, la, z)
-    x, y = p(*DAKAR); dot(can, x, y, CREAM, 8); title(can, t, w0 + 0.2, 'DAKAR', y - 42, 42, CREAM, None, 'bebas', max(x, 150))
-    meet = p(-12.0, 0.5); us = p(*SINK)
-    dashed(can, [p(*DAKAR), p(-15.5, 8.0), meet], eio((t - w0) / 2.4), CREAM, 7, 20, 30)
-    dashed(can, [us, meet], eio((t - w0 - 0.4) / 1.6), YEL, 7, 20, 30)
-    flag(can, t, w0 + 0.2, (us[0] + 70, us[1] + 40), 56)
-    title(can, t, ws('französischen'), 'FRANZÖSISCHE SCHIFFE', p(-21, 11)[1], 54, CREAM, None, 'bebas', 300)
-    ititle(can, t, ws('Überlebenden', 65.5), 'ÜBERGABE DER ÜBERLEBENDEN', TOP, 70, YEL)
+    us = p(*SINK)
+    for i, (nm, pt, via, ship) in enumerate((('DAKAR', DAKAR, (-19.5, 8.0), 'GLOIRE'), ('CONAKRY', CONAKRY, (-14.8, 3.0), 'ANNAMITE'), ('COTONOU', COTONOU, (-4.0, -0.5), "DUMONT D'URVILLE"))):
+        x, y = p(*pt); dot(can, x, y, CREAM, 8); title(can, t, w0 + 0.15 + i * 0.2, nm, y - 40, 40, CREAM, None, 'bebas', min(max(x, 130), 950))
+        dashed(can, [(x, y), p(*via), (us[0] + 18, us[1] - 18)], eio((t - w0 - 0.2 - i * 0.25) / 2.4), CREAM, 6, 18, 26)
+        vx, vy = p(*via); title(can, t, w0 + 0.9 + i * 0.25, ship, vy + (34 if i != 1 else -34), 34, YEL, None, 'bebas', min(max(vx, 150), 930))
+    flag(can, t, w0 + 0.1, (us[0] - 70, us[1] + 50), 56); ring(can, t, w0 + 0.1, us[0], us[1], YEL, 18, False)
+    title(can, t, w0 + 0.1, 'U 156', us[1] + 120, 54, YEL, None, 'anton', max(us[0], 150))
+    title(can, t, ws('französischen', 63.5), 'FRANZÖSISCHE SCHIFFE', TOP, 84, CREAM)
+    ititle(can, t, ws('Überlebenden', 65.5), 'ZU DEN ÜBERLEBENDEN', TOP + 100, 64, YEL)
     return can
 # 9: the B-24, the order from Ascension, the bomb
 def o_b24fly(can, t, w0, w1):
@@ -182,7 +188,7 @@ def o_gl2(can, t, w0, w1):
     hand(can, t, ws('Kriegsschiffe') - 0.2, 'französische Kriegsschiffe', (CX, 1330), 96, YEL, 0.6)
 def o_gloire(can, t, w0, w1, m):
     ititle(can, t, w0 + 0.05, 'KREUZER GLOIRE', TOP, 100, CREAM)
-    hand(can, t, ws('Überlebenden', 88), 'die meisten Überlebenden', (CX, 1330), 92, YEL, 0.6)
+    hand(can, t, ws('Überlebenden', 88), 'die meisten Überlebenden', (CX - 20, 1330), 80, YEL, 0.6)
 def s_dead(t, w0, w1):
     can = BG('sea', 0.0, 110, 1.6)(t, w0)
     hand(can, t, ws('mehr', 90.5), 'mehr als', (CX, 720), 100, CREAM, 0.4)
@@ -207,7 +213,7 @@ def o_crew(can, t, w0, w1):
     ititle(can, t, w0 + 0.45, '1908 - 1943', 1410, 64, CREAM)
 def o_hit(can, t, w0, w1, m):
     ititle(can, t, ws('März', 112.5), '8. MÄRZ 1943', TOP, 100, CREAM)
-    hand(can, t, ws('Flugzeug'), 'ein amerikanisches Flugzeug', (CX, 1330), 92, YEL, 0.6)
+    hand(can, t, ws('versenkte', 114), 'ein amerikanisches Flugzeug', (CX - 20, 1330), 78, YEL, 0.6)
 def o_swirl(can, t, w0, w1, m):
     title(can, t, w0 + 0.1, 'U 156', 1330, 130, YEL, None, bold=2)
 def o_raft(can, t, w0, w1, m):
@@ -230,7 +236,6 @@ ANCH = [
  (ws('hörte') - 0.1, CARD('side', 0.0, o_side), ('fade',)),
  (ws('Hilferufe') - 0.3, CARD('water', 0.0, o_water), ('fade',)),
  (ws('Hartenstein', 34.5) - 0.1, s_hart, ('fade',)),
- (ws('Er', 40.2) - 0.1, SIDE('l_220963', 900, 1150, o_climb), ('fade',)),
  (ws('bis', 41.9) - 0.1, SIDE('l_hss', 800, 1200, o_deck), ('fade',)),
  (ws('und', 43.7) - 0.1, SIDE('l_sen', 900, 1150, o_sen), ('fade',)),
  (ws('Dann') - 0.1, s_radio, ('whip', 1)),
@@ -253,6 +258,6 @@ ANCH = [
  (ws('Nach', 101.2) - 0.1, SIDE('l_nuremberg', 400, 900, o_nbg, 1.03, 245), ('fade',)),
  (ws('Hartenstein', 110.2) - 0.1, CARD('crew', 0.0, o_crew), ('fade',)),
  (ws('Im', 112.3) - 0.1, SIDE('l_u156hit', 500, 900, o_hit), ('whip', 1)),
- (ws('U', 116.4) - 0.1, SIDE('l_16794965', 600, 800, o_swirl), ('fade',)),
+ (ws('U', 116.4) + 0.5, SIDE('l_16794965', 600, 800, o_swirl), ('fade',)),
  (ws('östlich') - 0.1, SIDE('l_16794967', 700, 900, o_raft), ('fade',)),
  (ws('und', 119.6) - 0.1, s_end, ('fade',))]
