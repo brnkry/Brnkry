@@ -119,3 +119,8 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 
 ## Senaryo dili
 - Her cümleye yıl ya da tarih verilmez, akışı bozuyor (Boran). Başta bir zaman çapası yeter ("Im Sommer 1942"); sonrası "im März", "wenig später", "Wochen später" gibi ifadelerle akar. Yıl sadece hikâye için gerçekten önemliyse verilir.
+- CDM anlatım tarzı (Boran: "Claude videosu olduğu belli olmasın"):
+  - Kanca: paradoks içeren tek, uzun, düz bir cümle; soru sorulmaz. Sonra "Sein Name war…" ya da "Der Plan hieß…".
+  - Gövde: kronolojik, somut isim, sayı ve yerlerle. Cümleler "und", "doch", "denn" ile bağlanır.
+  - Bitiş: sessiz, olgusal bir kapanış ("Offiziell hieß es…", "zwischen Gefallenen, deren Namen kaum noch jemand kennt").
+  - Yasak: retorik sorular ("Worum ging es?"), "drehte den Spieß um" gibi kalıplar, süslü dramatizasyon, "Was steckt dahinter" tarzı YouTube klişeleri (Ein-Foto serisinin sabit açılışı hariç).
