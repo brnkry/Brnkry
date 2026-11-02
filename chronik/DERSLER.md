@@ -135,3 +135,4 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Yazı sahne değişmeden önce bitmeli: geçiş cümlenin başında başlar (PRE 0.1 s); sayaçta "überlebten drei" gibi sırada küçük satırı önce ("ÜBERLEBENDE"), sayıyı kelimesinde yaz.
 - Bir cümlede ikinci baskı geliyorsa (KGV ve Rodney) sahneyi bir sonraki cümleye kadar uzat, baskı gelir gelmez geçiş yapılmasın.
 - Kapak: 16:9 kaynaktan 9:16 kesit bulanık kalıyor; kareyi tam genişlikte keskin bir baskı olarak koy, arkası aynı karenin bulanık hali.
+- Boran (v3): videonun sonunda kararma yok, video direkt biter. Klip sesleri seslendirmenin önüne geçmesin: düşük kazanç (0.38) ve sesle güçlü sidechain (eşik 0.05, oran 3). Kapakta görsel tam ekran istendi (baskı yerine).

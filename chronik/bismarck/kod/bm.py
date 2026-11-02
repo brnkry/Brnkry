@@ -225,7 +225,7 @@ def frame(t):
             card(img, as_print(layer(j, t)), X, Y, r, sc=z * sc)
         (cx2, cy2, z2, _, _) = cam(t + 1 / FPS)
         img = eg.dblur(img, (cx - cx2) * z * 0.6, (cy - cy2) * z * 0.6)
-    if t > TEND - 0.6: img = Image.blend(img.convert('RGBA'), Image.new('RGBA', (W, H), (0, 0, 0, 255)), eio((t - (TEND - 0.6)) / 0.6))
+    # no fade to black at the end (Boran): the video simply ends
     return finish(img, t)
 
 if __name__ == '__main__':

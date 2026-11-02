@@ -24,7 +24,7 @@ def src_audio(n, ss, d):
     f = glob.glob(sys.argv_dir + '/drive/%s_*' % n)[0]
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', '%.3f' % ss, '-t', '%.3f' % d, '-i', f, '-ac', '2', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).reshape(-1, 2).copy()
-CLIPGAIN = 0.55
+CLIPGAIN = 0.38
 for j, (b, parts, _, _) in enumerate(V.SC):
     starts = [V.t_in(j)] + [aa for _, aa in parts[1:]]
     for q, (k, _) in enumerate(parts):
@@ -38,5 +38,5 @@ bed(drone, 0.12, 0, T, 0.05); bed(sea, 0.07, 0, ws('Ihr', 60), 0.05)
 for a, *_ in V.SC[1:]: add(a - V.PRE - 0.05, swish, 0.13)
 for w, af in (('1941', 0), ('acht', 0), ('drei', 0), ('15', 0), ('114', 0), ('fünf', 65)): add(ws(w, af), hit, 0.28)
 add(ws('Torpedo') - 0.1, torp, 0.30)
-o = out[:int(SR * T)]; t = np.arange(len(o)) / SR; o *= np.minimum(1, (T - t) / 1.0)[:, None]; o /= max(1.0, np.abs(o).max() / 0.95)
+o = out[:int(SR * T)]; t = np.arange(len(o)) / SR; o *= np.minimum(1, (T - t) / 0.25)[:, None]; o /= max(1.0, np.abs(o).max() / 0.95)
 wavfile.write(sys.argv_dir + '/sfx.wav', SR, (o * 32767).astype(np.int16)); print('sfx ok', T)
