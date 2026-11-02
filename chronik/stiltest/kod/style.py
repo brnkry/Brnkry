@@ -2,7 +2,7 @@
 # big kinetic type layered between the shapes and the figures, motion-blurred entries, accent bands and circles, a slow push on every scene.
 import sys, os, json, math, subprocess, functools
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance, ImageOps, ImageChops
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 LAC = B + '../lac/'
 sys.path.insert(0, LAC + 'code')
@@ -31,6 +31,13 @@ def slab(s): return ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuS
 def mono(s): return ImageFont.truetype('/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf', s)
 @functools.lru_cache(None)
 def hand(s): return ImageFont.truetype(LAC + '../sch/fonts/Caveat.ttf', s)
+FX = LAC + '../sch/fonts/'
+@functools.lru_cache(None)
+def disp(s):
+    """condensed display serif with flared ends (closest free match to Historic Mystique); drawn with a thin stroke for weight"""
+    f = ImageFont.truetype(FX + 'bigelow-rules.woff', s); f._sw = max(1, s // 45); return f
+@functools.lru_cache(None)
+def disp2(s): f = ImageFont.truetype(FX + 'rozha-one.woff', s); f._sw = 0; return f
 
 # ---------- paper ----------
 @functools.lru_cache(None)
@@ -87,7 +94,8 @@ def word(can, t, t0, s, xy, font, col=INK, anchor='mm', dur=0.28, mode='rise', r
     """one word: rises and sharpens in (mode 'rise'), scales down from big and blurred ('slam'), or wipes in ('wipe')"""
     if t < t0: return
     k = eout((t - t0) / dur); bb = font.getbbox(s); w_, h_ = bb[2] - bb[0] + 40, bb[3] - bb[1] + 40
-    L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).text((20 - bb[0], 20 - bb[1]), s, font=font, fill=col + (255,))
+    sw = getattr(font, '_sw', 0); w_ += 2 * sw; h_ += 2 * sw
+    L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).text((20 + sw - bb[0], 20 + sw - bb[1]), s, font=font, fill=col + (255,), stroke_width=sw, stroke_fill=col + (255,))
     if mode == 'wipe':
         m = np.clip((k * (w_ + 60) - np.arange(w_)) / 60, 0, 1); L.putalpha(Image.fromarray((np.asarray(L.getchannel('A'), np.float32) * m[None, :]).astype(np.uint8))); sc, dy, bl = 1.0, 0, 0
     elif mode == 'slam':
@@ -105,7 +113,7 @@ def scramble(can, t, t0, s, xy, font, col=INK, dur=0.5):
     if t < t0: return
     rng = np.random.default_rng(int(t * 30)); n = len(s); u = clamp((t - t0) / dur)
     out = ''.join(c if (i / n < u or c == ' ') else (chr(rng.integers(65, 91)) if u > i / n - 0.35 else ' ') for i, c in enumerate(s))
-    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).text(xy, out, font=font, fill=col + (255,), anchor='mm')
+    sw = getattr(font, '_sw', 0); L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(L).text(xy, out, font=font, fill=col + (255,), anchor='mm', stroke_width=sw, stroke_fill=col + (255,))
     sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.putalpha(L.getchannel('A').point(lambda v: int(v * 0.25)))
     can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6)), (4, 8)); can.alpha_composite(L)
 def typed(can, t, t0, s, xy, font, col=INK, step=0.035, anchor='mm'):
@@ -153,3 +161,72 @@ def push(img, t, w0, w1, z0=1.0, z1=1.05):
     z = lerp(z0, z1, clamp((t - w0) / max(0.01, w1 - w0)))
     if z == 1: return img
     cw, ch = W / z, H / z; return img.resize((W, H), Image.BICUBIC, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+
+# ---------- film inside shapes ----------
+CLIPS = LAC + 'clip/'
+@functools.lru_cache(maxsize=48)
+def _fr(k, i): return Image.open(CLIPS + '%s/%05d.jpg' % (k, i)).convert('RGB')
+@functools.lru_cache(None)
+def _n(k): return len(os.listdir(CLIPS + k))
+def film(k, tt): return _fr(k, max(1, min(_n(k), int(tt * 25) + 1)))
+def filmfill(can, alpha, k, tt, gray=True, tint=None, contrast=1.15, inner=True):
+    """the running film shows only inside alpha (a full-frame L mask): ship and letter shapes filled with footage"""
+    bb = alpha.getbbox()
+    if not bb: return
+    im = film(k, tt); bw, bh = bb[2] - bb[0], bb[3] - bb[1]; s = max(bw / im.width, bh / im.height)
+    cw, ch = min(im.width, bw / s), min(im.height, bh / s); x0, y0 = max(0.0, (im.width - cw) / 2), max(0.0, (im.height - ch) / 2)
+    f = im.resize((bw, bh), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch))
+    if gray: f = ImageOps.grayscale(f).convert('RGB')
+    f = ImageEnhance.Contrast(f).enhance(contrast)
+    if tint: f = Image.blend(f, Image.new('RGB', f.size, tint), 0.35)
+    L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); L.paste(f, bb[:2]); L.putalpha(alpha)
+    sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sh.putalpha(alpha.point(lambda v: int(v * 0.4)))
+    can.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)), (14, 26)); can.alpha_composite(L)
+    if inner:   # a thin dark inner edge so the shape reads as a cut-out
+        e = alpha.filter(ImageFilter.MaxFilter(5)); edge = ImageChops.subtract(e, alpha)
+        E = Image.new('RGBA', (W, H), INK + (0,)); E.putalpha(edge.point(lambda v: int(v * 0.8))); can.alpha_composite(E)
+def textmask(s, font, xy, anchor='mm'):
+    sw = getattr(font, '_sw', 0); m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).text(xy, s, font=font, fill=255, anchor=anchor, stroke_width=sw, stroke_fill=255); return m
+def spritemask(sp, cx, cy):
+    m = Image.new('L', (W, H), 0); m.paste(sp.getchannel('A'), (int(cx - sp.width / 2), int(cy - sp.height / 2))); return m
+
+# ---------- paper pieces ----------
+def torn(w_, h_, col=(236, 232, 220), seed=1, edges='tb'):
+    """a strip of paper with torn edges"""
+    rng = np.random.default_rng(seed); top = [(x, rng.uniform(0, 14)) for x in range(0, w_ + 1, 12)]; bot = [(x, h_ - rng.uniform(0, 14)) for x in range(w_, -1, -12)]
+    if 't' not in edges: top = [(0, 0), (w_, 0)]
+    if 'b' not in edges: bot = [(w_, h_), (0, h_)]
+    L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).polygon(top + bot, fill=col + (255,))
+    n = (rng.random((h_, w_)) * 10).astype(np.int16); a = np.asarray(L, np.int16).copy(); a[..., :3] = np.clip(a[..., :3] - n[..., None], 0, 255)
+    return Image.fromarray(a.astype(np.uint8))
+def tape(can, cx, cy, w_=150, rot=-8):
+    T_ = Image.new('RGBA', (w_, 46), (235, 228, 200, 170)); T_ = T_.rotate(rot, expand=True, resample=Image.BICUBIC); can.alpha_composite(T_, (int(cx - T_.width / 2), int(cy - T_.height / 2)))
+def polaroid(im, wd):
+    """a photo in a white instant-print frame"""
+    ph = int(wd * im.height / im.width); P_ = Image.new('RGBA', (wd + 40, ph + 120), (246, 244, 238, 255))
+    P_.paste(im.convert('RGB').resize((wd, ph), Image.LANCZOS), (20, 20)); return P_
+def inkcircle(can, t, t0, box, col=(196, 38, 40), w=7, dur=0.5):
+    """a hand-drawn ellipse around something, drawn in one stroke"""
+    if t < t0: return
+    u = eout((t - t0) / dur); x0, y0, x1, y1 = box; cx, cy, rx, ry = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2, (y1 - y0) / 2
+    pts = [(cx + rx * (1 + 0.04 * math.sin(a * 3)) * math.cos(a), cy + ry * (1 + 0.05 * math.cos(a * 2)) * math.sin(a)) for a in np.linspace(-2.6, -2.6 + 2 * math.pi * 1.08 * u, 80)]
+    if len(pts) > 2: ImageDraw.Draw(can).line(pts, fill=col + (235,), width=w, joint='curve')
+def harrow(can, t, t0, a, b, col=INK, w=6, bend=0.25, dur=0.5):
+    """a hand-drawn curved arrow from a to b"""
+    if t < t0: return
+    u = eout((t - t0) / dur); mx, my = (a[0] + b[0]) / 2 - (b[1] - a[1]) * bend, (a[1] + b[1]) / 2 + (b[0] - a[0]) * bend
+    pts = [((1 - v) ** 2 * a[0] + 2 * (1 - v) * v * mx + v * v * b[0], (1 - v) ** 2 * a[1] + 2 * (1 - v) * v * my + v * v * b[1]) for v in np.linspace(0, u, 40)]
+    d = ImageDraw.Draw(can); d.line(pts, fill=col + (255,), width=w, joint='curve')
+    if u > 0.95:
+        e, q = pts[-1], pts[-5]; ang = math.atan2(e[1] - q[1], e[0] - q[0])
+        for da in (2.6, -2.6): d.line((e, (e[0] + 34 * math.cos(ang + da), e[1] + 34 * math.sin(ang + da))), fill=col + (255,), width=w)
+def uboat(w_, col=INK):
+    """a side-view silhouette of a large U-boat (hull, conning tower, deck gun), as an RGBA sprite"""
+    h_ = int(w_ * 0.26); L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); d = ImageDraw.Draw(L); c = col + (255,); y = h_ * 0.62
+    d.polygon([(0, y), (w_ * 0.08, y - h_ * 0.1), (w_ * 0.92, y - h_ * 0.1), (w_, y - h_ * 0.02), (w_ * 0.9, y + h_ * 0.16), (w_ * 0.1, y + h_ * 0.16)], fill=c)
+    d.polygon([(w_ * 0.42, y - h_ * 0.1), (w_ * 0.44, y - h_ * 0.42), (w_ * 0.56, y - h_ * 0.42), (w_ * 0.6, y - h_ * 0.1)], fill=c)
+    d.rectangle((w_ * 0.47, y - h_ * 0.62, w_ * 0.48, y - h_ * 0.42), fill=c); d.rectangle((w_ * 0.52, y - h_ * 0.56, w_ * 0.53, y - h_ * 0.42), fill=c)
+    d.rectangle((w_ * 0.3, y - h_ * 0.2, w_ * 0.36, y - h_ * 0.1), fill=c); d.line((w_ * 0.33, y - h_ * 0.17, w_ * 0.24, y - h_ * 0.24), fill=c, width=max(2, w_ // 120))
+    return L
+def lifeboat(w_, col=INK):
+    h_ = int(w_ * 0.32); L = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); ImageDraw.Draw(L).polygon([(0, h_ * 0.2), (w_, h_ * 0.2), (w_ * 0.82, h_), (w_ * 0.18, h_)], fill=col + (255,)); return L

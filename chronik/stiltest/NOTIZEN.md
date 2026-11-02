@@ -12,3 +12,10 @@ Stilin unsurları ve koddaki karşılıkları (`kod/style.py`):
 - Süs: köşe çerçeveleri `brackets()`, gri paragraf çizgileri `bodylines()`, kıvrık ok, zeminde yansımalı sayaç, ışık huzmesi, insan ikonlu infografik
 
 Dekupe kaynakları `cut/` klasöründe (scratchpad); gamalı haç bulanıklaştırmaları dekupeden önce yapılır.
+
+## Deneme 2 (Laconia 0:00-0:57)
+- Font: Historic Mystique ücretli; en yakın ücretsiz karşılık Bigelow Rules (`disp()`), ince konturla kalınlaştırılmış. Boran lisanslı dosyayı yüklerse onunla değiştirilir.
+- Şekil ve harf içinde film: `filmfill()`, `textmask()`, `spritemask()` (gemi siluetinde patlama filmi, LACONIA ve HILFERUFE harflerinde film, U-Boot siluetinde yüzeye çıkış filmi).
+- Gri zemin yerine tonlanmış film (B-24 sahnesi).
+- Yeni öğeler: yırtık kâğıt `torn()`, bant `tape()`, polaroid `polaroid()`, kırmızı mürekkep dairesi `inkcircle()`, elle çizilmiş ok `harrow()`, U-Boot ve filika siluetleri `uboat()`, `lifeboat()`, telsiz halkaları ve telgraf.
+- YouTube güvenli alanı: yazılar x 60..900 ve y 300..1560 arasında, merkez x 480.
