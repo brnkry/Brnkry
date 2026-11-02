@@ -130,4 +130,8 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Yazılar, ek baskılar ve dekupe portre film-baskının üzerinde durur, onunla birlikte hareket eder.
 - 1080p yatay kaynaktan 9:16 kesit yaklaşık 608 px genişlik demek; 4K kaynaklar ve 1080p kaynaklar tam ekran için kullanılır, 480p/360p klipler (Pathé, AP) sadece masadaki küçük baskı olur.
 - Kanal filigranları: kırpma merkezini filigranın dışına kaydır (01'de "@Archives_Reloaded" ortadaydı, kesit sağa alındı); yazılı başlık/harita kartı olan saniyeleri atla.
-- Drive kliplerinin sesi müzik ya da anlatım içeriyordu, kullanılmadı; ses: deniz + drone yatağı, geçişlerde yarım sesli whoosh, sayaçlarda hit, "Torpedo"da torpido sesi.
+- Klip sesi: önce spektral düzlüğe bak (müzik tonal, düzlük ~0.05; deniz/rüzgar/top sesi gürültü gibi, 0.4 ve üstü). 00 ve 02'nin sesi görüntüyle senkron savaş sesiydi, sahnelerinin altına kondu; 01 ve 12 müzik, 07 ve 08 anlatım: kullanılmaz. Pocketsphinx ile "konuşma var mı" testi müziği ayırt etmez.
+- Boran (v2): geçişte kamera çok uzaklaşmasın, "aynı yerdeymiş gibi" olsun. Filmler masada yan yana (aralık ~120 px), kamera sadece hafif geri çekilir (zoom 0.80) ve sağa/sola/yukarı/aşağı kayar. Çok derin zoom out ve her sahnede ileri-geri zoom sıkıcı ve garip.
+- Yazı sahne değişmeden önce bitmeli: geçiş cümlenin başında başlar (PRE 0.1 s); sayaçta "überlebten drei" gibi sırada küçük satırı önce ("ÜBERLEBENDE"), sayıyı kelimesinde yaz.
+- Bir cümlede ikinci baskı geliyorsa (KGV ve Rodney) sahneyi bir sonraki cümleye kadar uzat, baskı gelir gelmez geçiş yapılmasın.
+- Kapak: 16:9 kaynaktan 9:16 kesit bulanık kalıyor; kareyi tam genişlikte keskin bir baskı olarak koy, arkası aynı karenin bulanık hali.

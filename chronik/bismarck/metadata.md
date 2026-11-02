@@ -1,6 +1,6 @@
 # Bismarck (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Bismarck_Shorts_DE_v1.mp4` (9:16, 1:09, Stil A mit Vollbild-Filmen, eigene Stimme). Cover: `thumbnails/DE_Bismarck.jpg` (feste Yamamoto-Anordnung; Job `bismarck` in `chronicle/brand/covers4.py`). Story: `social/Bismarck_Story_DE.mp4` (Code `kod/story.py`). Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
+Video: `Bismarck_Shorts_DE_v2.mp4` (9:16, 1:09, Stil A mit Vollbild-Filmen, eigene Stimme, Originalton der Farbaufnahmen). Cover: `thumbnails/DE_Bismarck.jpg` (feste Yamamoto-Anordnung; scharfes 4K-Standbild der feuernden Bismarck als Abzug, dazu ein kleines Swordfish-Foto; Job `bismarck` in `chronicle/brand/covers4.py`). Story: `social/Bismarck_Story_DE.mp4` (Code `kod/story.py`). Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
 
 ## YouTube Shorts
 **Titel** (Titel und Cover sagen Verschiedenes; Cover: "BISMARCK GESTOPPT / VON EINEM DOPPELDECKER")

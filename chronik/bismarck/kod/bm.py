@@ -86,7 +86,7 @@ def o_fire(c, t):
         quote(c, t, [[('DIE', ws('die', 16.9)), ('HOOD', ws('Hood', 17)), ('EXPLODIERT', ws('Luft'))]], 1450, size=62)
     else:
         quote(c, t, [[('VON', VON1), ('ÜBER', ws('über', 18)), ('1.400', ws('1.400')), ('MANN', ws('Mann', 19))]], 1160, size=62)
-        title(c, t, '3', ['ÜBERLEBENDE'], 1330, ws('drei'), ws('drei') + 0.15, 0, 0, True, 230, 80, cps=24)
+        title(c, t, '3', ['ÜBERLEBENDE'], 1330, ws('drei'), ws('überlebten', 19), 0, 0, True, 230, 80, cps=30)   # complete before the move at "Doch"
 def o_leak(c, t):
     quote(c, t, [[('LECK', ws('Leck')), ('IM', ws('im', 23.5)), ('BUG', ws('Bug'))]], 1250, size=86, col={0: YEL}, tout=ws('Admiral') - 0.25)
     quote(c, t, [[('TREIBSTOFF', ws('Treibstoff')), ('LIEF', ws('lief', 24)), ('AUS', ws('aus', 24.5))]], 1360, size=58, tout=ws('Admiral') - 0.25)
@@ -109,12 +109,11 @@ def o_torp(c, t):
 def o_circ(c, t):
     circle_arrow(c, t, ws('nur', 40) - 0.1, 560, 860, 400, 150)
     quote(c, t, [[('NUR', ws('nur', 40)), ('NOCH', ws('noch', 40)), ('IM', ws('im', 40.6)), ('KREIS', ws('Kreis'))]], 1260, size=84, col={0: YEL})
-    quote(c, t, [[('KEIN', ws('nicht', 42)), ('ENTKOMMEN', ws('entkommen'))]], 1370, size=58)
-def o_fleet(c, t):
-    quote(c, t, [[('AM', ws('Am', 43)), ('NÄCHSTEN', ws('nächsten')), ('MORGEN', ws('Morgen'))]], 1330, size=66)
-    sec(c, FP('kgv', t - ws('King') + 0.15, 560, 31, cap='King George V'), t, ws('King') - 0.15, (330, 540), -5, (-1, -0.2))
-    sec(c, FP('rod', t - ws('Rodney') + 0.25, 500, 32, cap='Rodney'), t, ws('Rodney') - 0.25, (760, 880), 5, (1, 0.2))
-def o_hit(c, t):
+    quote(c, t, [[('KEIN', ws('nicht', 42) - 0.1), ('ENTKOMMEN', ws('entkommen') - 0.15)]], 1370, size=58)
+def o_fleet(c, t):   # the final battle stays on one film up to the bridge hit, so both battleships stay in view
+    quote(c, t, [[('AM', ws('Am', 43)), ('NÄCHSTEN', ws('nächsten')), ('MORGEN', ws('Morgen'))]], 1330, size=66, tout=ws('Ein', 47.6) - 0.1)
+    sec(c, FP('kgv', t - ws('Schlachtschiffe', 44) + 0.15, 560, 31, cap='King George V'), t, ws('Schlachtschiffe', 44) - 0.1, (330, 540), -5, (-1, -0.2))
+    sec(c, FP('rod', t - ws('Rodney') + 0.3, 500, 32, cap='Rodney'), t, ws('Rodney') - 0.3, (760, 880), 5, (1, 0.2))
     quote(c, t, [[('EIN', ws('Ein', 47.6)), ('TREFFER', ws('Treffer'))]], 1220, size=62)
     quote(c, t, [[('BRÜCKE', ws('Brücke')), ('ZERSTÖRT', ws('Brücke') + 0.15)]], 1330, size=86, col={0: YEL})
 def o_scut(c, t):
@@ -122,7 +121,7 @@ def o_scut(c, t):
     quote(c, t, [[('SELBST', ws('selbst')), ('VERSENKT', ws('versenken'))]], 1330, size=86, col={0: YEL})
 def o_surv(c, t):
     quote(c, t, [[('VON', ws('Von', 56)), ('ÜBER', ws('über', 56)), ('2.200', ws('2.200')), ('MANN', ws('Mann', 57))]], 1160, size=62)
-    title(c, t, '114', ['ÜBERLEBENDE'], 1330, ws('114'), ws('114') + 0.25, 0, 0, True, 220, 80, cps=24)
+    title(c, t, '114', ['ÜBERLEBENDE'], 1330, ws('114'), ws('überlebten', 58), 0, 0, True, 220, 80, cps=30)
 def o_wreck(c, t):
     quote(c, t, [[('ROBERT', ws('Robert')), ('BALLARD', ws('Ballard'))]], 470, size=84)
     strip(c, t, ws('fünfzig') - 0.3, ['1989'], 540, 380)
@@ -131,13 +130,13 @@ def o_wreck(c, t):
 SC = [(0.0, [('hook', 0.0)], -3, o_hook), (ws('Im', 6.9), [('s1941', None)], 3, o_1941), (ws('In', 11.7), [('dk', None)], -3, o_dk),
       (ws('Nach'), [('fire', None), ('smoke', VON1)], 3, o_fire), (ws('Doch'), [('leak', None)], -3, o_leak), (ws('Die', 27.8), [('plot', None)], 3, o_plot),
       (ws('Zwei'), [('sword', None)], -3, o_sword), (ws('Ein', 36.5), [('torp', None)], 3, o_torp), (ws('Die', 39.4), [('circ', None)], -3, o_circ),
-      (ws('Am', 43), [('fleet', None)], 3, o_fleet), (ws('Ein', 47.6), [('hit', None)], -3, o_hit), (ws('Der', 51.6), [('scut', None)], 3, o_scut),
-      (ws('Von', 56), [('surv', None)], -3, o_surv), (ws('Ihr', 60), [('wreck', None)], 3, o_wreck)]
+      (ws('Am', 43), [('fleet', None)], 3, o_fleet), (ws('Der', 51.6), [('scut', None)], -3, o_scut),
+      (ws('Von', 56), [('surv', None)], 3, o_surv), (ws('Ihr', 60), [('wreck', None)], -3, o_wreck)]
 TEND = WORDS[-1][2] + 1.4
-PRE, POST = 0.35, 1.0; D = PRE + POST
-ZT = 0.5
-GX, GY = 1500, 2300
-PATH = [(0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3), (2, 3)]
+PRE, POST = 0.1, 1.15; D = PRE + POST   # the move starts with the new sentence; text of the old scene is complete by then
+ZT = 0.80   # barely pulls back: the films lie side by side on one table and the camera slides from one to the next
+GX, GY = 1200, 2060
+PATH = [(0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3)]
 ANC = [(p[0] * GX, p[1] * GY) for p in PATH]
 def t_in(j): return 0.0 if j == 0 else SC[j][0] - PRE    # when scene j's film-print arrives (and its film starts)
 
@@ -207,7 +206,7 @@ def main_pose(j, t, z, k):
     if j == k and j > 0:   # arriving with the camera move, from the direction of travel
         dx, dy = ANC[j][0] - ANC[j - 1][0], ANC[j][1] - ANC[j - 1][1]; n = math.hypot(dx, dy); dx, dy = dx / n, dy / n
         t0 = t_in(j); v = eout(clamp((t - t0) / (0.8 * D)))
-        x, y = lerp(x + dx * 1500 - dy * 160, x, v), lerp(y + dy * 1500 + dx * 160, y, v)
+        x, y = lerp(x + dx * 1300 - dy * 140, x, v), lerp(y + dy * 1300 + dx * 140, y, v)
         r = lerp(r + (14 if j % 2 else -14), r, v); sc *= 1.0 + 0.32 * (1 - v)
     return x, y, r, sc
 def frame(t):
