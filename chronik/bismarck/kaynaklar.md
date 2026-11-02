@@ -12,3 +12,5 @@
 | Bir isabet köprüyü yok etti, komuta kademesi muhtemelen öldü | en WP (Rodney'nin isabeti; Lindemann ve Lütjens muhtemelen öldü) |
 | İkinci komutan gemiyi kendisi batırttı, mürettebat gemiyi terk edebilsin diye | en WP (Oels, 09:30 civarı; "to allow the crew to abandon ship") |
 | 2.200'ü aşkın kişiden 114'ü kurtuldu | en WP (Garzke ve Dulin) |
+| Bismarck de vurulmuştu, pruvadaki yaradan yakıt sızdı, Lütjens Fransa'ya rota çizdi | en WP (Prince of Wales'in pruva isabeti, "broad streams of oil"; Saint-Nazaire'de tamir niyeti) |
+| Batığı yaklaşık 50 yıl sonra Titanic'i de bulan Robert Ballard yaklaşık 5 km derinlikte buldu | en WP (8 Haziran 1989, Ballard, yaklaşık 4.791 m) |
