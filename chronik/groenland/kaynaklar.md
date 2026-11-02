@@ -2,7 +2,7 @@
 
 | Senaryo | Kaynak |
 |---|---|
-| Grönland bugün yine haberlerde | de WP Sirius-Schlittenpatrouille (Trump'ın Ocak 2026'daki iddiası, Frederik X'in Nisan 2026 devriyesi) |
+| Kanca: bir Alman subay bir Danimarkalıyı esir aldı, kızakla onu sürdürdü; yolculuğun sonunda kendisi esir oldu | de WP Holzauge (Ritter, Jensen'i kızak sürücüsü olarak keşfe götürdü; Jensen yolda Ritter'i esir aldı) |
 | Grönland verisi Avrupa hava tahminleri için önemliydi | de WP "Grönland im Zweiten Weltkrieg" (Bedeutung Grönlands) |
 | Yaz 1942, dönüştürülmüş balıkçı gemisi Sachsen, 17 asker ve meteorolog | de/en WP Unternehmen Holzauge (Tromsø'dan 22 Ağustos, Ritter + Weiss, 17 kişi) |
 | Sabine adası, gizli istasyon, aylarca Norveç'e (Tromsø) veri | de WP (Hansa Bugt / Sabine Ø, 30 Ağustos'tan itibaren) |
@@ -16,6 +16,6 @@
 | Mayısta İzlanda'dan Amerikan uçakları istasyonu bombaladı | de/en WP (25 Mayıs; 2 B-24 + 2 B-17) |
 | Almanlar uçakla tahliye edildi | de/en WP (6 ve 17 Haziran) |
 | Biri Ritter'i aradığı için geride kaldı, haftalar sonra bir Amerikan gemisi buldu | de WP (Rudolf Sensse; Temmuz sonunda Northland) |
-| Savaştan sonra yerine Sirius devriyesi kuruldu, bugün de kızakla devriye geziyor | de WP Sirius (1950'de Resolut, 1953'te Sirius) |
+| Devriye istasyonu bildirdi, Mayısta İzlanda'dan Amerikan bombardıman uçakları geldi | en WP (devriye konumu bildirdi), de WP (25 Mayıs) |
 
 Bilerek kullanılmayanlar: Knudsen'in tam ölüm koşulları, keşif tarihi (11 mi 13 Mart mı), Eskimonæs saldırısının tarihi (23 mü 25 Mart mı), tahliyede kullanılan uçağın türü (iki tahliye için de kesin değil).
