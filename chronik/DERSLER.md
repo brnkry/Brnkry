@@ -136,3 +136,4 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Bir cümlede ikinci baskı geliyorsa (KGV ve Rodney) sahneyi bir sonraki cümleye kadar uzat, baskı gelir gelmez geçiş yapılmasın.
 - Kapak: 16:9 kaynaktan 9:16 kesit bulanık kalıyor; kareyi tam genişlikte keskin bir baskı olarak koy, arkası aynı karenin bulanık hali.
 - Boran (v3): videonun sonunda kararma yok, video direkt biter. Klip sesleri seslendirmenin önüne geçmesin: düşük kazanç (0.38) ve sesle güçlü sidechain (eşik 0.05, oran 3). Kapakta görsel tam ekran istendi (baskı yerine).
+- Donma kontrolü: finish() gren eklediği için ffmpeg freezedetect donmayı kaçırır. Her sahne için "gereken süre (sahne + geçiş) <= klip süresi" hesabını yap; story'nin arka plan filmi de kesimden sonra 5 sn daha akmalı (Bismarck story 7. saniyede donmuştu).

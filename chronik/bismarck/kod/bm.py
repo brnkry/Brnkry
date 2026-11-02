@@ -35,7 +35,7 @@ def full(k, i):
         ROWS = (1 - 0.30 * np.exp(-((y - 560) / 260) ** 2) - 0.42 * np.exp(-((y - 1330) / 300) ** 2))[:, None, None]
     return Image.fromarray((np.asarray(im, np.float32) * ROWS).astype(np.uint8))
 def film(k, tt): return full(k, min(nfr(k), max(1, int(tt * FPS) + 1)))
-def FP(k, tt, wd, seed, cap=None): return print_im(raw(k, tt), wd, True, cap, seed)
+def FP(k, tt, wd, seed, cap=None): return print_im(raw(k, tt), wd, True, cap, seed)   # tt is scaled where a print film must last its whole scene (no freeze)
 
 @functools.lru_cache(None)
 def lutjens():
@@ -76,7 +76,7 @@ def o_1941(c, t):
     title(c, t, '1941', ['ERSTE UND EINZIGE', 'FEINDFAHRT'], 1330, ws('1941'), [ws('ersten'), ws('Feindfahrt')], 0, 0, True, 200, 70, cps=18)
     quote(c, t, [[('IM', ws('Im', 7)), ('MAI', ws('Mai'))]], 1150, size=60)
 def o_dk(c, t):
-    sec(c, FP('hood', t - ws('Schlachtkreuzer') + 0.1, 640, 21, cap='HMS Hood'), t, ws('Schlachtkreuzer') - 0.1, (540, 560), 4, (-1, 0))
+    sec(c, FP('hood', (t - ws('Schlachtkreuzer') + 0.1) * 0.85, 640, 21, cap='HMS Hood'), t, ws('Schlachtkreuzer') - 0.1, (540, 560), 4, (-1, 0))
     quote(c, t, [[('DÄNEMARKSTRASSE', ws('Dänemarkstraße'))]], 1250, size=76, col={0: YEL})
     quote(c, t, [[('SCHLACHTKREUZER', ws('Schlachtkreuzer')), ('HOOD', ws('Hood'))]], 1350, size=58)
 VON1 = ws('Von', 18)
@@ -112,7 +112,7 @@ def o_circ(c, t):
     quote(c, t, [[('KEIN', ws('nicht', 42) - 0.1), ('ENTKOMMEN', ws('entkommen') - 0.15)]], 1370, size=58)
 def o_fleet(c, t):   # the final battle stays on one film up to the bridge hit, so both battleships stay in view
     quote(c, t, [[('AM', ws('Am', 43)), ('NÄCHSTEN', ws('nächsten')), ('MORGEN', ws('Morgen'))]], 1330, size=66, tout=ws('Ein', 47.6) - 0.1)
-    sec(c, FP('kgv', t - ws('Schlachtschiffe', 44) + 0.15, 560, 31, cap='King George V'), t, ws('Schlachtschiffe', 44) - 0.1, (330, 540), -5, (-1, -0.2))
+    sec(c, FP('kgv', (t - ws('Schlachtschiffe', 44) + 0.15) * 0.9, 560, 31, cap='King George V'), t, ws('Schlachtschiffe', 44) - 0.1, (330, 540), -5, (-1, -0.2))
     sec(c, FP('rod', t - ws('Rodney') + 0.3, 500, 32, cap='Rodney'), t, ws('Rodney') - 0.3, (760, 880), 5, (1, 0.2))
     quote(c, t, [[('EIN', ws('Ein', 47.6)), ('TREFFER', ws('Treffer'))]], 1220, size=62)
     quote(c, t, [[('BRÜCKE', ws('Brücke')), ('ZERSTÖRT', ws('Brücke') + 0.15)]], 1330, size=86, col={0: YEL})
