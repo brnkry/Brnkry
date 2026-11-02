@@ -84,6 +84,7 @@ def card(can, P_, cx, cy, rot, sc=1.0, mb=(0, 0), alpha=1.0):
 def deal(can, P_, t, t0, frm, to, r0, r1, dur=0.65, drift=(0, 0, 0), sc=1.0):
     """a print slides in from off-frame and keeps drifting afterwards (the reference never lets a print stand still)"""
     if t < t0: return
+    dur *= SLOW
     def pos(tt):
         u = eout((tt - t0) / dur); d = tt - t0
         return lerp(frm[0], to[0], u) + drift[0] * d, lerp(frm[1], to[1], u) + drift[1] * d, lerp(r0, r1, u) + drift[2] * d
@@ -92,6 +93,7 @@ def deal(can, P_, t, t0, frm, to, r0, r1, dur=0.65, drift=(0, 0, 0), sc=1.0):
 def fprint(k, tt, wd, seed, cap=None, stop=None):
     if stop is not None: tt = min(tt, stop)
     return print_(None, wd, src=film(k, max(0, tt)), seed=seed, cap=cap)
+SLOW = 1.7   # Boran: the reference moves slower
 P = lambda name, wd, seed, crop=None, cap=None: print_(name, wd, crop=crop, seed=seed, cap=cap)
 
 # ---------- type ----------
@@ -105,18 +107,19 @@ def gtext_a(s, font, col, alphas, track=-2):
     gm = grunge(len(s)).crop((0, 0, L.width, L.height)); L.putalpha(ImageChops.multiply(L.getchannel('A'), gm.point(lambda v: min(255, int(v * 1.08)))))
     return L
 def typed(s, t, t0, cps=16, fade=0.12, tout=None):
+    cps *= 0.72; fade = max(fade, 0.2)
     al = [clamp((t - t0 - i / cps) / fade) for i in range(len(s))]
     if tout is not None: al = [a * clamp(1 - (t - tout - (len(s) - 1 - i) * 0.02) / 0.15) for i, a in enumerate(al)]
     return al
 def strip(can, t, t0, lines, cx, cy):
     """torn white paper strip wiping in from the left, then its small dark caps fade in"""
     if t < t0: return
-    k = eout((t - t0) / 0.4); f = mont(32, 800)
+    k = eout((t - t0) / 0.7); f = mont(32, 800)
     w_ = int(max(f.getlength(s) for s in lines) + 64); h_ = 24 + 42 * len(lines)
     P_ = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); rng = np.random.default_rng(len(lines[0]))
     top = [(x, rng.uniform(0, 7)) for x in range(0, w_ + 1, 10)]; bot = [(x, h_ - rng.uniform(0, 7)) for x in range(w_, -1, -10)]
     d = ImageDraw.Draw(P_); d.polygon(top + bot, fill=(232, 230, 224, 255))
-    ka = clamp((t - t0 - 0.35) / 0.25)
+    ka = clamp((t - t0 - 0.6) / 0.35)
     if ka > 0:
         for i, s_ in enumerate(lines): d.text((32, 14 + i * 42), s_, font=f, fill=INK + (int(255 * ka),))
     gm = grunge(9).crop((0, 0, w_, h_)); P_.putalpha(ImageChops.multiply(P_.getchannel('A'), gm))
@@ -147,7 +150,7 @@ def quote(can, t, lines, cy, size=70, sub=None, t_sub=None, tout=None, lh=1.05, 
     for li, l in enumerate(lines):
         Ls = []
         for w_, t0 in l:
-            a = clamp((t - t0) / 0.28)
+            a = clamp((t - t0) / 0.45)
             if tout is not None: a *= clamp(1 - (t - tout - (N - 1 - idx) * 0.035) / 0.18)
             Ls.append((gtext_a(w_, f, CREAM, [a] * len(w_), -2), a)); idx += 1
         sp = f.getlength(' ') * 0.8; tot = sum(L.width for L, _ in Ls) + sp * (len(Ls) - 1); x = CX - tot / 2; y = cy + li * size * lh
@@ -175,10 +178,10 @@ def s_hook(t, a, b):
     return can
 def s_1942(t, a, b):
     can = pile_bg(t, 1, 0.75, 120, 300)
-    deal(can, P('l_sen', 640, 21), t, 5.55, (-700, 480), (230, 540), 16, 10, drift=(-4, 3, 0.25))
-    deal(can, P('l_2005', 600, 22), t, 5.8, (W + 700, 900), (850, 820), -18, -11, drift=(5, 2, -0.3))
+    deal(can, P('l_sen', 560, 21), t, 5.45, (-700, 1000), (150, 990), 16, 10, drift=(-4, 3, 0.25))
+    deal(can, P('l_2005', 540, 22), t, 5.8, (W + 700, 1040), (950, 1010), -18, -11, drift=(5, 2, -0.3))
     deal(can, fprint('wdive', t - 5.05, 780, 23), t, 5.05, (520, -800), (520, 640), -14, -5, 0.8, drift=(2, 6, 0.15))
-    title(can, t, '1942', ['U 156 VOR', 'WESTAFRIKA'], 1250, ws('1942'), ws('U', 7.5), True, 220, 86, ['SÜDATLANTIK, SEPTEMBER 1942'], ws('Westafrikas') - 0.1)
+    title(can, t, '1942', ['U 156 VOR', 'WESTAFRIKA'], 1340, ws('1942'), ws('U', 7.5), True, 220, 86, ['SÜDATLANTIK, SEPTEMBER 1942'], ws('Westafrikas') - 0.1)
     return cam(can, t, a)
 def s_attack(t, a, b):
     can = pile_bg(t, 2, 0.7, 200, 900, vx=8)
@@ -216,7 +219,7 @@ def s_paxC(t, a, b):
     title(can, t, '1.800', ['ITALIENISCHE', 'KRIEGSGEFANGENE'], 1360, ws('1.800'), ws('italienische') - 0.1, True, 200, 74, cps=30)
     return cam(can, t, a)
 SC = [(0.0, s_hook), (T1, s_1942), (T2, s_attack), (T3, s_ship), (T4, s_paxA), (T5, s_paxB), (T6, s_paxC)]
-TR = {T1: 'fade', T2: 'whip', T3: 'sweep', T4: 'whip', T5: 'sweep', T6: 'whip'}
+TR = {T1: 'fade', T2: 'whip', T3: 'sweep', T4: 'whipx', T5: 'sweep', T6: 'whipx'}
 
 # ---------- transitions ----------
 def vblur(img, L):
@@ -226,11 +229,17 @@ def vblur(img, L):
     for k in range(n):
         s = int((k - (n - 1) / 2) / (n - 1) * L); acc += ap[pd + s:pd + s + H]
     return Image.fromarray((acc / n).astype(np.uint8)).convert('RGBA')
+def hblur(img, L):
+    if L < 2: return img
+    a = np.asarray(img.convert('RGB'), np.float32); acc = np.zeros_like(a); n = 9; pd = int(L / 2) + 2; ap = np.pad(a, ((0, 0), (pd, pd), (0, 0)), mode='edge')
+    for k in range(n):
+        s = int((k - (n - 1) / 2) / (n - 1) * L); acc += ap[:, pd + s:pd + s + W]
+    return Image.fromarray((acc / n).astype(np.uint8)).convert('RGBA')
 @functools.lru_cache(None)
 def sweeper():
     P_ = A._print_im(L9.src('l_16794966'), 1100, seed=40); P_ = P_.rotate(-8, expand=True, resample=Image.BICUBIC)
     return P_.resize((int(P_.width * 1.9), int(P_.height * 1.9)), Image.BICUBIC).filter(ImageFilter.GaussianBlur(22))
-WH0, WH1 = 0.22, 0.45; SW0, SW1 = 0.25, 0.5
+WH0, WH1 = 0.4, 0.75; SW0, SW1 = 0.4, 0.75
 def scene(i, t): a, fn = SC[i]; b = SC[i + 1][0] if i + 1 < len(SC) else TEND; return fn(t, a, b)
 def frame(t):
     i = max(j for j, (a, _) in enumerate(SC) if a <= t)
@@ -242,6 +251,12 @@ def frame(t):
             u = eio((t - (b - WH0)) / (WH0 + WH1)); u2 = eio((t + 1 / FPS - (b - WH0)) / (WH0 + WH1)); off = int(u * H * 1.02)
             Aimg, Bimg = scene(j - 1, t), scene(j, t); can = Image.new('RGBA', (W, H)); can.alpha_composite(Aimg, (0, off)) if off < H else None
             can.alpha_composite(Bimg, (0, off - int(H * 1.02))); img = vblur(can, (u2 - u) * H * 1.02 * 0.6)
+        elif kind == 'whipx' and b - WH0 <= t < b + WH1:   # the same camera rush, sideways
+            u = eio((t - (b - WH0)) / (WH0 + WH1)); u2 = eio((t + 1 / FPS - (b - WH0)) / (WH0 + WH1)); off = int(u * W * 1.04)
+            Aimg, Bimg = scene(j - 1, t), scene(j, t); can = Image.new('RGBA', (W, H))
+            if off < W: can.alpha_composite(Aimg, (-off, 0)) if off > 0 else can.alpha_composite(Aimg)
+            can.alpha_composite(Bimg, (int(W * 1.04) - off, 0)) if int(W * 1.04) - off < W else None
+            img = hblur(can, (u2 - u) * W * 1.04 * 0.6)
         elif kind == 'sweep' and b - SW0 <= t < b + SW1:
             u = (t - (b - SW0)) / (SW0 + SW1); base = scene(j - 1, t) if u < 0.5 else scene(j, t)
             bl = 12 * (1 - abs(u - 0.5) * 2); base = base.filter(ImageFilter.GaussianBlur(bl)) if bl > 0.5 else base
