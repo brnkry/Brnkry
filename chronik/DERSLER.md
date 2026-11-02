@@ -124,3 +124,10 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
   - Gövde: kronolojik, somut isim, sayı ve yerlerle. Cümleler "und", "doch", "denn" ile bağlanır.
   - Bitiş: sessiz, olgusal bir kapanış ("Offiziell hieß es…", "zwischen Gefallenen, deren Namen kaum noch jemand kennt").
   - Yasak: retorik sorular ("Worum ging es?"), "drehte den Spieß um" gibi kalıplar, süslü dramatizasyon, "Was steckt dahinter" tarzı YouTube klişeleri (Ein-Foto serisinin sabit açılışı hariç).
+
+## Stil A, tam ekran film versiyonu (Bismarck, Kasım 2026)
+- Her sahne ekranı dolduran bir film; aslında masadaki büyük bir baskı. Yeni cümlede kamera geri çekilir (baskı masada görünür, etrafında hareketli mavi tonlu yığın), bir sonraki gruba kayar; sıradaki film-baskı hareket yönünden büyük ve dönerek gelir, kamera ona zoom yapar (`chronik/bismarck/kod/bm.py`).
+- Yazılar, ek baskılar ve dekupe portre film-baskının üzerinde durur, onunla birlikte hareket eder.
+- 1080p yatay kaynaktan 9:16 kesit yaklaşık 608 px genişlik demek; 4K kaynaklar ve 1080p kaynaklar tam ekran için kullanılır, 480p/360p klipler (Pathé, AP) sadece masadaki küçük baskı olur.
+- Kanal filigranları: kırpma merkezini filigranın dışına kaydır (01'de "@Archives_Reloaded" ortadaydı, kesit sağa alındı); yazılı başlık/harita kartı olan saniyeleri atla.
+- Drive kliplerinin sesi müzik ya da anlatım içeriyordu, kullanılmadı; ses: deniz + drone yatağı, geçişlerde yarım sesli whoosh, sayaçlarda hit, "Torpedo"da torpido sesi.
