@@ -41,18 +41,38 @@ def nfr(k): return len(os.listdir(CL + k))
 def film(k, tt, off=0.0):
     n = nfr(k); i = min(n - 1, int(max(0.0, tt + off) * 25))   # plays forward once (clips are cut long enough for their scene)
     return _fr(k, i + 1)
+def print_im(src_, wd, tone_=True, cap=None, seed=1):
+    """old print with a thin white deckled border (as thin as in the reference)"""
+    im = src_.convert('RGB'); ph = int(wd * im.height / im.width); im = im.resize((wd, ph), Image.LANCZOS)
+    if tone_:
+        g = ImageEnhance.Contrast(ImageOps.grayscale(im)).enhance(1.15); im = Image.merge('RGB', (g.point(lambda v: int(v * 0.93)), g.point(lambda v: int(v * 0.96)), g))
+    bw = max(7, wd // 75); bb = bw * 5 if cap else bw; P_ = Image.new('RGBA', (wd + 2 * bw, ph + bw + bb), (238, 236, 230, 255)); P_.paste(im, (bw, bw))
+    rng = np.random.default_rng(seed); a = np.asarray(P_.getchannel('A')).copy()
+    for x in range(0, P_.width, 5):
+        a[:int(rng.uniform(0, 3)), x:x + 5] = 0; a[P_.height - int(rng.uniform(0, 3)):, x:x + 5] = 0
+    for y in range(0, P_.height, 5):
+        a[y:y + 5, :int(rng.uniform(0, 3))] = 0; a[y:y + 5, P_.width - int(rng.uniform(0, 3)):] = 0
+    gm = grunge(seed).resize(P_.size); P_ = Image.composite(P_, Image.new('RGBA', P_.size, (205, 205, 200, 255)), gm.point(lambda v: 255 if v > 120 else 215))
+    P_.putalpha(Image.fromarray(a))
+    if cap: ImageDraw.Draw(P_).text((bw + 10, ph + bw + bb * 0.5), cap, font=A.script(int(bb * 0.8)), fill=(70, 70, 80, 235), anchor='lm')
+    return P_
 @functools.lru_cache(maxsize=96)
 def PR(n, wd, seed, crop=None, cap=None):
     im = src(n)
-    return A._print_im(im.crop(crop) if crop else im, wd, None, True, cap, seed)
-def FP(k, tt, wd, seed, cap=None, off=0.0, sp=1.0): return A._print_im(film(k, tt * sp, off), wd, None, True, cap, seed)
+    return print_im(im.crop(crop) if crop else im, wd, True, cap, seed)
+def FP(k, tt, wd, seed, cap=None, off=0.0, sp=1.0): return print_im(film(k, tt * sp, off), wd, True, cap, seed)
 
 # ---------- smooth (sub-pixel) print placement ----------
-def card(can, P_, cx, cy, rot, mb=(0, 0), alpha=1.0):
-    P_ = P_.rotate(rot, expand=True, resample=Image.BICUBIC)
-    x, y = cx - P_.width / 2, cy - P_.height / 2; ix, iy = math.floor(x), math.floor(y); fx, fy = x - ix, y - iy
-    if ix > W + 40 or iy > H + 40 or ix + P_.width < -40 or iy + P_.height < -40: return
-    P_ = P_.transform((P_.width + 1, P_.height + 1), Image.AFFINE, (1, 0, -fx, 0, 1, -fy), resample=Image.BICUBIC)   # fractional shift
+def card(can, P_, cx, cy, rot, mb=(0, 0), alpha=1.0, sc=1.0):
+    w0, h0 = P_.size; a = math.radians(rot); ca, sa = math.cos(a) * sc, math.sin(a) * sc
+    hw = (abs(ca) * w0 + abs(sa) * h0) / 2; hh = (abs(sa) * w0 + abs(ca) * h0) / 2
+    ix, iy = math.floor(cx - hw) - 1, math.floor(cy - hh) - 1; ow, oh = int(2 * hw) + 4, int(2 * hh) + 4
+    if ix > W + 40 or iy > H + 40 or ix + ow < -40 or iy + oh < -40: return
+    if ow * oh > 9e6: return
+    # output pixel (u, v) -> source: inverse of (scale, rotate about the centre, translate to (cx, cy))
+    ux, uy = cx - ix, cy - iy; k = 1.0 / (sc * sc)
+    m = (ca * k, -sa * k, w0 / 2 - (ca * ux - sa * uy) * k, sa * k, ca * k, h0 / 2 - (sa * ux + ca * uy) * k)
+    P_ = P_.transform((ow, oh), Image.AFFINE, m, resample=Image.BICUBIC)
     if alpha < 1: P_.putalpha(P_.getchannel('A').point(lambda v: int(v * alpha)))
     sh = Image.new('RGBA', P_.size, (0, 0, 0, 0)); sh.putalpha(P_.getchannel('A').point(lambda v: int(v * 0.6 * alpha)))
     paste(can, sh.filter(ImageFilter.GaussianBlur(18)), ix + 12, iy + 26)
@@ -74,7 +94,7 @@ def paste(can, L, x, y):
 SLOW = 1.15
 VIS = 1.6   # a print that already lies on the table comes into view about this long before its scene
 CUR = [0.0]   # start time of the scene being drawn (drift of prints that already lie there)
-def deal(can, P_, t, t0, frm, to, r0, r1, ox, oy, dur=1.0, drift=(0, 0, 0)):
+def deal(can, P_, t, t0, frm, to, r0, r1, ox, oy, dur=1.0, drift=(0, 0, 0), sc0=1.25):
     """print at local position `to` (+ table offset ox, oy). t0=None: already lying there. Otherwise slides in from `frm`. Always drifting."""
     def pos(tt):
         if t0 is None: u = 1.0; d = tt - CUR[0]
@@ -82,7 +102,9 @@ def deal(can, P_, t, t0, frm, to, r0, r1, ox, oy, dur=1.0, drift=(0, 0, 0)):
         return lerp(frm[0], to[0], u) + drift[0] * d + ox, lerp(frm[1], to[1], u) + drift[1] * d + oy, lerp(r0, r1, u) + drift[2] * d
     if t0 is not None and t < t0: return
     x, y, r = pos(t); x2, y2, _ = pos(t + 1 / FPS)
-    card(can, P_, x, y, r, ((x2 - x) * 1.6, (y2 - y) * 1.6))
+    d = t - (t0 if t0 is not None else CUR[0])
+    sc = 1.0 + (sc0 - 1.0) * (1 - eout(d / 2.8)) - 0.010 * max(0.0, d) if t0 is not None else 1.0 - 0.010 * max(0.0, d)   # big on arrival, slowly further away
+    card(can, P_, x, y, r, ((x2 - x) * 1.6, (y2 - y) * 1.6), sc=sc)
 
 # ---------- type (always centred) ----------
 def gtext_a(s, font, col, alphas, track=-2):
@@ -195,13 +217,13 @@ def table():
     for k in range(90):
         kind, n = srcs[order[k % len(srcs)]]
         im = src(n) if kind == 'i' else (Image.open(E + 'pile/' + n).convert('RGB') if kind == 'p' else _fr(n, nfr(n) // 2))
-        P_ = A._print_im(im, int(rng.uniform(560, 820)), seed=int(rng.integers(50))).rotate(rng.uniform(-30, 30), expand=True, resample=Image.BICUBIC)
+        P_ = print_im(im, int(rng.uniform(560, 820)), True, None, seed=int(rng.integers(50))).rotate(rng.uniform(-30, 30), expand=True, resample=Image.BICUBIC)
         x, y = int(rng.uniform(0, TW)), int(rng.uniform(0, TH))
         sh = Image.new('RGBA', P_.size, (0, 0, 0, 0)); sh.putalpha(P_.getchannel('A').point(lambda v: int(v * 0.6))); sh = sh.filter(ImageFilter.GaussianBlur(10))
         for dx in (-TW, 0, TW):
             for dy in (-TH, 0, TH):   # wrap so the tile is seamless
                 paste(can, sh, x + dx + 8, y + dy + 16); paste(can, P_, x + dx, y + dy)
-    T_ = tone(can, DARK, LIGHT * 0.62, 1.25).filter(ImageFilter.GaussianBlur(3.2))
+    T_ = tone(can, DARK, LIGHT * 0.78, 1.15).filter(ImageFilter.GaussianBlur(2.4))
     big = Image.new('RGB', (TW + 1400, TH + 2300))
     for dx in (0, TW):
         for dy in (0, TH): big.paste(T_, (dx, dy))
@@ -223,78 +245,101 @@ T2, T3, T4, T5, T6 = ws('Er'), ws('Ab', 12), ws('In', 16.9), ws('Ab', 24), ws('S
 T7, T8, T9, T10, T11 = ws('Am', 37), ws('Mit', 47), ws('Der', 54), ws('Im', 63), ws('Im', 67.4)
 T12, T13, T14 = ws('Im', 73.3), ws('Am', 79.9), ws('Egon', 92)
 TEND = WORDS[-1][2] + 1.3
+TOP, LEFT, RIGHT = 'top', 'left', 'right'
+SW = 1.3      # swoop duration
+SWOOP = []    # swooping prints are drawn last, in screen space, over everything
+def enter(c, P_, t, t0, side, to, r1, ox, oy, drift=(0, 0, 0), dur=1.15, main=False):
+    if main:
+        t0 = CUR[0] - 0.15
+        if t < t0: return
+        d = t - t0
+        if d < SW:
+            u = eout(d / SW); end = (to[0] + drift[0] * d, to[1] + drift[1] * d)
+            x, y = lerp(to[0] - 760, end[0], u), lerp(to[1] + 260, end[1], u); r = lerp(r1 - 16, r1 + drift[2] * d, u)
+            sc = lerp(3.1, 1.0 - 0.010 * SW, u); bl = 26 * clamp((sc - 1.0) / 2.1) ** 1.2
+            SWOOP.append((P_, x, y, r, sc, bl)); return
+        x, y, r = to[0] + drift[0] * d + ox, to[1] + drift[1] * d + oy, r1 + drift[2] * d
+        card(c, P_, x, y, r, sc=1.0 - 0.010 * d); return
+    frm = {'top': (to[0], -1100), 'left': (-1100, to[1]), 'right': (W + 1100, to[1])}[side]; r0 = r1 + {'top': 8, 'left': -12, 'right': 12}[side]
+    deal(c, P_, t, t0, frm, to, r0, r1, ox, oy, dur, drift)
 def s_birth(c, t, ox, oy):
-    deal(c, PR('19', 520, 21, cap='Egon Mayer'), t, None, (0, 0), (520, 620), 0, -5, ox, oy, drift=(3, 4, 0.12))
-    deal(c, PR('09', 560, 22), t, T2 + 1.5, (W + 700, 380), (860, 460), -20, -11, ox, oy, drift=(-4, 3, -0.15))
-    title(c, t, '1917', ['GEBOREN IN', 'KONSTANZ'], 1330, 7.55, [ws('geboren') - 0.3, ws('Konstanz')], ox, oy, True, 170, 74, ['1937: EINTRITT IN DIE LUFTWAFFE'], ws('1937'))
+    enter(c, PR('09', 920, 22, cap='Egon Mayer'), t, T2b + 0.0, TOP, (540, 720), -3, ox, oy, (2, 3, 0.08), main=True)
+    title(c, t, '1917', ['GEBOREN IN', 'KONSTANZ'], 1380, 7.55, [ws('geboren') - 0.3, ws('Konstanz')], ox, oy, True, 170, 74, ['1937: EINTRITT IN DIE LUFTWAFFE'], ws('1937'))
 def s_jg2(c, t, ox, oy):
-    deal(c, PR('24', 820, 31), t, None, (0, 0), (540, 640), 0, 4, ox, oy, drift=(-4, 3, -0.1))
-    deal(c, PR('11', 520, 32), t, T3 + 1.0, (-700, 900), (260, 930), 20, 9, ox, oy, drift=(3, -3, 0.15))
-    title(c, t, '1939', ['JAGDGESCHWADER 2', '„RICHTHOFEN“'], 1340, ws('1939'), [ws('Jagdgeschwader'), ws('„Richthofen')], ox, oy, True, 200, 62, cps=22)
+    enter(c, PR('24', 1000, 31), t, T3 + 0.35, LEFT, (540, 560), 3, ox, oy, (-3, 2, -0.08), main=True)
+    enter(c, PR('11', 560, 32), t, T3 + 1.3, RIGHT, (750, 880), -6, ox, oy, (3, -2, 0.1))
+    title(c, t, '1939', ['JAGDGESCHWADER 2', '„RICHTHOFEN“'], 1390, ws('1939'), [ws('Jagdgeschwader'), ws('„Richthofen')], ox, oy, True, 200, 62, cps=22)
 def s_bob(c, t, ox, oy):
-    deal(c, FP('spit', t - T4 + VIS, 820, 41, off=0), t, None, (0, 0), (540, 720), 0, -4, ox, oy, drift=(4, 3, 0.12))
-    deal(c, PR('15', 640, 42), t, ws('Einmal') - 0.1, (W + 800, 1000), (700, 1020), -22, -8, ox, oy, drift=(-3, 4, -0.15))
-    quote(c, t, [[('LUFTSCHLACHT', ws('Luftschlacht')), ('UM', ws('um', 17.5)), ('ENGLAND', ws('England'))]], 330, ox, oy, 64)
-    quote(c, t, [[('EINE', ws('eine', 20)), ('STUNDE', ws('Stunde'))], [('IM', ws('im', 21.5)), ('ÄRMELKANAL', ws('Ärmelkanal'))]], 1340, ox, oy, 84, col={0: YEL})
+    enter(c, FP('spit', t - T4 + VIS, 1000, 41), t, T4 + 0.35, TOP, (540, 560), -2, ox, oy, (3, 2, 0.08), main=True)
+    enter(c, PR('15', 760, 42), t, ws('Einmal') - 0.1, RIGHT, (640, 930), 6, ox, oy, (-3, 3, -0.1))
+    quote(c, t, [[('LUFTSCHLACHT', ws('Luftschlacht')), ('UM', ws('um', 17.5)), ('ENGLAND', ws('England'))]], 1270, ox, oy, 60)
+    quote(c, t, [[('EINE', ws('eine', 20)), ('STUNDE', ws('Stunde'))], [('IM', ws('im', 21.5)), ('ÄRMELKANAL', ws('Ärmelkanal'))]], 1380, ox, oy, 82, col={0: YEL})
 def s_1942(c, t, ox, oy):
-    deal(c, PR('22', 780, 51), t, None, (0, 0), (520, 620), 0, 5, ox, oy, drift=(-3, 4, -0.12))
-    deal(c, FP('b17cloud', t - T5 - 1.0, 600, 52), t, T5 + 1.0, (-700, 1000), (330, 980), 18, 8, ox, oy, drift=(3, -3, 0.15))
-    title(c, t, '1942', ['B-17 BEI TAG', 'ÜBER FRANKREICH'], 1350, ws('1942', 24), [ws('B-17', 26), ws('Ziele')], ox, oy, True, 200, 70, cps=16)
+    enter(c, PR('22', 1000, 51), t, T5 + 0.35, RIGHT, (540, 560), -3, ox, oy, (-3, 2, -0.08), main=True)
+    enter(c, FP('b17cloud', t - T5 - 1.0, 700, 52), t, T5 + 1.0, LEFT, (400, 900), 5, ox, oy, (3, -2, 0.1))
+    title(c, t, '1942', ['B-17 BEI TAG', 'ÜBER FRANKREICH'], 1400, ws('1942', 24), [ws('B-17', 26), ws('Ziele')], ox, oy, True, 200, 70, cps=16)
 def s_nose(c, t, ox, oy):
-    deal(c, FP('contr', t - T6 + VIS, 760, 61), t, None, (0, 0), (540, 690), 0, -4, ox, oy, drift=(3, 3, 0.12))
-    deal(c, PR('04', 760, 62, crop=(300, 0, 2976, 1428)), t, ws('Nur') - 0.2, (W + 800, 1060), (560, 1060), -20, -6, ox, oy, drift=(-3, 3, -0.12))
-    quote(c, t, [[('DICHTE', ws('dichten')), ('FORMATIONEN', ws('Formationen'))]], 320, ox, oy, 62)
-    quote(c, t, [[('NUR', ws('Nur')), ('DIE', ws('die', 35)), ('NASE', ws('Nase'))], [('SCHWACH', ws('schwach')), ('BEWAFFNET', ws('bewaffnet'))]], 1440, ox, oy, 70, col={0: YEL})
+    enter(c, FP('contr', t - T6 + VIS, 1000, 61), t, T6 + 0.35, TOP, (540, 560), 2, ox, oy, (3, 2, 0.08), main=True)
+    enter(c, PR('04', 820, 62, crop=(300, 0, 2976, 1428)), t, ws('Nur') - 0.2, RIGHT, (580, 960), -5, ox, oy, (-3, 2, -0.1))
+    quote(c, t, [[('DICHTE', ws('dichten')), ('FORMATIONEN', ws('Formationen'))]], 1270, ox, oy, 60)
+    quote(c, t, [[('NUR', ws('Nur')), ('DIE', ws('die', 35)), ('NASE', ws('Nase'))], [('SCHWACH', ws('schwach')), ('BEWAFFNET', ws('bewaffnet'))]], 1380, ox, oy, 70, col={0: YEL})
 def s_nazaire(c, t, ox, oy):
-    deal(c, PR('23', 720, 71), t, None, (0, 0), (540, 520), 0, 4, ox, oy, drift=(-3, 4, -0.1))
-    deal(c, FP('hit', t - ws('frontal') + 0.2, 640, 72), t, ws('frontal') - 0.2, (540, -800), (380, 800), -16, -7, ox, oy, drift=(3, 3, 0.15))
-    deal(c, PR('26', 500, 73), t, ws('meldete') - 0.1, (W + 700, 900), (800, 900), 18, 10, ox, oy, drift=(-3, -2, -0.15))
-    title(c, t, '1942', ['23. NOVEMBER', 'ST. NAZAIRE'], 1340, ws('1942', 38), [ws('23.'), ws('St.')], ox, oy, True, 170, 70, ['ZWEI B-17 UND EINE B-24 GEMELDET'], ws('meldete'), cps=16)
+    enter(c, PR('23', 1000, 71), t, T7 + 0.35, LEFT, (540, 540), -2, ox, oy, (-3, 2, -0.08), main=True)
+    enter(c, FP('hit', t - ws('frontal') + 0.2, 700, 72), t, ws('frontal') - 0.2, TOP, (400, 860), 5, ox, oy, (3, 2, 0.1))
+    enter(c, PR('26', 560, 73), t, ws('meldete') - 0.1, RIGHT, (790, 920), -6, ox, oy, (-3, -2, -0.1))
+    title(c, t, '1942', ['23. NOVEMBER', 'ST. NAZAIRE'], 1380, ws('1942', 38), [ws('23.'), ws('St.')], ox, oy, True, 170, 70, ['ZWEI B-17 UND EINE B-24 GEMELDET'], ws('meldete'), cps=16)
 def s_eder(c, t, ox, oy):
-    deal(c, PR('14', 520, 81, crop=(0, 150, 1824, 2314), cap='Georg-Peter Eder'), t, None, (0, 0), (330, 640), 0, 6, ox, oy, drift=(2, 3, 0.1))
-    deal(c, FP('front', t - T8 - 0.9, 560, 82), t, T8 + 0.9, (W + 600, 760), (780, 800), -16, -7, ox, oy, drift=(-2, 3, -0.12))
+    enter(c, PR('14', 660, 81, crop=(0, 150, 1824, 2314), cap='Georg-Peter Eder'), t, T8 + 0.35, LEFT, (360, 640), -3, ox, oy, (2, 3, 0.08), main=True)
+    enter(c, FP('front', t - T8 - 0.9, 680, 82), t, T8 + 0.9, RIGHT, (740, 900), 4, ox, oy, (-2, 3, -0.1))
     for i, (s_, w_) in enumerate((('VON VORNE ANFLIEGEN', 'von'), ('KURZ FEUERN', 'kurz'), ('STEIL WEGZIEHEN', 'steil'))):
-        quote(c, t, [[(s_, ws(w_, 50))]], 1250 + i * 96, ox, oy, 66, col={0: YEL if i == 0 else CREAM})
+        quote(c, t, [[(s_, ws(w_, 50))]], 1280 + i * 92, ox, oy, 64, col={0: YEL if i == 0 else CREAM})
 def s_turret(c, t, ox, oy):
-    deal(c, FP('close', t - T9 + VIS, 640, 91), t, None, (0, 0), (540, 700), 0, 4, ox, oy, drift=(-3, 3, -0.12))
-    deal(c, PR('03', 760, 92, crop=(1900, 500, 3207, 1500)), t, ws('Amerikaner') - 0.1, (W + 900, 1130), (540, 1130), -14, -3, ox, oy, drift=(-1, 1, -0.04))
-    quote(c, t, [[('WEITGEHEND', ws('weitgehend')), ('STANDARD', ws('Standardverfahren'))]], 330, ox, oy, 62, col={0: YEL})
-    label(c, t, ws('Waffenturm') - 0.1, 'zusätzlicher Waffenturm', 400, 1530, 705, 1240, ox, oy, 62)
+    enter(c, FP('close', t - T9 + VIS, 1000, 91), t, T9 + 0.35, TOP, (540, 540), -2, ox, oy, (-3, 2, -0.08), main=True)
+    enter(c, PR('03', 860, 92, crop=(1900, 500, 3207, 1500)), t, ws('Amerikaner') - 0.1, RIGHT, (540, 900), -3, ox, oy, (-1, 1, -0.04))
+    quote(c, t, [[('WEITGEHEND', ws('weitgehend')), ('STANDARD', ws('Standardverfahren'))]], 1320, ox, oy, 62, col={0: YEL})
+    label(c, t, ws('Waffenturm') - 0.1, 'zusätzlicher Waffenturm', 400, 1480, 735, 1010, ox, oy, 62)
 def s_kommo(c, t, ox, oy):
-    deal(c, PR('18', 600, 101, crop=(0, 0, 1686, 2300)), t, None, (0, 0), (540, 680), 0, -4, ox, oy, drift=(3, 3, 0.1))
-    title(c, t, '1943', ['KOMMODORE', 'DES JG 2'], 1400, ws('1943', 63), ws('Kommodore'), ox, oy, True, 200, 74, cps=18)
+    enter(c, PR('10', 1000, 101), t, T10 + 0.35, TOP, (540, 640), 2, ox, oy, (3, 2, 0.08), main=True)
+    title(c, t, '1943', ['KOMMODORE', 'DES JG 2'], 1420, ws('1943', 63), ws('Kommodore'), ox, oy, True, 200, 74, cps=18)
 def s_19(c, t, ox, oy):
-    deal(c, FP('gun2', t - T11 + VIS, 720, 111), t, None, (0, 0), (540, 600), 0, 5, ox, oy, drift=(-3, 4, -0.12))
-    deal(c, PR('17', 400, 112), t, T11 + 1.0, (-700, 820), (250, 820), 16, 8, ox, oy, drift=(3, -3, 0.12))
-    quote(c, t, [[('DREI', ws('drei', 69)), ('B-17', ws('B-17', 70))]], 1150, ox, oy, 72, col={0: YEL})
-    title(c, t, '19', ['MINUTEN'], 1320, ws('19', 71), ws('Minuten', 72), ox, oy, True, 200, 80, ['SEPTEMBER 1943'], T11 + 1.0, cps=20)
+    enter(c, FP('gun2', t - T11 + VIS, 1000, 111), t, T11 + 0.35, LEFT, (540, 560), 2, ox, oy, (-3, 2, -0.08), main=True)
+    enter(c, PR('17', 480, 112), t, T11 + 1.2, RIGHT, (800, 860), -5, ox, oy, (3, -2, 0.1))
+    quote(c, t, [[('DREI', ws('drei', 69)), ('B-17', ws('B-17', 70))]], 1250, ox, oy, 72, col={0: YEL})
+    title(c, t, '19', ['MINUTEN'], 1370, ws('19', 71), ws('Minuten', 72), ox, oy, True, 200, 80, ['SEPTEMBER 1943'], T11 + 1.2, cps=20)
 def s_100(c, t, ox, oy):
-    deal(c, PR('08', 640, 121, crop=(0, 300, 1792, 1500)), t, None, (0, 0), (520, 600), 0, 4, ox, oy, drift=(-3, 3, -0.1))
-    deal(c, PR('10', 480, 122), t, T12 + 1.0, (W + 700, 900), (800, 900), -16, -9, ox, oy, drift=(-3, -3, -0.15))
-    quote(c, t, [[('AN', ws('an', 77)), ('DER', ws('der', 77.6)), ('KANALFRONT', ws('Kanalfront'))]], 1160, ox, oy, 62)
-    title(c, t, '100', ['LUFTSIEGE'], 1330, ws('100'), ws('Luftsiege', 79), ox, oy, True, 200, 80, ['FEBRUAR 1944'], T12 + 1.2, cps=26)
+    enter(c, PR('08', 1000, 121, crop=(0, 250, 1792, 1600)), t, T12 + 0.35, RIGHT, (540, 640), -2, ox, oy, (-3, 2, -0.08), main=True)
+    quote(c, t, [[('AN', ws('an', 77)), ('DER', ws('der', 77.6)), ('KANALFRONT', ws('Kanalfront'))]], 1250, ox, oy, 62)
+    title(c, t, '100', ['LUFTSIEGE'], 1370, ws('100'), ws('Luftsiege', 79), ox, oy, True, 200, 80, ['FEBRUAR 1944'], T12 + 1.4, cps=26)
 def s_death(c, t, ox, oy):
-    deal(c, FP('p47', t - T13 + VIS, 820, 131, sp=0.8), t, None, (0, 0), (540, 600), 0, -4, ox, oy, drift=(3, 3, 0.12))
-    deal(c, FP('p47b', t - ws('Begleitjäger') + 0.1, 520, 132), t, ws('Begleitjäger') - 0.1, (-700, 900), (290, 930), 18, 8, ox, oy, drift=(3, -3, 0.15))
-    title(c, t, '1944', ['2. MÄRZ', 'BEI SEDAN'], 1390, ws('1944', 80), ws('März'), ox, oy, True, 170, 70, ['ABSTURZ BEI MONTMÉDY'], ws('stürzte'))
+    enter(c, FP('p47', t - T13 + VIS, 1000, 131, sp=0.8), t, T13 + 0.35, TOP, (540, 560), 2, ox, oy, (3, 2, 0.08), main=True)
+    enter(c, FP('p47b', t - ws('Begleitjäger') + 0.1, 700, 132), t, ws('Begleitjäger') - 0.1, LEFT, (400, 920), -5, ox, oy, (3, -2, 0.1))
+    title(c, t, '1944', ['2. MÄRZ', 'BEI SEDAN'], 1420, ws('1944', 80), ws('März'), ox, oy, True, 170, 70, ['ABSTURZ BEI MONTMÉDY'], ws('stürzte'))
 def s_end(c, t, ox, oy):
-    deal(c, PR('07', 560, 141, cap='Saint-Désir-de-Lisieux'), t, None, (0, 0), (540, 680), 0, 4, ox, oy, drift=(-2, 3, -0.1))
-    quote(c, t, [[('26', ws('26')), ('JAHRE', ws('Jahre', 93))]], 1330, ox, oy, 110, col={0: YEL}, tout=ws('Ihm') - 0.15)
-    title(c, t, '102', ['LUFTSIEGE,', 'ALLE IM WESTEN'], 1380, ws('102'), ws('Luftsiege', 95), ox, oy, True, 180, 66)
-ZS, ZE = 6.6, 7.15              # the hook pulls back: its film turns out to be a print on the table
+    enter(c, PR('07', 680, 141, cap='Saint-Désir-de-Lisieux'), t, T14 + 0.35, TOP, (540, 700), -2, ox, oy, (-2, 3, -0.08), main=True)
+    quote(c, t, [[('26', ws('26')), ('JAHRE', ws('Jahre', 93))]], 1380, ox, oy, 110, col={0: YEL}, tout=ws('Ihm') - 0.15)
+    title(c, t, '102', ['LUFTSIEGE,', 'ALLE IM WESTEN'], 1420, ws('102'), ws('Luftsiege', 95), ox, oy, True, 180, 66)
+ZS, ZE = 6.6, 7.15
+T2b = ZE + 0.15              # the hook pulls back: its film turns out to be a print on the table
 ZH = 1.8                        # zoom at which the hook card (600 px wide) fills the screen
-HP = (540, 470, 520)            # Mayer's print in the hook (screen x, y, width)
-def hookcard_print(tt): return A._print_im(hookbg('headbg', tt).convert('RGB').resize((600, 1067), Image.LANCZOS), 600, None, False, None, 7)
-def mayer_print(wd): return PR('16', wd, 9, crop=(0, 100, 1696, 2476))
-def mayer_pos(t):
-    u = eout((t - H1) / (1.0 * SLOW)); x, y, w = HP
-    return lerp(x, x, u), lerp(-700, y, u) + 4 * max(0.0, t - H1), lerp(10, -3, u)
+# Mayer's three portraits in the hook: (photo, crop, width, landing x, y, rotation, delay after "Egon")
+HOOKP = [('19', None, 400, 250, 600, -6, 0.0), ('18', (0, 0, 1686, 2300), 400, 830, 620, 6, 0.3), ('16', (0, 100, 1696, 2476), 430, 540, 540, 1, 0.6)]
+def hookcard_print(tt): return print_im(hookbg('headbg', tt).convert('RGB').resize((600, 1067), Image.LANCZOS), 600, False, None, 7)
+def hook_prints(c, t, f=1.0, ox=0.0, oy=0.0, blur=True):
+    """the three portraits drop in from the top one after another (reference title scene), arrive big and pull back slowly.
+    f: scale of the whole layout (1 on screen in the hook, 1/ZH on the table card)"""
+    for i, (n, crop, wd, x1, y1, r1, dl) in enumerate(HOOKP):
+        t0 = H1 + dl
+        if t < t0: continue
+        def pos(tt):
+            u = eout((tt - t0) / (1.0 * SLOW)); return x1 + 2 * (tt - t0), lerp(-800, y1, u) + 3 * (tt - t0), lerp(r1 + 9, r1, u)
+        x, y, r = pos(t); x2, y2, _ = pos(t + 1 / FPS); d = t - t0; sc = 1.0 + 0.25 * (1 - eout(d / 2.8)) - 0.01 * d
+        card(c, PR(n, wd, 30 + i, crop=crop), 540 + (x - 540) * f + ox, 960 + (y - 960) * f + oy, r, ((x2 - x) * 1.6 * f, (y2 - y) * 1.6 * f) if blur else (0, 0), sc=sc * f)
 def s_hookcard(c, t, ox, oy):
     card(c, hookcard_print(t - H1 + 0.35), 540 + ox, 960 + oy, 0)
-    x, y, r = mayer_pos(t); card(c, mayer_print(int(HP[2] / ZH)), 540 + (x - 540) / ZH + ox, 960 + (y - 960) / ZH + oy, r)
+    hook_prints(c, t, 1 / ZH, ox, oy, False)
 GX, GY = 1380, 2160
 PATH = [(-1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3)]
-SCN = [(ZS, s_hookcard), (ZE + 0.15, s_birth), (T3, s_jg2), (T4, s_bob), (T5, s_1942), (T6, s_nose), (T7, s_nazaire), (T8, s_eder), (T9, s_turret), (T10, s_kommo), (T11, s_19), (T12, s_100), (T13, s_death), (T14, s_end)]
+SCN = [(ZS, s_hookcard), (T2b, s_birth), (T3, s_jg2), (T4, s_bob), (T5, s_1942), (T6, s_nose), (T7, s_nazaire), (T8, s_eder), (T9, s_turret), (T10, s_kommo), (T11, s_19), (T12, s_100), (T13, s_death), (T14, s_end)]
 ANC = [(p[0] * GX, p[1] * GY) for p in PATH]
 PRE, POST = 0.2, 1.1   # the camera leaves only when the sentence is said; the move takes 1.3 s
 def campos(t):
@@ -304,12 +349,11 @@ def campos(t):
     if nxt is not None: k, prev = nxt, k
     else: prev = k - 1 if k > 0 and t < SCN[k][0] + POST else None
     if prev is None: return ANC[k], (0.0, 0.0), k, None
-    b = SCN[k][0]; f = lambda tt: eio((tt - (b - PRE)) / (PRE + POST))
-    u, u2 = f(t), f(t + 1 / FPS); (ax, ay), (bx, by) = ANC[prev], ANC[k]
-    return (lerp(ax, bx, u), lerp(ay, by, u)), ((bx - ax) * (u2 - u), (by - ay) * (u2 - u)), k, (prev, u)
+    b = SCN[k][0]; u = clamp((t - (b - PRE)) / (PRE + POST))
+    return (ANC[k] if t >= b + 0.12 else ANC[prev]), (0.0, 0.0), k, (prev, u)
 @functools.lru_cache(None)
 def sweeper():
-    P_ = A._print_im(Image.open(E + 'pile/v02_162.jpg').convert('RGB'), 1000, seed=40).rotate(-7, expand=True, resample=Image.BICUBIC)
+    P_ = print_im(Image.open(E + 'pile/v02_162.jpg').convert('RGB'), 1000, True, None, 40).rotate(-7, expand=True, resample=Image.BICUBIC)
     return P_.resize((int(P_.width * 2.0), int(P_.height * 2.0)), Image.BICUBIC).filter(ImageFilter.GaussianBlur(24))
 def dblur(img, vx, vy):
     L = math.hypot(vx, vy) * 0.9
@@ -325,19 +369,16 @@ def zoom_at(t):
     return 1.0 + 0.006 * max(0.0, t - a)
 def table_frame(t):
     (cx, cy), (vx, vy), k, tr = campos(t)
-    can = table_view(cx, cy).convert('RGBA')
+    can = table_view(cx, cy).convert('RGBA'); SWOOP.clear()
     for j in range(max(0, k - 1), min(len(SCN), k + 2)):   # neighbouring groups lie on the same table
+        if (cx, cy) != tuple(ANC[j]) and j != k: pass
         CUR[0] = SCN[j][0]; SCN[j][1](can, t, ANC[j][0] - cx, ANC[j][1] - cy)
-    if tr is not None:
-        prev, u = tr; can = dblur(can, vx, vy)
-        dx, dy = ANC[k][0] - ANC[prev][0], ANC[k][1] - ANC[prev][1]; sw = sweeper(); s = clamp((u - 0.12) / 0.76)
-        if 0 < s < 1:   # a print close to the lens passes the other way
-            if abs(dx) > abs(dy): x = lerp(W + 60, -sw.width - 60, s) if dx > 0 else lerp(-sw.width - 60, W + 60, s); y = H / 2 - sw.height / 2 + 150
-            else: y = lerp(H + 60, -sw.height - 60, s) if dy > 0 else lerp(-sw.height - 60, H + 60, s); x = W / 2 - sw.width / 2
-            paste(can, sw, int(x), int(y))
-        z = lerp(zoom_at(SCN[prev][0] + (SCN[k][0] - SCN[prev][0]) - PRE), 1.0, u)
-    else: z = zoom_at(t)
+    for P_, x, y, r, sc, bl in SWOOP:   # the print near the lens, out of focus while it is big
+        Q = P_.filter(ImageFilter.GaussianBlur(bl / max(1.0, sc))) if bl > 0.6 else P_
+        card(can, Q, x, y, r, sc=sc)
+    z = zoom_at(t) if tr is None else 1.0
     if k == 0 and tr is None: z = zoom_at(t)
+    if tr is not None and t < SCN[k][0] + 0.12: z = zoom_at(SCN[k][0] - PRE)
     if z > 1.0005:
         bw, bh = W / z, H / z; can = can.resize((W, H), Image.BICUBIC, box=(CX - CX / z, 960 - 960 / z, CX - CX / z + bw, 960 - 960 / z + bh))
     return can
@@ -351,8 +392,7 @@ def hook_frame(t):
     else: can = hookbg('headbg', t - H1 + 0.35)
     quote(can, t, [[('WER', ws('Wer'))], [('AMERIKANISCHE', ws('amerikanische'))], [('BOMBER', ws('Bomber')), ('VON', ws('von'))], [('HINTEN', ws('hinten')), ('ANGRIFF,', ws('angriff'))],
                    [('FLOG', ws('flog')), ('DIREKT', ws('direkt'))], [('IN', ws('in')), ('IHR', ws('ihr'))], [('ABWEHRFEUER.', ws('Abwehrfeuer'))]], 900, size=84, tout=H1 - 0.3, lh=1.02)
-    if t >= H1:
-        x, y, r = mayer_pos(t); x2, y2, _ = mayer_pos(t + 1 / FPS); card(can, mayer_print(HP[2]), x, y, r, ((x2 - x) * 1.6, (y2 - y) * 1.6))
+    hook_prints(can, t)
     quote(can, t, [[('EGON', ws('Egon')), ('MAYER', ws('Mayer'))], [('GRIFF', ws('griff')), ('SIE', ws('sie', 5))], [('DESHALB', ws('deshalb'))], [('VON', ws('von', 5.5)), ('VORNE', ws('vorne')), ('AN.', ws('an', 6))]],
           1000, size=92, col={0: YEL}, lh=1.02, tout=ZS - 0.12)
     return can
