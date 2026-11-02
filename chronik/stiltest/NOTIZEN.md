@@ -57,3 +57,8 @@ ElevenLabs Flow: "Laconia Short – Sounddesign". Model eleven_text_to_sound_v2.
 - Uygulama: kod/stylec.py (egon/code/eg.py'yi kaynak, klip ve kelime zamanı için kullanır).
 - Fontlar npm'den: @fontsource/special-elite (başlık), old-standard-tt (paragraf, sayaç, gazete), courier-prime (alt başlık).
 - Gazete metinleri nötr dolgu kelimelerden üretiliyor; gerçek dönem gazetesi kullanılmıyor.
+- C v2 (kod/stylec_v2.py):
+  - Tek büyük gazete sayfası (dünya koordinatı). Kamera sahneler arasında sağa, aşağı ve sola kayıyor; geçişte hareket bulanıklığı ve hafif flu var.
+  - Arkadaki silik gazete katmanı daha yavaş kayıyor (derinlik).
+  - Fotoğraflar ekranı kaplayacak kadar büyük, soluk renkli ve kâğıtla çarpılmış.
+  - Fotoğraf kamera gelirken mürekkep gibi açılıyor, biraz büyük gelip oturuyor. Yıl sayacı noktalı çizginin ortasında.
