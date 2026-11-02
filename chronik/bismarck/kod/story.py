@@ -5,8 +5,8 @@ import sys, os, math, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
-import bm as eg
-from bm import W, H, FPS, E, eio, clamp, lerp
+import bm2 as eg
+from bm2 import W, H, FPS, E, eio, clamp, lerp
 import lib9 as L
 YEL, WHITE, CREAM, RED = L.YEL, L.WHITE, L.CREAM, L.RED
 A1 = 5.36      # 'gestoppt.' fades out by 5.30, silence until 'Ihr': cut in the silence
@@ -25,7 +25,7 @@ def badge(img, x, y, h=100):
     d.text((x, cy), 'C', font=f, fill=WHITE, anchor='lm'); d.rectangle((b[0] - pad, b[1] - h * 0.06, b[2] + pad, b[3] + h * 0.05), fill=YEL)
     d.text((xd, cy), 'DM', font=f, fill=(14, 15, 18), anchor='lm'); d.rectangle((b[0] - pad, b[3] + h * 0.12, b[0] + h * 0.4, b[3] + h * 0.17), fill=RED)
 def card(t):
-    img = eg.film('hook', A1 + t).convert('RGBA')   # the hook film keeps running behind the card
+    img = eg.hookbg(A1 + t)   # the blue-toned hook film keeps running behind the card (as in the Egon story)
     img.alpha_composite(Image.new('RGBA', (W, H), (6, 8, 14, int(115 * eio(t / 0.6)))))
     text(img, t, 0.4, 'SCHNELL INS PROFIL', 400, (L.anton, 116), YEL)
     text(img, t, 0.6, 'UND ANSEHEN!', 525, (L.anton, 96), WHITE)
