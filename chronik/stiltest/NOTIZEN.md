@@ -27,3 +27,10 @@ Dekupe kaynakları `cut/` klasöründe (scratchpad); gamalı haç bulanıklaşt�
 - Başlık bloğu: büyük krem sayı + iki satır sarı başlık + yırtık beyaz şerit üstünde küçük koyu harfler (`titleblock`). Font: Montserrat 900, sıkı harf arası, aşınma dokusu (`gtext`).
 - Alıntı: beyaz büyük harfler, kelimeler sesle, harfler maskeden yukarı çıkar (`quote`, `reveal`).
 - Geçiş: kısa bulanıklaşma. Fotoğrafların içinde arşiv filmi oynayabilir.
+
+## ElevenLabs ses tasarımı (`sounds/`, `kod/sfx_el.py`)
+ElevenLabs Flow: "Laconia Short – Sounddesign". Model eleven_text_to_sound_v2.
+- Zemin katmanları (döngü): `sea.mp3` gece açık deniz dalgası ve rüzgâr (30 sn), `drone.mp3` koyu sinematik drone (30 sn), `proj.mp3` eski film projektörü tıkırtısı (15 sn).
+- Tek vuruşlar: `slap.mp3` fotoğraf masaya düşüş, `swish.mp3` kâğıt savrulması, `tear.mp3` kâğıt yırtılması, `hit.mp3` derin vuruş, `torp.mp3` uzak torpido patlaması.
+- Not: süre verilmezse model 0,5 ile 2 sn arası üretiyor; zemin katmanlarında `duration_seconds` ve `loop` ayarlanmalı.
+- ElevenLabs bağlantısı müzik üretmiyor (kısıtlı connector); müzik Documentary Show olarak kaldı.
