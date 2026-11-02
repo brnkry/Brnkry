@@ -46,3 +46,14 @@ ElevenLabs Flow: "Laconia Short – Sounddesign". Model eleven_text_to_sound_v2.
 - Ses: yırtılma ve fotoğraf "slap" sesleri kaldırıldı; deniz + drone yatağı, geçişlerde yarım sesli whoosh, sayaçlarda low hit, "torpedierte"de torpido.
 - Ses değişmedi: eski anlatım (vcut.wav). Vitali sesiyle deneme yapıldı ama Boran vazgeçti.
 - Kod: kod/styleB.py (styleA.py'deki yardımcıları kullanır), kod/sfx_B.py, kod/renderB.sh.
+
+## Stil C (gazete, referans c.mov), Egon Mayer 18 sn testi (2 Kasım)
+- c.mov analizi:
+  - Katmanlı eski gazete sayfaları; bazı katmanlar flu, sayfa krem renkli, kenarlar gri vinyet.
+  - Fotoğraf ya da video kâğıda basılmış gibi: sepya-gri, kâğıtla çarpılıyor (multiply), mürekkep fırçası gibi düzensiz kenar yavaşça açılıyor.
+  - Daktilo başlık rastgele harflerden çözülüyor; ⊠ ikon, çerçeveli italik alt başlık, noktalı çizgi.
+  - Küçük kalın yıl sayacı akıyor, büyük serif paragraf var.
+  - Sahne geçişi flu ile (defocus); kamera sürekli yavaşça yaklaşıyor.
+- Uygulama: kod/stylec.py (egon/code/eg.py'yi kaynak, klip ve kelime zamanı için kullanır).
+- Fontlar npm'den: @fontsource/special-elite (başlık), old-standard-tt (paragraf, sayaç, gazete), courier-prime (alt başlık).
+- Gazete metinleri nötr dolgu kelimelerden üretiliyor; gerçek dönem gazetesi kullanılmıyor.
