@@ -1,6 +1,6 @@
 # Egon Mayer (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Egon_Mayer_Shorts_DE_v5.mp4` (9:16, 1:40, Stil A, eigene Stimme). Cover: `thumbnails/DE_Egon_Mayer.jpg` (feste Yamamoto-Anordnung, Farbporträt mit Eichenlaub, Symbole unkenntlich; Job `egon` in `chronicle/brand/covers4.py`). Story: `social/Egon_Mayer_Story_DE.mp4` (11,7 s; Code `kod/story.py`). Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
+Video: `Egon_Mayer_Shorts_DE_v6.mp4` (9:16, 1:40, Stil A, eigene Stimme). Cover: `thumbnails/DE_Egon_Mayer.jpg` (feste Yamamoto-Anordnung, Farbporträt mit Eichenlaub, Symbole unkenntlich; Job `egon` in `chronicle/brand/covers4.py`). Story: `social/Egon_Mayer_Story_DE.mp4` (11,7 s; Code `kod/story.py`). Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
 
 ## YouTube Shorts
 **Titel** (Titel und Cover sagen Verschiedenes)

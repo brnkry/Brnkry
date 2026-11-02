@@ -93,7 +93,7 @@ def paste(can, L, x, y):
     can.alpha_composite(L, (x + cx0, y + cy0))
 SLOW = 1.15
 VIS = 1.6   # a print that already lies on the table comes into view about this long before its scene
-CUR = [0.0]   # start time of the scene being drawn (drift of prints that already lie there)
+CUR = [0.0]; CNT = [0]; CURJ = [0]   # start time of the scene being drawn (drift of prints that already lie there)
 def deal(can, P_, t, t0, frm, to, r0, r1, ox, oy, dur=1.0, drift=(0, 0, 0), sc0=1.25):
     """print at local position `to` (+ table offset ox, oy). t0=None: already lying there. Otherwise slides in from `frm`. Always drifting."""
     def pos(tt):
@@ -272,10 +272,22 @@ SWOOP = []    # swooping prints are drawn last, in screen space, over everything
 def enter(c, P_, t, t0, side, to, r1, ox, oy, drift=(0, 0, 0), dur=1.15, main=False):
     """every print of a group already lies on the table; the camera travels to it, sees it on the way,
     and as it arrives the prints pull back slowly from big to normal (reference a.mov); they never stand still"""
-    a = CUR[0]; d = t - a
-    x, y, r = to[0] + drift[0] * d + ox, to[1] + drift[1] * d + oy, r1 + drift[2] * d
-    sc = 1.0 + (0.14 if main else 0.10) * (1 - eout(clamp((t - (a - 0.4)) / 3.0))) - 0.008 * max(0.0, d)
-    card(c, P_, x, y, r, sc=sc); return
+    # the group arrives WITH the camera move: each print scatters in from the side the camera is heading to,
+    # big and turning, one after another, and settles as the camera settles (reference a.mov, 16 s)
+    a = CUR[0]; i = CNT[0]; CNT[0] += 1; j = CURJ[0]
+    if j > 0: dx, dy = ANC[j][0] - ANC[j - 1][0], ANC[j][1] - ANC[j - 1][1]
+    else: dx, dy = 1.0, 0.0
+    n = math.hypot(dx, dy) or 1.0; dx, dy = dx / n, dy / n
+    t0 = a - PRE + 0.12 * i
+    if t < t0: return
+    jit = ((i * 97 + j * 31) % 7 - 3) * 70.0
+    def pos(tt):
+        u = eout(clamp((tt - t0) / 1.35)); d = tt - a
+        fx, fy = to[0] + dx * 680 - dy * jit, to[1] + dy * 680 + dx * jit
+        sc = 1.0 + 0.32 * (1 - u) + (0.10 if main else 0.07) * (1 - eout(clamp((tt - t0) / 3.4))) - 0.008 * max(0.0, d)
+        return lerp(fx, to[0], u) + drift[0] * d + ox, lerp(fy, to[1], u) + drift[1] * d + oy, lerp(r1 + (16 if i % 2 else -16), r1, u) + drift[2] * d, sc
+    x, y, r, sc = pos(t); x2, y2, _, _ = pos(t + 1 / FPS)
+    card(c, P_, x, y, r, ((x2 - x) * 1.4, (y2 - y) * 1.4), sc=sc); return
     if main:
         t0 = CUR[0] - 0.15
         if t < t0: return
@@ -400,7 +412,7 @@ def table_frame(t):
     can = table_view(cx, cy).convert('RGBA')
     bg_layer(can, t, cx, cy)
     for j in range(max(0, k - 1), min(len(SCN), k + 2)):   # neighbouring groups lie on the same table, seen on the way
-        CUR[0] = SCN[j][0]; SCN[j][1](can, t, ANC[j][0] - cx, ANC[j][1] - cy)
+        CUR[0] = SCN[j][0]; CNT[0] = 0; CURJ[0] = j; SCN[j][1](can, t, ANC[j][0] - cx, ANC[j][1] - cy)
     if tr is not None:
         prev, u = tr; can = dblur(can, vx * 0.6, vy * 0.6)
         z = lerp(zoom_at(SCN[k][0] - PRE), 1.0, u)
