@@ -105,3 +105,11 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Geçiş sesleri eskisinin yarısı seviyede.
 - Tarih aralığı "1912 - 1998" (normal tire, uzun tire değil), italik.
 - Story: giriş kesiti bir kelimenin ortasında kesilmez; kesim kelimenin bittiği sessizliğe konur (ses enerjisiyle kontrol). Müzik kesintisiz devam eder, sesin altından yükselir ve sonda yavaşça azalarak biter.
+
+## Stil A (referans a.mov) dersleri, Egon Mayer (Kasım 2026)
+- Tek masa: bütün fotoğraflar aynı masada durur, kamera sağa, sola, yukarı ve aşağı kayarak bir gruptan ötekine gider. "Başka ekrana geçiyor" hissi olmamalı. Her geçişte kameraya yakın, büyük ve bulanık bir kart ters yönde geçer (Laconia testindeki 15. saniye).
+- Animasyonlar yavaş olmalı: kart girişi ~1,15 sn, kamera kayması ~1,3 sn.
+- Kartlar piksel altı hassasiyetle yerleştirilir (afin kaydırma). Tam sayı piksele yuvarlamak yavaş kaymada titreme yapar.
+- Tüm yazılar ortada (x=540). Sığmazsa küçülür, sola çekilmez. Genişlik ≤700 px olunca sağ kenar ≤900'de kalır (like butonu). Uzun sarı satırlarda sayı üstte, sarı satırlar altta, alt sınır 1530.
+- Ekrana gelen ana fotoğraf ve videolar tekrar etmez. Arka plandaki koyu foto yığınında tekrar sorun değil.
+- Gun camera kliplerinde pilot isim kartları ve kararan kareler parlaklık testiyle ayıklanır. Siyah bant, zaman kodu ve filigran kırpılır.
