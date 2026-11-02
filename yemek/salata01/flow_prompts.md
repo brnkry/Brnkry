@@ -1,62 +1,110 @@
-# Salata 01: Pancarlı renkli salata (Google Flow / Veo promptları)
+# Salata 01: Pancarlı renkli salata (Google Flow adım adım)
 
-Referans: Yemek_Kelebegi, Facebook Reels ("Tam bi şifa ve lezzet deposu"). Ekran kaydı 19,5 sn, video yaklaşık 17 sn ve döngü (loop).
+Referans: Yemek_Kelebegi, Facebook Reels. Format: 9:16, 16 çekim, her çekim yaklaşık 1 sn, sonsuz döngü, seslendirme yok.
+Malzemeler: pancar, havuç, kırmızı lahana, mısır, nar, maydanoz, ceviz. Sos: sarımsak, limon, zeytinyağı, nar ekşisi.
 
-## Referans videonun analizi
+## ADIM 1: Proje
+Flow'da yeni proje aç. En boy oranı **9:16 (dikey)**.
 
-- **Format:** 9:16, yaklaşık 17 sn, 16 çekim, her çekim 0,7 ile 1,2 sn. Seslendirme yok, ekranda yazı yok. Ses "Orijinal Ses" (malzeme dökme sesleri, ASMR tarzı).
-- **Kamera:** Hep aynı açı. Yaklaşık 45 derece yukarıdan, kase kadrajın alt yarısında, çok yakın. Kamera sabit. Arada sadece kaşık ve çatal yakın çekimleri var.
-- **Set:** Bambu hasır altlık, büyük açık renk tahta kase, beyaz porselen kaselerden dökülen malzemeler, eldivenli eller. Arka planda beyaz tezgah ve yeşil yapay bitki (bu bitki o sayfanın imzası, **biz kullanmayacağız**).
-- **Kurgu mantığı:** Her çekim bir malzeme. Renkler katman katman birikiyor: mor, bordo, turuncu, sarı, kırmızı, yeşil, kahverengi. Sos ayrı fincanda hazırlanıp dökülüyor, sonra karıştırma ve "lezzetli" yakın çekimleri.
-- **Kanca:** İlk kare boş değil. Video karıştırılmış salatayla bitip dökme çekimiyle başladığı için sonsuz döngü hissi veriyor. İzleyici nerede başladığını fark etmeden ikinci kez izliyor (izlenme süresini artırır).
-- **Tarif (videodan okunan):** Rendelenmiş kırmızı lahana, pancar, havuç, mısır, nar, ince kıyılmış maydanoz, ceviz. Sos: ezilmiş sarımsak, limon, zeytinyağı, nar ekşisi (sosun kırmızı kahve rengi), tuz.
+## ADIM 2: 3 referans görseli üret (görsel modu)
+Her prompt için 4 görsel üret, en iyisini indir.
 
-## Flow'da çalışma yöntemi
-
-1. **Önce ana kareyi üret** (görsel modeliyle): boş kase setimiz. Bütün çekimleri bu kareden veya bunun varyasyonlarından başlat ki kase, ışık ve masa her çekimde aynı kalsın.
-2. Her çekimi **Frames to Video** ile, kasenin o anki durumunu gösteren bir başlangıç karesiyle üret. Bir önceki çekimin son karesini sonraki çekimin başlangıç karesi yap. Böylece malzemeler birikir, kase "sıfırlanmaz".
-3. Veo 8 sn üretir, biz her çekimden en iyi 1 sn'yi alacağız. Önce Fast modda dene, beğenilen çekimi Quality ile yeniden üret.
-4. Her prompta aşağıdaki **STİL BLOĞU** aynen eklenir.
-
-### STİL BLOĞU (her promptun sonuna)
+**Görsel A: SET**
 ```
-Vertical 9:16 food video, close-up from a fixed camera at a 45 degree high angle, large light acacia wood salad bowl filling the lower half of the frame, on a woven bamboo placemat, bright white marble kitchen counter, soft natural daylight from a window on the left, a small terracotta pot of fresh basil softly blurred in the background, shallow depth of field, vivid saturated natural colors, crisp detail, real-time speed, no text, no logos, no faces.
+Photorealistic food photography, vertical 9:16. An empty large light acacia wood salad bowl on a woven bamboo placemat, on a bright white marble kitchen counter. Camera at a 45 degree high angle, close, the bowl fills the lower half of the frame. Soft natural daylight from a window on the left. A small terracotta pot of fresh basil softly blurred in the background on the right. Shallow depth of field, clean, bright, no text, no people.
 ```
 
-### NEGATİF (Flow'da varsa negatif alana)
+**Görsel B: EL VE KASE**
 ```
-text, watermark, logo, cartoon, CGI look, plastic food, distorted hands, extra fingers, morphing objects, camera shake, slow motion
+Photorealistic close-up, a hand wearing a clear transparent food-safe disposable glove holding a small round white porcelain bowl tilted forward, plain white background, soft daylight, no text.
 ```
 
-## Çekim listesi (16 çekim, yaklaşık 16 sn)
+**Görsel C: SOS SÜRAHİSİ**
+```
+Photorealistic close-up, a small white porcelain sauce jug with a thin black rim and a spout, empty, standing on a woven bamboo placemat on a white marble counter, soft daylight from the left, shallow depth of field, no text.
+```
 
-| # | Süre | Prompt (stil bloğundan önce) |
-|---|---|---|
-| 01 | 1,0 sn | A hand in a clear food-safe glove tips a white ceramic bowl of finely julienned raw beetroot into the empty wooden bowl, the deep crimson strands tumble down and land in a loose pile. |
-| 02 | 1,0 | A white ceramic bowl of finely grated bright orange carrot is tipped into the wooden bowl, the carrot falls on top of the crimson beetroot. |
-| 03 | 1,0 | A white bowl of finely shredded purple red cabbage is poured into the wooden bowl, covering one side, purple strands bounce as they land. |
-| 04 | 0,8 | A small white bowl of sweet corn kernels is tipped into the center of the salad, the yellow kernels scatter over the purple and orange. |
-| 05 | 0,8 | Glistening red pomegranate seeds pour from a small white bowl and rain down onto the salad, bouncing like jewels. |
-| 06 | 1,0 | A white bowl of finely chopped fresh flat leaf parsley is tipped onto the salad, a bright green layer covers the top. |
-| 07 | 1,0 | A knife scrapes roughly chopped walnuts off a small wooden cutting board into the bowl, the walnut pieces slide off and land on the parsley. |
-| 08 | 1,0 | Close-up of a small white ceramic jug on the bamboo mat, a gloved hand squeezes a garlic press and fresh crushed garlic drops into the jug. (Arka planda kase dolu ve bulanık.) |
-| 09 | 0,8 | A gloved hand squeezes a lemon half in a black citrus press over the white jug, fresh lemon juice streams down. |
-| 10 | 0,8 | Golden extra virgin olive oil pours in a thin stream from a dark green glass bottle into the white jug. |
-| 11 | 0,8 | Thick dark red pomegranate molasses drizzles from a spoon into the jug. |
-| 12 | 1,0 | A gloved hand whisks the dressing in the white jug with a small spoon, it turns into a glossy pinkish brown emulsion. |
-| 13 | 1,2 | The white jug pours the pink dressing in a smooth stream over the walnuts and parsley in the wooden bowl. |
-| 14 | 1,2 | Two wooden salad servers toss the whole salad, purple, orange, green and red strands mix together and glisten with dressing. |
-| 15 | 1,2 | The fully mixed colorful salad sits glistening in the bowl, the camera stays fixed, a single parsley leaf gently settles on top. |
-| 16 | 1,4 | A fork lifts a generous bite of the mixed beet and cabbage salad toward the camera, dressing glistens on the strands, a walnut piece and pomegranate seeds on the fork. |
+## ADIM 3: Agent'ları ekle
+| Agent | Görsel | Ad | Açıklama |
+|---|---|---|---|
+| 1 | A | SET | Large light acacia wood salad bowl on a woven bamboo placemat, white marble counter, basil pot blurred in the background, camera fixed at a 45 degree high angle. Always the same scene. |
+| 2 | B | HAND | Hand in a clear transparent food-safe glove, always gloved, never shows a face or arm tattoo. Holds small round white porcelain bowls. |
+| 3 | C | JUG | Small white porcelain sauce jug with a thin black rim and spout, used for the salad dressing. |
 
-Döngü için: 16'nın son karesi ile 01'in ilk karesi arasında kesim yapılır. Video 01 ile başlamaz, **14'ün ortasından** (karışık salata) başlar, 13'e kadar gider ve tekrar başa döner.
+## ADIM 4: Video ayarları
+Video modu, model **Veo (Fast)**, 9:16, her prompt için 2 çıktı. Beğendiğin çekim olursa Quality ile yeniden üret.
 
-## Ses planı (biz ekleriz)
+## ADIM 5: 16 çekim
+Her satırda hangi agent'ların seçileceği yazıyor. Promptları olduğu gibi yapıştır.
 
-- Veo'nun ürettiği sesler (dökme, hışırtı) kullanılabilir ama genelde tutarsız. Daha temiz yol: Veo sesini kapat, her çekim için ayrı ASMR efekti (dökme, kıtır, sıvı akışı, karıştırma) ElevenLabs Sound Effects ile üret, üstüne hafif bir akustik müzik.
-- Kurgu, kesimler, renk eşitleme, döngü ve miks bizim ffmpeg akışımızla yapılır (WTC'deki gibi). Loudness hedefi -14 LUFS.
+### 01 (SET + HAND)
+```
+The gloved hand tips a small white porcelain bowl of finely julienned raw beetroot into the empty wooden salad bowl, deep crimson strands tumble down and land in a loose pile. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 02 (SET + HAND)
+```
+The wooden salad bowl already holds a pile of crimson julienned beetroot. The gloved hand tips a small white bowl of finely grated bright orange carrot into it, the carrot falls on top of the beetroot. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 03 (SET + HAND)
+```
+The wooden salad bowl holds crimson beetroot and orange grated carrot. The gloved hand pours a small white bowl of finely shredded purple red cabbage into it, the purple strands bounce as they land and cover one side. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 04 (SET + HAND)
+```
+The wooden salad bowl is full of shredded purple cabbage, orange carrot and crimson beetroot. The gloved hand tips a small white bowl of sweet yellow corn kernels into the center, the kernels scatter over the colorful strands. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 05 (SET + HAND)
+```
+The wooden salad bowl is full of shredded purple cabbage, orange carrot and beetroot with yellow corn in the center. The gloved hand tips a small white bowl and glistening red pomegranate seeds rain down onto the salad, bouncing like jewels. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 06 (SET + HAND)
+```
+The wooden salad bowl is full of shredded purple cabbage, orange carrot, yellow corn and red pomegranate seeds. The gloved hand tips a small white bowl of finely chopped fresh flat leaf parsley onto it, a bright green layer covers the top. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 07 (SET + HAND)
+```
+The wooden salad bowl is topped with chopped green parsley over purple cabbage and pomegranate seeds. The gloved hand uses a knife to scrape roughly chopped walnuts off a small wooden cutting board into the bowl, the walnut pieces slide off and land on the parsley. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 08 (SET + HAND + JUG)
+```
+Close-up of the white sauce jug standing on the bamboo placemat, the full colorful salad bowl softly blurred behind it. The gloved hand squeezes a metal garlic press over the jug and fresh crushed garlic drops inside. Fixed camera at a 45 degree high angle, soft daylight from the left, shallow depth of field, real-time speed, no text, no faces.
+```
+### 09 (SET + HAND + JUG)
+```
+Close-up of the white sauce jug on the bamboo placemat, the salad bowl blurred behind. The gloved hand squeezes half a lemon in a black citrus press above the jug, fresh lemon juice streams down into it. Fixed camera at a 45 degree high angle, soft daylight from the left, shallow depth of field, real-time speed, no text, no faces.
+```
+### 10 (SET + JUG)
+```
+Close-up of the white sauce jug on the bamboo placemat, the salad bowl blurred behind. Golden extra virgin olive oil pours in a thin glossy stream from a dark green glass bottle into the jug. Fixed camera at a 45 degree high angle, soft daylight from the left, shallow depth of field, real-time speed, no text, no faces.
+```
+### 11 (SET + HAND + JUG)
+```
+Close-up of the white sauce jug on the bamboo placemat, the salad bowl blurred behind. The gloved hand drizzles thick dark red pomegranate molasses from a spoon into the jug, it sinks into the olive oil and lemon juice. Fixed camera at a 45 degree high angle, soft daylight from the left, shallow depth of field, real-time speed, no text, no faces.
+```
+### 12 (SET + HAND + JUG)
+```
+Close-up of the white sauce jug on the bamboo placemat. The gloved hand whisks the dressing inside with a small spoon, it turns into a glossy pinkish brown emulsion. Fixed camera at a 45 degree high angle, soft daylight from the left, shallow depth of field, real-time speed, no text, no faces.
+```
+### 13 (SET + HAND + JUG)
+```
+The wooden salad bowl is layered with purple cabbage, carrot, beetroot, corn, pomegranate seeds, green parsley and chopped walnuts on top. The gloved hand tilts the white sauce jug and pours a smooth stream of pinkish brown dressing over the walnuts and parsley. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 14 (SET + HAND)
+```
+In the wooden salad bowl, two wooden salad servers toss the whole salad, purple cabbage, orange carrot, crimson beetroot, green parsley, corn, walnuts and pomegranate seeds mix together and glisten with dressing. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
+### 15 (SET)
+```
+The fully mixed beetroot, carrot and purple cabbage salad sits glistening with dressing in the wooden bowl, flecks of green parsley, yellow corn, walnuts and red pomegranate seeds throughout, completely still, a single parsley leaf gently settles on top. Fixed camera at a 45 degree high angle, close-up, soft daylight from the left, shallow depth of field, vivid natural colors, no text, no people.
+```
+### 16 (SET + HAND)
+```
+The gloved hand lifts a generous forkful of the mixed beetroot and cabbage salad out of the wooden bowl toward the camera, dressing glistens on the crimson and orange strands, a walnut piece and pomegranate seeds on the fork. Close-up, soft daylight from the left, shallow depth of field, vivid natural colors, real-time speed, no text, no faces.
+```
 
-## Açıklama taslağı (dil seçilince güncellenir)
+## ADIM 6: Teslim
+Her çekimden beğendiğini indir, adlarını `01.mp4` ... `16.mp4` yap, Drive klasörüne yükle, linki at. Kurgu, döngü (video 14'ün ortasından başlar), ASMR efektleri, müzik ve miks bizden.
 
-TR: `Tam bir vitamin deposu 🥗 Pancarlı, narlı, cevizli renkli salata. Tarif aşağıda 👇` + malzeme listesi + soru ("Siz sosuna ne eklersiniz?")
-EN: `This salad is pure color and crunch 🥗 Beet, pomegranate and walnut slaw. Recipe below 👇`
+## Notlar
+- Facebook'ta yüklerken "AI ile oluşturuldu" etiketini aç (Meta gerçekçi yapay zeka videoları için istiyor).
+- Set ve tarif bizim; referans sayfanın yeşil bitkisi ve birebir kurgusu kopyalanmıyor.
