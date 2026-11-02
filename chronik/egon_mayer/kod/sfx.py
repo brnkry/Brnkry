@@ -18,7 +18,7 @@ def bed(x, g, a=0.0, b=None, f=1.0):
 drone, sea, swish, hit = load('drone'), load('sea'), load('swish'), load('hit')
 bed(drone, 0.13, 0, T, 2.0); bed(sea, 0.12, ws('Einmal') - 0.6, ws('Ab', 24) + 0.3, 0.6)
 for a, _ in V.SCN[1:]: add(a - V.PRE - 0.05, swish, 0.13)
-add(V.T2 - 0.2, swish, 0.10)
+add(V.ZS - 0.05, swish, 0.10)
 for w, af in (('1917', 0), ('1942', 24), ('23.', 0), ('100', 0), ('1944', 80), ('102', 0)): add(ws(w, af), hit, 0.28)
 o = out[:int(SR * T)]; t = np.arange(len(o)) / SR; o *= np.minimum(1, (T - t) / 1.0)[:, None]; o /= max(1.0, np.abs(o).max() / 0.95)
 wavfile.write(sys.argv[1] + '/sfx.wav', SR, (o * 32767).astype(np.int16)); print('sfx ok', T)
