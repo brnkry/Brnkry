@@ -19,3 +19,11 @@ Dekupe kaynakları `cut/` klasöründe (scratchpad); gamalı haç bulanıklaşt�
 - Gri zemin yerine tonlanmış film (B-24 sahnesi).
 - Yeni öğeler: yırtık kâğıt `torn()`, bant `tape()`, polaroid `polaroid()`, kırmızı mürekkep dairesi `inkcircle()`, elle çizilmiş ok `harrow()`, U-Boot ve filika siluetleri `uboat()`, `lifeboat()`, telsiz halkaları ve telgraf.
 - YouTube güvenli alanı: yazılar x 60..900 ve y 300..1560 arasında, merkez x 480.
+
+## Stil A (a.mov) ve Laconia 30 sn denemesi (`kod/styleA.py`)
+- Koyu lacivert-gri, lekeli ve çizikli masa zemini, bazen arkada mavi tonlu silik film; kumlanma, toz, vinyet.
+- Siyah-beyaz hafif mavi tonlu eski baskılar, beyaz kırık kenarlık, yamuk açılarla yığılır, hareket bulanıklığıyla uçarak gelir; altta el yazısı tarih.
+- Kamera masa üstünde yavaşça kayar, döner, yakınlaşır (`drift`).
+- Başlık bloğu: büyük krem sayı + iki satır sarı başlık + yırtık beyaz şerit üstünde küçük koyu harfler (`titleblock`). Font: Montserrat 900, sıkı harf arası, aşınma dokusu (`gtext`).
+- Alıntı: beyaz büyük harfler, kelimeler sesle, harfler maskeden yukarı çıkar (`quote`, `reveal`).
+- Geçiş: kısa bulanıklaşma. Fotoğrafların içinde arşiv filmi oynayabilir.
