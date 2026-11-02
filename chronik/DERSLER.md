@@ -116,3 +116,6 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Geçiş = kamera masada kayar (sağ, sol, yukarı, aşağı) ve bir sonraki grubun fotoğrafları bu kaymayla BİRLİKTE gelir: kameranın gittiği yönden, büyük ve dönerek, arka arkaya savrulup yerine oturur (a.mov 16. sn). Fotoğraflar önceden masada hazır durmaz; uzaktan uçan tek bir bulanık kart da değildir.
 - Arka plandaki foto yığını tek tek hareket eden kartlardan oluşur. Ana fotoğraflardan sönük ama görünür, mavi tonlu. Boş gökyüzü kareleri kullanılmaz.
 - Fotoğraflar büyük olur (ekranın çoğu), alt kısım yazıya kalır. Beyaz kenarlar ince.
+
+## Senaryo dili
+- Her cümleye yıl ya da tarih verilmez, akışı bozuyor (Boran). Başta bir zaman çapası yeter ("Im Sommer 1942"); sonrası "im März", "wenig später", "Wochen später" gibi ifadelerle akar. Yıl sadece hikâye için gerçekten önemliyse verilir.
