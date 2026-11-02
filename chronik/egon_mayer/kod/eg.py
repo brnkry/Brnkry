@@ -212,7 +212,7 @@ def table():
     cache = E + 'table.png'
     if os.path.exists(cache): return Image.open(cache).convert('RGB')
     rng = np.random.default_rng(5); can = Image.new('RGBA', (TW, TH), (20, 24, 40, 255))
-    srcs = [('p', f) for f in sorted(os.listdir(E + 'pile'))] + [('i', n) for n in PILE_I + ['01', '21']] + [('c', n) for n in PILE_C]
+    srcs = [('p', f) for f in RICH] + [('i', n) for n in PILE_I + ['01', '21']] + [('c', n) for n in PILE_C]
     order = list(rng.permutation(len(srcs)))
     for k in range(90):
         kind, n = srcs[order[k % len(srcs)]]
@@ -223,11 +223,32 @@ def table():
         for dx in (-TW, 0, TW):
             for dy in (-TH, 0, TH):   # wrap so the tile is seamless
                 paste(can, sh, x + dx + 8, y + dy + 16); paste(can, P_, x + dx, y + dy)
-    T_ = tone(can, DARK, LIGHT * 0.78, 1.15).filter(ImageFilter.GaussianBlur(2.4))
+    T_ = tone(can, DARK, LIGHT * 0.5, 1.2).filter(ImageFilter.GaussianBlur(3.0))
     big = Image.new('RGB', (TW + 1400, TH + 2300))
     for dx in (0, TW):
         for dy in (0, TH): big.paste(T_, (dx, dy))
     big.save(cache); return big
+BGN = 560
+RICH = ['v02_125.jpg', 'v02_162.jpg', 'v02_172.jpg', 'v02_182.jpg', 'v02_188.jpg', 'v02_38.jpg', 'v02_52.jpg', 'v02_95.jpg', 'v25_100.jpg', 'v25_14.jpg', 'v25_150.jpg', 'v25_18.jpg', 'v25_2.jpg', 'v25_200.jpg', 'v25_60.jpg', 'v25_66.jpg', 'v00_186.jpg', 'v00_230.jpg']   # pile frames with content (no empty sky)
+@functools.lru_cache(None)
+def bg_list():
+    rng = np.random.default_rng(11); xs = [a[0] for a in ANC]; ys = [a[1] for a in ANC]
+    x0, x1, y0, y1 = min(xs) - 900, max(xs) + W + 900, min(ys) - 900, max(ys) + H + 900
+    return [(int(rng.integers(48)), rng.uniform(x0, x1), rng.uniform(y0, y1), rng.uniform(-30, 30), rng.uniform(-7, 7), rng.uniform(-7, 7), rng.uniform(-0.3, 0.3)) for _ in range(BGN)]
+@functools.lru_cache(maxsize=64)
+def bg_img(i):
+    srcs = [('p', f) for f in RICH] + [('i', n) for n in PILE_I + ['01', '21']] + [('c', n) for n in PILE_C]
+    kind, n = srcs[i % len(srcs)]
+    im = src(n) if kind == 'i' else (Image.open(E + 'pile/' + n).convert('RGB') if kind == 'p' else _fr(n, nfr(n) // 3))
+    P_ = print_im(im, 520 + (i * 37) % 260, True, None, i)
+    T_ = tone(P_.convert('RGB'), DARK, LIGHT * 0.92, 1.1).filter(ImageFilter.GaussianBlur(1.3)).convert('RGBA'); T_.putalpha(P_.getchannel('A'))
+    return T_
+def bg_layer(can, t, cx, cy):
+    """the pile around the main prints: blue-toned, softer than the main prints, every print slowly moving (reference a.mov)"""
+    for i, x, y, r, vx, vy, vr in bg_list():
+        X, Y = x + vx * t - cx, y + vy * t - cy
+        if X < -650 or X > W + 650 or Y < -650 or Y > H + 650: continue
+        card(can, bg_img(i), X, Y, r + vr * t)
 def table_view(cx, cy, z=1.0):
     """window of the table whose top-left is (cx, cy) in table coordinates (any real numbers)"""
     T_ = table(); x0, y0 = cx % TW, cy % TH
@@ -249,6 +270,12 @@ TOP, LEFT, RIGHT = 'top', 'left', 'right'
 SW = 1.3      # swoop duration
 SWOOP = []    # swooping prints are drawn last, in screen space, over everything
 def enter(c, P_, t, t0, side, to, r1, ox, oy, drift=(0, 0, 0), dur=1.15, main=False):
+    """every print of a group already lies on the table; the camera travels to it, sees it on the way,
+    and as it arrives the prints pull back slowly from big to normal (reference a.mov); they never stand still"""
+    a = CUR[0]; d = t - a
+    x, y, r = to[0] + drift[0] * d + ox, to[1] + drift[1] * d + oy, r1 + drift[2] * d
+    sc = 1.0 + (0.14 if main else 0.10) * (1 - eout(clamp((t - (a - 0.4)) / 3.0))) - 0.008 * max(0.0, d)
+    card(c, P_, x, y, r, sc=sc); return
     if main:
         t0 = CUR[0] - 0.15
         if t < t0: return
@@ -276,7 +303,7 @@ def s_bob(c, t, ox, oy):
     quote(c, t, [[('EINE', ws('eine', 20)), ('STUNDE', ws('Stunde'))], [('IM', ws('im', 21.5)), ('ÄRMELKANAL', ws('Ärmelkanal'))]], 1380, ox, oy, 82, col={0: YEL})
 def s_1942(c, t, ox, oy):
     enter(c, PR('22', 1000, 51), t, T5 + 0.35, RIGHT, (540, 560), -3, ox, oy, (-3, 2, -0.08), main=True)
-    enter(c, FP('b17cloud', t - T5 - 1.0, 700, 52), t, T5 + 1.0, LEFT, (400, 900), 5, ox, oy, (3, -2, 0.1))
+    enter(c, FP('b17cloud', t - T5 + VIS, 700, 52, sp=0.85), t, T5 + 1.0, LEFT, (400, 900), 5, ox, oy, (3, -2, 0.1))
     title(c, t, '1942', ['B-17 BEI TAG', 'ÜBER FRANKREICH'], 1400, ws('1942', 24), [ws('B-17', 26), ws('Ziele')], ox, oy, True, 200, 70, cps=16)
 def s_nose(c, t, ox, oy):
     enter(c, FP('contr', t - T6 + VIS, 1000, 61), t, T6 + 0.35, TOP, (540, 560), 2, ox, oy, (3, 2, 0.08), main=True)
@@ -285,12 +312,12 @@ def s_nose(c, t, ox, oy):
     quote(c, t, [[('NUR', ws('Nur')), ('DIE', ws('die', 35)), ('NASE', ws('Nase'))], [('SCHWACH', ws('schwach')), ('BEWAFFNET', ws('bewaffnet'))]], 1380, ox, oy, 70, col={0: YEL})
 def s_nazaire(c, t, ox, oy):
     enter(c, PR('23', 1000, 71), t, T7 + 0.35, LEFT, (540, 540), -2, ox, oy, (-3, 2, -0.08), main=True)
-    enter(c, FP('hit', t - ws('frontal') + 0.2, 700, 72), t, ws('frontal') - 0.2, TOP, (400, 860), 5, ox, oy, (3, 2, 0.1))
+    enter(c, FP('hit', t - T7 + VIS, 700, 72), t, ws('frontal') - 0.2, TOP, (400, 860), 5, ox, oy, (3, 2, 0.1))
     enter(c, PR('26', 560, 73), t, ws('meldete') - 0.1, RIGHT, (790, 920), -6, ox, oy, (-3, -2, -0.1))
     title(c, t, '1942', ['23. NOVEMBER', 'ST. NAZAIRE'], 1380, ws('1942', 38), [ws('23.'), ws('St.')], ox, oy, True, 170, 70, ['ZWEI B-17 UND EINE B-24 GEMELDET'], ws('meldete'), cps=16)
 def s_eder(c, t, ox, oy):
     enter(c, PR('14', 660, 81, crop=(0, 150, 1824, 2314), cap='Georg-Peter Eder'), t, T8 + 0.35, LEFT, (360, 640), -3, ox, oy, (2, 3, 0.08), main=True)
-    enter(c, FP('front', t - T8 - 0.9, 680, 82), t, T8 + 0.9, RIGHT, (740, 900), 4, ox, oy, (-2, 3, -0.1))
+    enter(c, FP('front', t - T8 + VIS, 680, 82), t, T8 + 0.9, RIGHT, (740, 900), 4, ox, oy, (-2, 3, -0.1))
     for i, (s_, w_) in enumerate((('VON VORNE ANFLIEGEN', 'von'), ('KURZ FEUERN', 'kurz'), ('STEIL WEGZIEHEN', 'steil'))):
         quote(c, t, [[(s_, ws(w_, 50))]], 1280 + i * 92, ox, oy, 64, col={0: YEL if i == 0 else CREAM})
 def s_turret(c, t, ox, oy):
@@ -311,8 +338,8 @@ def s_100(c, t, ox, oy):
     quote(c, t, [[('AN', ws('an', 77)), ('DER', ws('der', 77.6)), ('KANALFRONT', ws('Kanalfront'))]], 1250, ox, oy, 62)
     title(c, t, '100', ['LUFTSIEGE'], 1370, ws('100'), ws('Luftsiege', 79), ox, oy, True, 200, 80, ['FEBRUAR 1944'], T12 + 1.4, cps=26)
 def s_death(c, t, ox, oy):
-    enter(c, FP('p47', t - T13 + VIS, 1000, 131, sp=0.8), t, T13 + 0.35, TOP, (540, 560), 2, ox, oy, (3, 2, 0.08), main=True)
-    enter(c, FP('p47b', t - ws('Begleitjäger') + 0.1, 700, 132), t, ws('Begleitjäger') - 0.1, LEFT, (400, 920), -5, ox, oy, (3, -2, 0.1))
+    enter(c, FP('p47', t - T13 + VIS, 1000, 131, sp=0.78), t, T13 + 0.35, TOP, (540, 560), 2, ox, oy, (3, 2, 0.08), main=True)
+    enter(c, FP('p47b', t - T13 + VIS, 700, 132, sp=0.5), t, ws('Begleitjäger') - 0.1, LEFT, (400, 920), -5, ox, oy, (3, -2, 0.1))
     title(c, t, '1944', ['2. MÄRZ', 'BEI SEDAN'], 1420, ws('1944', 80), ws('März'), ox, oy, True, 170, 70, ['ABSTURZ BEI MONTMÉDY'], ws('stürzte'))
 def s_end(c, t, ox, oy):
     enter(c, PR('07', 680, 141, cap='Saint-Désir-de-Lisieux'), t, T14 + 0.35, TOP, (540, 700), -2, ox, oy, (-2, 3, -0.08), main=True)
@@ -341,7 +368,7 @@ GX, GY = 1380, 2160
 PATH = [(-1, 0), (0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3)]
 SCN = [(ZS, s_hookcard), (T2b, s_birth), (T3, s_jg2), (T4, s_bob), (T5, s_1942), (T6, s_nose), (T7, s_nazaire), (T8, s_eder), (T9, s_turret), (T10, s_kommo), (T11, s_19), (T12, s_100), (T13, s_death), (T14, s_end)]
 ANC = [(p[0] * GX, p[1] * GY) for p in PATH]
-PRE, POST = 0.2, 1.1   # the camera leaves only when the sentence is said; the move takes 1.3 s
+PRE, POST = 0.25, 1.25   # the camera leaves only when the sentence is said; the move takes 1.3 s
 def campos(t):
     """camera top-left on the table, and the move speed vector (px/frame) for blur"""
     k = max(i for i, (a, _) in enumerate(SCN) if a <= t) if t >= SCN[0][0] else 0
@@ -349,8 +376,9 @@ def campos(t):
     if nxt is not None: k, prev = nxt, k
     else: prev = k - 1 if k > 0 and t < SCN[k][0] + POST else None
     if prev is None: return ANC[k], (0.0, 0.0), k, None
-    b = SCN[k][0]; u = clamp((t - (b - PRE)) / (PRE + POST))
-    return (ANC[k] if t >= b + 0.12 else ANC[prev]), (0.0, 0.0), k, (prev, u)
+    b = SCN[k][0]; f = lambda tt: eio(clamp((tt - (b - PRE)) / (PRE + POST)))
+    u, u2 = f(t), f(t + 1 / FPS); (ax, ay), (bx, by) = ANC[prev], ANC[k]
+    return (lerp(ax, bx, u), lerp(ay, by, u)), ((bx - ax) * (u2 - u), (by - ay) * (u2 - u)), k, (prev, u)
 @functools.lru_cache(None)
 def sweeper():
     P_ = print_im(Image.open(E + 'pile/v02_162.jpg').convert('RGB'), 1000, True, None, 40).rotate(-7, expand=True, resample=Image.BICUBIC)
@@ -369,16 +397,14 @@ def zoom_at(t):
     return 1.0 + 0.006 * max(0.0, t - a)
 def table_frame(t):
     (cx, cy), (vx, vy), k, tr = campos(t)
-    can = table_view(cx, cy).convert('RGBA'); SWOOP.clear()
-    for j in range(max(0, k - 1), min(len(SCN), k + 2)):   # neighbouring groups lie on the same table
-        if (cx, cy) != tuple(ANC[j]) and j != k: pass
+    can = table_view(cx, cy).convert('RGBA')
+    bg_layer(can, t, cx, cy)
+    for j in range(max(0, k - 1), min(len(SCN), k + 2)):   # neighbouring groups lie on the same table, seen on the way
         CUR[0] = SCN[j][0]; SCN[j][1](can, t, ANC[j][0] - cx, ANC[j][1] - cy)
-    for P_, x, y, r, sc, bl in SWOOP:   # the print near the lens, out of focus while it is big
-        Q = P_.filter(ImageFilter.GaussianBlur(bl / max(1.0, sc))) if bl > 0.6 else P_
-        card(can, Q, x, y, r, sc=sc)
-    z = zoom_at(t) if tr is None else 1.0
-    if k == 0 and tr is None: z = zoom_at(t)
-    if tr is not None and t < SCN[k][0] + 0.12: z = zoom_at(SCN[k][0] - PRE)
+    if tr is not None:
+        prev, u = tr; can = dblur(can, vx * 0.6, vy * 0.6)
+        z = lerp(zoom_at(SCN[k][0] - PRE), 1.0, u)
+    else: z = zoom_at(t)
     if z > 1.0005:
         bw, bh = W / z, H / z; can = can.resize((W, H), Image.BICUBIC, box=(CX - CX / z, 960 - 960 / z, CX - CX / z + bw, 960 - 960 / z + bh))
     return can

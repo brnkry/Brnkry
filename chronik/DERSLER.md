@@ -113,3 +113,6 @@ Her yeni video (Shorts veya uzun) başlamadan önce bu dosyayı oku.
 - Tüm yazılar ortada (x=540). Sığmazsa küçülür, sola çekilmez. Genişlik ≤700 px olunca sağ kenar ≤900'de kalır (like butonu). Uzun sarı satırlarda sayı üstte, sarı satırlar altta, alt sınır 1530.
 - Ekrana gelen ana fotoğraf ve videolar tekrar etmez. Arka plandaki koyu foto yığınında tekrar sorun değil.
 - Gun camera kliplerinde pilot isim kartları ve kararan kareler parlaklık testiyle ayıklanır. Siyah bant, zaman kodu ve filigran kırpılır.
+- Geçiş = kamera masada kayar (sağ, sol, yukarı, aşağı). Bir sonraki grubun fotoğrafları zaten masada durur ve kayarken görünür; kamera varınca büyükten yavaşça normale açılırlar. Fotoğraf "bir yerden uçup gelmez".
+- Arka plandaki foto yığını tek tek hareket eden kartlardan oluşur. Ana fotoğraflardan sönük ama görünür, mavi tonlu. Boş gökyüzü kareleri kullanılmaz.
+- Fotoğraflar büyük olur (ekranın çoğu), alt kısım yazıya kalır. Beyaz kenarlar ince.
