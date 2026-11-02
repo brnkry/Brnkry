@@ -34,3 +34,15 @@ ElevenLabs Flow: "Laconia Short – Sounddesign". Model eleven_text_to_sound_v2.
 - Tek vuruşlar: `slap.mp3` fotoğraf masaya düşüş, `swish.mp3` kâğıt savrulması, `tear.mp3` kâğıt yırtılması, `hit.mp3` derin vuruş, `torp.mp3` uzak torpido patlaması.
 - Not: süre verilmezse model 0,5 ile 2 sn arası üretiyor; zemin katmanlarında `duration_seconds` ve `loop` ayarlanmalı.
 - ElevenLabs bağlantısı müzik üretmiyor (kısıtlı connector); müzik Documentary Show olarak kaldı.
+
+## Stil A v2 (birebir referans kopyası, 2 Kasım)
+- Referans a.mov kare kare incelendi:
+  - alıntı mavi tonlu tam ekran fotoğraf üstünde kelime kelime fade ile geliyor, çıkışta son kelimeden geriye siliniyor;
+  - kartlar kenarlardan kayarak giriyor ve hiç durmuyor (sürekli drift);
+  - sarı başlık harf harf, sayı rakam rakam, yırtık şerit soldan siliniyor ve yazısı sonra beliriyor;
+  - geçişler: masa üstünde dikey kamera kayması (whip) ve yakından geçen büyük bulanık kart (sweep).
+- Her sahnede mavi tonlu foto yığını arka plan, giriş cümlesinde mavi tonlu Hartenstein.
+- Müzik: ElevenLabs Music (eleven_music_v2_5), 2 versiyon; v2 seçildi (15. saniyeden sonra yükseliyor).
+- Ses: yırtılma ve fotoğraf "slap" sesleri kaldırıldı; deniz + drone yatağı, geçişlerde yarım sesli whoosh, sayaçlarda low hit, "torpedierte"de torpido.
+- Ses değişmedi: eski anlatım (vcut.wav). Vitali sesiyle deneme yapıldı ama Boran vazgeçti.
+- Kod: kod/styleB.py (styleA.py'deki yardımcıları kullanır), kod/sfx_B.py, kod/renderB.sh.
