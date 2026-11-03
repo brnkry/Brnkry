@@ -23,9 +23,13 @@ def nfr(k): return len(os.listdir(CL + k))
 @functools.lru_cache(maxsize=64)
 def _fr(k, i): return Image.open(CL + '%s/%05d.jpg' % (k, i)).convert('RGB')
 def film(k, tt): return _fr(k, min(nfr(k), max(1, int(max(0.0, tt) * 25) + 1)))   # forward only
-def FP(k, tt, wd, seed, cap=None, sp=1.0): return print_im(film(k, tt * sp), wd, True, cap, seed)
+def warm(im):
+    """black-and-white film in a slightly warm archive tone (the photos are in colour, the films stay old footage)"""
+    g = np.asarray(ImageOps.autocontrast(ImageOps.grayscale(im), cutoff=0.5), np.float32)[..., None] / 255
+    return Image.fromarray(np.clip(g * np.array((246, 236, 218), np.float32) + (1 - g) * np.array((18, 16, 14), np.float32), 0, 255).astype(np.uint8))
+def FP(k, tt, wd, seed, cap=None, sp=1.0): return print_im(warm(film(k, tt * sp)), wd, False, cap, seed)
 @functools.lru_cache(maxsize=32)
-def SP(n, wd, seed, cap=None): return print_im(Image.open(E + 'img/p_%d.jpg' % n).convert('RGB'), wd, True, cap, seed)   # photo print (symbols already blurred)
+def SP(n, wd, seed, cap=None): return print_im(Image.open(E + 'img/c_%d.jpg' % n).convert('RGB'), wd, False, cap, seed)   # colourised photo print (Boran's upscale; symbols blurred again after it)
 # hook background: the U-boat bow cutting through the sea, cut to 9:16 (clip/hook, 30 fps), blue-toned like the Egon hook
 HC = E + 'clip/hook/'
 @functools.lru_cache(maxsize=16)
