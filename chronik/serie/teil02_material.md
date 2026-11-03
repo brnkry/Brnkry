@@ -23,3 +23,13 @@ Arama terimleri İngilizce (arşivler İngilizce etiketli). Kaynaklar: Bundesarc
 Harita animasyonları (mevcut harita motoruyla, `lang/kod/lmap.py`): üç yönden saldırı okları; Varşova'ya ilerleme; Bzura karşı saldırısı; 17 Eylül doğudan Kızıl Ordu; 28 Eylül yeni sınır (Bug); ilhak edilen bölgeler ve Generalgouvernement.
 
 Sembol kuralı: gamalı haç bulunan bütün kareler küçük ve tam üzerine bulanıklaştırılır; Varşova zafer geçidi ve Hitler yakın planları kısa tutulur, yüceltme yok.
+
+## Uzatılmış bölümler için ek malzeme
+| Bölüm | Görsel / video | Arama |
+|---|---|---|
+| Peking Planı | Burza, Błyskawica, Grom muhripleri; Leith'e varış | "ORP Blyskawica 1939", "Peking Plan Polish destroyers" |
+| Polonya altını | Altın konvoyu, Köstence limanı, Bank Polski | "Polish gold evacuation 1939", "Bank Polski gold reserve" |
+| Hel | Hel yarımadası savunması, Tuğamiral Józef Unrug | "Hel peninsula 1939 defence", "Jozef Unrug" |
+| Orzeł | ORP Orzeł denizaltısı, Tallinn limanı, mürettebat | "ORP Orzel submarine", "Orzel incident Tallinn 1939" |
+| Starzyński | Belediye Başkanı Stefan Starzyński (radyo konuşması fotoğrafı) | "Stefan Starzynski 1939 radio" |
+| Sürgün ordusu | General Sikorski, Fransa'daki Polonya birlikleri | "Wladyslaw Sikorski 1939", "Polish army in France 1940" |
