@@ -202,7 +202,7 @@ def hook_prints(c, t, f=1.0, ox=0.0, oy=0.0, blur=True):
 def s_hookcard(c, t, ox, oy):
     card(c, hookcard_print(t), 540 + ox, 960 + oy, 0)
     hook_prints(c, t, 1 / ZH, ox, oy, False)
-def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.04):
+def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.2):
     """hook type: one line per call so short lines stay big and only long words shrink to the 700 px width"""
     y = y0
     for i, l in enumerate(lines):
@@ -211,7 +211,7 @@ def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.04):
 def hook_frame(t):
     can = hookbg(t)
     qlines(can, t, [[('ER', ws('Er')), ('VERSENKTE', ws('versenkte'))], [('EIN', ws('ein')), ('BRITISCHES', ws('britisches'))], [('SCHLACHTSCHIFF', ws('Schlachtschiff'))],
-                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY,', ws('Navy'))]],
+                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('WICHTIGSTEN', ws('wichtigsten'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY,', ws('Navy'))]],
            620, 110, ws('und') - 0.08, {2: YEL})
     qlines(can, t, [[('UND', ws('und')), ('ANDERTHALB', ws('anderthalb'))], [('JAHRE', ws('Jahre')), ('SPÄTER', ws('später'))], [('VERSCHWAND', ws('verschwand')), ('ER', ws('er', 6.3))],
                     [('SPURLOS', ws('spurlos'))], [('IM', ws('im', 7.1)), ('ATLANTIK.', ws('Atlantik'))]], 680, 110, ws('Sein') - 0.12, {3: YEL})

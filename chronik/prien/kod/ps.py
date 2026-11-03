@@ -30,11 +30,16 @@ EM = [
 ST = [(wi('mehr', 56.5), wi('Jahren')), (wi('die', 65), wi('Flow', 67.5)), (wi('Bald'), wi('verschwunden'))]
 
 def tok(i): return (WORDS[i][0].upper(), WORDS[i][1], WORDS[i][0])
+CY = 1335   # vertical centre of every subtitle page / title block (photos above, YouTube title below)
+PAIRS = {('Scapa', 'Flow'), ('Royal', 'Oak'), ('Royal', 'Navy'), ('U', '47'), ('Arandora', 'Star'), ('Günther', 'Prien'), ('14', 'Oktober'), ('U-Boot', 'U')}
+def glued(a, b): return (bare(a), bare(b)) in PAIRS
 def wrap(idx, maxc):
     out = []; line = []
     for i in idx:
         s = WORDS[i][0].upper()
-        if line and len(' '.join(x for x, _, _ in line)) + 1 + len(s) > maxc: out.append(line); line = []
+        if line and len(' '.join(x for x, _, _ in line)) + 1 + len(s) > maxc:
+            carry = [line.pop()] if len(line) > 1 and glued(line[-1][2], WORDS[i][0]) else []   # names stay on one line
+            out.append(line); line = carry
         line.append(tok(i))
     if line: out.append(line)
     return out
@@ -50,7 +55,8 @@ def pages(maxc=19, nl=2):
         if st: flush(); out.append(('ST', st, WORDS[st[1]][1])); i = st[1] + 1; continue
         w, a, b = WORDS[i]; s = w.upper()
         if line and len(' '.join(x for x, _, _ in line)) + 1 + len(s) > maxc:
-            page.append(line); line = []
+            carry = [line.pop()] if len(line) > 1 and glued(line[-1][2], w) else []
+            page.append(line); line = carry
             if len(page) == nl: out.append(('P', page, page[-1][-1][1])); page = []
         line.append((s, a, w))
         if w[-1] == '.': flush()   # every sentence starts on a fresh page
@@ -71,29 +77,40 @@ def sline(c, t, l, y, size0=58):
     for s_, wa, w in l:
         key = bool(KEY.match(bare(w))); f = mont(int(size * (1.12 if key else 1.0)), 900)
         al = clamp((t - wa + 0.04) / 0.2); Ls.append(gtext_a(s_, f, YEL if key else CREAM, [al] * len(s_), -2))
-    sp = mont(size, 900).getlength(' ') * 0.55 - 20; tot = sum(L.width for L in Ls) + sp * (len(Ls) - 1); x = 540 - tot / 2   # gtext_a pads each word by 20 px
-    for L in Ls: put(c, L, x, y, 'l'); x += L.width + sp
-def emph(c, t, em, cy=1380):
+    sp = mont(size, 900).getlength(' ') * 0.55 - 13   # gtext_a pads each word by 20 px; a little more air than v2
+    gaps = [sp + (4 if KEY.match(bare(l[k][2])) or KEY.match(bare(l[k + 1][2])) else 0) for k in range(len(l) - 1)]
+    tot = sum(L.width for L in Ls) + sum(gaps); x = 540 - tot / 2
+    for k, L in enumerate(Ls): put(c, L, x, y, 'l'); x += L.width + (gaps[k] if k < len(gaps) else 0)
+def emph(c, t, em):
+    """the big number and its yellow words in reading order (number left or right, whichever is said first),
+    the rest of the sentence as subtitle lines above and below; the whole block centred on CY"""
     i0, i1, ib, btxt, iys = em
     T = lambda i: WORDS[i][1] - 0.04
-    allk = ib + [i for l in iys for i in l]
+    smallk = [i for l in iys for i in l]; allk = ib + smallk
     pre = wrap(range(i0, min(allk)), 21); post = wrap(range(max(allk) + 1, i1 + 1), 21)
     big = btxt or ' '.join(WORDS[i][0].upper() for i in ib)
     small = [' '.join(WORDS[i][0].upper() for i in l) for l in iys]
-    B, s_ = 160, 62
+    bigfirst = ib[0] < min(smallk)
+    B, s_ = 150, 58
     while True:
         fb, fs = mont(B, 900), mont(s_, 900)
         wb = sum(fb.getlength(ch) - 6 for ch in big) + 20; wsm = max(sum(fs.getlength(ch) - 3 for ch in x) + 20 for x in small)
         if wb + 16 + wsm <= 700: break
         B = int(B * 0.96); s_ = int(s_ * 0.96)
+    LH, G = 72, 28
+    Htot = len(pre) * LH + B + len(post) * LH + G * (bool(pre) + bool(post)); top = CY - Htot / 2
+    cy = top + len(pre) * LH + G * bool(pre) + B / 2
     x0 = 540 - (wb + 16 + wsm) / 2
-    if t >= T(ib[0]): put(c, gtext_a(big, fb, CREAM, typed(big, t, T(ib[0]), 8, 0.2), -6), x0, cy, 'l')
+    xb, xs = (x0, x0 + wb + 16) if bigfirst else (x0 + wsm + 16, x0)
+    if t >= T(ib[0]): put(c, gtext_a(big, fb, CREAM, typed(big, t, T(ib[0]), 8, 0.2), -6), xb, cy, 'l')
     lh = s_ * 0.95
     for k, (l, x) in enumerate(zip(iys, small)):
-        if t >= T(l[0]): put(c, gtext_a(x, fs, YEL, typed(x, t, T(l[0]), 24, 0.15), -3), x0 + wb + 16, cy - (len(small) - 1) * lh / 2 + k * lh, 'l')
-    for k, l in enumerate(pre): sline(c, t, l, cy - B * 0.5 - 36 - (len(pre) - 1 - k) * 72)
-    for k, l in enumerate(post): sline(c, t, l, cy + B * 0.5 + 36 + k * 72)
-def paper(c, t, st, t0, cy=1380):
+        if t >= T(l[0]):
+            L = gtext_a(x, fs, YEL, typed(x, t, T(l[0]), 24, 0.15), -3)
+            put(c, L, xs if bigfirst else xs + wsm - L.width, cy - (len(small) - 1) * lh / 2 + k * lh, 'l')
+    for k, l in enumerate(pre): sline(c, t, l, top + LH / 2 + k * LH)
+    for k, l in enumerate(post): sline(c, t, l, cy + B / 2 + G + LH / 2 + k * LH)
+def paper(c, t, st, t0, cy=CY):
     """torn white paper strip sliding open, the words in dark ink appear with the voice"""
     lines = wrap(range(st[0], st[1] + 1), 19)
     fs = eg.fit([' '.join(s for s, _, _ in l) for l in lines], 52, 800, 0, 660); f = mont(fs, 800); lh = int(fs * 1.3)
@@ -111,14 +128,15 @@ def paper(c, t, st, t0, cy=1380):
     k = eg.eout((t - t0) / 0.45); m = np.clip((k * (w_ + 60) - np.arange(w_)) / 60, 0, 1)
     P_.putalpha(Image.fromarray((np.asarray(P_.getchannel('A'), np.float32) * m[None, :]).astype(np.uint8)))
     put(c, P_, 540, cy)
-def subs(c, t, y0=1300):
+def subs(c, t):
     k = max([i for i, a in enumerate(VS) if a <= t] or [-1])
     if k < 0: return
     pg = PG[k]
     if pg[0] == 'EM': emph(c, t, pg[1])
     elif pg[0] == 'ST': paper(c, t, pg[1], VS[k])
     else:
-        for i, l in enumerate(pg[1]): sline(c, t, l, y0 + i * 74)
+        n = len(pg[1])
+        for i, l in enumerate(pg[1]): sline(c, t, l, CY - (n - 1) * 37 + i * 74)
 
 # pictures and camera from pr.py, without its titles/quotes; subtitles drawn on the screen on top
 def _noop(*a, **k): return None
