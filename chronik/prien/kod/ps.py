@@ -1,0 +1,151 @@
+# Günther Prien v2, subtitle mode: the whole narration stays on screen as subtitles (centred, words appear with the voice,
+# punctuation kept); at key moments some words become a style-A title (big number left, yellow words right, like 19 MINUTEN)
+# with the rest of the sentence above/below; some sentences come on a torn white paper strip. Pictures/camera = pr.py.
+import sys, os, re, subprocess
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import numpy as np
+from PIL import Image, ImageDraw, ImageChops
+import pr, eg
+from pr import WORDS, YEL, CREAM, FPS, W, H, E
+from eg import gtext_a, put, mont, clamp, typed, grunge, INK
+
+KEY = re.compile(r'^(\d[\d.]*|Osterfeld|Prien|Günther|Segelschiff|Weltwirtschaftskrise|Handelsmarine|Reichsmarine|Royal|Oak|Scapa|Flow|U|47|Orkney-Inseln|Blockschiffen|Bug|Berlin|Stier|Arandora|Star|Kanada|Nordatlantik|Straflager|Torpedos)$')
+def bare(w): return w.rstrip('.,:')
+def wi(w, after=0.0): return next(i for i, (x, a, _) in enumerate(WORDS) if a >= after - 0.05 and bare(x) == w)
+# style-A moments: (first, last, [big word idxs], big text override or None, [[yellow word idxs] per line])
+EM = [
+    (wi('Er', 10), wi('geboren', 10), [wi('1908')], None, [[wi('in', 11)], [wi('Osterfeld')]]),
+    (wi('Bei', 23), wi('47', 26), [wi('U', 25.9), wi('47', 26)], None, [[wi('U-Boot')]]),
+    (wi('In', 27), wi('ein', 30), [wi('1939')], None, [[wi('14')], [wi('Oktober')]]),
+    (wi('Diesmal'), wi('Torpedos'), [wi('drei', 50)], '3', [[wi('Torpedos')]]),
+    (wi('Die', 51), wi('Minuten'), [wi('13')], None, [[wi('Minuten')]]),
+    (wi('835'), wi('starben'), [wi('835')], None, [[wi('Mann', 55)]]),
+    (wi('Danach', 68), wi('Handelsschiffe'), [wi('30')], None, [[wi('Handelsschiffe')]]),
+    (wi('mehr', 77.5), wi('Leben'), [wi('800')], None, [[wi('Menschen')]]),
+    (wi('Im', 80), wi('1941'), [wi('1941')], None, [[wi('März')]]),
+    (wi('Was', 94), wi('geschah'), [wi('45')], None, [[wi('Mann', 97)]]),
+    (wi('Günther', 100), wi('alt'), [wi('33')], None, [[wi('Jahre', 101)]]),
+]
+# paper strips (first, last)
+ST = [(wi('mehr', 56.5), wi('Jahren')), (wi('die', 65), wi('Flow', 67.5)), (wi('Bald'), wi('verschwunden'))]
+
+def tok(i): return (WORDS[i][0].upper(), WORDS[i][1], WORDS[i][0])
+def wrap(idx, maxc):
+    out = []; line = []
+    for i in idx:
+        s = WORDS[i][0].upper()
+        if line and len(' '.join(x for x, _, _ in line)) + 1 + len(s) > maxc: out.append(line); line = []
+        line.append(tok(i))
+    if line: out.append(line)
+    return out
+def pages(maxc=19, nl=2):
+    out = []; page = []; line = []; i = 0
+    def flush():
+        nonlocal page, line
+        if line: page.append(line); line = []
+        if page: out.append(('P', page, page[-1][-1][1])); page = []
+    while i < len(WORDS):
+        em = next((e for e in EM if e[0] == i), None); st = next((s for s in ST if s[0] == i), None)
+        if em: flush(); out.append(('EM', em, WORDS[em[1]][1])); i = em[1] + 1; continue
+        if st: flush(); out.append(('ST', st, WORDS[st[1]][1])); i = st[1] + 1; continue
+        w, a, b = WORDS[i]; s = w.upper()
+        if line and len(' '.join(x for x, _, _ in line)) + 1 + len(s) > maxc:
+            page.append(line); line = []
+            if len(page) == nl: out.append(('P', page, page[-1][-1][1])); page = []
+        line.append((s, a, w))
+        if w[-1] == '.': flush()   # every sentence starts on a fresh page
+        i += 1
+    flush()
+    return out
+PG = pages()
+def pfirst(pg): return pg[1][0][0][1] if pg[0] == 'P' else WORDS[pg[1][0]][1]
+# a page shows from its first word, but never leaves before its last word has been visible for 0.45 s
+VS = []
+for k, pg in enumerate(PG):
+    a = pfirst(pg) - 0.05
+    if k: a = max(a, PG[k - 1][2] + 0.45)
+    VS.append(a)
+
+def sline(c, t, l, y, size0=58):
+    size = eg.fit([' '.join(s for s, _, _ in l)], size0, 900, -2); Ls = []
+    for s_, wa, w in l:
+        key = bool(KEY.match(bare(w))); f = mont(int(size * (1.12 if key else 1.0)), 900)
+        al = clamp((t - wa + 0.04) / 0.2); Ls.append(gtext_a(s_, f, YEL if key else CREAM, [al] * len(s_), -2))
+    sp = mont(size, 900).getlength(' ') * 0.55 - 20; tot = sum(L.width for L in Ls) + sp * (len(Ls) - 1); x = 540 - tot / 2   # gtext_a pads each word by 20 px
+    for L in Ls: put(c, L, x, y, 'l'); x += L.width + sp
+def emph(c, t, em, cy=1380):
+    i0, i1, ib, btxt, iys = em
+    T = lambda i: WORDS[i][1] - 0.04
+    allk = ib + [i for l in iys for i in l]
+    pre = wrap(range(i0, min(allk)), 21); post = wrap(range(max(allk) + 1, i1 + 1), 21)
+    big = btxt or ' '.join(WORDS[i][0].upper() for i in ib)
+    small = [' '.join(WORDS[i][0].upper() for i in l) for l in iys]
+    B, s_ = 160, 62
+    while True:
+        fb, fs = mont(B, 900), mont(s_, 900)
+        wb = sum(fb.getlength(ch) - 6 for ch in big) + 20; wsm = max(sum(fs.getlength(ch) - 3 for ch in x) + 20 for x in small)
+        if wb + 16 + wsm <= 700: break
+        B = int(B * 0.96); s_ = int(s_ * 0.96)
+    x0 = 540 - (wb + 16 + wsm) / 2
+    if t >= T(ib[0]): put(c, gtext_a(big, fb, CREAM, typed(big, t, T(ib[0]), 8, 0.2), -6), x0, cy, 'l')
+    lh = s_ * 0.95
+    for k, (l, x) in enumerate(zip(iys, small)):
+        if t >= T(l[0]): put(c, gtext_a(x, fs, YEL, typed(x, t, T(l[0]), 24, 0.15), -3), x0 + wb + 16, cy - (len(small) - 1) * lh / 2 + k * lh, 'l')
+    for k, l in enumerate(pre): sline(c, t, l, cy - B * 0.5 - 36 - (len(pre) - 1 - k) * 72)
+    for k, l in enumerate(post): sline(c, t, l, cy + B * 0.5 + 36 + k * 72)
+def paper(c, t, st, t0, cy=1380):
+    """torn white paper strip sliding open, the words in dark ink appear with the voice"""
+    lines = wrap(range(st[0], st[1] + 1), 19)
+    fs = eg.fit([' '.join(s for s, _, _ in l) for l in lines], 52, 800, 0, 660); f = mont(fs, 800); lh = int(fs * 1.3)
+    w_ = int(max(f.getlength(' '.join(s for s, _, _ in l)) for l in lines) + 64); h_ = 28 + lh * len(lines)
+    P_ = Image.new('RGBA', (w_, h_), (0, 0, 0, 0)); rng = np.random.default_rng(st[0])
+    top = [(x, rng.uniform(0, 7)) for x in range(0, w_ + 1, 10)]; bot = [(x, h_ - rng.uniform(0, 7)) for x in range(w_, -1, -10)]
+    d = ImageDraw.Draw(P_); d.polygon(top + bot, fill=(232, 230, 224, 255))
+    for i, l in enumerate(lines):
+        tot = f.getlength(' '.join(s for s, _, _ in l)); x = (w_ - tot) / 2
+        for s_, wa, w in l:
+            al = clamp((t - wa + 0.04) / 0.2)
+            if al > 0: d.text((x, 14 + i * lh), s_, font=f, fill=((150, 40, 30) if KEY.match(bare(w)) else INK) + (int(255 * al),))
+            x += f.getlength(s_ + ' ')
+    gm = grunge(9).crop((0, 0, w_, h_)); P_.putalpha(ImageChops.multiply(P_.getchannel('A'), gm))
+    k = eg.eout((t - t0) / 0.45); m = np.clip((k * (w_ + 60) - np.arange(w_)) / 60, 0, 1)
+    P_.putalpha(Image.fromarray((np.asarray(P_.getchannel('A'), np.float32) * m[None, :]).astype(np.uint8)))
+    put(c, P_, 540, cy)
+def subs(c, t, y0=1300):
+    k = max([i for i, a in enumerate(VS) if a <= t] or [-1])
+    if k < 0: return
+    pg = PG[k]
+    if pg[0] == 'EM': emph(c, t, pg[1])
+    elif pg[0] == 'ST': paper(c, t, pg[1], VS[k])
+    else:
+        for i, l in enumerate(pg[1]): sline(c, t, l, y0 + i * 74)
+
+# pictures and camera from pr.py, without its titles/quotes; subtitles drawn on the screen on top
+def _noop(*a, **k): return None
+def silent(fn):
+    def g(*a):
+        q, ti = pr.quote, pr.title; pr.quote = pr.title = _noop
+        try: fn(*a)
+        finally: pr.quote, pr.title = q, ti
+    return g
+pr.SCN = [(a, silent(f)) for a, f in pr.SCN]
+_tf = pr.table_frame
+def table_frame(t):
+    can = _tf(t).convert('RGBA'); subs(can, t); return can
+pr.table_frame = table_frame
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'preview':
+        ts = [float(x) for x in sys.argv[3:]]; n = len(ts); P_ = Image.new('RGB', (min(n, 6) * 270, ((n + 5) // 6) * 480))
+        for i, t in enumerate(ts):
+            f = pr.frame(t).convert('RGBA'); d = ImageDraw.Draw(f)
+            d.rectangle((930, 680, W, 1580), outline=(0, 255, 255, 255), width=4); d.text((10, 300), '%.2f' % t, fill=(255, 0, 255, 255))
+            P_.paste(f.convert('RGB').resize((270, 480)), ((i % 6) * 270, (i // 6) * 480))
+        P_.save(E + sys.argv[2], quality=85); sys.exit()
+    a, b = float(sys.argv[2]), float(sys.argv[3])
+    p = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
+                          '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-b:v', '10M', '-preset', 'medium', E + sys.argv[1]], stdin=subprocess.PIPE)
+    for n in range(int(round(a * FPS)), int(round(b * FPS))):
+        p.stdin.write(np.asarray(pr.frame(n / FPS).convert('RGB')).tobytes())
+        if n % 30 == 0: print('t', n / FPS, flush=True)
+    p.stdin.close(); p.wait(); print('rc', p.returncode)

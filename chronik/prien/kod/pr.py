@@ -211,12 +211,12 @@ def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.04):
 def hook_frame(t):
     can = hookbg(t)
     qlines(can, t, [[('ER', ws('Er')), ('VERSENKTE', ws('versenkte'))], [('EIN', ws('ein')), ('BRITISCHES', ws('britisches'))], [('SCHLACHTSCHIFF', ws('Schlachtschiff'))],
-                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY', ws('Navy'))]],
+                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY,', ws('Navy'))]],
            620, 110, ws('und') - 0.08, {2: YEL})
     qlines(can, t, [[('UND', ws('und')), ('ANDERTHALB', ws('anderthalb'))], [('JAHRE', ws('Jahre')), ('SPÄTER', ws('später'))], [('VERSCHWAND', ws('verschwand')), ('ER', ws('er', 6.3))],
                     [('SPURLOS', ws('spurlos'))], [('IM', ws('im', 7.1)), ('ATLANTIK.', ws('Atlantik'))]], 680, 110, ws('Sein') - 0.12, {3: YEL})
     hook_prints(can, t)
-    qlines(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 8.6))], [('GÜNTHER', ws('Günther')), ('PRIEN', ws('Prien'))]], 1180, 110, ZS - 0.12, {1: YEL})
+    qlines(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 8.6))], [('GÜNTHER', ws('Günther')), ('PRIEN.', ws('Prien'))]], 1180, 110, ZS - 0.12, {1: YEL})
     return can
 
 # ---------- camera (eg.campos / table_frame) ----------
