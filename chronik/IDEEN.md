@@ -25,3 +25,8 @@ Kişi + olay odaklı, kahramanlaştırmadan anlatılacak.
 - Stalingrad hava köprüsü: Göring'in sözü ile gerçekte ulaşan ikmal arasındaki fark.
 - Bismarck: tek bir Swordfish torpidosu dümeni kilitledi (26 Mayıs 1941).
 - Me 262 ve "Wunderwaffe" efsaneleri (teknik seri; kişileri kahramanlaştırma riski düşük).
+
+## Uzun video araştırması (3 Kasım 2026, Google Trends DE, son 12 ay, YouTube araması, Stalingrad'a göre)
+- Stalingrad 65, Hiroshima 45, U-Boot 20, Kursk 14, Tiger Panzer 11, Me 262 8, Wunderwaffe 5, Berlin 1945 3.5, D-Day 3.2, Barbarossa 1.3, Ardennen 0.8, Gustloff 0.5, Dresden 0.3, Volkssturm 0.1. (Önceki ölçüm: Bismarck, Rommel'in 1,4 katı.)
+- Google aramasında D-Day (18.7), Kursk (22.5), Berlin 1945 (13.8) YouTube'dakinden daha yüksek.
+- Öneri sırası: 1) Die Jagd auf die Bismarck (malzeme hazır), 2) Stalingrad (en yüksek ilgi, ana proje), 3) Kursk/Prochorowka efsanesi, 4) U-Boot-Krieg.
