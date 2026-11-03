@@ -56,7 +56,7 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Volkssturm #Flakhelfer #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #Zeitgeschichte #Doku #ChronikDerMacht
+#WW2Footage #WW2Colorized #Kriegsaufnahmen #Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #ChronikDerMacht
 ```
 
 ## Instagram (Reel)
@@ -71,7 +71,7 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #ChronikDerMacht
+#WW2Footage #Kriegsaufnahmen #Volkssturm #ZweiterWeltkrieg #ChronikDerMacht
 ```
 **Alternativtext:** `Kolorierte Aufnahmen aus dem Frühjahr 1945: Ein deutscher Junge ergibt sich amerikanischen Soldaten auf einem Feld, danach junge Gefangene mit erhobenen Händen.`
 
