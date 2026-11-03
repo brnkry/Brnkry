@@ -92,6 +92,7 @@ JOBS = {
  'doenitz': ('doen/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('HITLERS NACHFOLGER', 130, 'w'), ('VOR DER SCHULKLASSE', 124, 'y')], 'OHNE EIN WORT DER REUE', 88, S + 'doen/thumbs/DE_Doenitz_Schulklasse.jpg'),
  'egon': ('egon/code', '98', (0.5, 0.5, 1.0), ('C', 'DM'), [('EGON MAYER', 140, 'w'), ('VON VORNE', 160, 'y')], 'GEGEN DIE BOMBERFORMATIONEN', 80, S + 'egon/thumbs/DE_Egon_Mayer.jpg'),
  'bismarck': ('bism/code', 'covl', (0.5, 0.5, 1.0), ('C', 'DM'), [('BISMARCK', 170, 'w'), ('EIN TORPEDO', 150, 'y')], 'UND ALLES WAR VORBEI', 84, S + 'bism/thumbs/DE_Bismarck.jpg'),
+ 'jungen1945': ('jungen/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('KEIN SOLDAT', 150, 'w'), ('EIN JUNGE', 170, 'y')], 'FRÜHJAHR 1945', 88, S + 'jungen/thumbs/DE_Jungen_1945.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':

@@ -12,8 +12,9 @@ FPS = 30; SRC = J + 'dl/1103 (2).mov'
 WORDS = json.load(open(J + 'words.json'))
 # shots of the colourised file: (source start, source end, output length, crop x of a 1215 x 2160 window in the 3840 x 2160 frame).
 # The close-up of the boy with his hands up is slowed smoothly (motion-interpolated, no repeated frames) so it runs until "...die Hände.";
-# the later shots are trimmed at their ends so the film still ends with the voice.
-SHOTS = [(0.0, 7.467, 7.467, 1250), (7.467, 11.133, 6.483, 1658), (11.133, 14.333, 3.2, 1169), (14.83, 18.58, 3.75, 1169), (19.4, 23.25, 3.85, 1313), (24.75, 30.133, 5.383, 1658)]
+# the later shots are trimmed at their ends so the film still ends with the voice. The column shot starts after the colouriser's
+# palette flip at 15.07 s (coats brown -> green), and every shot is colour-stabilised (per-channel mean/spread follow a smoothed curve).
+SHOTS = [(0.0, 7.467, 7.467, 1250), (7.467, 11.133, 6.483, 1658), (11.133, 14.333, 3.2, 1169), (15.13, 18.88, 3.75, 1169), (19.4, 23.25, 3.85, 1313), (24.75, 30.133, 5.383, 1658)]
 END = 30.133
 YELW = {'1945', 'jungen.', 'flakhelfer', 'volkssturm', '16', '60', 'tausenden', 'erhobenen', 'händen.'}
 def chunks():
@@ -37,19 +38,30 @@ def subs(can, t):
         sp = f.getlength(' ') * 0.8; tot = sum(L.width for L in Ls) + sp * (len(Ls) - 1); x = 540 - tot / 2
         for L in Ls:
             put(can, L, x, 1400, 'l'); x += L.width + sp
+def shot_cmd(a, b, d, x0, size):
+    n = int(round(d * FPS)); k = d / (b - a)
+    vf = 'crop=1215:2160:%d:0,scale=%d:%d:flags=lanczos' % (x0, size[0], size[1])
+    if k > 1.01: vf += ',setpts=PTS*%.5f,minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1' % (k * 1.03)
+    return n, ['ffmpeg', '-v', 'error', '-ss', '%.4f' % a, '-t', '%.4f' % (b - a), '-i', SRC, '-frames:v', str(n), '-vf', vf, '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-']
+def stats(sh):
+    """per-frame channel mean and spread of a shot (low resolution), and their smoothed versions"""
+    n, cmd = shot_cmd(*sh, (90, 160)); r = subprocess.run(cmd, capture_output=True).stdout
+    f = np.frombuffer(r, np.uint8)[:n * 160 * 90 * 3].reshape(-1, 160, 90, 3).astype(np.float32)
+    m, sd = f.mean((1, 2)), f.std((1, 2)) + 1e-3
+    g = np.exp(-0.5 * (np.arange(-15, 16) / 6.0) ** 2); g /= g.sum()
+    sm = lambda v: np.stack([np.convolve(np.pad(v[:, c], 15, mode='edge'), g, 'valid') for c in range(3)], 1)
+    return m, sd, sm(m), sm(sd)
 def frames():
-    for a, b, d, x0 in SHOTS:
-        n = int(round(d * FPS)); k = d / (b - a)
-        vf = 'crop=1215:2160:%d:0,scale=1080:1920:flags=lanczos' % x0
-        if k > 1.01: vf += ',setpts=PTS*%.5f,minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1' % (k * 1.03)
-        p = subprocess.Popen(['ffmpeg', '-v', 'error', '-ss', '%.4f' % a, '-t', '%.4f' % (b - a), '-i', SRC, '-frames:v', str(n), '-vf', vf,
-                              '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE)
-        got = 0; last = None
+    for sh in SHOTS:
+        m, sd, mt, st = stats(sh); n, cmd = shot_cmd(*sh, (W, H))
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE); got = 0
         for i in range(n):
             buf = p.stdout.read(W * H * 3)
             if len(buf) < W * H * 3: break
-            last = Image.frombuffer('RGB', (W, H), buf); got += 1; yield last
-        assert got == n, (a, got, n)
+            j = min(i, len(m) - 1); x = np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32)
+            x = (x - m[j]) * (st[j] / sd[j]) + mt[j]
+            got += 1; yield Image.fromarray(np.clip(x, 0, 255).astype(np.uint8))
+        assert got == n, (sh, got, n)
         p.wait()
 if __name__ == '__main__':
     prev = sys.argv[1:] and sys.argv[1] == 'preview'
