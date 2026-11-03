@@ -18,11 +18,11 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #Doku
+#Kriegsaufnahmen #Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte
 ```
 **Tags** (unter 500 Zeichen)
 ```
-WW2 Footage, WW2 Colorized, WWII Footage, World War 2, German Boy Soldier, Volkssturm, Flakhelfer, Hitlerjugend, Kindersoldaten, Kriegsende 1945, Kriegsaufnahmen, Originalaufnahmen, Kolorierte Aufnahmen, Zweiter Weltkrieg Aufnahmen, 2. Weltkrieg, Kriegsgefangene, US Army 1945, Surrender 1945, Deutschland 1945, Zeitgeschichte, Militärgeschichte, History, Dokumentation, Chronik der Macht
+Weltkriegsaufnahmen, Kriegsaufnahmen, Originalaufnahmen, Kolorierte Aufnahmen, Koloriert, Originalaufnahmen 1945, Volkssturm, Flakhelfer, Luftwaffenhelfer, Hitlerjugend, Kindersoldaten, Deutsche Kindersoldaten, Kriegsende 1945, Frühjahr 1945, Kapitulation 1945, Kriegsgefangene, Amerikanische Soldaten, Zweiter Weltkrieg, 2. Weltkrieg, Deutschland 1945, Zeitgeschichte, Militärgeschichte, Geschichte, Dokumentation, Chronik der Macht
 ```
 **Angepinnter Kommentar**
 ```
@@ -56,7 +56,7 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#WW2Footage #WW2Colorized #Kriegsaufnahmen #Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #ChronikDerMacht
+#Kriegsaufnahmen #Weltkriegsaufnahmen #Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #Zeitgeschichte #ChronikDerMacht
 ```
 
 ## Instagram (Reel)
@@ -71,7 +71,7 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#WW2Footage #Kriegsaufnahmen #Volkssturm #ZweiterWeltkrieg #ChronikDerMacht
+#Kriegsaufnahmen #Volkssturm #Kriegsende1945 #ZweiterWeltkrieg #ChronikDerMacht
 ```
 **Alternativtext:** `Kolorierte Aufnahmen aus dem Frühjahr 1945: Ein deutscher Junge ergibt sich amerikanischen Soldaten auf einem Feld, danach junge Gefangene mit erhobenen Händen.`
 
