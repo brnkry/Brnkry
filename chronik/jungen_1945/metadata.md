@@ -22,7 +22,7 @@ Kanntet ihr diese Aufnahmen? Schreibt es in die Kommentare! 👇
 ```
 **Tags** (unter 500 Zeichen)
 ```
-Volkssturm, Flakhelfer, Luftwaffenhelfer, Hitlerjugend, Kindersoldaten, Jugendliche im Krieg, Kriegsende 1945, Frühjahr 1945, Kapitulation, Kriegsgefangene, amerikanische Soldaten, US Army, Gefangennahme, Zeltbahn, kolorierte Aufnahmen, Originalaufnahmen, Zweiter Weltkrieg, 2. Weltkrieg, Westfront, Deutschland 1945, Zeitgeschichte, Militärgeschichte, Geschichte, Dokumentation, Chronik der Macht
+WW2 Footage, WW2 Colorized, WWII Footage, World War 2, German Boy Soldier, Volkssturm, Flakhelfer, Hitlerjugend, Kindersoldaten, Kriegsende 1945, Kriegsaufnahmen, Originalaufnahmen, Kolorierte Aufnahmen, Zweiter Weltkrieg Aufnahmen, 2. Weltkrieg, Kriegsgefangene, US Army 1945, Surrender 1945, Deutschland 1945, Zeitgeschichte, Militärgeschichte, History, Dokumentation, Chronik der Macht
 ```
 **Angepinnter Kommentar**
 ```
