@@ -1,0 +1,47 @@
+# German forced alignment with pocketsphinx + the CMU Sphinx VoxForge German model (script words -> start/end)
+# usage: align_de.py <dir> <wav> <out.json> [free]   ("free" also runs plain recognition, to check the recording matches the script)
+import sys, re, json, subprocess, os
+from pocketsphinx import Decoder
+D, WAV, OUT = sys.argv[1:4]
+M = os.path.join(D, '../models_de/cmusphinx-ptm-voxforge-de-r20171217/')
+TEXT = open(D + '/code/script.txt').read().split()
+# words not in the dictionary: split into dictionary words (numbers spoken out, compounds split)
+EXP = {'131': 'hundert ein und dreißig', '1951': 'neunzehn hundert ein und fünfzig', '1990': 'neunzehn hundert neunzig', '2003': 'zwei tausend drei', '504': 'fünf hundert vier', '126': 'hundert sechs und zwanzig', '168': 'hundert acht und sechzig', '1943': 'neunzehn hundert drei und vierzig', '2013': 'zwei tausend dreizehn', '2014': 'zwei tausend vierzehn', '42': 'zwei und vierzig', '503': 'fünf hundert drei', 'befehlshaber': 'befehls haber', '1945': 'neunzehn hundert fünf und vierzig', '1963': 'neunzehn hundert drei und sechzig', '23': 'drei und zwanzigsten', 'absaß': 'ab saß',
+       'hitlers': 'hitler s_', 'flensburgmürwik': 'flensburg mürwik', 'geesthacht': 'geest hacht', 'lokalzeitung': 'lokal zeitung', 'oberstufe': 'ober stufe',
+       'reichspräsidenten': 'reichs präsidenten', 'schulklasse': 'schul klasse', 'schulleiter': 'schul leiter', 'schülersprecher': 'schüler sprecher', 'uboote': 'u boote', 'zehntausende': 'zehn tausende', '13': 'dreizehnten', '18': 'achtzehn', '1940': 'neunzehn hundert vierzig', '1942': 'neunzehn hundert zwei und vierzig', '1944': 'neunzehn hundert vier und vierzig', '1893': 'achtzehn hundert drei und neunzig', '1948': 'neunzehn hundert acht und vierzig', '1980': 'neunzehn hundert achtzig',
+       '1982': 'neunzehn hundert zwei und achtzig', '25': 'fünf und zwanzig', '11': 'elften', 'artilleriekommandeur': 'artillerie kommandeur',
+       'einsatzbereiten': 'einsatz bereiten', 'feldzug': 'feld zug', 'gefangenschaft': 'gefangen schaft', 'gerichtsverfahren': 'gerichts verfahren',
+       'heeresgruppe': 'heeres gruppe', 'kriegsende': 'kriegs ende', 'oberbefehlshaber': 'ober befehls haber', 'nationalsozialisten': 'national sozialisten',
+       'panzerarmee': 'panzer armee', 'panzerdivision': 'panzer division', 'panzern': 'panzer n_', 'schützenregiment': 'schützen regiment',
+       'siebenmal': 'sieben mal', 'tagsüber': 'tags über', 'verteidigungsministerium': 'verteidigungs ministerium'}
+ADD = {'bab': 'B AH P', 'beschädigte': 'B AX SH EHH D IH CC T AX', 'besichtigte': 'B AX Z IH CC T IH CC T AX', 'bovington': 'B OO V IH NG T AX N', 'churchillpanzer': 'T SH OE EX T SH IH L P AH N TS EX', 'drehkranz': 'D RR EEH K RR AH N TS', 'el': 'Q EH L', 'fahrbereite': 'F AAH EX B AX RR AY T AX', 'fury': 'F Y UU RR IIH', 'glücksfall': 'G L YY K S F AH L', 'höhenrichtung': 'HH OHH AX N RR IH CC T UU NG', 'instand': 'Q IH N SH T AH N T', 'kanone': 'K AH N OOH N AX', 'kompanie': 'K OO M P AH N IIH', 'luken': 'L UUH K AX N', 'maybachmotor': 'M AY B AH X M OOH T OOH EX', 'medjez': 'M EH D SH EH S', 'museums': 'M UU Z EEH UU M S', 'originalplänen': 'Q OO RR IH G IH N AAH L P L EHH N AX N', 'panzermuseum': 'P AH N TS EX M UU Z EEH UU M', 'panzertechnik': 'P AH N TS EX T EH CC N IH K', 'panzerung': 'P AH N TS AX RR UU NG', 'restauriert': 'RR EH S T AW RR IIH EX T', 'tiger': 'T IIH G EX', 'tigern': 'T IIH G EX N', 'tunesien': 'T UU N EEH Z IY AX N', 'tunis': 'T UUH N IH S', 'turmnummer': 'T UU EX M N UU M EX', 'unversehrten': 'Q UU N F EH EX Z EEH EX T AX N', 'verklemmte': 'F EH EX K L EH M T AX', 'vermaß': 'F EH EX M AAH S', 'werkstätten': 'V EH EX K SH T EH T AX N', 'überholung': 'Q YYH B EX HH OOH L UU NG', 'abgeschossene': 'Q AH P G AX SH OO S AX N AX', 'abschüsse': 'Q AH P SH YY S AX', 'archäologen': 'Q AH EX CC EH OO L OOH G AX N', 'ausgeschmückt': 'Q AW S G AX SH M YY K T', 'brünn': 'B RR YY N', 'erkennungsmarke': 'Q EH EX K EH N UU NG S M AH EX K AX', 'feldlazarett': 'F EH L T L AH TS AH RR EH T', 'feldwebels': 'F EH L T V EEH B AX L S', 'funkers': 'F UU NG K EX S', 'granatsplitter': 'G RR AH N AAH T SH P L IH T EX', 'historikern': 'HH IH S T OOH RR IH K EX N', 'kirchenmauer': 'K IH EX CC AX N M AW EX', 'knispel': 'K N IH S P AX L', 'kommandant': 'K OO M AH N D AH N T', 'kriegsgräberfürsorge': 'K RR IIH K S G RR EHH B EX F YY EX Z OO EX G AX', 'kursk': 'K UU EX S K', 'königstiger': 'K OHH N IH CC S T IIH G EX', 'ladeschütze': 'L AAH D AX SH YY TS AX', 'metallmarke': 'M EH T AH L M AH EX K AX', 'namenlosen': 'N AAH M AX N L OOH Z AX N', 'ostfront': 'Q OO S T F RR OO N T', 'panzerabteilung': 'P AH N TS EX Q AH P T AY L UU NG', 'panzersoldat': 'P AH N TS EX Z OO L D AAH T', 'richtschütze': 'RR IH CC T SH YY TS AX', 'ritterkreuz': 'RR IH T EX K RR OY TS', 'soldatenfriedhof': 'Z OO L D AAH T AX N F RR IIH T HH OOH F', 'südmähren': 'Z YYH T M EHH RR AX N', 'tigers': 'T IIH G EX S', 'urbau': 'Q UUH EX B AW', 'volksbund': 'F OO L K S B UU N T', 'vrbovec': 'V RR B OO V EH TS', 'wehrmacht': 'V EEH EX M AH X T', 's_': 'S', 'applaudierten': 'Q AH P L AW D IIH EX T AX N', 'barschel': 'B AH EX SH AX L', 'dönitz': 'D OHH N IH TS', 'flensburg': 'F L EH N S B UU EX K', 'mürwik': 'M YY EX V IH K',
+       'geest': 'G EEH S T', 'hacht': 'HH AH X T', 'lobte': 'L OOH P T AX', 'regierte': 'RR EEH G IIH EX T AX', 'reichs': 'RR AY CC S', 'schul': 'SH UUH L', 'spandau': 'SH P AH N D AW', 'kommandeur': 'K OO M AH N D OE EX', 'betrunken': 'B AX T RR UU NG K AX N', 'erschießen': 'Q EH EX SH IIH S AX N', 'erschießung': 'Q EH EX SH IIH S UU NG',
+       'heeres': 'HH EEH RR AX S', 'interviews': 'Q IH N T EX V Y UU S', 'kriegs': 'K RR IIH K S', 'kämpft': 'K EH M PF T', 'lothringen': 'L OOH T RR IH NG AX N',
+       'maas': 'M AAH S', 'befehls': 'B AX F EEH L S', 'haber': 'HH AAH B EX', 'sozialisten': 'Z OO TS IY AAH L IH S T AX N', 'regiment': 'RR EEH G IH M EH N T',
+       'sowjets': 'Z OO V Y EH T S', 'westlich': 'V EH S T L IH CC', 'verteidigungs': 'F EH EX T AY D IIH G UU NG S', 'planern': 'P L AAH N EX N',
+       'danzig': 'D AH N TS IH CC', 'schaft': 'SH AH F T', 'gerichts': 'G AX RR IH CC T S', 'balck': 'B AH L K', 'mellenthin': 'M EH L AX N T IIH N',
+       'patton': 'P EH T AX N', 'sedan': 'S EH D AA N', 'tschir': 'T SH IH EX', 'army': 'Q AAH M IIH', 'n_': 'N', 'stalingrad': 'SH T AAH L IH N K RR AAH T', 'kanntet': 'K AH N T AX T', 'us': 'Q UUH Q EH S', 'elften': 'Q EH L F T AX N'}
+def norm(w): return re.sub(r'[^a-zäöüß0-9]', '', w.lower())
+raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', WAV, '-ac', '1', '-ar', '16000', '-f', 's16le', '-'], capture_output=True).stdout
+if 'free' in sys.argv:
+    d = Decoder(hmm=M + 'model_parameters/voxforge.cd_ptm_5000', dict=M + 'etc/voxforge.dic', lm=M + 'etc/voxforge.lm.bin', samprate=16000, loglevel='ERROR')
+    d.start_utt(); d.process_raw(raw, full_utt=True); d.end_utt(); print('HEARD:', d.hyp().hypstr if d.hyp() else None)
+d = Decoder(hmm=M + 'model_parameters/voxforge.cd_ptm_5000', dict=M + 'etc/voxforge.dic', samprate=16000, bestpath=False, loglevel='ERROR')
+for k, v in ADD.items():
+    if d.lookup_word(k) is None: d.add_word(k, v, True)
+toks, owner = [], []
+for i, w in enumerate(TEXT):
+    for t in EXP.get(norm(w), norm(w)).split():
+        if d.lookup_word(t) is None: raise SystemExit('missing word: ' + t)
+        toks.append(t); owner.append(i)
+d.set_align_text(' '.join(toks)); d.start_utt(); d.process_raw(raw, full_utt=True); d.end_utt()
+al = [(re.sub(r'\(\d+\)$', '', s.word), s.start_frame / 100, (s.end_frame + 1) / 100) for s in d.seg()]
+al = [a for a in al if a[0] not in ('<s>', '</s>', '<sil>', '[NOISE]', '(NULL)', '++garbage++')]
+print('tokens', len(toks), 'aligned', len(al))
+assert len(al) == len(toks)
+out = []
+for i, w in enumerate(TEXT):
+    seg = [a for a, o in zip(al, owner) if o == i]
+    out.append([w, round(seg[0][1], 3), round(seg[-1][2], 3)])
+for i in range(len(out) - 1): out[i][2] = min(out[i][2], out[i + 1][1])
+json.dump(out, open(OUT, 'w'), ensure_ascii=False); print(' '.join(f'{w}@{a:.2f}' for w, a, b in out))
