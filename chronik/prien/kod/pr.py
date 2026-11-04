@@ -202,7 +202,7 @@ def hook_prints(c, t, f=1.0, ox=0.0, oy=0.0, blur=True):
 def s_hookcard(c, t, ox, oy):
     card(c, hookcard_print(t), 540 + ox, 960 + oy, 0)
     hook_prints(c, t, 1 / ZH, ox, oy, False)
-def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.2):
+def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.04):
     """hook type: one line per call so short lines stay big and only long words shrink to the 700 px width"""
     y = y0
     for i, l in enumerate(lines):
@@ -210,13 +210,12 @@ def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.2):
         quote(can, t, [l], y + sz * 0.5, size=sz, tout=tout, col={0: (cols or {}).get(i, CREAM)}); y += sz * lh
 def hook_frame(t):
     can = hookbg(t)
-    qlines(can, t, [[('ER', ws('Er')), ('VERSENKTE', ws('versenkte'))], [('EIN', ws('ein')), ('BRITISCHES', ws('britisches'))], [('SCHLACHTSCHIFF', ws('Schlachtschiff'))],
-                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('WICHTIGSTEN', ws('wichtigsten'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY,', ws('Navy'))]],
-           620, 110, ws('und') - 0.08, {2: YEL})
-    qlines(can, t, [[('UND', ws('und')), ('ANDERTHALB', ws('anderthalb'))], [('JAHRE', ws('Jahre')), ('SPÄTER', ws('später'))], [('VERSCHWAND', ws('verschwand')), ('ER', ws('er', 6.3))],
-                    [('SPURLOS', ws('spurlos'))], [('IM', ws('im', 7.1)), ('ATLANTIK.', ws('Atlantik'))]], 680, 110, ws('Sein') - 0.12, {3: YEL})
+    quote(can, t, [[('ER', ws('Er')), ('VERSENKTE', ws('versenkte'))], [('EIN', ws('ein')), ('BRITISCHES', ws('britisches'))], [('SCHLACHTSCHIFF', ws('Schlachtschiff'))],
+                    [('MITTEN', ws('mitten')), ('IM', ws('im'))], [('WICHTIGSTEN', ws('wichtigsten'))], [('STÜTZPUNKT', ws('Stützpunkt'))], [('DER', ws('der', 3.4)), ('ROYAL', ws('Royal')), ('NAVY,', ws('Navy'))]], 900, size=84, tout=ws('und') - 0.08, lh=1.02, col={2: YEL})
+    quote(can, t, [[('UND', ws('und')), ('ANDERTHALB', ws('anderthalb'))], [('JAHRE', ws('Jahre')), ('SPÄTER', ws('später'))], [('VERSCHWAND', ws('verschwand')), ('ER', ws('er', 6.3))],
+                    [('SPURLOS', ws('spurlos'))], [('IM', ws('im', 7.1)), ('ATLANTIK.', ws('Atlantik'))]], 900, size=84, tout=ws('Sein') - 0.12, lh=1.02, col={3: YEL})
     hook_prints(can, t)
-    qlines(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 8.6))], [('GÜNTHER', ws('Günther')), ('PRIEN.', ws('Prien'))]], 1180, 110, ZS - 0.12, {1: YEL})
+    quote(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 8.6))], [('GÜNTHER', ws('Günther')), ('PRIEN.', ws('Prien'))]], 1000, size=92, tout=ZS - 0.12, lh=1.02, col={1: YEL})
     return can
 
 # ---------- camera (eg.campos / table_frame) ----------

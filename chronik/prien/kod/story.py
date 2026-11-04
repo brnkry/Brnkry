@@ -5,7 +5,7 @@ import sys, os, math, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
-import pr as eg
+import ps, pr as eg
 from pr import W, H, FPS, E, eio, clamp, lerp
 import lib9 as L
 YEL, WHITE, CREAM, RED = L.YEL, L.WHITE, L.CREAM, L.RED

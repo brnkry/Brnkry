@@ -66,11 +66,12 @@ def pages(maxc=19, nl=2):
 PG = pages()
 def pfirst(pg): return pg[1][0][0][1] if pg[0] == 'P' else WORDS[pg[1][0]][1]
 # a page shows from its first word, but never leaves before its last word has been visible for 0.45 s
+# pages of the hook (told by the hook's own type) are never shown again on the table
 VS = []
 for k, pg in enumerate(PG):
     a = pfirst(pg) - 0.05
-    if k: a = max(a, PG[k - 1][2] + 0.45)
-    VS.append(a)
+    if k and pfirst(PG[k - 1]) >= pr.ZS: a = max(a, PG[k - 1][2] + 0.45)
+    VS.append(a if pfirst(pg) >= pr.ZS else -1e9)
 
 def sline(c, t, l, y, size0=58):
     size = eg.fit([' '.join(s for s, _, _ in l)], size0, 900, -2); Ls = []
@@ -97,9 +98,9 @@ def emph(c, t, em):
         wb = sum(fb.getlength(ch) - 6 for ch in big) + 20; wsm = max(sum(fs.getlength(ch) - 3 for ch in x) + 20 for x in small)
         if wb + 16 + wsm <= 700: break
         B = int(B * 0.96); s_ = int(s_ * 0.96)
-    LH, G = 72, 28
-    Htot = len(pre) * LH + B + len(post) * LH + G * (bool(pre) + bool(post)); top = CY - Htot / 2
-    cy = top + len(pre) * LH + G * bool(pre) + B / 2
+    LH = 66; D = 0.36 * B + 0.36 * 58 + 16   # line step; centre of the big number to the nearest subtitle line (cap heights + a small gap)
+    up = (len(pre) - 1) * LH + D if pre else 0.72 * B / 2; dn = (len(post) - 1) * LH + D if post else 0.72 * B / 2
+    cy = CY + (up - dn) / 2; top = cy - up
     x0 = 540 - (wb + 16 + wsm) / 2
     xb, xs = (x0, x0 + wb + 16) if bigfirst else (x0 + wsm + 16, x0)
     if t >= T(ib[0]): put(c, gtext_a(big, fb, CREAM, typed(big, t, T(ib[0]), 8, 0.2), -6), xb, cy, 'l')
@@ -108,8 +109,8 @@ def emph(c, t, em):
         if t >= T(l[0]):
             L = gtext_a(x, fs, YEL, typed(x, t, T(l[0]), 24, 0.15), -3)
             put(c, L, xs if bigfirst else xs + wsm - L.width, cy - (len(small) - 1) * lh / 2 + k * lh, 'l')
-    for k, l in enumerate(pre): sline(c, t, l, top + LH / 2 + k * LH)
-    for k, l in enumerate(post): sline(c, t, l, cy + B / 2 + G + LH / 2 + k * LH)
+    for k, l in enumerate(pre): sline(c, t, l, top + k * LH)
+    for k, l in enumerate(post): sline(c, t, l, cy + D + k * LH)
 def paper(c, t, st, t0, cy=CY):
     """torn white paper strip sliding open, the words in dark ink appear with the voice"""
     lines = wrap(range(st[0], st[1] + 1), 19)
@@ -132,11 +133,12 @@ def subs(c, t):
     k = max([i for i, a in enumerate(VS) if a <= t] or [-1])
     if k < 0: return
     pg = PG[k]
+    if pfirst(pg) < pr.ZS: return
     if pg[0] == 'EM': emph(c, t, pg[1])
     elif pg[0] == 'ST': paper(c, t, pg[1], VS[k])
     else:
         n = len(pg[1])
-        for i, l in enumerate(pg[1]): sline(c, t, l, CY - (n - 1) * 37 + i * 74)
+        for i, l in enumerate(pg[1]): sline(c, t, l, CY - (n - 1) * 33 + i * 66)
 
 # pictures and camera from pr.py, without its titles/quotes; subtitles drawn on the screen on top
 def _noop(*a, **k): return None
