@@ -10,6 +10,7 @@ Yeni oturum önce bu dosyayı, sonra `CLAUDE.md` ve `chronik/DERSLER.md` dosyala
 - ElevenLabs: Robert Ranger – Cool Storyteller (voice_id ML23UVoFL5mI6APbRAeR), eleven_v4, stability 0, similarity 0.75, TEK üretim. "[quickly reads]" yok, hız kesilmez, sadece aşırı duraklamalar kısaltılır.
 - Bir seferde bir iş. Yükleme paketi istendiğinde sohbete de yazılır.
 - Sayfa geçişlerinde uzun bekleme yok: anlatım bitince yaklaşık yarım saniye, sonra sayfa döner (Teil 2 v3'teki gibi).
+- Seri (Deutschland im Zweiten Weltkrieg) Facebook ve Instagram'a yüklenmiyor, sadece YouTube.
 - Büyük videolar sohbete 400 MB altında, tercihen küçük parçalar halinde gönderilir (40 MB'lık parçalar test ediliyor).
 
 ## Teil 2 "Der Überfall auf Polen" (16:9, 10:42) — bitti, v3
