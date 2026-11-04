@@ -1,6 +1,6 @@
 # Günther Prien (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Prien_Shorts_DE_v2.mp4` (9:16, 1:44, Stil A wie Egon Mayer v6, Abzüge mit Film wo vorhanden; v2 im Untertitelmodus: die ganze Erzählung als Untertitel, Schlüsselzahlen als Stil-A-Titel, einzelne Sätze auf Papierstreifen; Code `kod/ps.py`). Stimme: ElevenLabs, Robert Ranger, Cool Storyteller, eleven_v4, Stability 0, Similarity 0,75, `[quickly reads]`. Code `kod/pr.py`. Cover: `thumbnails/DE_Prien.jpg` (feste Yamamoto-Anordnung, Farbporträt, Symbole unkenntlich; Job `prien` in `chronicle/brand/covers4.py`). Story: `social/Prien_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
+Video: `Prien_Shorts_DE_v6.mp4` (9:16, 1:44, Stil A wie Egon Mayer v6, Abzüge mit Film wo vorhanden; v6 im Untertitelmodus (Einstieg im Egon-Satz): die ganze Erzählung als Untertitel, Schlüsselzahlen als Stil-A-Titel, einzelne Sätze auf Papierstreifen; Code `kod/ps.py`). Stimme: ElevenLabs, Robert Ranger, Cool Storyteller, eleven_v4, Stability 0, Similarity 0,75, `[quickly reads]`. Code `kod/pr.py`. Cover: `thumbnails/DE_Prien.jpg` (feste Yamamoto-Anordnung, Farbporträt, Symbole unkenntlich; Job `prien` in `chronicle/brand/covers4.py`). Story: `social/Prien_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
 
 ## YouTube Shorts
 **Titel** (Cover: "GÜNTHER PRIEN / SPURLOS / VERSCHWUNDEN IM ATLANTIK")
