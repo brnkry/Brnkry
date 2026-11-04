@@ -60,7 +60,7 @@ Teil 2 ist da: Der Überfall auf Polen. 🎬
 
 Am 1. September 1939 griffen rund anderthalb Millionen deutsche Soldaten Polen an, aus drei Richtungen zugleich. Am 17. September kam die Rote Armee von Osten. Nach fünf Wochen war Polen von der Landkarte verschwunden.
 
-In elf Minuten: Westerplatte, Wieluń, die Bzura, die Flucht der Orzeł, die Belagerung Warschaus und das Gold der polnischen Nationalbank. 👇
+In knapp elf Minuten: Westerplatte, Wieluń, die Bzura, die Flucht der Orzeł, die Belagerung Warschaus und das Gold der polnischen Nationalbank. 👇
 ```
 Umfrage: „Welche Geschichte aus dem September 1939 kanntet ihr noch nicht?“
 - Die Westerplatte, 7 Tage statt 12 Stunden
