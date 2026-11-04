@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-ext-wght-normal.woff2) format('woff2');font-weight:200 700;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2) format('woff2');font-weight:200 700}
+:root{--gold:#FFC23D;--purple:#A66BFF;--red:#FF3B4E;--cream:#FFF8EC}
+html,body{margin:0;background:#000}
+.th{position:relative;width:1280px;height:720px;overflow:hidden;font-family:Ant;color:var(--cream)}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.sh{position:absolute;inset:0}
+.t{position:absolute;text-transform:uppercase;line-height:1.18;letter-spacing:.01em;text-shadow:0 7px 0 #000,0 0 34px rgba(0,0,0,.85)}
+/* the 4 DAKIKADA stamp */
+.stamp{position:absolute;display:flex;align-items:center;gap:18px;padding:10px 34px 14px 22px;border-radius:22px;background:var(--red);transform:rotate(-4deg);box-shadow:0 12px 0 #7a0d19,0 18px 40px rgba(0,0,0,.6)}
+.stamp .n{font-size:150px;line-height:1;color:#fff;text-shadow:0 6px 0 #7a0d19}
+.stamp .d{display:flex;flex-direction:column;line-height:1.1}
+.stamp .d b{font-family:Ant;font-weight:400;font-size:66px;color:#fff}
+.stamp .d i{font-family:Osw;font-style:normal;font-weight:700;font-size:34px;letter-spacing:.14em;color:#ffe3e6}
+.ic{position:absolute;border-radius:16px;border:5px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+</style></head><body>
+
+<!-- 1: SETT REHBERI + 4 DAKIKADA -->
+<div id="t1" class="th"><div class="bg" style="background-image:url(assets/splash_0.jpg);background-position:30% 20%;filter:brightness(1.35) saturate(1.15)"></div>
+ <div class="sh" style="background:linear-gradient(90deg,rgba(10,6,20,.92) 0,rgba(10,6,20,.55) 34%,rgba(10,6,20,0) 55%)"></div>
+ <div class="t" style="left:60px;top:40px;font-size:170px">SETT</div>
+ <div class="t" style="left:60px;top:230px;font-size:120px;color:var(--gold)">REHBERİ</div>
+ <div class="stamp" style="left:70px;top:440px"><div class="n">4</div><div class="d"><b>DAKİKADA</b><i>ÜST KORİDOR</i></div></div>
+</div>
+
+<!-- 2: NASIL OYNANIR + build icons -->
+<div id="t2" class="th"><div class="bg" style="background-image:url(assets/splash_8.jpg);background-position:72% 30%"></div>
+ <div class="sh" style="background:linear-gradient(90deg,rgba(10,6,20,.95) 0,rgba(10,6,20,.65) 46%,rgba(10,6,20,0) 76%)"></div>
+ <div class="t" style="left:60px;top:36px;font-size:150px">SETT</div>
+ <div class="t" style="left:60px;top:200px;font-size:96px;color:var(--gold)">NASIL OYNANIR?</div>
+ <div class="stamp" style="left:70px;top:375px"><div class="n">4</div><div class="d"><b>DAKİKADA</b><i>BUILD · RÜN · KOMBO</i></div></div>
+ <img class="ic" src="assets/item_6631.png" style="left:70px;top:585px;width:110px">
+ <img class="ic" src="assets/item_3071.png" style="left:200px;top:585px;width:110px">
+ <img class="ic" src="assets/item_2501.png" style="left:330px;top:585px;width:110px">
+ <img class="ic" src="assets/rune_Conqueror.png" style="left:460px;top:585px;width:110px;border-radius:50%;background:#140d22">
+</div>
+
+<!-- 3: ANAMI KARISTIRMA -->
+<div id="t3" class="th"><div class="bg" style="background-image:url(assets/splash_0.jpg);background-size:250%;background-position:49% 5%"></div>
+ <div class="sh" style="background:radial-gradient(ellipse at 50% 32%,rgba(0,0,0,0) 28%,rgba(160,0,15,.82) 100%),linear-gradient(0deg,rgba(0,0,0,.75) 0,rgba(0,0,0,0) 45%)"></div>
+ <div class="t" style="left:0;width:1280px;text-align:center;top:300px;font-size:116px">"ANAMI <span style="color:var(--gold)">KARIŞTIRMA!"</span></div>
+ <div class="stamp" style="left:400px;top:480px"><div class="n">4</div><div class="d"><b>DAKİKADA</b><i>SETT REHBERİ</i></div></div>
+</div>
+</body></html>

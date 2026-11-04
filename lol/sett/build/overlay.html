@@ -12,13 +12,13 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transpa
 .hide{display:none}
 .panel{background:var(--ink);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45)}
 /* badge */
-.badge{left:66px;top:94px;width:610px;height:214px;display:flex;align-items:center;gap:22px;padding:0 26px;box-sizing:border-box;border:3px solid rgba(244,185,66,.55)}
+.badge{left:66px;top:94px;min-width:610px;white-space:nowrap;height:214px;display:flex;align-items:center;gap:22px;padding:0 26px;box-sizing:border-box;border:3px solid rgba(244,185,66,.55)}
 .badge .key{width:128px;height:128px;border-radius:16px;background:linear-gradient(160deg,#2a1d45,#130c22);border:4px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:92px;font-weight:700;color:var(--gold);flex:none}
 .badge .key.small{font-size:44px}
 .badge img{width:104px;height:104px;border-radius:12px;border:3px solid rgba(255,255,255,.25);flex:none}
-.badge .txt{display:flex;flex-direction:column;line-height:1}
+.badge .txt{display:flex;flex-direction:column;line-height:1.2;padding-right:8px}
 .badge .sub{font-family:Int;font-weight:700;font-size:22px;letter-spacing:.18em;color:var(--smoke);margin-bottom:10px}
-.badge .nm{font-size:52px;font-weight:700;text-transform:uppercase;letter-spacing:.01em}
+.badge .nm{font-size:46px;font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.25;padding-top:4px}
 /* chips */
 .chips{left:70px;top:330px;width:900px}
 .chip{display:inline-flex;align-items:center;gap:14px;background:var(--ink);border-radius:12px;padding:12px 24px 14px 18px;margin-bottom:16px;font-size:38px;font-weight:600;text-transform:uppercase;letter-spacing:.01em;border-left:8px solid var(--gold);transform-origin:left center}
@@ -37,9 +37,9 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transpa
 .pcard .ln{font-family:Int;font-size:28px;font-weight:600;margin-top:14px;line-height:1.25}
 .pcard .ln b{color:var(--gold)}
 /* combo band */
-.band{left:0;top:822px;width:1920px;height:258px;background:linear-gradient(180deg,rgba(10,7,18,.0) 0,rgba(10,7,18,.97) 14%,rgba(10,7,18,.99) 100%)}
-.band .ttl{position:absolute;left:70px;top:44px;font-size:34px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
-.band .row{position:absolute;left:70px;top:96px;display:flex;align-items:center;gap:16px}
+.band{left:0;top:800px;width:1920px;height:280px;background:linear-gradient(180deg,rgba(10,7,18,.0) 0,rgba(10,7,18,.97) 14%,rgba(10,7,18,.99) 100%)}
+.band .ttl{position:absolute;left:70px;top:22px;font-size:34px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.band .row{position:absolute;left:70px;top:108px;display:flex;align-items:center;gap:16px}
 .step{width:124px;height:124px;border-radius:16px;background:#1d1530;border:4px solid #3a2f52;display:flex;align-items:center;justify-content:center;position:relative;opacity:.3}
 .step img{width:108px;height:108px;border-radius:10px}
 .step .k{position:absolute;left:-10px;top:-14px;background:var(--gold);color:#140c22;font-weight:700;font-size:28px;border-radius:8px;padding:0 10px}
@@ -76,200 +76,19 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transpa
 .dim{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse at center,rgba(8,5,14,.45),rgba(8,5,14,.85))}
 .sub{left:0;right:0;top:780px;text-align:center}
 .subbtn{display:inline-flex;align-items:center;gap:20px;background:#E62117;color:#fff;font-size:64px;font-weight:700;padding:16px 54px 22px;border-radius:18px;letter-spacing:.04em}
-</style></head>
-<body><div id="root"></div>
-<script>
-const A='assets/';
-const root=document.getElementById('root');
-function h(html){const d=document.createElement('div');d.innerHTML=html.trim();const e=d.firstChild;root.appendChild(e);return e}
-const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
-const eo=x=>1-Math.pow(1-clamp(x),3);
-const eb=x=>{x=clamp(x);const c=1.70158,c3=c+1;return 1+c3*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
-// generic show: element visible in [t0,t1], kind of entrance
-function show(el,t,t0,t1,kind='pop',dur=.32){
-  if(t<t0||t>=t1){el.style.display='none';return false}
-  el.style.display='';
-  const a=(t-t0)/dur, o=clamp((t1-t)/.22);
-  let tf='';
-  if(kind==='pop') tf=`scale(${.7+.3*eb(a)})`;
-  else if(kind==='slideL') tf=`translateX(${-70*(1-eo(a))}px)`;
-  else if(kind==='slideR') tf=`translateX(${70*(1-eo(a))}px)`;
-  else if(kind==='up') tf=`translateY(${50*(1-eo(a))}px)`;
-  else if(kind==='drop') tf=`translateY(${-60*(1-eo(a))}px)`;
-  el.style.transform=tf; el.style.opacity=Math.min(clamp(a*1.6),o);
-  return true
-}
-const items=[]; // {el, t0, t1, kind}
-function add(el,t0,t1,kind){items.push({el,t0,t1,kind});return el}
-
-/* ---------- SECTION TIMES ---------- */
-const T={intro:[0,14.40],passive:[14.40,31.22],q:[31.22,40.40],w:[40.40,58.68],e:[58.68,67.90],r:[67.90,83.48],
-combo:[83.48,98.26],match:[98.26,110.52],runes:[110.52,120.40],items:[120.40,131.95],skills:[131.95,142.17],summ:[142.17,144.72],
-early:[144.72,187.66],late:[187.66,211.90],outro:[211.90,240.5]};
-
-/* ---------- INTRO ---------- */
-const intro=add(h(`<div class="abs scene" style="background:#000"></div>`),...T.intro,'none');
-const kb=[['splash_0.jpg',0,5.2],['splash_8.jpg',4.8,10],['splash_45.jpg',9.6,14.6]].map(([f,a,b])=>{const e=document.createElement('div');e.className='abs';e.style.cssText=`inset:0;background:url(${A}${f}) center/cover`;intro.appendChild(e);return [e,a,b]});
-intro.insertAdjacentHTML('beforeend',`<div class="abs" style="inset:0;background:linear-gradient(90deg,rgba(8,5,14,.88) 0,rgba(8,5,14,.25) 38%,rgba(8,5,14,.25) 62%,rgba(8,5,14,.88) 100%),linear-gradient(0deg,rgba(8,5,14,.9) 0,rgba(8,5,14,0) 40%)"></div>`);
-const introTitle=h(`<div class="abs big" style="top:850px;font-size:150px;letter-spacing:.04em">NEDEN <span style="color:var(--gold)">SETT?</span></div>`);intro.appendChild(introTitle);
-const introTag=h(`<div class="abs tag" style="left:0;right:0;top:820px;text-align:center">ÜST KORİDOR REHBERİ</div>`);intro.appendChild(introTag);
-function listCol(x,title,color,rows){const c=h(`<div class="abs" style="left:${x}px;top:120px;width:560px"></div>`);intro.appendChild(c);
-  const t=h(`<div style="font-size:64px;font-weight:700;letter-spacing:.08em;color:${color};margin-bottom:18px">${title}</div>`);c.appendChild(t);
-  const rs=rows.map(([txt,t0])=>{const r=h(`<div class="chip ${color==='var(--green)'?'green':'red'}" style="font-size:40px">${txt}</div>`);const w=document.createElement('div');w.className='chipwrap';w.appendChild(r);c.appendChild(w);return [r,t0]});
-  return [t,rs]}
-const pros=listCol(70,'ARTILAR','var(--green)',[['Doğuştan tank',2.5],['Dev alan kontrolü',3.84],['Split push + takım savaşı',5.46],['Tek hamlede takım siler',8.28]]);
-const cons=listCol(1290,'EKSİLER','var(--red)',[['Hareket kabiliyeti düşük',10.64],['Uzun bekleme süreleri',12.38]]);
-function introR(t){
-  kb.forEach(([e,a,b],i)=>{const vis=t>=a&&t<b;e.style.display=vis?'':'none';if(!vis)return;const p=(t-a)/(b-a);
-    e.style.opacity=Math.min(clamp((t-a)/.4),clamp((b-t)/.4)+ (i==2?1:0));e.style.transform=`scale(${1.06+.08*p}) translate(${(i%2?-1:1)*20*p}px,0)`});
-  show(introTitle,t,.15,14.4,'up',.5);show(introTag,t,.5,14.4,'fade',.5);
-  show(pros[0],t,1.9,14.4,'slideL');pros[1].forEach(([r,t0])=>show(r,t,t0,14.4,'slideL'));
-  show(cons[0],t,10.46,14.4,'slideR');cons[1].forEach(([r,t0])=>show(r,t,t0,14.4,'slideR'));
-}
-
-/* ---------- ABILITY BADGES + CHIPS ---------- */
-function badge(key,name,sub,icon,small){return h(`<div class="abs panel badge"><div class="key ${small?'small':''}">${key}</div><img src="${A}${icon}"><div class="txt"><div class="sub">${sub}</div><div class="nm">${name}</div></div></div>`)}
-const badges=[
- [badge('P','Dövüşçü İnadı','PASİF','SettP.png',true),...T.passive],
- [badge('Q','Yapıştır','YETENEK · Q','SettQ.png'),...T.q],
- [badge('W','Balyoz Gibi','YETENEK · W','SettW.png'),...T.w],
- [badge('E','Surat Dağıtan','YETENEK · E','SettE.png'),...T.e],
- [badge('R','Yürek Hoplatan','ULTİ · R','SettR.png'),...T.r]];
-const chipBox=h(`<div class="abs chips"></div>`);
-const chipDefs=[
- // [text,color,t0,t1]
- ['Saldırı sıfırlama','gold',31.6,40.4],['Sonraki 2 saldırı: <b>+menzil +hasar</b>','gold',33.26,40.4],['Şampiyona koşarken <b>+hız</b>','gold',38.7,40.4],
- ['Aldığın hasar = <b>İnat</b>','gold',42.0,49.26],['Tüm İnat → <b>kalkan</b>','purple',48.2,58.68],['Koni hasarı İnat ile artar','gold',50.2,58.68],['Merkez = <b>gerçek hasar</b>','red',53.62,58.68],['Geç oyun: <b>tek atar</b>','red',57.44,58.68],
- ['Ön + arka, dikdörtgen','gold',59.4,67.9],['Hasar + yavaşlatma','gold',63.0,67.9],['İki taraftan çek = <b>SERSEMLET</b>','red',64.6,67.9],
- ['Hedefli: yakala, zıpla, <b>çak</b>','gold',68.6,83.48],['İndiği alana hasar + yavaşlatma','gold',73.54,83.48],['Hasar = hedefin <b>ekstra canı</b>','purple',77.64,83.48],['Tank yakala = <b>takım silinir</b>','red',79.94,83.48],
- // early game
- ['Bol farm, görevi erken bitir','gold',146.79,157.0],['Seviye 1\'de çok güçlüsün','green',151.07,157.0],
- ['Kitin = <b>trade</b> aramak','gold',157.23,177.6],['E: minyon + rakip → <b>SERSEMLET</b>','red',162.13,177.6],['2 bedava oto','gold',166.13,177.6],['Q + 2 oto + hareket hızı','gold',167.4,177.6],['W ile <b>bitir</b>','purple',172.89,177.6],
- ['E kaçtı mı? <b>Dikkatli oyna</b>','red',177.87,187.66],['Seviye 6: dalış güçlenir','green',180.55,187.66],['Kule altına çek, <b>çak</b>','gold',183.81,187.66],
- ['Kuleyi erken al','gold',188.65,194.63],['Split push ya da takım savaşı','gold',192.11,194.63],
- ['Hedef: <b>dev bir ulti</b>','gold',196.0,211.9],['Tankı yakala, arka hatta <b>çak</b>','purple',200.81,211.9],['E ile takımı sersemlet','red',203.6,211.9],['W ile <b>tek at</b>','red',205.6,211.9],['Fırsat yoksa: önden arkaya','green',208.87,211.9]
-];
-const chips=chipDefs.map(([tx,c,t0,t1])=>{const w=document.createElement('div');w.className='chipwrap';const e=h(`<div class="chip ${c}">${tx}</div>`);w.appendChild(e);chipBox.appendChild(w);return [w,e,t0,t1]});
-// passive card (covers English tooltip)
-const pcard=h(`<div class="abs panel pcard"><div class="hd"><img src="${A}SettP.png">DÖVÜŞÇÜ İNADI</div>
-<div class="ln" id="pl1">Eksik canı arttıkça <b>can yenilenmesi artar</b>.</div>
-<div class="ln" id="pl2">Sol yumruk: normal saldırı.</div>
-<div class="ln" id="pl3">Sağ yumruk: <b>+menzil, +saldırı hızı, +hasar</b>.</div></div>`);
-const pl=[1,2,3].map(i=>pcard.querySelector('#pl'+i));
-// grit bar
-const grit=h(`<div class="abs panel grit"><div class="lbl"><span>İNAT</span><span id="gv">0</span></div><div class="bar"><div class="fill" id="gf"></div></div></div>`);
-const gf=grit.querySelector('#gf'),gv=grit.querySelector('#gv');
-
-/* ---------- COMBO BAND ---------- */
-const band=h(`<div class="abs band"><div class="ttl" id="bt"></div><div class="row" id="br"></div></div>`);
-const bt=band.querySelector('#bt'),br=band.querySelector('#br');
-const ic={Q:'SettQ.png',W:'SettW.png',E:'SettE.png',R:'SettR.png'};
-function comboRow(steps){br.innerHTML='';const els=[];steps.forEach(([k,t0],i)=>{if(i)br.insertAdjacentHTML('beforeend','<div class="arrow">›</div>');
-  let e; if(ic[k]){e=h(`<div class="step"><img src="${A}${ic[k]}"><div class="k">${k}</div></div>`)} else {e=h(`<div class="step auto">${k}</div>`)}
-  br.appendChild(e);els.push([e,t0])});return els}
-const combo1=[['E',85.38],['2 OTO',86.24],['Q',87.36],['2 OTO',88.66],['R',90.24],['2 OTO',91.18],['W',92.04]];
-const combo2=[['R',93.5],['E',94.6],['2 OTO',95.22],['Q',96.06],['OTO',96.62],['W',97.46]];
-let curCombo=0,comboEls=[];
-
-/* ---------- FULL SCENES ---------- */
-function scene(bgimg){const s=h(`<div class="abs scene"><div class="bg" style="background-image:url(${A}${bgimg})"></div></div>`);return s}
-// matchups
-const sm=scene('splash_0.jpg');add(sm,...T.match,'fade');
-sm.insertAdjacentHTML('beforeend',`<div class="title">EŞLEŞ<span>MELER</span></div>
-<div class="abs" style="left:660px;top:200px;width:600px;height:760px;background:url(${A}splash_0.jpg) 58% 30%/auto 130%;border-radius:26px;box-shadow:0 0 0 4px rgba(244,185,66,.5)"></div>`);
-const sEasy=h(`<div class="side" style="left:70px;background:linear-gradient(180deg,rgba(30,120,70,.92),rgba(12,50,30,.92))"><h2>KOLAY</h2><div class="icons"><img src="${A}champ_Yasuo.png"><img src="${A}champ_Yone.png"><img src="${A}champ_Riven.png"></div><div class="cap">Yüksek hasar, düşük dayanıklılık.</div><div class="cap" style="color:#d9ffe9">Sana bol İnat verir, tek atarsın.</div></div>`);
-const sHard=h(`<div class="side" style="left:1290px;background:linear-gradient(180deg,rgba(150,30,45,.92),rgba(60,10,18,.92))"><h2>ZOR</h2><div class="icons"><img src="${A}champ_Vayne.png"><img src="${A}champ_Quinn.png"><img src="${A}champ_Teemo.png"></div><div class="cap">Uzaktan kite atanlar.</div><div class="cap" style="color:#ffd9dd">Alan kontrolüyle seni uzak tutanlar.</div></div>`);
-sm.appendChild(sEasy);sm.appendChild(sHard);
-// runes
-const sr=scene('splash_56.jpg');add(sr,...T.runes,'fade');
-sr.insertAdjacentHTML('beforeend',`<div class="title">RÜN<span>LER</span></div>
-<div class="tag" style="left:250px;top:215px"><img src="${A}rune_7201_Precision.png" style="width:44px;vertical-align:middle;margin-right:12px">İSABET</div>
-<div class="tag" style="left:1260px;top:215px"><img src="${A}rune_7204_Resolve.png" style="width:44px;vertical-align:middle;margin-right:12px">AZİM</div>`);
-function rcard(parent,x,y,img,name,big){const c=h(`<div class="card ${big?'lg':''}" style="left:${x}px;top:${y}px"><img src="${A}${img}" style="border-radius:50%;background:#140d22"><div class="n">${name}</div></div>`);parent.appendChild(c);return c}
-const runeCards=[[rcard(sr,150,300,'rune_Conqueror.png','Conqueror',1),111.26],[rcard(sr,440,320,'rune_Triumph.png','Triumph'),112.06],[rcard(sr,690,320,'rune_LegendAlacrity.png','Legend: Alacrity'),112.88],[rcard(sr,440,600,'rune_LastStand.png','Last Stand'),114.62],
- [rcard(sr,1180,320,'rune_SecondWind.png','Second Wind'),116.5],[rcard(sr,1450,320,'rune_Unflinching.png','Unflinching'),117.4]];
-const shards=h(`<div class="abs" style="left:1130px;top:640px;width:700px"></div>`);sr.appendChild(shards);
-const shardEls=['Saldırı hızı','Uyarlanabilir güç','Ölçeklenen can'].map((s,i)=>{const w=document.createElement('div');w.className='chipwrap';const e=h(`<div class="chip purple" style="font-size:34px">${s}</div>`);w.appendChild(e);shards.appendChild(w);return [e,117.9+i*.25]});
-const conqGlow=h(`<div class="abs chip red" style="left:120px;top:880px;font-size:40px">Conqueror'ı <b>çok kolay doldurur</b></div>`);sr.appendChild(conqGlow);
-// items
-const si=scene('splash_66.jpg');add(si,...T.items,'fade');
-si.insertAdjacentHTML('beforeend',`<div class="title">EŞYA<span>LAR</span></div>`);
-function rowLabel(p,y,txt){p.insertAdjacentHTML('beforeend',`<div class="tag" style="left:110px;top:${y}px">${txt}</div>`)}
-rowLabel(si,250,'BAŞLANGIÇ');rowLabel(si,500,'ÇEKİRDEK');rowLabel(si,780,'DURUMA GÖRE');
-function icard(x,y,id,name){const c=h(`<div class="card" style="left:${x}px;top:${y}px"><img src="${A}item_${id}.png" style="width:130px;height:130px"><div class="n" style="font-size:28px">${name}</div></div>`);si.appendChild(c);return c}
-const itemCards=[[icard(420,200,1055,"Doran's Blade"),120.4],[icard(640,200,2003,'İksir'),121.0],
- [icard(420,450,6631,'Stridebreaker'),122.64],[icard(700,450,3047,'Plated Steelcaps'),123.62],[icard(980,450,3071,'Black Cleaver'),125.22],[icard(1260,450,2501,"Overlord's Bloodmail"),126.18],
- [icard(420,730,3053,"Sterak's Gage"),129.6],[icard(700,730,3181,'Hullbreaker'),130.68]];
-const itemArrows=[[620,505,123.62],[900,505,125.22],[1180,505,126.18]].map(([x,y,t0])=>{const a=h(`<div class="abs arrow" style="left:${x}px;top:${y}px;font-size:70px">›</div>`);si.appendChild(a);return [a,t0]});
-// skills
-const ss=scene('splash_45.jpg');add(ss,...T.skills,'fade');
-ss.insertAdjacentHTML('beforeend',`<div class="title">YETENEK <span>SIRASI</span></div>`);
-const order=['E','Q','W','Q','Q','R','Q','W','Q','W','R','W','W','E','E','R','E','E'];
-let gh='<tr><td class="hd ic"></td>'+order.map((_,i)=>`<td class="hd">${i+1}</td>`).join('')+'</tr>';
-['Q','W','E','R'].forEach(k=>{gh+=`<tr><td class="ic"><img src="${A}${ic[k]}"></td>`+order.map((o,i)=>`<td data-k="${k}" data-l="${i}"></td>`).join('')+'</tr>'});
-const grid=h(`<table class="grid">${gh}</table>`);ss.appendChild(grid);
-const lvlT=order.map((_,i)=>i===0?133.0:i===1?134.7:i===2?135.4:136.1+(i-3)*0.36);
-const cells=[...grid.querySelectorAll('td[data-k]')].filter(c=>order[+c.dataset.l]===c.dataset.k);
-const maxChip=h(`<div class="abs chip" style="left:170px;top:760px;font-size:44px">Maks sırası: <b>Q › W › E</b></div>`);ss.appendChild(maxChip);
-const ultChip=h(`<div class="abs chip purple" style="left:820px;top:760px;font-size:44px">Ultiyi her fırsatta al: <b>6 · 11 · 16</b></div>`);ss.appendChild(ultChip);
-// summoners
-const su=scene('splash_8.jpg');add(su,...T.summ,'fade');
-su.insertAdjacentHTML('beforeend',`<div class="title">SİHİRDAR <span>BÜYÜLERİ</span></div>`);
-const sF=h(`<div class="card lg" style="left:640px;top:360px"><img src="${A}SummonerFlash.png" style="width:240px;height:240px"><div class="n" style="font-size:44px">Flash</div></div>`);
-const sI=h(`<div class="card lg" style="left:1040px;top:360px"><img src="${A}SummonerDot.png" style="width:240px;height:240px"><div class="n" style="font-size:44px">Ignite</div></div>`);
-su.appendChild(sF);su.appendChild(sI);
-
-/* ---------- PHASES ---------- */
-const banners=[['ERKEN OYUN',144.72],['ORTA OYUN',187.66],['GEÇ OYUN',194.63]].map(([tx,t0])=>[h(`<div class="abs banner"><div>${tx}</div></div>`),t0]);
-const phase=h(`<div class="abs phase"><div id="ph"></div></div>`);const ph=phase.querySelector('#ph');
-
-/* ---------- OUTRO ---------- */
-const odim=add(h(`<div class="abs dim"></div>`),211.9,240.5,'fade');
-const oLines=[['Ve işte bu kadar.',211.9,215.4,420],['Kolay görünüyor, değil mi?',215.0,221.1,250]].map(([tx,a,b,y])=>[h(`<div class="abs big" style="top:${y}px;font-size:96px">${tx}</div>`),a,b]);
-const stack=[['Sağ yumruk',216.63],['Sol yumruk',217.39],['Biraz İnat',218.13],['ÇAK!',219.53]].map(([tx,t0],i)=>[h(`<div class="abs big" style="top:${400+i*120}px;font-size:${i==3?130:92}px;color:${i==3?'var(--gold)':'var(--cream)'}">${tx}</div>`),t0]);
-const oMiss=h(`<div class="abs big" style="top:360px;color:var(--red)">E boşa gitti...<div style="font-size:54px;color:var(--cream);margin-top:24px;text-transform:none">kulenin altında, tek başına</div></div>`);
-const oPass=h(`<div class="abs big" style="top:430px">Hepimiz oradan geçtik</div>`);
-const oNext=h(`<div class="abs big" style="top:330px;font-size:92px">Sıradaki şampiyon?<div style="font-size:60px;color:var(--gold);margin-top:20px">Yorumlara yaz</div></div>`);
-const oSub=h(`<div class="abs sub"><div class="subbtn">▶ ABONE OL</div></div>`);
-const fin=h(`<div class="abs scene"><div class="abs" style="inset:0;background:url(${A}splash_0.jpg) center/cover"></div><div class="abs" style="inset:0;background:linear-gradient(0deg,rgba(8,5,14,.95) 0,rgba(8,5,14,.5) 55%,rgba(8,5,14,.2) 100%)"></div></div>`);
-const finL=[['SETT\'İN EN ÖNEMLİ DERSİ',233.4,'tag',''],['Koridorda acımasız ol,',236.3,'big','var(--cream)'],['ama annene iyi davran.',237.4,'big','var(--gold)']];
-const finEls=finL.map(([tx,t0,c,col],i)=>{const e=c==='tag'?h(`<div class="abs tag" style="left:0;right:0;top:640px;text-align:center;font-size:34px;color:var(--gold)">${tx}</div>`):h(`<div class="abs big" style="top:${700+(i-1)*125}px;font-size:104px;color:${col}">${tx}</div>`);fin.appendChild(e);return [e,t0]});
-
-/* ---------- RENDER ---------- */
-const inS=(t,k)=>t>=T[k][0]&&t<T[k][1];
-window.render=function(t){
-  items.forEach(({el,t0,t1,kind})=>{if(kind==='none'){el.style.display=(t>=t0&&t<t1)?'':'none'}else show(el,t,t0,t1,kind,.3)});
-  if(inS(t,'intro'))introR(t);
-  badges.forEach(([b,a,c])=>show(b,t,a,c,'slideL',.35));
-  chips.forEach(([w,e,t0,t1])=>{const v=t>=t0&&t<t1;w.style.display=v?'':'none';if(v)show(e,t,t0,t1,'slideL',.3)});
-  show(pcard,t,T.passive[0]+.2,T.passive[1],'pop');
-  pl[0].style.opacity=t>=17.4?1:.0; pl[1].style.opacity=t>=23.9?1:0; pl[2].style.opacity=t>=27.4?1:0;
-  pl[0].style.opacity = t>=17.4?1:0;
-  if(show(grit,t,40.6,58.68,'drop')){let v;const a=41.0,b=45.2,c=46.0;
-    v=t<a?0:t<b?(t-a)/(b-a):t<c?1-(t-b)/(c-b):0; if(t>=c&&t<48.2)v=0; gf.style.width=(clamp(v)*100)+'%';gv.textContent=Math.round(clamp(v)*100)}
-  if(show(band,t,T.combo[0],T.combo[1],'up')){const want=t<92.68?1:2;if(want!==curCombo){curCombo=want;comboEls=comboRow(want===1?combo1:combo2);bt.textContent=want===1?'UZUN SAVAŞ KOMBOSU':'DALIŞ KOMBOSU'}
-    comboEls.forEach(([e,t0])=>e.classList.toggle('on',t>=t0))}
-  if(inS(t,'match')){show(sHard,t,98.6,110.52,'slideR',.4);show(sEasy,t,103.28,110.52,'slideL',.4);
-    [...sHard.querySelectorAll('img')].forEach((e,i)=>show(e,t,99.0+i*.3,110.52,'pop'));[...sEasy.querySelectorAll('img')].forEach((e,i)=>show(e,t,103.6+i*.3,110.52,'pop'));
-    [...sHard.querySelectorAll('.cap')].forEach((e,i)=>e.style.opacity=t>=(i?100.6:99.8)?1:0);[...sEasy.querySelectorAll('.cap')].forEach((e,i)=>e.style.opacity=t>=(i?107.12:104.3)?1:0);}
-  if(inS(t,'runes')){runeCards.forEach(([c,t0])=>show(c,t,t0,120.4,'pop'));shardEls.forEach(([e,t0])=>show(e,t,t0,120.4,'slideR'));show(conqGlow,t,118.48,120.4,'up');
-    runeCards[0][0].querySelector('img').style.boxShadow=t>=118.48?`0 0 ${30+20*Math.sin(t*8)}px rgba(255,190,80,.9)`:''}
-  if(inS(t,'items')){itemCards.forEach(([c,t0])=>show(c,t,t0,131.95,'pop'));itemArrows.forEach(([a,t0])=>show(a,t,t0,131.95,'fade'))}
-  if(inS(t,'skills')){cells.forEach(c=>{const l=+c.dataset.l;const on=t>=lvlT[l];c.classList.toggle('on',on);c.classList.toggle('r',c.dataset.k==='R');c.textContent=on?c.dataset.k:'';
-      c.style.transform=on?`scale(${.7+.3*eb((t-lvlT[l])/.25)})`:''});
-    show(maxChip,t,136.1,142.17,'up');show(ultChip,t,140.23,142.17,'up')}
-  if(inS(t,'summ')){show(sF,t,143.0,144.72,'pop');show(sI,t,143.7,144.72,'pop')}
-  banners.forEach(([b,t0])=>show(b,t,t0,t0+2.0,'pop',.3));
-  const pn=inS(t,'early')?'ERKEN OYUN':(t>=187.66&&t<194.63)?'ORTA OYUN':(t>=194.63&&t<211.9)?'GEÇ OYUN':'';
-  ph.textContent=pn; const bannerOn=banners.some(([b,t0])=>t>=t0&&t<t0+2); phase.style.display=(pn&&!bannerOn)?'':'none';
-  if(t>=T.outro[0]){oLines.forEach(([e,a,b])=>show(e,t,a,b,'up',.35));
-    // the "kolay görünüyor" line moves up while stack plays
-    stack.forEach(([e,t0])=>show(e,t,t0,221.1,'pop',.25));
-    show(oMiss,t,221.29,226.9,'pop');show(oPass,t,227.03,229.1,'up');show(oNext,t,229.21,233.3,'up');show(oSub,t,232.11,233.3,'pop',.3);
-    show(fin,t,233.3,240.5,'fade',.4);finEls.forEach(([e,t0])=>show(e,t,t0,240.5,'up',.4));
-    fin.firstChild.style.transform=`scale(${1.04+.03*clamp((t-233.3)/7)})`;
-  } else {[...oLines.map(x=>x[0]),...stack.map(x=>x[0]),oMiss,oPass,oNext,oSub,fin].forEach(e=>e.style.display='none')}
-};
-window.ready=Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode().catch(()=>{}))]);
-window.render(0);
-</script></body></html>
+</style>
+<style>
+.vs{position:absolute;left:810px;top:440px;width:300px;height:300px;display:flex;align-items:center;justify-content:center}
+.vs .t{font-size:190px;font-weight:700;font-style:italic;color:#fff;letter-spacing:-.02em;text-shadow:0 0 30px rgba(255,80,90,.9),6px 6px 0 #c21d33,-4px -4px 0 #F4B942}
+.vs .ring{position:absolute;inset:0;border-radius:50%;border:8px solid rgba(244,185,66,.85);box-shadow:0 0 40px rgba(244,185,66,.7)}
+.vs .ray{position:absolute;left:50%;top:50%;width:6px;height:200px;background:linear-gradient(transparent,#F4B942);transform-origin:50% 0}
+.crash{left:0;top:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+.crash .img{position:absolute;left:0;top:0;width:1920px;height:1080px;background:url(assets/splash_0.jpg) center/cover;transform-origin:0 0}
+.crash .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 35%,rgba(150,0,10,.75) 100%)}
+.shout{left:0;right:0;top:770px;text-align:center;font-size:92px;font-weight:700;text-transform:uppercase;color:#fff;text-shadow:0 0 0 #000,5px 5px 0 #c21d33,0 10px 40px rgba(0,0,0,.9)}
+.heart{display:inline-block;color:#FF4D5E}
+</style>
+</head><body><div id="root"></div>
+<script src="words.js"></script>
+<script src="overlay.js"></script>
+</body></html>

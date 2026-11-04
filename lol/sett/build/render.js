@@ -12,6 +12,9 @@ const fs = require('fs');
     await Promise.all(['400 40px Osw', '600 40px Osw', '700 40px Osw', '600 30px Int', '800 30px Int'].map(f => document.fonts.load(f, 'İşğüçöÖÇŞĞÜ AZaz')));
     await window.ready;
   });
+  const info = await page.evaluate(() => ({ missing: MISSING, cues: CUES }));
+  console.log('missing cues:', JSON.stringify(info.missing));
+  fs.writeFileSync(path.join(__dirname, 'cues.json'), JSON.stringify(info.cues, null, 1));
   if (mode === 'preview') {
     fs.mkdirSync(path.join(__dirname, 'prev'), { recursive: true });
     for (const t of args) {
