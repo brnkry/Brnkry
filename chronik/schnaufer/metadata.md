@@ -1,6 +1,6 @@
 # Heinz-Wolfgang Schnaufer (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Schnaufer_Shorts_DE_v1.mp4` (9:16, 1:53, Stil A wie Egon Mayer v6, Untertitelmodus wie Prien v6). Stimme: ElevenLabs, Robert Ranger, Cool Storyteller, eleven_v4, Stability 0, Similarity 0,75, `[quickly reads]`. Code `kod/sc.py` (Bilder, Kamera) und `kod/ss.py` (Untertitel). Cover: `thumbnails/DE_Schnaufer.jpg` (feste Yamamoto-Anordnung, Farbporträt, Symbole unkenntlich; Job `schnaufer` in `chronicle/brand/covers4.py`). Story: `social/Schnaufer_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`. Bildquellen: `kaynaklar_bilder.md`.
+Video: `Schnaufer_Shorts_DE_v2.mp4` (9:16, 1:53, Stil A wie Egon Mayer v6, Untertitelmodus wie Prien v6). Stimme: ElevenLabs, Robert Ranger, Cool Storyteller, eleven_v4, Stability 0, Similarity 0,75, `[quickly reads]`. Code `kod/sc.py` (Bilder, Kamera) und `kod/ss.py` (Untertitel). Cover: `thumbnails/DE_Schnaufer.jpg` (feste Yamamoto-Anordnung, Farbporträt, Symbole unkenntlich; Job `schnaufer` in `chronicle/brand/covers4.py`). Story: `social/Schnaufer_Story_DE.mp4`. Englische Untertitel: `untertitel/captions.en_US.srt`. Bildquellen: `kaynaklar_bilder.md`.
 
 ## YouTube Shorts
 **Titel** (Cover: "HEINZ-WOLFGANG SCHNAUFER / DAS GESPENST VON ST. TROND")
@@ -76,7 +76,7 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 **Alternativtext:** `Kurzdoku über den Nachtjäger Heinz-Wolfgang Schnaufer: 121 Abschüsse mit der Bf 110, das Gespenst von St. Trond, sein Leitwerk im Imperial War Museum und sein Tod nach einem Autounfall 1950.`
 
 ## Instagram / Facebook Story
-- Video: `social/Schnaufer_Story_DE.mp4`. Der Einstieg des Shorts (blau getönter Film von Bombern am Nachthimmel, die Worte erscheinen mit der Stimme), im Schweigen nach "Frankreich." geschnitten; dann läuft der Film abgedunkelt weiter, darüber: "SCHNELL INS PROFIL UND ANSEHEN!", "NEUES VIDEO · HEINZ-WOLFGANG SCHNAUFER · DAS GESPENST VON ST. TROND". Die Musik läuft weiter und blendet langsam aus.
+- Video: `social/Schnaufer_Story_DE.mp4`. Der Einstieg des Shorts (blau getönter Film von Lancaster-Bombern über den Wolken, die Worte erscheinen mit der Stimme), im Schweigen nach "Frankreich." geschnitten; dann läuft der Film abgedunkelt weiter, darüber: "SCHNELL INS PROFIL UND ANSEHEN!", "NEUES VIDEO · HEINZ-WOLFGANG SCHNAUFER · DAS GESPENST VON ST. TROND". Die Musik läuft weiter und blendet langsam aus.
 
 ## Untertitel (YouTube Studio)
 - `untertitel/captions.en_US.srt` (21 Einblendungen, auf die Stimme getaktet). YouTube Studio > Untertitel > Sprache hinzufügen: Englisch > Hochladen > "Mit Zeitangaben".

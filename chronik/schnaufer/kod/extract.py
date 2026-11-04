@@ -12,6 +12,6 @@ for k, (f, ss, d, cr) in CUT.items():
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', f, '-t', str(d), '-vf', cr + ",scale=1000:-2:flags=lanczos,fps=25", '-q:v', '3', o + '/%05d.jpg'], check=True)
     print(k, len(os.listdir(o)), flush=True)
 o = E + 'clip/hook'; os.makedirs(o, exist_ok=True)
-if len(os.listdir(o)) < 10:   # night sky over a German city: searchlights and flak, cut to 9:16
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '40', '-i', D + 'raf43.mp4', '-t', '14', '-vf', 'crop=ih*9/16:ih*0.97,scale=1080:1920:flags=lanczos,fps=30', '-q:v', '3', o + '/%05d.jpg'], check=True)
+if len(os.listdir(o)) < 10:   # Lancasters above the clouds (lanc_news 202-216 s), a slow 9:16 pan from left to right
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', '202', '-i', D + 'lanc_news.mp4', '-t', '14', '-vf', "crop=630:378:112:0,hqdn3d=3:3:6:6,scale=1214:728:flags=lanczos,crop=410:728:'402*t/14':0,scale=1080:1920:flags=lanczos,unsharp=5:5:0.6,fps=30", '-q:v', '3', o + '/%05d.jpg'], check=True)
     print('hook', len(os.listdir(o)))
