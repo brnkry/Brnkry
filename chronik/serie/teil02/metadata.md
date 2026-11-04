@@ -1,6 +1,6 @@
-# Deutschland im Zweiten Weltkrieg, Teil 2: Der Überfall auf Polen (lange Version, 16:9, 11:14)
+# Deutschland im Zweiten Weltkrieg, Teil 2: Der Überfall auf Polen (lange Version, 16:9, 10:42)
 
-Video: `Teil2_Polen_lang_v2.mp4`. Untertitel: `untertitel/captions.de.srt`, `untertitel/captions.en_US.srt`. Code: `../teil02_kod/`.
+Video: `Teil2_Polen_lang_v3.mp4`. Untertitel: `untertitel/captions.de.srt`, `untertitel/captions.en_US.srt`. Code: `../teil02_kod/`.
 
 ## Titel und Thumbnails (für „Test & Vergleich“)
 | | Titel | Thumbnail |
@@ -15,20 +15,20 @@ War der Polenfeldzug wirklich der erste Blitzkrieg der Geschichte? Das Wort stan
 
 Kapitel:
 0:00 Einleitung: Der Mythos vom Blitzkrieg
-0:28 1. September 1939: Der Angriff
-0:52 Ungleiche Gegner
-1:43 Danzig, Wieluń und die Westerplatte
-2:39 Die Ulanen von Krojanty
-3:19 Bromberg und die Einsatzgruppen
-4:14 Der Vormarsch und die Schlacht an der Bzura
-5:06 Das Gold der Polen und der Sitzkrieg
-6:11 17. September: Die Rote Armee marschiert ein
-6:57 Hela und die Flucht der Orzeł
-7:46 Die Belagerung von Warschau
-8:49 Exilregierung, Bilanz und die neue Grenze
-9:34 Generalgouvernement, Ghetto und Katyn
-10:28 Sechs Millionen Tote und die Enigma
-11:05 Ausblick auf Teil 3
+0:25 1. September 1939: Der Angriff
+0:48 Ungleiche Gegner
+1:35 Danzig, Wieluń und die Westerplatte
+2:29 Die Ulanen von Krojanty
+3:07 Bromberg und die Einsatzgruppen
+3:58 Der Vormarsch und die Schlacht an der Bzura
+4:48 Das Gold der Polen und der Sitzkrieg
+5:52 17. September: Die Rote Armee marschiert ein
+6:34 Hela und die Flucht der Orzeł
+7:20 Die Belagerung von Warschau
+8:21 Exilregierung, Bilanz und die neue Grenze
+9:04 Generalgouvernement, Ghetto und Katyn
+9:57 Sechs Millionen Tote und die Enigma
+10:33 Ausblick auf Teil 3
 
 Teil 3: Der Krieg im Westen. Abonniert den Kanal, damit ihr ihn nicht verpasst. Die ganze Serie findet ihr in der Playlist „Deutschland im Zweiten Weltkrieg“.
 
@@ -104,7 +104,7 @@ Was hat euch am meisten überrascht? Schreibt es in die Kommentare! 👇
 **Alternativtext:** `Doku im Stil eines Geschichtsmagazins über den Überfall auf Polen im September 1939, mit Archivfilmen, Karten des Angriffs aus drei Richtungen und des sowjetischen Einmarschs, der Westerplatte, der Belagerung Warschaus und der Aufteilung Polens.`
 
 ## Stories (Instagram / Facebook)
-1. **Video-Story** `social/Teil2_Story_Video.mp4` (9:16, 16 s): Panzerfilm mit dem Einstieg der Stimme („Der Feldzug gegen Polen gilt bis heute als der erste Blitzkrieg…“), „DER ERSTE BLITZKRIEG?“ wird rot durchgestrichen, dann die Karte der Serie: „JETZT AUF YOUTUBE · LINK IN BIO“ mit einem Pfeil nach oben zum Profilnamen. Ohne Link-Sticker.
+1. **Video-Story** `social/Teil2_Story_Video.mp4` (9:16, 17 s): Panzerfilm mit dem Einstieg der Stimme („Der Feldzug gegen Polen gilt bis heute als der erste Blitzkrieg…“), „DER ERSTE BLITZKRIEG?“ wird rot durchgestrichen, dann die Karte der Serie: „JETZT AUF YOUTUBE · LINK IN BIO“ mit einem Pfeil nach oben zum Profilnamen. Ohne Link-Sticker.
 2. **Bild-Story** `social/Teil2_Story_Bild.jpg` (1080x1920): Deutscher Panzer im Staub, „DER ERSTE BLITZKRIEG?“, Serientitel, „HIER KLICKEN“ und ein gestrichelter Rahmen unten: dort den Link-Sticker (YouTube-Link des Videos) hineinsetzen.
 
 ## Untertitel (YouTube Studio)

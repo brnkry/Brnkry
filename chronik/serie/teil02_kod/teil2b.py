@@ -11,10 +11,10 @@ import drawings2
 STARTS = ['Am Morgen des 1.', 'Die Wehrmacht verfügte', 'In denselben Minuten', 'Am Abend des ersten', 'Zwei Tage später kam', 'An der Front stießen',
           'Während die Armee kämpfte', 'Am frühen Morgen', 'An der Ostsee hielt', 'Warschau wurde nun', 'Doch Polen hatte nicht', 'Den Westen Polens', 'Für Polen begann']
 TD = Book.TD
-TURNS = [K(s) - 2.55 for s in STARTS] + [VEND + 0.6]
+TURNS = [K(s) - 1.4 for s in STARTS] + [VEND + 0.6]
 def TF(i): return TURNS[i - 1] + TD + 1.05          # a film that opens spread i fills the frame from here
 FE = {1: K('rund anderthalb Millionen', 1) - 1.3, 3: K('warfen deutsche Sturzkampfbomber') - 1.3, 6: K('Die Luftwaffe zerstörte') - 1.3, 10: K('Jeden Abend sprach') - 1.3}
-def TS(i): return TURNS[i - 1] + TD + 1.15          # the moment spread i lies open
+def TS(i): return TURNS[i - 1] + TD + 0.25          # the moment spread i lies open
 T_END = VEND + 10.0
 
 def base2(n, left): return base(n, left).copy()
@@ -41,9 +41,9 @@ def s0R(t):
     STRIKE(pg, t, K('keiner deutschen Dienstvorschrift', 2), 100, 900, 355, 12)
     SAY(pg, t, 'Doch dieses Wort stand in keiner deutschen Dienstvorschrift, und die polnische Armee kämpfte länger, als viele erwartet hatten.', (110, 470), 48, accent=('Dienstvorschrift',))
     PHOTO(pg, t, K('Nach fünf Wochen'), 'eu_warschau', (110, 760, 520, 560), 'Warschau, Herbst 1939', fy=0.4)
-    COUNT(pg, t, K('Nach fünf Wochen', 1), 0.6, 5, (700, 730), serif(250, 800), lambda v: '%d' % round(v))
-    L(pg, t, K('Nach fünf Wochen', 2), 'Wochen', (880, 860), serif(90, 400))
-    CIRCLE(pg, t, K('Nach fünf Wochen', 2) + 0.5, (700, 790, 1190, 975))
+    COUNT(pg, t, K('Nach fünf Wochen', 1), 0.6, 5, (720, 650), serif(250, 800), lambda v: '%d' % round(v))
+    L(pg, t, K('Nach fünf Wochen', 2), 'Wochen', (900, 790), serif(90, 400))
+    CIRCLE(pg, t, K('Nach fünf Wochen', 2) + 0.5, (720, 783, 1221, 958), pad=70)
     SAY(pg, t, 'war Polen trotzdem von der Landkarte verschwunden, aufgeteilt zwischen zwei Diktaturen.', (700, 1040), 44, maxw=590, accent=('zwei', 'Diktaturen.'))
     RULE(pg, t, K('Und hinter der Front') - 0.1, 1430)
     SAY(pg, t, 'Und hinter der Front hatte bereits ein Krieg gegen die Zivilbevölkerung begonnen.', (110, 1460), 46, maxw=840, accent=('Zivilbevölkerung',))
@@ -453,9 +453,9 @@ FILLS = [(0, 'L', B0, 0.0, K('Doch dieses Wort') - 0.9, 'Polen, September 1939',
          (1, 'L', B1, TF(1), FE[1], '1. September 1939', 'Deutsche Soldaten öffnen den Schlagbaum an der polnischen Grenze'),
          (3, 'L', B3, TF(3), FE[3], 'Danzig, 1. September 1939, 4.45 Uhr', 'Die Schleswig-Holstein eröffnet das Feuer auf die Westerplatte'),
          (6, 'L', (110, 260, 1180, 600), TF(6), FE[6], 'September 1939', 'Deutsche Panzer- und motorisierte Divisionen stoßen schnell vor'),
-         (6, 'R', (110, 250, 560, 470), K('Zehntausende Soldaten gingen') + 0.8, TURNS[6] - 0.1, 'Bzura, September 1939', 'Zehntausende polnische Soldaten gehen in Gefangenschaft'),
+         (6, 'R', (110, 250, 560, 470), K('Zehntausende Soldaten gingen') + 0.4, TURNS[6] - 0.1, 'Bzura, September 1939', 'Zehntausende polnische Soldaten gehen in Gefangenschaft'),
          (8, 'R', (110, 260, 1180, 600), K('Wenige Tage später übergab') - 0.2, K('General Heinz Guderian') - 0.4, 'Brest-Litowsk, September 1939', 'Die Wehrmacht übergibt die Stadt an die Rote Armee'),
-         (8, 'R', (110, 1090, 640, 400), K('nahmen gemeinsam den') + 0.6, TURNS[8] - 0.1, 'Brest-Litowsk, 22. September 1939', 'Guderian und Kriwoschein nehmen den Vorbeimarsch ab'),
+         (8, 'R', (110, 1090, 640, 400), K('nahmen gemeinsam den') + 0.4, TURNS[8] - 0.1, 'Brest-Litowsk, 22. September 1939', 'Guderian und Kriwoschein nehmen den Vorbeimarsch ab'),
          (10, 'L', (110, 260, 1180, 620), TF(10), FE[10], 'Warschau, September 1939', 'Wasserwerke und Kraftwerke fallen aus, ganze Straßenzüge brennen'),
          (11, 'R', (110, 260, 1180, 560), K('Noch am Tag der') + 0.7, K('Die neue Grenze folgte') - 1.3, 'Moskau, 28. September 1939', 'Ribbentrop und Molotow unterzeichnen einen weiteren Vertrag')]
 REC[0] = True

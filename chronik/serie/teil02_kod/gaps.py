@@ -1,4 +1,4 @@
-# breathing room for the page turns: 3.0 s of silence before the first word of every new spread (voice speed untouched)
+# breathing room for the page turns: silence topped up to about 1.9 s before the first word of every new spread (voice speed untouched)
 import json, re, numpy as np
 from scipy.io import wavfile
 D = '/tmp/claude-0/-home-user-Brnkry/20fcd4ae-a45e-586b-9e5a-d5e860e017bc/scratchpad/t2l/'
@@ -9,7 +9,10 @@ def find(ph):
 STARTS = ['Am Morgen des 1.', 'Die Wehrmacht verfügte', 'In denselben Minuten', 'Am Abend des ersten', 'Zwei Tage später kam', 'An der Front stießen',
           'Während die Armee kämpfte', 'Am frühen Morgen', 'An der Ostsee hielt', 'Warschau wurde nun', 'Doch Polen hatte nicht', 'Den Westen Polens', 'Für Polen begann']
 LONG = {'Am Morgen des 1.', 'In denselben Minuten', 'An der Front stießen', 'Warschau wurde nun', 'An der Ostsee hielt'}
-GP = {find(s): (5.0 if s in LONG else 3.0) for s in STARTS}
+GP = {}
+for s_ in STARTS:
+    i = find(s_); GP[i] = round(max(0.3, 1.9 - (W[i][1] - W[i - 1][2])), 3)   # about 1.9 s of silence in all at a page turn
+print(GP)
 idx = sorted(GP)
 sr, x = wavfile.read(D + 'vcut.wav'); x = x.astype(np.float32)
 cuts = [(W[i - 1][2] + W[i][1]) / 2 for i in idx]
