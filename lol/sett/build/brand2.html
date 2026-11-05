@@ -13,13 +13,15 @@
 html,body{margin:0;background:#000}
 .art{position:relative;overflow:hidden}
 .q{font-family:Ant;font-weight:400;color:#FFF8EC;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.8);letter-spacing:.02em}.qy{color:#FFC23D}
+.lol4{font-family:Cin;font-weight:900;line-height:1;background:linear-gradient(180deg,#FFF6DA 0,#F0D99A 22%,#C8AA6E 48%,#8B6A30 70%,#E9CF8E 86%,#6B4E1E 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 10px 0 #000) drop-shadow(0 0 40px rgba(10,200,185,.35))}
+.b4{font-family:Ant;font-size:150px;line-height:.9;color:#FFC23D;transform:skewX(-12deg);text-shadow:6px 7px 0 #000,0 0 30px rgba(0,0,0,.8);margin:-30px 0 -16px;padding-right:8px}
 .gold{background:linear-gradient(180deg,#F7EBC9 0,#E2C78C 35%,#C8AA6E 55%,#8B6A30 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rift{background:radial-gradient(ellipse at 50% 40%,#0d2a3e 0,#0A1428 38%,#010A13 80%)}
 .rift:before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='121' viewBox='0 0 70 121'%3E%3Cpath d='M35 0L70 20v40L35 80 0 60V20z M35 80v41' fill='none' stroke='%23C8AA6E' stroke-opacity='.07' stroke-width='2'/%3E%3C/svg%3E")}
 /* ---- emblem (stopwatch in hextech ring) ---- */
 .emb{position:absolute}
 /* ---- clock stamp ---- */
-.clock{position:absolute;display:flex;align-items:center;gap:20px;padding:16px 34px 16px 18px;background:linear-gradient(180deg,#0f2235,#010A13);border:4px solid #C8AA6E;outline:3px solid rgba(200,170,110,.35);outline-offset:6px;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);box-shadow:0 0 40px rgba(10,200,185,.35) inset}
+.clock{position:absolute;display:flex;align-items:center;gap:14px;padding:16px 34px 16px 26px;background:linear-gradient(180deg,#0f2235,#010A13);border:4px solid #C8AA6E;outline:3px solid rgba(200,170,110,.35);outline-offset:6px;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);box-shadow:0 0 40px rgba(10,200,185,.35) inset}
 .clock .lab{display:flex;flex-direction:column;line-height:1.05}
 .clock .lab b{font-size:66px;line-height:1.15}
 .clock .lab i{font-family:Osw;font-style:normal;font-weight:700;font-size:28px;letter-spacing:.22em;color:var(--teal)}
@@ -48,11 +50,8 @@ html,body{margin:0;background:#000}
 </defs></svg>
 
 <!-- LOGO 800 -->
-<div id="logo" class="art rift" style="width:800px;height:800px">
- <svg class="emb" style="left:120px;top:55px" width="560" height="640" viewBox="0 0 200 230"><use href="#watch"/>
-  <text x="100" y="166" text-anchor="middle" font-family="Ant" font-size="108" fill="url(#gg)">4</text></svg>
- <div style="position:absolute;left:90px;right:90px;top:600px;height:130px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0f2235,#010A13);border:4px solid #C8AA6E;clip-path:polygon(28px 0,calc(100% - 28px) 0,100% 50%,calc(100% - 28px) 100%,28px 100%,0 50%)">
-  <span class="q qy" style="font-size:96px;letter-spacing:.06em;line-height:1.2">FEEDLEME</span></div>
+<div id="logo" class="art rift" style="width:800px;height:800px;display:flex;align-items:center;justify-content:center">
+ <div class="lol4" style="font-size:720px;margin-top:-40px">4</div>
 </div>
 
 <!-- BANNER 2560x1440 (safe area 1546x423 centered) -->
@@ -60,16 +59,11 @@ html,body{margin:0;background:#000}
  <div style="position:absolute;left:0;right:0;top:470px;height:2px;background:linear-gradient(90deg,transparent,#C8AA6E,transparent)"></div>
  <div style="position:absolute;left:0;right:0;top:968px;height:2px;background:linear-gradient(90deg,transparent,#C8AA6E,transparent)"></div>
  <div style="position:absolute;left:507px;top:508px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:36px">
-  <svg width="260" height="300" viewBox="0 0 200 230" style="flex:none"><use href="#watch"/><text x="100" y="166" text-anchor="middle" font-family="Ant" font-size="108" fill="url(#gg)">4</text></svg>
+  <div class="lol4" style="font-size:330px;flex:none;margin-top:-20px">4</div>
   <div>
-   <div class="q" style="font-size:124px;line-height:1.15">4 DAKİKADA <span class="qy">FEEDLEME</span></div>
-   <div style="font-family:Osw;font-weight:600;font-size:40px;letter-spacing:.16em;color:var(--teal);margin-top:6px">FEED ATMA, ÖĞREN. LEAGUE OF LEGENDS TÜRKÇE</div>
-   <div class="tiles">
-    <div class="tile"><img src="assets/SettR.png"><span>Şampiyon Rehberleri</span></div>
-    <div class="tile"><img src="assets/item_3071.png"><span>Eşyalar</span></div>
-    <div class="tile"><img src="assets/rune_Conqueror.png" style="border-radius:50%;background:#0A1428"><span>Rünler</span></div>
-    <div class="tile"><div class="pn">26.22</div><span>Yama Notları</span></div>
-   </div>
+   <div class="q" style="font-size:118px;line-height:1.15;white-space:nowrap">4 DAKİKADA <span class="qy">FEEDLEME</span></div>
+   <div style="font-family:Osw;font-weight:700;font-size:52px;letter-spacing:.16em;color:var(--teal);margin-top:4px">FEEDLEME, ÖĞREN.</div>
+   <div class="gold" style="font-family:Cin;font-weight:900;font-size:64px;letter-spacing:.03em;margin-top:6px;white-space:nowrap">LEAGUE OF LEGENDS TÜRKÇE</div>
   </div>
  </div>
 </div>
@@ -79,7 +73,7 @@ html,body{margin:0;background:#000}
  <div class="bg" style="background:linear-gradient(90deg,rgba(1,10,19,.94) 0,rgba(1,10,19,.55) 34%,rgba(1,10,19,0) 55%)"></div>
  <div class="t" style="left:60px;top:40px;font-size:170px">SETT</div>
  <div class="t" style="left:60px;top:230px;font-size:120px;color:#FFC23D">REHBERİ</div>
- <div class="clock" style="left:66px;top:450px"><svg width="110" height="126" viewBox="0 0 200 230"><use href="#watch"/><text x="100" y="166" text-anchor="middle" font-family="Ant" font-size="108" fill="url(#gg)">4</text></svg><div class="lab"><b class="q qy">DAKİKADA</b><i>ÜST KORİDOR</i></div></div>
+ <div class="clock" style="left:66px;top:450px"><div class="b4">4</div><div class="lab"><b class="q qy">DAKİKADA</b><i>ÜST KORİDOR</i></div></div>
 </div>
 
 <!-- THUMB 2 -->
@@ -87,7 +81,7 @@ html,body{margin:0;background:#000}
  <div class="bg" style="background:linear-gradient(90deg,rgba(1,10,19,.95) 0,rgba(1,10,19,.65) 46%,rgba(1,10,19,0) 76%)"></div>
  <div class="t" style="left:60px;top:30px;font-size:150px">SETT</div>
  <div class="t" style="left:60px;top:196px;font-size:96px;color:#FFC23D">NASIL OYNANIR?</div>
- <div class="clock" style="left:66px;top:370px"><svg width="96" height="110" viewBox="0 0 200 230"><use href="#watch"/><text x="100" y="166" text-anchor="middle" font-family="Ant" font-size="108" fill="url(#gg)">4</text></svg><div class="lab"><b class="q qy" style="font-size:54px">DAKİKADA</b><i style="font-size:24px">BUILD · RÜN · KOMBO</i></div></div>
+ <div class="clock" style="left:66px;top:370px"><div class="b4">4</div><div class="lab"><b class="q qy" style="font-size:54px">DAKİKADA</b><i style="font-size:24px">BUILD · RÜN · KOMBO</i></div></div>
  <img class="ic" src="assets/item_6631.png" style="left:70px;top:585px;width:104px">
  <img class="ic" src="assets/item_3071.png" style="left:192px;top:585px;width:104px">
  <img class="ic" src="assets/item_2501.png" style="left:314px;top:585px;width:104px">
@@ -98,7 +92,7 @@ html,body{margin:0;background:#000}
 <div id="t3" class="art" style="width:1280px;height:720px"><div class="bg" style="background-image:url(assets/splash_0.jpg);background-size:250%;background-position:49% 5%"></div>
  <div class="bg" style="background:radial-gradient(ellipse at 50% 30%,rgba(0,0,0,0) 26%,rgba(160,0,15,.85) 100%),linear-gradient(0deg,rgba(1,10,19,.92) 0,rgba(1,10,19,0) 48%)"></div>
  <div class="t" style="left:0;width:1280px;text-align:center;top:250px;font-size:104px">"ANAMI <span style="color:#FFC23D">KARIŞTIRMA!"</span></div>
- <div class="clock" style="left:40px;top:474px;padding:12px 24px 12px 14px"><svg width="96" height="110" viewBox="0 0 200 230"><use href="#watch"/><text x="100" y="166" text-anchor="middle" font-family="Ant" font-size="108" fill="url(#gg)">4</text></svg><div class="lab"><b class="q qy" style="font-size:46px">DAKİKADA</b><i style="font-size:22px">REHBER</i></div></div>
+ <div class="clock" style="left:40px;top:474px;padding:12px 24px 12px 14px"><div class="b4">4</div><div class="lab"><b class="q qy" style="font-size:46px">DAKİKADA</b><i style="font-size:22px">REHBER</i></div></div>
  <div class="t" style="left:505px;top:418px;font-size:236px;line-height:1.1;letter-spacing:.06em">SETT</div>
 </div>
 <script>
