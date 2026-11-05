@@ -9,10 +9,12 @@
 | Normal | Rift Hocası | @RiftHocasi |
 | Normal | 4 Dakikada LoL | @4DakikadaLoL |
 
-Logo ve banner "4 Dakikada Feedleme" ile hazırlandı (`export/kanal/`). Başka bir ad seçilirse yeniden üretilir.
+Logo ve banner "4 Dakikada Feedleme" ile, LoL istemcisini andıran hextech stilinde hazırlandı (`export/kanal/`, kaynak `build/brand2.html`). Başka bir ad seçilirse yeniden üretilir.
 
 ## Kanal açıklaması
-Feedlemeyi bırakmak isteyenler buraya! League of Legends'ı 4 dakikada, net ve Türkçe anlatıyoruz. Şampiyon rehberleri, build ve rün seçimleri, eşya rehberleri, yama notları ve oyunu genel olarak daha iyi oynamanı sağlayacak taktikler. Uzun videolara, gereksiz laflara gerek yok: izle, öğren, maça gir.
+Önce bir şeyi netleştirelim: "Feedleme" bir emir kipi. Yani feed'le değil, feed'LEME. Bu kanalın tek amacı, 4 dakikada seni o 0/10 skor tablosundan kurtarmak.
+
+League of Legends'ı 4 dakikada, net ve Türkçe anlatıyoruz: şampiyon rehberleri, build ve rün seçimleri, eşya rehberleri, yama notları ve oyunu genel olarak daha iyi oynamanı sağlayacak taktikler. Uzun videolara, gereksiz laflara gerek yok. İzle, öğren, maça gir ve feed'leme.
 
 Her hafta yeni rehber. Hangi şampiyonu ya da konuyu görmek istediğini yorumlara yaz.
 
@@ -49,7 +51,7 @@ Sett'i üst koridorda nasıl oynayacağını 4 dakikada anlatıyoruz: pasif, Q, 
 Build (yama 26.21): Doran'ın Kılıcı + Can İksiri, Hızkesen, Çelik Kaplamalı Çizme, Kara Balta, Savaş Beyinin Kan Zırhı, duruma göre Sterak'ın Güvencesi veya Omurgakıran.
 Rünler: Yenilmez, Zafer, Efsane: Çeviklik, Son Direniş / İkinci Şans, Gözü Kara.
 
-Sıradaki rehberde hangi şampiyonu görmek istiyorsun? Yorumlara yaz, abone olmayı unutma.
+Sıradaki rehberde hangi şampiyonu görmek istiyorsun? Yorumlara yaz, abone olmayı unutma. Ve unutma: 4 dakikada feed'LEME.
 
 Bu video Riot Games tarafından onaylanmamıştır ve Riot Games'in görüşlerini yansıtmaz. League of Legends ve Riot Games, Riot Games, Inc. şirketinin ticari markalarıdır.
 
