@@ -7,7 +7,8 @@ Yeni oturum önce bu dosyayı, sonra `CLAUDE.md` ve `chronik/DERSLER.md` dosyala
 - Tarafsız, doğrulanmış bilgi. CDM üslubu: paradoks kancası, "Sein Name war …", sakin bitiş, retorik soru yok.
 - Gamalı haç ve bayraklar küçük ve tam yerinde bulanık. Hitler görünebilir.
 - API anahtarı sohbete yazılmaz. Bot korumaları aşılmaz (Google, Yandex, DuckDuckGo kapalı; Wikimedia ve Bundesarchiv yavaşlatıyorsa beklenir).
-- ElevenLabs: Robert Ranger – Cool Storyteller (voice_id ML23UVoFL5mI6APbRAeR), eleven_v4, stability 0, similarity 0.75, TEK üretim. "[quickly reads]" yok, hız kesilmez, sadece aşırı duraklamalar kısaltılır.
+- ElevenLabs: Robert Ranger – Cool Storyteller (voice_id ML23UVoFL5mI6APbRAeR), eleven_v4, stability 0, similarity 0.75, TEK üretim.
+- SHORTS (9:16): metnin başına MUTLAKA "[quickly reads]" eklenir. Uzun videolarda (Teil 2 gibi) eklenmez, hız kesilmez, sadece aşırı duraklamalar kısaltılır.
 - Bir seferde bir iş. Yükleme paketi istendiğinde sohbete de yazılır.
 - Sayfa geçişlerinde uzun bekleme yok: anlatım bitince yaklaşık yarım saniye, sonra sayfa döner (Teil 2 v3'teki gibi).
 - Seri (Deutschland im Zweiten Weltkrieg) Facebook ve Instagram'a yüklenmiyor, sadece YouTube.
