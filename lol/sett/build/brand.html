@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-ext-wght-normal.woff2) format('woff2');font-weight:200 700;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2) format('woff2');font-weight:200 700}
+@font-face{font-family:Int;src:url(node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2) format('woff2');font-weight:100 900;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Int;src:url(node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--gold:#F4B942;--purple:#A66BFF;--ink:#0d0916;--cream:#F7F1E8;--red:#FF4D5E}
+html,body{margin:0;background:transparent;font-family:Osw;color:var(--cream)}
+.art{position:absolute;left:0;top:0;overflow:hidden}
+.hexbg{background:radial-gradient(circle at 30% 20%,#3b1f6b 0,#170e2a 45%,#0b0714 100%)}
+.hexbg:before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 0L56 16v33L28 65 0 49V16z M28 65v33' fill='none' stroke='%23F4B942' stroke-opacity='.09' stroke-width='2'/%3E%3C/svg%3E")}
+/* logo */
+#logo{width:800px;height:800px;border-radius:0}
+.mono{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.hex{width:560px;height:620px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(160deg,#F4B942,#b8781c);display:flex;align-items:center;justify-content:center}
+.hex2{width:520px;height:578px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(165deg,#2a1748,#120a22);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rh{font-size:290px;font-weight:700;line-height:.9;letter-spacing:-.02em;color:var(--gold);text-shadow:0 8px 0 #6b3fb8}
+.rhs{font-size:44px;font-weight:600;letter-spacing:.3em;margin-top:24px;color:var(--cream);padding-left:.3em}
+/* banner */
+#banner{width:2560px;height:1440px}
+.bwrap{position:absolute;left:507px;top:508px;width:1546px;height:423px;display:flex;align-items:center;gap:50px}
+.bwrap .lg{width:300px;height:330px;flex:none;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(160deg,#F4B942,#b8781c);display:flex;align-items:center;justify-content:center}
+.bwrap .lg div{width:276px;height:304px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#170e2a;display:flex;align-items:center;justify-content:center;font-size:150px;font-weight:700;color:var(--gold)}
+.bt{font-size:170px;font-weight:700;line-height:.95;letter-spacing:.02em}
+.bt span{color:var(--gold)}
+.bs{font-family:Int;font-weight:800;font-size:40px;letter-spacing:.12em;color:#cfc4e6;margin-top:20px}
+.bpills{display:flex;gap:16px;margin-top:26px}
+.bpills div{font-size:36px;font-weight:600;background:rgba(244,185,66,.14);border:2px solid rgba(244,185,66,.6);border-radius:12px;padding:4px 22px 8px}
+.slash{position:absolute;width:3000px;height:120px;background:linear-gradient(90deg,transparent,rgba(166,107,255,.35),transparent);transform:rotate(-12deg)}
+/* thumbs */
+.th{width:1280px;height:720px}
+.th .bgimg{position:absolute;inset:0;background-size:cover;background-position:center}
+.stroke{-webkit-text-stroke:0;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.8)}
+.tt{position:absolute;font-weight:700;text-transform:uppercase;line-height:.92;letter-spacing:-.01em}
+.chipk{position:absolute;font-weight:700;border-radius:14px;padding:6px 22px 12px}
+.ic{position:absolute;border-radius:14px;border:5px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+</style></head><body>
+<!-- LOGO -->
+<div id="logo" class="art hexbg"><div class="mono"><div class="hex"><div class="hex2"><div class="rh" style="font-size:250px">4<span style="font-size:150px">DK</span></div><div class="rhs" style="font-size:52px;letter-spacing:.16em;padding-left:.16em">FEEDLEME</div></div></div></div></div>
+<!-- BANNER -->
+<div id="banner" class="art hexbg">
+ <div class="slash" style="left:-200px;top:300px"></div><div class="slash" style="left:-300px;top:1000px"></div>
+ <div class="bwrap"><div class="lg"><div style="font-size:120px">4<span style="font-size:70px">DK</span></div></div>
+  <div><div class="bt" style="font-size:150px">4 DAKİKADA <span>FEEDLEME</span></div><div class="bs">FEEDLEMEYİ BIRAKMAK İÇİN 4 DAKİKALIK LOL REHBERLERİ</div>
+  <div class="bpills"><div>Build</div><div>Rün</div><div>Kombo</div><div>Eşleşme</div><div>Her hafta yeni</div></div></div></div>
+</div>
+<!-- THUMB 1: SETT'I BOYLE OYNA -->
+<div id="t1" class="art th"><div class="bgimg" style="background-image:url(assets/splash_0.jpg);background-position:60% 20%"></div>
+ <div class="art" style="inset:0;width:1280px;height:720px;background:linear-gradient(90deg,rgba(10,6,20,.95) 0,rgba(10,6,20,.75) 40%,rgba(10,6,20,0) 70%)"></div>
+ <div class="tt stroke" style="left:50px;top:110px;font-size:150px">SETT'İ</div>
+ <div class="tt stroke" style="left:50px;top:250px;font-size:150px;color:var(--gold)">BÖYLE</div>
+ <div class="tt stroke" style="left:50px;top:390px;font-size:150px">OYNA</div>
+ <div class="chipk" style="left:54px;top:575px;font-size:54px;background:var(--red)">4 DAKİKADA REHBER</div>
+ <img class="ic" src="assets/SettR.png" style="left:1110px;top:30px;width:130px">
+</div>
+<!-- THUMB 2: TEK ATAN BUILD -->
+<div id="t2" class="art th"><div class="bgimg" style="background-image:url(assets/splash_8.jpg);background-position:70% 30%"></div>
+ <div class="art" style="inset:0;width:1280px;height:720px;background:linear-gradient(90deg,rgba(10,6,20,.95) 0,rgba(10,6,20,.6) 45%,rgba(10,6,20,0) 75%)"></div>
+ <div class="tt stroke" style="left:50px;top:60px;font-size:130px">HERKESİ</div>
+ <div class="tt stroke" style="left:50px;top:185px;font-size:170px;color:var(--gold)">TEK ATAN</div>
+ <div class="tt stroke" style="left:50px;top:345px;font-size:130px">BUİLD</div>
+ <img class="ic" src="assets/item_6631.png" style="left:54px;top:520px;width:140px">
+ <img class="ic" src="assets/item_3071.png" style="left:214px;top:520px;width:140px">
+ <img class="ic" src="assets/item_2501.png" style="left:374px;top:520px;width:140px">
+ <div class="chipk" style="left:540px;top:560px;font-size:56px;background:var(--purple)">SETT 2026</div>
+</div>
+<!-- THUMB 3: ANAMI KARISTIRMA -->
+<div id="t3" class="art th"><div class="bgimg" style="background-image:url(assets/splash_0.jpg);background-size:270%;background-position:49% 6%"></div>
+ <div class="art" style="inset:0;width:1280px;height:720px;background:radial-gradient(ellipse at 50% 35%,rgba(0,0,0,0) 30%,rgba(160,0,15,.8) 100%)"></div>
+ <div class="tt stroke" style="left:0;right:0;width:1280px;text-align:center;top:470px;font-size:120px">"ANAMI <span style="color:var(--gold)">KARIŞTIRMA!"</span></div>
+ <div class="chipk" style="left:40px;top:40px;font-size:50px;background:var(--ink);border:4px solid var(--gold);color:var(--gold)">SETT REHBERİ</div>
+ <div class="tt" style="right:50px;top:40px;font-size:120px;color:var(--red);text-shadow:0 6px 0 #000">!</div>
+</div>
+</body></html>

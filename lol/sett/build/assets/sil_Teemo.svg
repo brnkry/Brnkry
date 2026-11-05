@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 460"><g fill="#fff">
+<!-- feather -->
+<path d="M262 92 C 300 30, 350 8, 392 18 C 360 34, 330 60, 300 104 C 318 70, 352 46, 380 40 C 340 70, 312 100, 286 122 Z"/>
+<!-- hat crown -->
+<path d="M118 168 C 118 98, 160 62, 210 62 C 262 62, 300 100, 300 168 Z"/>
+<!-- hat brim -->
+<ellipse cx="208" cy="168" rx="168" ry="30" transform="rotate(-5 208 168)"/>
+<!-- ears -->
+<path d="M140 206 C 100 188, 52 160, 6 120 C 30 176, 74 236, 136 262 Z"/>
+<path d="M276 206 C 316 188, 364 160, 414 120 C 390 176, 346 236, 282 262 Z"/>
+<!-- head -->
+<circle cx="208" cy="236" r="84"/>
+<!-- body -->
+<ellipse cx="208" cy="356" rx="74" ry="66"/>
+<!-- tail -->
+<path d="M262 372 C 312 372, 352 340, 368 300 C 380 340, 340 404, 270 404 Z"/>
+<!-- blowgun + arm -->
+<rect x="250" y="300" width="150" height="14" rx="7" transform="rotate(-18 250 300)"/>
+<ellipse cx="270" cy="322" rx="26" ry="20"/>
+<!-- feet -->
+<ellipse cx="170" cy="424" rx="40" ry="18"/><ellipse cx="246" cy="424" rx="40" ry="18"/>
+</g></svg>
