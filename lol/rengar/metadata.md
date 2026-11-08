@@ -26,7 +26,7 @@ Kafanın üstünde Rengar'ın gözleri belirdiyse, üzgünüm, çoktan tek yedin
 
 Build (yama 26.22): Yelgezer Yavrusu + Can İksiri, Umbra Mızrağı, Ionia Çizmeleri, İtikatsız Hydra, Dominik Efendi'nin Hürmetleri, duruma göre Gecenin Kıyısı.
 Rünler: Ayağı Çabuk, Zafer, Efsane: Çeviklik, Biç Devir / Ani Darbe, Mükemmel Avcı.
-Yetenek sırası: Q, W, E ile başla, Q > E > W maksla, ultiyi her fırsatta al.
+Yetenek sırası: Q, W, E ile başla, önce Q, sonra E, sonra W maksla, ultiyi her fırsatta al.
 Sihirdar büyüleri: Sıçra + Çarp.
 
 Video işine yaradıysa beğenmeyi unutma, sıradaki rehberde hangi şampiyonu görmek istediğini yorumlara yaz. Ve unutma: 4 dakikada feed'LEME.
