@@ -1,12 +1,9 @@
 # Yükleme paketi: Rengar Rehberi (4 Dakikada Feedleme)
 
-## Başlık seçenekleri
-1. **Rengar Rehberi: 4 Dakikada Orman Rengar | Build, Rün, Kombo**
-2. **Kafanın Üstünde Bu Belirdiyse Çok Geç! 4 Dakikada Rengar Rehberi**
-3. **Rengar Nasıl Oynanır? 4 Dakikada Tek Atmayı Öğren | LoL Türkçe**
-4. **Avın Kokusu... 4 Dakikada Rengar Rehberi | Orman Rengar**
-
-Thumbnail eşleşmesi: 1 → `export/kanal/rengar_thumb1.png`, 2 → `rengar_thumb2.png`, 3 → `rengar_thumb3.png`, 4 → `rengar_thumb4.png`.
+## Başlık ve thumbnail (3 seçenek)
+1. **Kafanın Üstünde Bu Belirdiyse Çok Geç! 4 Dakikada Rengar Rehberi** → `export/kanal/rengar_thumb1.png`
+2. **Rengar Nasıl Oynanır? 4 Dakikada Tek Atmayı Öğren | LoL Türkçe** → `export/kanal/rengar_thumb2.png`
+3. **Avın Kokusu... 4 Dakikada Rengar Rehberi | Orman Rengar** → `export/kanal/rengar_thumb3.png`
 
 ## Açıklama
 Kafanın üstünde Rengar'ın gözleri belirdiyse, üzgünüm, çoktan tek yedin. Bu videoda o işareti başkalarının kafasına koymayı 4 dakikada öğreniyorsun: pasifler, Q, W, E ve ulti nasıl çalışır, dalış ve hasar kombosu, kolay ve zor eşleşmeler, güncel rün ve eşya buildi, yetenek sırası, early game, mid game ve late game planı. Sonunda da Rengar'a karşı tek yememenin tek yolu var.
