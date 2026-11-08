@@ -50,7 +50,7 @@ for i, (a, b, src) in enumerate(SEG):
             chain = (f'[{j}:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,setsar=1,'
                      f'fps={FPS},setpts=(PTS-STARTPTS)/{speed:.5f}')
             if blur == 3:
-                fc.append(chain + f',eq=brightness=-0.12:saturation=0.7,colorbalance=rs=0.35:gs=-0.15:bs=-0.15[p{j}]')
+                fc.append(chain + f',crop=1280:720:440:200,scale=1920:1080,eq=brightness=-0.12:saturation=0.7,colorbalance=rs=0.35:gs=-0.15:bs=-0.15[p{j}]')
             elif blur == 2:
                 fc.append(chain + f',gblur=sigma=7,eq=brightness=-0.05[p{j}]')
             elif blur:

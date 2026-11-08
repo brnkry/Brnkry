@@ -52,8 +52,8 @@ const quoteEls = Object.entries(QUOTES).filter(([k, v]) => v && M[k]).map(([k, v
 /* ---------- HOOK ---------- */
 const redv = h(`<div class="abs" style="inset:0;background:radial-gradient(ellipse at center,rgba(120,0,10,0) 30%,rgba(120,0,10,.75) 100%)"></div>`);
 const veil = h(`<div class="abs" style="inset:0;background:#000"></div>`);
-const eyes = h(`<div class="abs" style="left:360px;top:300px;width:1200px;height:504px;background:url(${A}eyes.svg) center/contain no-repeat"></div>`);
-const nameHide = h(`<div class="abs" style="left:690px;top:360px;width:520px;height:70px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(0,0,0,.25);border-radius:12px"></div>`);
+const eyes = h(`<div class="abs" style="left:510px;top:90px;width:900px;height:900px;background:url(${A}mark_hd.png) center/contain no-repeat"></div>`);
+const nameHide = h(`<div class="abs" style="left:640px;top:340px;width:620px;height:100px;background:radial-gradient(ellipse at center,rgba(18,28,22,.97) 55%,rgba(18,28,22,0) 100%)"></div>`);
 const ring = h(`<div class="abs" style="left:814px;top:470px;width:280px;height:150px;border:10px solid #FF3B4E;border-radius:50%;box-shadow:0 0 40px #FF3B4E"></div>`);
 const arrow = h(`<div class="abs" style="left:1130px;top:300px;font-family:Ant;font-size:120px;color:#FF3B4E;text-shadow:0 6px 0 #000;transform-origin:left">↙</div>`);
 const hookTxt = h(`<div class="abs" style="left:0;right:0;top:860px;text-align:center"><span style="font-family:Ant;font-size:86px;color:#FFF8EC;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.9)">KAFANIN ÜSTÜNDE <span style="color:#FF3B4E">BU</span> BELİRDİYSE...</span></div>`);
