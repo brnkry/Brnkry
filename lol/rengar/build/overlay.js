@@ -91,6 +91,7 @@ const adc = h(`<div class="abs" style="left:0;right:0;top:820px;text-align:cente
 
 /* ---------- BADGES + CHIPS ---------- */
 function badge(key, name, sub, icon, small) { return h(`<div class="abs panel badge"><div class="key ${small ? 'small' : ''}">${key}</div><img src="${A}${icon}"><div class="txt"><div class="sub">${sub}</div><div class="nm">${name}</div></div></div>`) }
+const labelCover = h(`<div class="abs" style="left:60px;top:88px;width:640px;height:226px;background:#0d0916;border-radius:20px"></div>`);
 const badges = [[badge('P', 'Görünmez Yırtıcı', 'PASİF', 'RengarP.png', true), ...T.passive], [badge('Q', 'Yabani', 'YETENEK · Q', 'RengarQ.png'), ...T.q],
 [badge('W', 'Savaş Kükremesi', 'YETENEK · W', 'RengarW.png'), ...T.w], [badge('E', 'Bola Atışı', 'YETENEK · E', 'RengarE.png'), ...T.e], [badge('R', 'Av Heyecanı', 'ULTİ · R', 'RengarR.png'), ...T.r]];
 const chipBox = h(`<div class="abs chips"></div>`);
@@ -228,6 +229,7 @@ window.render = function (t) {
   show(adc, t, W('yani', w0), T.why[1], 'up');
   quoteEls.forEach(([e, a, b]) => show(e, t, a, b, 'pop', .2));
   fulls.forEach(([s, a, b]) => show(s, t, a, b, 'fade', .3));
+  labelCover.style.display = (t >= T.passive[0] - 1 / 30 && t < T.combo[0]) ? '' : 'none';
   badges.forEach(([b, a, c]) => { if (show(b, t, a, c, 'slideL', .35)) { const k = b.querySelector('.key'); const p = t - a; k.style.boxShadow = p < 1.2 ? `0 0 ${40 * (1 - p / 1.2)}px rgba(244,185,66,.9)` : '' } });
   chips.forEach(([w, e, t0, t1]) => { const v = t >= t0 && t < t1; w.style.display = v ? '' : 'none'; if (v) show(e, t, t0, t1, 'slideL', .3) });
   if (show(fer, t, p0 + .3, bush, 'drop')) { const a = W('normal', p0), b = W('4', p0); pips.forEach((p, i) => { const on = t >= a + (b - a) * (i + 1) / 4 && t < b + 1.6; p.style.background = on ? 'linear-gradient(90deg,#ff9b3d,#ffd36b)' : '#2a2238'; p.style.boxShadow = on ? '0 0 16px #ffb347' : '' }) }
