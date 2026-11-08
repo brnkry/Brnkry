@@ -20,8 +20,8 @@ for q in Q:
         if t.lower().endswith(('.jpg', '.jpeg', '.png', '.tif', '.tiff', '.webm', '.ogv')) and t not in seen: seen[t] = q
     print(q, len(d['query']['search']), flush=True); time.sleep(2)
 titles = list(seen); meta = {}
-for i in range(0, len(titles), 40):
-    d = get(API + urllib.parse.urlencode(dict(action='query', titles='|'.join(titles[i:i + 40]), prop='imageinfo', iiprop='url|size|extmetadata', iiurlwidth=2000, format='json')))
+for i in range(0, len(titles), 12):
+    d = get(API + urllib.parse.urlencode(dict(action='query', titles='|'.join(titles[i:i + 12]), prop='imageinfo', iiprop='url|size|extmetadata', iiurlwidth=2000, format='json')))
     for p in d['query']['pages'].values():
         ii = (p.get('imageinfo') or [{}])[0]; em = ii.get('extmetadata', {})
         meta[p['title']] = dict(q=seen.get(p['title']), url=ii.get('thumburl') or ii.get('url'), orig=ii.get('url'), w=ii.get('width'), h=ii.get('height'),
