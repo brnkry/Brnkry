@@ -18,11 +18,11 @@ SEG = [
     (g('eyes'), g('hook2'), [('IMG', EYES, None, 0)]),
     (g('hook2'), g('why'), [(R('R1'), 0.0, 9.8, 0)]),
     (g('why'), g('passive'), [(R('P1'), 0.0, 7.5, 0), (R('Q1'), 0.0, 7.7, 0)]),
-    (g('passive'), g('q'), [(O, 15.4, 48.7, 0)]),
+    (g('passive'), g('q'), [(O, 15.6, 48.7, 0)]),
     (g('q'), g('w'), [(O, 49.0, 55.0, 0)]),
     (g('w'), g('e'), [(O, 58.9, 70.5, 0)]),
     (g('e'), g('r'), [(O, 70.5, 77.2, 0)]),
-    (g('r'), g('combo'), [(O, 77.2, 90.3, 0), (VS, 15.6, 21.6, 1), (R('R1'), 6.0, 15.9, 0)]),
+    (g('r'), g('combo'), [(O, 77.2, 90.3, 0), (VS, 15.6, 21.6, 4), (R('R1'), 6.0, 15.9, 0)]),
     (g('combo'), g('match'), [(O, 90.3, 105.1, 0)]),
     (g('match'), g('early'), None),
     (g('early'), g('mid'), [(O, 140.4, 163.3, 1)]),
@@ -51,6 +51,8 @@ for i, (a, b, src) in enumerate(SEG):
                      f'fps={FPS},setpts=(PTS-STARTPTS)/{speed:.5f}')
             if blur == 3:
                 fc.append(chain + f',crop=1280:720:440:200,scale=1920:1080,eq=brightness=-0.12:saturation=0.7,colorbalance=rs=0.35:gs=-0.15:bs=-0.15[p{j}]')
+            elif blur == 4:
+                fc.append(chain + f'[w{j}];[w{j}]split[v{j}][c{j}];[c{j}]crop=760:220:660:720,boxblur=16:2[bl{j}];[v{j}][bl{j}]overlay=660:720[p{j}]')
             elif blur == 2:
                 fc.append(chain + f',gblur=sigma=7,eq=brightness=-0.05[p{j}]')
             elif blur:
