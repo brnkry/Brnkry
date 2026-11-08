@@ -40,14 +40,14 @@ const finT = W('4', 234, 234.8);
 window.CUES = { T, flash: W('sıçra', T.summ[0]), smite: W('çarp', T.summ[0]), uyari: W('belirdiyse', 4) - .35, tek: W('tek', 5), marks: M };
 
 /* ---------- COUNTDOWN (covers the burned-in timer, top right) ---------- */
-const cd = h(`<div class="abs" style="z-index:50;right:0;top:0;width:300px;height:104px;background:rgba(1,10,19,.96);border-bottom-left-radius:22px;border-left:4px solid #C8AA6E;border-bottom:4px solid #C8AA6E;box-sizing:border-box;display:flex;align-items:center;gap:14px;padding-left:22px">
+const cd = h(`<div class="abs" style="z-index:50;right:0;top:0;width:300px;height:104px;background:#010A13;border-left:4px solid #C8AA6E;border-bottom:4px solid #C8AA6E;box-sizing:border-box;display:flex;align-items:center;gap:14px;padding-left:22px">
  <div style="font-family:Ant;font-size:64px;color:#FFC23D;text-shadow:0 4px 0 #000;letter-spacing:.02em" id="cdv">4:00</div>
  <div style="font-family:Osw;font-weight:700;font-size:20px;letter-spacing:.18em;color:#0AC8B9;line-height:1.2">KALAN<br>SÜRE</div></div>`);
 const cdv = cd.querySelector('#cdv');
 
 /* ---------- quote subtitles for Rengar's own lines ---------- */
 const QUOTES = { avin_kokusu: 'Avın kokusu...' };
-const quoteEls = Object.entries(QUOTES).filter(([k, v]) => v && M[k]).map(([k, v]) => [h(`<div class="abs" style="left:0;right:0;top:${k === 'avin_kokusu' ? 430 : 820}px;text-align:center"><span style="font-family:Ant;font-size:${k === 'avin_kokusu' ? 150 : 92}px;color:#FFF8EC;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.9);padding:0 30px"><span style="color:#FF4D5E">RENGAR:</span> "${v}"</span></div>`), M[k][0], M[k][1] + .35]);
+const quoteEls = Object.entries(QUOTES).filter(([k, v]) => v && M[k]).map(([k, v]) => [h(`<div class="abs" style="left:0;right:0;top:${k === 'avin_kokusu' ? 430 : 820}px;text-align:center"><span style="font-family:Ant;font-size:${k === 'avin_kokusu' ? 150 : 92}px;color:#FFF8EC;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.9);padding:0 30px">"${v}"</span></div>`), M[k][0], M[k][1] + .35]);
 
 /* ---------- HOOK ---------- */
 const redv = h(`<div class="abs" style="inset:0;background:radial-gradient(ellipse at center,rgba(120,0,10,0) 30%,rgba(120,0,10,.75) 100%)"></div>`);
@@ -59,7 +59,7 @@ const arrow = h(`<div class="abs" style="left:1130px;top:300px;font-family:Ant;f
 const hookTxt = h(`<div class="abs" style="left:0;right:0;top:860px;text-align:center"><span style="font-family:Ant;font-size:86px;color:#FFF8EC;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.9)">KAFANIN ÜSTÜNDE <span style="color:#FF3B4E">BU</span> BELİRDİYSE...</span></div>`);
 const tekStamp = h(`<div class="abs" style="left:0;right:0;top:330px;text-align:center"><span style="font-family:Ant;font-size:300px;color:#FFC23D;text-shadow:0 12px 0 #000,0 0 60px rgba(255,60,60,.8);display:inline-block">TEK!</span></div>`);
 const title = h(`<div class="abs" style="left:0;right:0;top:300px;text-align:center"><div style="font-family:Ant;font-size:130px;color:#FFF8EC;text-shadow:0 8px 0 #000;line-height:1.15"><span style="font-size:190px;color:#FFC23D;display:inline-block;transform:skewX(-12deg);margin-right:20px">4</span>DAKİKADA <span style="color:#FFC23D">RENGAR</span></div></div>`);
-const promise = h(`<div class="abs" style="left:0;right:0;top:560px;text-align:center"><span class="chip red" style="font-size:44px">SONUNDA: Rengar'a karşı <b>tek yememenin</b> tek yolu</span></div>`);
+const promise = h(`<div class="abs" style="left:0;right:0;top:560px;text-align:center"><span class="chip red" style="font-size:44px">VİDEONUN SONUNDA: Rengar'a karşı <b>tek yememenin</b> tek yolu</span></div>`);
 const flashW = h(`<div class="abs" style="inset:0;background:#fff"></div>`);
 function hookR(t) {
   const he = T.hook[1];
@@ -71,7 +71,7 @@ function hookR(t) {
   if (show(ring, t, CUES.uyari, T.eyes[1], 'pop', .25)) ring.style.transform += ` scale(${1 + .05 * Math.sin(t * 14)})`;
   show(arrow, t, CUES.uyari + .15, T.eyes[1], 'pop', .25);
   show(hookTxt, t, CUES.uyari, T.eyes[1], 'up');
-  show(tekStamp, t, CUES.tek, CUES.tek + 1.3, 'slam', .3);
+  show(tekStamp, t, CUES.tek, Math.min(CUES.tek + 1.3, T.hook2[0] - .05), 'slam', .3);
   flashW.style.display = (t >= CUES.tek - .02 && t < CUES.tek + .25) ? '' : 'none'; flashW.style.opacity = clamp(1 - (t - CUES.tek) / .25);
   show(title, t, T.hook2[0], W('videonun', 8), 'pop', .35);
   show(promise, t, W('videonun', 8), (M.gel_bakalim || [T.why[0]])[0], 'up');
@@ -120,6 +120,7 @@ const avin = h(`<div class="abs" style="left:0;right:0;top:360px;text-align:cent
 const letters = 'AVIN'.split('').map(c => { const s = document.createElement('span'); s.textContent = c; s.style.display = 'inline-block'; avin.appendChild(s); return s });
 const age = h(`<div class="abs" style="left:0;right:0;top:640px;text-align:center"><span style="display:inline-block;font-family:Ant;font-size:80px;color:#fff;background:#E62117;padding:6px 34px 14px;border-radius:18px;text-shadow:0 5px 0 #7a0d19">+18 OLMASIN LÜTFEN</span></div>`);
 const avT = W('evet', r0 + 6), letT = W('a', avT), harfT = W('bir', avT), ageT = W('bu', avT);
+const letTs = [W('a', avT), W('ve', avT), W('I', avT + .3), W('ne', avT)];
 const kitty = h(`<div class="abs scene"><div class="abs" style="inset:0;background:url(${A}splash_15.jpg) center/cover"></div><div class="abs" style="inset:0;background:linear-gradient(0deg,rgba(1,10,19,.9) 0,rgba(1,10,19,0) 50%)"></div>
  <div class="abs" style="left:0;right:0;top:700px;text-align:center;font-family:Ant;font-size:110px;color:#FFF8EC;text-shadow:0 7px 0 #000">SEVİMLİ KEDİ <span style="color:#FF8FC8">RENGAR</span></div>
  <div class="abs" id="kst" style="left:0;right:0;top:860px;text-align:center"><span style="display:inline-block;font-family:Ant;font-size:96px;color:#FFC23D;text-shadow:0 7px 0 #000;transform:rotate(-4deg)">YİNE DE TEK ATAR.</span></div></div>`);
@@ -231,7 +232,17 @@ window.render = function (t) {
   chips.forEach(([w, e, t0, t1]) => { const v = t >= t0 && t < t1; w.style.display = v ? '' : 'none'; if (v) show(e, t, t0, t1, 'slideL', .3) });
   if (show(fer, t, p0 + .3, bush, 'drop')) { const a = W('normal', p0), b = W('4', p0); pips.forEach((p, i) => { const on = t >= a + (b - a) * (i + 1) / 4 && t < b + 1.6; p.style.background = on ? 'linear-gradient(90deg,#ff9b3d,#ffd36b)' : '#2a2238'; p.style.boxShadow = on ? '0 0 16px #ffb347' : '' }) }
   if (M.ult_sesi && show(ultFlash, t, M.ult_sesi[0], M.ult_sesi[1] + .6, 'cut')) ultFlash.style.opacity = clamp(1 - (t - M.ult_sesi[0]) / 3) * (.7 + .3 * Math.sin(t * 20));
-  if (show(avin, t, letT - .1, harfT + 1.6, 'cut')) letters.forEach((s, i) => { const a = letT + i * .22; s.style.opacity = t >= a ? 1 : 0; s.style.transform = `scale(${t >= a ? .7 + .3 * eb((t - a) / .2) : 1})` });
+  if (show(avin, t, letT - .1, ageT + 2.2, 'cut')) letters.forEach((s, i) => {
+    const a = letTs[i]; s.style.opacity = t >= a ? 1 : 0; let tf = `scale(${t >= a ? .7 + .3 * eb((t - a) / .2) : 1})`;
+    if (i === 1) { // the V: shake, go red, flip into a red question mark
+      const h0 = harfT + .15, h1 = h0 + .45, h2 = h1 + .25;
+      s.textContent = t >= h1 + .12 ? '?' : 'V'; s.style.color = t >= h0 ? '#FF3B4E' : '';
+      if (t >= h0 && t < h1) tf += ` translate(${Math.sin(t * 70) * 10}px,${Math.cos(t * 55) * 4}px) rotate(${Math.sin(t * 40) * 8}deg)`;
+      else if (t >= h1 && t < h2) tf += ` scaleX(${Math.abs(Math.cos((t - h1) / (h2 - h1) * Math.PI))})`;
+      else if (t >= h2) tf += ` scale(${1 + .25 * clamp(1 - (t - h2) / .3)}) rotate(-8deg)`;
+      s.style.textShadow = t >= h2 ? '0 12px 0 #000,0 0 50px rgba(255,59,78,.9)' : '';
+    }
+    s.style.transform = tf });
   show(age, t, ageT, T.r[1] - 0.01 < ageT + 2.2 ? ageT + 2.2 : ageT + 2.2, 'pop', .25);
   if (show(kitty, t, kitT, T.r[1], 'fade', .25)) { kst.style.opacity = t >= kitT2 ? 1 : 0; kst.style.transform = t >= kitT2 ? `scale(${.6 + .4 * eb((t - kitT2) / .3)})` : '' }
   if (show(band, t, T.combo[0], T.combo[1], 'up')) {
