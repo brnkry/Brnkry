@@ -1,15 +1,15 @@
-# Schnaufer short (German, CDM) Instagram/Facebook story (9:16): the hook of the short (bombers in the night sky, the words typing on),
+# Wick short (German, CDM) Instagram/Facebook story (9:16): the hook of the short (bombers in the night sky, the words typing on),
 # cut in the silence after "Frankreich.", then a "Neues Video" card over the same film, which keeps running behind it.
 # "Schnell ins Profil und ansehen!" on top with an arrow to the profile name. Voice ends with the hook; the music runs on and fades out.
 import sys, os, math, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
-import ss, sc as eg
-from sc import W, H, FPS, E, eio, clamp, lerp
+import ws, wk as eg
+from wk import W, H, FPS, E, eio, clamp, lerp
 import lib9 as L
 YEL, WHITE, CREAM, RED = L.YEL, L.WHITE, L.CREAM, L.RED
-A1 = 8.62      # 'Frankreich.' ends about 8.5, 'Sein' starts at 8.85: cut in the silence
+A1 = 6.26      # 'Ärmelkanal.' ends at 6.08, 'Sein' starts at 6.44: cut in the silence
 CARD = 5.0
 CX = 540
 def text(img, t, t0, s, y, font, col, maxw=900):
@@ -38,14 +38,14 @@ def card(t):
     if t > 1.0:
         La = Image.new('RGBA', (W, H), (0, 0, 0, 0)); badge(La, CX - 92, 760, 100); La.putalpha(La.getchannel('A').point(lambda v: int(v * clamp((t - 1.0) / 0.4)))); img.alpha_composite(La)
     text(img, t, 1.2, 'NEUES VIDEO', 1010, (L.bebas, 80), YEL)
-    text(img, t, 1.5, 'HEINZ-WOLFGANG SCHNAUFER', 1200, (L.anton, 120), WHITE)
-    s_ = 'DAS GESPENST VON ST. TROND'; text(img, t, 1.75, s_, 1340, (L.bebas, 90), CREAM)
+    text(img, t, 1.5, 'HELMUT WICK', 1200, (L.anton, 140), WHITE)
+    s_ = 'VERSCHWUNDEN ÜBER DEM KANAL'; text(img, t, 1.75, s_, 1340, (L.bebas, 90), CREAM)
     if t > 2.2:   # red line under VON VORNE
-        f = L.bebas(90); x0 = CX - f.getlength(s_) / 2 + f.getlength('DAS '); x1 = x0 + f.getlength('GESPENST'); u = eio((t - 2.2) / 0.35)
+        f = L.bebas(90); x0 = CX - f.getlength(s_) / 2; x1 = x0 + f.getlength('VERSCHWUNDEN'); u = eio((t - 2.2) / 0.35)
         La = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(La).line((x0, 1386, lerp(x0, x1, u), 1386), fill=RED + (250,), width=8); img.alpha_composite(La)
     return eg.finish(img, 10 + t)
 if __name__ == '__main__':
-    os.makedirs(E + 'social', exist_ok=True); out = E + 'social/Schnaufer_Story_DE.mp4'
+    os.makedirs(E + 'social', exist_ok=True); out = E + 'social/Wick_Story_DE.mp4'
     if len(sys.argv) > 1 and sys.argv[1] == 'p':
         P = Image.new('RGB', (4 * 270, 480))
         for i, tt in enumerate((0.5, 1.6, 2.6, 4.8)): P.paste(card(tt).convert('RGB').resize((270, 480)), (i * 270, 0))

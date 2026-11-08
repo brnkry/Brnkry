@@ -95,6 +95,7 @@ JOBS = {
  'jungen1945': ('jungen/code', 'cov', (0.5, 0.5, 1.0), ('C', 'DM'), [('KEIN SOLDAT', 150, 'w'), ('EIN JUNGE', 170, 'y')], 'FRÜHJAHR 1945', 88, S + 'jungen/thumbs/DE_Jungen_1945.jpg'),
  'prien': ('prien/code', 'cov', (0.5, 0.45, 1.0), ('C', 'DM'), [('GÜNTHER PRIEN', 130, 'w'), ('SPURLOS', 170, 'y')], 'VERSCHWUNDEN IM ATLANTIK', 84, S + 'prien/thumbs/DE_Prien.jpg'),
  'schnaufer': ('schn/code', 'cov', (0.5, 0.40, 1.0), ('C', 'DM'), [('HEINZ-WOLFGANG', 104, 'w'), ('SCHNAUFER', 150, 'y')], 'DAS GESPENST VON ST. TROND', 80, S + 'schn/thumbs/DE_Schnaufer.jpg'),
+ 'wick': ('wick/code', '101I-404-0532-18A', (0.44, 0.5, 1.0), ('C', 'DM'), [('HELMUT WICK', 140, 'w'), ('NIE GEFUNDEN', 150, 'y')], 'NACH SEINEM 56. LUFTSIEG', 84, S + 'wick/thumbs/DE_Wick.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
