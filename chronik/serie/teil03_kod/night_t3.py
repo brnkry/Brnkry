@@ -21,7 +21,8 @@ sel = {x['key']: x for x in json.load(open(K + 'ba_sel.json'))}
 allba = {x['sig'].replace('Bild ', '').replace(' ', '_'): x for x in json.load(open(K + 'ba_t3.json')) + json.load(open(K + 'ba_t3b.json'))}
 def ok(f): return os.path.exists(f) and os.path.getsize(f) > 1e5
 # 1. Bundesarchiv: several patient rounds; a reset costs a long pause, never a workaround
-for rnd in range(6):
+ROUNDS = int(os.environ.get("BA_ROUNDS", "6"))
+for rnd in range(ROUNDS):
     todo = [k for k in BA if not ok(T + 'ba/%s.jpg' % k)]
     log('BA round', rnd, 'missing', len(todo))
     if not todo: break
@@ -34,7 +35,7 @@ for rnd in range(6):
         else:
             if os.path.exists(f): os.remove(f)
             log('fail', k); time.sleep(90)
-    time.sleep(600)
+    if rnd < ROUNDS - 1: time.sleep(600)
 # 2. Commons picks
 m = json.load(open(T + 'commons_meta.json')); os.makedirs(T + 'cmp', exist_ok=True)
 UA = 'CDM-research/1.0 (history documentary research)'
@@ -43,11 +44,11 @@ for p in CM:
     if not v: log('commons missing', p); continue
     if ok(fn): continue
     url = v.get('orig') if (v.get('w') or 0) <= 6000 else v.get('url')
-    for a in range(8):
+    for a in range(int(os.environ.get("CM_TRIES", "8"))):
         try:
             d = urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': UA}), timeout=120).read(); open(fn, 'wb').write(d); log('cm ok', p, len(d)); break
         except urllib.error.HTTPError as e:
-            w = int(e.headers.get('Retry-After', '30')) + 2 if e.code == 429 else 20; log('cm', e.code, 'wait', w); time.sleep(w)
+            w = int(e.headers.get("Retry-After", "30")) + 2 if e.code == 429 else 20; log("cm", e.code, "wait", w); time.sleep(w) if a < int(os.environ.get("CM_TRIES", "8")) - 1 else None
         except Exception as e: log('cm err', e); time.sleep(30)
     time.sleep(5)
 # 3. 4096 px RGB copies, zips under 95 MB, source list, push
@@ -75,12 +76,12 @@ for f in fs:
     z.write(f, os.path.basename(f)); size += s
 if z: z.close()
 log('files', len(fs), 'zips', n - 1)
-cmds = [['git', 'init', '-q'], ['git', 'checkout', '-q', '--orphan', 'teil3-fotos'], ['git', 'add', '.'],
+cmds = [['git', 'init', '-q'], ['git', 'checkout', '-q', '--orphan', os.environ.get('BRANCH', 'teil3-fotos')], ['git', 'add', '.'],
         ['git', 'commit', '-qm', 'Teil 3 photos at 4096 px for colourising\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_018jCuxbPzYK1g1VtNs2hrtw'],
         ['git', 'remote', 'add', 'origin', 'https://github.com/brnkry/Brnkry']]
 for c in cmds: subprocess.run(c, cwd=out)
 for a in range(5):
-    r = subprocess.run(['git', 'push', '-q', 'origin', 'teil3-fotos'], cwd=out, capture_output=True, text=True); log('push', r.returncode, r.stderr[-200:])
-    if subprocess.run(['git', 'ls-remote', 'origin', 'teil3-fotos'], cwd=out, capture_output=True, text=True).stdout.strip(): log('PUSHED'); break
+    r = subprocess.run(['git', 'push', '-q', 'origin', os.environ.get('BRANCH', 'teil3-fotos')], cwd=out, capture_output=True, text=True); log('push', r.returncode, r.stderr[-200:])
+    if subprocess.run(['git', 'ls-remote', 'origin', os.environ.get('BRANCH', 'teil3-fotos')], cwd=out, capture_output=True, text=True).stdout.strip(): log('PUSHED'); break
     time.sleep(2 ** (a + 1))
 log('ALLDONE')
