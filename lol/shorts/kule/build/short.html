@@ -8,7 +8,7 @@
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#010A13}
 *{box-sizing:border-box}
 #root{position:absolute;inset:0;overflow:hidden;font-family:Ant;color:#FFF8EC}
-#bg{position:absolute;left:0;top:220px;width:1080px;height:1920px;background:url(assets/midlane.jpg) 0 0/1080px 1920px no-repeat;transform-origin:800px 632px}
+#bg{position:absolute;left:0;top:220px;width:1080px;height:1920px;background:url(assets/midlane.jpg) 0 0/1080px 1920px no-repeat;transform-origin:700px 632px}
 #bg:before{content:'';position:absolute;left:0;right:0;top:-2px;height:260px;background:linear-gradient(180deg,#010A13,rgba(1,10,19,0))}
 #shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(1,10,19,.9) 0,rgba(1,10,19,.6) 18%,rgba(1,10,19,0) 30%,rgba(1,10,19,0) 72%,rgba(1,10,19,.55) 82%,rgba(1,10,19,.75) 100%)}
 #dim{position:absolute;inset:0;background:#010A13;opacity:0}
@@ -22,7 +22,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#010A13
 .h2{font-size:80px;line-height:1.16;text-transform:uppercase;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.8)}
 .y{color:#FFC23D}.r{color:#FF3B4E}.c{color:#0AC8B9}
 .tag{display:inline-block;font-size:54px;background:#FF3B4E;color:#FFF8EC;padding:2px 22px 6px;border-radius:8px;margin-bottom:14px;text-shadow:0 4px 0 rgba(0,0,0,.4);transform:rotate(-2deg)}
-#arena{position:absolute;left:300px;top:562px;width:1000px;height:760px;overflow:visible;transform-origin:500px 290px}
+#arena{position:absolute;left:200px;top:562px;width:1000px;height:760px;overflow:visible;transform-origin:500px 290px}
 #ground{display:none;position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,#1d3a26 0,transparent 40%),radial-gradient(circle at 85% 25%,#1a3524 0,transparent 35%),linear-gradient(180deg,#132a1e,#0e2018)}
 #lane{display:none;position:absolute;left:330px;width:340px;top:-40px;height:900px;background:linear-gradient(90deg,transparent,#4a4535 12%,#5a5442 50%,#4a4535 88%,transparent);opacity:.85}
 #lane:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 46px,rgba(0,0,0,.12) 46px 50px)}
@@ -37,19 +37,19 @@ svg{position:absolute;left:0;top:0;overflow:visible}
 .mn{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#2D8CFF;border:4px solid #0b2a55;box-shadow:0 4px 8px rgba(0,0,0,.5)}
 .mn.en{background:#FF3B4E;border-color:#5a0b14}
 .pop{position:absolute;font-family:Ant;font-size:64px;text-shadow:0 5px 0 #000;white-space:nowrap;transform:translate(-50%,-50%)}
-#cap{position:absolute;left:40px;right:40px;top:1420px;height:230px;display:flex;align-items:center;justify-content:center;text-align:center}
-#cap span{font-size:86px;line-height:1.16;text-transform:uppercase;text-shadow:0 7px 0 #000,0 0 26px rgba(0,0,0,.9)}
+#cap{position:absolute;left:120px;right:120px;top:1350px;height:130px;display:flex;align-items:center;justify-content:center;text-align:center}
+#cap span{font-size:62px;line-height:1.16;text-transform:uppercase;text-shadow:0 7px 0 #000,0 0 26px rgba(0,0,0,.9)}
 .ov{position:absolute;left:0;right:0}
-.card{position:absolute;left:70px;right:70px;background:linear-gradient(180deg,#14283c,#010A13 80%);border:5px solid #C8AA6E;border-radius:26px;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 50px rgba(10,200,185,.18)}
-.row{display:flex;align-items:center;gap:30px;padding:26px 40px;font-size:74px;text-transform:uppercase;text-shadow:0 5px 0 #000}
-.ck{width:92px;height:92px;flex:none;border-radius:18px;border:5px solid #0AC8B9;display:flex;align-items:center;justify-content:center;font-size:70px;color:#0AC8B9;font-family:Osw;font-weight:700}
-.opt{position:absolute;width:420px;height:250px;border-radius:26px;border:6px solid #C8AA6E;background:#0a1828;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:62px;text-transform:uppercase;text-shadow:0 5px 0 #000}
-.opt img{width:120px;height:120px;border-radius:50%;margin-bottom:10px}
+.card{position:absolute;left:140px;right:140px;background:linear-gradient(180deg,#14283c,#010A13 80%);border:5px solid #C8AA6E;border-radius:26px;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 50px rgba(10,200,185,.18)}
+.row{display:flex;align-items:center;gap:24px;padding:20px 32px;font-size:56px;text-transform:uppercase;text-shadow:0 5px 0 #000}
+.ck{width:72px;height:72px;flex:none;border-radius:18px;border:5px solid #0AC8B9;display:flex;align-items:center;justify-content:center;font-size:70px;color:#0AC8B9;font-family:Osw;font-weight:700}
+.opt{position:absolute;width:340px;height:220px;border-radius:26px;border:6px solid #C8AA6E;background:#0a1828;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:52px;text-transform:uppercase;text-shadow:0 5px 0 #000}
+.opt img{width:100px;height:100px;border-radius:50%;margin-bottom:10px}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
 #gauge{position:absolute;left:975px;top:900px;width:66px;height:460px}
 </style></head><body>
 <div id="root">
- <div id="bg"><svg width="1080" height="1920"><ellipse id="rng" cx="800" cy="632" rx="528" ry="432" fill="rgba(255,214,120,.07)" stroke="#F2CF73" stroke-width="5"/></svg></div><div id="shade"></div><div id="dim"></div>
+ <div id="bg"><svg width="1080" height="1920"><ellipse id="rng" cx="700" cy="632" rx="528" ry="432" fill="rgba(255,214,120,.07)" stroke="#F2CF73" stroke-width="5"/></svg></div><div id="shade"></div><div id="dim"></div>
  <div class="top"><div class="brand"><b>4</b>DAKİKADA FEEDLEME</div><div class="chip">FEEDLEME DERSİ #1</div></div>
  <div id="head"></div>
  <div id="arena">
@@ -111,9 +111,9 @@ const SFX=[];
 const sfx=(n,t,g=0)=>SFX.push([n,+t.toFixed(3),g]);
 // ---------- entities
 const ents={};
-function mkEnt(id,champ,en,label){const d=document.createElement('div');d.className='ent'+(en?' en':'');d.innerHTML=`<div class="hp"><i></i></div><div class="ic" style="background-image:url(assets/champ_${champ}.png)"></div><div class="nm">${label}</div>`;$('ents').appendChild(d);ents[id]=d;return d}
+function mkEnt(id,champ,en,label){const d=document.createElement('div');d.className='ent'+(en?' en':'');d.innerHTML=`<div class="hp"><i></i></div><div class="ic" style="background-image:url(assets/champ_${champ}.png)"></div>`;$('ents').appendChild(d);ents[id]=d;return d}
 mkEnt('sett','Sett',0,'SEN');mkEnt('lux','Lux',1,'RAKİP');mkEnt('malph','Malphite',0,'TANK');mkEnt('cait','Caitlyn',0,'SEN');
-const MN=[];for(let i=0;i<8;i++){const d=document.createElement('div');d.className='mn'+(i>=4?' en':'');$('ents').appendChild(d);MN.push(d)}
+const MN=[];for(let i=0;i<8;i++){const d=document.createElement('div');d.className='mn'+(i>=4?' en':'');$('ents').prepend(d);MN.push(d)}
 function setEnt(id,x,y,o=1,hp=1,s=1,grey=0){const d=ents[id];d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=o;d.style.transform=`rotate(-62deg) scale(${s*.8})`;d.querySelector('.hp i').style.width=(cl(hp)*100)+'%';d.querySelector('.ic').style.filter=grey?`grayscale(${grey}) brightness(${1-grey*.4})`:'none';d.style.display=o>0?'block':'none'}
 const TW={x:389.9,y:242.8}; // crystal position in arena
 let beamsHTML='',popsHTML='',sv2='';
@@ -134,15 +134,15 @@ function minions(t,mode,t0){
 // ---------- headings
 let lastHead='';
 function head(html){if(html!==lastHead){$('head').innerHTML=html;lastHead=html}}
-function headAnim(t,t0){const k=prog(t,t0,.35);$('head').style.transform=`translateY(${(1-eo(k))*-40}px) scale(${lerp(.85,1,eb(k))})`;$('head').style.opacity=cl(k*3)}
+function headAnim(t,t0){const k=prog(t,t0,.35);$('head').style.transform=`translateY(${(1-eo(k))*-40}px) scale(${.78*lerp(.85,1,eb(k))})`;$('head').style.opacity=cl(k*3)}
 // ---------- captions
 const KEY=/^(kural|minyon|kule|şampiyon|sert|gir|dürt|çık|tank|dive|öldür|%|3|1|2|sana|dönerim|rakib|takım|vuruş|bitirebiliyorsan|girme|boşa|önde|gönder)/;
 const CH=[];{let cur=[];WORDS.forEach((w,i)=>{cur.push(w);const txt=cur.map(x=>x[2]).join(' ');const last=/[,.?!:]$/.test(w[2]);const nx=WORDS[i+1];if(last||(nx&&/^[A-ZÇĞİÖŞÜ]/.test(nx[2]))||cur.length>=3||txt.length>16||!nx||(nx&&nx[0]-w[1]>0.5)){CH.push(cur);cur=[]}})}
 function caption(t){let html='';for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+0.35);if(t>=a&&t<b){const k=prog(t,a,.12);html=`<span style="display:inline-block;transform:scale(${lerp(.8,1,eb(k))})">`+CH[i].map(w=>{const n=norm(w[2]);const s=TR(w[2].replace(/^'/,"'")).replace(/[,.:]$/,'');return KEY.test(n)?`<span class="y" style="font-size:inherit">${s}</span>`:s}).join(' ').replace(/ '/g,"'")+'</span>';break}}$('cap').innerHTML=html}
 // ---------- main render
-let shake=0;
+let shake=0,hedefHTML='';
 window.render=function(t){
- beamsHTML='';popsHTML='';sv2='';shake=0;
+ beamsHTML='';popsHTML='';sv2='';shake=0;hedefHTML='';
  const [sc,s0,s1]=scene(t);
  const env=ENV[Math.min(ENV.length-1,Math.floor(t*30))]||0;
  // background drift
@@ -196,7 +196,7 @@ window.render=function(t){
   if(onSett){rx=sx;ry=sy}else{rx=+MN[0].dataset.x;ry=+MN[0].dataset.y}
   if(!onSett)for(let h=T.k2+.2;h<T.quiz;h+=.62)beam(t,h,rx,ry,.7);
   if(onSett){for(let h=T.qend+.35;h<s1;h+=.8){const b=beam(t,h,sx,sy,1);if(b)shake=Math.max(shake,b*8)}
-   const k=prog(t,T.qend,.3);popsHTML+=`<div class="pop" style="left:600px;top:560px;font-size:76px;color:#FFF8EC;background:#FF3B4E;padding:4px 26px 10px;border-radius:12px;transform:translate(-50%,-50%) scale(${lerp(1.6,1,eb(k))});opacity:${cl(k*4)*(t>T.k3-.3?0:1)}">⚠ HEDEF DEĞİŞTİ</div>`}
+   const k=prog(t,T.qend,.3);hedefHTML=`<div class="pop" style="position:absolute;left:320px;top:1262px;font-size:60px;font-family:Ant;color:#FFF8EC;background:#FF3B4E;padding:4px 26px 10px;border-radius:12px;transform:translate(-50%,-50%) scale(${lerp(1.6,1,eb(k))});opacity:${cl(k*4)*(t>T.k3-.3?0:1)}">⚠ HEDEF DEĞİŞTİ</div>`}
   // quiz overlay
   if(t>=T.quiz&&t<T.qend+.25){
    const k=prog(t,T.quiz,.3), out=prog(t,T.qend,.25);
@@ -204,9 +204,9 @@ window.render=function(t){
    const nk=prog(t,T.quiz+(3-n)*.85,.25);
    arenaO=1-.65*k;
    $('over').innerHTML=`<div style="position:absolute;left:0;right:0;top:640px;text-align:center;opacity:${(1-out)*cl(k*3)};transform:scale(${lerp(.8,1,eb(k))})">
-    <div class="h1" style="font-size:100px">KULE ŞİMDİ<br><span class="y">KİME VURUR?</span></div>
-    <div style="position:relative;height:300px;margin-top:30px"><div class="opt" style="left:80px;top:0"><div class="mn" style="position:relative;margin:0 0 30px;width:90px;height:90px"></div>MİNYON</div><div class="opt" style="left:580px;top:0;border-color:${t>=T.qend?'#3FD15B':'#C8AA6E'}"><img src="assets/champ_Sett.png">SEN</div></div>
-    <div style="font-size:230px;line-height:1;color:#FFC23D;text-shadow:0 10px 0 #000;transform:scale(${lerp(1.6,1,eb(nk))});opacity:${cl(nk*3)}">${n}</div></div>`;
+    <div class="h1" style="font-size:80px">KULE ŞİMDİ<br><span class="y">KİME VURUR?</span></div>
+    <div style="position:relative;height:300px;margin-top:30px"><div class="opt" style="left:180px;top:0"><div class="mn" style="position:relative;margin:0 0 30px;width:90px;height:90px"></div>MİNYON</div><div class="opt" style="left:560px;top:0;border-color:${t>=T.qend?'#3FD15B':'#C8AA6E'}"><img src="assets/champ_Sett.png">SEN</div></div>
+    <div style="font-size:180px;line-height:1;color:#FFC23D;text-shadow:0 10px 0 #000;transform:scale(${lerp(1.6,1,eb(nk))});opacity:${cl(nk*3)}">${n}</div></div>`;
   }
  }
  // ---- RULE 3
@@ -223,7 +223,7 @@ window.render=function(t){
   heat=n/4;
   let gh='';const hk=cl(heat);
   gh=`<div style="position:absolute;inset:0;border:5px solid #C8AA6E;border-radius:40px;background:#010A13;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;height:${hk*100}%;background:linear-gradient(0deg,#FFC23D,#FF8A3D 50%,#FF3B4E);transition:none"></div></div><div style="position:absolute;top:-70px;left:-40px;width:160px;text-align:center;font-size:44px;text-shadow:0 4px 0 #000">ISI</div><div style="position:absolute;bottom:-80px;left:-60px;width:200px;text-align:center;font-size:56px;color:#FF3B4E;text-shadow:0 4px 0 #000">${['%100','%100','%140','%180','%220'][n]}</div>`;
-  $('gauge').innerHTML=gh;
+  
  }
  // ---- GIR AMA
  if(sc==='gir'){
@@ -282,7 +282,7 @@ window.render=function(t){
   setEnt('lux',380,420,t<kill?1:cl(1-(t-kill)/.3),lerp(.6,0,prog(t,T.takim+1.4,1.4)),1,t>kill?1:0);
   if(t>=lockM){retO=1;rx=mx;ry=my}else{retO=1;rx=+MN[0].dataset.x;ry=+MN[0].dataset.y}
   for(let h=lockM+.3;h<s1;h+=.7){const b=beam(t,h,mx,my,1);if(b)shake=Math.max(shake,b*5)}
-  if(t>=lockM)pop(t,lockM+.3,mx-60,my+120,'TANKLIYOR','#0AC8B9',50,1.5);
+  if(t>=lockM)pop(t,lockM+.3,mx+80,my-60,'TANKLIYOR','#0AC8B9',50,1.5);
   if(t>=kill){const k=prog(t,kill,.25);popsHTML+=`<div class="pop" style="left:380px;top:310px;font-size:80px;color:#3FD15B;transform:translate(-50%,-50%) rotate(-6deg) scale(${lerp(2,1,eo(k))});opacity:${cl(k*3)}">ÖLDÜ ✓</div>`}
   zoom=lerp(1,1.06,prog(t,T.takim,s1-T.takim));
  }
@@ -320,12 +320,12 @@ window.render=function(t){
   const k=eo(prog(t,T.endc,.35));
   $('over').innerHTML=`<div style="position:absolute;left:0;right:0;top:${lerp(560,520,k)}px;text-align:center;opacity:${k}">
    <div class="h2" style="color:#C8AA6E">KULE ALTINDA</div>
-   <div class="h1" style="font-size:180px;color:#FFC23D;transform:scale(${lerp(1.3,1,eo(k))})">FEED'LEME</div>
+   <div class="h1" style="font-size:150px;color:#FFC23D;transform:scale(${lerp(1.3,1,eo(k))})">FEED'LEME</div>
    <div style="margin:60px auto 0;display:inline-flex;align-items:center;gap:14px;padding:16px 40px 20px 28px;background:linear-gradient(180deg,#14283c,#010A13);border:6px solid #C8AA6E;border-radius:20px"><span style="font-size:170px;color:#FFC23D;line-height:.9;transform:skewX(-12deg);text-shadow:8px 8px 0 #000">4</span><span style="font-size:70px;text-align:left;line-height:1.1">DAKİKADA<br><span class="y">FEEDLEME</span></span></div>
    <div style="margin-top:60px;font-size:70px"><span style="background:#FF3B4E;padding:6px 36px 12px;border-radius:12px">ABONE OL</span></div></div>`;
  }
  // ---- apply arena state
- $('beams').innerHTML=beamsHTML;$('pops').innerHTML=popsHTML.replace(/translate\(-50%,-50%\)/g,'translate(-50%,-50%) rotate(-62deg) scale(.8)');$('sv2').innerHTML=sv2;
+ if(hedefHTML)$('over').innerHTML+=hedefHTML;$('beams').innerHTML=beamsHTML;$('pops').innerHTML=popsHTML.replace(/translate\(-50%,-50%\)/g,'translate(-50%,-50%) rotate(-62deg) scale(.8)');$('sv2').innerHTML=sv2;
  $('ret').setAttribute('opacity',retO);$('ret').setAttribute('transform',`translate(${rx},${ry}) rotate(${t*90})`);
  $('shield').setAttribute('r',shieldR);
  
