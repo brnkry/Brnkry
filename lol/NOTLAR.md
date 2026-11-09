@@ -19,6 +19,10 @@ Her yeni LoL videosuna başlamadan önce bu dosyayı oku.
 - Kaynak videonun bölüm sınırlarını **kare kare kontrol et**: "Why play X?" kartı gibi önceki sahneler kesimin içine kaynayabiliyor (Rengar 0:34).
 - Yetenek rozetinin altına sabit opak bir kutu koy, rozet kayarak gelirken alttaki etiket görünmesin.
 - Altyazıyı sadece espri gerektiren oyun repliklerinde kullan.
+- Kayarak gelen/giden her bant ve rozetin altına o bölüm boyunca sabit opak kutu koy (kombo şeridi Locke 1:53'te geçişte göründü).
+- "Neden X?" bölümünde büyük "NEDEN X?" başlığı olsun.
+- Oyun repliklerini anlatıcının LUFS seviyesine eşitle (Rengar'da replikler 8-14 dB yüksek kaldı).
+- Replik kesitlerini kelime zamanıyla kes, sonra yazıya dökerek komşu replikten taşma var mı kontrol et (Locke Nocturne kesiti).
 
 ## YouTube
 - Açıklamada < ve > karakterleri kullanılamaz ("Q > E > W" yerine "önce Q, sonra E, sonra W").
