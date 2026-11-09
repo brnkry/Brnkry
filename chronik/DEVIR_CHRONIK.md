@@ -12,6 +12,8 @@ Yeni oturum önce bu dosyayı, sonra `CLAUDE.md` ve `chronik/DERSLER.md` dosyala
 - Bir seferde bir iş. Yükleme paketi istendiğinde sohbete de yazılır.
 - Sayfa geçişlerinde uzun bekleme yok: anlatım bitince yaklaşık yarım saniye, sonra sayfa döner (Teil 2 v3'teki gibi).
 - Seri (Deutschland im Zweiten Weltkrieg) Facebook ve Instagram'a yüklenmiyor, sadece YouTube.
+- Gamalı haç kontrolü HER görselde ve kapakta: Ritterkreuz ve Demir Haç ortası (kapak portresinde büyük görünür!), şapka ve göğüs kartalları, uçak kuyrukları, bayraklar. Kapak üretildikten sonra haç merkezi yakından kontrol edilir.
+- Küçük dosyalar (kapak, görsel) direkt sohbete gönderilir (SendUserFile), GitHub'a değil. Düzeltme istenen işi uzatma, sadece isteneni yap.
 - Büyük videolar sohbete 400 MB altında, tercihen küçük parçalar halinde gönderilir (40 MB'lık parçalar test ediliyor).
 
 ## Teil 2 "Der Überfall auf Polen" (16:9, 10:42) — bitti, v3
