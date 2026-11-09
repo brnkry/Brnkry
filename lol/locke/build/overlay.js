@@ -67,6 +67,7 @@ function listCol(x, ttl, color, rows) {
   return [c, rs]
 }
 const w0 = T.why[0];
+const whyTitle = h(`<div class="abs" style="left:0;right:0;top:850px;text-align:center;font-family:Ant;font-size:150px;color:#FFF8EC;text-shadow:0 8px 0 #000,0 0 40px rgba(0,0,0,.8);letter-spacing:.04em">NEDEN <span style="color:#FFC23D">LOCKE?</span></div>`);
 const pros = listCol(70, 'ARTILAR', 'var(--green)', [['Yüksek patlama hasarı', W('patlama', w0)], ['Alan etkili infaz', W('alan', w0)], ['İnanılmaz hareketli', W('inanılmaz', w0)], ['Erken kill tehdidi', W('erken', w0)]]);
 const cons = listCol(1150, 'EKSİLER', 'var(--red)', [['Dalan biri için kırılgan', W('ama', w0)], ['Q tutturmak şart', W('q', w0 + 4)]]);
 // Nanami + lore
@@ -111,6 +112,7 @@ const sonT = (M.son_dualar || [r0 + 10])[0];
 const redFlash = h(`<div class="abs" style="inset:0;background:radial-gradient(ellipse at center,rgba(60,90,255,0) 25%,rgba(40,60,200,.75) 100%)"></div>`);
 
 /* ---------- COMBO BAND ---------- */
+const comboCover = h(`<div class="abs" style="left:0;top:790px;width:1920px;height:290px;background:#0a0712"></div>`);
 const band = h(`<div class="abs band"><div class="ttl" id="bt"></div><div class="row" id="br"></div></div>`);
 const bt = band.querySelector('#bt'), br = band.querySelector('#br');
 const ic = { Q: 'LockeQ.png', W: 'LockeW.png', E: 'LockeE.png', R: 'LockeR.png' };
@@ -219,6 +221,7 @@ window.render = function (t) {
   x3.style.opacity = t >= CUES.uc ? 1 : 0;
   show(title, t, T.hook2[0], W('videonun', 6), 'pop', .35); show(promise, t, W('videonun', 6), T.hook2[1], 'up');
   // why
+  show(whyTitle, t, T.why[0], T.why[1], 'up', .35);
   if (inS(t, 'why')) { show(pros[0], t, w0, T.why[1], 'cut'); pros[1].forEach(([r, t0]) => show(r, t, t0, T.why[1], 'slideL')); show(cons[0], t, W('ama', w0), T.why[1], 'slideR'); cons[1].forEach(([r, t0]) => show(r, t, t0, T.why[1], 'slideR')) } else { pros[0].style.display = 'none'; cons[0].style.display = 'none' }
   nanTags.forEach((e, i) => { const a = nanTagT[i]; e.style.opacity = t >= a ? 1 : 0; e.style.transform = t >= a ? `translateX(${-60 * (1 - eo((t - a) / .3))}px)` : '' });
   nanStamp.style.opacity = t >= nanT ? 1 : 0; nanStamp.firstChild.style.transform = t >= nanT ? `scale(${1 + 1.2 * (1 - eo((t - nanT) / .3))}) rotate(-4deg)` : '';
@@ -230,7 +233,8 @@ window.render = function (t) {
   chips.forEach(([w, e, t0, t1]) => { const v = t >= t0 && t < t1; w.style.display = v ? '' : 'none'; if (v) show(e, t, t0, t1, 'slideL', .3) });
   if (show(marks3, t, q0 + .3, T.q[1], 'drop')) { const a = W('düz', q0), b = W('2', q0 + 6, W('iki', q0 + 6)); pips.forEach((p, i) => { const on = t >= a + (b - a) * i / 2; p.style.background = on ? 'linear-gradient(90deg,#6f7bff,#c9d1ff)' : '#2a2238'; p.style.boxShadow = on ? '0 0 16px #8a96ff' : '' }) }
   if (show(redFlash, t, sonT, sonT + 2.4, 'cut')) redFlash.style.opacity = clamp(1 - (t - sonT) / 2.4) * (.7 + .3 * Math.sin(t * 20));
-  if (show(band, t, T.combo[0], T.combo[1], 'up')) {
+  comboCover.style.display = (t >= T.combo[0] - 1 / 30 && t < T.combo[1] + 1 / 30) ? '' : 'none';
+  if (show(band, t, T.combo[0], T.combo[1], 'cut')) {
     const want = t < c2 ? 1 : 2; if (want !== curCombo) { curCombo = want; comboEls = comboRow(want === 1 ? combo1 : combo2); bt.textContent = want === 1 ? 'KORİDOR TRADE KOMBOSU' : 'TAM DALIŞ KOMBOSU' }
     comboEls.forEach(([e, t0]) => { const on = t >= t0; e.classList.toggle('on', on); e.style.transform = on ? `scale(${1 + .12 * clamp(1 - (t - t0) / .3)})` : '' })
   }
