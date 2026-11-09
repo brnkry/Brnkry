@@ -23,7 +23,7 @@ def dot(pg, m, t, t0, ll, name, dx=0, dy=-34, size=28, col=TXT):
     m.pin(pg, t, t0, ll, col, 9); m.label(pg, t, t0 + 0.1, name, (ll[0], ll[1]), sans(size, 700), col, sw=5, dy=dy, dx=dx)
 def KICK(pg, t, t0, s, y=165): L(pg, t, t0, s, (110, y), sans(34, 800), ACC)
 
-TURNS = [K('Der Grund war') - 0.8, K('Am 13. Mai erreichten') - 0.8, K('Die ganze Geschichte') - 0.8]
+TURNS = [K('Der Grund war') - 1.05, K('Am 13. Mai erreichten') - 1.05, K('Die ganze Geschichte') - 1.05]
 VLAST = VEND
 T_END = VLAST + 2.2
 
@@ -52,8 +52,8 @@ def s0R(t):
     SAY(pg, t, 'und die stärkste Festungslinie Europas.', (730, 640), 50, maxw=560, accent=('Festungslinie',))
     RULE(pg, t, K('Trotzdem stand die') - 0.1, 1100)
     SAY(pg, t, 'Trotzdem stand die deutsche Armee nur sechs Wochen später in Paris.', (110, 1130), 50, accent=('sechs', 'Wochen', 'Paris.'))
-    PHOTO(pg, t, K('in Paris.'), 'paris_parade', (110, 1290, 560, 270), 'Paris, Juni 1940', fy=0.5)
-    COUNT(pg, t, K('nur sechs Wochen', 1), 0.7, 6, (730, 1300), serif(110, 800), lambda v: '%d Wochen' % round(v), ACC)
+    PHOTO(pg, t, K('später in Paris.'), 'paris_parade', (110, 1290, 560, 270), 'Paris, Juni 1940', fy=0.5)
+    L(pg, t, K('nur sechs Wochen', 1), '6 Wochen', (730, 1300), serif(110, 800), ACC)
     return pg
 
 # ===== SP1: the plan, the Ardennes =====
@@ -115,7 +115,7 @@ def s3L(t):
 def s3R(t): return base2(8, False)
 
 SPREADS = [(s0L, s0R), (s1L, s1R), (s2L, s2R), (s3L, s3R)]
-FILLS = [(0, 'L', B0, 0.0, K('mehr Panzer als die') - 0.9, 'Westfeldzug, Mai 1940', 'Deutsche Panzer beim Vormarsch')]
+FILLS = []
 REC[0] = True
 for i, (Lf, Rf) in enumerate(SPREADS):
     for side, fn in (('L', Lf), ('R', Rf)): CUR[0], CUR[1] = i, side; fn(1e5)
@@ -123,13 +123,13 @@ REC[0] = False
 # portrait camera: a page fits the frame almost exactly, so the camera frames the whole page the voice is on and pushes in slowly
 SP_ = 0.80
 OVP = (PW, PH / 2, 0.36)
-CAMS = [(0.0,) + fill_frame(B0, 1.0)]
+CAMS = [(0.0, PW / 2, PH / 2 + 30, SP_)]   # v2: no full-frame film at the start, the page is seen from the first frame
 for i in range(len(SPREADS)):
     a = 0.0 if i == 0 else TURNS[i - 1] + TD; b = TURNS[i] if i < len(TURNS) else T_END
     for side, cx in (('L', PW / 2), ('R', PW * 1.5)):
         ts_ = [e['t0'] for e in REG if e['sp'] == i and e['side'] == side and e['t0'] > 0.5 and e['kind'] != 'mark']
         if not ts_: continue
-        t0 = max(a, min(ts_) - 0.45) if not (i == 0 and side == 'L') else FILLS[0][4]
+        t0 = max(a, min(ts_) - 0.45) if not (i == 0 and side == 'L') else 0.0
         CAMS.append((t0, cx, PH / 2 + 30, SP_, 0.6))
     if i < len(TURNS): CAMS.append((TURNS[i],) + OVP + (0.5,))
 CAMS.sort(key=lambda c: c[0])
