@@ -19,3 +19,5 @@ chronik/kittel/film/
 chronik/kittel/cm.log
 chronik/serie/teil03_kod/*.log
 lol/rengar/build/prev/
+lol/locke/build/prev/
+lol/locke/build/node_modules
