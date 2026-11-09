@@ -56,3 +56,38 @@
 | 15 | Aufputschmittel Pervitin Deutschlandmuseum Berlin, CC BY-SA 4.0.jpg | [aç](https://commons.wikimedia.org/wiki/File:Aufputschmittel_Pervitin_Deutschlandmuseum_Berlin%2C_CC_BY-SA_4.0.jpg) |
 
 Not: Gamalı haçları ben bulanıklaştıracağım; renklendirme için olduğu gibi bırakabilirsin.
+
+## Bundesarchiv kapalıyken: aynı kareler başka yerde
+
+Commons'taki Bundesarchiv kopyaları (çoğu 800 px). Commons'ta yoksa ikinci link Deutsche Digitale Bibliothek araması.
+
+| # | İmza | İçerik | Commons | DDB |
+|---|---|---|---|---|
+| 1 | 183-S53854 | Westwall, Bunkeranlage | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-S53854%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-S53854%22) |
+| 2 | 134-B4218 | Schwerer Kreuzer "Blücher" | [Commons](https://commons.wikimedia.org/w/index.php?search=%22134-B4218%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22134-B4218%22) |
+| 3 | 134-D062 | Norwegen, Festung Oscarsborg, Geschütz | [Commons](https://commons.wikimedia.org/w/index.php?search=%22134-D062%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22134-D062%22) |
+| 4 | 134-C2593 | Norwegen, Narvik, Hafen | [Commons](https://commons.wikimedia.org/w/index.php?search=%22134-C2593%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22134-C2593%22) |
+| 5 | 146-1980-078-06A | Kopenhagen,  PK-Tonberichter mit Mikrofon | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1980-078-06A%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1980-078-06A%22) |
+| 6 | 183-L11297 | Belgien, Luxemburg, Grenze, deutsche Truppen | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-L11297%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-L11297%22) |
+| 7 | 183-S61243 | Belgien, Fort Eben Emael, Albert-Kanal | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-S61243%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-S61243%22) |
+| 8 | 183-L05069 | Belgien, Fort Eben Emael | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-L05069%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-L05069%22) |
+| 9 | 146-1984-021-14 | Zerstörtes Rotterdam | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1984-021-14%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1984-021-14%22) |
+| 10 | 146-2005-0003 | Rotterdam, Zerstörungen | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-2005-0003%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-2005-0003%22) |
+| 11 | 146-1984-021-17 | Rotterdam, Kapitulation | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1984-021-17%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1984-021-17%22) |
+| 12 | 101I-382-0248-32A | Im Westen, Panzer II  in Wald | [Commons](https://commons.wikimedia.org/w/index.php?search=%22101I-382-0248-32A%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22101I-382-0248-32A%22) |
+| 13 | RH 82 Bild-00165 | Belgien, Sugny, Panzer III | [Commons](https://commons.wikimedia.org/w/index.php?search=%22RH+82+Bild-00165%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22RH%2082%20Bild-00165%22) |
+| 14 | 146-1978-062-24 | Floing, Pontonbrücke über die Maas | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1978-062-24%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1978-062-24%22) |
+| 15 | 101I-769-0229-10A | Frankreich, Guderian, "Enigma" | [Commons](https://commons.wikimedia.org/w/index.php?search=%22101I-769-0229-10A%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22101I-769-0229-10A%22) |
+| 16 | 146-1972-045-02 | Frankreich, Erwin Rommel und Offiziere mit Karten | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1972-045-02%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1972-045-02%22) |
+| 17 | 101I-383-0313-22 | Bei Arras, Flugzeug Ju 87 | [Commons](https://commons.wikimedia.org/w/index.php?search=%22101I-383-0313-22%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22101I-383-0313-22%22) |
+| 18 | 101I-749-0016-11 | Westfeldzug, Zivilisten auf der Flucht | [Commons](https://commons.wikimedia.org/w/index.php?search=%22101I-749-0016-11%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22101I-749-0016-11%22) |
+| 19 | 101II-MW-1160-38 | Dünkirchen, Schiffs- und Autowracks | [Commons](https://commons.wikimedia.org/w/index.php?search=%22101II-MW-1160-38%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22101II-MW-1160-38%22) |
+| 20 | 116-483-081 | Dünkirchen, Soldaten am Strand, Schiffswrack | [Commons](https://commons.wikimedia.org/w/index.php?search=%22116-483-081%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22116-483-081%22) |
+| 21 | 116-483-084 | Dünkirchen, ausgebranntes Passagierschiff | [Commons](https://commons.wikimedia.org/w/index.php?search=%22116-483-084%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22116-483-084%22) |
+| 22 | 183-L11769 | Paris, Einmarsch deutscher Truppen | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-L11769%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-L11769%22) |
+| 23 | 183-L05360 | Waffenstillstand von Compiègne, Salonwagen | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-L05360%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-L05360%22) |
+| 24 | B 145 Bild-P50284 | Waffenstillstand von Compiègne, Huntziger | [Commons](https://commons.wikimedia.org/w/index.php?search=%22B+145+Bild-P50284%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22B%20145%20Bild-P50284%22) |
+| 25 | 146-1982-089-18 | Waffenstillstand von Compiègne, Unterhändler | [Commons](https://commons.wikimedia.org/w/index.php?search=%22146-1982-089-18%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22146-1982-089-18%22) |
+| 26 | 183-M1112-500 | Waffenstillstand von Compiègne, Hitler, Göring | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-M1112-500%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-M1112-500%22) |
+| 27 | 183-H28708 | Paris, Eiffelturm, Besuch Adolf Hitler | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-H28708%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-H28708%22) |
+| 28 | 183-B15308 | Frankreich, französische Kriegsgefangene | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-B15308%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-B15308%22) |
