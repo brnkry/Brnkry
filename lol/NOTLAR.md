@@ -8,6 +8,7 @@ Her yeni LoL videosuna başlamadan önce bu dosyayı oku.
 - Senaryoda uzun tire (— veya –) kullanılmaz.
 - **Telaffuz kontrolü:** Ana seslendirmeden önce riskli kelimeleri kısa bir test cümlesiyle dene (birkaç kredi tutar).
   - **"Ani" (Ani Darbe rünü):** Model bunu "Ağni" yerine "ANİ" diye garip okudu (Rengar videosu). Bir dahakine "Ani Darbe" geçen cümleyi önce kısa testle dinle; düzgün okumazsa yazımı değiştir (ör. "aniden vuran Ani Darbe" gibi bağlam ver ya da cümleyi yeniden kur).
+  - Çözüm denemesi (Locke): seslendirme metninde "Âni Darbe" yazıldı, ekranda "Ani Darbe" kaldı. Sonucu bir sonraki videoda kontrol et.
   - **Tek harfli yetenek adları:** Cümle başında tek başına "E" hızlı okunup kayboluyor (Sett videosu). "Sett'in E yeteneği" gibi yaz.
   - İngilizce terimler (split pusher, trade, kite) sorun çıkarmadı.
 - Duraksamaları 0,2 saniyeye kısalt, gerekirse %3-5 hızlandır.
