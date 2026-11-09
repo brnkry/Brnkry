@@ -91,3 +91,47 @@ Commons'taki Bundesarchiv kopyaları (çoğu 800 px). Commons'ta yoksa ikinci li
 | 26 | 183-M1112-500 | Waffenstillstand von Compiègne, Hitler, Göring | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-M1112-500%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-M1112-500%22) |
 | 27 | 183-H28708 | Paris, Eiffelturm, Besuch Adolf Hitler | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-H28708%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-H28708%22) |
 | 28 | 183-B15308 | Frankreich, französische Kriegsgefangene | [Commons](https://commons.wikimedia.org/w/index.php?search=%22183-B15308%22&ns6=1) | [DDB](https://www.deutsche-digitale-bibliothek.de/searchresults?query=%22183-B15308%22) |
+
+## Bulunan gerçek dosyalar (Commons dosya sayfaları, "Original file" ile indir)
+
+Compiègne
+- [146-2004-0147 Waggon](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-2004-0147,_Waffenstillstand_von_Compi%C3%A8gne,_Waggon.jpg) (183-L05360 yerine)
+- [146-1982-089-18 Unterhändler](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1982-089-18,_Waffenstillstand_von_Compi%C3%A8gne,_Unterh%C3%A4ndler.jpg)
+- [183-M1112-500 Hitler, Göring](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-M1112-500,_Waffenstillstand_von_Compi%C3%A8gne,_Hitler,_G%C3%B6ring.jpg)
+- [B 145 Bild-P50284 Huntziger](https://commons.wikimedia.org/wiki/File:Bundesarchiv_B_145_Bild-P50284,_Compi%C3%A8gne,_Waffenstillstandvertrag,_Huntziger.jpg)
+- [146-1987-038-29 Franzosen](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1987-038-29,_Waffenstillstand_von_Compi%C3%A8gne,_Franzosen.jpg) (ek)
+
+Paris
+- [183-H28708 Eiffelturm](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H28708,_Paris,_Eiffelturm,_Besuch_Adolf_Hitler.jpg)
+- [183-L05487 Avenue Foch, Siegesparade](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-L05487,_Paris,_Avenue_Foch,_Siegesparade.jpg) (183-L11769 yerine)
+- [183-L12788 Deutsche Soldaten in Paris](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-L12788,_Frankreich,_Deutsche_Soldaten_in_Paris.jpg)
+
+Sedan, Ardenler, komutanlar
+- [146-1978-062-24 Floing, Pontonbrücke](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1978-062-24,_Floing,_Pontonbr%C3%BCcke_%C3%BCber_die_Maas.jpg)
+- [101I-382-0248-33A Panzer II und I im Wald](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_101I-382-0248-33A,_Im_Westen,_Panzer_II_und_Panzer_I.jpg) (32A yerine)
+- [101I-769-0229-10A Guderian, Enigma](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_101I-769-0229-10A,_Frankreich,_Guderian,_%22Enigma%22_croppped.jpg)
+- [146-1972-045-02 Rommel mit Karten](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1972-045-02,_Frankreich,_Erwin_Rommel_und_Offiziere_mit_Karten.jpg)
+
+Rotterdam
+- [146-2005-0003 Zerstörungen](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-2005-0003,_Rotterdam,_Zerst%C3%B6rungen.jpg)
+- [146-1985-124-04A nach den Kämpfen](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1985-124-04A,_Rotterdam,_nach_den_K%C3%A4mpfen.jpg)
+- 146-1984-021-14 ve -17: [Bombing of Rotterdam kategorisinde](https://commons.wikimedia.org/wiki/Category:Bombing_of_Rotterdam_in_World_War_II)
+
+Eben-Emael
+- [146-1971-011-27 Fallschirmjäger](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Billd_146-1971-011-27,_Belgien,_Eben_Emael,_Fallschirmj%C3%A4ger.jpg)
+- [146-1971-011-31 gesprengte Brücke](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1971-011-31,_Belgien,_Eben_Emael,_gesprengte_Br%C3%BCcke.jpg)
+- [183-L04232 Walter Koch](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-L04232,_Walter_Koch.jpg)
+
+Norveç
+- [Blücher, DVM 10 Bild-23-63-09](https://commons.wikimedia.org/wiki/File:Bundesarchiv_DVM_10_Bild-23-63-09,_Kreuzer_%22Bl%C3%BCcher%22.jpg)
+- [Blücher batarken](https://commons.wikimedia.org/wiki/File:German_cruiser_Bl%C3%BCcher_sinking.jpg) · [Riksarkivet Blücher](https://commons.wikimedia.org/wiki/File:Bl%C3%BCcher_(5655128048).jpg)
+- [Oscarsborg 28 cm top](https://commons.wikimedia.org/wiki/File:28_cm_gun_at_Oscarsborg_Fortress.jpg)
+- [101I-758-0056-35 Narvik, Kriegsschiffe](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_101I-758-0056-35,_Norwegen,_deutsche_Kriegsschiffe.jpg)
+
+Siviller, esirler, Dunkerque
+- [146-1971-083-01 französische Flüchtlinge](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1971-083-01,_Frankreich,_franz%C3%B6sische_Fl%C3%BCchtlinge.jpg)
+- [101I-126-0339-19A Kolonne Kriegsgefangener](https://commons.wikimedia.org/wiki/File:Bundesarchiv,_Bild_101I-126-0339-19A,_Veules-les-Roses,_Kolonne_alliierter_Kriegsgefangener.jpg)
+- [121-0447 englische und französische Kriegsgefangene](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_121-0447,_Belgien,_englische_und_franz%C3%B6sische_Kriegsgefangene.jpg)
+- [Dunkirk NYP68075](https://commons.wikimedia.org/wiki/File:Dunkirk_26-29_May_1940_NYP68075.jpg) · [Dunkirk HU2280](https://commons.wikimedia.org/wiki/File:Dunkirk_1940_HU2280.jpg) · [Dunkirk H1628](https://commons.wikimedia.org/wiki/File:Dunkirk_26-29_May_1940_H1628.jpg) · [Dunkirk H1631](https://commons.wikimedia.org/wiki/File:Dunkirk_26-29_May_1940_H1631.jpg) · [Dunkirk HU1137](https://commons.wikimedia.org/wiki/File:Dunkirk_1940_HU1137.jpg)
+
+Bulunamayanlar (film klipleriyle kapatılacak): Westwall bunker 183-S53854, 10 Mayıs sınır 183-L11297, Stuka 101I-383-0313-22.
