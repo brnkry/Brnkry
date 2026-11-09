@@ -60,7 +60,7 @@ if __name__ == '__main__':
          (U + 'Teil2_Warschau_Soldaten.jpg', 2, 'ÜBERFALL', 'T2_A', dict(fy=0.4)),
          (U + 'Teil2_B_Brand.jpg', 2, 'FEUER', 'T2_B', dict(fy=0.55)),
          (U + 'Teil2_C_Panzer.jpg', 2, 'BLITZKRIEG', 'T2_C', dict(fx=0.6, fy=0.5)),
-         (U + 'Teil3_Hitler_Eiffelturm.jpg', 3, 'PARIS', 'T3_A', dict(fy=0.9)),
+         (U + 'Teil3_Hitler_Eiffelturm.jpg', 3, 'PARIS', 'T3_A', dict(fy=1.0)),
          (U + 'Teil3_B_Hitler_Salonwagen.jpg', 3, 'RACHE', 'T3_B', dict(fx=0.8, fy=0.3)),
          (U + 'Teil3_C_Duenkirchen.jpg', 3, 'DÜNKIRCHEN', 'T3_C', dict(fy=0.65))]
     for src, n, w, name, kw in J: make(src, n, w, O + name + '.jpg', **kw)
