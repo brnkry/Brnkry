@@ -3,7 +3,7 @@
 ## Başlık ve thumbnail (3 seçenek)
 1. **Doğruluk mu, Çivilenmek mi? 4 Dakikada Locke Rehberi** → `export/kanal/locke_thumb1.png`
 2. **Locke Nocturne'e Ne Dedi?! 4 Dakikada Locke Rehberi | LoL Türkçe** → `export/kanal/locke_thumb2.png`
-3. **Locke Nasıl Oynanır? 4 Dakikada Build, Rün ve Kombo | Yeni Şampiyon** → `export/kanal/locke_thumb3.png`
+3. **Locke Nasıl Oynanır? 4 Dakikada Locke Rehberi | Build, Rün, Kombo** → `export/kanal/locke_thumb3.png`
 
 ## Açıklama
 Locke sana "Doğruluk mu, çivilenmek mi?" diye sorduysa cevabın önemli değil, kafana üç çivi yiyeceksin. Bu videoda LoL'ün yeni şampiyonu Locke'u, yani Kefaretin Küllerini 4 dakikada öğreniyorsun: pasif, Q, W, E ve ulti nasıl çalışır, kombolar, kolay ve zor eşleşmeler, güncel rün ve eşya buildi, yetenek sırası, early game, mid game ve late game planı. Arada da Locke'un diğer şampiyonlara soktuğu laflar var, en acımasızı en sonda.
