@@ -40,8 +40,8 @@ def right_photo(path, zoom=1.0, dy=0):
     can = Image.new('RGBA', (TW, TH), (6, 7, 9, 255)); x0 = TW - g.width + int(g.width * 0.08)
     m = np.clip(np.arange(g.width) / (g.width * 0.35), 0, 1) ** 1.2; M = Image.fromarray(np.repeat((m * 255)[None, :], g.height, 0).astype(np.uint8))
     can.paste(g, (x0, dy), M); return can
-def make(src, n, w, out, fx=0.5, fy=0.5, zoom=1.0, side='L', col=None, sub=None, top=False, right=False):
-    can = right_photo(src, zoom) if right else cover(src, fx, fy, zoom)
+def make(src, n, w, out, fx=0.5, fy=0.5, zoom=1.0, side='L', col=None, sub=None, top=False, right=False, dy=0):
+    can = right_photo(src, zoom, dy) if right else cover(src, fx, fy, zoom)
     if top:
         v = np.clip(1 - np.arange(TH) / (TH * 0.5), 0, 1) ** 1.2 * 150; lay = Image.new('RGBA', can.size, (5, 6, 8, 0)); lay.putalpha(Image.fromarray(np.repeat(v[:, None], TW, 1).astype(np.uint8))); can.alpha_composite(lay)
     else: shade(can, side)
@@ -54,7 +54,7 @@ def make(src, n, w, out, fx=0.5, fy=0.5, zoom=1.0, side='L', col=None, sub=None,
 if __name__ == '__main__':
     O = SP + 'thn/v4/'; os.makedirs(O, exist_ok=True); K = SP + 'thn/kaynak2/'; T3 = SP + 't3l/img/'; T2 = SP + 't2/c/'
     U = SP + 'thn/up/'
-    J = [(U + 'Teil1_Hitler_Rede.jpg', 1, 'AUFSTIEG', 'T1_A', dict(right=True)),
+    J = [(U + 'Teil1_Hitler_Rede.jpg', 1, 'AUFSTIEG', 'T1_A', dict(right=True, zoom=1.23, dy=-160)),
          (U + 'Teil1_B_Reichstagsbrand_1933.jpg', 1, 'BRAND', 'T1_B', dict(fx=0.5, fy=0.2)),
          (U + 'Teil1_C_Chamberlain_Muenchen_1938.jpg', 1, 'MÜNCHEN', 'T1_C', dict(fx=0.62, fy=0.55, zoom=1.6)),
          (U + 'Teil2_Warschau_Soldaten.jpg', 2, 'ÜBERFALL', 'T2_A', dict(fy=0.4)),
