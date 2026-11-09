@@ -17,7 +17,7 @@ EM = [
     (wi('Er', 8.2), wi('geboren'), [wi('1924')], None, [[wi('in', 9.7)], [wi('Österreich')]]),
     (wi('1942', 15.0), wi('ausgebildet'), [wi('1942', 15.0)], None, [[wi('eingezogen')]]),
     (wi('Im', 20.0), wi('Ostfront'), [wi('144')], None, [[wi('Gebirgsjäger-Regiment')]]),
-    (wi('Während'), wi('Abschüsse', 36.0), [wi('27')], None, [[wi('Abschüsse', 36.0)]]),
+    (wi('und', 34.3), wi('Abschüsse', 36.0), [wi('27')], None, [[wi('Abschüsse', 36.0)]]),
     (wi('Ihm'), wi('zugeschrieben'), [wi('257')], None, [[wi('Abschüsse', 54.5)]]),
     (wi('Josef', 80.4), wi('Jahren'), [wi('85')], None, [[wi('Jahren')]]),
 ]

@@ -190,8 +190,8 @@ def hook_frame(t):
     qlines(can, t, [[('UND', ws('und')), ('WURDE', ws('wurde')), ('DER', ws('der'))], [('ZWEITERFOLGREICHSTE', ws('zweiterfolgreichste'))], [('SCHARFSCHÜTZE', ws('Scharfschütze'))], [('DER', ws('der', 4.1)), ('WEHRMACHT.', ws('Wehrmacht'))]],
            760, 96, ws('Sein') - 0.12, {1: YEL, 2: YEL})
     portrait(can, t)
-    quote(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 5.3))], [('JOSEF', ws('Josef'))], [('ALLERBERGER,', ws('Allerberger'))], [('GENANNT', ws('genannt')), ('SEPP.', ws('Sepp'))]],
-          330, size=92, tout=ZS - 0.12, lh=1.02, col={1: YEL, 2: YEL})
+    quote(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 5.3))], [('JOSEF', ws('Josef'))], [('ALLERBERGER,', ws('Allerberger'))], [('GENANNT', ws('genannt'))], [('„SEPP“.', ws('Sepp'))]],
+          300, size=92, tout=ZS - 0.12, lh=1.02, col={1: YEL, 2: YEL, 4: YEL})
     return can
 
 # ---------- camera (eg.campos / table_frame) ----------
