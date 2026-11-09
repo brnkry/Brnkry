@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-ext-wght-normal.woff2) format('woff2');font-weight:200 700;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2) format('woff2');font-weight:200 700}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#010A13}
+*{box-sizing:border-box}
+#root{position:absolute;inset:0;overflow:hidden;font-family:Ant;color:#FFF8EC}
+#bg{position:absolute;inset:-200px;background:radial-gradient(ellipse at 50% 38%,#0f2a40 0,#06131f 45%,#010A13 80%)}
+#hex{position:absolute;inset:-200px;opacity:.16;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='146'><path d='M42 0 84 24 84 73 42 97 0 73 0 24Z M42 97 42 146' fill='none' stroke='%23C8AA6E' stroke-width='2'/></svg>")}
+.top{position:absolute;left:0;right:0;top:118px;display:flex;justify-content:center;gap:18px;align-items:center}
+.brand{font-family:Ant;font-size:40px;letter-spacing:.08em;color:#C8AA6E;text-shadow:0 3px 0 #000}
+.brand b{font-weight:400;color:#FFC23D;font-size:52px;display:inline-block;transform:skewX(-10deg);margin-right:6px}
+.chip{font-family:Osw;font-weight:700;font-size:28px;letter-spacing:.16em;color:#010A13;background:#0AC8B9;padding:6px 18px 8px;border-radius:6px}
+#head{position:absolute;left:40px;right:40px;top:215px;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.h1{font-size:118px;line-height:1.12;text-transform:uppercase;text-shadow:0 8px 0 #000,0 0 40px rgba(0,0,0,.8)}
+.h2{font-size:80px;line-height:1.16;text-transform:uppercase;text-shadow:0 6px 0 #000,0 0 30px rgba(0,0,0,.8)}
+.y{color:#FFC23D}.r{color:#FF3B4E}.c{color:#0AC8B9}
+.tag{display:inline-block;font-size:54px;background:#FF3B4E;color:#FFF8EC;padding:2px 22px 6px;border-radius:8px;margin-bottom:14px;text-shadow:0 4px 0 rgba(0,0,0,.4);transform:rotate(-2deg)}
+#arena{position:absolute;left:40px;top:590px;width:1000px;height:760px;border-radius:36px;overflow:hidden;border:5px solid #C8AA6E;box-shadow:0 0 0 4px #010A13,0 0 0 8px rgba(200,170,110,.35),0 30px 60px rgba(0,0,0,.6);background:#0d1d17;transform-origin:50% 40%}
+#ground{position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,#1d3a26 0,transparent 40%),radial-gradient(circle at 85% 25%,#1a3524 0,transparent 35%),linear-gradient(180deg,#132a1e,#0e2018)}
+#lane{position:absolute;left:330px;width:340px;top:-40px;height:900px;background:linear-gradient(90deg,transparent,#4a4535 12%,#5a5442 50%,#4a4535 88%,transparent);opacity:.85}
+#lane:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 46px,rgba(0,0,0,.12) 46px 50px)}
+svg{position:absolute;left:0;top:0;overflow:visible}
+.ent{position:absolute;width:0;height:0}
+.ent .ic{position:absolute;left:-55px;top:-55px;width:110px;height:110px;border-radius:50%;border:6px solid #2D8CFF;box-shadow:0 0 0 3px #010A13,0 10px 20px rgba(0,0,0,.6);background-size:cover}
+.ent.en .ic{border-color:#FF3B4E}
+.hp{position:absolute;left:-60px;top:-88px;width:120px;height:16px;background:#010A13;border:2px solid #000;border-radius:4px;overflow:hidden}
+.hp i{position:absolute;left:0;top:0;bottom:0;background:#3FD15B}
+.ent.en .hp i{background:#FF3B4E}
+.nm{position:absolute;left:-100px;width:200px;top:60px;text-align:center;font-family:Osw;font-weight:700;font-size:26px;letter-spacing:.1em;text-shadow:0 3px 0 #000}
+.mn{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#2D8CFF;border:4px solid #0b2a55;box-shadow:0 4px 8px rgba(0,0,0,.5)}
+.mn.en{background:#FF3B4E;border-color:#5a0b14}
+.pop{position:absolute;font-family:Ant;font-size:64px;text-shadow:0 5px 0 #000;white-space:nowrap;transform:translate(-50%,-50%)}
+#cap{position:absolute;left:40px;right:40px;top:1388px;height:230px;display:flex;align-items:center;justify-content:center;text-align:center}
+#cap span{font-size:86px;line-height:1.16;text-transform:uppercase;text-shadow:0 7px 0 #000,0 0 26px rgba(0,0,0,.9)}
+.ov{position:absolute;left:0;right:0}
+.card{position:absolute;left:70px;right:70px;background:linear-gradient(180deg,#14283c,#010A13 80%);border:5px solid #C8AA6E;border-radius:26px;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 50px rgba(10,200,185,.18)}
+.row{display:flex;align-items:center;gap:30px;padding:26px 40px;font-size:74px;text-transform:uppercase;text-shadow:0 5px 0 #000}
+.ck{width:92px;height:92px;flex:none;border-radius:18px;border:5px solid #0AC8B9;display:flex;align-items:center;justify-content:center;font-size:70px;color:#0AC8B9;font-family:Osw;font-weight:700}
+.opt{position:absolute;width:420px;height:250px;border-radius:26px;border:6px solid #C8AA6E;background:#0a1828;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:62px;text-transform:uppercase;text-shadow:0 5px 0 #000}
+.opt img{width:120px;height:120px;border-radius:50%;margin-bottom:10px}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#gauge{position:absolute;left:880px;top:110px;width:80px;height:540px}
+</style></head><body>
+<div id="root">
+ <div id="bg"></div><div id="hex"></div>
+ <div class="top"><div class="brand"><b>4</b>DAKİKADA FEEDLEME</div><div class="chip">FEEDLEME DERSİ #1</div></div>
+ <div id="head"></div>
+ <div id="arena">
+  <div id="ground"></div><div id="lane"></div>
+  <svg id="sv" width="1000" height="760">
+   <defs>
+    <radialGradient id="rg"><stop offset="0" stop-color="#FF3B4E" stop-opacity="0"/><stop offset=".82" stop-color="#FF3B4E" stop-opacity=".05"/><stop offset="1" stop-color="#FF3B4E" stop-opacity=".28"/></radialGradient>
+    <linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#FFC23D"/><stop offset="1" stop-color="#FF3B4E"/></linearGradient>
+    <radialGradient id="cry" cx=".5" cy=".4"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#FFB15C"/><stop offset="1" stop-color="#C2182B"/></radialGradient>
+    <radialGradient id="sh"><stop offset=".6" stop-color="#0AC8B9" stop-opacity="0"/><stop offset="1" stop-color="#0AC8B9" stop-opacity=".55"/></radialGradient>
+   </defs>
+   <circle id="range" cx="500" cy="290" r="300" fill="url(#rg)" stroke="#FF3B4E" stroke-width="5" stroke-dasharray="22 14"/>
+   <g id="tower" transform="translate(500,290)">
+    <ellipse cx="0" cy="28" rx="96" ry="26" fill="rgba(0,0,0,.45)"/>
+    <path d="M-80 20 L80 20 L60 -40 L-60 -40Z" fill="#3a3f4a" stroke="#C8AA6E" stroke-width="5"/>
+    <path d="M-42 -40 L42 -40 L30 -150 L-30 -150Z" fill="#525866" stroke="#C8AA6E" stroke-width="5"/>
+    <path d="M-60 -150 L60 -150 L44 -172 L-44 -172Z" fill="#C8AA6E"/>
+    <circle id="glow" cx="0" cy="-226" r="70" fill="#FF3B4E" opacity=".35"/>
+    <path id="crystal" d="M0 -290 L40 -226 L0 -168 L-40 -226Z" fill="url(#cry)" stroke="#FFF1C2" stroke-width="4"/>
+    <ellipse cx="0" cy="-226" rx="22" ry="15" fill="#FFF8EC"/>
+    <circle id="pupil" cx="0" cy="-226" r="8" fill="#010A13"/>
+   </g>
+   <circle id="shield" cx="500" cy="180" r="0" fill="url(#sh)" stroke="#0AC8B9" stroke-width="5"/>
+   <g id="beams"></g>
+   <g id="ret" opacity="0"><circle r="70" fill="none" stroke="#FF3B4E" stroke-width="7" stroke-dasharray="40 15"/><path d="M-92 0H-62M62 0H92M0 -92V-62M0 62V92" stroke="#FF3B4E" stroke-width="8"/></g>
+  </svg>
+  <div id="ents"></div>
+  <div id="pops"></div>
+  <svg id="sv2" width="1000" height="760"></svg>
+  <div id="gauge"></div>
+ </div>
+ <div id="cap"></div>
+ <div id="over"></div>
+ <div id="flash"></div>
+</div>
+<script src="words.js"></script>
+<script src="env.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const eo=k=>1-Math.pow(1-cl(k),3);
+const eb=k=>{k=cl(k);const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const prog=(t,a,d)=>cl((t-a)/d);
+const TR=s=>s.toLocaleUpperCase('tr');
+const norm=s=>s.toLocaleLowerCase('tr').replace(/[^a-zçğıöşü0-9%]/g,'');
+function C(w,n=1){let k=0;for(const x of WORDS){if(norm(x[2])===norm(w)&&++k===n)return x[0]}MISSING.push(w+n);return 0}
+const MISSING=[];
+const END=45.0;
+// ---------- cues
+const T={
+ lock0:0.75, h1:C('3'), h2:C('vuruşta'), h3:C('yere'), dead:C('serdim'), kizma:C('kızma'),
+ k1:C('kural',1), minyon1:C('minyonlara'), lock1:C('menzilime'), olene:C('ölene'),
+ k2:C('kural',2), quiz:10.10, qend:12.62, sana:C('sana'), donerim:C('dönerim'),
+ k3:C('kural',3), vurusum:C('vuruşum'), ikinci:C('ikincisi'), ucuncu:C('üçüncüsü'), acitir:C('acıtır'),
+ peki:C('peki'), gir:C('gir',1), sart:C('şartlarım'),
+ menzil:C('menzilin'), durt1:C('dürt',1), ben:C('ben',2), bitir:C('bitirebiliyorsan'),
+ takim:C('takımınla'), tank:C('tank'), dive:C('dive'),
+ bana:C('bana'), lazim:C('lazım'), yaninda:C('yanında'), yoksa:C('yoksa'), y80:C('%80',2), bosa:C('boşa'),
+ ozet:C('özetle'), s1:C('minyonlar'), s2:C('dürt',2), s3:C('öldüremiyorsan'),
+ cta:C('bunu'), gonder:C('gönder'), endc:43.55
+};
+// scene boundaries
+const SC=[['hook',0,T.k1],['r1',T.k1,T.k2],['r2',T.k2,T.k3],['r3',T.k3,T.peki],['gir',T.peki,T.menzil],['c1',T.menzil,T.ben],['c2',T.ben,T.takim],['c3',T.takim,T.bana],['mn',T.bana,T.ozet],['sum',T.ozet,T.cta],['cta',T.cta,T.endc],['end',T.endc,99]];
+const scene=t=>SC.find(s=>t>=s[1]&&t<s[2])||SC[SC.length-1];
+// ---------- SFX timeline (exported for the mixer)
+const SFX=[];
+const sfx=(n,t,g=0)=>SFX.push([n,+t.toFixed(3),g]);
+// ---------- entities
+const ents={};
+function mkEnt(id,champ,en,label){const d=document.createElement('div');d.className='ent'+(en?' en':'');d.innerHTML=`<div class="hp"><i></i></div><div class="ic" style="background-image:url(assets/champ_${champ}.png)"></div><div class="nm">${label}</div>`;$('ents').appendChild(d);ents[id]=d;return d}
+mkEnt('sett','Sett',0,'SEN');mkEnt('lux','Lux',1,'RAKİP');mkEnt('malph','Malphite',0,'TANK');mkEnt('cait','Caitlyn',0,'SEN');
+const MN=[];for(let i=0;i<8;i++){const d=document.createElement('div');d.className='mn'+(i>=4?' en':'');$('ents').appendChild(d);MN.push(d)}
+function setEnt(id,x,y,o=1,hp=1,s=1,grey=0){const d=ents[id];d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=o;d.style.transform=`scale(${s})`;d.querySelector('.hp i').style.width=(cl(hp)*100)+'%';d.querySelector('.ic').style.filter=grey?`grayscale(${grey}) brightness(${1-grey*.4})`:'none';d.style.display=o>0?'block':'none'}
+const TW={x:500,y:64}; // crystal position in arena
+let beamsHTML='',popsHTML='',sv2='';
+function beam(t,t0,tx,ty,big=1){const k=(t-t0)/0.28;if(k<0||k>1)return 0;const w=(22*big)*(1-k);beamsHTML+=`<line x1="${TW.x}" y1="${TW.y}" x2="${tx}" y2="${ty}" stroke="url(#beam)" stroke-width="${w}" stroke-linecap="round" opacity="${1-k*.5}"/><circle cx="${tx}" cy="${ty}" r="${30+90*k}" fill="none" stroke="#FFC23D" stroke-width="${10*(1-k)}"/><circle cx="${tx}" cy="${ty}" r="${50*(1-k)}" fill="#FFF1C2" opacity="${1-k}"/>`;return 1-k}
+function burst(x,y,sz,o){return `<div style="position:absolute;left:${x-sz/2}px;top:${y-sz/2}px;width:${sz}px;height:${sz}px;opacity:${o};background:radial-gradient(circle,#FFF8EC 0,#FFC23D 45%,#FF3B4E 80%);clip-path:polygon(50% 0,61% 32%,95% 20%,72% 48%,100% 62%,66% 66%,72% 100%,50% 74%,26% 100%,32% 66%,0 62%,28% 48%,5% 20%,39% 32%)"></div>`}
+function pop(t,t0,x,y,txt,col='#FFF8EC',size=64,dur=1.1){const k=(t-t0)/dur;if(k<0||k>1)return;const s=k<.15?eb(k/.15):1;popsHTML+=`<div class="pop" style="left:${x}px;top:${y-60*eo(k)}px;color:${col};font-size:${size}px;opacity:${k>.75?(1-k)/.25:1};transform:translate(-50%,-50%) scale(${s})">${txt}</div>`}
+function ret(t,x,y,o){const g=$('ret');g.setAttribute('opacity',o);g.setAttribute('transform',`translate(${x},${y}) rotate(${t*90})`)}
+// minion formation: blue at lane bottom moving up, red near tower
+function minions(t,mode,t0){
+ for(let i=0;i<8;i++){const d=MN[i];let x,y,o=1;
+  const bl=i<4, j=i%4;
+  if(bl){const k=eo(prog(t,t0,1.6));x=430+j*46;y=lerp(820,470+(j%2)*26,k)}
+  else{x=430+j*46;y=372+(j%2)*24}
+  if(mode==='none')o=0;
+  if(mode==='blueonly'&&!bl)o=0;
+  d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=o;d.dataset.x=x;d.dataset.y=y}
+}
+// ---------- headings
+let lastHead='';
+function head(html){if(html!==lastHead){$('head').innerHTML=html;lastHead=html}}
+function headAnim(t,t0){const k=prog(t,t0,.35);$('head').style.transform=`translateY(${(1-eo(k))*-40}px) scale(${lerp(.85,1,eb(k))})`;$('head').style.opacity=cl(k*3)}
+// ---------- captions
+const KEY=/^(kural|minyon|kule|şampiyon|sert|gir|dürt|çık|tank|dive|öldür|%|3|1|2|sana|dönerim|rakib|takım|vuruş|bitirebiliyorsan|girme|boşa|önde|gönder)/;
+const CH=[];{let cur=[];WORDS.forEach((w,i)=>{cur.push(w);const txt=cur.map(x=>x[2]).join(' ');const last=/[,.?!:]$/.test(w[2]);const nx=WORDS[i+1];if(last||(nx&&/^[A-ZÇĞİÖŞÜ]/.test(nx[2]))||cur.length>=3||txt.length>16||!nx||(nx&&nx[0]-w[1]>0.5)){CH.push(cur);cur=[]}})}
+function caption(t){let html='';for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+0.35);if(t>=a&&t<b){const k=prog(t,a,.12);html=`<span style="display:inline-block;transform:scale(${lerp(.8,1,eb(k))})">`+CH[i].map(w=>{const n=norm(w[2]);const s=TR(w[2].replace(/^'/,"'")).replace(/[,.:]$/,'');return KEY.test(n)?`<span class="y" style="font-size:inherit">${s}</span>`:s}).join(' ').replace(/ '/g,"'")+'</span>';break}}$('cap').innerHTML=html}
+// ---------- main render
+let shake=0;
+window.render=function(t){
+ beamsHTML='';popsHTML='';sv2='';shake=0;
+ const [sc,s0,s1]=scene(t);
+ const env=ENV[Math.min(ENV.length-1,Math.floor(t*30))]||0;
+ // background drift
+ $('hex').style.transform=`translate(${(t*6)%84}px,${(t*10)%146}px)`;
+ // defaults
+ for(const k in ents)setEnt(k,0,0,0);
+ $('over').innerHTML='';$('gauge').innerHTML='';
+ let arenaO=1, retO=0, rx=0, ry=0, shieldR=0, rangeO=1, heat=0, zoom=1;
+ const S=ents;
+ // ---- HOOK
+ if(sc==='hook'){
+  head(`<div class="h1">SELAM,<br><span class="y">BEN KULEYİM.</span></div>`);headAnim(t,0);
+  if(t>=T.kizma){head(`<div class="h2">KIZMA,</div><div class="h1 y">KURALLARIM BELLİ</div>`);headAnim(t,T.kizma)}
+  minions(t,'none',0);
+  const sx=lerp(700,560,eo(prog(t,0,.6))), sy=lerp(640,430,eo(prog(t,0,.6)));
+  const hits=[T.h1,T.h2,T.h3].filter(h=>t>=h).length;
+  const g=cl((t-T.dead)/.4);
+  setEnt('sett',sx,sy,1,1-hits*.34,1,g);
+  setEnt('lux',380,300,1,.9);
+  if(t>=T.lock0){retO=1;rx=sx;ry=sy}
+  [T.h1,T.h2,T.h3].forEach((h,i)=>{const b=beam(t,h,sx,sy,1+i*.3);if(b)shake=Math.max(shake,b*10*(1+i*.5));pop(t,h,sx+110+i*70,sy-40,(i+1)+'!',i==2?'#FF3B4E':'#FFC23D',90,.9)});
+  if(t>=T.dead){const k=prog(t,T.dead,.25);popsHTML+=`<div class="pop" style="left:${sx}px;top:${sy+150}px;font-size:84px;color:#FF3B4E;transform:translate(-50%,-50%) rotate(-8deg) scale(${lerp(2,1,eo(k))});opacity:${cl(k*3)};border:8px solid #FF3B4E;padding:0 20px;border-radius:12px;background:rgba(1,10,19,.8)">FEEDLEDİN</div>`;retO=1-g}
+  zoom=lerp(1.08,1,eo(prog(t,0,1.2)));
+ }
+ // ---- RULE 1
+ if(sc==='r1'){
+  head(`<div class="tag">KURAL 1</div><div class="h1">ÖNCE <span class="y">MİNYON</span></div>`);headAnim(t,T.k1);
+  minions(t,'all',T.k1+.1);
+  setEnt('sett',820,640,1,.75);
+  setEnt('lux',300,300,1,.9);
+  const m0=MN[0], m1=MN[1];
+  const dead0=t>=T.olene+.35;
+  if(dead0)m0.style.opacity=cl(1-(t-T.olene-.35)/.2);
+  const tgt=dead0?m1:m0;
+  if(t>=T.lock1){retO=1;rx=+tgt.dataset.x;ry=+tgt.dataset.y}
+  for(let h=T.lock1+.35;h<s1;h+=.62){beam(t,h,+(h<T.olene+.35?m0:m1).dataset.x,+(h<T.olene+.35?m0:m1).dataset.y,.7)}
+  if(t>=T.lock1)pop(t,T.lock1,+m0.dataset.x,+m0.dataset.y-80,'İLK GİREN','#FFC23D',54,1.6);
+ }
+ // ---- RULE 2 + QUIZ
+ if(sc==='r2'){
+  if(t<T.qend){head(`<div class="tag">KURAL 2</div><div class="h1">ALTIMDA <span class="r">KAVGA</span></div>`);headAnim(t,T.k2)}else{head(`<div class="tag">KURAL 2</div><div class="h2">ŞAMPİYONUMA VURURSAN</div><div class="h1 r">SANA DÖNERİM</div>`);headAnim(t,T.qend)}
+  minions(t,'all',-10);
+  const sIn=eo(prog(t,T.k2+.1,.45));
+  const sx=lerp(800,660,sIn), sy=lerp(640,420,sIn);
+  const hitL=T.k2+.62;
+  setEnt('lux',380,330,1,t>hitL?.6:.9);
+  setEnt('sett',sx,sy,1,1);
+  if(t>=hitL&&t<hitL+.3){const k=(t-hitL)/.3;sv2+=`<path d="M${sx-40} ${sy-20} L 400 340" stroke="#FFC23D" stroke-width="${16*(1-k)}" stroke-linecap="round"/>`;popsHTML+=burst(380,330,150+80*k,1-k);shake=8*(1-k)}
+  const onSett=t>=T.qend;
+  retO=1;
+  if(onSett){rx=sx;ry=sy}else{rx=+MN[0].dataset.x;ry=+MN[0].dataset.y}
+  if(!onSett)for(let h=T.k2+.2;h<T.quiz;h+=.62)beam(t,h,rx,ry,.7);
+  if(onSett){for(let h=T.qend+.35;h<s1;h+=.8){const b=beam(t,h,sx,sy,1);if(b)shake=Math.max(shake,b*8)}
+   const k=prog(t,T.qend,.3);popsHTML+=`<div class="pop" style="left:500px;top:640px;font-size:76px;color:#FFF8EC;background:#FF3B4E;padding:4px 26px 10px;border-radius:12px;transform:translate(-50%,-50%) scale(${lerp(1.6,1,eb(k))});opacity:${cl(k*4)*(t>T.k3-.3?0:1)}">⚠ HEDEF DEĞİŞTİ</div>`}
+  // quiz overlay
+  if(t>=T.quiz&&t<T.qend+.25){
+   const k=prog(t,T.quiz,.3), out=prog(t,T.qend,.25);
+   const n=t<T.quiz+.85?3:t<T.quiz+1.7?2:1;
+   const nk=prog(t,T.quiz+(3-n)*.85,.25);
+   arenaO=1-.65*k;
+   $('over').innerHTML=`<div style="position:absolute;left:0;right:0;top:640px;text-align:center;opacity:${(1-out)*cl(k*3)};transform:scale(${lerp(.8,1,eb(k))})">
+    <div class="h1" style="font-size:100px">KULE ŞİMDİ<br><span class="y">KİME VURUR?</span></div>
+    <div style="position:relative;height:300px;margin-top:30px"><div class="opt" style="left:80px;top:0"><div class="mn" style="position:relative;margin:0 0 30px;width:90px;height:90px"></div>MİNYON</div><div class="opt" style="left:580px;top:0;border-color:${t>=T.qend?'#3FD15B':'#C8AA6E'}"><img src="assets/champ_Sett.png">SEN</div></div>
+    <div style="font-size:230px;line-height:1;color:#FFC23D;text-shadow:0 10px 0 #000;transform:scale(${lerp(1.6,1,eb(nk))});opacity:${cl(nk*3)}">${n}</div></div>`;
+  }
+ }
+ // ---- RULE 3
+ if(sc==='r3'){
+  head(`<div class="tag">KURAL 3</div><div class="h1">HER VURUŞ<br><span class="r">DAHA SERT</span></div>`);headAnim(t,T.k3);
+  minions(t,'all',-10);MN[0].style.opacity=0;MN[1].style.opacity=0;MN[2].style.opacity=0;MN[3].style.opacity=0;
+  const sx=660, sy=420;
+  const H=[T.vurusum,T.ikinci,T.ucuncu,T.acitir-.2], P=['%100','%140','%180','%220'];
+  const n=H.filter(h=>t>=h).length;
+  setEnt('sett',sx,sy,1,1-n*.22);
+  setEnt('lux',380,330,1,.6);
+  retO=1;rx=sx;ry=sy;
+  H.forEach((h,i)=>{const b=beam(t,h,sx,sy,1+i*.35);if(b)shake=Math.max(shake,b*(6+i*5));pop(t,h,sx+170,sy-10-i*8,P[i],['#FFF8EC','#FFC23D','#FF8A3D','#FF3B4E'][i],70+i*14,1.3)});
+  heat=n/4;
+  let gh='';const hk=cl(heat);
+  gh=`<div style="position:absolute;inset:0;border:5px solid #C8AA6E;border-radius:40px;background:#010A13;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;height:${hk*100}%;background:linear-gradient(0deg,#FFC23D,#FF8A3D 50%,#FF3B4E);transition:none"></div></div><div style="position:absolute;top:-70px;left:-40px;width:160px;text-align:center;font-size:44px;text-shadow:0 4px 0 #000">ISI</div><div style="position:absolute;bottom:-80px;left:-60px;width:200px;text-align:center;font-size:56px;color:#FF3B4E;text-shadow:0 4px 0 #000">${['%100','%100','%140','%180','%220'][n]}</div>`;
+  $('gauge').innerHTML=gh;
+ }
+ // ---- GIR AMA
+ if(sc==='gir'){
+  minions(t,'all',-10);setEnt('lux',380,330,1,.6);
+  if(t<T.gir){head(`<div class="h2">PEKİ ALTIMA</div><div class="h1">HİÇ <span class="y">GİRMEYECEK</span> MİSİN?</div>`);headAnim(t,T.peki)}
+  else{head(`<div class="h1 y" style="font-size:150px">GİR.</div><div class="h2">AMA <span class="r">ŞARTLARIM</span> VAR</div>`);headAnim(t,T.gir)}
+  setEnt('sett',820,640,1,1);
+  retO=1;rx=+MN[0].dataset.x;ry=+MN[0].dataset.y;
+  for(let h=T.peki;h<s1;h+=.62)beam(t,h,rx,ry,.6);
+  zoom=lerp(1,1.04,prog(t,T.peki,s1-T.peki));
+ }
+ // ---- COND 1: poke
+ if(sc==='c1'){
+  head(`<div class="tag">ŞART 1</div><div class="h2">MENZİLİN UZUNSA</div><div class="h1 y">DÜRT VE ÇIK</div>`);headAnim(t,T.menzil);
+  minions(t,'all',-10);
+  const p=(t-T.menzil);
+  const cx=lerp(840,700,eo(prog(p,0.35,.3)))+lerp(0,140,eo(prog(p,1.25,.3)));
+  setEnt('cait',cx,560,1,1);
+  setEnt('lux',380,330,1,lerp(.6,.38,prog(p,.8,.1)));
+  retO=1;rx=+MN[0].dataset.x;ry=+MN[0].dataset.y;
+  for(let h=T.menzil;h<s1;h+=.62)beam(t,h,rx,ry,.6);
+  if(p>.7&&p<1.0){const k=(p-.7)/.3;const bx=lerp(cx,380,k),by=lerp(560,330,k);sv2+=`<circle cx="${bx}" cy="${by}" r="14" fill="#FFF1C2"/><line x1="${cx}" y1="560" x2="${bx}" y2="${by}" stroke="#FFC23D" stroke-width="6" opacity=".6"/>`}
+  pop(t,T.menzil+.8,380,250,'-22','#FF3B4E',70,1);
+  sv2+=`<path d="M 760 ${700} q 0 -80 -60 -110" fill="none" stroke="#0AC8B9" stroke-width="8" stroke-dasharray="16 10" opacity="${cl(p/0.3)}"/>`;
+  if(p>1.25)pop(t,T.menzil+1.25,cx,650,'ÇIK!','#0AC8B9',64,1.2);
+ }
+ // ---- COND 2: kill
+ if(sc==='c2'){
+  head(`<div class="tag">ŞART 2</div><div class="h2">SENİ İNDİRMEDEN</div><div class="h1" style="font-size:96px">RAKİBİ <span class="y">BİTİREBİLİYORSAN</span></div>`);headAnim(t,T.ben);
+  minions(t,'all',-10);
+  const p=t-T.ben;
+  const sIn=eo(prog(p,.2,.4)), sOut=eo(prog(p,1.9,.4));
+  const sx=lerp(lerp(800,470,sIn),800,sOut), sy=lerp(lerp(640,420,sIn),640,sOut);
+  const kill=T.ben+1.25;
+  setEnt('lux',380,330,t<kill?1:cl(1-(t-kill)/.3),lerp(.25,0,prog(t,T.ben+.7,.55)),1,t>kill?1:0);
+  setEnt('sett',sx,sy,1,lerp(1,.55,prog(p,.8,1)));
+  [T.ben+.7,T.ben+1.05].forEach(h=>{if(t>=h&&t<h+.25){const k=(t-h)/.25;popsHTML+=burst(380,330,140+70*k,1-k);shake=6}});
+  if(t>=T.ben+.6){retO=1;rx=sx;ry=sy}else{retO=1;rx=+MN[0].dataset.x;ry=+MN[0].dataset.y}
+  for(let h=T.ben+.75;h<T.ben+2.2;h+=.7)beam(t,h,sx,sy,.9);
+  if(t>=kill){const k=prog(t,kill,.25);popsHTML+=`<div class="pop" style="left:380px;top:200px;font-size:84px;color:#3FD15B;transform:translate(-50%,-50%) rotate(-6deg) scale(${lerp(2,1,eo(k))});opacity:${cl(k*3)}">ÖLDÜ ✓</div>`}
+  if(t>=T.ben+1.9)pop(t,T.ben+1.9,sx,sy-150,'SONRA ÇIK','#0AC8B9',56,1.4);
+ }
+ // ---- COND 3: dive with tank
+ if(sc==='c3'){
+  if(t<T.dive-.05){head(`<div class="tag">ŞART 3</div><div class="h2">TAKIMINLA GEL</div><div class="h1"><span class="c">TANK</span> VURUŞLARI YESİN</div>`);headAnim(t,T.takim)}
+  else{head(`<div class="h2">BUNUN ADI</div><div class="h1 r" style="font-size:190px;transform:rotate(-3deg)">DIVE!</div>`);headAnim(t,T.dive)}
+  minions(t,'all',-10);
+  const p=t-T.takim;
+  const mIn=eo(prog(p,.2,.5)), sIn=eo(prog(p,.5,.5));
+  const mx=lerp(640,560,mIn), my=lerp(700,400,mIn);
+  const sx=lerp(840,450,sIn), sy=lerp(700,470,sIn);
+  const lockM=T.takim+.75;
+  const kill=T.dive+.3;
+  setEnt('malph',mx,my,1,lerp(1,.5,prog(t,lockM,2.6)));
+  setEnt('sett',sx,sy,1,1);
+  setEnt('lux',360,320,t<kill?1:cl(1-(t-kill)/.3),lerp(.6,0,prog(t,T.takim+1.4,1.4)),1,t>kill?1:0);
+  if(t>=lockM){retO=1;rx=mx;ry=my}else{retO=1;rx=+MN[0].dataset.x;ry=+MN[0].dataset.y}
+  for(let h=lockM+.3;h<s1;h+=.7){const b=beam(t,h,mx,my,1);if(b)shake=Math.max(shake,b*5)}
+  if(t>=lockM)pop(t,lockM+.3,mx+150,my-60,'TANKLIYOR','#0AC8B9',50,1.5);
+  if(t>=kill){const k=prog(t,kill,.25);popsHTML+=`<div class="pop" style="left:360px;top:190px;font-size:80px;color:#3FD15B;transform:translate(-50%,-50%) rotate(-6deg) scale(${lerp(2,1,eo(k))});opacity:${cl(k*3)}">ÖLDÜ ✓</div>`}
+  zoom=lerp(1,1.06,prog(t,T.takim,s1-T.takim));
+ }
+ // ---- MINIONS RULE (tower shield)
+ if(sc==='mn'){
+  head(`<div class="h2">BANA VURMAK İÇİN</div><div class="h1"><span class="y">MİNYON</span> LAZIM</div>`);headAnim(t,T.bana);
+  if(t>=T.yoksa){head(`<div class="h2">MİNYON YOKSA</div><div class="h1">HASARIN <span class="r">%80'İ</span> BOŞA</div>`);headAnim(t,T.yoksa)}
+  minions(t,'none',0);rangeO=.5;
+  const sx=560, sy=250;
+  setEnt('sett',sx,sy+40,lerp(0,1,prog(t,T.bana,.3)),1);
+  const sk=eo(prog(t,T.bana+.2,.4));shieldR=210*sk;
+  const H=[];for(let h=T.bana+.8;h<s1;h+=.72)H.push(h);
+  H.forEach((h,i)=>{if(t>=h&&t<h+.3){const k=(t-h)/.3;sv2+=`<circle cx="500" cy="180" r="${210+30*k}" fill="none" stroke="#FFF" stroke-width="${12*(1-k)}"/>`;shake=4}pop(t,h,640+(i%2)*90,120,i%2?'-20':'-20','#7A8899',62,1)});
+  if(t>=T.y80){const k=prog(t,T.y80,.3);popsHTML+=`<div class="pop" style="left:500px;top:560px;font-size:110px;color:#0AC8B9;background:rgba(1,10,19,.85);border:6px solid #0AC8B9;border-radius:16px;padding:0 30px 10px;transform:translate(-50%,-50%) scale(${lerp(1.7,1,eb(k))});opacity:${cl(k*4)}">-%80 HASAR</div>`}
+  if(t<T.yoksa)pop(t,T.bana+.8,500,620,'100 VURDUN, 20 GİTTİ','#FFF8EC',52,2.2);
+ }
+ // ---- SUMMARY
+ if(sc==='sum'){
+  head(`<div class="h1 y">ÖZETLE</div>`);headAnim(t,T.ozet);
+  arenaO=1-eo(prog(t,T.ozet,.3));
+  const items=[[T.s1,'MİNYONLAR ÖNDE'],[T.s2,'DÜRT VE ÇIK'],[T.s3,'ÖLDÜREMİYORSAN<br>GİRME']];
+  const k0=eo(prog(t,T.ozet,.35));
+  $('over').innerHTML=`<div class="card" style="top:${lerp(700,620,k0)}px;opacity:${k0};padding:20px 0">`+items.map(([a,s],i)=>{const k=prog(t,a,.3);return `<div class="row" style="opacity:${lerp(.25,1,cl(k*3))}"><div class="ck" style="${t>=a?'background:#0AC8B9;color:#010A13':''}">${t>=a?'✓':i+1}</div><div style="transform:translateX(${(1-eo(k))*40}px);line-height:1.12">${s}</div></div>`}).join('')+`</div>`;
+ }
+ // ---- CTA
+ if(sc==='cta'){
+  arenaO=0;
+  head(`<div class="h2">BUNU</div><div class="h1">KULE ALTINDA <span class="r">ÖLEN</span></div><div class="h2"><span class="y">ARKADAŞINA GÖNDER</span></div>`);headAnim(t,T.cta);
+  const k=eo(prog(t,T.cta+.3,.4));const bob=Math.sin(t*6)*12;
+  $('over').innerHTML=`<div style="position:absolute;left:0;right:0;top:${720}px;text-align:center;opacity:${k}"><div style="display:inline-block;position:relative;width:300px;height:300px;border-radius:50%;background:#0a1828;border:8px solid #C8AA6E;transform:scale(${lerp(.6,1,eb(k))})"><img src="assets/champ_Sett.png" style="position:absolute;left:40px;top:40px;width:220px;height:220px;border-radius:50%;filter:grayscale(1) brightness(.6)"><div style="position:absolute;left:0;right:0;top:95px;font-size:90px;color:#FF3B4E;transform:rotate(-10deg);text-shadow:0 5px 0 #000">RIP</div></div><div style="font-size:160px;color:#0AC8B9;transform:translateX(${bob}px);text-shadow:0 8px 0 #000;margin-top:20px">➤ ➤</div></div>`;
+ }
+ // ---- END CARD
+ if(sc==='end'){
+  arenaO=0;head('');
+  const k=eo(prog(t,T.endc,.35));
+  $('over').innerHTML=`<div style="position:absolute;left:0;right:0;top:${lerp(560,520,k)}px;text-align:center;opacity:${k}">
+   <div class="h2" style="color:#C8AA6E">KULE ALTINDA</div>
+   <div class="h1" style="font-size:180px;color:#FFC23D;transform:scale(${lerp(1.3,1,eo(k))})">FEED'LEME</div>
+   <div style="margin:60px auto 0;display:inline-flex;align-items:center;gap:14px;padding:16px 40px 20px 28px;background:linear-gradient(180deg,#14283c,#010A13);border:6px solid #C8AA6E;border-radius:20px"><span style="font-size:170px;color:#FFC23D;line-height:.9;transform:skewX(-12deg);text-shadow:8px 8px 0 #000">4</span><span style="font-size:70px;text-align:left;line-height:1.1">DAKİKADA<br><span class="y">FEEDLEME</span></span></div>
+   <div style="margin-top:60px;font-size:70px"><span style="background:#FF3B4E;padding:6px 36px 12px;border-radius:12px">ABONE OL</span></div></div>`;
+ }
+ // ---- apply arena state
+ $('beams').innerHTML=beamsHTML;$('pops').innerHTML=popsHTML;$('sv2').innerHTML=sv2;
+ $('ret').setAttribute('opacity',retO);$('ret').setAttribute('transform',`translate(${rx},${ry}) rotate(${t*90})`);
+ $('shield').setAttribute('r',shieldR);
+ $('range').setAttribute('opacity',rangeO);
+ // tower eye follows reticle, crystal pulses with voice
+ const dx=retO?rx-500:0, dy=retO?ry-64:60, dl=Math.hypot(dx,dy)||1;
+ $('pupil').setAttribute('cx',dx/dl*10);$('pupil').setAttribute('cy',-226+dy/dl*6);
+ const hot=heat;
+ $('glow').setAttribute('r',60+env*45+hot*30);$('glow').setAttribute('opacity',.25+env*.45);
+ $('glow').setAttribute('fill',hot>.6?'#FFC23D':'#FF3B4E');
+ $('crystal').setAttribute('transform',`translate(0,${Math.sin(t*3)*5-226}) scale(${1+env*.12}) translate(0,226)`);
+ const sh=shake?[(Math.sin(t*97)*shake),(Math.cos(t*83)*shake)]:[0,0];
+ $('arena').style.opacity=arenaO;$('arena').style.display=arenaO>0?'block':'none';
+ $('arena').style.transform=`translate(${sh[0]}px,${sh[1]}px) scale(${zoom})`;
+ // white flash on scene changes
+ let fl=0;for(const s of SC){if(s[1]>0){const k=(t-s[1])/.12;if(k>=0&&k<1)fl=Math.max(fl,.18*(1-k))}}$('flash').style.opacity=fl;
+ if(sc!=='end'&&!(t>=T.quiz&&t<T.qend))caption(t);else $('cap').innerHTML='';
+};
+// ---- SFX list (only the user's turret sound + UI whoosh/ding/tick)
+sfx('turret',T.lock0);sfx('turret',T.lock1);sfx('turret',T.qend);sfx('turret',T.takim+.75);
+SC.slice(1).forEach(s=>sfx('whoosh',s[1]-.12,-8));
+[0,.85,1.7].forEach(d=>sfx('tick',T.quiz+d,0));
+sfx('ding',T.kizma,-4);sfx('ding',T.gir,-4);sfx('ding',T.dive,-2);[T.s1,T.s2,T.s3].forEach(x=>sfx('ding',x,-4));sfx('ding',T.endc,-2);
+window.SFX=SFX;window.CUES=T;window.ready=Promise.resolve();
+</script></body></html>
