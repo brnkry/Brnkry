@@ -1,4 +1,4 @@
-"""Remove burned-in overlays from the cropped source by colour-masked inpainting.
+"""Remove (inpaint) or recolour burned-in overlays of the cropped source, by colour mask.
 usage: python3 clean.py SRC.mp4 OUT.mp4 [test T1 T2 ...]"""
 import sys, json, os, subprocess, numpy as np, cv2
 SRC, OUT = sys.argv[1], sys.argv[2]
@@ -13,6 +13,8 @@ def rule_mask(roi, rule):
         if r == 'blue': m |= (h > 85) & (h < 130) & (s > 90) & (v > 170)
         if r == 'cyan': m |= (h > 78) & (h < 108) & (s > 60) & (v > 190)
         if r == 'gold': m |= (h > 12) & (h < 35) & (s > 90) & (v > 150)
+        if r == 'lime': m |= (h > 40) & (h < 92) & (s > 55) & (v > 105)
+        if r == 'yellow': m |= (h > 14) & (h < 40) & (s > 55) & (v > 105)
         if r == 'white': m |= (s < 70) & (v > 185)
         if r == 'disc':
             yy, xx = np.mgrid[:h.shape[0], :h.shape[1]]; cy, cx = h.shape[0] / 2, h.shape[1] / 2
@@ -28,6 +30,13 @@ def clean(fr, t):
         x, y, w, h = c['r']; roi = fr[y:y + h, x:x + w]
         m = rule_mask(roi, c['rule'])
         if m.max() == 0: continue
+        if 'to' in c:  # keep the reference icon but change its colour
+            hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+            hsv[..., 0] = np.where(m > 0, c['to'], hsv[..., 0])
+            rec = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+            a = cv2.GaussianBlur(m, (9, 9), 0)[..., None] / 255.0
+            fr[y:y + h, x:x + w] = (roi * (1 - a) + rec * a).astype(np.uint8)
+            continue
         sm = cv2.resize(roi, (w // 2, h // 2)); mm = cv2.resize(m, (w // 2, h // 2))
         inp = cv2.inpaint(sm, mm, 6, cv2.INPAINT_TELEA)
         inp = cv2.resize(inp, (w, h))

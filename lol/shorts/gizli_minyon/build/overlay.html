@@ -1,25 +1,25 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <style>
-@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
-@font-face{font-family:Ant;src:url(node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:Mon;font-weight:800;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
 @font-face{font-family:Mon;font-weight:800;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
 @font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
-@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-ext-wght-normal.woff2) format('woff2');font-weight:200 700;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
-@font-face{font-family:Osw;src:url(node_modules/@fontsource-variable/oswald/files/oswald-latin-wght-normal.woff2) format('woff2');font-weight:200 700}
+/* League of Legends' own fonts (from the game files) */
+@font-face{font-family:Bf;font-weight:700;src:url(assets/fonts/beaufortforlol-bold.otf)}
+@font-face{font-family:Bf;font-weight:900;src:url(assets/fonts/beaufortforlol-heavy.otf)}
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent}
-#root{position:absolute;inset:0;overflow:hidden;font-family:Mon;font-weight:800;color:#FFF}
-.L{position:absolute;inset:0}
-.ab{position:absolute}
+#root{position:absolute;inset:0;overflow:hidden;font-family:Mon;font-weight:800;color:#fff}
+.L{position:absolute;inset:0}.ab{position:absolute}
 .txt{text-transform:uppercase;text-shadow:0 4px 0 rgba(0,0,0,.85),0 0 22px rgba(0,0,0,.8)}
+.lol{font-family:Bf;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
+.gold{background:linear-gradient(180deg,#FFF6D6 0,#F0D58C 38%,#C8AA6E 62%,#8A6A32 100%);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 5px 0 rgba(0,0,0,.85)) drop-shadow(0 0 18px rgba(0,0,0,.7))}
 #cap{position:absolute;left:100px;right:100px;top:1300px;height:170px;display:flex;align-items:center;justify-content:center;text-align:center}
 #cap span{font-size:60px;line-height:1.15;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 4px 0 rgba(0,0,0,.9),0 0 18px rgba(0,0,0,.85),0 0 4px #000}
-.y{color:#FFC23D}.c{color:#0AC8B9}.r{color:#FF5A36}.p{color:#C48BFF}
-.panel{position:absolute;background:linear-gradient(180deg,#12263a,#050d18);border:5px solid #C8AA6E;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.6)}
-#tag{position:absolute;left:0;right:0;top:118px;text-align:center}
-#tag span{font-family:Osw;font-weight:700;font-size:30px;letter-spacing:.18em;color:#010A13;background:#FFC23D;padding:5px 18px 7px;border-radius:7px}
+.y{color:#FFC23D}.c{color:#0AC8B9}.r{color:#FF5A36}
+.panel{position:absolute;background:linear-gradient(180deg,#12263a,#050d18);border:4px solid #C8AA6E;border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.6)}
+#tag{position:absolute;left:0;right:0;top:112px;text-align:center}
+#tag span{font-family:Bf;font-weight:900;font-size:34px;letter-spacing:.12em;color:#010A13;background:linear-gradient(180deg,#F0D58C,#C8AA6E);padding:4px 20px 6px;border-radius:6px;border:2px solid #FFF1D6}
 </style></head><body>
 <div id="root">
  <div id="dyn" class="L"></div>
@@ -37,141 +37,115 @@ const TR=s=>s.toLocaleUpperCase('tr');
 const norm=s=>s.toLocaleLowerCase('tr').replace(/[^a-zçğıöşü0-9%]/g,'');
 const MISSING=[];
 function C(w,n=1){let k=0;for(const x of WORDS){if(norm(x[2])===norm(w)&&++k===n)return x[0]}MISSING.push(w+n);return 0}
-// segment table [outA,outB,srcA,srcB,mode] (same as seg.json)
-const SEG=[[0.0, 3.66, 3.2, 0, "freeze"], [3.66, 6.36, 5.0, 10.4, "play"], [6.36, 9.3, 10.0, 11.4, "play"], [9.3, 14.56, 15.5, 20.2, "play"], [14.56, 19.54, 20.2, 24.9, "play"], [19.54, 22.88, 24.9, 28.6, "play"], [22.88, 25.94, 28.6, 32.4, "play"], [25.94, 31.62, 32.4, 39.2, "play"], [31.62, 35.44, 39.2, 43.6, "play"], [35.44, 39.8, 43.6, 49.4, "play"], [39.8, 44.92, 49.6, 55.0, "play"], [44.92, 46.52, 55.0, 57.2, "play"], [46.52, 50.9, 57.2, 63.0, "play"], [50.9, 53.5, 63.0, 66.4, "play"], [53.5, 57.12, 66.4, 69.4, "play"], [57.12, 59.78, 69.4, 0, "freeze"], [59.78, 62.83, 24.9, 28.6, "play"], [62.83, 64.3, 69.4, 0, "freeze"]];
+const SEG=[[0.0, 2.58, 3.2, 0, "freeze"], [2.58, 3.66, 3.9, 4.95, "play"], [3.66, 5.06, 8.1, 10.2, "play"], [5.06, 6.36, 5.0, 6.95, "play"], [6.36, 9.3, 10.2, 13.4, "play"], [9.3, 14.56, 20.2, 24.9, "blur"], [14.56, 19.54, 20.2, 24.9, "play"], [19.54, 22.88, 24.9, 28.6, "play"], [22.88, 25.94, 28.6, 32.4, "play"], [25.94, 31.62, 32.4, 39.2, "play"], [31.62, 35.44, 39.2, 43.6, "play"], [35.44, 39.8, 43.6, 49.4, "play"], [39.8, 44.92, 49.6, 55.0, "play"], [44.92, 46.52, 55.0, 57.2, "play"], [46.52, 50.9, 57.2, 63.0, "play"], [50.9, 53.5, 63.0, 66.4, "play"], [53.5, 57.12, 66.4, 69.4, "play"], [57.12, 59.78, 35.0, 37.66, "blur"], [59.78, 62.83, 24.9, 28.6, "play"], [62.83, 64.3, 40.0, 41.47, "blur"]];
+// output time of a source time (first 'play' segment that contains it)
 function S(src){for(const [a,b,s,e,m] of SEG){if(m==='play'&&src>=s&&src<=e)return a+(src-s)/(e-s)*(b-a)}return null}
-const END=64.3;
-// pop-in envelope: in at a, out at b
 function env(t,a,b,fi=.22,fo=.18){if(t<a||t>b)return 0;return Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo))}
-function vis(t,a,b,fo=.15){return t>=a&&t<=b?Math.min(cl((t-a)/.12),1-prog(t,b-fo,fo)):0}
-// ---------- icon factories (our own designs)
+function vis(t,a,b,fo=.15){return t>=a&&t<=b?Math.min(1,1-prog(t,b-fo,fo)):0}
 const glow=(c,s=1)=>`filter:drop-shadow(0 0 ${10*s}px ${c}) drop-shadow(0 0 ${26*s}px ${c}) drop-shadow(0 6px 0 rgba(0,0,0,.6))`;
-function chevron(x,y,w,col,k,t){ // solid double chevron, bobbing
- const h=w*1.05, bob=Math.sin(t*9)*10;
- return `<svg class="ab" style="left:${x-w/2}px;top:${y-h/2+bob}px;overflow:visible;transform:scale(${lerp(.4,1,k)});transform-origin:50% 0;opacity:${cl(k*2)};${glow(col)}" width="${w}" height="${h}" viewBox="0 0 100 105"><path d="M8 6 L50 40 L92 6 L92 30 L50 64 L8 30Z" fill="${col}" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><path d="M8 44 L50 78 L92 44 L92 68 L50 102 L8 68Z" fill="${col}" stroke="#fff" stroke-width="4" stroke-linejoin="round" opacity=".85"/></svg>`}
-function qmark(x,y,s,col,k,rot=0){return `<div class="ab" style="left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${lerp(.3,1,k)});opacity:${cl(k*2)};font-weight:900;font-size:${s}px;line-height:1;color:${col};-webkit-text-stroke:6px #fff;paint-order:stroke fill;${glow(col,.8)}">?</div>`}
-function disc(x,y,r,col,txt,k){return `<div class="ab" style="left:${x-r}px;top:${y-r}px;width:${2*r}px;height:${2*r}px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8,transparent 45%),${col};border:8px solid #fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:${r*1.05}px;color:#010A13;transform:scale(${lerp(.3,1,k)});opacity:${cl(k*2)};${glow(col,.8)}">${txt}</div>`}
 function bubble(x,y,w,h,txt,k,fs=70){return `<div class="ab" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform:scale(${lerp(.3,1,k)}) rotate(-4deg);transform-origin:20% 100%;opacity:${cl(k*2)}"><div style="position:absolute;inset:0;background:#fff;border:7px solid #010A13;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:${fs}px;line-height:1.05;color:#010A13">${txt}</div><div style="position:absolute;left:${w*.18}px;top:${h-24}px;width:0;height:0;border-left:36px solid transparent;border-right:36px solid transparent;border-top:70px solid #010A13;transform:rotate(18deg)"></div><div style="position:absolute;left:${w*.18+10}px;top:${h-34}px;width:0;height:0;border-left:26px solid transparent;border-right:26px solid transparent;border-top:56px solid #fff;transform:rotate(18deg)"></div></div>`}
-function coin(x,y,r,k){return `<div class="ab" style="left:${x-r}px;top:${y-r}px;width:${2*r}px;height:${2*r}px;transform:scale(${lerp(.3,1,k)}) rotate(${(1-k)*-40}deg);opacity:${cl(k*2)};${glow('#FFC23D',.7)}">${[0,1,2].map(i=>`<div style="position:absolute;left:${i*r*.18}px;top:${r*.5-i*r*.32}px;width:${r*1.6}px;height:${r*1.1}px;border-radius:50%;background:radial-gradient(ellipse at 40% 35%,#FFF1B0,#FFC23D 45%,#B8801C);border:5px solid #6b4a0e;box-shadow:inset 0 -10px 0 #9a6a14"></div>`).join('')}</div>`}
-function bigText(html,y,k,fs=150,extra=''){return `<div class="ab txt" style="left:0;right:0;top:${y}px;text-align:center;font-size:${fs}px;line-height:1.05;transform:scale(${lerp(1.5,1,eo(k))});opacity:${cl(k*3)};${extra}">${html}</div>`}
-function dim(o){return `<div class="L" style="background:#020812;opacity:${o}"></div>`}
+function bigText(html,y,k,fs=90){return `<div class="ab txt" style="left:0;right:0;top:${y}px;text-align:center;font-size:${fs}px;line-height:1.08;transform:scale(${lerp(1.5,1,eo(k))});opacity:${cl(k*3)}">${html}</div>`}
+// LoL style number ring (Beaufort numerals)
+function ring(x,y,r,col,n,k){return `<div class="ab" style="left:${x-r}px;top:${y-r}px;width:${2*r}px;height:${2*r}px;border-radius:50%;background:radial-gradient(circle,#0a1626 55%,#050b14);border:9px solid ${col};box-shadow:0 0 0 4px #010A13,inset 0 0 26px ${col};display:flex;align-items:center;justify-content:center;transform:scale(${lerp(.3,1,k)});opacity:${cl(k*2)};${glow(col,.7)}"><span class="lol gold" style="font-size:${r*1.35}px;line-height:1;margin-top:${r*.08}px">${n}</span></div>`}
+// confetti burst (deterministic particles)
+const CONF=[...Array(110)].map((_,i)=>{const r=n=>{const x=Math.sin(i*127.1+n*311.7)*43758.5453;return x-Math.floor(x)};return {a:r(1)*Math.PI*2,v:600+r(2)*1000,c:['#FFC23D','#0AC8B9','#2D6BFF','#FF5A88','#FFF1D6','#9B6BFF'][i%6],w:14+r(3)*18,h:8+r(4)*10,s:(r(5)-.5)*14,d:r(6)*.12}});
+function confetti(t,t0,cx,cy){const dt=t-t0;if(dt<0||dt>2.6)return '';return CONF.map(p=>{const tt=Math.max(0,dt-p.d);const f=(1-Math.exp(-tt*2.2))/2.2;const x=cx+Math.cos(p.a)*p.v*f;const y=cy+Math.sin(p.a)*p.v*f+420*tt*tt;const o=cl(1-(dt-1.8)/.8);return `<div class="ab" style="left:${x}px;top:${y}px;width:${p.w}px;height:${p.h}px;background:${p.c};border-radius:2px;transform:rotate(${p.s*tt*60}deg) scaleY(${Math.cos(tt*9+p.a)});opacity:${o}"></div>`}).join('')}
 // ---------- cues
-const T={l17:C('17'),p99:C('%99'),iki:C('iki'),gizli:C('gizli',1),habersiz:C('habersiz'),mac:C('maç'),bir:C('birincisi'),tunel:C('tünel'),pasif:C('pasifi'),
- hep:C('hepimiz'),rakip:C('rakip',1)||C('rekip',1),donup:C('dönüp'),ama:C('ama',2),kuleye:C('kuleye',1),sen:C('sen',1),olsan:C('olsan'),yani:C('yani',1),atlar:C('atlar'),izler:C('izler'),
- biliyorsan:C('biliyorsan'),bedava:C('bedava'),bilmiyorsan:C('bilmiyorsan',1),binlerce:C('binlerce'),cunku:C('çünkü'),cannon:C('cannon',1),p30:C('%30'),ve2:C('ve',3),sadece2:C('sadece',2),
- yani2:C('yani',2),kaplama:C('kaplamalarını'),toplarsin:C('toplarsın'),ama3:C('ama',4),roam:C('roam'),yoksa:C('yoksa'),tamami:C('tamamı'),peki:C('peki'),yorum:C('yorumlara'),bilmi2:C('bilmiyorsan',2),umurs:C('umursamıyordu'),end:62.83};
-// ---------- captions (1-2 words, in the reference style but our fonts/colours)
+const T={l17:C('17'),p99:C('%99'),iki:C('iki'),mac:C('maç'),bir:C('birincisi'),tunel:C('tünel'),
+ hep:C('hepimiz'),sen:C('sen',1),ama:C('ama',2),yani:C('yani',1),bedava:C('bedava'),bilmiyorsan:C('bilmiyorsan',1),p30:C('%30'),sadece2:C('sadece',2),
+ yani2:C('yani',2),ama3:C('ama',4),roam:C('roam'),yoksa:C('yoksa'),tamami:C('tamamı'),peki:C('peki'),yorum:C('yorumlara'),bilmi2:C('bilmiyorsan',2),umurs:C('umursamıyordu'),end:62.83};
+// ---------- captions (reference style: 1-2 words, Montserrat)
 const KEY=/^(17|%|minyon|tünel|görüşü|gizli|kule|kill|bedava|altın|cannon|orta|mid|roam|kaplama|asla|sadece|ölüyor|izler|habersiz|umursa)/;
 const FIX={rekip:'rakip',kililer:'killer',farkettirmeden:'fark ettirmeden',durüst:'dürüst',fidleme:'feedleme'};
 const CH=[];{let cur=[];WORDS.forEach((w,i)=>{cur.push(w);const nx=WORDS[i+1];const len=cur.map(x=>x[2]).join(' ').length;if(/[,.?!:]$/.test(w[2])||cur.length>=2||len>11||!nx||nx[0]-w[1]>0.35){CH.push(cur);cur=[]}})}
 function caption(t){let h='';for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+0.3);if(t>=a&&t<b){const k=prog(t,a,.1);
  h=`<span style="display:inline-block;transform:scale(${lerp(.75,1,eb(k))})">`+CH[i].map(w=>{let s=w[2].replace(/[,.:?!]$/,'');const n=norm(s);if(FIX[n])s=FIX[n];s=TR(s);return KEY.test(norm(s))?`<span class="y">${s}</span>`:s}).join(' ').replace(/ '/g,"'")+'</span>';break}}$('cap').innerHTML=h}
+// Teemo path during "%99'u" (source 3.9 -> 4.95), final-frame coordinates
+function teemo(src){const P=[[3.9,500,1330],[4.31,585,1265],[4.70,708,1170],[4.95,770,1110]];for(let i=0;i<P.length-1;i++){if(src<=P[i+1][0]){const k=(src-P[i][0])/(P[i+1][0]-P[i][0]);return [lerp(P[i][1],P[i+1][1],cl(k)),lerp(P[i][2],P[i+1][2],cl(k))]}}return [P[3][1],P[3][2]]}
 // ---------- render
 window.render=function(t){
  let H='';
- // 1) HOOK: LoL emblem + 17 YIL
+ // 1) INTRO: LoL emblem -> 17 YIL with a confetti burst
  if(t<T.p99+.15){const out=prog(t,T.p99-.15,.25);
   const ke=eb(prog(t,0,.35)), k=prog(t,T.l17-.2,.35);
   const es=lerp(.3,1,ke)*lerp(1,.62,eo(k)), ey=lerp(0,140,eo(k));
-  // rings
-  [0,1].forEach(i=>{const rk=prog(t,T.l17-.25+i*.08,.5);if(rk>0)H+=`<div class="ab" style="left:${540-260-i*40}px;top:${960-260-i*40+ey}px;width:${520+i*80}px;height:${520+i*80}px;border-radius:50%;border:${10-i*3}px solid ${i?'#0AC8B9':'#FFC23D'};transform:scale(${lerp(.6,1,eo(rk))});opacity:${cl(rk*3)*(1-out)}"></div>`});
+  [0,1].forEach(i=>{const rk=prog(t,T.l17-.25+i*.08,.5);if(rk>0)H+=`<div class="ab" style="left:${540-260-i*40}px;top:${960-260-i*40+ey}px;width:${520+i*80}px;height:${520+i*80}px;border-radius:50%;border:${10-i*3}px solid ${i?'#0AC8B9':'#C8AA6E'};transform:scale(${lerp(.6,1,eo(rk))});opacity:${cl(rk*3)*(1-out)}"></div>`});
   H+=`<img class="ab" src="assets/lol_emblem.png" style="left:${540-215}px;top:${960-240+ey}px;width:430px;transform:scale(${es});opacity:${cl(ke*3)*(1-out)};filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))">`;
   const orbs=[[190,600,62,'#FFC23D'],[880,560,56,'#0AC8B9'],[230,1180,52,'#2D6BFF'],[860,1150,70,'#FFF1D6'],[150,880,40,'#0AC8B9'],[940,860,46,'#FFC23D'],[560,1260,46,'#2D6BFF']];
   H+=orbs.map(([x,y,r,c],i)=>{const b=Math.sin(t*2.2+i)*16;const kk=eb(prog(t,T.l17-.15+i*.05,.4))*(1-out);return `<div class="ab" style="left:${x-r}px;top:${y-r+b}px;width:${2*r}px;height:${2*r}px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,${c} 38%,#00000088 100%);transform:scale(${kk});box-shadow:0 18px 30px rgba(0,0,0,.45)"></div>`}).join('');
   if(t>=T.l17-.2){const s=lerp(.2,1,eb(k)), o=cl(k*3)*(1-out);
    H+=`<div class="ab" style="left:0;right:0;top:470px;text-align:center;transform:scale(${s}) rotate(${-4+Math.sin(t*2)*2}deg);opacity:${o}">
-   <div style="font-weight:900;font-size:380px;line-height:.9;letter-spacing:-.04em;background:linear-gradient(180deg,#FFF6D0 0,#FFD25A 35%,#C8862A 70%,#7A4A12 100%);-webkit-background-clip:text;color:transparent;filter:drop-shadow(8px 12px 0 #4a2a06) drop-shadow(0 20px 30px rgba(0,0,0,.6))">17</div>
-   <div style="display:inline-block;margin-top:-10px;font-size:64px;color:#010A13;background:linear-gradient(180deg,#0AC8B9,#078a80);padding:4px 36px 10px;border-radius:12px;border:5px solid #FFF1D6;transform:rotate(3deg)">YIL</div></div>`;}
+   <div class="lol gold" style="font-size:400px;line-height:.9">17</div>
+   <div class="lol" style="display:inline-block;margin-top:-6px;font-size:70px;color:#010A13;background:linear-gradient(180deg,#0AC8B9,#078a80);padding:0 40px 8px;border-radius:12px;border:5px solid #FFF1D6;transform:rotate(3deg)">YIL</div></div>`;}
+  H+=confetti(t,T.l17-.2,540,760);
  }
- // 2) %99 + arrow
- if(t>=T.p99-.05&&t<T.iki+.1){const k=prog(t,T.p99-.05,.25),out=prog(t,T.iki-.1,.2);
-  H+=`<div class="ab" style="left:120px;top:430px;transform:scale(${lerp(.3,1,eb(k))}) rotate(-8deg) skewX(-8deg);opacity:${cl(k*3)*(1-out)};font-weight:900;font-size:230px;line-height:1;background:linear-gradient(180deg,#FFE08A,#FF8A3D 60%,#FF3B4E);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(255,120,60,.8)) drop-shadow(8px 10px 0 #3a0a05)">%99</div>`;
-  const ak=prog(t,T.p99+.2,.3);H+=`<svg class="ab" style="left:250px;top:760px;opacity:${cl(ak*3)*(1-out)};${glow('#0AC8B9',.7)}" width="360" height="380" viewBox="0 0 360 380"><path d="M40 20 C -10 160, 60 290, ${lerp(60,250,ak)} ${lerp(200,320,ak)}" fill="none" stroke="#0AC8B9" stroke-width="22" stroke-linecap="round"/><path d="M${lerp(60,250,ak)-40} ${lerp(200,320,ak)-55} L${lerp(60,250,ak)+15} ${lerp(200,320,ak)+5} L${lerp(60,250,ak)-55} ${lerp(200,320,ak)+30}" fill="#0AC8B9" stroke="#fff" stroke-width="5"/></svg>`;
- }
- // 3) ?? (covers src 5-6.9) and 1 2 discs (covers src 8.4-10.1)
- {const a=T.iki-.05,b=S(6.95);const k=env(t,a,b);if(k){H+=qmark(600,700,230,'#C48BFF',k,-12)+qmark(780,690,190,'#C48BFF',k,14)+qmark(450,730,150,'#C48BFF',k,-20)}}
- {const a=T.iki,b=S(10.2);if(t>=a&&t<=b){const k1=env(t,a,b),k2=env(t,a+.18,b);H+=disc(200,800,118,'#FFC23D','1',k1)+disc(470,795,118,'#0AC8B9','2',k2)}}
- // 4) YENİLGİ banner
- if(t>=T.mac-.1&&t<T.bir){const k=prog(t,T.mac-.1,.3),out=prog(t,T.bir-.2,.2);
-  H+=`<div class="L" style="background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(120,0,0,.55));opacity:${cl(k*2)*(1-out)}"></div>`;
-  H+=`<div class="ab" style="left:0;right:0;top:640px;text-align:center;opacity:${cl(k*3)*(1-out)};transform:scale(${lerp(1.6,1,eo(k))})"><div style="display:inline-block;padding:10px 70px 24px;background:linear-gradient(180deg,#3a0610,#12020a);border:7px solid #C8AA6E;border-radius:10px;box-shadow:0 0 60px rgba(255,40,60,.6)"><div style="font-weight:900;font-size:110px;line-height:1.1;letter-spacing:.06em;background:linear-gradient(180deg,#FFD6D6,#FF3B4E 55%,#7a0a14);-webkit-background-clip:text;color:transparent">YENİLGİ</div></div></div>`;
- }
- // 5) TÜNEL GÖRÜŞÜ card (covers their card src 15.5-20.2)
+ // 2) %99: the reference's 99% + arrow (pointing at Teemo) stay as they are
+ // 3) 1 / 2 when the minions arrive (covers the reference's circles, LoL numerals)
+ {const a=S(8.45),b=S(10.2);if(t>=a&&t<=b){H+=ring(190,785,118,'#C8AA6E','1',env(t,a,b))+ring(525,775,118,'#0AC8B9','2',env(t,a+.18,b))}}
+ // 4) BOZGUN: the real Turkish defeat animation is keyed in by ffmpeg (compose step); only a soft red vignette here
+ if(t>=T.mac-.15&&t<T.bir){const o=cl(prog(t,T.mac-.15,.3)*2)*(1-prog(t,T.bir-.2,.2));H+=`<div class="L" style="background:radial-gradient(ellipse at 50% 42%,transparent 35%,rgba(90,0,0,.55));opacity:${o}"></div>`}
+ // 5) TÜNEL GÖRÜŞÜ card over blurred gameplay
  if(t>=T.bir-.05&&t<T.hep){const k=prog(t,T.bir-.05,.25),out=prog(t,T.hep-.2,.2),o=cl(k*3)*(1-out);
-  H+=`<div class="L" style="background:radial-gradient(ellipse at 50% 55%,rgba(6,18,30,.86),rgba(1,5,10,.97) 70%);opacity:${o}"></div>`;
-  if(t<T.tunel-.05){const kk=prog(t,T.bir,.25);H+=`<div class="ab" style="left:0;right:0;top:820px;text-align:center;opacity:${o}"><div style="display:inline-block;width:240px;height:240px;border-radius:50%;border:10px solid #FFC23D;font-weight:900;font-size:150px;line-height:220px;color:#FFC23D;transform:scale(${lerp(.3,1,eb(kk))});${glow('#FFC23D',.7)}">1</div></div>`}
+  H+=`<div class="L" style="background:radial-gradient(ellipse at 50% 50%,rgba(4,12,22,.25),rgba(2,6,12,.7) 75%);opacity:${o}"></div>`;
+  if(t<T.tunel-.05){const kk=prog(t,T.bir,.25);H+=`<div class="ab" style="left:0;right:0;top:800px;text-align:center;opacity:${o}"><div style="display:inline-flex;width:250px;height:250px;border-radius:50%;border:10px solid #C8AA6E;background:rgba(5,12,22,.7);align-items:center;justify-content:center;transform:scale(${lerp(.3,1,eb(kk))});${glow('#C8AA6E',.5)}"><span class="lol gold" style="font-size:180px;line-height:1">1</span></div></div>`}
   else{const kk=prog(t,T.tunel-.05,.3),ki=prog(t,T.tunel+.25,.4);
-   H+=`<div class="ab txt" style="left:0;right:0;top:${lerp(700,640,eo(kk))}px;text-align:center;opacity:${o*cl(kk*3)}"><div style="font-size:36px;letter-spacing:.3em;color:#0AC8B9;text-shadow:none">GİZLİ PASİF</div><div style="font-size:84px;line-height:1.1">TÜNEL <span class="y">GÖRÜŞÜ</span></div></div>`;
-   // icon: real minion portrait from the reference, in our tunnel rings
+   H+=`<div class="ab txt" style="left:0;right:0;top:${lerp(700,640,eo(kk))}px;text-align:center;opacity:${o*cl(kk*3)}"><div style="font-size:36px;letter-spacing:.3em;color:#0AC8B9">GİZLİ PASİF</div><div style="font-size:84px;line-height:1.1">TÜNEL <span class="y">GÖRÜŞÜ</span></div></div>`;
    const rings=[0,1,2,3].map(i=>{const r=230-i*40+((t*60)%40);return `<circle cx="0" cy="0" r="${r}" fill="none" stroke="#0AC8B9" stroke-opacity="${.12+i*.18}" stroke-width="5"/>`}).join('');
    H+=`<div class="ab" style="left:300px;top:820px;width:480px;height:480px;opacity:${o*cl(ki*3)};transform:scale(${lerp(.4,1,eb(ki))})"><svg class="ab" style="left:0;top:0" width="480" height="480" viewBox="-240 -240 480 480">${rings}</svg><img src="assets/minion_portrait.png" style="position:absolute;left:90px;top:90px;width:300px;height:300px;border-radius:50%;border:8px solid #fff;box-shadow:0 0 30px rgba(10,200,185,.6)"></div>`;
   }
  }
- // 6) enemy chevron (covers src 20.9-21.7) and "!" over minions (covers cyan rings src 22.3-23.7)
- {const a=Math.max(T.rakip-.1,S(20.9)-.05),b=S(21.9);const k=env(t,a,b);if(k)H+=chevron(220,590,380,'#FF5A36',k,t)}
- {const a=S(22.2),b=S(23.8);if(t>=a&&t<=b){[[420,520],[560,700],[470,900],[640,1080],[430,1200]].forEach(([x,y],i)=>{const k=env(t,a+i*.06,b);H+=`<div class="ab" style="left:${x}px;top:${y+Math.sin(t*10+i)*8}px;transform:translate(-50%,-50%) scale(${lerp(.3,1,k)});opacity:${cl(k*2)};font-size:150px;line-height:1;color:#2D8CFF;-webkit-text-stroke:6px #fff;paint-order:stroke fill;${glow('#2D8CFF',.7)}">!</div>`})}}
- // 7) tunnel vignette while minions hit the turret
+ // 6) tunnel vignette while minions hit the turret
  if(t>=T.ama-.05&&t<T.sen){const k=prog(t,T.ama-.05,.4),out=prog(t,T.sen-.2,.2),o=cl(k)*(1-out);const r=lerp(900,430,eo(k));
-  H+=`<div class="L" style="background:radial-gradient(circle at 540px 880px,transparent ${r}px,rgba(2,8,18,.88) ${r+160}px);opacity:${o}"></div><div class="ab" style="left:${540-r}px;top:${880-r}px;width:${2*r}px;height:${2*r}px;border-radius:50%;border:8px solid #0AC8B9;opacity:${o*.8};${glow('#0AC8B9',.5)}"></div>`}
- // 8) bubble (covers "Objectives first!" src 28.9-30.1) + chevron (covers src 30.9-32.1)
- {const a=S(28.85),b=S(30.2);const k=env(t,a,b);if(k)H+=bubble(490,255,640,540,'ÖNCE<br>OBJE!',k,92)}
- {const a=S(30.85),b=S(32.2);const k=env(t,a,b);if(k)H+=chevron(520,420,440,'#FFC23D',k,t)}
- // 9) cyan chevrons (cover src 32.9-33.6 and 38.9-39.8)
- {const a=S(32.85),b=S(34.2);const k=env(t,a,b);if(k)H+=chevron(240,820,420,'#0AC8B9',k,t)}
- {const a=S(38.7),b=S(40.7);const k=env(t,a,b);if(k)H+=chevron(560,560,420,'#0AC8B9',k,t)}
- // 10) BEDAVA KİLL
- if(t>=T.bedava-.05&&t<T.bilmiyorsan){const k=prog(t,T.bedava-.05,.3),out=prog(t,T.bilmiyorsan-.2,.2);
-  H+=`<div class="ab" style="left:0;right:0;top:980px;text-align:center;opacity:${cl(k*3)*(1-out)};transform:scale(${lerp(1.6,1,eb(k))}) rotate(-4deg)"><span style="display:inline-block;font-weight:900;font-size:72px;color:#010A13;background:linear-gradient(180deg,#FFE08A,#FFC23D);padding:0 40px 10px;border-radius:16px;border:6px solid #fff;${glow('#FFC23D',.6)}">+BEDAVA KİLL</span></div>`}
- // 11) coin (covers coin icon src 43.9-45.3) and -3000 (covers src 45.9-48.7)
- {const a=S(43.85),b=S(45.4);const k=env(t,a,b);if(k)H+=coin(730,380,180,k)}
- {const a=S(45.8),b=S(49.3);const k=env(t,a,b);if(k){H+=`<div class="ab" style="left:60px;top:330px;width:860px;height:300px;display:flex;align-items:center;justify-content:center;gap:20px;transform:scale(${lerp(.4,1,k)});opacity:${cl(k*2)}"><span style="font-weight:900;font-size:130px;line-height:1;color:#FF3B4E;-webkit-text-stroke:6px #fff;paint-order:stroke fill;${glow('#FF3B4E',.6)}">-3000</span></div>`;H+=coin(900,480,90,k)}}
- // 12) split screen panels (cover icons + counters src 49.5-55.2)
- {const a=S(49.6),b=S(55.0);if(t>=a&&t<=b){const o=vis(t,a,b);const up=lerp(1.0,1.3,eo(prog(t,T.p30,.6)));
-  const sw=`<svg width="120" height="120" viewBox="0 0 100 100"><path d="M15 85 L70 30 L80 20 L85 15 L80 30 L30 80Z M60 75 L80 55" stroke="#FFC23D" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M20 20 L85 85" stroke="#FFF1D6" stroke-width="10" stroke-linecap="round"/></svg>`;
-  const ic=`<svg width="120" height="120" viewBox="0 0 100 100"><path d="M20 80 L80 20" stroke="#FFC23D" stroke-width="12" stroke-linecap="round"/><path d="M62 18 H82 V38" stroke="#FFC23D" stroke-width="10" fill="none" stroke-linecap="round"/></svg>`;
-  H+=`<div class="panel" style="left:432px;top:28px;width:216px;height:210px;opacity:${o};display:flex;flex-direction:column;align-items:center;justify-content:center;border-width:4px"><div style="font-size:30px;color:#0AC8B9">MID</div>${ic}</div>`;
-  H+=`<div class="panel" style="left:112px;top:538px;width:386px;height:136px;opacity:${o};display:flex;align-items:center;justify-content:center;border-width:4px"><span style="font-weight:900;font-size:84px;line-height:1;color:#FFC23D">${up.toFixed(2)}x</span></div>`;
-  H+=`<div class="panel" style="left:432px;top:1238px;width:216px;height:210px;opacity:${o};display:flex;flex-direction:column;align-items:center;justify-content:center;border-width:4px"><div style="font-size:28px;color:#C8AA6E">DİĞER</div>${ic}</div>`;
-  H+=`<div class="panel" style="left:198px;top:1728px;width:320px;height:136px;opacity:${o};display:flex;align-items:center;justify-content:center;border-width:4px"><span style="font-weight:900;font-size:84px;line-height:1">1.00x</span></div>`;
-  if(t>=T.p30){const k=prog(t,T.p30,.3);H+=`<div class="ab" style="left:520px;top:540px;transform:scale(${lerp(1.8,1,eb(k))}) rotate(8deg);opacity:${cl(k*3)*o};font-weight:900;font-size:70px;color:#010A13;background:#0AC8B9;padding:4px 22px 10px;border-radius:14px;border:5px solid #fff">+%30</div>`}}}
- // 13) SADECE MID'DE card: real mid lane map + arrow along the lane
+  H+=`<div class="L" style="background:radial-gradient(circle at 540px 880px,transparent ${r}px,rgba(2,8,18,.85) ${r+160}px);opacity:${o}"></div><div class="ab" style="left:${540-r}px;top:${880-r}px;width:${2*r}px;height:${2*r}px;border-radius:50%;border:8px solid #0AC8B9;opacity:${o*.8};${glow('#0AC8B9',.5)}"></div>`}
+ // 7) ÖNCE OBJE! bubble (replaces "Objectives first!"), held until the section ends
+ {const a=S(28.85),b=T.yani-.05;const k=env(t,a,b);if(k)H+=bubble(490,255,640,540,'ÖNCE<br>OBJE!',k,92)}
+ // 8) + BEDAVA KİLL (straight, LoL font, lower middle)
+ if(t>=T.bedava-.05&&t<T.bilmiyorsan){const k=prog(t,T.bedava-.05,.3),o=cl(k*3)*(1-prog(t,T.bilmiyorsan-.2,.2));
+  H+=`<div class="ab" style="left:0;right:0;top:1120px;text-align:center;opacity:${o};transform:scale(${lerp(1.5,1,eb(k))})"><div style="display:inline-block;padding:10px 46px 14px;background:linear-gradient(180deg,rgba(10,22,38,.92),rgba(3,8,16,.92));border:4px solid #C8AA6E;border-radius:6px;box-shadow:0 0 30px rgba(200,170,110,.35)"><span class="lol gold" style="font-size:96px;line-height:1">+ BEDAVA KİLL</span></div></div>`}
+ // 9) split screen: official lane icons + attack speed counters (cover the reference's), shown from the first frame
+ {const a=S(49.6),b=S(55.0);if(t>=a&&t<=b){const o=1-prog(t,b-.12,.12);const up=lerp(1.0,1.3,eo(prog(t,T.p30,.6)));
+  H+=`<div class="panel" style="left:432px;top:28px;width:216px;height:210px;opacity:${o};display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="assets/pos_middle.png" style="width:120px;height:120px"><div class="lol" style="font-size:34px;color:#F0D58C;margin-top:4px">MID</div></div>`;
+  H+=`<div class="panel" style="left:112px;top:538px;width:386px;height:136px;opacity:${o};display:flex;align-items:center;justify-content:center"><span class="lol gold" style="font-size:96px;line-height:1">${up.toFixed(2)}x</span></div>`;
+  H+=`<div class="panel" style="left:432px;top:1238px;width:216px;height:210px;opacity:${o};display:flex;flex-direction:column;align-items:center;justify-content:center"><img src="assets/pos_top.png" style="width:120px;height:120px;filter:grayscale(.6)"><div class="lol" style="font-size:30px;color:#C8C8C8;margin-top:4px">DİĞER</div></div>`;
+  H+=`<div class="panel" style="left:198px;top:1728px;width:320px;height:136px;opacity:${o};display:flex;align-items:center;justify-content:center"><span class="lol" style="font-size:96px;line-height:1;color:#E8E8E8">1.00x</span></div>`;
+  if(t>=T.p30){const k=prog(t,T.p30,.3);H+=`<div class="ab lol" style="left:520px;top:540px;transform:scale(${lerp(1.8,1,eb(k))});opacity:${cl(k*3)*o};font-size:70px;color:#010A13;background:linear-gradient(180deg,#5FF0E2,#0AC8B9);padding:6px 22px 8px;border-radius:10px;border:4px solid #fff">+%30</div>`}}}
+ // 10) SADECE MID'DE card: mid lane map + arrow along the lane
  {const a=S(55.0)-.05,b=T.yani2;if(t>=a&&t<b){const k=prog(t,a,.25),o=vis(t,a,b),ak=eo(prog(t,a+.15,.6)),tk=prog(t,T.sadece2-.05,.3);
   H+=`<div class="L" style="background:rgba(2,8,18,.94);opacity:${o}"></div>`;
-  // map 1920x1600 shown at 0.5 -> 960x800 ; lane blue tower (400,960) -> red tower (1465,395) => (200,480)->(732,198)
   const x1=200,y1=480,x2=lerp(200,700,ak),y2=lerp(480,215,ak);
   H+=`<div class="ab" style="left:60px;top:${lerp(600,560,eo(k))}px;width:960px;height:800px;border-radius:24px;overflow:hidden;border:6px solid #C8AA6E;box-shadow:0 20px 50px rgba(0,0,0,.6);opacity:${o};transform:scale(${lerp(.85,1,eb(k))})">
    <img src="assets/midlane_map.webp" style="position:absolute;left:0;top:0;width:960px;height:800px">
    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 48% 45%,transparent 35%,rgba(2,8,18,.55))"></div>
    <svg style="position:absolute;left:0;top:0;${glow('#FFC23D',.6)}" width="960" height="800"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#FFC23D" stroke-width="22" stroke-linecap="round"/>
     <g transform="translate(${x2},${y2}) rotate(${Math.atan2(y2-y1,x2-x1)*180/Math.PI})" opacity="${ak>.05?1:0}"><path d="M-10 -38 L52 0 L-10 38Z" fill="#FFC23D" stroke="#fff" stroke-width="5"/></g></svg>
-   <div class="txt" style="position:absolute;left:330px;top:${440}px;transform:rotate(-28deg) scale(${lerp(1.5,1,eb(tk))});transform-origin:0 0;opacity:${cl(tk*3)};font-weight:900;font-size:74px;white-space:nowrap">SADECE <span class="y">MID'DE!</span></div></div>`;
+   <div class="lol gold" style="position:absolute;left:330px;top:430px;transform:rotate(-28deg) scale(${lerp(1.5,1,eb(tk))});transform-origin:0 0;opacity:${cl(tk*3)};font-size:84px;white-space:nowrap">SADECE MID'DE!</div></div>`;
  }}
- // 15) ROAM ATMA (covers chevrons src 63.9-65.6)
+ // 11) ROAM ATMA
  {const a=T.ama3,b=T.yoksa;if(t>=a&&t<b){const k=prog(t,T.roam-.3,.3),o=vis(t,a,b);
-  H+=`<svg class="ab" style="left:300px;top:250px;opacity:${o};transform:scale(${lerp(.4,1,eb(prog(t,a,.3)))});${glow('#FF3B4E',.6)}" width="520" height="520" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="rgba(20,4,8,.78)" stroke="#FF3B4E" stroke-width="10"/><path d="M22 78 L78 22" stroke="#FF3B4E" stroke-width="10" stroke-linecap="round"/><text x="50" y="57" text-anchor="middle" font-family="Mon" font-weight="900" font-size="17" fill="#FFF8EC">ROAM</text></svg>`;
-  H+=bigText(`<span class="r">ASLA</span> ROAM ATMA`,820,k,76)}}
- // 16) KULE GİTTİ text only (the turret bar in the footage stays)
- if(t>=T.tamami&&t<T.peki){const k=prog(t,T.tamami,.3);H+=bigText(`<span class="r">KULE GİTTİ!</span>`,820,k,90)}
- // 17) BİLİYOR MUYDUN?
+  H+=`<svg class="ab" style="left:300px;top:250px;opacity:${o};transform:scale(${lerp(.4,1,eb(prog(t,a,.3)))});${glow('#FF3B4E',.6)}" width="520" height="520" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="rgba(20,4,8,.78)" stroke="#FF3B4E" stroke-width="10"/><path d="M22 78 L78 22" stroke="#FF3B4E" stroke-width="10" stroke-linecap="round"/><text x="50" y="57" text-anchor="middle" font-family="Bf" font-weight="900" font-size="18" fill="#FFF1D6">ROAM</text></svg>`;
+  H+=bigText(`<span class="lol" style="color:#FF5A36">ASLA</span> <span class="lol">ROAM ATMA</span>`,820,k,80)}}
+ // 12) KULE GİTTİ (the turret bar in the footage stays as it is)
+ if(t>=T.tamami&&t<T.peki){const k=prog(t,T.tamami,.3);H+=bigText(`<span class="lol" style="color:#FF5A36">KULE GİTTİ!</span>`,820,k,96)}
+ // 13) BİLİYOR MUYDUN? (blurred gameplay keeps playing behind)
  if(t>=T.peki-.05&&t<T.bilmi2){const k=prog(t,T.peki-.05,.3),o=vis(t,T.peki-.05,T.bilmi2);
-  H+=`<div class="L" style="background:rgba(2,8,18,.9);opacity:${o}"></div>`;
-  H+=bigText(`BUNLARI<br><span class="y">BİLİYOR MUYDUN?</span>`,620,k,84,`opacity:${o}`);
-  if(t>=T.yorum-.1){const kk=prog(t,T.yorum-.1,.3);H+=`<div class="ab" style="left:0;right:0;top:980px;text-align:center;opacity:${o}"><div style="display:inline-flex;align-items:center;gap:24px;padding:18px 40px 24px;background:#FFF8EC;border-radius:60px;color:#010A13;font-size:52px;transform:scale(${lerp(.4,1,eb(kk))})"><svg width="64" height="64" viewBox="0 0 100 100"><path d="M10 15 H90 V70 H45 L22 90 V70 H10Z" fill="#010A13"/><circle cx="32" cy="42" r="7" fill="#FFF8EC"/><circle cx="50" cy="42" r="7" fill="#FFF8EC"/><circle cx="68" cy="42" r="7" fill="#FFF8EC"/></svg>YORUMLARA YAZ</div></div>`}}
- // 18) callback: minions don't care
+  H+=`<div class="L" style="background:rgba(2,8,18,.45);opacity:${o}"></div>`;
+  H+=`<div class="ab" style="left:0;right:0;top:600px;text-align:center;opacity:${o*cl(k*3)};transform:scale(${lerp(1.5,1,eo(k))})"><div class="lol" style="font-size:90px;line-height:1.1;color:#fff;text-shadow:0 5px 0 #000">BUNLARI</div><div class="lol gold" style="font-size:110px;line-height:1.1">BİLİYOR MUYDUN?</div></div>`;
+  if(t>=T.yorum-.1){const kk=prog(t,T.yorum-.1,.3);H+=`<div class="ab" style="left:0;right:0;top:1000px;text-align:center;opacity:${o}"><div style="display:inline-flex;align-items:center;gap:22px;padding:16px 36px 20px;background:#FFF8EC;border-radius:60px;color:#010A13;font-weight:900;font-size:50px;transform:scale(${lerp(.4,1,eb(kk))})"><svg width="60" height="60" viewBox="0 0 100 100"><path d="M10 15 H90 V70 H45 L22 90 V70 H10Z" fill="#010A13"/><circle cx="32" cy="42" r="7" fill="#FFF8EC"/><circle cx="50" cy="42" r="7" fill="#FFF8EC"/><circle cx="68" cy="42" r="7" fill="#FFF8EC"/></svg>YORUMLARA YAZ</div></div>`}}
+ // 14) callback bubble
  if(t>=T.bilmi2&&t<T.end){const k=env(t,T.umurs-.5,T.end);if(k)H+=bubble(560,380,440,230,'KULE &gt; SEN',k,62)}
- // 19) END CARD
- if(t>=T.end-.05){const k=prog(t,T.end-.05,.35);H+=`<div class="L" style="background:rgba(2,8,18,.92);opacity:${cl(k*2)}"></div>`;
-  H+=`<div class="ab" style="left:0;right:0;top:640px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.3,1,eo(k))})"><div class="txt" style="font-size:54px;color:#C8AA6E">TAKİP ET</div><div class="txt" style="font-weight:900;font-size:110px;line-height:1.1">FEEDLEME<br><span class="y">HOCAM</span></div></div>`}
+ // 15) END CARD over blurred gameplay (no sound)
+ if(t>=T.end-.05){const k=prog(t,T.end-.05,.35);H+=`<div class="L" style="background:rgba(2,8,18,.5);opacity:${cl(k*2)}"></div>`;
+  H+=`<div class="ab" style="left:0;right:0;top:660px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.3,1,eo(k))})"><div class="lol" style="font-size:56px;letter-spacing:.2em;color:#F0D58C;text-shadow:0 4px 0 #000">TAKİP ET</div><div class="lol gold" style="font-size:150px;line-height:1.02;margin-top:10px">FEEDLEME<br>HOCAM</div></div>`}
  $('dyn').innerHTML=H;
  const inSplit=t>=S(49.6)&&t<=S(55.0), inMid=t>=S(55.0)-.05&&t<T.yani2;
  if(t<T.end-.05&&!(t>=T.peki&&t<T.bilmi2)&&!inMid)caption(t);else $('cap').innerHTML='';
  $('cap').style.top=inSplit?'1000px':'1300px';
  $('tag').style.opacity=(t<T.end&&!inSplit)?1:0;
 };
-// SFX timeline
+// ---------- SFX timeline, grouped: confetti (intro) / pop (icons, bubbles) / card (full-screen cards) / swish (text callouts). BOZGUN uses its own sound. End card is silent.
 const SFX=[];const sfx=(n,t,g=0)=>{if(t!=null&&isFinite(t))SFX.push([n,+(+t).toFixed(3),g])};
-sfx('ding',0.05,-4);sfx('ding',T.l17-.2,-2);sfx('whoosh',T.p99-.1,-6);sfx('ding',T.iki,-4);sfx('ding',T.iki+.18,-6);sfx('whoosh',T.mac-.15,-4);sfx('whoosh',T.bir-.1,-6);sfx('ding',T.tunel,-2);
-sfx('ding',Math.max(T.rakip-.1,S(20.9)),-6);sfx('whoosh',T.ama-.1,-8);sfx('ding',S(28.85),-4);sfx('ding',S(30.85),-6);sfx('ding',S(32.85),-6);sfx('ding',S(38.85),-6);sfx('ding',T.bedava,-2);
-sfx('ding',S(45.8),-4);sfx('whoosh',S(49.6)-.1,-6);sfx('ding',T.p30,-2);sfx('whoosh',S(55.0)-.15,-6);sfx('ding',T.sadece2,-4);sfx('whoosh',T.ama3-.1,-6);sfx('whoosh',T.peki-.15,-6);sfx('ding',T.yorum,-4);sfx('ding',T.umurs-.5,-4);sfx('ding',T.end,-2);
+sfx('pop',0.02,-2);sfx('confetti',T.l17-.22,0);sfx('swish',T.p99-.05);sfx('pop',S(8.45));sfx('pop',S(8.45)+.18,-2);
+sfx('card',T.bir-.08,-2);sfx('swish',T.tunel-.05,-2);sfx('card',T.ama-.08,-3);sfx('pop',S(28.85));sfx('swish',T.bedava-.05);
+sfx('card',S(49.6)-.05,-2);sfx('swish',T.p30);sfx('card',S(55.0)-.08);sfx('swish',T.sadece2-.05,-2);sfx('swish',T.ama3-.02);sfx('swish',T.tamami);sfx('card',T.peki-.08);sfx('pop',T.yorum-.1,-2);sfx('pop',T.umurs-.5);
 window.SFX=SFX;window.CUES=T;window.ready=Promise.resolve();
 </script></body></html>

@@ -20,6 +20,7 @@ for i, (a, b, s, e, mode) in enumerate(P['segs']):
     else:
         sp = (e - s) / dur
         vf = f"trim=start={s}:end={e},setpts=(PTS-STARTPTS)/{sp:.5f},fps=30,tpad=stop_mode=clone:stop_duration=1"
+        if mode == 'blur': vf += ',gblur=sigma=16,eq=brightness=-0.06'
         cmd = ['ffmpeg', '-v', 'error', '-y', '-i', clean, '-vf', vf]
         print(f'seg{i:02d} {a:.2f}-{b:.2f} speed {sp:.2f}')
     cmd += ['-frames:v', str(nfr), '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '15', '-pix_fmt', 'yuv420p', '-r', '30', out]
