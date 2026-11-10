@@ -20,9 +20,9 @@ Kanntet ihr diese Geschichte? Schreibt es in die Kommentare! 👇
 
 #Scharfschütze #Ostfront #ZweiterWeltkrieg #Geschichte #Shorts
 ```
-**Tags** (unter 500 Zeichen)
+**Tags** (unter 500 Zeichen, nach Kittel-Muster)
 ```
-Sepp Allerberger, Josef Allerberger, Allerberger, Scharfschütze, Scharfschützen, Wehrmacht Scharfschütze, Sniper, Gebirgsjäger, 3. Gebirgs-Division, Matthäus Hetzenauer, Ostfront, Zweiter Weltkrieg, 2. Weltkrieg, 2. Weltkrieg Doku, WW2, Wehrmacht, Karabiner 98k, Militärgeschichte, Kriegsgeschichte, Geschichte, Geschichte Doku, Dokumentation
+Josef Allerberger, Sepp Allerberger, Allerberger, Scharfschütze, Wehrmacht Scharfschütze, Gebirgsjäger, Gebirgsjäger-Regiment 144, 3. Gebirgs-Division, Matthäus Hetzenauer, Karabiner 98k, Zielfernrohr, Seetaler Alpe, Scharfschützenschule, Ostfront, Kaukasus, Ukraine, Rumänien, Ungarn, Ritterkreuz, Albrecht Wacker, Österreich, Wehrmacht, Kriegsaufnahmen, Originalaufnahmen, Zweiter Weltkrieg, 2. Weltkrieg, Militärgeschichte, Dokumentation, Chronik der Macht
 ```
 **Angepinnter Kommentar**
 ```
