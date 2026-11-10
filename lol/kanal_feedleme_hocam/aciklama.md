@@ -1,6 +1,6 @@
 # Feedleme Hocam: kanal açıklaması
 
-Takım arkadaşın 0/7 ve hâlâ "jungle yok" yazıyor. Chat'e tek bir cümle düşüyor: feedleme hocam ya. 😅
+Takım arkadaşın 0/7 ve HÂLÂ "jungle yok" yazıyor. Chat'e tek bir cümle düşüyor: feedleme hocam ya. 😅
 
 Feedleme Hocam, League of Legends'ı Türkçe, kısa ve eğlenceli anlatan kanal. Burada:
 
