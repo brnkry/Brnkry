@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFilter
 B='/tmp/claude-0/-home-user-Brnkry/20fcd4ae-a45e-586b-9e5a-d5e860e017bc/scratchpad/allb2/'
-L={'a07':[(410,2070,38)],'a10':[(980,1180,20),(1052,1235,34),(930,1290,36)],'a03':[(800,140,24)]}
+L={'a07':[(410,2070,38),(982,112,34)],'a10':[(980,1180,20),(1052,1235,34),(930,1290,36)],'a03':[(800,140,24)]}
 for n,ps in L.items():
     im=Image.open(B+'img_orig/%s.jpg'%n).convert('RGB')
     for x,y,r in ps:
