@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Int;src:url(node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2) format('woff2');font-weight:100 900;unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Int;src:url(node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:#000}
+.box{position:relative;overflow:hidden}
+.map{position:absolute;inset:0;background:url(assets/midlane_map.webp) center/cover;filter:brightness(.55) saturate(1.05)}
+/* LoL in-game chat look */
+.chat{position:absolute;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.08);font-family:Int;font-weight:500;color:#fff;text-shadow:0 1px 2px #000,0 0 2px #000}
+.chat .ln{white-space:nowrap}
+.tm{color:#d8d8d8}.all{color:#fff}
+.ally{color:#4ea7ff}.enemy{color:#ff4d4d}.sys{color:#f2c94c}
+.inp{position:absolute;background:rgba(0,0,0,.72);border:1px solid #6b5a33;font-family:Int;color:#9a9a9a}
+</style></head><body>
+
+<!-- LOGO 800x800 (YouTube crops to a circle) -->
+<div id="logo" class="box" style="width:800px;height:800px;background:#05090f">
+ <div class="map" style="filter:brightness(.42) saturate(1.1) blur(2px);transform:scale(1.15)"></div>
+ <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(1,6,12,.8) 72%)"></div>
+ <div style="position:absolute;left:60px;top:60px;width:680px;height:680px;border-radius:50%;border:10px solid #C8AA6E;box-shadow:0 0 0 6px #010A13 inset,0 0 40px rgba(200,170,110,.35)"></div>
+ <div class="chat" style="left:95px;top:268px;width:610px;padding:22px 26px 26px;border-radius:6px">
+  <div class="ln" style="font-size:30px"><span class="tm">[18:42]</span> <span class="ally">Kule Sever (Teemo):</span></div>
+  <div style="font-size:78px;font-weight:700;line-height:1.08;margin-top:8px">feedleme<br>hocam ya</div>
+ </div>
+ <div class="inp" style="left:95px;top:560px;width:610px;height:54px;border-radius:4px;font-size:24px;line-height:52px;padding-left:18px">| </div>
+</div>
+
+<!-- BANNER 2560x1440 (safe area 1546x423 centered) -->
+<div id="banner" class="box" style="width:2560px;height:1440px;background:#05090f">
+ <div class="map"></div>
+ <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,6,12,.25),rgba(1,6,12,.65) 50%,rgba(1,6,12,.25)),linear-gradient(180deg,rgba(1,6,12,.3),transparent 40%,transparent 60%,rgba(1,6,12,.5))"></div>
+ <!-- chat box, left half of safe area -->
+ <div class="chat" style="left:520px;top:540px;width:870px;padding:18px 22px 20px;border-radius:4px;font-size:27px;line-height:1.5">
+  <div class="ln"><span class="tm">[18:39]</span> <span class="sys">Yasuo Ana (Yasuo) kuleye girdi.</span></div>
+  <div class="ln"><span class="tm">[18:40]</span> <span class="all">[Tümü]</span> <span class="enemy">Ahri Kral (Ahri):</span> geldiğin için sağ ol</div>
+  <div class="ln"><span class="tm">[18:41]</span> <span class="ally">Yasuo Ana (Yasuo):</span> minyonlarım neden vurmuyor</div>
+  <div class="ln" style="font-size:37px;font-weight:700;margin-top:6px;background:rgba(200,170,110,.18);padding:2px 10px;border-left:6px solid #C8AA6E"><span class="tm" style="font-size:27px;font-weight:500">[18:42]</span> <span class="ally">Kule Sever (Teemo):</span> feedleme hocam ya</div>
+ </div>
+ <div class="inp" style="left:520px;top:812px;width:916px;height:46px;border-radius:3px;font-size:24px;line-height:44px;padding-left:16px">| </div>
+ <!-- channel name, right half of safe area -->
+ <div style="position:absolute;left:1450px;top:545px;width:600px;font-family:Mon;font-weight:900;color:#fff;text-transform:uppercase;text-shadow:0 6px 0 rgba(0,0,0,.85),0 0 30px rgba(0,0,0,.8)">
+  <div style="font-size:98px;line-height:1">FEEDLEME</div>
+  <div style="font-size:128px;line-height:1;color:#FFC23D">HOCAM</div>
+  <div style="margin-top:16px;font-size:24px;letter-spacing:.12em;color:#0AC8B9;white-space:nowrap">REHBER · SHORTS · YAMA NOTLARI</div>
+ </div>
+</div>
+</body></html>
