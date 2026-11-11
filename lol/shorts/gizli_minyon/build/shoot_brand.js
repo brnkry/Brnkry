@@ -1,0 +1,10 @@
+const { chromium } = require('playwright'); const path = require('path');
+(async () => { const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const p = await b.newPage({ viewport: { width: 2560, height: 2300 } });
+  await p.goto('file://' + path.join(__dirname, 'brand.html'));
+  await p.evaluate(async () => { await Promise.all(['30px Chat', '900 40px Bf'].map(f => document.fonts.load(f, 'İŞĞÜÇÖ ığüşçö'))); });
+  await p.waitForTimeout(400);
+  const out = path.join(__dirname, '../../../kanal_feedleme_hocam');
+  await p.locator('#logo').screenshot({ path: path.join(out, 'logo.png') });
+  await p.locator('#banner').screenshot({ path: path.join(out, 'banner.png') });
+  await b.close(); })();
