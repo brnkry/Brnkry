@@ -51,7 +51,7 @@ function caption(t){let h='';for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=
 window.render=function(t){
  let H='';
  // speech bubble (replaces the English one, follows the champion)
- {const a=S(6.3),b=S(8.12);if(t>=a&&t<=b){const s=srcAt(t),k=env(t,a,b);const kk=cl((s-6.8)/0.8,-.6,1.4);const cx=lerp(832,720,kk),cy=lerp(700,920,kk);H+=bubble(cx,cy,470,290,'5 dakikadır skill kaçırıyorum...',k,44)}}
+ {const a=S(6.0),b=S(8.2);if(t>=a&&t<=b){const s=srcAt(t),k=env(t,a,b,.15,.12);const P=[[6.0,860,660],[6.8,832,700],[7.6,720,920],[8.2,600,1140]];let cx=P[3][1],cy=P[3][2];for(let i=0;i<3;i++){if(s<=P[i+1][0]){const q=cl((s-P[i][0])/(P[i+1][0]-P[i][0]));cx=lerp(P[i][1],P[i+1][1],q);cy=lerp(P[i][2],P[i+1][2],q);break}}H+=bubble(cx,cy,500,310,'5 dakikadır skill kaçırıyorum...',k,46)}}
  // 3 SİNSİ TAKTİK
  if(t>=T.sinsi-.05&&t<T.bir){const k=prog(t,T.sinsi-.05,.3);H+=`<div class="ab" style="left:0;right:0;top:230px;text-align:center;opacity:${cl(k*3)*(1-prog(t,T.bir-.2,.2))};transform:scale(${lerp(1.5,1,eb(k))})"><span class="lol gold" style="font-size:96px">3 SİNSİ TAKTİK</span></div>`}
  // 1: Tanrıça'nın Gözyaşı on Lucian
@@ -71,7 +71,7 @@ window.render=function(t){
  if(t>=T.n90-.05&&t<T.ama4){H+=stamp('SADECE -90 GOLD','#FFC23D',300,prog(t,T.n90-.05,.25),84,0)}
  // 3: Peri Tılsımı
  if(t>=T.ama4-.05&&t<T.peri){H+=ring(540,330,95,'#FF5AC8','3',env(t,T.ama4-.05,T.peri))}
- if(t>=T.peri-.05&&t<T.jinx+.6){const k=prog(t,T.peri-.05,.3);H+=`<div class="ab" style="left:0;right:0;top:560px;text-align:center;opacity:${cl(k*3)*(1-prog(t,T.jinx+.4,.2))};transform:scale(${lerp(1.5,1,eb(k))})"><span class="lol gold" style="font-size:110px">PERİ TILSIMI</span></div>`}
+ if(t>=T.peri-.05&&t<T.jinx+.6){const k=prog(t,T.peri-.05,.3);H+=`<div class="ab" style="left:0;right:0;top:400px;text-align:center;opacity:${cl(k*3)*(1-prog(t,T.jinx+.4,.2))};transform:scale(${lerp(1.5,1,eb(k))})"><span class="lol gold" style="font-size:110px">PERİ TILSIMI</span></div>`}
  if(t>=T.p50-.05&&t<T.birdaha){const k=env(t,T.p50-.05,T.birdaha);H+=item('1004','+%50 MANA<br>YENİLENMESİ',k)}
  // Fiyat - Satış = Kayıp (covers the English Cost/Sell line)
  {const a=S(70.3),b=T.of;if(t>=a&&t<b){const o=1-prog(t,b-.15,.15);H+=`<div class="ab" style="left:0;right:0;top:1310px;height:250px;background:#050d18;border-top:4px solid #C8AA6E;border-bottom:4px solid #C8AA6E;opacity:${o};display:flex;align-items:center;justify-content:center;gap:26px">
@@ -87,8 +87,8 @@ window.render=function(t){
  $('tag').style.opacity=t<T.end?1:0;
 };
 const SFX=[];const sfx=(n,t,g=0)=>{if(t!=null&&isFinite(t))SFX.push([n,+(+t).toFixed(3),g])};
-sfx('pop',S(6.3));sfx('swish',T.sinsi-.05);sfx('pop',T.bir-.05);sfx('pop',T.tanrica-.05,-2);sfx('pop',T.canbicen-.05,-2);sfx('swish',T.satiyor-.05);sfx('swish',T.kotusu-.05);
-sfx('card',T.daha-.08,-2);sfx('pop',T.luden-.05,-2);sfx('pop',T.rylai-.05,-3);sfx('pop',T.bunlar-.05);sfx('pop',T.safir-.05,-2);sfx('pop',T.kayip-.05,-2);sfx('swish',T.n90-.05);
-sfx('pop',T.ama4-.05);sfx('swish',T.peri-.05);sfx('pop',T.p50-.05,-2);sfx('card',S(70.3)-.05,-3);sfx('swish',T.tek-.05);
+sfx('bubble',S(6.0));sfx('swish',T.sinsi-.05);sfx('ring',T.bir-.05);sfx('item',T.tanrica-.05);sfx('item',T.canbicen-.05);sfx('stamp',T.satiyor-.05);sfx('stamp',T.kotusu-.05);
+sfx('card',T.daha-.08,-2);sfx('item',T.luden-.05);sfx('item',T.rylai-.05,-2);sfx('ring',T.bunlar-.05);sfx('item',T.safir-.05);sfx('item',T.kayip-.05);sfx('stamp',T.n90-.05);
+sfx('ring',T.ama4-.05);sfx('swish',T.peri-.05);sfx('item',T.p50-.05);sfx('card',S(70.3)-.05,-3);sfx('tek',T.tek-.05);
 window.SFX=SFX;window.CUES=T;window.ready=Promise.resolve();
 </script></body></html>

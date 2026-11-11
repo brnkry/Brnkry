@@ -4,7 +4,7 @@ import sys, json, os, subprocess, numpy as np, cv2
 SRC, OUT = sys.argv[1], sys.argv[2]
 CFG = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'clean_cfg.json')))
 W, H, FPS = 1080, 1920, 30
-def rule_mask(roi, rule):
+def rule_mask(roi, rule, dil=19):
     hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV); h, s, v = hsv[..., 0].astype(int), hsv[..., 1].astype(int), hsv[..., 2].astype(int)
     m = np.zeros(h.shape, bool)
     for r in rule.split('+'):
@@ -15,6 +15,7 @@ def rule_mask(roi, rule):
         if r == 'gold': m |= (h > 12) & (h < 35) & (s > 90) & (v > 150)
         if r == 'lime': m |= (h > 40) & (h < 92) & (s > 55) & (v > 105)
         if r == 'yellow': m |= (h > 14) & (h < 40) & (s > 55) & (v > 105)
+        if r == 'softwhite': m |= (s < 80) & (v > 115)
         if r == 'white': m |= (s < 70) & (v > 185)
         if r == 'disc':
             yy, xx = np.mgrid[:h.shape[0], :h.shape[1]]; cy, cx = h.shape[0] / 2, h.shape[1] / 2
@@ -22,13 +23,13 @@ def rule_mask(roi, rule):
     m = m.astype(np.uint8) * 255
     if rule != 'disc':
         m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((2, 2), np.uint8))
-        m = cv2.dilate(m, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (19, 19)))
+        m = cv2.dilate(m, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (dil, dil)))
     return m
 def clean(fr, t):
     for c in CFG:
         if not (c['a'] <= t <= c['b']): continue
         x, y, w, h = c['r']; roi = fr[y:y + h, x:x + w]
-        m = rule_mask(roi, c['rule'])
+        m = rule_mask(roi, c['rule'], c.get('dil', 19))
         if m.max() == 0: continue
         if 'to' in c:  # keep the reference icon but change its colour
             hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
