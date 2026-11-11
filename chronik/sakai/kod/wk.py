@@ -183,12 +183,13 @@ def qlines(can, t, lines, y0, size, tout, cols=None, lh=1.04):
         quote(can, t, [l], y + sz * 0.5, size=sz, tout=tout, col={0: (cols or {}).get(i, CREAM)}); y += sz * lh
 def hook_frame(t):
     can = hookbg(t)
-    qlines(can, t, [[('EIN', ws('Ein')), ('GESCHOSS', ws('Geschoss'))], [('TRAF', ws('traf')), ('IHN', ws('ihn')), ('AM', ws('am'))], [('KOPF,', ws('Kopf'))]],
-           820, 100, ws('und') - 0.08, {2: YEL})
-    qlines(can, t, [[('UND', ws('und')), ('TROTZDEM', ws('trotzdem'))], [('FLOG', ws('flog')), ('ER', ws('er', 2.5)), ('FAST', ws('fast'))], [('FÜNF', ws('fünf')), ('STUNDEN', ws('Stunden'))], [('ZURÜCK', ws('zurück'))], [('ZU', ws('zu', 3.9)), ('SEINEM', ws('seinem')), ('STÜTZPUNKT.', ws('Stützpunkt'))]],
-           700, 92, ws('Sein') - 0.12, {2: YEL})
+    SEIN = ws('Sein', 5.0)   # not 'seinem'
+    qlines(can, t, [[('EIN', ws('Ein')), ('GESCHOSS', ws('Geschoss'))], [('TRAF', ws('traf')), ('IHN', ws('ihn')), ('AM', ws('am'))], [('KOPF,', ws('Kopf'))], [('UND', ws('und')), ('TROTZDEM', ws('trotzdem'))]],
+           780, 100, ws('flog') - 0.08, {2: YEL})
+    qlines(can, t, [[('FLOG', ws('flog')), ('ER', ws('er', 2.5)), ('FAST', ws('fast'))], [('FÜNF', ws('fünf')), ('STUNDEN', ws('Stunden'))], [('ZURÜCK', ws('zurück')), ('ZU', ws('zu', 3.9))], [('SEINEM', ws('seinem')), ('STÜTZPUNKT.', ws('Stützpunkt'))]],
+           780, 96, SEIN - 0.12, {1: YEL})
     portrait(can, t)
-    quote(can, t, [[('SEIN', ws('Sein')), ('NAME', ws('Name')), ('WAR', ws('war', 5.9))], [('SABURŌ', ws('Saburō'))], [('SAKAI.', ws('Sakai'))]],
+    quote(can, t, [[('SEIN', SEIN), ('NAME', ws('Name')), ('WAR', ws('war', 5.9))], [('SABURŌ', ws('Saburō'))], [('SAKAI.', ws('Sakai'))]],
           330, size=96, tout=ZS - 0.12, lh=1.02, col={1: YEL, 2: YEL})
     return can
 
