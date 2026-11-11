@@ -1,6 +1,6 @@
 """Mix for the gizli minyon Short: VO + ducked music + grouped UI sfx (confetti/pop/card/swish) + quiet Bozgun sound. usage: python3 mix.py OUT.wav"""
 import json, subprocess, sys
-D = 69.9
+D = 70.3
 GAIN = {'confetti': -15, 'pop': -12, 'card': -14, 'swish': -13, 'bozgun': -14}
 FILE = {k: f'../ses/{k}.wav' for k in GAIN}
 ev = json.load(open('sfx.json'))
