@@ -6,8 +6,8 @@ FILE = {k: f'../ses/{k}.wav' for k in GAIN}
 ev = json.load(open('sfx.json'))
 inp = ['-i', '../ses/vo.wav', '-stream_loop', '-1', '-i', '../../../rengar/muzik.mp3']
 fc = ['[0]aresample=44100,aformat=channel_layouts=stereo,volume=8dB,apad=whole_dur=%s,asplit[vo][sc]' % D,
-      '[1]aresample=44100,aformat=channel_layouts=stereo,atrim=0:%s,volume=-12dB,afade=t=in:d=0.4,afade=t=out:st=%s:d=1.4[m0]' % (D, D - 1.5),
-      '[m0][sc]sidechaincompress=threshold=0.03:ratio=6:attack=15:release=350[mus]']
+      '[1]aresample=44100,aformat=channel_layouts=stereo,atrim=0:%s,volume=-2dB,afade=t=in:d=0.4,afade=t=out:st=%s:d=1.4[m0]' % (D, D - 1.5),
+      '[m0][sc]sidechaincompress=threshold=0.06:ratio=2.5:attack=20:release=400[mus]']
 lab = []
 for i, (n, t, g) in enumerate(ev):
     inp += ['-i', FILE[n]]
