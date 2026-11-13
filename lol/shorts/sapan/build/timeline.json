@@ -1,0 +1,65 @@
+{
+ "hook": [
+  {
+   "t": 0.15,
+   "d": 1.06,
+   "text": "Ahaha, kolaydı!"
+  },
+  {
+   "t": 2.2,
+   "d": 0.78,
+   "text": "Bi base atayım."
+  },
+  {
+   "t": 3.35,
+   "d": 0.28000000000000025,
+   "text": "Lan?"
+  },
+  {
+   "t": 4.05,
+   "d": 0.3799999999999999,
+   "text": "Lan?"
+  },
+  {
+   "t": 4.8,
+   "d": 0.7199999999999998,
+   "text": "Noluyo lan?"
+  },
+  {
+   "t": 5.75,
+   "d": 0.9199999999999999,
+   "text": "Yakma lan artık!"
+  },
+  {
+   "t": 6.75,
+   "d": 0.96,
+   "text": "Ölücem, ananın..."
+  }
+ ],
+ "beep": 7.69,
+ "body_start": 8.7,
+ "inserts": [
+  {
+   "file": "vl_teemo_yemin",
+   "t": 19.15,
+   "d": 3.78
+  },
+  {
+   "file": "vl_brand_ates",
+   "t": 47.55,
+   "d": 3.05
+  },
+  {
+   "file": "vl_teemo_yakacak",
+   "t": 56.02,
+   "d": 1.62
+  },
+  {
+   "file": "vl_spiker_kill",
+   "t": 62.48,
+   "d": 1.95
+  }
+ ],
+ "vo_end": 71.78,
+ "end": 73.38
+}

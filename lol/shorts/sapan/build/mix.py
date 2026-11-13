@@ -1,12 +1,12 @@
-"""Mix for the gizli minyon Short: VO + ducked music + grouped UI sfx (confetti/pop/card/swish) + quiet Bozgun sound. usage: python3 mix.py OUT.wav"""
+"""Mix for the Sapan Short: VO + ducked music + grouped UI sfx (confetti/pop/card/swish) + quiet Bozgun sound. usage: python3 mix.py OUT.wav"""
 import json, subprocess, sys
-D = 70.3
-GAIN = {'pop': -12, 'card': -14, 'swish': -13, 'stamp': -1, 'item': -10, 'ring': -6, 'bubble': -15, 'tek': -14}
+D = 73.38
+GAIN = {'pop': -12, 'card': -14, 'swish': -13, 'stamp': -1, 'item': -10, 'ring': -6, 'bubble': -15, 'tek': -14, 'beep': -6, 'qping': 4, 'bozgun': -14}
 FILE = {k: f'../ses/{k}.wav' for k in GAIN}
-ev = json.load(open('sfx.json'))
-inp = ['-i', '../ses/vo.wav', '-stream_loop', '-1', '-i', '../../../rengar/muzik.mp3']
+ev = json.load(open('sfx.json')) + [['bozgun', 70.06, 0]]
+inp = ['-i', '../ses/vo.wav', '-stream_loop', '-1', '-i', '../../../sett/ses/muzik.mp3']
 fc = ['[0]aresample=44100,aformat=channel_layouts=stereo,volume=8dB,apad=whole_dur=%s,asplit[vo][sc]' % D,
-      '[1]aresample=44100,aformat=channel_layouts=stereo,atrim=0:%s,volume=-2dB,afade=t=in:d=0.4,afade=t=out:st=%s:d=1.4[m0]' % (D, D - 1.5),
+      '[1]aresample=44100,aformat=channel_layouts=stereo,atrim=0:%s,volume=1dB,afade=t=in:d=0.4,afade=t=out:st=%s:d=1.4[m0]' % (D, D - 1.5),
       '[m0][sc]sidechaincompress=threshold=0.06:ratio=2.5:attack=20:release=400[mus]']
 lab = []
 for i, (n, t, g) in enumerate(ev):
