@@ -22,8 +22,8 @@ HOOK = [(0.00, 1.06, 0.15, 'Ahaha, kolaydı!'), (1.20, 1.98, 2.20, 'Bi base atay
         (3.58, 4.30, 4.80, 'Noluyo lan?'), (4.58, 5.50, 5.75, 'Yakma lan artık!'), (5.64, 6.60, 6.75, 'Ölücem, ananın...')]
 BODY_START = 8.70
 # inserts after body words: (word, file, gain_db)
-INS = [('Sapanı.', 'vl_teemo_yemin', -5.5, 10.27), ('istersin.', 'vl_brand_ates', -10.6, 34.53), ('vuruyor.', 'vl_teemo_yakacak', -5.5, 39.59), ('kilikap.', 'vl_spiker_kill', -10.2, 44.07)]  # cut times = energy minima in the body take
-END_PAD = 1.6
+INS = [('vuruyor.', 'vl_teemo_yakacak', -5.5, 39.59, 0.0, 0.18, 0.36), ('kilikap.', 'vl_spiker_kill', -10.2, 44.07, 0.22, 0.06, 0.14)]  # (word, file, gain, cut, trim_head, lead, total_pad)  # cut times = energy minima in the body take
+END_PAD = 2.2
 out = np.zeros(int(90 * SR), np.float32)
 def put(sig, t):
     i = int(t * SR); out[i:i + len(sig)] += sig
@@ -32,17 +32,17 @@ for a, b, t, _ in HOOK:
 TL = {'hook': [{'t': t, 'd': b - a, 'text': x} for a, b, t, x in HOOK], 'beep': HOOK[-1][2] + (HOOK[-1][1] - HOOK[-1][0]) - 0.02, 'body_start': BODY_START, 'inserts': []}
 # split body
 cuts = []
-for word, f, g, c in INS:
-    cuts.append((c, f, g))
+for word, f, g, c, th, ld, pd in INS:
+    cuts.append((c, f, g, th, ld, pd))
 pos = 0.0; shift = BODY_START; words = []
 def addwords(a, b, sh):
     for s, e, txt in bw:
         if a <= (s + e) / 2 < b: words.append([round(s + sh, 3), round(e + sh, 3), txt])
-for c, f, g in cuts:
+for c, f, g, th, ld, pd in cuts:
     seg = body[int(pos * SR):int(c * SR)]; put(seg, pos + shift); addwords(pos, c, shift)
-    vl = db(load(f'../ses/{f}.wav'), g); t = c + shift + 0.18; put(vl, t)
-    TL['inserts'].append({'file': f, 't': round(t, 3), 'd': round(len(vl) / SR, 3)})
-    shift += len(vl) / SR + 0.36; pos = c
+    vl = db(load(f'../ses/{f}.wav'), g)[int(th * SR):]; t = c + shift + ld; put(vl, t)
+    TL['inserts'].append({'file': f, 't': round(t, 3), 'd': round(len(vl) / SR, 3), 'cut': c})
+    shift += len(vl) / SR + pd; pos = c
 seg = body[int(pos * SR):]; put(seg, pos + shift); addwords(pos, 1e9, shift)
 end = pos + shift + len(seg) / SR
 TL['vo_end'] = round(end, 3); TL['end'] = round(end + END_PAD, 3)

@@ -45,7 +45,7 @@ const TR=s=>s.toLocaleUpperCase('tr');
 const norm=s=>s.toLocaleLowerCase('tr').replace(/[^a-zçğıöşü0-9%]/g,'');
 const MISSING=[];
 function C(w,n=1){let k=0;for(const x of WORDS){if(norm(x[2])===norm(w)&&++k===n)return x[0]}MISSING.push(w+n);return 0}
-const TL={"hook": [{"t": 0.15, "d": 1.06, "text": "Ahaha, kolaydı!"}, {"t": 2.2, "d": 0.78, "text": "Bi base atayım."}, {"t": 3.35, "d": 0.28000000000000025, "text": "Lan?"}, {"t": 4.05, "d": 0.3799999999999999, "text": "Lan?"}, {"t": 4.8, "d": 0.7199999999999998, "text": "Noluyo lan?"}, {"t": 5.75, "d": 0.9199999999999999, "text": "Yakma lan artık!"}, {"t": 6.75, "d": 0.96, "text": "Ölücem, ananın..."}], "beep": 7.69, "body_start": 8.7, "inserts": [{"file": "vl_teemo_yemin", "t": 19.15, "d": 3.78}, {"file": "vl_brand_ates", "t": 47.55, "d": 3.05}, {"file": "vl_teemo_yakacak", "t": 56.02, "d": 1.62}, {"file": "vl_spiker_kill", "t": 62.48, "d": 1.95}], "vo_end": 71.78, "end": 73.38};
+const TL={"hook": [{"t": 0.15, "d": 1.06, "text": "Ahaha, kolaydı!"}, {"t": 2.2, "d": 0.78, "text": "Bi base atayım."}, {"t": 3.35, "d": 0.28000000000000025, "text": "Lan?"}, {"t": 4.05, "d": 0.3799999999999999, "text": "Lan?"}, {"t": 4.8, "d": 0.7199999999999998, "text": "Noluyo lan?"}, {"t": 5.75, "d": 0.9199999999999999, "text": "Yakma lan artık!"}, {"t": 6.75, "d": 0.96, "text": "Ölücem, ananın..."}], "beep": 7.69, "body_start": 8.7, "inserts": [{"file": "vl_teemo_yakacak", "t": 48.47, "d": 1.62, "cut": 39.59}, {"file": "vl_spiker_kill", "t": 54.81, "d": 1.73, "cut": 44.07}], "vo_end": 63.79, "end": 65.99};
 const H=TL.hook, INS=TL.inserts;
 function env(t,a,b,fi=.2,fo=.15){if(t<a||t>b)return 0;return Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo))}
 const glow=(c,s=1)=>`filter:drop-shadow(0 0 ${10*s}px ${c}) drop-shadow(0 0 ${24*s}px ${c}) drop-shadow(0 5px 0 rgba(0,0,0,.7))`;
@@ -56,15 +56,19 @@ function item(id,name,k,y,extra=''){return `<div class="ab" style="left:0;right:
 function badge(icon,name,x,y,k){return `<div class="badge" style="left:${x}px;top:${y}px;opacity:${cl(k*2)};transform:scale(${lerp(.6,1,eb(k))})"><img src="assets/${icon}.png"><span class="lol gold" style="font-size:44px">${name}</span><span style="font-size:44px;margin-left:4px">🔊</span></div>`}
 const T={kara:C('kara'),mejai:C('mejai,'),alt:C('alternatörü'),ama:C('ama',1),izci:C('izci'),gel:C('gel'),kimse:C('kimsenin'),alt2:C("alternatör'ün"),sapan2:C('sapan',1),
  yani:C('yani',1),kizart:C('kızart,'),luden:C('luden,'),rylai:C('rylai,'),liandry:C('liandry,'),daha:C('daha'),olum:C('ölümateşi'),lian2:C('liandry',2),siyah:C('siyahateş'),
- rakip:C('rakip',1),n200:C('200'),yani2:C('yani',2),olur:C('ölür'),satinca:C('satınca'),n180:C('180'),kill:C('kill goldu'),bunu:C('bunu'),yanarak:C('yanarak'),end:TL.vo_end};
+ gizli:C('gizli'),al:C('al'),rakip:C('rakip',1),n200:C('200'),yani2:C('yani',2),olur:C('ölür'),satinca:C('satınca'),n180:C('180'),kill:C('kill goldu'),bunu:C('bunu'),yanarak:C('yanarak'),end:TL.vo_end};
 const KEY=/^(kara|mejai|alternatör|izci|sapan|skill|kızart|luden|rylai|liandry|ölümateşi|siyahateş|yakma|200|180|gold|kill|tek|hedefli|challenger)/;
 const CH=[];{let cur=[];WORDS.forEach((w,i)=>{cur.push(w);const nx=WORDS[i+1];const len=cur.map(x=>x[2]).join(' ').length;if(/[,.?!:]$/.test(w[2])||cur.length>=2||len>11||!nx||nx[0]-w[1]>0.35){CH.push(cur);cur=[]}})}
 function caption(t){let h='';for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+0.3);if(t>=a&&t<b){const k=prog(t,a,.1);
  h=`<span class="sh" style="display:inline-block;transform:scale(${lerp(.75,1,eb(k))})">`+CH[i].map(w=>{let s=TR(w[2].replace(/[,.:?!]$/,''));return KEY.test(norm(s))?`<span class="y">${s}</span>`:s}).join(' ').replace(/ '/g,"'")+'</span>';break}}$('cap').innerHTML=h}
-function shop(t,top,full,hl,showSapan,sapK){const items=[['item_1082','350','Kara Mühür'],['item_3041','1500','Mejai\'nin Ruhyiyeni'],['item_3145','1100','Hextech Alternatörü']];
- if(showSapan)items.push(['item_3144','600','İzci Sapanı']);
+function shop(t,top,full,hl,mode,sapK,click=0){const items=[['item_1082','350','Kara Mühür'],['item_3041','1500','Mejai\'nin Ruhyiyeni'],['item_3145','1100','Hextech Alternatörü']];
+ if(mode)items.push(['item_3144','600','İzci Sapanı']);
  return `<div class="shop" style="top:${top}px;${full==='b'?'left:0;right:0;bottom:0;border-bottom:0;':full?'bottom:300px;':''}"><div class="tabs"><div>ÖNERİLEN</div><div class="on">TÜM EŞYALAR</div></div><div class="search">Aramak için buraya tıkla</div><div class="cat">ÖLÜYKEN AL ⌄</div><div class="slots">`+
- items.map(([img,p,n],i)=>{const on=hl[i]||0;const isS=i===3;return `<div class="slot" style="${isS?`transform:scale(${lerp(.3,1,eb(sapK))});opacity:${cl(sapK*3)}`:''}"><img src="assets/${img}.png" style="${on?`border-color:#F0E6D2;box-shadow:0 0 ${18*on}px #F0D58C`:''};${isS?'border-color:#3FD15B;box-shadow:0 0 24px #3FD15B':''}"><div class="p">${p}</div><div class="n">${n}</div></div>`}).join('')+`</div></div>`}
+ items.map(([img,p,n],i)=>{const on=hl[i]||0;const isS=i===3;
+  if(isS&&mode==='q'){const k=sapK;return `<div class="slot" style="transform:scale(${lerp(.3,1,eb(k))});opacity:${cl(k*3)}"><div style="width:130px;height:130px;margin:0 auto 6px;border:3px solid #785A28;background:#0a1626;display:flex;align-items:center;justify-content:center;font-family:Mon;font-weight:900;font-size:96px;color:#FFD84A;text-shadow:0 0 20px rgba(255,216,74,.7);box-shadow:0 0 ${14+10*Math.sin(t*12)}px rgba(255,216,74,.6)">?</div><div class="p">???</div><div class="n">Gizli Eşya</div></div>`}
+  const fl=isS&&mode==='flip'?`transform:perspective(600px) rotateY(${(1-eo(sapK))*90}deg) scale(${lerp(1.25,1,eo(sapK))})`:'';
+  const ck=isS&&click?`transform:scale(${1+.12*Math.sin(cl(click)*Math.PI)})`:'';
+  return `<div class="slot" style="${fl}${ck}"><img src="assets/${img}.png" style="${on?`border-color:#F0E6D2;box-shadow:0 0 ${18*on}px #F0D58C`:''};${isS?'border-color:#3FD15B;box-shadow:0 0 28px #3FD15B':''}"><div class="p">${p}</div><div class="n">${n}</div></div>`}).join('')+`</div></div>`}
 window.render=function(t){let O='';const end=TL.vo_end;
  // 1) HOOK shouts above the champion
  if(t<TL.body_start){const [cx,cy]=champ(t);const hy=cy-330;
@@ -77,56 +81,58 @@ window.render=function(t){let O='';const end=TL.vo_end;
   if(t>=TL.beep-.02&&t<TL.body_start){const k=prog(t,TL.beep-.02,.15);const sy=['#','@','%','&','!','$','*','?'];
    O+=`<div class="ab" style="left:0;right:0;top:760px;text-align:center;opacity:${cl(k*3)};transform:scale(${lerp(1.6,1,eb(k))}) rotate(${Math.sin(t*40)*2}deg)">`+sy.map((c,i)=>`<span style="display:inline-block;font-family:Mon;font-weight:900;font-size:${150+((i*37)%50)}px;color:${['#FF3B4E','#FFD84A','#3FA9FF','#3FD15B','#FF8A3D','#C48BFF','#FFF','#FF5AC8'][i]};-webkit-text-stroke:7px #000;paint-order:stroke fill;transform:rotate(${(i%2?1:-1)*(8+i*3)}deg) translateY(${Math.sin(t*30+i)*10}px)">${c}</span>`).join('')+`</div>`;}
  }
- // 2) Turkish shop: bottom panel, then full panel with İzci Sapanı
+ // 2) Turkish shop: bottom panel, then full panel: a mystery "?" item that flips into İzci Sapanı
  if(t>=TL.body_start&&t<15.40){const k=prog(t,TL.body_start,.25);O+=`<div class="ab" style="left:0;right:0;top:0;bottom:0;opacity:${cl(k*3)}">`+shop(t,990,'b',[env(t,T.kara-.05,T.mejai),env(t,T.mejai-.05,T.alt),env(t,T.alt-.05,15.4)],false,0)+`</div>`}
- if(t>=15.40&&t<19.10){const sk=prog(t,T.izci-.05,.3);O+=`<div class="L" style="background:#020a12"></div>`+shop(t,330,true,[0,0,0],true,sk);
-  if(t>=T.izci-.05){const bob=Math.sin(t*9)*12;const x=30+24+3*(150+26)+75;O+=`<div class="ab lol" style="left:${x}px;top:${640+bob}px;transform:translate(-50%,-100%);text-align:center;opacity:${cl(sk*3)}"><div class="gold" style="font-size:40px;white-space:nowrap">İZCİ SAPANI</div><div style="font-size:90px;line-height:.9;color:#3FD15B;-webkit-text-stroke:4px #000;paint-order:stroke fill">⬇</div></div>`}}
- if(t>=SHOP2[0]&&t<SHOP2[1]){const k=env(t,SHOP2[0],SHOP2[1],.12,.12);O+=`<div class="ab" style="left:0;right:0;top:0;bottom:0;opacity:${cl(k*3)}">`+shop(t,700,'b',[0,0,0],true,1)+`</div>`}
- // 3) Teemo line with the real item
- {const v=INS[0];if(t>=v.t-.25&&t<T.gel){const k=env(t,v.t-.25,T.gel,.25,.2);O+=`<div class="L" style="background:radial-gradient(circle at 50% 45%,rgba(2,8,18,.55),rgba(2,8,18,.92));opacity:${cl(k*2)}"></div>`;
-  O+=`<div class="ab" style="left:0;right:0;top:620px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(.6,1,eb(k))})"><img src="assets/item_3144.png" style="width:300px;height:300px;border:8px solid #C8AA6E;border-radius:14px;box-shadow:0 0 60px rgba(63,209,91,.5)"><div class="lol gold" style="font-size:84px;margin-top:20px">İZCİ SAPANI</div><div class="lol" style="font-size:44px;color:#F0D58C">600 GOLD</div></div>`;
-  O+=badge('champ_Teemo','TEEMO',300,1280,k)}}
+ if(t>=15.40&&t<T.gel){const q=t<T.izci-.05;O+=`<div class="L" style="background:#020a12"></div>`+shop(t,330,true,[0,0,0],t>=T.gizli-.1?(q?'q':'flip'):false,q?prog(t,T.gizli-.1,.3):prog(t,T.izci-.05,.35))}
+ // 2b) second shop: cursor buys İzci Sapanı right after dying
+ if(t>=SHOP2[0]&&t<SHOP2[1]){const k=env(t,SHOP2[0],SHOP2[1],.12,.12);const ck=prog(t,T.al-.05,.3);
+  O+=`<div class="ab" style="left:0;right:0;top:0;bottom:0;opacity:${cl(k*3)}">`+shop(t,700,'b',[0,0,0],'s',1,t>=T.al-.05?ck:0)+`</div>`;
+  const tx=SX,ty=SY+30,m=eo(prog(t,SHOP2[0]+.1,T.al-.15-SHOP2[0])),cx=lerp(980,tx,m),cy=lerp(1500,ty,m),pr=t>=T.al-.05&&t<T.al+.12?.85:1;
+  if(t>=T.al-.05){const r=prog(t,T.al-.05,.45);O+=`<div class="ab" style="left:${tx-90}px;top:${ty-120}px;width:180px;height:180px;border-radius:50%;border:6px solid rgba(255,230,140,${1-r});transform:scale(${lerp(.3,1.5,r)})"></div>`;
+   O+=`<div class="ab lol" style="left:${tx}px;top:${ty-190-60*eo(r)}px;transform:translateX(-50%);font-size:46px;color:#FFD84A;opacity:${1-prog(t,T.al+.6,.3)};-webkit-text-stroke:3px #000;paint-order:stroke fill;white-space:nowrap">-600 GOLD</div>`}
+  O+=`<svg class="ab" style="left:${cx}px;top:${cy}px;transform:scale(${pr});transform-origin:0 0;opacity:${cl(k*3)}" width="90" height="110" viewBox="0 0 18 22"><path d="M1 1 L1 17 L5 13.5 L8 20 L11 18.6 L8.2 12.4 L13.5 12.4 Z" fill="#F0E6D2" stroke="#3a2a10" stroke-width="1.4" stroke-linejoin="round"/></svg>`}
  // 4) comparison labels
  if(t>=T.alt2-.05&&t<T.yani){const k=prog(t,T.alt2-.05,.25),o=cl(k*3)*(1-prog(t,T.yani-.15,.15));
   O+=`<div class="ab" style="left:560px;top:400px;opacity:${o}"><div class="card" style="padding:10px 18px 10px 10px"><img src="assets/item_3145.png" style="width:70px;height:70px"><span class="lol" style="font-size:34px;line-height:1.05;color:#FF8A7A">ALTERNATÖR<br>LUDEN'İ TETİKLEMEZ</span></div></div>`;
   if(t>=T.sapan2-.05){const k2=prog(t,T.sapan2-.05,.25);O+=`<div class="ab" style="left:560px;top:1030px;opacity:${cl(k2*3)*o}"><div class="card" style="padding:10px 18px 10px 10px;border-color:#3FD15B"><img src="assets/item_3144.png" style="width:70px;height:70px;border-color:#3FD15B"><span class="lol" style="font-size:34px;line-height:1.05;color:#7CF29A">SAPAN<br>SKİLL GİBİ SAYILIR</span></div></div>`}}
- // 5) runes/items that trigger (real icons)
+ // 5-7) own visuals over lightly blurred gameplay: what Sapan triggers, single target, burn build
+ if(t>=BLUR[0]&&t<BLUR[1]){O+=`<div class="L" style="background:radial-gradient(circle at 50% 42%,rgba(2,8,18,.25),rgba(2,8,18,.7));opacity:${env(t,BLUR[0],BLUR[1],.2,.2)}"></div>`}
+ const ico=(ic,n,k,col,glw)=>`<div style="text-align:center;width:235px;opacity:${cl(k*3)};transform:translateY(${(1-eb(k))*-50}px) scale(${lerp(.5,1,eb(k))})"><img src="assets/${ic}.png" style="width:200px;height:200px;border:6px solid ${col};border-radius:${ic.startsWith('rune')?'50%':'12px'};background:#0a1626;box-shadow:0 0 34px ${glw}"><div class="lol gold" style="font-size:36px;line-height:1.05;margin-top:10px">${n}</div></div>`;
  if(t>=T.kizart-.05&&t<T.daha){const L=[['rune_Scorch','KIZART',T.kizart],['item_6655','LUDEN',T.luden],['item_3116','RYLAI',T.rylai],['item_6653','LIANDRY',T.liandry]];const o=1-prog(t,T.daha-.15,.15);
-  O+=`<div class="ab" style="left:0;right:0;top:250px;display:flex;justify-content:center;gap:22px;opacity:${o}">`+L.map(([ic,n,a])=>{const k=prog(t,a-.05,.25);return `<div style="text-align:center;opacity:${cl(k*3)};transform:translateY(${(1-eb(k))*-60}px) scale(${lerp(.5,1,eb(k))})"><img src="assets/${ic}.png" style="width:170px;height:170px;border:5px solid #C8AA6E;border-radius:${ic.startsWith('rune')?'50%':'10px'};background:#0a1626;box-shadow:0 0 30px rgba(240,213,140,.45)"><div class="lol gold" style="font-size:38px;margin-top:8px">${n}</div></div>`}).join('')+`</div>`}
- // 6) single-target (covers the English line)
- if(t>=T.daha-.05&&t<T.olum){const k=prog(t,T.daha-.05,.25);O+=`<div class="ab" style="left:0;right:0;top:1330px;text-align:center;opacity:${cl(k*3)*(1-prog(t,T.olum-.15,.15))};transform:scale(${lerp(1.4,1,eb(k))})"><div class="lol gold" style="font-size:82px;line-height:1.05">TEK HEDEFLİ<br>SKİLL SAYILIR!</div></div>`}
- // 7) burn build icons + Brand line
- if(t>=T.olum-.05&&t<T.rakip){const L=[['rune_DeathfireTouch','ÖLÜMATEŞİ<br>DOKUNUŞU',T.olum],['item_6653','LIANDRY',T.lian2],['item_2503','SİYAHATEŞ<br>MEŞALESİ',T.siyah]];const o=1-prog(t,T.rakip-.15,.15);
-  O+=`<div class="ab" style="left:0;right:0;top:230px;display:flex;justify-content:center;gap:30px;opacity:${o}">`+L.map(([ic,n,a])=>{const k=prog(t,a-.05,.25);return `<div style="text-align:center;width:250px;opacity:${cl(k*3)};transform:scale(${lerp(.5,1,eb(k))})"><img src="assets/${ic}.png" style="width:170px;height:170px;border:5px solid #FF8A3D;border-radius:${ic.startsWith('rune')?'50%':'10px'};background:#1a0a06;box-shadow:0 0 34px rgba(255,120,40,.6)"><div class="lol gold" style="font-size:34px;line-height:1.05;margin-top:8px">${n}</div></div>`}).join('')+`</div>`;
-  const v=INS[1];if(t>=v.t-.2&&t<v.t+v.d+.2)O+=badge('champ_Brand','BRAND',320,1260,env(t,v.t-.2,v.t+v.d+.2))}
- // 8) with / without (Turkish labels over the English ones)
- if(t>=T.rakip-.05&&t<T.yani2){const o=1-prog(t,T.yani2-.15,.15);O+=`<div class="ab lol gold" style="left:640px;top:190px;font-size:58px;opacity:${o}">SAPANLI</div><div class="ab lol" style="left:640px;top:1480px;font-size:58px;opacity:${o};color:#C8C8C8;text-shadow:0 4px 0 #000">SAPANSIZ</div>`;
-  if(t>=T.n200-.05){const k=prog(t,T.n200-.05,.25);O+=`<div class="ab lol" style="left:600px;top:270px;opacity:${cl(k*3)*o};transform:scale(${lerp(1.6,1,eb(k))});font-size:60px;color:#3FD15B;-webkit-text-stroke:4px #000;paint-order:stroke fill">+200 HASAR</div>`}
-  const v=INS[2];if(t>=v.t-.2&&t<v.t+v.d+.2)O+=badge('champ_Teemo','TEEMO',320,1260,env(t,v.t-.2,v.t+v.d+.2))}
+  O+=`<div class="ab" style="left:0;right:0;top:560px;display:grid;grid-template-columns:235px 235px;justify-content:center;gap:40px 60px;opacity:${o}">`+L.map(([ic,n,a])=>ico(ic,n,prog(t,a-.05,.25),'#C8AA6E','rgba(240,213,140,.45)')).join('')+`</div>`}
+ if(t>=T.daha-.05&&t<T.olum){const k=prog(t,T.daha-.05,.25),o=cl(k*3)*(1-prog(t,T.olum-.15,.15));O+=`<div class="ab" style="left:0;right:0;top:600px;text-align:center;opacity:${o};transform:scale(${lerp(1.4,1,eb(k))})"><img src="assets/item_3144.png" style="width:240px;height:240px;border:7px solid #3FD15B;border-radius:14px;box-shadow:0 0 50px rgba(63,209,91,.6)"><div class="lol gold" style="font-size:86px;line-height:1.05;margin-top:30px">TEK HEDEFLİ<br>SKİLL SAYILIR!</div></div>`}
+ if(t>=T.olum-.05&&t<BLUR[1]){const L=[['rune_DeathfireTouch','ÖLÜMATEŞİ<br>DOKUNUŞU',T.olum],['item_6653','LIANDRY',T.lian2],['item_2503','SİYAHATEŞ<br>MEŞALESİ',T.siyah]];const o=1-prog(t,BLUR[1]-.2,.2);
+  O+=`<div class="ab" style="left:0;right:0;top:640px;display:flex;justify-content:center;gap:20px;opacity:${o}">`+L.map(([ic,n,a])=>ico(ic,n,prog(t,a-.05,.25),'#FF8A3D','rgba(255,120,40,.6)')).join('')+`</div>`}
+ // 8) with / without, only once the screen is split
+ if(t>=SPLIT&&t<T.yani2){const k=prog(t,SPLIT,.25),o=cl(k*3)*(1-prog(t,T.yani2-.15,.15));O+=`<div class="ab lol gold" style="left:640px;top:190px;font-size:58px;opacity:${o}">SAPANLI</div><div class="ab lol" style="left:640px;top:1480px;font-size:58px;opacity:${o};color:#C8C8C8;text-shadow:0 4px 0 #000">SAPANSIZ</div>`;
+  const a=Math.max(T.n200-.05,SPLIT+.2);if(t>=a){const k2=prog(t,a,.25);O+=`<div class="ab lol" style="left:600px;top:270px;opacity:${cl(k2*3)*o};transform:scale(${lerp(1.6,1,eb(k2))});font-size:60px;color:#3FD15B;-webkit-text-stroke:4px #000;paint-order:stroke fill">+200 HASAR</div>`}}
  // 9) kill announcement
- {const v=INS[3];if(t>=v.t-.1&&t<v.t+v.d+.35){const k=env(t,v.t-.1,v.t+v.d+.35,.2,.2);O+=`<div class="ab" style="left:0;right:0;top:470px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.5,1,eo(k))})"><div style="display:inline-block;padding:14px 50px 18px;background:linear-gradient(180deg,rgba(60,8,12,.9),rgba(20,2,6,.92));border-top:4px solid #C8AA6E;border-bottom:4px solid #C8AA6E"><span class="lol" style="font-size:66px;color:#F0E6D2;text-shadow:0 0 20px rgba(255,60,60,.7)">BİR RAKİBİ KATLETTİN!</span></div></div>`}}
- // 10) cost panel (covers the English one)
- if(t>=T.satinca-.15&&t<T.bunu){const k=prog(t,T.satinca-.15,.25),o=cl(k*3)*(1-prog(t,T.bunu-.15,.15));
+ {const v=INS[1];if(t>=v.t-.1&&t<COST0+.1){const k=env(t,v.t-.1,COST0+.1,.2,.12);O+=`<div class="ab" style="left:0;right:0;top:470px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.5,1,eo(k))})"><div style="display:inline-block;padding:14px 50px 18px;background:linear-gradient(180deg,rgba(60,8,12,.9),rgba(20,2,6,.92));border-top:4px solid #C8AA6E;border-bottom:4px solid #C8AA6E"><span class="lol" style="font-size:66px;color:#F0E6D2;text-shadow:0 0 20px rgba(255,60,60,.7)">BİR RAKİBİ KATLETTİN!</span></div></div>`}}
+ // 10) cost panel: 600, then 420, then 180 (gold sound on each)
+ if(t>=COST0&&t<T.bunu){const k=prog(t,COST0,.2),o=cl(k*3)*(1-prog(t,T.bunu-.12,.12));
+  const num=(a,lab,val,col)=>{const q=prog(t,a,.3);return `<div style="opacity:${cl(q*3)};transform:translateY(${(1-eb(q))*-40}px) scale(${lerp(1.8,1,eb(q))})"><div class="lol" style="font-size:30px;color:${col==='#FF5A36'?'#FF5A36':'#C8AA6E'}">${lab}</div><div class="lol" style="font-size:96px;line-height:1;color:${col}">${val}</div></div>`};
+  const op=(a,s)=>`<div class="lol" style="font-size:90px;opacity:${cl(prog(t,a,.15)*3)}">${s}</div>`;
   O+=`<div class="L" style="background:#06101a;opacity:${o}"></div><div class="ab" style="left:0;right:0;top:620px;text-align:center;opacity:${o}"><img src="assets/item_3144.png" style="width:220px;height:220px;border:6px solid #C8AA6E;border-radius:12px"><div class="lol gold" style="font-size:64px;margin-top:14px">İZCİ SAPANI</div>
-   <div style="display:flex;justify-content:center;align-items:flex-end;gap:22px;margin-top:40px">
-   <div><div class="lol" style="font-size:30px;color:#C8AA6E">FİYAT</div><div class="lol gold" style="font-size:96px;line-height:1">600</div></div><div class="lol" style="font-size:90px">-</div>
-   <div><div class="lol" style="font-size:30px;color:#C8AA6E">SATIŞ</div><div class="lol gold" style="font-size:96px;line-height:1">420</div></div><div class="lol" style="font-size:90px">=</div>
-   <div><div class="lol" style="font-size:30px;color:#FF5A36">KAYIP</div><div class="lol" style="font-size:96px;line-height:1;color:#FF5A36">180</div></div></div>
-   ${t>=T.kill-.05?`<div class="lol" style="margin-top:40px;font-size:62px;color:#3FD15B;opacity:${cl(prog(t,T.kill-.05,.25)*3)}">+300 KİLL GOLDU</div>`:''}</div>`}
- // 11) END CARD over blurred gameplay (silent)
- if(t>=end-.05){const k=prog(t,end-.05,.35);O+=`<div class="L" style="background:rgba(2,8,18,.5);opacity:${cl(k*2)}"></div><div class="ab" style="left:0;right:0;top:660px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.3,1,eo(k))})"><div class="lol" style="font-size:56px;letter-spacing:.2em;color:#F0D58C;text-shadow:0 4px 0 #000">TAKİP ET</div><div class="lol gold" style="font-size:150px;line-height:1.02;margin-top:10px">FEEDLEME<br>HOCAM</div></div>`}
+   <div style="display:flex;justify-content:center;align-items:flex-end;gap:22px;margin-top:40px">${num(G1,'FİYAT',600,'#F0D58C')}${op(G2,'-')}${num(G2,'SATIŞ',420,'#F0D58C')}${op(G3,'=')}${num(G3,'KAYIP',180,'#FF5A36')}</div>
+   ${t>=T.kill-.05?`<div class="lol" style="margin-top:40px;font-size:62px;color:#3FD15B;opacity:${cl(prog(t,T.kill-.05,.25)*3)};transform:scale(${lerp(1.5,1,eb(prog(t,T.kill-.05,.3)))})">+300 KİLL GOLDU</div>`:''}</div>`}
+ // 11) END CARD over blurred gameplay: TAKİP ET, BEĞEN, PAYLAŞ pop in fast
+ if(t>=end-.05){const k=prog(t,end-.05,.3);O+=`<div class="L" style="background:rgba(2,8,18,.55);opacity:${cl(k*2)}"></div><div class="ab" style="left:0;right:0;top:520px;text-align:center;opacity:${cl(k*2)};transform:scale(${lerp(1.3,1,eo(k))})"><div class="lol gold" style="font-size:130px;line-height:1.02">FEEDLEME<br>HOCAM</div></div>`;
+  ['TAKİP ET','BEĞEN','PAYLAŞ'].forEach((s,i)=>{const q=prog(t,END3[i],.22);if(q>0)O+=`<div class="ab" style="left:0;right:0;top:${880+i*150}px;text-align:center;opacity:${cl(q*3)};transform:scale(${lerp(1.7,1,eb(q))})"><span class="lol" style="display:inline-block;min-width:420px;padding:14px 40px 16px;font-size:64px;letter-spacing:.08em;color:${i==0?'#010A13':'#F0E6D2'};background:${i==0?'linear-gradient(180deg,#F0D58C,#C8AA6E)':'rgba(3,8,16,.85)'};border:4px solid #C8AA6E;border-radius:14px">${s}</span></div>`})}
  $('dyn').innerHTML=O;
  const vlOn=INS.some(v=>t>=v.t-.1&&t<v.t+v.d+.1);
- const hide=t<TL.body_start||(t>=T.daha-.05&&t<T.olum)||(t>=15.40&&t<T.gel)||vlOn||(t>=T.satinca-.15&&t<T.bunu)||t>=end-.05;
+ const hide=t<TL.body_start||(t>=T.daha-.05&&t<T.olum)||(t>=15.40&&t<T.gel)||vlOn||(t>=COST0&&t<T.bunu)||t>=end-.05;
  if(!hide)caption(t);else $('cap').innerHTML='';
  $('cap').style.top=(t>=TL.body_start&&t<15.40)?'800px':(t>=SHOP2[0]&&t<SHOP2[1])?'500px':'1300px';
- $('tag').style.opacity=(t>=15.40&&t<19.10)||t>=end?0:1;
+ $('tag').style.opacity=(t>=15.40&&t<T.gel)||t>=end?0:1;
 };
-const SHOP2=[60.0,62.6];
+const SHOP2=[52.25,54.8], BLUR=[31.90,43.23], SPLIT=46.63, SX=30+24+3*176+78, SY=985;
+const COST0=INS[1].t+INS[1].d-.08, G1=Math.max(COST0+.1,T.satinca-.1), G2=G1+.45, G3=Math.max(G2+.45,T.n180-.05), END3=[TL.vo_end+.1,TL.vo_end+.45,TL.vo_end+.8];
 const SFX=[];const sfx=(n,t,g=0)=>{if(t!=null&&isFinite(t))SFX.push([n,+(+t).toFixed(3),g])};
 sfx('pop',H[0].t,-4);sfx('swish',H[1].t,-4);sfx('pop',H[2].t);sfx('pop',H[3].t,2);sfx('stamp',H[4].t);sfx('swish',H[5].t);sfx('beep',TL.beep,0);sfx('qping',7.05,0);
-sfx('card',TL.body_start-.05,-2);sfx('item',T.kara-.05,-4);sfx('item',T.mejai-.05,-4);sfx('item',T.alt-.05,-4);sfx('card',15.35,-3);sfx('ring',T.izci-.05,2);
-sfx('card',INS[0].t-.3,-3);sfx('stamp',T.alt2-.05,-2);sfx('stamp',T.sapan2-.05,-2);sfx('item',T.kizart-.05,-3);sfx('item',T.luden-.05,-3);sfx('item',T.rylai-.05,-3);sfx('item',T.liandry-.05,-3);
-sfx('swish',T.daha-.05);sfx('item',T.olum-.05,-2);sfx('item',T.lian2-.05,-4);sfx('item',T.siyah-.05,-4);sfx('swish',T.rakip-.05,-4);sfx('tek',T.n200-.05,-4);sfx('card',T.satinca-.2,-3);sfx('ring',T.kill-.05,-2);
+sfx('card',TL.body_start-.05,-2);sfx('item',T.kara-.05,-4);sfx('item',T.mejai-.05,-4);sfx('item',T.alt-.05,-4);sfx('card',15.35,-3);sfx('bubble',T.gizli-.1,0);sfx('ring',T.izci-.05,2);
+sfx('stamp',T.alt2-.05,-2);sfx('stamp',T.sapan2-.05,-2);sfx('item',T.kizart-.05,-3);sfx('item',T.luden-.05,-3);sfx('item',T.rylai-.05,-3);sfx('item',T.liandry-.05,-3);
+sfx('swish',T.daha-.05);sfx('item',T.olum-.05,-2);sfx('item',T.lian2-.05,-4);sfx('item',T.siyah-.05,-4);sfx('swish',SPLIT,-4);sfx('tek',Math.max(T.n200-.05,SPLIT+.2),-4);
+sfx('card',SHOP2[0],-3);sfx('pop',T.al-.05,0);sfx('gold',T.al-.02,0);
+sfx('gold',G1,0);sfx('gold',G2,-2);sfx('gold',G3,0);sfx('gold',T.kill-.05,2);sfx('bozgun',T.yanarak,0);
 window.SFX=SFX;window.CUES=T;window.ready=Promise.resolve();
 </script></body></html>

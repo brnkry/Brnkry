@@ -1,6 +1,7 @@
 """Final composite for the Sapan Short: hook zoom (champion kept fixed) + keyed q-ping + BOZGUN green screens + overlay frames + mix.
 usage: python3 compose.py BASE.mp4 OVERLAY_DIR OUT.mp4"""
-import sys, subprocess
+import sys, subprocess, json
+BZT = [e[1] for e in json.load(open('sfx.json')) if e[0] == 'bozgun'][0]
 BASE, OVF, OUT = sys.argv[1:4]
 QP = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad/vl/qping.mp4'
 BZ = '../../gizli_minyon/src/bozgun_greenscreen.mp4'
@@ -31,10 +32,10 @@ BASE = ZB
 fc = ['[0]null[b]',
       "[2]colorkey=0x0FFF00:0.3:0.1,scale=1080:-1,fps=30,format=rgba,setpts=PTS-STARTPTS,tpad=start_duration=7.05:color=black@0[q]",
       "[b][q]overlay=x=0:y=660:eof_action=pass[b2]",
-      "[3]fps=30,chromakey=0x007E02:0.15:0.08,despill=green,scale=2400:-1,crop=1080:1350:660:0,format=rgba,setpts=PTS-STARTPTS,tpad=start_duration=70.06:color=black@0[z]",
+      f"[3]fps=30,chromakey=0x007E02:0.15:0.08,despill=green,scale=2400:-1,crop=1080:1350:660:0,format=rgba,setpts=PTS-STARTPTS,tpad=start_duration={BZT}:color=black@0[z]",
       "[b2][1]overlay=0:0[b3]", "[b3][z]overlay=0:250:eof_action=pass[v]"]
 cmd = ['ffmpeg', '-v', 'error', '-y', '-i', BASE, '-framerate', '30', '-i', f'{OVF}/%05d.png', '-i', QP, '-ss', '4.9', '-t', '1.6', '-i', BZ, '-i', '../ses/mix.wav',
        '-filter_complex', ';'.join(fc), '-map', '[v]', '-map', '4:a', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p',
-       '-c:a', 'aac', '-b:a', '192k', '-t', '73.38', '-movflags', '+faststart', OUT]
+       '-c:a', 'aac', '-b:a', '192k', '-t', str(json.load(open('timeline.json'))['end']), '-movflags', '+faststart', OUT]
 subprocess.run(cmd, check=True)
 import os; os.remove(ZB)

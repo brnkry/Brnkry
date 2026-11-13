@@ -40,26 +40,18 @@
  "body_start": 8.7,
  "inserts": [
   {
-   "file": "vl_teemo_yemin",
-   "t": 19.15,
-   "d": 3.78
-  },
-  {
-   "file": "vl_brand_ates",
-   "t": 47.55,
-   "d": 3.05
-  },
-  {
    "file": "vl_teemo_yakacak",
-   "t": 56.02,
-   "d": 1.62
+   "t": 48.47,
+   "d": 1.62,
+   "cut": 39.59
   },
   {
    "file": "vl_spiker_kill",
-   "t": 62.48,
-   "d": 1.95
+   "t": 54.81,
+   "d": 1.73,
+   "cut": 44.07
   }
  ],
- "vo_end": 71.78,
- "end": 73.38
+ "vo_end": 63.79,
+ "end": 65.99
 }
