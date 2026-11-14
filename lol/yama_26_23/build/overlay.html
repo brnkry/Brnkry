@@ -13,11 +13,15 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.03em;bottom:.02em;width:.15em;height:.14em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
 .pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
 /* torn paper card */
-.card{position:absolute;left:46px;bottom:52px;width:820px;background:var(--paper);color:var(--ink);padding:26px 34px 30px 34px;
+.card{position:absolute;left:46px;bottom:52px;width:900px;min-height:250px;background:var(--paper);color:var(--ink);padding:26px 34px 30px 34px;
  clip-path:polygon(0 3%,4% 0,11% 2%,19% .5%,27% 2.5%,36% .3%,45% 2%,55% 0,63% 2.2%,72% .6%,81% 2.4%,90% .2%,97% 2%,100% 0,100% 97%,96% 100%,88% 98%,79% 100%,70% 97.6%,61% 99.6%,52% 97.8%,43% 100%,34% 98%,25% 99.8%,16% 97.4%,8% 99.6%,0 98%);
  filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
 .card .hd{display:flex;align-items:center;gap:22px;margin-bottom:14px}
-.card .nm{font-size:66px;line-height:1;letter-spacing:.01em;padding-right:210px}
+.card .nm{font-size:66px;line-height:1;letter-spacing:.01em}
+.card .txt{margin-right:290px}
+.card .bigic{position:absolute;right:40px;top:34px;width:250px}
+.card .bigic img{display:block;width:250px;height:250px;border:7px solid var(--ink);box-shadow:8px 10px 0 rgba(0,0,0,.25)}
+.card .bigic img+img{width:150px;height:150px;margin:-60px 0 0 110px;position:relative}
 .card .sp{display:flex;align-items:center;gap:14px;margin:10px 0 6px}
 .card .sp img{width:74px;height:74px;border:4px solid var(--ink);transform:rotate(-3deg)}
 .card .key{font-size:44px;width:62px;height:62px;border:4px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(4deg)}
@@ -29,7 +33,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .arr{font-family:Mon;font-weight:900;font-size:34px}
 .new{position:relative;font-size:48px;padding:0 .12em;z-index:0}
 .new:before{content:'';position:absolute;left:0;right:0;bottom:.08em;height:.55em;background:var(--hl);z-index:-1;transform:skewX(-12deg) scaleX(var(--s,1));transform-origin:left;border-radius:4px}
-.stamp{position:absolute;right:26px;top:22px;font-size:58px;padding:2px 18px 4px;border:6px solid currentColor;border-radius:10px;transform:rotate(9deg);letter-spacing:.06em}
+.stamp{position:absolute;right:-26px;top:-22px;font-size:62px;padding:2px 18px 4px;border:7px solid currentColor;border-radius:10px;letter-spacing:.06em;background:rgba(244,239,230,.92);z-index:3}
 /* champion strip top right */
 .stk{position:absolute;border:6px solid var(--paper);box-shadow:0 10px 24px rgba(0,0,0,.55);background:#000}
 .stk img{display:block;width:100%;height:100%}
@@ -49,7 +53,7 @@ const tr=s=>String(s).replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ
 const jit=(i,a=1)=>Math.sin(i*12.9898)*a; // stable pseudo random tilt
 // ---- content: every change, in narration order. rows: [label, old, new, kind]
 const CH=[
- {id:'item',nm:'ELEKTRİKLİ DEVİRKILICI',ic:'item_6699',ty:'nerf',sp:[{img:'item_6699',k:'',n:'PASİF'}],rows:[['YAKIN DÖVÜŞ','%9','%8'],['MENZİLLİ','%7','%6']]},
+ {id:'item',nm:'ELEKTRİKLİ<br>DEVİRKILICI',ic:'item_6699',ty:'nerf',sp:[{img:'item_6699',k:'',n:'PASİF'}],rows:[['YAKIN DÖVÜŞ','%9','%8'],['MENZİLLİ','%7','%6']]},
  {id:'Annie',nm:'ANNIE',ty:'buff',sp:[{img:'spell_AnnieR',k:'R',n:'TIBBERS'}],rows:[['CAN','1150-3500','1275-4000'],['YENİ','','BONUS CANIN %150'],['AURA','8-16','10-20'],['SALDIRI','30-60','30-70']]},
  {id:'Azir',nm:'AZİR',ty:'buff',sp:[{img:'champ_Azir',k:'',n:'TEMEL'},{img:'spell_AzirW',k:'W',n:'İLERİ!'}],rows:[['MENZİL','525','550'],['AD ORANI','%50','%67']]},
  {id:'Bard',nm:'BARD',ty:'buff',sp:[{img:'spell_BardQ',k:'Q',n:'KOZMİK BAĞ'}],rows:[['HASAR','80-240','80-260'],['AP ORANI','%80','%100']]},
@@ -66,12 +70,15 @@ const CH=[
 const STRIP=CH.filter(c=>c.id!=='item');
 function card(c,t,seg){const k=prog(t,seg.a-.05,.35),o=1-prog(t,seg.b-.25,.25);if(o<=0)return '';
  const col=c.ty==='buff'?'#7FB800':'#E0193F',hl=c.ty==='buff'?'var(--lime)':'#FF9EB0';
- let h=`<div class="card" style="opacity:${cl(k*3)*o};transform:translate(${(1-eo(k))*-140}px,${(1-eo(k))*40}px) rotate(${lerp(-6,-1.2,eo(k))}deg)">`;
- h+=`<div class="stamp" style="color:${col};opacity:${cl(prog(t,seg.a+.15,.15)*3)};transform:rotate(9deg) scale(${lerp(2.2,1,eb(prog(t,seg.a+.15,.3)))})">${c.ty==='buff'?'BUFF':'NERF'}</div>`;
- h+=`<div class="nm">${tr(c.nm)}</div><div class="sp">`+c.sp.map((s,i)=>`<img src="assets/${s.img}.png" style="transform:rotate(${jit(i+3,4)}deg)">${s.k?`<div class="key">${s.k}</div>`:''}<div class="skn">${tr(s.n)}</div>`).join('<div style="width:18px"></div>')+`</div>`;
+ const st=seg.st??seg.a+.25,sh=t>st+.12&&t<st+.32?Math.sin((t-st)*90)*6*(1-prog(t,st+.12,.2)):0;
+ let h=`<div class="card" style="opacity:${cl(k*3)*o};transform:translate(${(1-eo(k))*-140+sh}px,${(1-eo(k))*40+sh*.6}px) rotate(${lerp(-6,-1.2,eo(k))}deg)">`;
+ const sk=prog(t,seg.st??seg.a+.25,.18);
+ h+=`<div class="bigic" style="transform:rotate(${jit(c.nm.length,3)}deg)">`+c.sp.map(x=>`<img src="assets/${x.img}.png">`).join('')+
+  `<div class="stamp" style="color:${col};opacity:${cl(sk*4)};transform:rotate(${14+jit(2,3)}deg) scale(${lerp(3,1,eo(sk))})">${c.ty==='buff'?'BUFF':'NERF'}</div></div>`;
+ h+=`<div class="txt"><div class="nm">${tr(c.nm)}</div><div class="sp">`+c.sp.map((x,i)=>`${x.k?`<div class="key">${x.k}</div>`:''}<div class="skn">${tr(x.n)}</div>`).join('<div style="width:18px"></div>')+`</div>`;
  c.rows.forEach((r,i)=>{const rt=seg.rows[i]??seg.a+.4+i*.5,q=prog(t,rt,.25);if(q<=0)return;const s=eo(prog(t,rt+.15,.35)),nk=r[3]==='n';
   h+=`<div class="row" style="opacity:${cl(q*3)};transform:translateX(${(1-eo(q))*-30}px)"><span class="lb">${tr(r[0])}</span>`+(r[1]?`<span class="old" style="--s:${s}">${tr(r[1])}</span><span class="arr">&rarr;</span>`:'')+`<span class="new" style="--hl:${nk?'#FF9EB0':hl};--s:${s}">${tr(r[2])}</span></div>`});
- return h+'</div>'}
+ return h+'</div></div>'}
 function strip(t,cur){// stickers, top right; current one big
  let h='';const n=STRIP.length,ci=STRIP.findIndex(c=>c.id===cur);
  STRIP.forEach((c,i)=>{const on=i===ci,past=ci>=0&&i<ci;const sz=on?150:78;const x=1920-40-(n-i)*86-(on?40:0)+(i>ci&&ci>=0?72:0),y=on?34:46;
@@ -84,6 +91,9 @@ function slam(t,a,b,txt,y,fs,col='#F4EFE6',rot=-3){const k=prog(t,a,.22),o=1-pro
 window.render=function(t){let O='';
  // intro texts
  for(const x of TL.intro)O+=slam(t,x.a,x.b,x.txt,x.y,x.fs,x.col,x.rot);
+ // split-screen name tags (one per panel)
+ for(const p of (TL.panels||[])){if(t<p.a||t>=p.b)continue;const w=1920/p.names.length;p.names.forEach((nm,i)=>{const k=prog(t,p.a+.12*i,.25),o=1-prog(t,p.b-.15,.15);O+=`<div class="big" style="left:${i*w}px;right:auto;width:${w}px;top:${p.y||820}px;font-size:${p.fs||110}px;color:${p.col};opacity:${cl(k*3)*o};transform:rotate(${jit(i+1,4)}deg) scale(${lerp(1.9,1,eb(k))})">${tr(nm)}</div>`});
+  for(let i=1;i<p.names.length;i++)O+=`<div class="ab" style="left:${i*w-5}px;top:-20px;width:10px;height:1120px;background:#F4EFE6;transform:rotate(3deg) scaleY(${eo(prog(t,p.a,.25))});transform-origin:top"></div>`}
  // banners
  for(const b of TL.banners)O+=banner(t,b.a,b.txt,b.bg);
  // strip + cards
