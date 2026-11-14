@@ -1,5 +1,10 @@
 # Yükleme paketi: Sett Rehberi (Türkçe LoL kanalı)
 
+## Güncel başlık (yeni thumbnail ile)
+4 DAKİKADA SETT - REHBER / BUILD / KOMBO - League of Legends
+Thumbnail: lol/kanal_feedleme_hocam/thumbs/sett.png
+
+
 ## Kanal adı önerileri
 | Tarz | Ad | Kullanıcı adı önerisi |
 |---|---|---|

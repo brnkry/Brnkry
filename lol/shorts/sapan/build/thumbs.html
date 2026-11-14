@@ -12,14 +12,32 @@ html,body{margin:0;background:#000}
 .ic{position:absolute;border:8px solid #C8AA6E;border-radius:14px;box-shadow:0 0 0 6px #010A13,0 20px 40px rgba(0,0,0,.7);image-rendering:auto}
 .chip{display:inline-block;font-family:Mon;font-weight:900;color:#010A13;background:#0AC8B9;border:5px solid #fff;border-radius:16px}
 .blue{color:#3FA9FF;text-shadow:0 8px 0 #000,0 0 40px rgba(63,169,255,.6)}
+@font-face{font-family:PB4;src:url(../../../yama_26_23/build/assets/fonts/punkboy_bi.otf);unicode-range:U+0020-0033,U+0035-024F}
+@font-face{font-family:MonX;font-weight:900;src:url(../../../sett/build/node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+.th,.th *{font-family:PB4,MonX!important;font-weight:400!important}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+.ti.crc:after{content:'';position:absolute;left:52%;bottom:1.0em;width:.18em;height:.18em;border-left:.065em solid currentColor;border-top:.065em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+.th .pc,.th .pc *{font-family:MonX!important;font-weight:900!important;font-size:.8em}
+.th .w1{white-space:nowrap;display:inline-block}
+.th .chip{padding-top:.38em!important;line-height:1!important}
+.th .gold{background:none!important;-webkit-text-fill-color:#E8C877!important;color:#E8C877!important}
+.th .gold .ti.dot:after,.th .gold .ti.pd:after{background:#F0D58C!important}
+.th .gold .ti.brv:after{border-color:#F0D58C!important}
+.th .gold .ti.ced:after{-webkit-text-fill-color:#C8AA6E}
 </style></head><body>
 <!-- everything kept inside the mobile safe area (about x 130-950, y 420-1500) -->
 <div id="t1" class="th"><div class="bg" style="background-image:url(assets/thumb_bg_5.4.jpg);background-position:50% 60%"></div><div class="sh"></div>
- <div class="t w" style="top:440px;font-size:76px">AP ŞAMPİYONLARIN</div>
- <div class="t" style="top:530px;font-size:150px"><span class="gold">GİZLİ</span> <span style="color:#FF5A36;text-shadow:0 8px 0 #000,0 0 40px rgba(255,90,54,.6)">KİLL</span></div>
- <div class="t gold" style="top:690px;font-size:130px">HİLESİ</div>
+ <div class="t w" style="top:410px;font-size:84px">BÜYÜCÜLERİN</div>
+ <div class="t" style="top:535px;font-size:150px"><span class="gold">GİZLİ</span> <span style="color:#FF5A36;text-shadow:0 8px 0 #000,0 0 40px rgba(255,90,54,.6)">KİLL</span></div>
+ <div class="t gold" style="top:725px;font-size:130px">HİLESİ</div>
  <img class="ic" src="assets/item_3144.png" style="left:380px;top:880px;width:320px;border-color:#3FD15B;box-shadow:0 0 0 6px #010A13,0 0 80px rgba(63,209,91,.7)">
- <div class="t" style="top:1300px"><span class="chip" style="font-size:60px;padding:8px 30px 12px;background:#FFD84A">ÖLÜRKEN AL</span></div></div>
+ <div class="t" style="top:1300px"><span class="chip" style="font-size:96px;padding:8px 44px 12px;background:#FFD84A">ÖLÜRKEN AL</span></div></div>
 <div id="t2" class="th"><div class="bg" style="background-image:url(assets/thumb_bg_61.8.jpg);background-position:50% 60%"></div><div class="sh"></div>
  <div class="t w" style="top:440px;font-size:120px">ÖLÜRKEN</div>
  <div class="t gold" style="top:570px;font-size:150px">BUNU AL</div>
@@ -35,4 +53,8 @@ html,body{margin:0;background:#000}
  <img class="ic" src="assets/item_3116.png" style="left:790px;top:790px;width:150px">
  <div class="t" style="top:1040px;font-size:170px;color:#3FD15B;text-shadow:0 10px 0 #000,0 0 40px rgba(63,209,91,.5)">+200</div>
  <div class="t gold" style="top:1220px;font-size:130px">HASAR</div></div>
-</body></html>
+<script>
+(function(){const rep=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/Â/g,'<span class="ti crc">A</span>').replace(/%/g,'<span class="pc">%</span>');
+document.querySelectorAll('.th').forEach(th=>{const w=document.createTreeWalker(th,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(n=>{const t=n.nodeValue.toLocaleUpperCase('tr');if(!/\S/.test(t))return;const sp=document.createElement('span');sp.innerHTML=t.split(/( +)/).map(x=>/^ +$/.test(x)?x:'<span class="w1">'+rep(x)+'</span>').join('');n.replaceWith(sp)})})})();
+</script></body></html>

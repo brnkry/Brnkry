@@ -19,6 +19,24 @@ svg{position:absolute;left:0;top:0}
 .brand b{font-weight:400;color:#FFC23D;font-size:70px;display:inline-block;transform:skewX(-10deg);margin-right:8px}
 .chip{display:inline-block;font-family:Osw;font-weight:700;font-size:40px;letter-spacing:.14em;color:#010A13;background:#0AC8B9;padding:6px 22px 10px;border-radius:8px}
 .opt{position:absolute;width:390px;height:300px;border-radius:30px;border:8px solid #C8AA6E;background:rgba(10,24,40,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:72px;text-shadow:0 6px 0 #000}
+@font-face{font-family:PB4;src:url(../../../yama_26_23/build/assets/fonts/punkboy_bi.otf);unicode-range:U+0020-0033,U+0035-024F}
+@font-face{font-family:MonX;font-weight:900;src:url(../../../sett/build/node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+.th,.th *{font-family:PB4,MonX!important;font-weight:400!important}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+.ti.crc:after{content:'';position:absolute;left:52%;bottom:1.0em;width:.18em;height:.18em;border-left:.065em solid currentColor;border-top:.065em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+.th .pc,.th .pc *{font-family:MonX!important;font-weight:900!important;font-size:.8em}
+.th .w1{white-space:nowrap;display:inline-block}
+.th .chip{padding-top:.38em!important;line-height:1!important}
+.th .gold{background:none!important;-webkit-text-fill-color:#E8C877!important;color:#E8C877!important}
+.th .gold .ti.dot:after,.th .gold .ti.pd:after{background:#F0D58C!important}
+.th .gold .ti.brv:after{border-color:#F0D58C!important}
+.th .gold .ti.ced:after{-webkit-text-fill-color:#C8AA6E}
 </style></head><body>
 
 <!-- 1: KULE SENI NEDEN VURDU -->
@@ -30,7 +48,7 @@ svg{position:absolute;left:0;top:0}
  <div class="brand" style="top:90px">FEEDLEME HOCAM</div>
  <div class="t" style="top:250px;font-size:150px">KULE SENİ</div>
  <div class="t r" style="top:420px;font-size:190px;transform:rotate(-3deg)">NEDEN VURDU?</div>
- <div class="t" style="top:1440px"><span class="chip" style="font-size:70px;padding:10px 40px 16px">3 KURAL</span></div>
+ <div class="t" style="top:1440px"><span class="chip" style="font-size:120px;padding:10px 56px 16px">3 KURAL</span></div>
 </div>
 
 <!-- 2: KULE KIME VURUR -->
@@ -55,4 +73,8 @@ svg{position:absolute;left:0;top:0}
   <div style="position:absolute;left:0;right:0;top:120px;text-align:center;font-size:150px;color:#FF3B4E;transform:rotate(-12deg);text-shadow:0 8px 0 #000">RIP</div></div>
  <div class="t" style="top:1290px;font-size:100px">KULE <span class="r">NE ZAMAN</span> GİRİLİR?</div>
 </div>
-</body></html>
+<script>
+(function(){const rep=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/Â/g,'<span class="ti crc">A</span>').replace(/%/g,'<span class="pc">%</span>');
+document.querySelectorAll('.th').forEach(th=>{const w=document.createTreeWalker(th,NodeFilter.SHOW_TEXT);const ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(n=>{const t=n.nodeValue.toLocaleUpperCase('tr');if(!/\S/.test(t))return;const sp=document.createElement('span');sp.innerHTML=t.split(/( +)/).map(x=>/^ +$/.test(x)?x:'<span class="w1">'+rep(x)+'</span>').join('');n.replaceWith(sp)})})})();
+</script></body></html>

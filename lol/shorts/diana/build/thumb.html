@@ -1,0 +1,26 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/fonts/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+:root{--lime:#D4FF3A;--red:#FF3B5C;--paper:#F4EFE6;--ink:#0B0B0F}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+body{margin:0} .ti.crc:after{content:'';position:absolute;left:52%;bottom:1.0em;width:.18em;height:.18em;border-left:.065em solid currentColor;border-top:.065em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+#t{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PB;color:#F4EFE6;background:url(assets/diana_bg.jpg) -211px 0/3413px 1920px no-repeat}
+</style></head><body><div id="t">
+<div style="position:absolute;left:0;right:0;top:980px;height:940px;background:linear-gradient(180deg,rgba(11,11,15,0),rgba(11,11,15,.8) 35%)"></div>
+<div style="position:absolute;left:0;right:0;top:880px;text-align:center"><span style="font-size:36px;letter-spacing:.06em;padding:6px 20px 2px;background:rgba(11,11,15,.75);border-radius:8px">FEEDLEME HOCAM</span></div>
+<div style="position:absolute;left:0;right:0;top:960px;text-align:center"><div style="display:inline-block;transform:rotate(-2deg);box-shadow:14px 16px 0 rgba(0,0,0,.65)">
+ <div style="background:#D4FF3A;color:#0B0B0F;padding:18px 40px 0;white-space:nowrap"><div class="t" style="font-size:108px;line-height:1.1;letter-spacing:.02em">DIANA OYNARKEN</div><div class="t" style="font-size:140px;line-height:1.15;margin-top:34px">HÂLÂ BUNU MU</div><div class="t" style="font-size:120px;line-height:1.2;padding-bottom:10px">YAPIYORSUN?</div></div></div></div>
+<div style="position:absolute;left:0;right:0;top:1500px;text-align:center"><span style="position:relative;display:inline-block"><img src="assets/spell_DianaQ.png" style="width:190px;height:190px;border:7px solid #F4EFE6;transform:rotate(-5deg);box-shadow:10px 12px 0 rgba(0,0,0,.6)"><span style="position:absolute;left:0;right:0;top:-40px;text-align:center;font-family:Mon;font-weight:900;font-size:240px;color:#FF3B5C;-webkit-text-stroke:8px #0B0B0F;paint-order:stroke fill">✕</span></span></div>
+</div><script>const tr=s=>String(s).replace(/Â/g,'<span class="ti crc">A</span>').replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+document.querySelectorAll('.t').forEach(e=>e.innerHTML=tr(e.textContent));</script></body></html>

@@ -1,5 +1,10 @@
 # Yükleme paketi: Rengar Rehberi (4 Dakikada Feedleme)
 
+## Güncel başlık (yeni thumbnail ile)
+4 DAKİKADA RENGAR - REHBER / BUILD / KOMBO - League of Legends
+Thumbnail: lol/kanal_feedleme_hocam/thumbs/rengar.png
+
+
 ## Başlık ve thumbnail (3 seçenek)
 1. **Kafanın Üstünde Bu Belirdiyse Çok Geç! 4 Dakikada Rengar Rehberi** → `export/kanal/rengar_thumb1.png`
 2. **Rengar Nasıl Oynanır? 4 Dakikada Tek Atmayı Öğren | LoL Türkçe** → `export/kanal/rengar_thumb2.png`
