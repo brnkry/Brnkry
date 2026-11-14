@@ -88,7 +88,7 @@ function card(c,t,seg){const k=prog(t,seg.a-.05,.35),o=1-prog(t,seg.b-.25,.25);i
  const sk=prog(t,seg.st??seg.a+.25,.18);
  ic+=`<div class="bigic" style="transform:rotate(${jit(c.nm.length,3)}deg)">`+c.sp.map(x=>`<img src="assets/${x.img}.png">`).join('')+
   `<div class="stamp" style="color:${col};opacity:${cl(sk*4)};transform:rotate(${14+jit(2,3)}deg) scale(${lerp(3,1,eo(sk))})">${c.ty==='buff'?'BUFF':'NERF'}</div></div>`;
- h+=`<div class="txt"><div class="nm">${tr(c.nm)}</div><div class="sp">`+c.sp.map((x,i)=>`${x.k?`<div class="key">${x.k}</div>`:''}<div class="skn">${tr(x.n)}</div>`).join('<div style="width:18px"></div>')+`</div>`;
+ h+=`<div class="txt"><div class="nm">${tr(c.nm)}</div><div class="sp">`+c.sp.map((x,i)=>`<div style="display:flex;align-items:center;gap:14px;margin-right:18px">${x.k?`<div class="key">${x.k}</div>`:''}<div class="skn">${tr(x.n)}</div></div>`).join('')+`</div>`;
  c.rows.forEach((r,i)=>{const rt=seg.rows[i]??seg.a+.4+i*.5,q=prog(t,rt,.25);if(q<=0)return;const s=eo(prog(t,rt+.15,.35)),nk=r[3]==='n';
   h+=`<div class="row" style="opacity:${cl(q*3)};transform:translateX(${(1-eo(q))*-30}px)"><span class="lb">${tr(r[0])}</span>`+(r[1]?`<span class="old" style="--s:${s}">${tr(r[1])}</span><span class="arr">&rarr;</span>`:'')+`<span class="new" style="--hl:${nk?'#FF9EB0':hl};--s:${s}">${tr(r[2])}</span></div>`});
  return h+'</div></div>'+ic+'</div>'}
