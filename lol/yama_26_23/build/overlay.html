@@ -8,7 +8,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 /* Turkish letters the font lacks, built from its own pieces */
 .ti{position:relative;display:inline-block;line-height:.9}
 .ti.dot:after{content:'';position:absolute;left:52%;bottom:.93em;width:.16em;height:.13em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
-.ti.brv:after{content:'';position:absolute;left:56%;top:-.06em;width:.34em;height:.16em;border:.075em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
 .ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(80% 0 0 0);transform:translateX(-.02em);text-shadow:none}
 .ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
 .pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
@@ -42,9 +42,9 @@ html,body{margin:0;background:transparent;overflow:hidden}
 /* top progress bar: whole patch, icon by icon */
 .tb{position:absolute;left:0;top:0;width:1920px;height:150px}
 .tbh{position:absolute;left:28px;top:20px;background:var(--paper);color:var(--ink);padding:8px 22px 10px;transform:rotate(-2deg);box-shadow:8px 10px 0 rgba(0,0,0,.45);z-index:3}
-.tbh .l1{font-size:22px;letter-spacing:.12em;opacity:.75}
-.tbh .l2{font-size:44px;line-height:1}
-.tbh .l3{font-size:24px;line-height:1.05}
+.tbh .l1{font-size:22px;letter-spacing:.12em;opacity:.75;line-height:1.2}
+.tbh .l2{font-size:44px;line-height:1.15;margin-top:2px}
+.tbh .l3{font-size:24px;line-height:1.2;margin-top:8px;letter-spacing:.04em}
 .trk{position:absolute;left:400px;right:0;top:34px;height:96px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 60px,#000 calc(100% - 80px),transparent)}
 .trk .ln{position:absolute;left:0;right:0;top:46px;height:6px;background:rgba(244,239,230,.55)}
 .pill{position:absolute;top:26px;height:46px;padding:0 18px;font-size:32px;line-height:50px;color:var(--ink);white-space:nowrap;transform:rotate(-2deg);box-shadow:5px 6px 0 rgba(0,0,0,.4)}
@@ -101,9 +101,9 @@ const TRACK=[{pill:'SİSTEM',col:'#F4EFE6',sec:'sys'},{id:'item'},{pill:'GÜÇLE
 function topbar(t,cur,sa,sec){let x=20,h='',cx=0;const ci=cur?TRACK.findIndex(e=>e.id===cur):TRACK.findIndex(e=>e.sec===sec);
  const pos=TRACK.map((e,i)=>{const w=e.pill?e.pill.length*19+44:(i===ci?96:70);const p={x,w};x+=w+18;return p});
  cx=ci>=0?pos[ci].x+pos[ci].w/2:0;const off=Math.max(0,cx-520);
- h+=`<div class="tb"><div class="tbh"><div class="l1">LEAGUE OF LEGENDS</div><div class="l2">YAMA ${'26<span class="ti pd">&#8203;</span>23'}</div><div class="l3">${tr('TÜM DEĞİŞİKLİKLER')}</div></div><div class="trk"><div class="ln"></div><div style="position:absolute;left:0;top:0;height:96px;transform:translateX(${-off}px)">`;
+ h+=`<div class="tb"><div class="tbh"><div class="l1">LEAGUE OF LEGENDS</div><div class="l2">YAMA 26<span class="ti pd" style="width:.36em">&#8203;</span>23</div><div class="l3">${tr('TÜM DEĞİŞİKLİKLER')}</div></div><div class="trk"><div class="ln"></div><div style="position:absolute;left:0;top:0;height:96px;transform:translateX(${-off}px)">`;
  TRACK.forEach((e,i)=>{const on=i===ci,past=ci>=0&&i<ci,g=on?eb(prog(t,sa,.4)):0;const p=pos[i];
-  if(e.pill)h+=`<div class="pill" style="left:${p.x}px;background:${e.col};opacity:${past?.45:1}">${tr(e.pill)}</div>`;
+  if(e.pill)h+=`<div class="pill" style="left:${p.x}px;background:${e.col};filter:${past?'brightness(.5) saturate(.4)':'none'}">${tr(e.pill)}</div>`;
   else{const c=CH.find(c=>c.id===e.id),sz=lerp(62,92,g),src=e.id==='item'?'item_6699':'champ_'+e.id;
    h+=`<div class="dotc" style="left:${p.x+(p.w-sz)/2}px;top:${48-sz/2}px;width:${sz}px;height:${sz}px;border-radius:${e.id==='item'?'10px':'50%'};border-color:${on?(c.ty==='buff'?'var(--lime)':'var(--red)'):'var(--paper)'};filter:${past?'grayscale(1) brightness(.5)':on?'none':'brightness(.85)'};z-index:${on?3:1}"><img src="assets/${src}.png" style="border-radius:inherit"></div>`}});
  return h+'</div></div></div>'}
@@ -122,7 +122,8 @@ window.render=function(t){let O='';
  for(const b of TL.banners)O+=banner(t,b.a,b.txt,b.bg);
  // strip + cards
  const seg=TL.segs.find(s=>t>=s.a-.05&&t<s.b);
- if(t>=TL.strip[0]&&t<TL.strip[1])O+=`<div style="opacity:${cl(prog(t,TL.strip[0],.4))*(1-prog(t,TL.strip[1]-.4,.4))}">`+strip(t,seg?seg.id:null,seg?seg.a:0)+'</div>';
+ if(t>=TL.strip[0]&&t<TL.strip[1]){const ls=[...TL.segs].reverse().find(x=>t>=x.a-.05),bi=TL.banners.map(x=>x.a).filter(x=>x<=t).length-1,secs=['sys','buff','nerf'];
+  const useSec=bi>=0&&(!ls||TL.banners[bi].a>ls.a);O+=`<div style="opacity:${cl(prog(t,TL.strip[0],.4))*(1-prog(t,TL.strip[1]-.4,.4))};transform:translateY(${(1-eo(prog(t,TL.strip[0],.5)))*-160}px)">`+topbar(t,useSec?null:ls.id,useSec?TL.banners[bi].a:ls.a,secs[bi])+'</div>'}
  if(seg){const c=CH.find(c=>c.id===seg.id);O+=card(c,t,seg)}
  for(const w of (TL.wipes||[])){const k=prog(t,w-.18,.36);if(k>0&&k<1)O+=`<div class="ab" style="left:0;top:-300px;width:900px;height:1700px;background:linear-gradient(90deg,rgba(212,255,58,0),#D4FF3A 30%,#F4EFE6 50%,#0B0B0F 70%,rgba(11,11,15,0));transform:translateX(${lerp(-1100,2100,k)}px) rotate(14deg)"></div>`}
  $('dyn').innerHTML=O};
