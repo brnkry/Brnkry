@@ -39,8 +39,8 @@ PLAN = [(0, 7.52, 'intro_gameplay', 2, ''), ('SPLIT3', 7.52, 10.18), ('SPLIT2', 
         (27.9, 50.75, 'annie_gameplay', 2, ''), (50.75, 64.33, 'azir_gameplay', 2, ''), (64.33, 78.54, 'bard_gameplay', 2, ''),
         (78.54, 98.35, 'ezreal_gameplay', 2, ''), (98.35, 107.95, 'galio_gameplay', 2, ''), (107.95, 118.67, 'gnar_gameplay', 2, ''),
         (118.67, 135.25, 'ksante_gameplay', 2, ''), (135.25, 167.4, 'mel_long', 0, ''), (167.4, 176.0, 'velkoz_gameplay', 2, ''),
-        (176.0, 184.55, 'vi_gameplay', 0.5, ''), (184.55, 189.64, 'leblanc_Q', 0.4, 'crop=1700:956:110:0,scale=1920:1080:flags=lanczos'), (189.64, 200.04, 'master_yi_Q', 16.5, Z),
-        (200.04, 212.05, 'sydnra_E', 1.5, ''), (212.05, END, 'intro_gameplay', 17.5, '')]
+        (176.0, 184.55, 'vi_early', 0, ''), (184.55, 189.64, 'leblanc_Q', 0.4, 'crop=1700:956:110:0,scale=1920:1080:flags=lanczos'), (189.64, 200.04, 'master_yi_Q', 16.5, Z),
+        (200.04, 212.05, 'sydnra_E', 1.5, ''), (212.05, END, 'annie_gameplay', 29.5, '')]
 
 def timeline():
     segs = [dict(id=i, a=a, b=b, st=st, rows=r) for i, a, b, st, r in SEGS]
