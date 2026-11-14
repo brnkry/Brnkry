@@ -1,0 +1,95 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/fonts/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+:root{--lime:#D4FF3A;--red:#FF3B5C;--paper:#F4EFE6;--ink:#0B0B0F}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block}
+.ti.dot:after{content:'';position:absolute;left:52%;top:.02em;width:.16em;height:.13em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:56%;top:-.06em;width:.34em;height:.16em;border:.075em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(80% 0 0 0);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.03em;bottom:.02em;width:.15em;height:.14em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+/* torn paper card */
+.card{position:absolute;left:46px;bottom:52px;width:820px;background:var(--paper);color:var(--ink);padding:26px 34px 30px 34px;
+ clip-path:polygon(0 3%,4% 0,11% 2%,19% .5%,27% 2.5%,36% .3%,45% 2%,55% 0,63% 2.2%,72% .6%,81% 2.4%,90% .2%,97% 2%,100% 0,100% 97%,96% 100%,88% 98%,79% 100%,70% 97.6%,61% 99.6%,52% 97.8%,43% 100%,34% 98%,25% 99.8%,16% 97.4%,8% 99.6%,0 98%);
+ filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
+.card .hd{display:flex;align-items:center;gap:22px;margin-bottom:14px}
+.card .nm{font-size:66px;line-height:1;letter-spacing:.01em;padding-right:210px}
+.card .sp{display:flex;align-items:center;gap:14px;margin:10px 0 6px}
+.card .sp img{width:74px;height:74px;border:4px solid var(--ink);transform:rotate(-3deg)}
+.card .key{font-size:44px;width:62px;height:62px;border:4px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(4deg)}
+.card .skn{font-size:40px;line-height:1}
+.row{display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;font-size:38px;line-height:1.15;margin:8px 0 0 4px}
+.row .lb{font-size:32px;opacity:.8}
+.old{position:relative;opacity:.55}
+.old:after{content:'';position:absolute;left:-6%;right:-6%;top:48%;height:.13em;background:var(--red);transform:rotate(-4deg) scaleX(var(--s,1));transform-origin:left;border-radius:6px}
+.arr{font-family:Mon;font-weight:900;font-size:34px}
+.new{position:relative;font-size:48px;padding:0 .12em;z-index:0}
+.new:before{content:'';position:absolute;left:0;right:0;bottom:.08em;height:.55em;background:var(--hl);z-index:-1;transform:skewX(-12deg) scaleX(var(--s,1));transform-origin:left;border-radius:4px}
+.stamp{position:absolute;right:26px;top:22px;font-size:58px;padding:2px 18px 4px;border:6px solid currentColor;border-radius:10px;transform:rotate(9deg);letter-spacing:.06em}
+/* champion strip top right */
+.stk{position:absolute;border:6px solid var(--paper);box-shadow:0 10px 24px rgba(0,0,0,.55);background:#000}
+.stk img{display:block;width:100%;height:100%}
+.tape{position:absolute;height:34px;background:rgba(244,239,230,.75);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+/* banners */
+.ban{position:absolute;left:-60px;right:-60px;text-align:center;color:var(--ink);font-size:150px;line-height:1;padding:24px 0 30px}
+.big{position:absolute;left:0;right:0;text-align:center;font-size:150px;line-height:1;text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 40px rgba(0,0,0,.6)}
+</style></head><body>
+<div id="root"><div id="dyn"></div></div>
+<script src="timeline.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),lerp=(a,b,k)=>a+(b-a)*k,prog=(t,a,d)=>cl((t-a)/d);
+const eo=k=>1-Math.pow(1-cl(k),3),eb=k=>{k=cl(k);const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const env=(t,a,b,fi=.2,fo=.2)=>t<a||t>b?0:Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo));
+const tr=s=>String(s).replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+const jit=(i,a=1)=>Math.sin(i*12.9898)*a; // stable pseudo random tilt
+// ---- content: every change, in narration order. rows: [label, old, new, kind]
+const CH=[
+ {id:'item',nm:'ELEKTRİKLİ DEVİRKILICI',ic:'item_6699',ty:'nerf',sp:[{img:'item_6699',k:'',n:'PASİF'}],rows:[['YAKIN DÖVÜŞ','%9','%8'],['MENZİLLİ','%7','%6']]},
+ {id:'Annie',nm:'ANNIE',ty:'buff',sp:[{img:'spell_AnnieR',k:'R',n:'TIBBERS'}],rows:[['CAN','1150-3500','1275-4000'],['YENİ','','BONUS CANIN %150'],['AURA','8-16','10-20'],['SALDIRI','30-60','30-70']]},
+ {id:'Azir',nm:'AZİR',ty:'buff',sp:[{img:'champ_Azir',k:'',n:'TEMEL'},{img:'spell_AzirW',k:'W',n:'İLERİ!'}],rows:[['MENZİL','525','550'],['AD ORANI','%50','%67']]},
+ {id:'Bard',nm:'BARD',ty:'buff',sp:[{img:'spell_BardQ',k:'Q',n:'KOZMİK BAĞ'}],rows:[['HASAR','80-240','80-260'],['AP ORANI','%80','%100']]},
+ {id:'Ezreal',nm:'EZREAL',ty:'buff',sp:[{img:'spell_EzrealW',k:'W',n:'ÖZÜT AKIŞI'},{img:'spell_EzrealR',k:'R',n:'İSABET DALGASI'}],rows:[['W BONUS AD','%100','%115'],['R HASAR','350-750','350-850'],['R BONUS AD','%100','%110'],['R AP','%110','%120']]},
+ {id:'Galio',nm:'GALIO',ty:'buff',sp:[{img:'spell_GalioW',k:'W',n:'DURAND KALKANI'},{img:'spell_GalioR',k:'R',n:'KAHRAMAN DALIŞI'}],rows:[['KALKAN','%7.5-13.5','%8-20']]},
+ {id:'Gnar',nm:'GNAR',ty:'buff',sp:[{img:'spell_GnarQ',k:'Q',n:'MİNİ'},{img:'spell_GnarBigQ',k:'Q',n:'MEGA'}],rows:[['MİNİ AD','%125','%135'],['MEGA AD','%140','%150']]},
+ {id:'KSante',nm:"K'SANTE",ty:'buff',sp:[{img:'spell_KSanteW',k:'W',n:'YOLAÇAN'}],rows:[['MANA','45-65','45'],['HASAR','45-165','45-205'],['TAM ŞARJ','%10-80','%10-75','n']]},
+ {id:'Mel',nm:'MEL',ty:'buff',sp:[{img:'spell_MelQ',k:'Q',n:'PIRILTILI SALVO'},{img:'spell_MelW',k:'W',n:'RET'}],rows:[['MERMİ','5-25','6-26'],['AP','%8','%9'],['MAKS','85-285','90-294'],['MAKS AP','%65-97','%70-106'],['W KALKAN','50-170','50-210'],['KARŞILIK','35-55','35-75']]},
+ {id:'Velkoz',nm:"VEL'KOZ",ty:'buff',sp:[{img:'spell_VelkozR',k:'R',n:'3. SEVİYE'}],rows:[['HASAR','925','950']]},
+ {id:'Vi',nm:'VI',ty:'buff',sp:[{img:'spell_ViE',k:'E',n:'YILMAZ GÜÇ'}],rows:[['HASAR','10-90','10-110']]},
+ {id:'Leblanc',nm:'LEBLANC',ty:'nerf',sp:[{img:'spell_LeblancQ',k:'Q',n:'ŞER MÜHRÜ'}],rows:[['AP ORANI','%40','%35']]},
+ {id:'MasterYi',nm:'MASTER Yİ',ty:'nerf',sp:[{img:'spell_AlphaStrike',k:'Q',n:'ALFA VURUŞU'}],rows:[['AD ORANI','%70','%60'],['MAKS TEK HEDEF','%122.5','%105']]},
+ {id:'Syndra',nm:'SYNDRA',ty:'nerf',sp:[{img:'spell_SyndraE',k:'E',n:'ZAYIFLARA ACIMA'}],rows:[['MANA','50','60'],['BEKLEME','15 SN','17-15 SN']]}];
+const STRIP=CH.filter(c=>c.id!=='item');
+function card(c,t,seg){const k=prog(t,seg.a-.05,.35),o=1-prog(t,seg.b-.25,.25);if(o<=0)return '';
+ const col=c.ty==='buff'?'#7FB800':'#E0193F',hl=c.ty==='buff'?'var(--lime)':'#FF9EB0';
+ let h=`<div class="card" style="opacity:${cl(k*3)*o};transform:translate(${(1-eo(k))*-140}px,${(1-eo(k))*40}px) rotate(${lerp(-6,-1.2,eo(k))}deg)">`;
+ h+=`<div class="stamp" style="color:${col};opacity:${cl(prog(t,seg.a+.15,.15)*3)};transform:rotate(9deg) scale(${lerp(2.2,1,eb(prog(t,seg.a+.15,.3)))})">${c.ty==='buff'?'BUFF':'NERF'}</div>`;
+ h+=`<div class="nm">${tr(c.nm)}</div><div class="sp">`+c.sp.map((s,i)=>`<img src="assets/${s.img}.png" style="transform:rotate(${jit(i+3,4)}deg)">${s.k?`<div class="key">${s.k}</div>`:''}<div class="skn">${tr(s.n)}</div>`).join('<div style="width:18px"></div>')+`</div>`;
+ c.rows.forEach((r,i)=>{const rt=seg.rows[i]??seg.a+.4+i*.5,q=prog(t,rt,.25);if(q<=0)return;const s=eo(prog(t,rt+.15,.35)),nk=r[3]==='n';
+  h+=`<div class="row" style="opacity:${cl(q*3)};transform:translateX(${(1-eo(q))*-30}px)"><span class="lb">${tr(r[0])}</span>`+(r[1]?`<span class="old" style="--s:${s}">${tr(r[1])}</span><span class="arr">&rarr;</span>`:'')+`<span class="new" style="--hl:${nk?'#FF9EB0':hl};--s:${s}">${tr(r[2])}</span></div>`});
+ return h+'</div>'}
+function strip(t,cur){// stickers, top right; current one big
+ let h='';const n=STRIP.length,ci=STRIP.findIndex(c=>c.id===cur);
+ STRIP.forEach((c,i)=>{const on=i===ci,past=ci>=0&&i<ci;const sz=on?150:78;const x=1920-40-(n-i)*86-(on?40:0)+(i>ci&&ci>=0?72:0),y=on?34:46;
+  h+=`<div class="stk" style="left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;transform:rotate(${jit(i,5)}deg);border-color:${on?(c.ty==='buff'?'var(--lime)':'var(--red)'):'var(--paper)'};filter:${past?'grayscale(1) brightness(.55)':on?'none':'brightness(.8)'};z-index:${on?5:1}"><img src="assets/champ_${c.id}.png"></div>`});
+ return h}
+function banner(t,a,txt,bg){const k=prog(t,a,.35),o=1-prog(t,a+1.4,.3);if(k<=0||o<=0)return '';
+ return `<div class="ban" style="top:430px;background:${bg};transform:rotate(-4deg) translateX(${(1-eo(k))*-2200}px);opacity:${o}">${tr(txt)}</div>`}
+function slam(t,a,b,txt,y,fs,col='#F4EFE6',rot=-3){const k=prog(t,a,.22),o=1-prog(t,b-.2,.2);if(k<=0||o<=0)return '';
+ return `<div class="big" style="top:${y}px;font-size:${fs}px;color:${col};opacity:${cl(k*3)*o};transform:rotate(${rot}deg) scale(${lerp(1.8,1,eb(k))})">${tr(txt)}</div>`}
+window.render=function(t){let O='';
+ // intro texts
+ for(const x of TL.intro)O+=slam(t,x.a,x.b,x.txt,x.y,x.fs,x.col,x.rot);
+ // banners
+ for(const b of TL.banners)O+=banner(t,b.a,b.txt,b.bg);
+ // strip + cards
+ const seg=TL.segs.find(s=>t>=s.a-.05&&t<s.b);
+ if(t>=TL.strip[0]&&t<TL.strip[1])O+=`<div style="opacity:${cl(prog(t,TL.strip[0],.4))*(1-prog(t,TL.strip[1]-.4,.4))}">`+strip(t,seg?seg.id:null)+'</div>';
+ if(seg){const c=CH.find(c=>c.id===seg.id);O+=card(c,t,seg)}
+ $('dyn').innerHTML=O};
+window.ready=document.fonts.ready;
+</script></body></html>
