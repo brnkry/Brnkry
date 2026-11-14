@@ -1,5 +1,10 @@
 # Yükleme paketi: Locke Rehberi (4 Dakikada Feedleme)
 
+## Güncel başlık (yeni thumbnail ile)
+4 DAKİKADA LOCKE - YENİ ŞAMPİYON REHBERİ - League of Legends
+Thumbnail: lol/kanal_feedleme_hocam/thumbs/locke.png
+
+
 ## Başlık ve thumbnail (3 seçenek)
 1. **Doğruluk mu, Çivilenmek mi? 4 Dakikada Locke Rehberi** → `export/kanal/locke_thumb1.png`
 2. **Locke Nocturne'e Ne Dedi?! 4 Dakikada Locke Rehberi | LoL Türkçe** → `export/kanal/locke_thumb2.png`
