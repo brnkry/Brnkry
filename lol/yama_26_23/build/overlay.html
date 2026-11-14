@@ -10,7 +10,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .ti.dot:after{content:'';position:absolute;left:52%;top:.02em;width:.16em;height:.13em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
 .ti.brv:after{content:'';position:absolute;left:56%;top:-.06em;width:.34em;height:.16em;border:.075em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
 .ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(80% 0 0 0);transform:translateX(-.02em)}
-.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.03em;bottom:.02em;width:.15em;height:.14em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
 .pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
 /* torn paper card */
 .cardw{position:absolute;left:46px;bottom:52px;width:968px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
@@ -21,7 +21,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .card .nm{font-size:66px;line-height:1;letter-spacing:.01em}
 .card .txt{margin-right:290px}
 .bigic{position:absolute;right:40px;top:34px;width:250px}
-.card .bigic img{display:block;width:250px;height:250px;border:7px solid var(--ink);box-shadow:8px 10px 0 rgba(0,0,0,.25)}
+.bigic img{display:block;width:250px;height:250px;border:7px solid var(--ink);box-shadow:8px 10px 0 rgba(0,0,0,.25)}
 .bigic img+img{width:150px;height:150px;margin:-60px 0 0 110px;position:relative}
 .card .sp{display:flex;align-items:center;gap:14px;margin:10px 0 6px}
 .card .sp img{width:74px;height:74px;border:4px solid var(--ink);transform:rotate(-3deg)}
@@ -81,27 +81,27 @@ function card(c,t,seg){const k=prog(t,seg.a-.05,.35),o=1-prog(t,seg.b-.25,.25);i
  c.rows.forEach((r,i)=>{const rt=seg.rows[i]??seg.a+.4+i*.5,q=prog(t,rt,.25);if(q<=0)return;const s=eo(prog(t,rt+.15,.35)),nk=r[3]==='n';
   h+=`<div class="row" style="opacity:${cl(q*3)};transform:translateX(${(1-eo(q))*-30}px)"><span class="lb">${tr(r[0])}</span>`+(r[1]?`<span class="old" style="--s:${s}">${tr(r[1])}</span><span class="arr">&rarr;</span>`:'')+`<span class="new" style="--hl:${nk?'#FF9EB0':hl};--s:${s}">${tr(r[2])}</span></div>`});
  return h+'</div></div>'+ic+'</div>'}
-function strip(t,cur){// stickers, top right; current one big
+function strip(t,cur,sa){// stickers, top right; current one big
  let h='';const n=STRIP.length,ci=STRIP.findIndex(c=>c.id===cur);
- STRIP.forEach((c,i)=>{const on=i===ci,past=ci>=0&&i<ci;const sz=on?150:78;const x=1920-40-(n-i)*86-(on?40:0)+(i>ci&&ci>=0?72:0),y=on?34:46;
+ STRIP.forEach((c,i)=>{const on=i===ci,past=ci>=0&&i<ci;const g=on?eb(prog(t,sa,.4)):0;const sz=lerp(78,150,g);const x=1920-40-(n-i)*86-40*g+(i>ci&&ci>=0?72*eo(prog(t,sa,.4)):0),y=lerp(46,34,g);
   h+=`<div class="stk" style="left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;transform:rotate(${jit(i,5)}deg);border-color:${on?(c.ty==='buff'?'var(--lime)':'var(--red)'):'var(--paper)'};filter:${past?'grayscale(1) brightness(.55)':on?'none':'brightness(.8)'};z-index:${on?5:1}"><img src="assets/champ_${c.id}.png"></div>`});
  return h}
 function banner(t,a,txt,bg){const k=prog(t,a,.35),o=1-prog(t,a+1.4,.3);if(k<=0||o<=0)return '';
  return `<div class="ban" style="--fs:${txt.length>10?112:150}px;top:430px;background:${bg};transform:rotate(-4deg) translateX(${(1-eo(k))*-2200}px);opacity:${o}">${tr(txt)}</div>`}
 function slam(t,a,b,txt,y,fs,col='#F4EFE6',rot=-3){const k=prog(t,a,.22),o=1-prog(t,b-.2,.2);if(k<=0||o<=0)return '';
- if(txt==='YAMA 26.23')return `<div class="big" style="top:${y-150}px;opacity:${cl(k*3)*o};transform:rotate(${rot}deg) scale(${lerp(1.8,1,eb(k))})"><div style="font-size:110px;color:#F4EFE6">YAMA</div><div style="display:inline-block;margin-top:14px;font-size:300px;line-height:.9;padding:10px 50px 26px;color:#0B0B0F;background:#D4FF3A;transform:rotate(-3deg);box-shadow:14px 16px 0 rgba(0,0,0,.55);text-shadow:none">${tr('26.23')}</div></div>`;
+ if(txt==='YAMA 26.23')return `<div class="big" style="top:${y-150}px;opacity:${cl(k*3)*o};transform:rotate(${rot}deg) scale(${lerp(1.8,1,eb(k))})"><div style="font-size:110px;color:#F4EFE6">YAMA</div><div style="display:inline-block;margin-top:14px;font-size:250px;line-height:1.08;padding:6px 64px 0;letter-spacing:.04em;color:#0B0B0F;background:#D4FF3A;transform:rotate(-3deg);box-shadow:14px 16px 0 rgba(0,0,0,.55);text-shadow:none">26<span class="ti pd" style="width:.34em">&#8203;</span>23</div></div>`;
  return `<div class="big" style="top:${y}px;font-size:${fs}px;color:${col};opacity:${cl(k*3)*o};transform:rotate(${rot}deg) scale(${lerp(1.8,1,eb(k))})">${tr(txt)}</div>`}
 window.render=function(t){let O='';
  // intro texts
  for(const x of TL.intro)O+=slam(t,x.a,x.b,x.txt,x.y,x.fs,x.col,x.rot);
  // split-screen name tags (one per panel)
- for(const p of (TL.panels||[])){if(t<p.a||t>=p.b)continue;const w=1920/p.names.length;p.names.forEach((nm,i)=>{const k=prog(t,p.a+.12*i,.25),o=1-prog(t,p.b-.15,.15);O+=`<div class="big" style="left:${i*w}px;right:auto;width:${w}px;top:${p.y||820}px;font-size:${p.fs||110}px;color:${p.col};opacity:${cl(k*3)*o};transform:rotate(${jit(i+1,4)}deg) scale(${lerp(1.9,1,eb(k))})">${tr(nm)}</div>`});
+ for(const p of (TL.panels||[])){if(t<p.a||t>=p.b)continue;const w=1920/p.names.length;p.names.forEach((nm,i)=>{const k=prog(t,p.ts?p.ts[i]:p.a+.12*i,.25),o=1-prog(t,p.b-.15,.15);O+=`<div class="big" style="left:${i*w}px;right:auto;width:${w}px;top:${p.y||820}px;font-size:${p.fs||110}px;color:${p.col};opacity:${cl(k*3)*o};transform:rotate(${jit(i+1,4)}deg) scale(${lerp(1.9,1,eb(k))})">${tr(nm)}</div>`});
   for(let i=1;i<p.names.length;i++)O+=`<div class="ab" style="left:${i*w-5}px;top:-20px;width:10px;height:1120px;background:#F4EFE6;transform:rotate(3deg) scaleY(${eo(prog(t,p.a,.25))});transform-origin:top"></div>`}
  // banners
  for(const b of TL.banners)O+=banner(t,b.a,b.txt,b.bg);
  // strip + cards
  const seg=TL.segs.find(s=>t>=s.a-.05&&t<s.b);
- if(t>=TL.strip[0]&&t<TL.strip[1])O+=`<div style="opacity:${cl(prog(t,TL.strip[0],.4))*(1-prog(t,TL.strip[1]-.4,.4))}">`+strip(t,seg?seg.id:null)+'</div>';
+ if(t>=TL.strip[0]&&t<TL.strip[1])O+=`<div style="opacity:${cl(prog(t,TL.strip[0],.4))*(1-prog(t,TL.strip[1]-.4,.4))}">`+strip(t,seg?seg.id:null,seg?seg.a:0)+'</div>';
  if(seg){const c=CH.find(c=>c.id===seg.id);O+=card(c,t,seg)}
  for(const w of (TL.wipes||[])){const k=prog(t,w-.18,.36);if(k>0&&k<1)O+=`<div class="ab" style="left:0;top:-300px;width:900px;height:1700px;background:linear-gradient(90deg,rgba(212,255,58,0),#D4FF3A 30%,#F4EFE6 50%,#0B0B0F 70%,rgba(11,11,15,0));transform:translateX(${lerp(-1100,2100,k)}px) rotate(14deg)"></div>`}
  $('dyn').innerHTML=O};
