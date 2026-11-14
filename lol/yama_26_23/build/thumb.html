@@ -1,0 +1,35 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/fonts/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+:root{--lime:#D4FF3A;--red:#FF3B5C;--paper:#F4EFE6;--ink:#0B0B0F}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+
+body{margin:0;background:#000}
+.th{position:relative;width:1280px;height:720px;overflow:hidden;font-family:PB;color:#F4EFE6;background:#0B0B0F}
+.sp{position:absolute;top:0;height:720px;background-size:cover}
+.ink{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,15,0) 0,rgba(11,11,15,.15) 30%,rgba(11,11,15,.82) 44%,rgba(11,11,15,.82) 56%,rgba(11,11,15,.15) 70%,rgba(11,11,15,0) 100%)}
+.c{position:absolute;left:0;right:0;text-align:center}
+.st{position:absolute;font-size:62px;padding:2px 20px 4px;border:7px solid currentColor;border-radius:12px;background:rgba(244,239,230,.92);letter-spacing:.05em}
+</style></head><body>
+<div class="th" id="t">
+ <div class="sp" style="left:-170px;width:820px;background-image:url(assets/splash_Ezreal.jpg);background-position:78% 30%"></div>
+ <div class="sp" style="right:-190px;width:820px;background-image:url(assets/splash_Syndra.jpg);background-position:58% 25%"></div>
+ <div class="ink"></div>
+ <div class="c" style="top:58px;font-size:72px;transform:rotate(-3deg);text-shadow:0 7px 0 rgba(0,0,0,.7)">YAMA</div>
+ <div class="c" style="top:150px"><div style="display:inline-block;font-size:220px;line-height:1.05;padding:4px 50px 0;letter-spacing:.04em;color:#0B0B0F;background:#D4FF3A;transform:rotate(-3deg);box-shadow:14px 16px 0 rgba(0,0,0,.6)">26<span class="ti pd" style="width:.36em">&#8203;</span>23</div></div>
+ <div class="c" style="top:470px"><div id="h" style="display:inline-block;font-size:76px;line-height:1.15;padding:10px 36px 6px;color:#0B0B0F;background:#F4EFE6;transform:rotate(2deg);box-shadow:10px 12px 0 rgba(0,0,0,.6)"></div></div>
+ <div class="st" style="left:60px;top:560px;color:#7FB800;transform:rotate(-10deg)">BUFF</div>
+ <div class="st" style="right:60px;top:560px;color:#E0193F;transform:rotate(9deg)">NERF</div>
+ <div style="position:absolute;left:0;right:0;bottom:0;height:16px;background:#D4FF3A"></div>
+</div>
+<script>const tr=s=>String(s).replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+document.getElementById('h').innerHTML=tr('TÜM DEĞİŞİKLİKLER');</script></body></html>
