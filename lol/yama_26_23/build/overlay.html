@@ -45,7 +45,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .tbh .l1{font-size:22px;letter-spacing:.12em;opacity:.75;line-height:1.2}
 .tbh .l2{font-size:44px;line-height:1.15;margin-top:2px}
 .tbh .l3{font-size:24px;line-height:1.2;margin-top:8px;letter-spacing:.04em}
-.trk{position:absolute;left:400px;right:300px;top:16px;height:132px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 60px,#000 calc(100% - 80px),transparent)}
+.trk{position:absolute;left:400px;right:320px;top:16px;height:132px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 60px,#000 calc(100% - 80px),transparent)}
 .trk .ln{position:absolute;left:0;right:0;top:63px;height:6px;background:rgba(244,239,230,.55)}
 .pill{position:absolute;top:43px;height:46px;padding:0 18px;font-size:32px;line-height:50px;color:var(--ink);white-space:nowrap;transform:rotate(-2deg);box-shadow:5px 6px 0 rgba(0,0,0,.4)}
 .dotc{position:absolute;border:5px solid var(--paper);background:#000;box-shadow:0 6px 14px rgba(0,0,0,.5)}
@@ -141,7 +141,7 @@ window.render=function(t){let O='';
    if(sub){const m=eo(prog(t,at+.05,.35)),cx=lerp(1900,X[i]+280,m),cy=lerp(1100,770,m),cs=t>at+.42&&t<at+.62?.85:1;
     if(t>at+.42){const r=prog(t,at+.42,.5);O+=`<div class="ab" style="left:${X[i]+280-70}px;top:${770-70}px;width:140px;height:140px;border-radius:50%;border:6px solid rgba(244,239,230,${1-r});transform:scale(${lerp(.3,1.6,r)})"></div>`}
     O+=`<svg class="ab" style="left:${cx}px;top:${cy}px;transform:scale(${cs});transform-origin:0 0" width="80" height="98" viewBox="0 0 18 22"><path d="M1 1 L1 17 L5 13.5 L8 20 L11 18.6 L8.2 12.4 L13.5 12.4 Z" fill="#F4EFE6" stroke="#0B0B0F" stroke-width="1.4" stroke-linejoin="round"/></svg>`}});}
- O+=`<div class="ab" style="right:26px;top:30px;display:flex;align-items:center;gap:12px;padding:6px 20px 6px 6px;background:rgba(11,11,15,.78);border-radius:40px;box-shadow:0 6px 16px rgba(0,0,0,.4)"><img src="assets/logo.png" style="width:58px;height:58px;border-radius:50%"><span style="font-size:34px;letter-spacing:.05em;color:#F4EFE6">FEEDLEME HOCAM</span></div>`;
+ O+=`<div class="ab" style="right:26px;top:30px;padding:6px 20px 4px;background:rgba(11,11,15,.78);border-radius:8px;box-shadow:0 6px 16px rgba(0,0,0,.4)"><span style="font-size:34px;letter-spacing:.05em;color:#F4EFE6">FEEDLEME HOCAM</span></div>`;
  $('dyn').innerHTML=O};
 window.ready=document.fonts.ready;
 </script></body></html>
