@@ -6,10 +6,10 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .ab{position:absolute}
 :root{--lime:#D4FF3A;--red:#FF3B5C;--paper:#F4EFE6;--ink:#0B0B0F}
 /* Turkish letters the font lacks, built from its own pieces */
-.ti{position:relative;display:inline-block}
-.ti.dot:after{content:'';position:absolute;left:52%;top:.02em;width:.16em;height:.13em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:52%;bottom:.93em;width:.16em;height:.13em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
 .ti.brv:after{content:'';position:absolute;left:56%;top:-.06em;width:.34em;height:.16em;border:.075em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
-.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(80% 0 0 0);transform:translateX(-.02em)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(80% 0 0 0);transform:translateX(-.02em);text-shadow:none}
 .ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
 .pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
 /* torn paper card */
@@ -40,7 +40,7 @@ html,body{margin:0;background:transparent;overflow:hidden}
 .stk img{display:block;width:100%;height:100%}
 .tape{position:absolute;height:34px;background:rgba(244,239,230,.75);box-shadow:0 2px 6px rgba(0,0,0,.25)}
 /* banners */
-.ban{position:absolute;left:-60px;right:-60px;text-align:center;color:var(--ink);font-size:var(--fs,150px);line-height:1;padding:24px 0 30px}
+.ban{position:absolute;left:-60px;right:-60px;text-align:center;color:var(--ink);font-size:var(--fs,150px);line-height:1;padding:46px 0 30px}
 .big{position:absolute;left:0;right:0;text-align:center;font-size:150px;line-height:1;text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 40px rgba(0,0,0,.6)}
 </style></head><body>
 <div id="root"><div id="dyn"></div></div>
@@ -56,7 +56,7 @@ const jit=(i,a=1)=>Math.sin(i*12.9898)*a; // stable pseudo random tilt
 const CH=[
  {id:'item',nm:'ELEKTRİKLİ<br>DEVİRKILICI',ic:'item_6699',ty:'nerf',sp:[{img:'item_6699',k:'',n:'PASİF'}],rows:[['YAKIN DÖVÜŞ','%9','%8'],['MENZİLLİ','%7','%6']]},
  {id:'Annie',nm:'ANNIE',ty:'buff',sp:[{img:'spell_AnnieR',k:'R',n:'TIBBERS'}],rows:[['CAN','1150-3500','1275-4000'],['YENİ','','BONUS CANIN %150'],['AURA','8-16','10-20'],['SALDIRI','30-60','30-70']]},
- {id:'Azir',nm:'AZİR',ty:'buff',sp:[{img:'champ_Azir',k:'',n:'TEMEL'},{img:'spell_AzirW',k:'W',n:'İLERİ!'}],rows:[['MENZİL','525','550'],['AD ORANI','%50','%67']]},
+ {id:'Azir',nm:'AZIR',ty:'buff',sp:[{img:'champ_Azir',k:'',n:'TEMEL'},{img:'spell_AzirW',k:'W',n:'İLERİ!'}],rows:[['MENZİL','525','550'],['AD ORANI','%50','%67']]},
  {id:'Bard',nm:'BARD',ty:'buff',sp:[{img:'spell_BardQ',k:'Q',n:'KOZMİK BAĞ'}],rows:[['HASAR','80-240','80-260'],['AP ORANI','%80','%100']]},
  {id:'Ezreal',nm:'EZREAL',ty:'buff',sp:[{img:'spell_EzrealW',k:'W',n:'ÖZÜT AKIŞI'},{img:'spell_EzrealR',k:'R',n:'İSABET DALGASI'}],rows:[['W BONUS AD','%100','%115'],['R HASAR','350-750','350-850'],['R BONUS AD','%100','%110'],['R AP','%110','%120']]},
  {id:'Galio',nm:'GALIO',ty:'buff',sp:[{img:'spell_GalioW',k:'W',n:'DURAND KALKANI'},{img:'spell_GalioR',k:'R',n:'KAHRAMAN DALIŞI'}],rows:[['KALKAN','%7.5-13.5','%8-20']]},
@@ -66,7 +66,7 @@ const CH=[
  {id:'Velkoz',nm:"VEL'KOZ",ty:'buff',sp:[{img:'spell_VelkozR',k:'R',n:'3. SEVİYE'}],rows:[['HASAR','925','950']]},
  {id:'Vi',nm:'VI',ty:'buff',sp:[{img:'spell_ViE',k:'E',n:'YILMAZ GÜÇ'}],rows:[['HASAR','10-90','10-110']]},
  {id:'Leblanc',nm:'LEBLANC',ty:'nerf',sp:[{img:'spell_LeblancQ',k:'Q',n:'ŞER MÜHRÜ'}],rows:[['AP ORANI','%40','%35']]},
- {id:'MasterYi',nm:'MASTER Yİ',ty:'nerf',sp:[{img:'spell_AlphaStrike',k:'Q',n:'ALFA VURUŞU'}],rows:[['AD ORANI','%70','%60'],['MAKS TEK HEDEF','%122.5','%105']]},
+ {id:'MasterYi',nm:'MASTER YI',ty:'nerf',sp:[{img:'spell_AlphaStrike',k:'Q',n:'ALFA VURUŞU'}],rows:[['AD ORANI','%70','%60'],['MAKS TEK HEDEF','%122.5','%105']]},
  {id:'Syndra',nm:'SYNDRA',ty:'nerf',sp:[{img:'spell_SyndraE',k:'E',n:'ZAYIFLARA ACIMA'}],rows:[['MANA','50','60'],['BEKLEME','15 SN','17-15 SN']]}];
 const STRIP=CH.filter(c=>c.id!=='item');
 function card(c,t,seg){const k=prog(t,seg.a-.05,.35),o=1-prog(t,seg.b-.25,.25);if(o<=0)return '';
