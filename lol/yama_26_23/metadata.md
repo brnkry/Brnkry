@@ -1,9 +1,10 @@
 # Yama 26.23 videosu (Feedleme Hocam): yükleme bilgileri
 
 ## Başlık seçenekleri
-1. YAMA 26.23: Azir, Ezreal ve K'Sante Güçlendi, Syndra Nerf Yedi! | LoL Yama Notları
-2. LoL 26.23 Yama Notları: Tüm Buff ve Nerfler (Türkçe)
-3. Pro Şampiyonlarına Dev Buff! Yama 26.23'te Neler Değişti?
+1. YAMA NOTLARI 26.23 - TÜM DEĞİŞİKLİKLER - League of Legends
+2. YAMA 26.23: Azir, Ezreal ve K'Sante Güçlendi, Syndra Nerf Yedi! | LoL Yama Notları
+3. LoL 26.23 Yama Notları: Tüm Buff ve Nerfler (Türkçe)
+4. Pro Şampiyonlarına Dev Buff! Yama 26.23'te Neler Değişti?
 
 ## Açıklama
 Yama 26.23 18 Kasım Çarşamba geliyor! Pro maçlarda her gün izleyip solo queue'da kazanamadığın şampiyonlar sonunda güçleniyor, yüksek eloyu bezdiren Syndra ve LeBlanc ise törpüleniyor. Tüm değişiklikleri 4 dakikadan kısa sürede anlattık. 👇
