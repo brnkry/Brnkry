@@ -467,7 +467,7 @@ END0 = TURNS[14] + TD + 1.3
 CLICKS = [END0 + 1.0 + i * 1.1 for i in range(3)]
 def s15L(t):
     pg = base2(31, True); t0 = TURNS[14] + TD + 0.2
-    KICK(pg, t, t0, 'FORTSETZUNG FOLGT'); L(pg, t, t0 + 0.2, 'TEIL 5', (100, 250), serif(230, 900)); L(pg, t, t0 + 0.5, 'Unternehmen Barbarossa', (110, 530), serif(76, 400), GREY)
+    KICK(pg, t, t0, 'FORTSETZUNG FOLGT'); L(pg, t, t0 + 0.2, 'TEIL 5', (100, 250), serif(230, 900)); L(pg, t, t0 + 0.5, 'Afrika und der Balkan', (110, 530), serif(76, 400), GREY)
     FILM(pg, t, t0 + 0.8, 'searchlights', (110, 680, 1180, 720))
     return pg
 def s15R(t):

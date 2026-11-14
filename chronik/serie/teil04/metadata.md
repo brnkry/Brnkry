@@ -30,7 +30,7 @@ Kapitel:
 8:05 Coventry und der Blitz
 8:49 Bilanz und Ausblick
 
-Teil 5 folgt bald. Abonniert den Kanal, damit ihr ihn nicht verpasst. Die ganze Serie findet ihr in der Playlist „Deutschland im Zweiten Weltkrieg“.
+Teil 5: Afrika und der Balkan (1941) folgt bald. Abonniert den Kanal, damit ihr ihn nicht verpasst. Die ganze Serie findet ihr in der Playlist „Deutschland im Zweiten Weltkrieg“.
 
 Was hat euch an der Luftschlacht um England am meisten überrascht? Schreibt es in die Kommentare! 👇
 
