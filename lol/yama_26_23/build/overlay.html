@@ -117,7 +117,7 @@ window.render=function(t){let O='';
  for(const x of TL.intro)O+=slam(t,x.a,x.b,x.txt,x.y,x.fs,x.col,x.rot);
  // split-screen name tags (one per panel)
  for(const p of (TL.panels||[])){if(t<p.a||t>=p.b)continue;const w=1920/p.names.length;p.names.forEach((nm,i)=>{const k=prog(t,p.ts?p.ts[i]:p.a+.12*i,.25),o=1-prog(t,p.b-.15,.15);O+=`<div class="big" style="left:${i*w}px;right:auto;width:${w}px;top:${p.y||820}px;font-size:${p.fs||110}px;color:${p.col};opacity:${cl(k*3)*o};transform:rotate(${jit(i+1,4)}deg) scale(${lerp(1.9,1,eb(k))})">${tr(nm)}</div>`});
-  for(let i=1;i<p.names.length;i++)O+=`<div class="ab" style="left:${i*w-5}px;top:-20px;width:10px;height:1120px;background:#F4EFE6;transform:rotate(3deg) scaleY(${eo(prog(t,p.a,.25))});transform-origin:top"></div>`}
+  for(let i=1;i<p.names.length;i++)O+=`<div class="ab" style="left:${i*w-5}px;top:-20px;width:10px;height:1120px;background:#F4EFE6;transform:scaleY(${eo(prog(t,p.a,.25))});transform-origin:top"></div>`}
  // banners
  for(const b of TL.banners)O+=banner(t,b.a,b.txt,b.bg);
  // strip + cards
