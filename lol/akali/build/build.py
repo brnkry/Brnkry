@@ -9,8 +9,8 @@ CHAT = 'CHAT'
 PLAN = [(0, T['why'], [(SPOT, 169, None)], ''), (T['why'], T['passive'], [(SPOT, 185.5, None)], ''),
         (T['passive'], T['q'], [(SRC, 14.2, 29.3), (SPOT, 45, None)], ''),
         (T['q'], T['w'], [(SRC, 29.5, 34.0), (SPOT, 66, None)], ''),
-        (T['w'], T['e'], [(SRC, 34.3, 47.4), (SPOT, 90, None)], ''),
-        (T['e'], T['r'], [(SRC, 47.7, 63.7), (SPOT, 134, None)], ''),
+        (T['w'], T['e'], [(SRC, 37.25, 49.85), (SPOT, 90, None)], ''),
+        (T['e'], T['r'], [(SRC, 49.95, 63.45), (SPOT, 134, None)], ''),
         (T['r'], T['combo'], [(SRC, 63.9, 75.0), (SPOT, 162, None)], ''),
         (T['combo'], T['match'], [(SRC, 75.0, 102.4), (SPOT, 170, None)], ''),
         (T['match'], T['runes'], [(SPOT, 212, None)], BL), (T['runes'], T['early'], [(SPOT, 232.3, None)], BL),
@@ -18,7 +18,10 @@ PLAN = [(0, T['why'], [(SPOT, 169, None)], ''), (T['why'], T['passive'], [(SPOT,
         (T['outro'], END, [(SPOT, 200.5, None)], '')]
 def base():
     parts = []
+    only = [int(x) for x in sys.argv[2:]]
     for i, (a, b, pieces, vf) in enumerate(PLAN):
+        if only and i not in only:
+            parts.append(f'{OUT}/p{i:02d}.mp4'); continue
         o = f'{OUT}/p{i:02d}.mp4'; parts.append(o); n = round(b * 30) - round(a * 30); dur = b - a
         inp, fc, labs, used = [], [], [], 0.0
         for j, (f, s, e) in enumerate(pieces):
@@ -38,7 +41,7 @@ def mix():
     s = open('overlay.html').read(); js = re.search(r"window\.SFX=(\[.*?\]);\nwindow", s, re.S).group(1)
     node = subprocess.run(['node', '-e', open('timeline.js').read() + ';const T=TL;console.log(JSON.stringify(' + js + '))'], capture_output=True, text=True, check=True)
     ev = json.loads(node.stdout)
-    G = {'flash': -6, 'ignite': -6, 'yazi_vurus': -13, 'pop': -19, 'card': -17, 'stamp_dan': -10, 'levelup': -15, 'gecis': -9, 'click': -14}
+    G = {'flash': -21, 'ignite': -22, 'yazi_vurus': -13, 'pop': -19, 'card': -17, 'stamp_dan': -10, 'levelup': -8, 'gecis': -9, 'click': -14}
     inp = ['-i', '../ses/vo.mp3', '-stream_loop', '-1', '-i', '../../sett/ses/muzik.mp3']
     fc = [f'[0]aresample=44100,aformat=channel_layouts=stereo,volume=4dB,apad=whole_dur={END},asplit[vo][sc]',
           f'[1]aresample=44100,aformat=channel_layouts=stereo,atrim=0:{END},volume=-16dB,afade=t=in:d=0.5,afade=t=out:st={END - 1.0}:d=1.0[m0]',
