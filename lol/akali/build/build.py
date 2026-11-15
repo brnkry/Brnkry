@@ -14,7 +14,7 @@ PLAN = [(0, T['why'], [(SPOT, 169, None)], ''), (T['why'], T['passive'], [(SPOT,
         (T['r'], T['combo'], [(SRC, 63.9, 75.0), (SPOT, 162, None)], ''),
         (T['combo'], T['match'], [(SRC, 75.0, 102.4), (SPOT, 170, None)], ''),
         (T['match'], T['runes'], [(SPOT, 212, None)], BL), (T['runes'], T['early'], [(SPOT, 232.3, None)], BL),
-        (T['early'], T['mid'], [(SRC, 126.2, None)], CHAT), (T['mid'], T['late'], [(SRC, 152.9, None)], CHAT), (T['late'], T['outro'], [(SRC, 158.6, 180.0), (SPOT, 250, None)], CHAT),
+        (T['early'], T['mid'], [(SRC, 127.0, None)], CHAT), (T['mid'], T['late'], [(SRC, 152.9, None)], CHAT), (T['late'], T['outro'], [(SRC, 158.6, 180.0), (SPOT, 250, None)], CHAT),
         (T['outro'], END, [(SPOT, 200.5, None)], '')]
 def base():
     parts = []
