@@ -1,0 +1,122 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+:root{--lime:#D4FF3A;--red:#FF3B5C;--paper:#F4EFE6;--ink:#0B0B0F}
+/* Turkish letters the font lacks, built from its own pieces */
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+
+.ti.crc:after{content:'';position:absolute;left:52%;bottom:1.0em;width:.18em;height:.18em;border-left:.065em solid currentColor;border-top:.065em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+.paper{background:#F4EFE6;color:#0B0B0F;clip-path:polygon(0 3%,4% 0,12% 2%,22% .4%,33% 2.4%,45% .3%,57% 2%,68% .2%,80% 2.2%,91% .4%,100% 1.5%,100% 97%,93% 100%,82% 98%,70% 99.8%,58% 97.8%,46% 100%,34% 98%,22% 99.6%,11% 97.6%,0 99.4%)}
+.sh{filter:drop-shadow(0 14px 24px rgba(0,0,0,.55))}
+.ic{display:block;border:5px solid #0B0B0F}
+.lime{background:#D4FF3A;color:#0B0B0F}
+.big{position:absolute;left:0;right:0;text-align:center;line-height:1.1}
+.tile{display:inline-flex;flex-direction:column;align-items:center;margin:0 8px;vertical-align:top}
+.tile img{width:96px;height:96px;border:5px solid #0B0B0F}
+.tile .k{font-size:34px;line-height:1.2;margin-top:4px}
+.pill{display:inline-block;padding:3px 12px 0;font-size:24px;margin:0 4px;box-shadow:5px 6px 0 rgba(0,0,0,.4)}
+.stamp{display:inline-block;font-size:54px;padding:0 16px 2px;border:6px solid currentColor;border-radius:10px;background:rgba(244,239,230,.94)}
+.blk{background:#0B0B0F;color:#F4EFE6}
+</style></head><body><div id="root" style="width:1920px;height:1080px;font-family:PB"><div id="dyn"></div></div>
+<script src="timeline.js"></script><script>
+const tr=s=>String(s).replace(/Â/g,'<span class="ti crc">A</span>').replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),lerp=(a,b,k)=>a+(b-a)*k,prog=(t,a,d)=>cl((t-a)/d);
+const eo=k=>1-Math.pow(1-cl(k),3),eb=k=>{k=cl(k);const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const env=(t,a,b,fi=.25,fo=.25)=>t<a||t>b?0:Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo));
+const pop=(t,a,d=.3)=>`opacity:${cl(prog(t,a,d)*3)};transform:scale(${lerp(.4,1,eb(prog(t,a,d)))})`;
+const T=TL;
+const SECS=[['NEDEN',T.why],['PASİF',T.passive],['Q',T.q],['W',T.w],['E',T.e],['R',T.r],['KOMBO',T.combo],['EŞLEŞME',T.match],['RÜN',T.runes],['EŞYA',T.items],['SKILL',T.skills],['OYUN PLANI',T.early],['SON',T.outro]];
+function topbar(t){if(t<T.why-.2||t>=T.end)return '';const ci=SECS.reduce((a,s,i)=>t>=s[1]?i:a,0),k=prog(t,T.why-.2,.5);
+ let h=`<div class="ab" style="left:0;right:0;top:0;height:145px;transform:translateY(${(1-eo(k))*-160}px)"><div class="ab" style="left:0;right:0;top:0;height:175px;background:linear-gradient(180deg,#0B0B0F 0,#0B0B0F 88%,rgba(11,11,15,0))"></div><div class="ab paper sh" style="left:24px;top:14px;padding:8px 22px 4px;transform:rotate(-2deg)"><div style="font-size:20px;letter-spacing:.12em;opacity:.7"><span style="font-family:Mon;font-weight:900">4</span> ${tr("DAKİKADA")}</div><div style="font-size:40px;line-height:1">AKALI ${tr('REHBERİ')}</div></div><div class="ab" style="left:330px;top:34px;white-space:nowrap">`;
+ SECS.forEach((s,i)=>{const on=i===ci,past=i<ci;h+=`<span class="pill" style="background:${on?'#D4FF3A':past?'#5a5a60':'#F4EFE6'};color:${past?'#cfcfcf':'#0B0B0F'};transform:rotate(${i%2?2:-2}deg) scale(${on?lerp(1.4,1.18,eo(prog(t,s[1],.35))):1});font-size:${on?28:22}px">${tr(s[0])}</span>`});
+ return h+`</div><div class="ab" style="right:24px;top:30px;font-size:30px;letter-spacing:.06em;padding:4px 16px 2px;background:rgba(11,11,15,.78);border-radius:8px;color:#F4EFE6">FEEDLEME HOCAM</div></div>`}
+function slam(t,a,b,txt,y,fs,bg,fg,rot){const k=prog(t,a,.22),o=1-prog(t,b-.2,.2);if(t<a||o<=0)return '';return `<div class="big" style="top:${y}px;opacity:${cl(k*3)*o};transform:rotate(${rot}deg) scale(${lerp(1.8,1,eb(k))})"><span class="sh" style="display:inline-block;font-size:${fs}px;padding:10px 40px 0;background:${bg};color:${fg};box-shadow:12px 14px 0 rgba(0,0,0,.55)">${tr(txt)}</span></div>`}
+const AB={passive:['passive','PASİF','SUİKASTÇININ DAMGASI',[[T.p1,'YETENEK İSABET EDİNCE HALKA'],[T.p2,'HALKADAN ÇIK, HIZLAN'],[T.p3,'2 KAT MENZİLLİ GÜÇLÜ SALDIRI']]],
+ q:['spell_AkaliQ','Q','BEŞ NOKTA SALDIRISI',[[T.q1,'KONİ ŞEKLİNDE ATIŞ'],[T.q2,'UÇ KISMI YAVAŞLATIR']]],
+ w:['spell_AkaliW','W','ALACAKARANLIK PERDESİ',[[T.w1,'SİMİT ŞEKLİNDE DUMAN'],[T.w2,'HIZ + 100 ENERJİ'],[T.w3,'İÇİNDEYKEN GÖRÜNMEZ'],[T.w5,'RAKİP: ?????']]],
+ e:['spell_AkaliE','E','ÇEVİK SİLAH',[[T.e1,'İŞARETLE + GERİ TAKLA'],[T.e2,'TEKRAR BAS: HEDEFE ATIL'],[T.e3,'DUMANA DA ATILABİLİR'],[T.e4,'KLAS HAREKET']]],
+ r:['spell_AkaliR','R','KUSURSUZ İNFAZ',[[T.r1,'1: HEDEFE ATIL'],[T.r2,'2: EKSİK CANA GÖRE HASAR'],[T.r3,'KAÇMA, ZATEN BİTTİ']]]};
+function abilityCard(t,key,a,b){const [ic,k,nm,rows]=AB[key];const kk=env(t,a,b,.3,.3);if(!kk)return '';
+ let h=`<div class="ab sh" style="left:30px;top:150px;width:620px;opacity:${cl(kk*3)};transform:translateX(${(1-eo(prog(t,a,.35)))*-200}px) rotate(-1.5deg)"><div class="paper" style="padding:22px 26px 24px"><div style="display:flex;align-items:center;gap:20px"><img class="ic" src="assets/${ic}.png" style="width:130px;height:130px"><div><div class="lime" style="display:inline-block;font-size:44px;padding:2px 16px 0">${tr(k)}</div><div style="font-size:52px;line-height:1.05;margin-top:8px">${tr(nm)}</div></div></div>`;
+ rows.forEach(([rt,txt])=>{if(t>=rt)h+=`<div style="font-size:36px;margin-top:10px;${pop(t,rt)};transform-origin:left">${tr('• '+txt)}</div>`});
+ return h+`</div></div>`}
+const IC={Q:'spell_AkaliQ',W:'spell_AkaliW',E:'spell_AkaliE',R:'spell_AkaliR',P:'passive'};
+const C1=[['Q','Q'],['W','W'],['P','SALDIRI'],['Q','Q'],['P','SALDIRI'],['E','E'],['E','E2'],['P','SALDIRI'],['Q','Q']];
+const C2=[['E','E'],['E','E2'],['W','W'],['P','SALDIRI'],['Q','Q X3']];
+const C3=[['R','R'],['E','E'],['E','E2'],['P','SALDIRI'],['W','W'],['Q','Q'],['P','SALDIRI + Q X3'],['R','R2']];
+function comboStrip(t){if(t<T.combo-.1||t>=T.match)return '';const set=t<T.c2?[C1,T.c1s,'KISA TAKAS']:t<T.c3?[C2,T.c2s,'E ÖNCE TUTARSA']:[C3,T.c3s,'TAM ALL-IN'];
+ const k=env(t,T.combo-.1,T.match,.3,.3);let h=`<div class="ab" style="left:0;right:0;top:790px;height:290px;background:#0B0B0F;opacity:${cl(k*3)}"></div><div class="ab" style="left:0;right:0;top:806px;text-align:center;opacity:${cl(k*3)}"><span class="lime" style="display:inline-block;font-size:46px;padding:4px 24px 0;transform:rotate(-2deg)">${tr(set[2])}</span><div style="margin-top:22px;white-space:nowrap">`;
+ set[0].forEach(([i,lab],j)=>{const a=set[1][j];if(t<a)return;h+=`<div class="tile" style="${pop(t,a,.25)}"><img src="assets/${IC[i]}.png" style="${i==='P'?'border-color:#D4FF3A':''}"><div class="k" style="color:#F4EFE6">${tr(lab)}</div></div>`+(j<set[0].length-1?`<span style="display:inline-block;font-family:Mon;font-weight:900;font-size:40px;color:#D4FF3A;vertical-align:28px">›</span>`:'')});
+ return h+'</div></div>'}
+function panel(t,a,b,inner,top=170){const k=env(t,a,b,.3,.3);if(!k)return '';return `<div class="ab sh" style="left:0;right:0;top:${top}px;text-align:center;display:flex;flex-direction:column;align-items:center;opacity:${cl(k*3)};transform:translateY(${(1-eo(prog(t,a,.4)))*60}px)">${inner}</div>`}
+const champ=(c,a,t,col)=>t>=a?`<div style="display:inline-block;margin:0 14px;text-align:center;${pop(t,a)}"><img src="assets/champ_${c}.png" style="width:150px;height:150px;border:7px solid ${col}"><div style="font-size:40px;margin-top:6px">${c.toUpperCase().replace('I','I')}</div></div>`:'';
+const icon=(f,lab,a,t,sz=120,round=0)=>t>=a?`<div style="display:inline-block;margin:0 12px;text-align:center;vertical-align:top;width:${sz+60}px;${pop(t,a)}"><img src="assets/${f}.png" style="width:${sz}px;height:${sz}px;border:5px solid #0B0B0F;border-radius:${round?'50%':'8px'};background:#1a1a22"><div style="font-size:28px;line-height:1.05;margin-top:8px">${tr(lab)}</div></div>`:'';
+function chips(t,list){return list.filter(([a])=>t>=a).map(([a,txt],i)=>`<div style="margin-top:12px;${pop(t,a)};transform-origin:left"><span class="${i%2?'paper':'lime'}" style="display:inline-block;font-size:40px;padding:6px 20px 0">${tr(txt)}</span></div>`).join('')}
+window.render=function(t){let O='';
+ // hook
+ O+=slam(t,T.nerf,T.tekliyor-.1,'NERF ÜSTÜNE NERF...',360,120,'#F4EFE6','#0B0B0F',-3);
+ O+=slam(t,T.tekliyor,T.tekleyen-.05,'HÂLÂ TEKLİYOR!',380,150,'#FF3B5C','#F4EFE6',2);
+ O+=slam(t,T.tekleyen,T.vl1+.1,'TEKLEYEN TARAF OL',380,130,'#D4FF3A','#0B0B0F',-2);
+ if(t>=T.vl1&&t<T.why){const k=env(t,T.vl1,T.why-.1);O+=`<div class="big" style="top:820px;opacity:${k}"><span style="display:inline-block;font-size:60px;padding:6px 26px 0;background:rgba(11,11,15,.82);color:#F4EFE6;font-style:italic">"${tr('HİSSETMEYECEKSİN BİLE.')}"</span></div>`}
+ // why
+ O+=panel(t,T.why,T.passive,`<div style="display:inline-block;font-size:100px;padding:6px 40px 0;transform:rotate(-2deg)" class="lime">NEDEN AKALI?</div><div style="display:flex;justify-content:center;gap:40px;margin-top:40px;text-align:left">
+  <div class="paper" style="width:560px;padding:20px 30px 26px"><div style="font-size:50px;color:#5d8f00">${tr('ARTILAR')}</div>${chips(t,[[T.pro1,'ÇOK HAREKETLİ'],[T.pro2,'TONLA HASAR'],[T.pro3,'YAKALAMASI ZOR'],[T.pro4,'HER AN KILL TEHDİDİ']])}</div>
+  <div class="paper" style="width:560px;padding:20px 30px 26px"><div style="font-size:50px;color:#E0193F">${tr('EKSİLER')}</div>${chips(t,[[T.con1,'ERKEN OYUN ZAYIF'],[T.con2,'YAKALANINCA KÂĞIT GİBİ']])}${t>=T.ninja?`<div style="margin-top:22px;${pop(t,T.ninja)}"><span class="stamp" style="color:#E0193F;transform:rotate(-6deg)">${tr('KÂĞITTAN NİNJA')}</span></div>`:''}</div></div>`,150);
+ // abilities
+ [['passive',T.passive,T.q],['q',T.q,T.w],['w',T.w,T.e],['e',T.e,T.r],['r',T.r,T.combo]].forEach(([k,a,b])=>{O+=abilityCard(t,k,a,b)});
+ O+=comboStrip(t);
+ // matchups
+ O+=panel(t,T.match,T.runes,`<div style="display:inline-block;font-size:90px;padding:6px 40px 0" class="lime">${tr('EŞLEŞMELER')}</div><div style="display:flex;justify-content:center;gap:60px;margin-top:40px">
+  <div class="paper" style="padding:24px 40px 30px"><div style="font-size:60px;color:#5d8f00;margin-bottom:16px">KOLAY</div>${champ('Teemo',T.easy[0],t,'#7FB800')}${champ('Gnar',T.easy[1],t,'#7FB800')}${champ('Kayle',T.easy[2],t,'#7FB800')}</div>
+  <div class="paper" style="padding:24px 40px 30px"><div style="font-size:60px;color:#E0193F;margin-bottom:16px">ZOR</div>${champ('Illaoi',T.hard[0],t,'#E0193F')}${champ('Renekton',T.hard[1],t,'#E0193F')}${champ('Fiora',T.hard[2],t,'#E0193F')}</div></div>
+  ${t>=T.joke?`<div style="margin-top:34px;${pop(t,T.joke)}"><span class="blk" style="display:inline-block;font-size:44px;padding:8px 26px 2px">${tr('DOKUNAÇ / TİMSAH DİŞİ / DÜELLO KURALLARI')}</span></div>`:''}`,150);
+ // runes
+ const ru=T.ru;O+=panel(t,T.runes,T.items,`<div style="display:inline-block;font-size:90px;padding:6px 40px 0" class="lime">${tr('RÜNLER')}</div><div class="paper" style="display:inline-block;margin-top:34px;padding:26px 40px 30px"><div style="display:flex;align-items:flex-start;gap:30px">
+  <div>${icon('rune_dom','HÂKİMİYET',T.runes,t,90,1)}</div><div>${icon('rune_electrocute','ELEKTRİK VER',ru[0],t,150,1)}</div><div>${icon('rune_sudden','ÂNİ DARBE',ru[1],t,110,1)}${icon('rune_grisly','ACI HATIRA',ru[2],t,110,1)}${icon('rune_ulthunter','MÜKEMMEL AVCI',ru[3],t,110,1)}</div>
+  <div style="border-left:5px solid #0B0B0F;padding-left:24px">${icon('rune_res','AZİM',ru[4],t,90,1)}${icon('rune_secondwind','İKİNCİ ŞANS',ru[5],t,110,1)}${icon('rune_overgrowth','AŞIRI BÜYÜME',ru[6],t,110,1)}</div></div>
+  ${t>=ru[7]?`<div style="margin-top:14px;${pop(t,ru[7])}"><span class="lime" style="display:inline-block;font-size:40px;padding:4px 20px 0">${tr('ELEKTRİK VER = DEV PATLAMA HASARI')}</span></div>`:''}</div>`,150);
+ // items
+ const it=T.it;O+=panel(t,T.items,T.skills,`<div style="display:inline-block;font-size:90px;padding:6px 40px 0" class="lime">${tr('EŞYALAR')}</div><div class="paper" style="display:inline-block;margin-top:34px;padding:26px 40px 30px"><div style="display:flex;align-items:flex-start;gap:20px">
+  <div><div style="font-size:34px;opacity:.6;margin-bottom:8px">${tr('BAŞLANGIÇ')}</div>${icon('item_1056',"DORAN'IN YÜZÜĞÜ",it[0],t,110)}${icon('item_2003','CAN İKSİRİ',it[1],t,110)}</div>
+  <div style="border-left:5px solid #0B0B0F;padding-left:20px"><div style="font-size:34px;opacity:.6;margin-bottom:8px">${tr('İLK EŞYALAR')}</div>${icon('item_3020','AYAKKABI',it[2],t,110)}${icon('item_3146','HEXTECH SİLAHKILIÇ',it[3],t,130)}</div>
+  <div style="border-left:5px solid #0B0B0F;padding-left:20px"><div style="font-size:34px;opacity:.6;margin-bottom:8px">SONRA</div>${icon('item_4645','GÖLGEALEV',it[4],t,120)}${icon('item_3157',"ZHONYA'NIN KUMSAATİ",it[5],t,120)}</div></div></div>`,150);
+ // skills + summoners
+ if(t>=T.skills&&t<T.early){const sk=T.sk;const k=env(t,T.skills,T.early,.3,.3);
+  const st=(i,lab,a,big)=>t>=a?`<div style="display:inline-block;margin:0 10px;text-align:center;${pop(t,a)}"><img src="assets/${IC[i]}.png" style="width:${big?130:100}px;height:${big?130:100}px;border:5px solid ${big?'#7FB800':'#0B0B0F'}"><div style="font-size:30px">${tr(lab)}</div></div>`:'';
+  O+=`<div class="ab sh" style="left:0;right:0;top:150px;text-align:center;display:flex;flex-direction:column;align-items:center;opacity:${cl(k*3)}"><div style="display:inline-block;font-size:90px;padding:6px 40px 0" class="lime">SKILL SIRASI</div><div class="paper" style="display:inline-block;margin-top:30px;padding:24px 40px 28px">
+   <div style="font-size:34px;opacity:.6;text-align:left">${tr('İLK 3 SEVİYE')}</div><div>${st('Q','1',sk[0])}${st('W','2',sk[1])}${st('E','3',sk[2])}</div>
+   <div style="font-size:34px;opacity:.6;text-align:left;margin-top:14px">${tr('MAX SIRASI')}</div><div>${st('Q','1. Q',sk[3],1)}${st('E','2. E',sk[4],1)}${st('W','3. W',sk[5],1)}${st('R','R: HER FIRSATTA',sk[6])}</div></div>
+   ${t>=T.summ?`<div style="margin-top:24px;${pop(t,T.summ)}"><div class="paper" style="display:inline-block;padding:16px 30px 20px">${icon('spell_SummonerFlash','SIÇRA',T.sm[0],t,90)}${icon('spell_SummonerDot','TUTUŞTUR',T.sm[1],t,90)}</div></div>`:''}</div>`}
+ // game plan tags
+ const tag=(a,b,title,list)=>{const k=env(t,a,b,.3,.3);if(!k)return '';return `<div class="ab sh" style="left:30px;top:130px;opacity:${cl(k*3)};transform:translateX(${(1-eo(prog(t,a,.35)))*-200}px)"><div class="lime" style="display:inline-block;font-size:60px;padding:6px 26px 0;transform:rotate(-2deg)">${tr(title)}</div>${chips(t,list)}</div>`};
+ O+=tag(T.early,T.mid,'ERKEN OYUN',[[T.ea1,'BOL FARM + GÖREV'],[T.ea2,'Q İLE DÜRT'],[T.ea3,'ENERJİ DOLUYSA TAKAS'],[T.ea4,"E'Yİ TUTTUR = KAZAN"]]);
+ O+=tag(T.mid,T.late,'ORTA OYUN',[[T.mi1,'İT VE TAKIMA DÖN']]);
+ O+=tag(T.late,T.outro,'GEÇ OYUN',[[T.la1,'DÖVÜŞÜN BAŞLAMASINI BEKLE'],[T.la2,"R İLE CARRY'YE GİR"],[T.la3,'DUMAN + ZHONYA']]);
+ if(t>=T.vl2&&t<T.outro){O+=`<div class="big" style="top:820px;opacity:${env(t,T.vl2,T.outro)}"><span style="display:inline-block;font-size:64px;padding:6px 26px 0;background:rgba(11,11,15,.82);color:#F4EFE6;font-style:italic">"${tr('SIRADAKİ.')}"</span></div>`}
+ // outro
+ if(t>=T.mist&&t<T.end){const k=env(t,T.mist,T.end,.3,.2);O+=`<div class="ab" style="inset:0;background:rgba(11,11,15,${.45*k})"></div><div class="big sh" style="top:200px;opacity:${cl(k*3)}"><div class="paper" style="display:inline-block;padding:20px 40px 26px;transform:rotate(-2deg)"><div style="font-size:44px;opacity:.7">${tr("AKALI'YE KARŞI EN BÜYÜK HATA")}</div><div style="font-size:70px;line-height:1.1;margin-top:6px">${tr('DUMANA KÖRLEMESİNE YETENEK ATMAK')}</div></div>
+  ${t>=T.kontrol?`<div style="margin-top:40px;${pop(t,T.kontrol)}"><div class="lime" style="display:inline-flex;align-items:center;gap:26px;padding:14px 36px 10px;transform:rotate(2deg);box-shadow:12px 14px 0 rgba(0,0,0,.55)"><img src="assets/item_2055.png" style="width:120px;height:120px;border:5px solid #0B0B0F"><span style="font-size:84px">${tr('KONTROL TOTEMİ KULLAN')}</span></div></div>`:''}</div>`}
+ if(t>=T.end){const k=prog(t,T.end,.18);O+=`<div class="ab" style="inset:0;background:rgba(11,11,15,${.6*cl(k*2)})"></div><div class="big" style="top:330px;opacity:${cl(k*2)};transform:rotate(-3deg) scale(${lerp(1.3,1,eo(k))})"><div style="font-size:80px;letter-spacing:.1em;color:#F4EFE6">ABONE OL</div><div class="lime" style="display:inline-block;margin-top:20px;font-size:170px;line-height:1.1;padding:10px 50px 0;box-shadow:16px 18px 0 rgba(0,0,0,.6)">FEEDLEME HOCAM</div></div>`}
+ O=topbar(t)+O;
+ $('dyn').innerHTML=O};
+window.SFX=[['yazi_vurus',T.nerf,0],['stamp_dan',T.tekliyor,0],['yazi_vurus',T.tekleyen,0],['gecis',T.why-.05,0],
+ ...[T.pro1,T.pro2,T.pro3,T.pro4,T.con1,T.con2].map(x=>['pop',x,0]),['stamp_dan',T.ninja,-2],
+ ...[T.passive,T.q,T.w,T.e,T.r].map(x=>['card',x,0]),...[T.p1,T.p2,T.p3,T.q1,T.q2,T.w1,T.w2,T.w3,T.w5,T.e1,T.e2,T.e3,T.e4,T.r1,T.r2,T.r3].map(x=>['pop',x,-2]),
+ ['gecis',T.combo-.05,0],...T.c1s.concat(T.c2s,T.c3s).map(x=>['click',x,0]),
+ ['gecis',T.match-.05,0],...T.easy.concat(T.hard).map(x=>['pop',x,0]),
+ ['gecis',T.runes-.05,0],...T.ru.slice(0,7).map(x=>['levelup',x,-2]),['gecis',T.items-.05,0],...T.it.map(x=>['pop',x,0]),
+ ['gecis',T.skills-.05,0],...T.sk.map(x=>['levelup',x,-2]),...T.sm.map(x=>['pop',x,0]),
+ ['gecis',T.early-.05,0],...[T.ea1,T.ea2,T.ea3,T.ea4,T.mi1,T.la1,T.la2,T.la3].map(x=>['pop',x,-2]),['card',T.mid,0],['card',T.late,0],
+ ['gecis',T.mist-.05,0],['stamp_dan',T.kontrol,0],['yazi_vurus',T.end,0]];
+window.ready=document.fonts.ready;
+</script></body></html>
