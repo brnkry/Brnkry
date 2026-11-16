@@ -11,7 +11,7 @@ Modes: G  full-height 9:16 crop (x may be an ffmpeg expression in t),
 import subprocess, sys, json, os
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad/lol2'
 SRC = S + '/official.mp4'; OUT = S + '/out2'; os.makedirs(OUT, exist_ok=True)
-END = 70.6; D = 0.2   # slide length
+END = 69.6; D = 0.2   # slide length
 VX = 'clip((t+{o})*560,0,560)'  # follow Vayne through the wall (o = src start - 107.5)
 # out a, out b, mode, src, params, speed, slide into this segment (L/R/None)
 PLAN = [
@@ -28,9 +28,9 @@ PLAN = [
     (14.3, 17.2, 'G', 107.38, (VX.format(o=-.12),), .55, 'R'),   # slow: passes the wall before the condemn
     (17.2, 18.95, 'Z', 107.9, (440, 'clip((t+.4)*560,0,560)+84', 200), .6, 'L'),
     (18.95, 19.75, 'G', 97.95, (680,), 1, 'R'),                 # champ select lobby
-    (19.75, 19.95, 'G', 98.76, (1200,), 1, None),               # source cut inside the official video
-    (19.95, 24.04, 'FC', 98.85, (1200, 0), 1, None),            # 3 choices (ring on top)
-    (24.04, 26.55, 'FC', 99.05, (1200, .45), 1, 'L'),           # VOLT vs YUCE EL cards on top
+    (19.75, 20.22, 'G', 98.76, (1240,), 1, None),               # source cut inside the official video
+    (20.22, 24.04, 'FC', 99.23, (1240, 0), 1, None),            # 3 choices (ring on top)
+    (24.04, 26.55, 'FC', 99.23, (1240, .45), 1, 'L'),           # VOLT vs YUCE EL cards on top
     (26.55, 27.45, 'G', 100.05, (580,), 1, 'R'),                # new rift textures
     (27.45, 28.4, 'G', 100.05, (60,), 1, 'L'),
     (28.4, 29.35, 'G', 100.05, (1250,), 1, 'R'),
@@ -129,10 +129,10 @@ def timeline():
 def mix():
     subprocess.run(['node', 'render.js', 'info'], check=True); ev = json.load(open('sfx.json'))
     G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14}
-    inp = ['-i', '../ses/vo.mp3', '-i', f'{OUT}/src_audio.wav']
+    inp = ['-i', '../ses/vo.mp3', '-stream_loop', '-1', '-i', '../../../sett/ses/muzik.mp3']
     fc = [f'[0]aresample=48000,aformat=channel_layouts=stereo,volume=4dB,apad=whole_dur={END},asplit[vo][sc]',
-          f'[1]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{END},volume=-16dB,afade=t=out:st={END - 0.6}:d=0.6[m0]',
-          '[m0][sc]sidechaincompress=threshold=0.02:ratio=8:attack=10:release=350[m]']; lab = ['[vo]', '[m]']
+          f'[1]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{END},volume=-15dB,afade=t=in:d=0.3,afade=t=out:st={END - 0.5}:d=0.5[m0]',
+          '[m0][sc]sidechaincompress=threshold=0.02:ratio=6:attack=15:release=400[m]']; lab = ['[vo]', '[m]']
     for i, (n, t, g) in enumerate(ev):
         inp += ['-i', f'../ses/{n}.wav']
         fc.append(f'[{i + 2}]aresample=48000,aformat=channel_layouts=stereo,volume={G[n] + g}dB,adelay={int(t * 1000)}:all=1[s{i}]'); lab.append(f'[s{i}]')
