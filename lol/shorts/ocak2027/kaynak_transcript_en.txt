@@ -1,0 +1,149 @@
+[   0.0-   2.8] Hey everyone, I'm André, also known as Medla.
+[   2.8-   4.6] And I'm Paul, aka Pobro.
+[   4.6-   6.3] Today is November 3rd, and we're here
+[   6.3-   8.5] to talk about a roadmap for early next year
+[   8.5-  11.7] and what you could expect when you log into League in January.
+[  11.7-  14.8] Now, you may have just seen the New Dawn teas at Worlds.
+[  14.8-  16.6] We can't share more quite yet,
+[  16.6-  19.4] but we will be doing a full reveal in early January
+[  19.4-  21.7] in place of the usual season start moment.
+[  21.7-  24.1] Because New Dawn's launch will be the biggest moment
+[  24.1-  26.6] of next year, we're going to pair the season start
+[  26.6-  29.4] cinematic with that rather than in January.
+[  29.4-  31.0] We'll also start broader playtesting
+[  31.0-  32.5] shortly after that reveal,
+[  32.5-  34.0] so we can get more of your feedback
+[  34.0-  36.6] to further improve New Dawn before launch.
+[  36.6-  38.6] You can sign up to learn more about when
+[  38.6-  40.6] and how you can be part of those playtests
+[  40.6-  43.0] on the New Dawn website that's live now.
+[  43.0-  45.4] All right, let's talk about what you can expect
+[  45.4-  48.2] when you load into League in January.
+[  48.2-  50.2] We've got a lot of gameplay changes
+[  50.2-  51.7] in store for you in New Dawn,
+[  51.7-  54.2] so we're focusing on making changes in January
+[  54.2-  56.2] that are both good for current League
+[  56.2-  58.8] and can be carried over when the update goes live.
+[  58.8-  60.9] Let's start with some Summoner's Rift changes.
+[  60.9-  62.5] First off, Keystone Runes.
+[  62.5-  65.3] We want Runes to support a wider range of play styles.
+[  65.3-  67.4] As part of that, we're adding two new Keystones
+[  67.4-  69.4] to fill in some of the current gaps.
+[  69.4-  71.3] Kleptomancy is making a return
+[  71.3-  73.3] with a new unique loot reward
+[  73.3-  75.4] that gives a small discount to all items in the shop
+[  75.4-  77.0] for the rest of the game.
+[  77.0-  79.4] We see Kleptomancy as a greedy Keystone
+[  79.4-  81.8] that is all about out-econning your opponent
+[  81.8-  83.5] rather than raw combat power.
+[  83.5-  86.3] We're also adding a new Keystone Titanborn
+[  86.3-  89.1] that grants ramping armor and magic resist
+[  89.1-  90.6] while in champion combat.
+[  90.6-  93.8] Once you hit max stacks, you'll become Titanic,
+[  93.8-  95.7] which grants increased size
+[  95.7-  98.0] and periodically causes your next attack
+[  98.0- 101.7] to unleash a shockwave that damages and slows enemies.
+[ 101.7- 103.5] Unlike Aftershock and Guardian,
+[ 103.5- 107.0] Titanborn is built to be most valuable in longer combat.
+[ 107.0- 109.2] Additionally, we've got some changes to items.
+[ 109.2- 110.8] First, there is a significant overhaul
+[ 110.8- 112.7] of the on-hit item system.
+[ 112.7- 114.0] This year has seen on-hit builds
+[ 114.0- 115.4] truly coming into their own,
+[ 115.4- 116.8] but the champions that use them
+[ 116.8- 118.9] often run out of things to build, actually.
+[ 118.9- 120.7] Part of this is because there simply aren't enough
+[ 120.7- 122.2] on-hit items to let you continue
+[ 122.2- 124.4] to invest into that build path.
+[ 124.4- 126.7] Another issue is that some of the older on-hit items
+[ 126.7- 129.6] have their power spread over many different effects.
+[ 129.6- 132.0] Terminus, Witt's End, and the Blade of the Rune King
+[ 132.0- 135.2] are all receiving adjustments to sharpen their gameplay.
+[ 135.2- 137.2] Terminus will become more clearly
+[ 137.2- 138.8] about piercing through foes
+[ 138.8- 141.9] rather than also granting armor and magic resist.
+[ 141.9- 143.6] Witt's End is being updated
+[ 143.7- 147.0] into a go-to move speed option against magical opponents,
+[ 147.0- 150.1] and finally, Blade of the Rune King's percent health damage
+[ 150.1- 153.1] is being buffed while its slow effect is being removed
+[ 153.1- 154.9] so it can be focused solidly
+[ 154.9- 157.4] on taking down the biggest of giants.
+[ 157.4- 159.0] Now, if you play on-hit builds, though,
+[ 159.0- 161.6] don't worry, you'll still have access to a long effect.
+[ 161.6- 164.2] There's a new on-hit item called FateTaker
+[ 164.2- 166.5] that grants attack speed, armor,
+[ 166.5- 168.9] and allows you to steal a piece of your opponent's soul
+[ 168.9- 171.7] through a, you guessed it, three-hit passive.
+[ 171.7- 173.8] It's inheriting Blade of the Rune King's slow effect
+[ 173.8- 177.1] without a cooldown and will also deal damage and heal.
+[ 177.1- 179.4] We also have some changes to AP items
+[ 179.4- 183.2] with a minor rework to Riftmaker's stats and uniques,
+[ 183.2- 185.7] and a new item called Lifebloom Crown
+[ 185.7- 188.9] that grants omnibamp and allows over-healing.
+[ 188.9- 191.1] We have some changes coming to Serpent's Fang
+[ 191.1- 193.8] that makes it less of an unconditional reduction
+[ 193.8- 194.8] to all shields,
+[ 194.8- 198.0] but instead more about amplifying your own damage
+[ 198.0- 199.5] against shields.
+[ 199.5- 202.4] Also got a new lethality item called Grave Scourge
+[ 202.4- 205.5] that summons missed rates that chase down nearby enemies.
+[ 205.5- 206.8] Welcome back, spooky ghosts.
+[ 206.8- 208.0] Great to see you.
+[ 208.0- 210.6] Outside of items, we're also removing Failights.
+[ 210.6- 212.8] Generally, we like the idea of helping newer players
+[ 212.8- 214.7] learn where wards are most effective,
+[ 214.7- 216.7] but we felt that Failights missed the mark,
+[ 216.7- 218.6] both contributing to an excess of vision
+[ 218.6- 220.1] in some circumstances,
+[ 220.1- 222.9] and for many players feeling pretty heavy-handed.
+[ 222.9- 225.4] Finally, we have some adjustments to some roll quests
+[ 225.4- 228.0] to better support a wider variety of team comps
+[ 228.0- 230.0] and champions in different positions.
+[ 230.0- 231.6] For Ranked, we're trying something pretty different
+[ 231.6- 233.8] in this period that leads up to New Dawn's launch.
+[ 233.8- 235.4] We're calling it Ranked Rush.
+[ 235.4- 238.5] In January, everyone's visible rank will start at iron four.
+[ 238.5- 240.0] Your MMR will still be the same,
+[ 240.0- 242.4] so master players will still be playing against master players,
+[ 242.4- 244.0] gold vices, gold, and so on,
+[ 244.0- 246.6] but everyone will be climbing out of iron four together.
+[ 246.6- 248.9] Your LP gains will be massively increased,
+[ 248.9- 250.5] so you won't spend long there,
+[ 250.5- 252.9] unless you actually are iron four, of course.
+[ 252.9- 254.8] Then, in recognition of your climb
+[ 254.8- 256.2] in this unusual period,
+[ 256.2- 258.7] you'll get to unlock Timeless Victoria skins,
+[ 258.7- 261.4] which are variants of previous Victoria skins.
+[ 261.4- 263.1] By playing in any ranked queue,
+[ 263.1- 264.6] you'll earn Timeless Tokens
+[ 264.6- 267.3] that you can spend to unlock the Timeless Victoria skins
+[ 267.3- 268.1] immediately.
+[ 268.1- 269.9] No waiting until the end of the season.
+[ 269.9- 272.5] You can grab them whenever you have enough tokens.
+[ 272.5- 274.7] We'll also have an update coming to Aram Mayhem
+[ 274.7- 275.7] in January.
+[ 275.7- 277.8] That update will be about breaking even more
+[ 277.8- 279.6] of the normal rules of League.
+[ 279.6- 281.1] Augments can become overloaded
+[ 281.1- 283.1] and do things like increase your inventory size
+[ 283.1- 284.1] or level cap,
+[ 284.1- 286.8] or give you a fourth ability point to your ultimate.
+[ 286.8- 289.2] We've also seen a lot of you talk about Augments
+[ 289.2- 290.4] from past Mayhem runs
+[ 290.4- 292.8] that you miss and would love to see come back.
+[ 292.8- 295.7] So, we're implementing a community voting system
+[ 295.7- 297.4] that lets you vote on which Augments
+[ 297.4- 298.8] you'd like to see return.
+[ 298.8- 300.7] The first vote will be live a few weeks
+[ 300.7- 302.6] after the Mayhem update drops.
+[ 302.6- 304.6] Okay, that wraps things up for today.
+[ 304.6- 306.4] So, thank you so much for everything.
+[ 306.4- 307.8] We'll be back in January
+[ 307.8- 310.0] to reveal everything coming to New Dawn.
+[ 310.0- 312.4] Until then, speculate away, gamers.
+[ 312.4- 313.8] Have a happy holiday season
+[ 313.8- 315.2] and a great new year.
+[ 315.2- 316.7] We'll see you in 2027.
+[ 316.7- 317.6] Bye.
+[ 323.1- 325.0] All right, normal one.
+[ 325.0- 325.8] Oh, sorry.
