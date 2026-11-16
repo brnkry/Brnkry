@@ -1,0 +1,99 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/fonts/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:Cin;font-weight:900;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Cin;font-weight:900;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.ti.crc:after{content:'';position:absolute;left:50%;bottom:1.0em;width:.3em;height:.3em;border-left:.09em solid currentColor;border-top:.09em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+.paper{background:#F4EFE6;color:#0B0B0F;clip-path:polygon(0 3%,4% 0,12% 2%,22% .4%,33% 2.4%,45% .3%,57% 2%,68% .2%,80% 2.2%,91% .4%,100% 1.5%,100% 97%,93% 100%,82% 98%,70% 99.8%,58% 97.8%,46% 100%,34% 98%,22% 99.6%,11% 97.6%,0 99.4%);filter:drop-shadow(0 14px 24px rgba(0,0,0,.5))}
+.cap{position:absolute;left:90px;right:130px;top:1330px;text-align:center;font-family:Mon;font-weight:900;font-size:62px;line-height:1.16;text-transform:uppercase;text-shadow:0 5px 0 #000,0 0 18px rgba(0,0,0,.9),0 0 4px #000}
+.y{color:#D4FF3A}
+.tag{position:absolute;left:0;right:40px;top:150px;text-align:center}
+.head{position:absolute;left:0;right:40px;top:262px;text-align:center}
+.head>span{display:inline-block;font-size:66px;line-height:1.28;padding:.3em 30px .02em;box-shadow:12px 14px 0 rgba(0,0,0,.55);white-space:nowrap}
+.stamp{display:inline-block;font-size:92px;line-height:1.28;padding:.3em 22px 0;border:8px solid currentColor;border-radius:12px;background:rgba(244,239,230,.95);white-space:nowrap}
+.chip{display:inline-block;font-size:60px;line-height:1.28;padding:.3em 22px 0;background:#D4FF3A;color:#0B0B0F;box-shadow:8px 10px 0 rgba(0,0,0,.55);white-space:nowrap}
+.gold{font-family:Cin;font-weight:900;color:#E9C46A;-webkit-text-stroke:3px #3A2608;paint-order:stroke fill;text-shadow:0 6px 0 #2A1A04,0 0 40px rgba(0,0,0,.9)}
+</style></head><body><div id="root"><div id="dyn"></div></div>
+<script src="words.js"></script><script src="timeline.js"></script>
+<script>const tr=s=>String(s).replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/Â/g,'<span class="ti crc">A</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),lerp=(a,b,k)=>a+(b-a)*k,prog=(t,a,d)=>cl((t-a)/d);
+const eo=k=>1-Math.pow(1-cl(k),3),eb=k=>{k=cl(k);const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const env=(t,a,b,fi=.25,fo=.18)=>t<a||t>b?0:Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo));
+const pop=(t,a,d=.3)=>`opacity:${cl(prog(t,a,d)*3)};transform:scale(${lerp(.5,1,eb(prog(t,a,d)))})`;
+// captions: 2-3 word chunks
+const KEY=/^(vayne|duvar|hayır|baştan|şampiyon|3|sihirdar|2014|12|garen|kılıç|sinematik|morgana|can|göktaşı|ejder|minyon|arena|baron|canavar|istemci|veda|ocak|2027|yorum|riot|dar|kalın)/i;
+const CH=[];{let cur=[];WORDS.forEach((x,i)=>{cur.push(x);const nx=WORDS[i+1];const len=cur.map(y=>y[2]).join(' ').length;const nlen=nx?len+1+nx[2].length:0;if(/[,.?!]$/.test(x[2])||cur.length>=3||nlen>17||!nx||nx[0]-x[1]>.3){CH.push(cur);cur=[]}})}
+function caption(t){for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+.35);if(t>=a&&t<b){const k=prog(t,a,.12);
+ return `<div class="cap" style="transform:scale(${lerp(.8,1,eb(k))})">`+CH[i].map(x=>{const s=x[2].replace(/[,.?!]$/,'').toLocaleUpperCase('tr');return KEY.test(x[2].replace(/['’].*/,''))?`<span class="y">${s}</span>`:s}).join(' ')+'</div>'}}return ''}
+// headline strip under the channel tag
+const HEAD=(t,a,b,txt,bg='#F4EFE6',fg='#0B0B0F',rot=-2)=>{const k=env(t,a,b,.28,.15);if(!k)return '';return `<div class="head" style="opacity:${cl(k*3)};transform:translateX(${(1-eo(prog(t,a,.3)))*-700}px) rotate(${rot}deg)"><span style="background:${bg};color:${fg}">${tr(txt)}</span></div>`};
+const STAMP=(t,a,b,txt,col,y,rot=-8,fs=92)=>{if(t<a||t>b)return '';const k=prog(t,a,.22);return `<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${cl(k*4)*cl((b-t)/.15)}"><span class="stamp" style="font-size:${fs}px;color:${col};transform:rotate(${rot}deg) scale(${lerp(3,1,eo(k))})">${tr(txt)}</span></div>`};
+const CHIP=(t,a,b,txt,y,rot=3,bg='#D4FF3A')=>{if(t<a||t>b)return '';return `<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${cl((b-t)/.15)}"><span class="chip" style="background:${bg};transform:rotate(${rot}deg);${pop(t,a)}">${tr(txt)}</span></div>`};
+function seg(t){return PLAN.find(p=>t>=p[0]&&t<p[1])||PLAN[PLAN.length-1]}
+window.render=function(t){let O='';
+ O+=`<div class="tag"><span style="font-size:34px;letter-spacing:.06em;padding:4px 18px 2px;background:rgba(11,11,15,.75);border-radius:8px">FEEDLEME HOCAM</span></div>`;
+ // 1) intro: official logo + "2 Mİ GELİYOR?" ; X on the 2 at "hayır"
+ if(t<7.45){const out=prog(t,7.2,.25),A=1-out;
+  O+=`<div class="ab" style="left:0;top:0;width:1080px;height:1250px;background:linear-gradient(rgba(11,11,15,.82),rgba(11,11,15,.55) 70%,rgba(11,11,15,0));opacity:${A}"></div>`;
+  O+=`<div class="ab" style="left:150px;width:740px;top:290px;opacity:${cl(prog(t,0,.2)*3)*A};transform:scale(${lerp(1.25,1,eo(prog(t,0,.3)))*lerp(1,1.15,out)})"><img src="assets/lol_logo.png" style="width:740px;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.8))"></div>`;
+  const sh=t>=.6&&t<.85?Math.sin(t*120)*14*(1-prog(t,.6,.25)):0;
+  const X=t>=5.84?`<span style="position:absolute;left:50%;top:50%;font-family:Mon;font-weight:900;font-size:360px;line-height:1;color:#FF3B5C;-webkit-text-stroke:10px #0B0B0F;paint-order:stroke fill;text-shadow:none;opacity:${cl(prog(t,5.84,.08)*3)};transform:translate(-50%,-50%) scale(${lerp(2.6,1,eo(prog(t,5.84,.2)))}) rotate(-8deg)">✕</span>`:'';
+  if(t>=.6)O+=`<div class="ab" style="left:0;right:40px;top:600px;display:flex;justify-content:center;align-items:center;gap:26px;margin-top:-6px;opacity:${A}">
+    <span class="gold" style="position:relative;display:inline-block;font-size:330px;line-height:1;opacity:${cl(prog(t,.6,.06)*4)};transform:translate(${sh}px,${sh*.6}px) scale(${lerp(3.2,1,eo(prog(t,.6,.16)))})">2${X}</span>
+    <span class="gold" style="display:inline-block;font-size:150px;line-height:1.3;padding-top:.12em;opacity:${cl(prog(t,.86,.15)*3)};transform:translateY(-14px) translateX(${(1-eo(prog(t,.86,.25)))*60}px)">Mİ</span></div>`;
+  if(t>=.98)O+=`<div class="ab gold" style="left:0;right:40px;top:955px;text-align:center;font-size:118px;line-height:1.3;padding-top:.1em;opacity:${cl(prog(t,.98,.2)*3)*A};transform:translateY(${(1-eo(prog(t,.98,.3)))*40}px)">GELİYOR?</div>`}
+ // 2) beats
+ O+=HEAD(t,10.86,18.95,'VAYNE DUVARDAN GEÇİYOR','#D4FF3A');
+ O+=HEAD(t,19.02,24.04,'YENİ ŞAMPİYON SEÇİMİ');
+ if(t>=22.28&&t<24.04){const k=prog(t,22.28,.25);O+=`<div class="ab" style="left:40px;top:560px;width:1000px;height:560px;border:12px solid #D4FF3A;border-radius:240px;box-shadow:0 0 34px rgba(212,255,58,.8);opacity:${cl(k*3)*cl((24.04-t)/.15)};transform:scale(${lerp(1.35,1,eo(k))})"></div>`;O+=CHIP(t,22.28,24.04,'3 SEÇENEK',1140,-3)}
+ if(t>=24.04&&t<26.55){O+=HEAD(t,24.04,26.55,'FARKLI VERSİYONLAR?','#D4FF3A');
+  O+=`<div class="ab" style="left:90px;top:470px;${pop(t,24.1,.3)}"><img src="assets/volt_ic.jpg" style="width:860px;height:475px;border:6px solid #0B0B0F;box-shadow:12px 14px 0 rgba(0,0,0,.55);transform:rotate(-2deg)"></div>`;
+  if(t>=24.64)O+=`<div class="ab" style="left:90px;top:1000px;${pop(t,24.64,.3)}"><img src="assets/yuce_ic.jpg" style="width:860px;height:475px;border:6px solid #0B0B0F;box-shadow:12px 14px 0 rgba(0,0,0,.55);transform:rotate(2deg)"></div>`}
+ O+=HEAD(t,26.64,29.35,'YENİ SİHİRDAR VADİSİ');
+ if(t>=30.12&&t<34.25){const A=cl((34.25-t)/.15);O+=`<div class="ab" style="left:0;right:40px;top:520px;text-align:center;opacity:${A}"><span style="position:relative;display:inline-block;font-size:200px;line-height:1.28;padding-top:.1em;color:#F4EFE6;text-shadow:0 10px 0 rgba(0,0,0,.6);${pop(t,30.12)}">2014${t>=31.7?`<i style="position:absolute;left:-6%;top:48%;height:22px;width:${112*eo(prog(t,31.7,.25))}%;background:#FF3B5C;transform:rotate(-6deg)"></i>`:''}</span></div>`;
+  if(t>=31.92)O+=`<div class="ab" style="left:0;right:40px;top:860px;text-align:center;opacity:${A}"><span class="chip" style="font-size:150px;transform:rotate(-3deg);${pop(t,31.92)}">12 YIL</span></div>`}
+ O+=HEAD(t,34.32,38.0,'GAREN ULTİ: DEV KILIÇ','#D4FF3A');
+ O+=STAMP(t,38.02,39.95,'SİNEMATİK ULTİLER','#0B0B0F',300,-4,80);
+ O+=HEAD(t,40.2,43.1,'MORGANA ULTİ = CAN?');
+ if(t>=41.45&&t<43.1){const k=prog(t,41.45,.25),A=cl(k*3)*cl((43.1-t)/.15),u=prog(t,41.6,1.2),ax=560,ay=lerp(1220,960,u),tx=ax+300,ty=ay-330;
+  O+=`<div class="ab" style="left:${ax-150}px;top:${ay-170}px;width:300px;height:300px;border:10px solid #D4FF3A;border-radius:50%;box-shadow:0 0 30px rgba(212,255,58,.8);opacity:${A};transform:scale(${lerp(1.5,1,eo(k))})"></div>`;
+  O+=`<svg class="ab" style="left:0;top:0;opacity:${A}" width="1080" height="1920"><defs><marker id="ah" markerWidth="5" markerHeight="5" refX="2.6" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#D4FF3A"/></marker></defs><line x1="${tx}" y1="${ty}" x2="${lerp(tx,ax+120,eo(k))}" y2="${lerp(ty,ay-150,eo(k))}" stroke="#0B0B0F" stroke-width="30" stroke-linecap="round"/><line x1="${tx}" y1="${ty}" x2="${lerp(tx,ax+120,eo(k))}" y2="${lerp(ty,ay-150,eo(k))}" stroke="#D4FF3A" stroke-width="18" stroke-linecap="round" marker-end="url(#ah)"/></svg>`;
+  O+=`<div class="ab" style="left:${tx-150}px;top:${ty-120}px;width:300px;text-align:center;opacity:${A}"><span class="chip" style="font-size:64px;transform:rotate(-4deg)">ASHE</span></div>`;
+  if(t>=42.04)O+=`<div class="ab" style="left:${ax+150}px;top:${ay-40}px;width:300px;text-align:left;opacity:${A}"><span class="chip" style="font-size:56px;background:#3BFF8A;transform:rotate(3deg);${pop(t,42.04)}">+CAN</span></div>`}
+ O+=STAMP(t,43.14,45.1,'YETENEK MODLARI?','#0B0B0F',300,-4,84);
+ O+=HEAD(t,45.18,47.8,'VADİYE GÖKTAŞI','#FF3B5C','#F4EFE6');
+ O+=STAMP(t,47.82,50.4,'EJDER RUHU GİBİ?','#0B0B0F',300,-4,86);
+ O+=HEAD(t,50.46,52.4,'YENİ MİNYONLAR','#D4FF3A');
+ O+=HEAD(t,52.64,57.45,'EJDER ÇUKURU = ARENA');
+ O+=CHIP(t,54.78,57.45,'DAR GİRİŞ',900,-4);O+=CHIP(t,56.18,57.45,'KALIN DUVAR',1030,3);
+ O+=HEAD(t,57.56,59.5,'BARON + CANAVARLAR','#D4FF3A');
+ if(t>=59.58&&t<62.65){O+=HEAD(t,59.58,62.65,'YENİ İSTEMCİ','#D4FF3A');const k=env(t,59.9,62.65,.3,.15);
+  O+=`<div class="ab" style="left:120px;width:800px;top:560px;opacity:${cl(k*3)};transform:scale(${lerp(.6,1,eb(prog(t,59.9,.3)))}) rotate(-2deg)"><div style="background:#F4EFE6;color:#0B0B0F;border:6px solid #0B0B0F;box-shadow:14px 16px 0 rgba(0,0,0,.6)"><div style="background:#0B0B0F;color:#F4EFE6;font-family:Mon;font-weight:900;font-size:30px;padding:12px 20px;display:flex;justify-content:space-between"><span>LEAGUE CLIENT</span><span>✕</span></div>
+   <div style="font-family:Mon;font-weight:900;font-size:44px;line-height:1.25;padding:36px 34px 20px">İSTEMCİ YANIT<br>VERMİYOR...</div><div style="padding:0 34px 34px;text-align:right"><span style="display:inline-block;font-family:Mon;font-weight:900;font-size:32px;border:4px solid #0B0B0F;padding:10px 26px">TAMAM</span></div></div></div>`;
+  O+=STAMP(t,61.95,62.65,'VEDA','#FF3B5C',760,-10,130)}
+ O+=CHIP(t,62.7,65.95,'TAM TANITIM: OCAK',300,-3);
+ if(t>=64.36&&t<65.95)O+=`<div class="ab gold" style="left:0;right:40px;top:400px;text-align:center;font-size:200px;line-height:1.1;opacity:${cl((65.95-t)/.15)}"><span style="display:inline-block;${pop(t,64.36)}">2027</span></div>`;
+ if(t>=66.0&&t<68.45){const A=cl((68.45-t)/.15);O+=`<div class="ab" style="left:0;right:40px;top:260px;text-align:center;opacity:${cl(prog(t,66.0,.2)*3)*A}"><span style="display:inline-block;font-size:84px;line-height:1.28;padding:.3em 30px .02em;background:#F4EFE6;color:#0B0B0F;box-shadow:12px 14px 0 rgba(0,0,0,.55);transform:rotate(-3deg) scale(${lerp(1.5,1,eo(prog(t,66.0,.3)))})">${tr('SEN NE BEKLİYORSUN?')}</span></div>`;
+  if(t>=67.46)O+=`<div class="ab" style="left:0;right:40px;top:450px;text-align:center;opacity:${A}"><span class="chip" style="transform:rotate(2deg);${pop(t,67.46)}">${tr('YORUMLARA YAZ')}</span></div>`}
+ // captions (not over the intro title block or the version cards)
+ if(t>=1.6&&t<68.4&&!(t>=24.04&&t<26.55))O+=caption(t);
+ // end card, after YENİ BAŞLANGIÇ has been on screen
+ if(t>=68.45){const k=prog(t,68.45,.18);O+=`<div class="ab" style="left:0;right:40px;top:1290px;text-align:center;opacity:${cl(k*2)};transform:rotate(-3deg) scale(${lerp(1.3,1,eo(k))})"><div style="font-size:64px;letter-spacing:.1em">ABONE OL</div><div style="display:inline-block;margin-top:18px;font-size:110px;line-height:1.1;padding:10px 40px 0;background:#D4FF3A;color:#0B0B0F;box-shadow:14px 16px 0 rgba(0,0,0,.6)">FEEDLEME<br>HOCAM</div></div>`}
+ document.getElementById('dyn').innerHTML=O};
+window.SFX=[['impact',.6,0],['yazi_vurus',0.02,-4],['stamp_dan',5.84,0],
+ ['yazi_vurus',10.86,0],['yazi_vurus',19.02,0],['pop',22.28,0],
+ ['yazi_vurus',24.04,0],['card',24.1,-2],['card',24.64,-2],['yazi_vurus',26.64,0],['pop',30.12,0],['stamp_dan',31.7,-4],['pop',31.92,0],['yazi_vurus',34.32,0],['stamp_dan',38.02,0],
+ ['yazi_vurus',40.2,0],['pop',41.45,0],['pop',42.04,-2],['stamp_dan',43.14,0],['yazi_vurus',45.18,0],['stamp_dan',47.82,0],['yazi_vurus',50.46,0],['yazi_vurus',52.64,0],['pop',54.78,0],['pop',56.18,0],
+ ['yazi_vurus',57.56,0],['yazi_vurus',59.58,0],['card',59.9,0],['stamp_dan',61.95,0],['pop',62.7,0],['impact',64.36,-6],['yazi_vurus',66.0,0],['click',67.46,0],['yazi_vurus',68.45,0]];
+window.ready=document.fonts.ready;
+</script></body></html>
