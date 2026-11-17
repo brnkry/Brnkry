@@ -154,7 +154,7 @@ def card(im, t, t0, t1, name, box=(70, 1000, 840, 560)):
     k = eout((t - t0) / 0.3) * (1 - eout((t - t1) / 0.25)); x, y, w, h = box
     s = lerp(0.82, 1.0, k); cw, ch = int(w * s), int(h * s); cx, cy = x + (w - cw) // 2, y + (h - ch) // 2 + int(60 * (1 - k))
     g = clip_frame(name, t, t0); gw, gh = g.size; sc = max(cw / gw, ch / gh); bw, bh = cw / sc, ch / sc
-    ph = tone(g.resize((cw, ch), Image.BICUBIC, box=((gw - bw) / 2, (gh - bh) / 2, (gw + bw) / 2, (gh + bh) / 2))).convert('RGBA')
+    ph = tone(g.resize((cw, ch), Image.BICUBIC, box=(max(0, (gw - bw) / 2), max(0, (gh - bh) / 2), min(gw, (gw + bw) / 2), min(gh, (gh + bh) / 2)))).convert('RGBA')
     sh = Image.new('RGBA', (cw + 80, ch + 80), (0, 0, 0, 0)); ImageDraw.Draw(sh).rectangle((40, 40, cw + 40, ch + 40), fill=(0, 0, 0, int(200 * k))); im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)), (cx - 30, cy - 20))
     fr = Image.new('RGBA', (cw + 16, ch + 16), (238, 234, 224, int(255 * k))); im.alpha_composite(fr, (cx - 8, cy - 8))
     ph.putalpha(int(255 * k)); im.alpha_composite(ph, (cx, cy))

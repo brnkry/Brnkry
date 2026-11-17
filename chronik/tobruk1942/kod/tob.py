@@ -122,22 +122,22 @@ def frame(t):
         if t < K('Pioniere überbrückten'):
             tag(im, t, K('um 5:20'), '05:20', 'DER ANGRIFF'); say(im, t, [[(K('Am 20. Juni'), '20. JUNI', 'y')]], y0=420, size=110, until=K('bombardierten Stukas'))
             for i in range(5):
-                u = clamp((t - K('bombardierten Stukas') - i * 0.15) / 1.4); s = (lerp(-120 + i * 40, p(*BREACH)[0] - 160 + i * 60, u), lerp(380 + i * 110, p(*BREACH)[1] - 140 + i * 50, u)); plane(im, s, 0.55, 1.3)
+                u = clamp((t - K('bombardierten Stukas') - i * 0.15) / 1.4); s = (lerp(-120 + i * 40, p(*BREACH)[0] - 230 + i * 40, u), lerp(380 + i * 110, p(*BREACH)[1] - 140 + i * 50, u)); plane(im, s, 0.55, 1.3)
             if t > K('eine Ecke'): fire(im, p(*BREACH), t, 1.6)
             card(im, t, K('bombardierten Stukas'), K('Pioniere überbrückten') - 0.2, 'stukas', box=(70, 1150, 840, 410))
             say(im, t, [[(K('bombardierten Stukas'), 'STUKAS', 'r')], [(K('eine Ecke des Rings.'), 'AUF EINE ECKE', 'w')]], y0=420, size=100)
         elif t < K('Um 13 Uhr'):
             tag(im, t, K('Pioniere überbrückten'), '07:45', 'DURCHBRUCH')
-            label(im, t, K('Pioniere überbrückten'), 'PANZERGRABEN', (p(*BREACH)[0] + 40, p(*BREACH)[1] + 90), 40, WHITE, box=(14, 14, 16))
-            arrow(im, t, K('waren die deutschen'), 1.0, p, [(24.2, 31.85), BREACH, (24.03, 32.0)], (24, 24, 26), 34)
+            label(im, t, K('Pioniere überbrückten'), 'PANZERGRABEN', (p(*BREACH)[0] - 170, p(*BREACH)[1] + 70), 40, WHITE, box=(14, 14, 16))
+            arrow(im, t, K('waren die deutschen'), 1.0, p, [(24.11, 31.88), BREACH, (24.03, 32.0)], (24, 24, 26), 34)
             card(im, t, K('waren die deutschen'), K('Um 13 Uhr') - 0.2, 'tanks', box=(70, 1230, 660, 330))
             say(im, t, [[(K('Pioniere überbrückten'), 'PIONIERE', 'w'), (K('den Panzergraben,'), 'ÜBER DEN GRABEN', 'y')], [(K('Panzer durch.'), 'PANZER DURCH', 'r')]], y0=420, size=96)
         elif t < K('Am Abend brannte'):
-            tag(im, t, K('Um 13 Uhr'), '13:00'); arrow(im, t, K('Um 13 Uhr') - 3, 0.01, p, [(24.2, 31.85), BREACH, KX], (24, 24, 26), 34)
+            tag(im, t, K('Um 13 Uhr'), '13:00'); arrow(im, t, K('Um 13 Uhr') - 3, 0.01, p, [(24.11, 31.88), BREACH, KX], (24, 24, 26), 34)
             pin(im, t, K('die Höhen'), p(*KX), YEL, 16); label(im, t, K('die Höhen'), 'KING\'S CROSS', (p(*KX)[0], p(*KX)[1] + 80), 42, WHITE, box=(14, 14, 16))
             say(im, t, [[(K('Um 13 Uhr'), 'DIE HÖHEN', 'y')], [(K('über der Stadt.'), 'ÜBER DER STADT', 'w')]], y0=420, size=110)
         else:
-            tag(im, t, K('Am Abend brannte'), '18:00'); arrow(im, t, 0, 0.01, p, [(24.2, 31.85), BREACH, KX, (23.97, 32.07)], (24, 24, 26), 34)
+            tag(im, t, K('Am Abend brannte'), '18:00'); arrow(im, t, 0, 0.01, p, [(24.11, 31.88), BREACH, KX, (23.97, 32.07)], (24, 24, 26), 34)
             for i in range(4): fire(im, (pt[0] - 90 + i * 60, pt[1] + 10 + (i % 2) * 30), t, 1.3)
             card(im, t, K('brannte der Hafen.'), K('Am nächsten Morgen') - 0.2, 'harbour', box=(70, 1150, 840, 410))
             say(im, t, [[(K('Am Abend'), 'AM ABEND:', 'w')], [(K('brannte der Hafen.'), 'DER HAFEN BRENNT', 'r')]], y0=420, size=100)
