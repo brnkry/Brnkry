@@ -25,7 +25,8 @@ PLAN = [  # out a, out b, mode, source, src start, params, slide into this piece
     (41.38, 44.7, 'C', 'B', 66.2, (700, .15), 'L'),      # ARAM
     (44.7, END, 'BL', 'P:azir', 12.0, (), 'R'),          # outro
 ]
-BLUR = 'gblur=sigma=24,eq=brightness=-0.15:saturation=1.1'
+BLUR = 'gblur=sigma=24,eq=brightness=-0.08:saturation=1.15'
+SOFT = 'gblur=sigma=11,eq=brightness=-0.1:saturation=1.1'
 
 def path(src): return SRC[src] if src in SRC else f'{S}/patch/norm/{src[2:]}_gameplay.mp4'
 def lim(src, ss):
@@ -35,11 +36,11 @@ def lim(src, ss):
 def vf(p):
     a, b, m, src, ss, q, tr = p
     pre = f'trim=end={lim(src, ss):.3f},'
-    if m == 'G': return pre + f'crop=540:960:{q[0] + 34}:0,scale=1080:1920:flags=lanczos'
-    if m == 'C': return pre + f'crop=506:900:{q[0]}:0,scale=1080:1920:flags=lanczos,eq=brightness=-{q[1]}'
+    if m == 'G': return pre + f'crop=540:960:{q[0] + 34}:0,scale=1080:1920:flags=lanczos,' + SOFT
+    if m == 'C': return pre + f'crop=506:900:{q[0]}:0,scale=1080:1920:flags=lanczos,' + SOFT
     if m == 'BL':
-        c = 'crop=1102:620:89:0,' if src == 'A' else ''
-        return pre + c + 'scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' + BLUR
+        c = 'crop=1102:620:89:0,scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' if src == 'A' else 'crop=540:960:690:0,scale=1080:1920,'
+        return pre + c + BLUR
     if m == 'CARD':
         return (pre + 'crop=1102:620:89:0,split[a][b];[a]scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' + BLUR +
                 f'[bg];[b]scale=1000:563:flags=lanczos[fg];[bg][fg]overlay=40:{CY}')
@@ -69,13 +70,13 @@ def base():
 
 def mix():
     subprocess.run(['node', 'render.js', 'info'], check=True); ev = json.load(open('sfx.json'))
-    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14}
+    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14, 'el_swoosh': -22, 'el_pop': -16}
     inp = ['-i', '../ses/vo.mp3', '-stream_loop', '-1', '-i', '../../../sett/ses/muzik.mp3']
     fc = [f'[0]aresample=48000,aformat=channel_layouts=stereo,volume=4dB,apad=whole_dur={END},asplit[vo][sc]',
           f'[1]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{END},volume=-15dB,afade=t=in:d=0.3,afade=t=out:st={END - 0.5}:d=0.5[m0]',
           '[m0][sc]sidechaincompress=threshold=0.02:ratio=6:attack=15:release=400[m]']; lab = ['[vo]', '[m]']
     for i, (n, t, g) in enumerate(ev):
-        inp += ['-i', f'../../../ocak2027/ses/{n}.wav']
+        inp += ['-i', f'../ses/{n}.wav' if n.startswith('el_') else f'../../../ocak2027/ses/{n}.wav']
         fc.append(f'[{i + 2}]aresample=48000,aformat=channel_layouts=stereo,volume={G[n] + g}dB,adelay={int(t * 1000)}:all=1[s{i}]'); lab.append(f'[s{i}]')
     fc.append(''.join(lab) + f'amix=inputs={len(lab)}:normalize=0:duration=first,atrim=0:{END},loudnorm=I=-14:TP=-1.5:LRA=11[o]')
     subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', '[o]', '-ar', '48000', f'{OUT}/mix.wav'], check=True)

@@ -47,7 +47,7 @@ window.render=function(t){let O='';const sg=seg(t);
  if(sg[2]==='CARD')O+=`<div class="ab" style="left:32px;top:${CY-8}px;width:1000px;height:563px;border:8px solid #D4FF3A;box-shadow:14px 16px 0 rgba(0,0,0,.6)"></div>`;
  O+=`<div class="tag"><span style="font-size:34px;letter-spacing:.06em;padding:4px 18px 2px;background:rgba(11,11,15,.75);border-radius:8px">FEEDLEME HOCAM</span></div>`;
  // ===== HOOK: 2027 sezonu, ligler sıfırlanıyor =====
- if(t<6.35){O+=`<div class="ab" style="inset:0;background:radial-gradient(circle at 50% 45%,rgba(11,11,15,.25),rgba(11,11,15,.8))"></div>`}
+ if(t<6.35){O+=`<div class="ab" style="inset:0;background:rgba(11,11,15,.3)"></div>`}
  if(t<4.85){const A=1-prog(t,4.7,.15);
   O+=`<div class="ab gold" style="left:0;right:40px;top:240px;text-align:center;font-size:120px;line-height:1.1;opacity:${cl(prog(t,0,.2)*3)*A};transform:scale(${lerp(2.2,1,eo(prog(t,0,.25)))})">2027<br><span style="font-size:.6em">SEZONU</span></div>`;
   // rank tower scrolls down to Iron while "ligler sıfırlanıyo"
@@ -65,7 +65,7 @@ window.render=function(t){let O='';const sg=seg(t);
  if(t>=6.3&&t<11.8){const A=cl((11.8-t)/.15);
   O+=`<div class="ab" style="left:0;right:40px;top:290px;text-align:center"><span class="stamp" style="font-size:86px;color:#3a9b00;transform:rotate(-6deg);${pop(t,6.46)}">${tr('PANİK YOK')}</span></div>`;
   if(t>=7.36)O+=`<div class="ab" style="left:120px;width:800px;top:470px;opacity:${A};${pop(t,7.36)}"><div class="paper" style="padding:20px 26px;text-align:center"><div style="font-size:44px;opacity:.7">${tr('GÖRÜNEN DERECE')}</div><img src="assets/e_iron.png" style="width:260px;margin:6px auto 0;display:block"><div style="font-size:84px;line-height:1.25;color:#b44">${tr('DEMİR IV')}</div></div></div>`;
-  if(t>=10.2)O+=`<div class="ab" style="left:160px;width:720px;top:1060px;opacity:${A};${pop(t,10.2)}"><div style="background:#D4FF3A;color:#0B0B0F;padding:16px 26px;text-align:center;box-shadow:12px 14px 0 rgba(0,0,0,.55)"><span style="font-family:Mon;font-weight:900;font-size:70px">MMR</span> <span style="font-size:70px">${tr('AYNI')}</span> <span style="font-family:Mon;font-weight:900;font-size:70px">✓</span></div></div>`}
+  if(t>=10.2)O+=`<div class="ab" style="left:160px;width:720px;top:1060px;opacity:${A};${pop(t,10.2)}"><div style="background:#D4FF3A;color:#0B0B0F;padding:16px 26px;text-align:center;box-shadow:12px 14px 0 rgba(0,0,0,.55)"><span style="font-family:Mon;font-weight:900;font-size:70px;margin-right:26px">MMR</span><span style="font-size:70px;margin-right:22px">${tr('AYNI')}</span><span style="font-family:Mon;font-weight:900;font-size:70px">✓</span></div></div>`}
  // ===== same level / climb together =====
  if(t>=11.8&&t<16.82){const A=cl((16.82-t)/.15);
   if(t<14.14){[['master',12.26,380],['gold',12.75,700]].forEach(([r,a,y])=>{if(t>=a)O+=`<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${1-prog(t,13.98,.15)};${pop(t,a)}"><img src="assets/e_${r}.png" style="height:220px;vertical-align:middle"><span style="font-family:Mon;font-weight:900;font-size:100px;color:#F4EFE6;-webkit-text-stroke:5px #0B0B0F;paint-order:stroke fill;margin:0 34px;vertical-align:middle">VS</span><img src="assets/e_${r}.png" style="height:220px;vertical-align:middle"></div>`});O+=CHIP2(t,12.26,14.1,'KENDİ SEVİYENLE',1030,62)}
@@ -99,10 +99,10 @@ window.render=function(t){let O='';const sg=seg(t);
  // captions (not under the hook graphics)
  if(t>=6.3&&t<48.3)O+=caption(t);
  document.getElementById('dyn').innerHTML=O};
-window.SFX=[['impact',.05,-4],['pop',1.26,0],['card',1.6,-4],['impact',2.88,0],['yazi_vurus',4.76,0],['stamp_dan',5.22,0],['impact',5.46,0],
- ['stamp_dan',6.46,0],['card',7.36,0],['pop',10.2,0],['pop',12.26,0],['pop',12.75,0],['pop',14.14,0],['yazi_vurus',14.76,0],
- ['yazi_vurus',17.34,0],...[0,1,2,3,4,5].map(i=>['pop',17.6+i*.4,-4]),['yazi_vurus',18.9,0],['yazi_vurus',21.64,0],['pop',23.0,0],...[0,1,2,3].map(i=>['card',23.74+i*.2,-3]),['stamp_dan',26.3,0],
- ['yazi_vurus',27.94,0],['card',29.22,0],['card',32.72,0],['pop',35.34,0],['pop',36.42,0],['pop',37.52,0],['stamp_dan',38.5,0],['yazi_vurus',39.98,0],['stamp_dan',40.06,-4],['yazi_vurus',41.38,0],['card',42.32,0],['pop',42.86,0],
- ['yazi_vurus',44.7,0],['click',47.14,0]];
+window.SFX=[...PLAN.slice(1).map(p=>['el_swoosh',p[0]-.25,0]),['impact',.05,-4],['el_pop',1.26,0],['el_swoosh',1.6,-4],['impact',2.88,0],['el_swoosh',4.76,0],['stamp_dan',5.22,0],['impact',5.46,0],
+ ['stamp_dan',6.46,0],['el_swoosh',7.36,0],['el_pop',10.2,0],['el_pop',12.26,0],['el_pop',12.75,0],['el_pop',14.14,0],['el_swoosh',14.76,0],
+ ['el_swoosh',17.34,0],...[0,1,2,3,4,5].map(i=>['el_pop',17.6+i*.4,-4]),['el_swoosh',18.9,0],['el_swoosh',21.64,0],['el_pop',23.0,0],...[0,1,2,3].map(i=>['el_swoosh',23.74+i*.2,-3]),['stamp_dan',26.3,0],
+ ['el_swoosh',27.94,0],['el_swoosh',29.22,0],['el_swoosh',32.72,0],['el_pop',35.34,0],['el_pop',36.42,0],['el_pop',37.52,0],['stamp_dan',38.5,0],['el_swoosh',39.98,0],['stamp_dan',40.06,-4],['el_swoosh',41.38,0],['el_swoosh',42.32,0],['el_pop',42.86,0],
+ ['el_swoosh',44.7,0],['click',47.14,0]];
 window.ready=Promise.all([document.fonts.ready,...['lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
 </script></body></html>
