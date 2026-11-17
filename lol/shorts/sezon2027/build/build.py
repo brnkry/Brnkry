@@ -9,22 +9,21 @@ import subprocess, sys, json, os
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad'
 SRC = {'B': S + '/lol2/official.mp4', 'A': S + '/ocak/sezon2027.mp4'}
 OUT = S + '/s27/out'; os.makedirs(OUT, exist_ok=True)
-D = 0.2; END = 49.15; CY = 640  # card top
+D = 0.2; END = 48.9; CY = 640  # card top
 CUTS = {'B': [59.79, 63.13, 66.08, 72.67, 75.17, 78.25, 81.21, 88.17, 94.46, 97.42, 98.71, 100.96, 102.58, 103.79, 105.17, 106.21, 107.38, 109.12, 109.92, 115.4, 121.5],
         'A': [68.90, 83.46, 86.29, 92.22, 95.64, 106.94, 118.78, 129.21, 134.76, 157.53, 163.96, 189.61, 191.78, 199.41, 201.03, 203.87, 205.46, 207.92, 214.55, 222.76, 326.7]}
 PLAN = [  # out a, out b, mode, source, src start, params, slide into this piece
-    (0.00, 5.93, 'BL', 'P:bard', 2.0, (), None),          # hook: ranks fall to Iron IV
-    (5.93, 9.19, 'C', 'B', 89.3, (600, .2), 'L'),        # Ahri: 2027 sezonu
-    (9.19, 13.69, 'G', 'P:azir', 2.0, (656,), 'R'),      # Demir IV, MMR
-    (13.69, 18.67, 'G', 'P:galio', 2.0, (656,), 'L'),    # same level, climb together
-    (18.67, 23.17, 'G', 'P:bard', 6.0, (656,), 'R'),     # LP
-    (23.17, 29.17, 'BL', 'P:ezreal', 2.0, (), 'L'),      # Zamansiz Sanli
-    (29.17, 33.73, 'CARD', 'A', 69.0, (), 'R'),          # Arakci
-    (33.73, 36.23, 'CARD', 'A', 95.7, (), 'L'),          # Devdogan
-    (36.23, 40.67, 'CARD', 'A', 164.0, (), 'R'),         # new items
-    (40.67, 42.07, 'CARD', 'A', 208.0, (), 'L'),         # Peri Isiklari
-    (42.07, 45.23, 'C', 'B', 66.2, (700, .15), 'R'),     # ARAM
-    (45.23, END, 'BL', 'P:azir', 12.0, (), 'L'),         # outro
+    (0.0, 6.3, 'BL', 'P:bard', 2.0, (), None),           # hook: ranks reset, Challenger falls to Iron IV
+    (6.3, 11.8, 'G', 'P:azir', 2.0, (656,), 'L'),        # panik yok, gorunen derece, MMR
+    (11.8, 16.82, 'G', 'P:galio', 2.0, (656,), 'R'),     # same level, climb together
+    (16.82, 21.64, 'G', 'P:bard', 8.0, (656,), 'L'),     # LP
+    (21.64, 27.94, 'BL', 'P:ezreal', 2.0, (), 'R'),      # Zamansiz Sanli
+    (27.94, 32.72, 'CARD', 'A', 69.0, (), 'L'),          # Arakci
+    (32.72, 35.34, 'CARD', 'A', 95.7, (), 'R'),          # Devdogan
+    (35.34, 39.98, 'CARD', 'A', 164.0, (), 'L'),         # new items
+    (39.98, 41.38, 'CARD', 'A', 208.0, (), 'R'),         # Peri Isiklari
+    (41.38, 44.7, 'C', 'B', 66.2, (700, .15), 'L'),      # ARAM
+    (44.7, END, 'BL', 'P:azir', 12.0, (), 'R'),          # outro
 ]
 BLUR = 'gblur=sigma=24,eq=brightness=-0.15:saturation=1.1'
 
@@ -36,7 +35,7 @@ def lim(src, ss):
 def vf(p):
     a, b, m, src, ss, q, tr = p
     pre = f'trim=end={lim(src, ss):.3f},'
-    if m == 'G': return pre + f'crop=608:1080:{q[0]}:0,scale=1080:1920:flags=lanczos'
+    if m == 'G': return pre + f'crop=540:960:{q[0] + 34}:0,scale=1080:1920:flags=lanczos'
     if m == 'C': return pre + f'crop=506:900:{q[0]}:0,scale=1080:1920:flags=lanczos,eq=brightness=-{q[1]}'
     if m == 'BL':
         c = 'crop=1102:620:89:0,' if src == 'A' else ''
