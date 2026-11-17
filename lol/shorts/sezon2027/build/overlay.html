@@ -99,6 +99,6 @@ window.render=function(t){let O='';const sg=seg(t);
  // captions (not under the hook graphics)
  if(t>=6.3&&t<48.3)O+=caption(t);
  document.getElementById('dyn').innerHTML=O};
-window.SFX=[...PLAN.slice(1).map(p=>['el_swoosh',p[0]-.25,0]),['el_hit',.05,0],['card',1.6,-4],['el_hit',2.88,0],['el_hit',5.46,-3]];
+window.SFX=[...[6.3,21.64,27.94,35.34,41.38,44.7].map(x=>['el_swoosh',x-.25,0]),['el_hit',.05,0],['card',1.6,-4]];
 window.ready=Promise.all([document.fonts.ready,...['lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
 </script></body></html>
