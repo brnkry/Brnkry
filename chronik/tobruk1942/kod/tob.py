@@ -66,27 +66,27 @@ def portrait(im, t, t0, t1, img, name, x=60, h=560):
 from PIL import ImageOps
 TOB = (23.96, 32.08); GAZ_N = (23.3, 32.17); BIRH = (23.48, 31.6); ELADEM = (23.92, 31.85); ALAM = (28.95, 30.83); BREACH = (24.08, 31.97); KX = (23.98, 32.03)
 T0H = K('Ein Jahr zuvor') - 0.25
-def tc(t, k, lon=23.98): return (t, lon, 32.08 - 400 / (1.18 * k), k)
-CAM[:] = [(T0H, 25.0, 32.2, 120), tc(K('dieselbe Festung'), 260, 24.0), tc(K('Juni 1942:'), 260, 24.0), (K('Bei Gazala'), 23.7, 31.9, 520), tc(K('Churchill befahl'), 1500, 23.95),
-          tc(K('Am 20. Juni'), 2100, 24.0), tc(K('Am Abend brannte'), 2600), tc(K('Am nächsten Morgen'), 2600), tc(K('Mit dem erbeuteten'), 1100), (K('Mit dem erbeuteten') + 1.8, 26.5, 31.4, 120), (K('Heute liegen'), 26.5, 31.4, 120), tc(K('Ehrenmal bei Tobruk,'), 900, 23.96), tc(T_END, 950, 23.96)]
+def tc(t, k, lon=23.98, up=400): return (t, lon, 32.08 - up / (1.18 * k), k)
+CAM[:] = [(T0H, 25.0, 32.2, 120), tc(K('dieselbe Festung'), 260, 24.0), tc(K('Juni 1942:'), 260, 24.0), (K('Bei Gazala'), 23.7, 31.75, 520), (K('Churchill befahl') - 0.7, 23.7, 31.75, 520), tc(K('Churchill befahl'), 1500, 23.95),
+          tc(K('Am 20. Juni'), 2100, 24.0), tc(K('Am Abend brannte'), 2600), tc(K('Am nächsten Morgen'), 2600, up=230), tc(K('Hitler ernannte'), 2600, up=230), tc(K('Mit dem erbeuteten'), 1100), (K('Mit dem erbeuteten') + 1.8, 26.5, 31.4, 120), (K('Heute liegen'), 26.5, 31.4, 120), tc(K('Ehrenmal bei Tobruk,'), 900, 23.96, 180), tc(T_END, 950, 23.96, 180)]
 def frame(t):
     if t < T0H:
         im = fullfilm('pows', t, 0)
         say(im, t, [[(K('Warum ergaben'), 'WARUM', 'y'), (K('ergaben sich'), 'ERGABEN SICH', 'w')]], y0=330, size=96)
-        counter(im, t, K('fast 33.000'), 33000, lambda v: de(v), (W / 2, 560), 230, YEL, 0.7)
-        say(im, t, [[(K('alliierte Soldaten'), 'ALLIIERTE SOLDATEN', 'w')]], y0=690, size=96)
-        say(im, t, [[(K('nach nur'), 'NACH NUR', 'w'), (K('einem Tag'), '1 TAG', 'r'), (K('Kampf?'), 'KAMPF?', 'w')]], y0=1380, size=110)
+        counter(im, t, K('fast 33.000'), 33000, lambda v: de(v), (W / 2, nx(330, 96)), 230, YEL, 0.7)
+        say(im, t, [[(K('alliierte Soldaten'), 'ALLIIERTE SOLDATEN', 'w')]], y0=nx(nx(330, 96), 230), size=96)
+        say(im, t, [[(K('nach nur'), 'NACH NUR', 'w'), (K('einem Tag'), '1 TAG', 'r')], [(K('Kampf?'), 'KAMPF?', 'w')]], y0=nx(nx(nx(330, 96), 230), 96), size=96)
         return im.convert('RGB')
     if K('Hitler ernannte') <= t < K('Mit dem erbeuteten'):
         im = fullfilm('rommel', t, K('Hitler ernannte'), 1.05, 1.15)
-        say(im, t, [[(K('Hitler ernannte'), 'HITLER ERNENNT', 'w')], [(K('Rommel zum'), 'ROMMEL', 'y')], [(K('zum Generalfeldmarschall.', 1), 'GENERALFELDMARSCHALL', 'r')]], y0=320, size=110)
+        say(im, t, [[(K('Hitler ernannte'), 'HITLER ERNENNT', 'w')], [(K('Rommel zum'), 'ROMMEL', 'y')], [(K('zum Generalfeldmarschall.', 1), 'GENERALFELDMARSCHALL', 'r')]], y0=330, size=110)
         return im.convert('RGB')
     im = basemap2(t); p = P(t); pt = p(*TOB)
-    label(im, t, T0H + 0.2, 'TOBRUK', (pt[0], pt[1] - 60), 46, WHITE, box=(14, 14, 16)); pin(im, t, T0H, pt, WHITE, 12)
+    if not (K('Für Südafrika') <= t < K('Hitler ernannte')): label(im, t, T0H + 0.2, 'TOBRUK', (pt[0], pt[1] - 60), 46, WHITE, box=(14, 14, 16)); pin(im, t, T0H, pt, WHITE, 12)
     if t < K('Juni 1942:'):
         tag(im, t, T0H, '1941'); glowring(im, t, K('dieselbe Festung'), pt, 110)
         label(im, t, T0H + 0.2, 'LIBYEN', p(21.5, 30.6), 54, (90, 70, 40)); label(im, t, T0H + 0.2, 'ÄGYPTEN', p(28.5, 30.0), 54, (90, 70, 40)); label(im, t, T0H + 0.2, 'MITTELMEER', p(24.5, 33.6), 46, (150, 180, 230))
-        say(im, t, [[(K('Ein Jahr zuvor'), 'EIN JAHR ZUVOR:', 'w')], [(K('fast acht Monate'), '8 MONATE', 'y'), (K('lang standgehalten.'), 'GEHALTEN', 'w')]], y0=400, size=100)
+        say(im, t, [[(K('Ein Jahr zuvor'), 'EIN JAHR ZUVOR:', 'w')], [(K('fast acht Monate'), '8 MONATE', 'y'), (K('lang standgehalten.'), 'GEHALTEN', 'w')]], y0=430, size=100)
         card(im, t, K('Rommel fast'), K('Juni 1942:') - 0.25, 'rommel', box=(70, 1130, 840, 430))
     elif t < K('Bei Gazala'):
         tag(im, t, K('Juni 1942:'), 'JUNI 1942'); vscard(im, t, K('Juni 1942:'), K('Bei Gazala') - 0.25)
@@ -98,66 +98,66 @@ def frame(t):
         label(im, t, K('Linie im Süden'), 'ROMMEL', (p(22.9, 31.3)[0], p(22.9, 31.3)[1] + 70), 42, WHITE, box=(24, 24, 26))
         if t >= K('Von rund 850'):
             v = 850 if t < K('noch etwa 70') else max(70, 850 - (850 - 70) * eout((t - K('noch etwa 70')) / 0.9))
-            counter(im, t, K('rund 850'), v, lambda x: '%d' % round(x), (W / 2, 470), 220, YEL, 0.01)
-            say(im, t, [[(K('britischen Panzern'), 'BRITISCHE PANZER', 'w')]], y0=600, size=80)
+            counter(im, t, K('rund 850'), v, lambda x: '%d' % round(x), (W / 2, 430), 220, YEL, 0.01)
+            say(im, t, [[(K('britischen Panzern'), 'BRITISCHE PANZER', 'w')]], y0=nx(430, 220), size=80)
             if t >= K('noch etwa 70'):
                 for i in range(6): fire(im, (220 + i * 120, 1300 + (i % 2) * 70), t, 1.0)
-                say(im, t, [[(K('einsatzbereit.'), 'EINSATZBEREIT', 'r')]], y0=700, size=80)
+                say(im, t, [[(K('einsatzbereit.'), 'EINSATZBEREIT', 'r')]], y0=nx(nx(430, 220), 80), size=80)
         else:
-            say(im, t, [[(K('Bei Gazala'), 'GAZALA:', 'w'), (K('im Süden umgangen.'), 'UMGANGEN', 'y')]], y0=400, size=100)
+            say(im, t, [[(K('Bei Gazala'), 'GAZALA:', 'w'), (K('im Süden umgangen.'), 'UMGANGEN', 'y')]], y0=430, size=100)
     elif t < K('Am 20. Juni'):
         tag(im, t, K('Churchill befahl'), '14. JUNI 1942', 'TOBRUK HALTEN')
         perimeter(im, t, K('rund 50 Kilometer'), p)
         if t < K('Doch der rund'):
             portrait(im, t, K('Churchill befahl'), K('Doch der rund') - 0.2, CH, 'WINSTON CHURCHILL', 40, 640)
-            say(im, t, [[(K('Churchill befahl'), 'CHURCHILL:', 'w')], [(K('Tobruk zu halten.'), '„HALTEN!“', 'r')]], y0=400, size=110)
+            say(im, t, [[(K('Churchill befahl'), 'CHURCHILL:', 'w')], [(K('Tobruk zu halten.'), '„HALTEN!“', 'r')]], y0=430, size=100)
         elif t < K('und der neue'):
-            say(im, t, [[(K('rund 50 Kilometer'), '50 KM', 'y'), (K('lange Verteidigungsring'), 'RING', 'w')], [(K('war verfallen,', 1), 'VERFALLEN', 'r')]], y0=400, size=110)
+            say(im, t, [[(K('rund 50 Kilometer'), '50 KM', 'y'), (K('lange Verteidigungsring'), 'RING', 'w')], [(K('war verfallen,', 1), 'VERFALLEN', 'r')]], y0=430, size=100)
             label(im, t, K('rund 50 Kilometer'), '50 KM', p(23.96, 31.94), 50, YEL)
         else:
             card(im, t, K('General Klopper,'), K('Am 20. Juni') - 0.25, 'klopper', box=(70, 1130, 840, 430))
-            say(im, t, [[(K('General Klopper,'), 'GENERAL', 'w'), (K('General Klopper,', 1), 'KLOPPER', 'y')], [(K('erst seit'), 'ERST SEIT', 'w'), (K('einem Monat.', 1), '1 MONAT', 'r')]], y0=400, size=100)
+            say(im, t, [[(K('General Klopper,'), 'GENERAL', 'w'), (K('General Klopper,', 1), 'KLOPPER', 'y')], [(K('erst seit'), 'ERST SEIT', 'w'), (K('einem Monat.', 1), '1 MONAT', 'r')]], y0=430, size=100)
     elif t < K('Am nächsten Morgen'):
         perimeter(im, t, K('Am 20. Juni') - 5, p)
         if t < K('Pioniere überbrückten'):
-            tag(im, t, K('um 5:20'), '05:20', 'DER ANGRIFF'); say(im, t, [[(K('Am 20. Juni'), '20. JUNI', 'y')]], y0=420, size=110, until=K('bombardierten Stukas'))
+            tag(im, t, K('um 5:20'), '05:20', 'DER ANGRIFF'); say(im, t, [[(K('Am 20. Juni'), '20. JUNI', 'y')]], y0=430, size=100, until=K('bombardierten Stukas'))
             for i in range(5):
                 u = clamp((t - K('bombardierten Stukas') - i * 0.15) / 1.4); s = (lerp(-120 + i * 40, p(*BREACH)[0] - 230 + i * 40, u), lerp(380 + i * 110, p(*BREACH)[1] - 140 + i * 50, u)); plane(im, s, 0.55, 1.3)
             if t > K('eine Ecke'): fire(im, p(*BREACH), t, 1.6)
             card(im, t, K('bombardierten Stukas'), K('Pioniere überbrückten') - 0.2, 'stukas', box=(70, 1150, 840, 410))
-            say(im, t, [[(K('bombardierten Stukas'), 'STUKAS', 'r')], [(K('eine Ecke des Rings.'), 'AUF EINE ECKE', 'w')]], y0=420, size=100)
+            say(im, t, [[(K('bombardierten Stukas'), 'STUKAS', 'r')], [(K('eine Ecke des Rings.'), 'AUF EINE ECKE', 'w')]], y0=430, size=100)
         elif t < K('Um 13 Uhr'):
             tag(im, t, K('Pioniere überbrückten'), '07:45', 'DURCHBRUCH')
             label(im, t, K('Pioniere überbrückten'), 'PANZERGRABEN', (p(*BREACH)[0] - 170, p(*BREACH)[1] + 70), 40, WHITE, box=(14, 14, 16))
             arrow(im, t, K('waren die deutschen'), 1.0, p, [(24.11, 31.88), BREACH, (24.03, 32.0)], (24, 24, 26), 34)
             card(im, t, K('waren die deutschen'), K('Um 13 Uhr') - 0.2, 'tanks', box=(70, 1230, 660, 330))
-            say(im, t, [[(K('Pioniere überbrückten'), 'PIONIERE', 'w'), (K('den Panzergraben,'), 'ÜBER DEN GRABEN', 'y')], [(K('Panzer durch.'), 'PANZER DURCH', 'r')]], y0=420, size=96)
+            say(im, t, [[(K('Pioniere überbrückten'), 'PIONIERE', 'w'), (K('den Panzergraben,'), 'ÜBER DEN GRABEN', 'y')], [(K('Panzer durch.'), 'PANZER DURCH', 'r')]], y0=430, size=100)
         elif t < K('Am Abend brannte'):
             tag(im, t, K('Um 13 Uhr'), '13:00'); arrow(im, t, K('Um 13 Uhr') - 3, 0.01, p, [(24.11, 31.88), BREACH, KX], (24, 24, 26), 34)
             pin(im, t, K('die Höhen'), p(*KX), YEL, 16); label(im, t, K('die Höhen'), 'KING\'S CROSS', (p(*KX)[0], p(*KX)[1] + 80), 42, WHITE, box=(14, 14, 16))
-            say(im, t, [[(K('Um 13 Uhr'), 'DIE HÖHEN', 'y')], [(K('über der Stadt.'), 'ÜBER DER STADT', 'w')]], y0=420, size=110)
+            say(im, t, [[(K('Um 13 Uhr'), 'DIE HÖHEN', 'y')], [(K('über der Stadt.'), 'ÜBER DER STADT', 'w')]], y0=430, size=100)
         else:
             tag(im, t, K('Am Abend brannte'), '18:00'); arrow(im, t, 0, 0.01, p, [(24.11, 31.88), BREACH, KX, (23.97, 32.07)], (24, 24, 26), 34)
             for i in range(4): fire(im, (pt[0] - 90 + i * 60, pt[1] + 10 + (i % 2) * 30), t, 1.3)
             card(im, t, K('brannte der Hafen.'), K('Am nächsten Morgen') - 0.2, 'harbour', box=(70, 1150, 840, 410))
-            say(im, t, [[(K('Am Abend'), 'AM ABEND:', 'w')], [(K('brannte der Hafen.'), 'DER HAFEN BRENNT', 'r')]], y0=420, size=100)
+            say(im, t, [[(K('Am Abend'), 'AM ABEND:', 'w')], [(K('brannte der Hafen.'), 'DER HAFEN BRENNT', 'r')]], y0=430, size=100)
     elif t < K('Hitler ernannte'):
         tag(im, t, K('Am nächsten Morgen'), '21. JUNI 09:40', 'KAPITULATION')
-        stamp(im, t, K('kapitulierte Klopper.'), 'KAPITULATION', (W / 2, 560), 120)
+        stamp(im, t, K('kapitulierte Klopper.'), 'KAPITULATION', (W / 2, 520), 110)
         card(im, t, K('kapitulierte Klopper.'), K('Hitler ernannte') - 0.2, 'pows2', box=(70, 1000, 840, 540))
-        if t >= K('Für Südafrika'): say(im, t, [[(K('die schwerste'), 'SCHWERSTE NIEDERLAGE', 'r')], [(K('seiner Geschichte.'), 'SÜDAFRIKAS', 'w')]], y0=700, size=90)
+        if t >= K('Für Südafrika'): say(im, t, [[(K('die schwerste'), 'SCHWERSTE NIEDERLAGE', 'r')], [(K('seiner Geschichte.'), 'SÜDAFRIKAS', 'w')]], y0=680, size=90)
     elif t < K('Heute liegen'):
         tag(im, t, K('Mit dem erbeuteten'), 'JULI 1942')
         arrow(im, t, K('fuhr Rommel'), 1.5, p, [(24.2, 32.0), (25.2, 31.7), (27.2, 31.3), (28.85, 30.85)], (24, 24, 26), 30)
         pa = p(*ALAM); label(im, t, K('bei El Alamein'), 'EL ALAMEIN', (pa[0], pa[1] - 70), 46, WHITE, box=(14, 14, 16))
         stamp(im, t, K('gestoppt wurde.'), 'GESTOPPT', (pa[0] - 40, pa[1] + 90), 70)
         label(im, t, K('Mit dem erbeuteten'), 'ÄGYPTEN', p(27.4, 29.2), 54, (90, 70, 40))
-        say(im, t, [[(K('Mit dem erbeuteten'), 'ERBEUTETER', 'w'), (K('Treibstoff fuhr'), 'TREIBSTOFF', 'y')], [(K('nach Ägypten,'), 'NACH ÄGYPTEN', 'w')]], y0=400, size=100)
+        say(im, t, [[(K('Mit dem erbeuteten'), 'ERBEUTETER', 'w'), (K('Treibstoff fuhr'), 'TREIBSTOFF', 'y')], [(K('nach Ägypten,'), 'NACH ÄGYPTEN', 'w')]], y0=430, size=100)
         card(im, t, K('Mit dem erbeuteten'), K('nach Ägypten,') + 0.6, 'fuel', box=(70, 1050, 840, 480))
     else:
         tag(im, t, K('Heute liegen'), 'HEUTE')
-        counter(im, t, K('über 6.000'), 6000, lambda v: 'ÜBER ' + de(v), (W / 2, 510), 160, YEL)
-        say(im, t, [[(K('deutsche Gefallene'), 'DEUTSCHE GEFALLENE', 'w')], [(K('in einem Ehrenmal'), 'IN EINEM EHRENMAL', 'w')], [(K('wie eine Festung'), 'WIE EINE FESTUNG', 'y')]], y0=620, size=72)
+        counter(im, t, K('über 6.000'), 6000, lambda v: 'ÜBER ' + de(v), (W / 2, 430), 160, YEL)
+        say(im, t, [[(K('deutsche Gefallene'), 'DEUTSCHE GEFALLENE', 'w')], [(K('in einem Ehrenmal'), 'IN EINEM EHRENMAL', 'w')], [(K('wie eine Festung'), 'WIE EINE FESTUNG', 'y')]], y0=nx(430, 160), size=72)
         if t >= K('Ehrenmal bei Tobruk,'):
             d = ImageDraw.Draw(im); c = p(23.93, 31.86); s = 60
             d.rectangle((c[0] - s, c[1] - s, c[0] + s, c[1] + s), fill=(120, 100, 70, 255), outline=WHITE + (255,), width=4)

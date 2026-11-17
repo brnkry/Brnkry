@@ -160,25 +160,29 @@ def card(im, t, t0, t1, name, box=(70, 1000, 840, 560)):
     ph.putalpha(int(255 * k)); im.alpha_composite(ph, (cx, cy))
 
 # ---------------- text ----------------
+GAP = 34          # one gap between every stacked line and block (cap bottom to next cap top)
+CAP0, CAPH = 0.31, 0.88   # Anton: cap top offset and cap height as a share of the font size
 def say(im, t, rows, y0=300, size=96, lh=None, until=None):
-    """rows: list of rows, each a list of (word index start phrase, word text, style) ; style 'w' white, 'y' yellow, 'r' red"""
+    """rows of (start time, word, style); y0 is the cap top of the first row; returns the cap bottom of the last row"""
     if until is not None and t > until + 0.2: return
     ko = 1.0 if until is None else 1 - eout((t - until) / 0.2)
-    lh = lh or int(size * 1.08); d = ImageDraw.Draw(im); y = y0
+    d = ImageDraw.Draw(im); y = y0
     for row in rows:
         f = font('Anton', size); words = [(w, st, ta) for (ta, w, st) in row]
         tw = sum(f.getlength(w + ' ') for w, _, _ in words) - f.getlength(' ')
-        sc = min(1.0, (W - 90) / tw); f2 = font('Anton', int(size * sc)); x = (W - min(tw, W - 90)) / 2
+        sc = min(1.0, 840 / tw); sz = int(size * sc); f2 = font('Anton', sz); x = (W - min(tw, 840)) / 2
         for w, st, ta in words:
             if t >= ta:
                 k = eout((t - ta) / 0.16) * ko; col = {'w': WHITE, 'y': YEL, 'r': (255, 70, 60)}[st]
-                d.text((x, y + 18 * (1 - k)), w, font=f2, fill=col + (int(255 * k),), stroke_width=7, stroke_fill=(8, 8, 10, int(255 * k)))
+                d.text((x, y - CAP0 * sz + 18 * (1 - k)), w, font=f2, fill=col + (int(255 * k),), stroke_width=7, stroke_fill=(8, 8, 10, int(255 * k)))
             x += f2.getlength(w + ' ')
-        y += int(lh * sc) if sc < 1 else lh
+        y += int(CAPH * size) + GAP
+    return y - GAP
+def nx(y, size, n=1): return int(y + n * int(CAPH * size) + n * GAP)   # cap top of the next block under n rows of this size
 def counter(im, t, t0, v, fmt, xy, size=170, col=YEL, dur=0.8):
     if t < t0: return
     u = eout((t - t0) / dur); s = fmt(v * u) if u < 1 else fmt(v); d = ImageDraw.Draw(im)
-    d.text(xy, s, font=font('Anton', size), fill=col + (255,), anchor='mm', stroke_width=8, stroke_fill=(8, 8, 10, 255))
+    d.text((xy[0], xy[1] - CAP0 * size), s, font=font('Anton', size), fill=col + (255,), anchor='ma', stroke_width=8, stroke_fill=(8, 8, 10, 255))   # xy[1] = cap top
 def de(v): return '{:,.0f}'.format(v).replace(',', '.')
 def stamp(im, t, t0, s, xy, size=110, ang=-7, col=RED):
     if t < t0: return
