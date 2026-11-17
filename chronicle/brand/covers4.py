@@ -101,6 +101,7 @@ JOBS = {
  'allerberger': ('allb2/code', 'a07', (0.5, 0.30, 1.0), ('C', 'DM'), [('SEPP ALLERBERGER', 140, 'w'), ('257 ABSCHÜSSE', 150, 'y')], 'ERST MG-SCHÜTZE, DANN SCHARFSCHÜTZE', 64, S + 'allb2/thumbs/DE_Allerberger.jpg'),
  'sakai': ('sak/code', 's03', (0.5, 0.0, 1.0), ('C', 'DM'), [('SABURŌ SAKAI', 140, 'w'), ('KOPFSCHUSS', 150, 'y')], 'UND FLOG 4 STUNDEN ZURÜCK', 80, S + 'sak/thumbs/DE_Sakai.jpg'),
  'boelter': ('bolt/code', 'p03', (0.5, 0.05, 1.0), ('C', 'DM'), [('JOHANNES BÖLTER', 130, 'w'), ('139 PANZER', 150, 'y')], 'SIEBENMAL VERWUNDET', 80, S + 'bolt/thumbs/DE_Boelter.jpg'),
+ 'berlin': ('bln/code', 'reichstag', (0.42, 0.5, 1.0), ('C', 'DM'), [('BERLIN 1945', 150, 'w'), ('IN 17 TAGEN', 150, 'y')], 'WIE DIE SOWJETS BERLIN NAHMEN', 80, S + 'bln/thumbs/DE_Berlin1945.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
