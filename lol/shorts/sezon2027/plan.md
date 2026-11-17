@@ -5,13 +5,13 @@ LoL 2 Short'u Yeni Başlangıç'ı anlattığı için bu Short dereceli, rün, e
 Süre hedefi: 50-55 sn. 9:16 tam ekran, kayan geçişler, kendi müziğimiz.
 
 ## Hook seçenekleri
-1. (önerilen) "Ocakta Challenger da Demir dört, sen de Demir dört!"
+1. (seçilen) "Ocak 2027'de derecelide Challenger da Demir dört olacak, sen de!"
    Görsel: Challenger, Grandmaster, Master, Elmas, Altın amblemleri üst üste çakılıp hepsi Demir'e dönüşüyor, impact. "SEN DE!" yazısı izleyiciyi gösteren okla.
 2. "Ocakta LoL'e girdiğin an derecen Demir dört olacak. Evet, herkesin."
 3. "Ocakta herkes Demir dörtten başlıyor ve bu aslında iyi bir haber."
 
 ## Senaryo v1 (ElevenLabs metni, telaffuz düzeltmeleri dahil)
-Ocakta Challenger da Demir dört, sen de Demir dört! Riot 2027 sezonunu açıkladı, hızlıca bakalım. Ocakta herkesin görünen derecesi Demir dörde düşüyor ama panik yok, ememar'ın aynı kalıyor. Yani yine kendi seviyendekilerle oynuyorsun, sadece herkes Demir dörtten birlikte tırmanıyor. Kazandığın Le-Pe çok yüksek olacak, gerçekten Demir değilsen orada uzun kalmazsın. Üstüne dereceli oynadıkça jeton kazanıp Zamansız Şanlı kostümleri hemen açabiliyorsun, sezon sonunu beklemek yok. İki yeni anahtar rün geliyor: Arakçı dükkânda indirim veren ganimetle geri dönüyor, Devdoğan ise savaştıkça seni devleştiriyor. Kader Vergisi, Cançiçeği Tacı ve Mezar Belası diye üç yeni aytım geliyor. Peri Işıkları kalkıyor, ARAM Şamata'da ise ultine dördüncü seviye verebileceksin. Sence Demir dörtten çıkman kaç maç sürer? Yorumlara yaz.
+Ocak 2027'de derecelide Challenger da Demir dört olacak, sen de! Riot 2027 sezonunu açıkladı, hızlıca bakalım. Herkesin görünen derecesi Demir dörde düşüyor ama panik yok, ememar'ın aynı kalıyor. Yani yine kendi seviyendekilerle oynuyorsun, sadece herkes Demir dörtten birlikte tırmanıyor. Kazandığın Le-Pe çok yüksek olacak, gerçekten Demir değilsen orada uzun kalmazsın. Üstüne dereceli oynadıkça jeton kazanıp Zamansız Şanlı kostümleri hemen açabiliyorsun, sezon sonunu beklemek yok. İki yeni anahtar rün geliyor: Arakçı dükkânda indirim veren ganimetle geri dönüyor, Devdoğan ise savaştıkça seni devleştiriyor. Kader Vergisi, Cançiçeği Tacı ve Mezar Belası diye üç yeni aytım geliyor. Peri Işıkları kalkıyor, ARAM Şamata'da ise ultine dördüncü seviye verebileceksin. Sence Demir dörtten çıkman kaç maç sürer? Yorumlara yaz.
 
 ## Kurgu taslağı
 | Bölüm | Görüntü | Ekrandaki yazı/kart |
