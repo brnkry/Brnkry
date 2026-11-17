@@ -1,7 +1,7 @@
 # LoL 2027'de Bizi Neler Bekliyor? (Feedleme Hocam, uzun video): yükleme bilgileri
 
 ## Başlık seçenekleri
-1. LoL 2027'de Her Şey Değişiyor! Herkes Demir IV'ten Başlıyor
+1. LoL 2027 Sezonunda Neler Değişiyor? Herkes Demir IV'ten Başlıyor
 2. League of Legends 2027'de Bizi Neler Bekliyor? Yeni Başlangıç, Yeni Eşyalar, Yeni Rünler
 3. Ocakta LoL'e Neler Geliyor? Dereceli Sıfırlanıyor, Harita Değişiyor
 
