@@ -70,7 +70,7 @@ def base():
 
 def mix():
     subprocess.run(['node', 'render.js', 'info'], check=True); ev = json.load(open('sfx.json'))
-    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14, 'el_swoosh': -22, 'el_pop': -16}
+    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14, 'el_swoosh': -22, 'el_pop': -16, 'el_hit': -14, 'el_fall': -20}
     inp = ['-i', '../ses/vo.mp3', '-stream_loop', '-1', '-i', '../../../sett/ses/muzik.mp3']
     fc = [f'[0]aresample=48000,aformat=channel_layouts=stereo,volume=4dB,apad=whole_dur={END},asplit[vo][sc]',
           f'[1]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{END},volume=-15dB,afade=t=in:d=0.3,afade=t=out:st={END - 0.5}:d=0.5[m0]',

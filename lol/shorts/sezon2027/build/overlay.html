@@ -99,10 +99,6 @@ window.render=function(t){let O='';const sg=seg(t);
  // captions (not under the hook graphics)
  if(t>=6.3&&t<48.3)O+=caption(t);
  document.getElementById('dyn').innerHTML=O};
-window.SFX=[...PLAN.slice(1).map(p=>['el_swoosh',p[0]-.25,0]),['impact',.05,-4],['el_pop',1.26,0],['el_swoosh',1.6,-4],['impact',2.88,0],['el_swoosh',4.76,0],['stamp_dan',5.22,0],['impact',5.46,0],
- ['stamp_dan',6.46,0],['el_swoosh',7.36,0],['el_pop',10.2,0],['el_pop',12.26,0],['el_pop',12.75,0],['el_pop',14.14,0],['el_swoosh',14.76,0],
- ['el_swoosh',17.34,0],...[0,1,2,3,4,5].map(i=>['el_pop',17.6+i*.4,-4]),['el_swoosh',18.9,0],['el_swoosh',21.64,0],['el_pop',23.0,0],...[0,1,2,3].map(i=>['el_swoosh',23.74+i*.2,-3]),['stamp_dan',26.3,0],
- ['el_swoosh',27.94,0],['el_swoosh',29.22,0],['el_swoosh',32.72,0],['el_pop',35.34,0],['el_pop',36.42,0],['el_pop',37.52,0],['stamp_dan',38.5,0],['el_swoosh',39.98,0],['stamp_dan',40.06,-4],['el_swoosh',41.38,0],['el_swoosh',42.32,0],['el_pop',42.86,0],
- ['el_swoosh',44.7,0],['click',47.14,0]];
+window.SFX=[...PLAN.slice(1).map(p=>['el_swoosh',p[0]-.25,0]),['el_hit',.05,0],['card',1.6,-4],['el_hit',2.88,0],['el_hit',5.46,-3]];
 window.ready=Promise.all([document.fonts.ready,...['lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
 </script></body></html>
