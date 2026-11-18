@@ -12,19 +12,21 @@ Kurallar: Sonda "abone ol" yok, "yani böyleydi" diye özet yok. Hikâye açık 
 
 Tablo sütunları: AN = anlatıcı metni (ElevenLabs'a gidecek), REP/KIN = videodan doğrudan oynayacak replik (ses + görüntü), GÖRÜNTÜ = ekranda ne var.
 
-## SOĞUK AÇILIŞ (v3, kesmeden sahneler, ~49 sn)
+## SOĞUK AÇILIŞ (v4, ~49 sn)
 
-| # | Süre | Tür | Metin | Görüntü |
+Konuşmalar altyazı değil, sese göre gelen büyük sinematik yazı (American Captain, kim söylediği yazmaz). Geniş planlarda yazı ortada gökyüzünde, yakın planlarda boş tarafta.
+
+| # | Süre | Tür | Metin / Ekran yazısı | Görüntü ve ses |
 |---|---|---|---|---|
-| 1 | 0.0-23.7 | KIN 16.96-40.67 (tek parça) | Yone: "Yaptıkların için hesap ver." / Yasuo: "Yone, geri dön." / Yone: "Onurumuzu yere serdin. Onu korumaya yemin etmiştin." / Yasuo: "Sen de Ionia'yı korumaya... Etrafına bir bak kardeşim." / Yone: "Onurun toprağı lekeliyor." / Yasuo: "Onursuzluktan iyidir." | Yone yakın plan, yanında büyük yazı: YAPTIKLARIN / İÇİN / HESAP VER. Sinematiğin kendi beyaz flaşıyla biter |
-| 2 | 23.7-29.0 | KIN 70.46-75.79 | Yasuo: "Affet beni kardeşim, seni bir daha utandırmayacağım." | Beyazdan açılır, sağda yazı: AFFET BENİ / KARDEŞİM. Siyaha iner |
-| 3 | 29.0-30.8 | KIN 89.04-90.79 | (anlatıcı siyahta başlar) | Yone'nin gözü, siyah, Yasuo'nun gözleri açılır; gözlere hızlanan zoom, beyaz |
-| 4 | 29.6-34.7 | AN | Yasuo hayatı boyunca onu koruyan tek kişiyi, kendi abisini öldürdü. | Hareketli Yasuo splash (giriş ekranı), yavaş yakınlaşma |
-| 5 | 34.8-40.1 | AN | Ama bu hikâyenin en acı kısmı şu: suçlandığı cinayeti o işlememişti. | Hareketli Yone splash (giriş ekranı) |
-| 6 | 40.7-44.1 | AN | Peki bir kardeş, abisine neden kılıç çeker? | Yasuo / Yone yan yana, altın çizgi |
-| 7 | 44.3-49.0 | Başlık | YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ? | Aynı bölünmüş görüntü, kararır |
+| 1 | 0.0-23.7 | KIN 16.96-40.67 (tek parça) | YAPTIKLARIN İÇİN HESAP VER / YONE, GERİ DÖN. / ONURUMUZU YERE SERDİN. / ONU KORUMAYA YEMİN ETMİŞTİN. / SEN DE IONIA'YI KORUMAYA... / ETRAFINA BİR BAK, KARDEŞİM. / ONURUN TOPRAĞI LEKELİYOR. / ONURSUZLUKTAN İYİDİR. | Sinematiğin kendi beyaz flaşıyla biter, Kin'deki kılıç çarpışma sesi (59.4) |
+| 2 | 23.7-29.0 | KIN 70.46-75.79 | AFFET BENİ KARDEŞİM / SENİ BİR DAHA UTANDIRMAYACAĞIM. | Çapraz kılıç izi + beyaz flaş, kılıç sesi (slash_1) |
+| 3 | 29.3-34.4 | AN | Yasuo hayatı boyunca onu koruyan tek kişiyi, kendi abisini öldürdü. | Hareketli Yasuo splash |
+| 4 | 34.5-39.8 | AN | Ama bu hikâyenin en acı kısmı şu: suçlandığı cinayeti o işlememişti. | Hareketli Yone splash |
+| 5 | 39.9-40.1 | Geçiş | | Dikey kılıç izi ekranı ortadan böler, flaş, iki yarı kesik boyunca kayıp oturur, kızgın kesik altın çizgiye soğur, kılıç sesi |
+| 6 | 40.4-43.8 | AN | Peki bir kardeş, abisine neden kılıç çeker? | Yasuo / Yone yan yana |
+| 7 | 44.0-49.0 | Başlık | YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ? | YASUO ekrana çarparak gelir, cinematic impact (impact_2) |
 
-Görüntü stili: 2.35 sinema bandı, renk düzenlemesi (soğuk gölge, sıcak ışık, hafif kontrast, vinyet, film greni) tüm video ve splash'lerde.
+Görüntü stili: 2.35 sinema bandı, renk düzenlemesi (soğuk gölge, sıcak ışık, kontrast, vinyet, film greni).
 
 ## I. İKİ KARDEŞ
 

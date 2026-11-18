@@ -4,7 +4,7 @@ usage: python3 build.py base | mix | frames | final"""
 import subprocess, sys, os
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad'
 KIN = S + '/yasuo/kin.mp4'; AN = S + '/yasuo/anim'; OUT = S + '/yasuo/out'; os.makedirs(OUT, exist_ok=True)
-NARR = 29.6   # narrator starts on the black before Yasuo's eyes open
+NARR = 29.3   # narrator starts right after the slash into the Yasuo splash
 END = 49.0
 GRADE = ('eq=contrast=1.08:saturation=0.88:gamma=0.97,'
          'colorbalance=rs=-0.04:gs=0.0:bs=0.05:rm=0.01:bm=-0.01:rh=0.05:gh=0.01:bh=-0.04,'
@@ -13,12 +13,13 @@ BOX = 'pad=1920:1080:0:132:black,setsar=1,format=yuv420p'
 # (out start, length, kind, params, transition into this piece)
 PLAN = [
     (0.0, 23.71, 'K', (16.96, None), None),            # Yone close-up -> dialogue -> KIN's own white flash
-    (23.71, 5.33, 'K', (70.46, 'dark'), 'white'),       # "Affet beni kardesim", dips to black
-    (29.04, 1.75, 'K', (89.04, 'eye'), None),           # Yone eye -> black -> Yasuo's eyes, push in, white
-    (30.79, 4.21, 'L', ('yasuo_login', 18.0, .45, 1.0, 1.06), 'white'),
-    (34.5, 6.1, 'L', ('yone_login', 2.0, .30, 1.08, 1.0), 'x'),
-    (40.1, END - 40.1, 'SPLIT', None, 'x'),
+    (23.71, 5.33, 'K', (70.46, None), 'white'),         # "Affet beni kardesim"; ends under the diagonal slash flash
+    (29.04, 5.66, 'L', ('yasuo_login', 18.0, .45, 1.0, 1.06), None),
+    (34.2, 5.84, 'L', ('yone_login', 2.0, .30, 1.08, 1.0), 'x'),
+    (40.04, END - 40.04, 'SPLIT', None, None),          # hard cut under the vertical slash flash
 ]
+# (file, time, gain dB)
+SFX = [('kin_kilic.wav', 23.42, -3), ('slash_1.mp3', 28.78, -5), ('slash_1.mp3', 39.78, -5), ('impact_2.mp3', 43.98, -3)]
 XF = 0.5
 
 def piece(i, p):
@@ -41,9 +42,11 @@ def piece(i, p):
               f"zoompan=z='{z}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1920x816:fps=30,eq=brightness=-0.04,{GRADE},{BOX}")
         cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', f'{AN}/{name}.mp4', '-vf', vf]
     else:  # Yasuo | Yone, animated, gold divider
-        f = (f"[0]fps=30,scale=-2:816:flags=lanczos,crop=960:816:iw-960:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30[a];"
-             f"[1]fps=30,scale=-2:816:flags=lanczos,crop=960:816:(iw-960)*0.35:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30[b];"
-             f"[a][b]hstack,eq=brightness=-0.08,{GRADE},drawbox=x=957:y=0:w=6:h=816:color=0xE9C46A@0.85:t=fill,{BOX}[v]")
+        e = "pow(max(0,1-t/0.6),3)"
+        f = (f"[0]fps=30,scale=-2:816:flags=lanczos,crop=960:816:iw-960:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30,setpts=PTS-STARTPTS[a];"
+             f"[1]fps=30,scale=-2:816:flags=lanczos,crop=960:816:(iw-960)*0.35:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30,setpts=PTS-STARTPTS[b];"
+             f"color=c=black:s=1920x816:r=30[bg];[bg][a]overlay=x=0:y='70*{e}':shortest=1[ab];[ab][b]overlay=x=960:y='-70*{e}':shortest=1,"
+             f"eq=brightness=-0.08,{GRADE},{BOX}[v]")
         cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', '26', '-i', f'{AN}/yasuo_login.mp4', '-ss', '8', '-i', f'{AN}/yone_login.mp4',
                '-filter_complex', f, '-map', '[v]']
     if tr == 'white':
@@ -74,13 +77,15 @@ def mix():
         fin = 0.04 if tr != 'x' else XF
         fc.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=stereo,afade=t=in:d={fin},afade=t=out:st={L - 0.25:.3f}:d=0.25,adelay={int(a * 1000)}:all=1[k{i}]')
     n = len(parts)
-    inp += ['-i', '../ses/alex_deneme_2.mp3', '-ss', '0', '-t', '17', '-i', KIN, '-i', '../../../shorts/sezon2027/ses/el_swoosh.wav']
-    fc.append(f'[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume=7dB,adelay={int(NARR * 1000)}:all=1,apad=whole_dur={END},asplit[nv][sc]')
-    fc.append(f'[{n + 1}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-5dB,afade=t=in:d=1.0,afade=t=out:st=15:d=2,adelay={int(30.9 * 1000)}:all=1,apad=whole_dur={END}[bed0]')
-    fc.append('[bed0][sc]sidechaincompress=threshold=0.03:ratio=4:attack=20:release=500[bed]')
-    fc.append(f'[{n + 2}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-20dB,adelay={int(31.55 * 1000)}:all=1[wh]')
-    lab = ''.join(f'[k{i}]' for i in range(n))
-    fc.append(f'{lab}[nv][bed][wh]amix=inputs={n + 3}:normalize=0:duration=longest,atrim=0:{END},afade=t=out:st={END - 1.5}:d=1.5,loudnorm=I=-15:TP=-1.5:LRA=11[o]')
+    inp += ['-i', '../ses/alex_deneme_2.mp3', '-ss', '0', '-t', '17', '-i', KIN]
+    fc.append(f'[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume=11dB,adelay={int(NARR * 1000)}:all=1,apad=whole_dur={END},asplit[nv][sc]')
+    fc.append(f'[{n + 1}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-6dB,afade=t=in:d=0.6,afade=t=out:st=15:d=2,adelay={int(29.1 * 1000)}:all=1,apad=whole_dur={END}[bed0]')
+    fc.append('[bed0][sc]sidechaincompress=threshold=0.03:ratio=5:attack=20:release=500[bed]')
+    lab = ''.join(f'[k{i}]' for i in range(n)) + '[nv][bed]'
+    for j, (fn, t, g) in enumerate(SFX):
+        inp += ['-i', f'../ses/{fn}']
+        fc.append(f'[{n + 2 + j}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,adelay={int(t * 1000)}:all=1[s{j}]'); lab += f'[s{j}]'
+    fc.append(f'{lab}amix=inputs={n + 2 + len(SFX)}:normalize=0:duration=longest,atrim=0:{END},afade=t=out:st={END - 1.5}:d=1.5,loudnorm=I=-15:TP=-1.5:LRA=11[o]')
     subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', '[o]', '-ar', '48000', f'{OUT}/mix.wav'], check=True)
     print('mix ok')
 
