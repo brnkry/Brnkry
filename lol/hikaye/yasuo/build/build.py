@@ -1,66 +1,98 @@
-"""Yasuo story, first ~42 s (cold open + narrator intro + title). 16:9.
-usage: python3 build.py base | mix"""
-import subprocess, sys, json, os
+"""Yasuo story, first ~48 s (cold open + narrator intro + title). 16:9, 2.35 letterbox, cinematic grade.
+Uncut KIN scenes, transitions only at the cinematic's own cuts.
+usage: python3 build.py base | mix | frames | final"""
+import subprocess, sys, os
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad'
-KIN = S + '/yasuo/kin.mp4'; OUT = S + '/yasuo/out'; os.makedirs(OUT, exist_ok=True)
-NARR = 24.2   # narrator starts here
-END = 42.6
-# (out a, out b, kind, src/param)
+KIN = S + '/yasuo/kin.mp4'; AN = S + '/yasuo/anim'; OUT = S + '/yasuo/out'; os.makedirs(OUT, exist_ok=True)
+NARR = 29.6   # narrator starts on the black before Yasuo's eyes open
+END = 49.0
+GRADE = ('eq=contrast=1.08:saturation=0.88:gamma=0.97,'
+         'colorbalance=rs=-0.04:gs=0.0:bs=0.05:rm=0.01:bm=-0.01:rh=0.05:gh=0.01:bh=-0.04,'
+         'vignette=angle=PI/4.6,noise=alls=5:allf=t')
+BOX = 'pad=1920:1080:0:132:black,setsar=1,format=yuv420p'
+# (out start, length, kind, params, transition into this piece)
 PLAN = [
-    (0.0, 10.6, 'K', 18.7),       # Yone: hesap ver ... yemin etmistin
-    (10.6, 15.6, 'K', 35.6),      # onurun topragi lekeliyor / onursuzluktan iyidir
-    (15.6, 19.4, 'K', 54.0),      # clash
-    (19.4, 24.0, 'K', 70.1),      # affet beni kardesim
-    (24.0, 28.8, 'I', ('Yasuo_0', 1.0, 1.12, .45, .35)),   # image, zoom from-to, focus x,y
-    (28.8, 34.2, 'I', ('Yone_0', 1.12, 1.0, .5, .3)),
-    (34.2, 39.2, 'SPLIT', ('Yasuo_0', 'Yone_0')),
-    (39.2, END, 'BLACK', None),
+    (0.0, 23.71, 'K', (16.96, None), None),            # Yone close-up -> dialogue -> KIN's own white flash
+    (23.71, 5.33, 'K', (70.46, 'dark'), 'white'),       # "Affet beni kardesim", dips to black
+    (29.04, 1.75, 'K', (89.04, 'eye'), None),           # Yone eye -> black -> Yasuo's eyes, push in, white
+    (30.79, 4.21, 'L', ('yasuo_login', 18.0, .45, 1.0, 1.06), 'white'),
+    (34.5, 6.1, 'L', ('yone_login', 2.0, .30, 1.08, 1.0), 'x'),
+    (40.1, END - 40.1, 'SPLIT', None, 'x'),
 ]
+XF = 0.5
+
 def piece(i, p):
-    a, b, k, q = p; L = b - a + (0.5 if i + 1 < len(PLAN) and PLAN[i + 1][2] != 'K' else 0); n = round(L * 30)
-    o = f'{OUT}/v{i}.mp4'
+    a, L, k, q, tr = p
+    n = round(L * 30); o = f'{OUT}/v{i}.mp4'
     if k == 'K':
-        cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(q), '-i', KIN, '-vf', 'fps=30,setsar=1,format=yuv420p']
-    elif k == 'I':
-        img, z0, z1, fx, fy = q
+        ss, fx = q
+        vf = 'fps=30,crop=1920:816:0:132'
+        if fx == 'eye':  # accelerate into Yasuo's eyes over the last 0.75 s, then burn to white
+            t0 = L - 0.6
+            vf += (f",scale=3840:1632,zoompan=z='if(gte(in_time,{t0}),1+1.6*pow((in_time-{t0})/0.6,2),1)'"
+                   f":x='iw/2-iw/zoom/2':y='ih*0.47-ih/zoom/2':d=1:s=1920x816:fps=30,fade=t=out:st={L - 0.25:.2f}:d=0.25:color=white")
+        if fx == 'dark': vf += f',fade=t=out:st={L - 0.3:.2f}:d=0.3'
+        if i == 0: vf += f',fade=t=out:st={L - 0.12:.2f}:d=0.12:color=white'
+        cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', KIN, '-vf', vf + ',' + GRADE + ',' + BOX]
+    elif k == 'L':
+        name, ss, fx, z0, z1 = q
         z = f"{z0}+({z1}-{z0})*on/{n}"
-        cmd = ['ffmpeg', '-v', 'error', '-y', '-loop', '1', '-i', f'assets/{img}.jpg', '-vf',
-               f"scale=3840:-2,zoompan=z='{z}':x='(iw-iw/zoom)*{fx}':y='(ih-ih/zoom)*{fy}':d={n}:s=1920x1080:fps=30,eq=brightness=-0.06,crop=1920:816:0:132,pad=1920:1080:0:132:black,setsar=1,format=yuv420p"]
-    elif k == 'SPLIT':
-        l, r = q
-        f = (f"[0]scale=-2:1080,crop=960:1080:(iw-960)*0.78:0,zoompan=z='1+0.05*on/{n}':d={n}:s=960x1080:fps=30[a];"
-             f"[1]scale=-2:1080,crop=960:1080:(iw-960)*0.62:0,zoompan=z='1+0.05*on/{n}':d={n}:s=960x1080:fps=30[b];[a][b]hstack,eq=brightness=-0.1,crop=1920:816:0:132,pad=1920:1080:0:132:black,drawbox=x=957:y=132:w=6:h=816:color=0xE9C46A@0.9:t=fill,setsar=1,format=yuv420p[v]")
-        cmd = ['ffmpeg', '-v', 'error', '-y', '-loop', '1', '-i', f'assets/{l}.jpg', '-loop', '1', '-i', f'assets/{r}.jpg', '-filter_complex', f, '-map', '[v]']
-    else:
-        cmd = ['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1920x1080:r=30', '-vf', 'format=yuv420p']
-    subprocess.run(cmd + ['-frames:v', str(n), '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '16', '-pix_fmt', 'yuv420p', o], check=True)
-    return o, L
+        vf = (f"fps=30,scale=3840:-2:flags=lanczos,crop=3840:1632:0:(ih-1632)*{fx},"
+              f"zoompan=z='{z}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1920x816:fps=30,eq=brightness=-0.04,{GRADE},{BOX}")
+        cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', f'{AN}/{name}.mp4', '-vf', vf]
+    else:  # Yasuo | Yone, animated, gold divider
+        f = (f"[0]fps=30,scale=-2:816:flags=lanczos,crop=960:816:iw-960:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30[a];"
+             f"[1]fps=30,scale=-2:816:flags=lanczos,crop=960:816:(iw-960)*0.35:0,zoompan=z='1+0.04*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=960x816:fps=30[b];"
+             f"[a][b]hstack,eq=brightness=-0.08,{GRADE},drawbox=x=957:y=0:w=6:h=816:color=0xE9C46A@0.85:t=fill,{BOX}[v]")
+        cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', '26', '-i', f'{AN}/yasuo_login.mp4', '-ss', '8', '-i', f'{AN}/yone_login.mp4',
+               '-filter_complex', f, '-map', '[v]']
+    if tr == 'white':
+        cmd[-1] = cmd[-1].replace(BOX, f'fade=t=in:d=0.45:color=white,{BOX}') if k != 'SPLIT' else cmd[-1]
+    subprocess.run(cmd + ['-frames:v', str(n), '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '15', '-pix_fmt', 'yuv420p', o], check=True)
+    return o
+
 def base():
     vids = [piece(i, p) for i, p in enumerate(PLAN)]
     inp = []
-    for v, _ in vids: inp += ['-i', v]
+    for v in vids: inp += ['-i', v]
     fc = [f'[{i}:v]settb=AVTB,setpts=PTS-STARTPTS[i{i}]' for i in range(len(vids))]; cur = '[i0]'
     for i in range(1, len(PLAN)):
         lab = f'[x{i}]'
-        if PLAN[i][2] == 'K': fc.append(f'{cur}[i{i}]concat=n=2:v=1:a=0,settb=AVTB{lab}')
-        else: fc.append(f'{cur}[i{i}]xfade=transition=fade:duration=0.5:offset={PLAN[i][0]:.2f}{lab}')
+        if PLAN[i][4] == 'x': fc.append(f'{cur}[i{i}]xfade=transition=fade:duration={XF}:offset={PLAN[i][0]:.2f}{lab}')
+        else: fc.append(f'{cur}[i{i}]concat=n=2:v=1:a=0,settb=AVTB{lab}')
         cur = lab
-    subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', cur, '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '16', '-pix_fmt', 'yuv420p', f'{OUT}/base.mp4'], check=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', cur, '-t', str(END),
+                    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '15', '-pix_fmt', 'yuv420p', f'{OUT}/base.mp4'], check=True)
     print('base ok')
+
 def mix():
-    # dialogue: original KIN audio for the cold open pieces; bed: KIN 0-16 (rain + score, no dialogue)
+    # original KIN audio under the three KIN pieces, then a dialogue-free KIN bed (0-16 s: rain + score) under narration
     parts = [p for p in PLAN if p[2] == 'K']
     inp = []; fc = []
-    for i, (a, b, k, ss) in enumerate(parts):
-        inp += ['-ss', str(ss), '-t', f'{b - a:.3f}', '-i', KIN]
-        fc.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=stereo,afade=t=in:d=0.04,afade=t=out:st={b - a - 0.06:.3f}:d=0.06,adelay={int(a * 1000)}:all=1[k{i}]')
+    for i, (a, L, k, q, tr) in enumerate(parts):
+        inp += ['-ss', str(q[0]), '-t', f'{L:.3f}', '-i', KIN]
+        fin = 0.04 if tr != 'x' else XF
+        fc.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=stereo,afade=t=in:d={fin},afade=t=out:st={L - 0.25:.3f}:d=0.25,adelay={int(a * 1000)}:all=1[k{i}]')
     n = len(parts)
-    inp += ['-i', '../ses/alex_deneme_2.mp3', '-ss', '0', '-t', '19', '-i', KIN]
-    fc.append(f'[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume=3dB,adelay={int(NARR * 1000)}:all=1,apad=whole_dur={END},asplit[nv][sc]')
-    fc.append(f'[{n + 1}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-6dB,afade=t=in:d=1.2,afade=t=out:st=17:d=2,adelay={int(23.4 * 1000)}:all=1,apad=whole_dur={END}[bed0]')
+    inp += ['-i', '../ses/alex_deneme_2.mp3', '-ss', '0', '-t', '17', '-i', KIN, '-i', '../../../shorts/sezon2027/ses/el_swoosh.wav']
+    fc.append(f'[{n}:a]aresample=48000,aformat=channel_layouts=stereo,volume=7dB,adelay={int(NARR * 1000)}:all=1,apad=whole_dur={END},asplit[nv][sc]')
+    fc.append(f'[{n + 1}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-5dB,afade=t=in:d=1.0,afade=t=out:st=15:d=2,adelay={int(30.9 * 1000)}:all=1,apad=whole_dur={END}[bed0]')
     fc.append('[bed0][sc]sidechaincompress=threshold=0.03:ratio=4:attack=20:release=500[bed]')
+    fc.append(f'[{n + 2}:a]aresample=48000,aformat=channel_layouts=stereo,volume=-20dB,adelay={int(31.55 * 1000)}:all=1[wh]')
     lab = ''.join(f'[k{i}]' for i in range(n))
-    fc.append(f'{lab}[nv][bed]amix=inputs={n + 2}:normalize=0:duration=longest,atrim=0:{END},afade=t=out:st={END - 1.2}:d=1.2,loudnorm=I=-15:TP=-1.5:LRA=11[o]')
+    fc.append(f'{lab}[nv][bed][wh]amix=inputs={n + 3}:normalize=0:duration=longest,atrim=0:{END},afade=t=out:st={END - 1.5}:d=1.5,loudnorm=I=-15:TP=-1.5:LRA=11[o]')
     subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', '[o]', '-ar', '48000', f'{OUT}/mix.wav'], check=True)
     print('mix ok')
-{'base': base, 'mix': mix}[sys.argv[1]]()
+
+def frames():
+    subprocess.run(['rm', '-rf', f'{OUT}/fr'])
+    subprocess.run(['node', 'render.js', 'frames', f'{OUT}/fr', '30', '0', str(END)], check=True)
+
+def final():
+    os.makedirs('../export', exist_ok=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', f'{OUT}/base.mp4', '-framerate', '30', '-i', f'{OUT}/fr/%05d.png', '-i', f'{OUT}/mix.wav',
+                    '-filter_complex', '[0][1]overlay=0:0:shortest=1,format=yuv420p[v]', '-map', '[v]', '-map', '2:a',
+                    '-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-c:a', 'aac', '-b:a', '192k', '-t', str(END), '../export/yasuo_ilk40.mp4'], check=True)
+    print('final ok')
+
+{'base': base, 'mix': mix, 'frames': frames, 'final': final}[sys.argv[1]]()

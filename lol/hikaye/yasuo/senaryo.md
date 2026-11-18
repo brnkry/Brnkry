@@ -12,16 +12,19 @@ Kurallar: Sonda "abone ol" yok, "yani böyleydi" diye özet yok. Hikâye açık 
 
 Tablo sütunları: AN = anlatıcı metni (ElevenLabs'a gidecek), REP/KIN = videodan doğrudan oynayacak replik (ses + görüntü), GÖRÜNTÜ = ekranda ne var.
 
-## SOĞUK AÇILIŞ
+## SOĞUK AÇILIŞ (v3, kesmeden sahneler, ~49 sn)
 
-| # | Tür | Metin | Görüntü |
-|---|---|---|---|
-| 1 | KIN 18.8-23.8 | Yone: "Yaptıkların için hesap ver." / Yasuo: "Yone, geri dön." | KIN: yağmurda karşı karşıya duran iki kardeş |
-| 2 | KIN 24.7-40.6 | Yone: "Onurumuzu yere serdin. Onu korumaya yemin etmiştin." / Yasuo: "Sen de Ionia'yı korumaya... Etrafına bir bak kardeşim." / Yone: "Onurun toprağı lekeliyor." / Yasuo: "Onursuzluktan iyidir." | KIN: düello başlıyor |
-| 3 | KIN 41-70 | (konuşma yok, müzik ve kılıç sesleri) | KIN: düello |
-| 4 | KIN 70.4-74.5 | Yasuo: "Affet beni kardeşim. Seni bir daha utandırmayacağım." | KIN: Yone yerde |
-| 5 | AN | Yasuo hayatı boyunca onu koruyan tek kişiyi, kendi abisini öldürdü. Ama bu hikâyenin en acı kısmı şu: suçlandığı cinayeti o işlememişti. | KIN 96: Yasuo'nun yüzü, kararır |
-| 6 | Başlık | YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ? | Siyah ekran, sade beyaz yazı, rüzgâr sesi |
+| # | Süre | Tür | Metin | Görüntü |
+|---|---|---|---|---|
+| 1 | 0.0-23.7 | KIN 16.96-40.67 (tek parça) | Yone: "Yaptıkların için hesap ver." / Yasuo: "Yone, geri dön." / Yone: "Onurumuzu yere serdin. Onu korumaya yemin etmiştin." / Yasuo: "Sen de Ionia'yı korumaya... Etrafına bir bak kardeşim." / Yone: "Onurun toprağı lekeliyor." / Yasuo: "Onursuzluktan iyidir." | Yone yakın plan, yanında büyük yazı: YAPTIKLARIN / İÇİN / HESAP VER. Sinematiğin kendi beyaz flaşıyla biter |
+| 2 | 23.7-29.0 | KIN 70.46-75.79 | Yasuo: "Affet beni kardeşim, seni bir daha utandırmayacağım." | Beyazdan açılır, sağda yazı: AFFET BENİ / KARDEŞİM. Siyaha iner |
+| 3 | 29.0-30.8 | KIN 89.04-90.79 | (anlatıcı siyahta başlar) | Yone'nin gözü, siyah, Yasuo'nun gözleri açılır; gözlere hızlanan zoom, beyaz |
+| 4 | 29.6-34.7 | AN | Yasuo hayatı boyunca onu koruyan tek kişiyi, kendi abisini öldürdü. | Hareketli Yasuo splash (giriş ekranı), yavaş yakınlaşma |
+| 5 | 34.8-40.1 | AN | Ama bu hikâyenin en acı kısmı şu: suçlandığı cinayeti o işlememişti. | Hareketli Yone splash (giriş ekranı) |
+| 6 | 40.7-44.1 | AN | Peki bir kardeş, abisine neden kılıç çeker? | Yasuo / Yone yan yana, altın çizgi |
+| 7 | 44.3-49.0 | Başlık | YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ? | Aynı bölünmüş görüntü, kararır |
+
+Görüntü stili: 2.35 sinema bandı, renk düzenlemesi (soğuk gölge, sıcak ışık, hafif kontrast, vinyet, film greni) tüm video ve splash'lerde.
 
 ## I. İKİ KARDEŞ
 

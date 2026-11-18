@@ -1,20 +1,41 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
-@font-face{font-family:Mon;font-weight:600;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-024F}
-@font-face{font-family:Mon;font-weight:600;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2) format('woff2')}
-@font-face{font-family:Cin;font-weight:700;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-024F}
-@font-face{font-family:Cin;font-weight:700;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:AC;src:url(assets/fonts/american_captainttf)}
 html,body{margin:0;background:transparent}
 #root{position:relative;width:1920px;height:1080px;overflow:hidden}
-.sub{position:absolute;left:0;right:0;bottom:78px;text-align:center;font-family:Mon;font-weight:600;font-size:44px;color:#F4EFE6;letter-spacing:.01em;text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8)}
+.blk{position:absolute;display:flex;flex-direction:column;align-items:center;font-family:AC;color:#F4E6CC;
+ text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.85)}
+.ln{line-height:.96;margin:0;white-space:nowrap;letter-spacing:.03em}
+.ti,.ts{position:relative;display:inline-block}
+.ti i{position:absolute;top:-.16em;height:.12em;background:currentColor}
+.ts b{position:absolute;left:50%;top:0;transform:translateX(-50%);font-weight:normal;letter-spacing:0}
 </style></head><body><div id="root"><div id="dyn"></div></div>
-<script src="subs.js"></script><script>
+<script>
 const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
-window.render=function(t){let O='';
- const s=SUBS.find(s=>t>=s[0]&&t<s[1]);if(s){const o=cl((t-s[0])/.15)*cl((s[1]-t)/.15);O+=`<div class="sub" style="opacity:${o}">${s[2]}</div>`}
- if(t>=39.4){const k=cl((t-39.4)/1.0),k2=cl((t-40.2)/.9),out=cl((42.4-t)/.6);
-  O+=`<div style="position:absolute;left:0;right:0;top:390px;text-align:center;font-family:Cin;font-weight:700;font-size:170px;letter-spacing:.18em;color:#E9C46A;opacity:${k*out};transform:scale(${1.06-.06*k});text-shadow:0 0 40px rgba(233,196,106,.35)">YASUO</div>`;
-  O+=`<div style="position:absolute;left:0;right:0;top:620px;text-align:center;font-family:Mon;font-weight:600;font-size:46px;letter-spacing:.32em;color:#F4EFE6;opacity:${k2*out}">ABİSİNİ NEDEN ÖLDÜRDÜ?</div>`;
-  O+=`<div style="position:absolute;left:760px;top:590px;width:${400*k}px;height:2px;background:#E9C46A;opacity:${out}"></div>`}
- document.getElementById('dyn').innerHTML=O};
-window.SFX=[];window.ready=document.fonts.ready;
+// Turkish letters the font lacks: İ = I + measured dot, Ş = S + the cedilla cut from Ç
+const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>');
+// [start, end, block style, [[text, size, color, delay]]]
+const T=[
+ [1.78,3.64,'left:940px;top:330px;width:940px',[['YAPTIKLARIN',170,'#F4E6CC',0],['İÇİN',170,'#F4E6CC',.28],['HESAP VER',170,'#F6D29A',.56]]],
+ [23.8,28.55,'left:1080px;top:380px;width:800px',[['AFFET BENİ',160,'#F4E6CC',0],['KARDEŞİM',160,'#F6D29A',.75]]],
+ [44.3,49.0,'left:0;top:330px;width:1920px',[['YASUO',250,'#E9C46A',0],['ABİSİNİ NEDEN ÖLDÜRDÜ?',96,'#F4E6CC',.5]]],
+];
+let built=false;
+function build(){let H='<div id="dk" style="position:absolute;left:0;right:0;top:132px;height:816px;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72),rgba(0,0,0,.45) 70%)"></div>';T.forEach((b,k)=>{H+=`<div class="blk" id="b${k}" style="${b[2]};opacity:0">`;
+ b[3].forEach((l,j)=>H+=`<div class="ln" id="l${k}_${j}" style="font-size:${l[1]}px;color:${l[2]}">${tr(l[0])}</div>`);H+='</div>'});
+ document.getElementById('dyn').innerHTML=H;
+ // measure I stem for the dot
+ const c=document.createElement('canvas');c.width=600;c.height=400;const x=c.getContext('2d');
+ document.querySelectorAll('.ti').forEach(s=>{const fs=parseFloat(getComputedStyle(s).fontSize);x.clearRect(0,0,600,400);x.font=fs+'px AC';x.fillText('I',50,300);
+  const d=x.getImageData(0,0,600,400).data;let l=600,r=0;for(let px=0;px<600;px++)for(let py=0;py<400;py++)if(d[(py*600+px)*4+3]>128){l=Math.min(l,px);r=Math.max(r,px)}
+  const i=s.querySelector('i');i.style.left=(l-50)+'px';i.style.width=(r-l+1)+'px'});
+ // cut Ç to its cedilla (below the baseline) and hang it under S
+ document.querySelectorAll('.ts').forEach(s=>{const u=s.querySelector('u');u.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';
+  const base=u.offsetTop;s.querySelector('b').style.clipPath=`inset(${base+2}px -40px -80px -40px)`});
+ built=true}
+window.render=function(t){if(!built)build();
+ T.forEach((b,k)=>{const e=document.getElementById('b'+k),on=t>=b[0]-.01&&t<b[1];e.style.opacity=on?cl((b[1]-t)/.25):0;if(!on)return;
+  b[3].forEach((l,j)=>{const p=cl((t-b[0]-l[3])/.4),q=1-Math.pow(1-p,3),el=document.getElementById(`l${k}_${j}`);
+   el.style.opacity=q;el.style.transform=`translateY(${(1-q)*22}px) scale(${1.04-.04*q})`;el.style.filter=`blur(${(1-q)*8}px)`})});
+ document.getElementById('dk').style.opacity=cl((t-43.9)/.8)};
+window.SFX=[];window.ready=document.fonts.load('100px AC','AIS');
 </script></body></html>

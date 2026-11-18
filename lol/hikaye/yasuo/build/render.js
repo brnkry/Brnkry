@@ -7,7 +7,7 @@ const path = require('path'), fs = require('fs');
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   page.on('pageerror', e => console.log('ERR', e.message));
   await page.goto('file://' + path.join(__dirname, 'overlay.html'));
-  await page.evaluate(async () => { await Promise.all(['600 40px Mon', '700 40px Cin'].map(f => document.fonts.load(f, 'İşğüçöÖÇŞĞÜ AZaz'))); await window.ready; });
+  await page.evaluate(async () => { await document.fonts.load('100px AC', 'AZÇÖÜ'); await window.ready; });
   await page.evaluate(async () => {  });
   if (mode === 'info') { const i = await page.evaluate(() => window.SFX); fs.writeFileSync(path.join(__dirname, 'sfx.json'), JSON.stringify(i)); console.log(i.length, 'sfx'); }
   else if (mode === 'preview') { fs.mkdirSync(path.join(__dirname, 'prev'), { recursive: true });
