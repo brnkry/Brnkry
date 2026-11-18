@@ -28,10 +28,10 @@ EV = [
     # III. GOREV
     ('N', 3, [('N', 44.5, 3), ('A', 72.5, 2.2), ('A', 93.4, 2.4)], 'flash'),
     ('N', 4, [('A', 39.0, 4), ('K', 253.6, 3)], 'x'),
-    ('D', 254.3, 285.4, [(0, ['SENİN YERİN BURASI,'], 'SKY'), (1, ["USTA SOUMA'NIN YANI."], 'SKY'), (2, ['BENİ BUNUN İÇİN EĞİTTİ O.'], 'SKY'),
-                          (3, ['YARDIMIMLA SAVAŞ BİTEBİLİR.'], 'SKY'), (4, ['SENİN VAZİFEN BU OKULA.'], 'SKY'), (5, ['USTANA.'], 'SKY'),
+    ('D', 254.3, 285.4, [(0, ['SENİN YERİN BURASI,'], 'SKY'), (1, ["USTA SOUMA'NIN YANI."], 'L2'), (2, ['BENİ BUNUN İÇİN EĞİTTİ O.'], 'SKY'),
+                          (3, ['YARDIMIMLA SAVAŞ BİTEBİLİR.'], 'SKY'), (4, ['SENİN VAZİFEN', 'BU OKULA.'], 'L2'), (5, ['USTANA.'], 'SKY'),
                           (6, ["IONIA'YA."], 'SKY'), (7, ['O ZAMAN GİDİP', 'ONU KORUMAM LAZIM.'], 'SKY'),
-                          (8, ['SENİ YÜZÜSTÜ', 'BIRAKMAYACAĞIM, YONE.'], 'SKY'), (9, ['BEN SENİ YÜZÜSTÜ', 'BIRAKMIŞIM BİLE.'], 'SKY')], 'x', -14),
+                          (8, ['SENİ YÜZÜSTÜ', 'BIRAKMAYACAĞIM,', 'YONE.'], 'R2'), (9, ['BEN SENİ', 'YÜZÜSTÜ', 'BIRAKMIŞIM BİLE.'], 'R2')], 'x', -14),
     ('N', 5, [('K', 286.0, 4), ('N', 220.0, 3), ('A', 98.6, 3)], 'x'),
     # IV. CESET
     ('N', 6, [('bloodmoon', 0, 5), ('K', 0.2, 2)], 'black'),
@@ -39,7 +39,7 @@ EV = [
     # V. AV
     ('N', 8, [('K', 11.4, 4), ('P', 136.5, 5)], 'x'),
     ('R', [(23, ['KARDEŞİM,', 'NE HALE GELDİN?']), (24, ['ANLATSAM,', 'DİNLER MİYDİN?']), (25, ['SUÇ İŞLEDİN,', 'ARANIYORSUN.']),
-           (26, ['KATİL DEĞİLİM BEN.']), (27, ['YAPTIKLARININ', 'HESABINI VER.'])], ('P', 145.0), 'flash'),
+           (26, ['KATİL DEĞİLİM BEN.']), (27, ['YAPTIKLARININ', 'HESABINI VER.'])], ('P', 155.0), 'flash'),
     ('N', 9, [('K', 13.96, 3), ('K', 16.96, 3)], 'x'),
     # VI. DUELLO
     ('N', 10, [('K', 41.0, 9.5)], 'flash'),
@@ -137,7 +137,9 @@ def plan():
     print('end', round(t, 2), 'pieces', len(pieces), 'texts', len(texts))
 
 def piece(i, p, last):
-    L = p['vis'] + (0 if last else XF); n = round(L * 30); o = f'{OUT}/p{i:03d}.mp4'; src = p['src']; ss = p['ss']
+    L = p['vis'] + (0 if last else XF); n = round(L * 30); src = p['src']; ss = p['ss']
+    import hashlib; h = hashlib.md5(f'{src}|{ss}|{n}|{i % 2}'.encode()).hexdigest()[:10]; o = f'{OUT}/c_{h}.mp4'
+    if os.path.exists(o): return o
     if src == 'BLACK':
         cmd = ['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1920x1080:r=30', '-vf', 'format=yuv420p']
     elif src in VID:
