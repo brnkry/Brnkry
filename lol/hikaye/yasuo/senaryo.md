@@ -28,13 +28,13 @@ Konuşmalar altyazı değil, sese göre gelen büyük sinematik yazı (American 
 
 Görüntü stili: 2.35 sinema bandı, renk düzenlemesi (soğuk gölge, sıcak ışık, kontrast, vinyet, film greni).
 
-## I. İKİ KARDEŞ
+## I. İKİ KARDEŞ (v2, 49-102 sn, ses üretildi: ses/an_koy.mp3, ses/an_kardes.mp3)
 
-| # | Tür | Metin | Görüntü |
-|---|---|---|---|
-| 7 | AN | Hikâye, Ionia'da küçük bir köyde başlıyor. Yasuo daha doğmadan babası çekip gitmiş. Köyde ona hep bir hata gibi bakılmış. Bir kişi hariç. Annesinden olan abisi, Yone. | KIN 216-232: çocukluk anısı, kırmızı çiçekli tarla |
-| 8 | AN | Diğer çocuklar Yasuo'ya sataştığında araya giren hep Yone olmuş. Yasuo sabırsız, hızlı ve öfkeli. Yone sakin, ağırbaşlı ve görevine bağlı. İki zıt kutup, ama birbirinden hiç kopmayan iki kardeş. | KIN 232-248: iki kardeş yan yana |
-| 9 | AN | Yone köydeki kılıç okuluna kabul edildiğinde, Yasuo da peşinden gitti. Onu almadılar. O da okulun kapısına kamp kurdu ve günlerce bekledi. Sonunda kapı açıldı. | Yasuo varsayılan splash, yavaş yakınlaştırma |
+| # | Süre | Tür | Metin / Ekran yazısı | Görüntü |
+|---|---|---|---|---|
+| 7 | 49.6-61.0 | AN | Bu hikâye Ionia'da, küçük bir köyde başlıyor. Yasuo daha doğmadan babası onları terk etti. Köyde herkes ona bir fazlalık gibi baktı. Bir kişi hariç. | Siyahtan açılır: KIN 107.6-121 dağdaki tapınak, şafak, köy festivali |
+| 8 | 61.8-83.8 | KIN 213-235 (tek parça, orijinal ses) | KAYBETTİKLERİNİ HATIRLA. / BIRAK BENİ YONE! YENECEKTİM! / İRİ OĞLANI NASIL ALIYORDUM, GÖRDÜN MÜ? / ONURUNU AYAKLAR ALTINA ALIYORDU. / AMA SEN DE... / MECBURSAM DÖVÜŞÜRÜM. KEYİF İÇİN DEĞİL. / SENİN KANITLAYACAK BİR ŞEYİN YOK Kİ. | Ruh suyu, beyaz flaş, kızıl çayırda çocukluk anısı |
+| 9 | 84.0-98.9 | AN | Abisi Yone, onu her zaman korudu. Yasuo sabırsız, hızlı ve öfkeliydi. Yone ise sakin, ağırbaşlı ve görevine bağlıydı. İki zıt kutup, ama birbirinden hiç kopmayan iki kardeş. | KIN 235 küçük Yasuo yakın plan, hareketli Yasuo splash, hareketli Yone splash, KIN 247-254 büyüme montajı, siyaha iner |
 
 ## II. RÜZGÂR
 
