@@ -26,9 +26,9 @@ EV = [
     ('N', 1, [('P', 31.0, 4), ('H', 27.5, 5), ('yasuo_sb', 0, 7)], 'x'),
     ('N', 2, [('H', 120.2, 5), ('K', 58.6, 2.4)], 'x'),
     # III. GOREV
-    ('N', 3, [('N', 44.5, 3), ('A', 72.5, 2.2), ('A', 93.4, 2.4)], 'flash'),
+    ('N', 3, [('N', 44.5, 3.5), ('A', 93.4, 3.1)], 'flash'),
     ('N', 4, [('A', 39.0, 4), ('K', 253.6, 3)], 'x'),
-    ('D', 254.3, 285.4, [(0, ['SENİN YERİN BURASI,'], 'SKY'), (1, ["USTA SOUMA'NIN YANI."], 'L2'), (2, ['BENİ BUNUN İÇİN EĞİTTİ O.'], 'SKY'),
+    ('D', 254.3, 285.4, [(0, ['SENİN YERİN BURASI,'], 'SKY'), (1, ["USTA SOUMA'NIN YANI."], 'SKY'), (2, ['BENİ BUNUN İÇİN EĞİTTİ O.'], 'SKY'),
                           (3, ['YARDIMIMLA SAVAŞ BİTEBİLİR.'], 'SKY'), (4, ['SENİN VAZİFEN', 'BU OKULA.'], 'L2'), (5, ['USTANA.'], 'SKY'),
                           (6, ["IONIA'YA."], 'SKY'), (7, ['O ZAMAN GİDİP', 'ONU KORUMAM LAZIM.'], 'SKY'),
                           (8, ['SENİ YÜZÜSTÜ', 'BIRAKMAYACAĞIM,', 'YONE.'], 'R2'), (9, ['BEN SENİ', 'YÜZÜSTÜ', 'BIRAKMIŞIM BİLE.'], 'R2')], 'x', -14),
@@ -76,59 +76,67 @@ EV = [
 ]
 LEAD = 0.45; TAIL = 0.65
 
+def words_rows(disp, ws, st, z):
+    """display lines -> word-timed rows; ws = aligned words [(w, start, end)], st = block start (abs)"""
+    rows = []; wi = 0
+    assert sum(len(l.split()) for l in disp) == len(ws), (disp, [w[0] for w in ws])
+    for li, l in enumerate(disp):
+        words = [[w, round(ws[wi + m][1] - st, 3)] for m, w in enumerate(l.split())]; wi += len(words)
+        rows.append([words, z, 'C' if li < len(disp) - 1 else 'G'])
+    return rows
+
 def plan():
     t = 0.0; pieces = []; narr = []; dial = []; amb = []; texts = []; sfx = []
+    def add_piece(src, ss, vis, tr):
+        # the same source continuing (next clip starts inside or right after the previous one) -> one continuous shot, no repeat
+        if pieces and pieces[-1]['src'] == src and src not in ('BLACK',) and src in VID:
+            q = pieces[-1]
+            if q['ss'] <= ss <= q['ss'] + q['vis'] + XF + 1.5:
+                q['vis'] += vis; return
+        pieces.append({'src': src, 'ss': ss, 'vis': vis, 'tr': tr})
     for ev in EV:
         k = ev[0]
         if k == 'N':
             _, pi, clips, tr = ev; p = NARR[pi]
             dur = p['end'] - p['start'] + LEAD + TAIL
-            if pi == 26: dur += 2.2
+            if pi == 26: dur += 0.6
             narr.append((pi, t + LEAD)); tw = sum(c[2] for c in clips)
-            for j, (src, ss, w) in enumerate(clips):
-                pieces.append({'src': src, 'ss': ss, 'vis': dur * w / tw, 'tr': tr if j == 0 else 'x'})
-            if pi == 13:  # black card: "SOUMA'YI OLDUREN / YASUO DEGILDI." on the narration words
-                ws = p['words']; a = t + LEAD - p['start']
-                w0 = next(x for x in ws if x[0].startswith("Souma")); w1 = next(x for x in ws if x[0].startswith('Yasuo'))
-                texts.append([round(a + w0[1] - .03, 2), round(t + dur - .1, 2), 'SKY2', [["SOUMA'YI ÖLDÜREN", 130, 'C', 0], ['YASUO DEĞİLDİ.', 130, 'G', round(w1[1] - w0[1], 2)]]])
-            if pi == 18:  # the judge's words
-                ws = p['words']; a = t + LEAD - p['start']
+            for j, (src, ss, w) in enumerate(clips): add_piece(src, ss, dur * w / tw, tr if j == 0 else 'x')
+            a = t + LEAD - p['start']; ws = p['words']
+            def nt(i0, i1, disp, z, pos, end):
+                st = a + ws[i0][1] - .03
+                texts.append([round(st, 3), round(end, 2), pos, words_rows(disp, [(w[0], a + w[1], a + w[2]) for w in ws[i0:i1]], st, z)])
+            if pi == 13:
+                i0 = next(i for i, x in enumerate(ws) if x[0].startswith('Souma'))
+                nt(i0, len(ws), ["SOUMA'YI ÖLDÜREN", 'YASUO DEĞİLDİ.'], 130, 'SKY2', t + dur - .1)
+            if pi == 18:
                 i0 = next(i for i, x in enumerate(ws) if x[0].startswith('Sorumluluğu')); i1 = next(i for i, x in enumerate(ws) if x[0].startswith('Kendini'))
-                s0 = a + ws[i0][1]; texts.append([round(s0 - .03, 2), round(a + ws[i1][1] - .1, 2), 'SKY', [['SORUMLULUĞU KABUL ETMEK,', 100, 'C', 0], ['KEFARETİN İLK ADIMIDIR.', 100, 'G', round(ws[i0 + 3][1] - ws[i0][1], 2)]]])
-                s1 = a + ws[i1][1]; texts.append([round(s1 - .03, 2), round(t + dur - .1, 2), 'SKY', [['KENDİNİ AFFETMEK', 100, 'C', 0], ['İSE İKİNCİSİ.', 100, 'G', round(ws[i1 + 2][1] - ws[i1][1], 2)]]])
+                nt(i0, i1, ['SORUMLULUĞU KABUL ETMEK,', 'KEFARETİN İLK ADIMIDIR.'], 100, 'SKY', a + ws[i1][1] - .1)
+                nt(i1, len(ws), ['KENDİNİ AFFETMEK', 'İSE İKİNCİSİ.'], 100, 'SKY', t + dur - .1)
             if pi == 26:
-                ws = p['words']; a = t + LEAD - p['start']
-                texts.append([round(a + ws[0][1] - .03, 2), round(t + dur, 2), 'SKY', [['PEKİ SEN OLSAN,', 120, 'C', 0], ['KARDEŞİNİ AFFEDER MİYDİN?', 120, 'G', round(ws[3][1] - ws[0][1], 2)]]])
-            if tr == 'flash': sfx.append(('slash_1.mp3', t - 0.08, -12))
+                nt(0, len(ws), ['PEKİ SEN OLSAN,', 'KARDEŞİNİ AFFEDER MİYDİN?'], 120, 'SKY', t + dur)
+            if tr == 'flash': sfx.append(('slash_1.mp3', t + 0.12, -12))
             t += dur
         elif k in ('D', 'V'):
-            if k == 'D': _, a, b, lines, tr, g = ev; src = 'K'
-            else: _, src, a, b, tr, g = ev; lines = []
-            pieces.append({'src': src, 'ss': a, 'vis': b - a, 'tr': tr})
-            amb.append((a, b, t, g))
-            if k == 'D': dial.append(('K', a, b, t))
+            if k == 'D': _, a0, b0, lines, tr, g = ev; src = 'K'
+            else: _, src, a0, b0, tr, g = ev; lines = []
+            add_piece(src, a0, b0 - a0, tr); amb.append((a0, b0, t, g))
+            if k == 'D': dial.append(('K', a0, b0, t))
             for (di, disp, pos) in lines:
-                w0, w1, ws = dl(di); st = t + w0 - a - .03
-                # each display line starts on its first word
-                rows = []; wi = 0
-                for li, txt in enumerate(disp):
-                    n = len(txt.split()); rows.append([txt, 110 if len(disp) > 1 else 120, 'C' if li < len(disp) - 1 else 'G', round(ws[min(wi, len(ws) - 1)][1] - w0, 2)])
-                    wi += n
-                texts.append([round(st, 2), round(t + w1 - a + .45, 2), pos, rows])
-            if tr == 'flash': sfx.append(('slash_1.mp3', t - 0.08, -12))
-            t += b - a
-        elif k == 'R':  # game voice lines over a The Path shot
+                w0, w1, ws = dl(di); st = t + w0 - a0 - .03
+                texts.append([round(st, 3), round(t + w1 - a0 + .45, 2), pos,
+                              words_rows(disp, [(w[0], t + w[1] - a0, t + w[2] - a0) for w in ws], st, 110 if len(disp) > 1 else 120)])
+            if tr == 'flash': sfx.append(('slash_1.mp3', t + 0.12, -12))
+            t += b0 - a0
+        elif k == 'R':
             _, lines, (src, ss), tr = ev
             r0 = DIAL[lines[0][0]]['words'][0][1] - 0.5; r1 = DIAL[lines[-1][0]]['words'][-1][2] + 0.6
-            pieces.append({'src': src, 'ss': ss, 'vis': r1 - r0, 'tr': tr}); dial.append(('R', r0, r1, t))
+            add_piece(src, ss, r1 - r0, tr); dial.append(('R', r0, r1, t))
             for di, disp in lines:
-                w0, w1, ws = dl(di); rows = []; wi = 0
-                for li, txt in enumerate(disp):
-                    rows.append([txt, 120, 'C' if li < len(disp) - 1 else 'G', round(ws[min(wi, len(ws) - 1)][1] - w0, 2)]); wi += len(txt.split())
-                texts.append([round(t + w0 - r0 - .03, 2), round(t + w1 - r0 + .35, 2), 'SKY', rows])
-            if tr == 'flash': sfx.append(('kin_kilic.wav', t - 0.3, -10))
+                w0, w1, ws = dl(di); st = t + w0 - r0 - .03
+                texts.append([round(st, 3), round(t + w1 - r0 + .35, 2), 'SKY', words_rows(disp, [(w[0], t + w[1] - r0, t + w[2] - r0) for w in ws], st, 120)])
+            if tr == 'flash': sfx.append(('kin_kilic.wav', t - 0.05, -10))
             t += r1 - r0
-    # overlaps must never clash
     texts.sort(key=lambda x: x[0])
     for i in range(len(texts) - 1):
         if texts[i][1] > texts[i + 1][0] - .05: texts[i][1] = round(texts[i + 1][0] - .05, 2)
@@ -138,16 +146,19 @@ def plan():
 
 def piece(i, p, last):
     L = p['vis'] + (0 if last else XF); n = round(L * 30); src = p['src']; ss = p['ss']
-    import hashlib; h = hashlib.md5(f'{src}|{ss}|{n}|{i % 2}'.encode()).hexdigest()[:10]; o = f'{OUT}/c_{h}.mp4'
+    import hashlib; h = hashlib.md5(f'{src}|{ss}|{n}|{i % 2}|v2'.encode() if src not in VID and src != 'BLACK' else f'{src}|{ss}|{n}|{i % 2}'.encode()).hexdigest()[:10]; o = f'{OUT}/c_{h}.mp4'
     if os.path.exists(o): return o
     if src == 'BLACK':
         cmd = ['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1920x1080:r=30', '-vf', 'format=yuv420p']
     elif src in VID:
         cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', VID[src], '-vf', f'fps=30,{CROP[src]},{GRADE},{BOX}']
-    else:  # AI animated splash: slow push in or out
+    else:  # AI animated splash: slow push in or out; if the clip is shorter than the shot, slow it down smoothly (no loop, no jump)
         z0, z1 = (1.0, 1.06) if i % 2 == 0 else (1.06, 1.0)
-        cmd = ['ffmpeg', '-v', 'error', '-y', '-stream_loop', '-1', '-ss', str(ss), '-i', f'{AN}/{src}.mp4', '-vf',
-               f"fps=30,scale=3840:2160:flags=lanczos,crop=3840:1632:0:(ih-1632)*0.35,zoompan=z='{z0}+({z1}-{z0})*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1920x816:fps=30,eq=brightness=-0.04,{GRADE},{BOX}"]
+        dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f'{AN}/{src}.mp4'], capture_output=True, text=True).stdout)
+        avail = dur - ss - 0.08; f = max(1.0, L / avail)
+        slow = f'setpts={f:.4f}*PTS,minterpolate=fps=30:mi_mode=blend,' if f > 1.0 else ''
+        cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(ss), '-i', f'{AN}/{src}.mp4', '-vf',
+               f"{slow}fps=30,scale=3840:2160:flags=lanczos,crop=3840:1632:0:(ih-1632)*0.35,zoompan=z='{z0}+({z1}-{z0})*on/{n}':x='(iw-iw/zoom)/2':y='(ih-ih/zoom)/2':d=1:s=1920x816:fps=30,eq=brightness=-0.04,{GRADE},{BOX}"]
     subprocess.run(cmd + ['-frames:v', str(n), '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '15', '-pix_fmt', 'yuv420p', o], check=True)
     return o
 
@@ -174,15 +185,20 @@ def base():
 
 def mix():
     P = json.load(open(OUT + '/plan.json')); END = P['end']; inp = []; fc = []; ii = 0; vox = []; bed = []
+    def gain(f, ss, L, target):
+        r = subprocess.run(['ffmpeg', '-v', 'info', '-ss', f'{ss:.3f}', '-t', f'{L:.3f}', '-i', f, '-af', 'ebur128', '-f', 'null', '-'], capture_output=True, text=True).stderr
+        I = float([l for l in r.splitlines() if ' I:' in l][-1].split()[1]); return round(target - I, 2)
     for pi, at in P['narr']:
         p = NARR[pi]; a = p['start'] - 0.08; L = p['end'] - p['start'] + 0.35
-        if pi == 4: L = 6.75; inp += ['-i', '../ses/anlatim_2_p4.wav']   # "Yasuo'ya" with the mid-word pause cut out
-        else: inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', '../ses/anlatim_2.mp3']
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-2:LRA=7,aresample=48000,volume=7.5dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
+        f = '../ses/' + p.get('file', 'anlatim_2.mp3')
+        g = gain(f, a, L, -14.5)
+        inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', f]
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
     for src, a, b, at in P['dial']:
-        stem = f'{SEP}/kinfull/vocals.wav' if src == 'K' else f'{SEP}/repfull/vocals.wav'; g = 9 if src == 'K' else 6
+        stem = f'{SEP}/kinfull/vocals.wav' if src == 'K' else f'{SEP}/repfull/vocals.wav'
+        g = gain(stem, a, b - a, -16.0)
         inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', stem]
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-17:TP=-2:LRA=7,aresample=48000,volume=6dB,afade=t=in:d=0.05,afade=t=out:st={b - a - 0.3:.3f}:d=0.3,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.05,afade=t=out:st={b - a - 0.3:.3f}:d=0.3,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
     fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
     for a, b, at, g in P['amb']:
         inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', f'{SEP}/kinfull/no_vocals.wav']

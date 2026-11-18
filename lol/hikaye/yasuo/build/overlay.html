@@ -11,7 +11,7 @@ html,body{margin:0;background:transparent}
 .tg:after{content:'';position:absolute;left:50%;top:-.2em;width:.34em;height:.13em;transform:translateX(-50%);
  border:.06em solid currentColor;border-top:none;border-radius:0 0 .22em .22em;box-sizing:border-box}
 </style></head><body><div id="root"><div id="dyn"></div></div>
-<script>
+<script src="t1.js"></script><script>
 const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), C='#F4E6CC', G='#F6D29A';
 // Turkish letters the font lacks: İ = I + measured dot, Ş = S + the cedilla cut from Ç, Ğ = G + drawn breve
 const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>').replace(/Ğ/g,'<span class="tg">G</span>');
@@ -22,30 +22,14 @@ const P={R:'left:1000px;top:330px;width:880px;align-items:center',L:'left:40px;t
  TR:'left:1120px;top:170px;width:760px;align-items:center',TL:'left:40px;top:165px;width:780px;align-items:center',
  BOT:'left:0;top:690px;width:1920px;align-items:center',BL:'left:20px;top:650px;width:620px;align-items:center',BR:'left:960px;top:660px;width:920px;align-items:center',RB:'left:960px;top:330px;width:920px;align-items:center'};
 // [start, end, position, [[text, size, color, delay]]]  timed to the voice onsets in the KIN audio
-const T=[
- [1.97,3.62,P.R,[['YAPTIKLARIN',170,C,0.03],['İÇİN',170,C,0.7],['HESAP VER',170,G,0.94]]],
- [4.65,7.1,P.L2,[['YONE,',130,C,0.03],['GERİ DÖN.',130,G,1.26]]],
- [7.83,9.8,P.SKY,[['ONURUMUZU',130,C,0.03],['YERE SERDİN.',130,G,0.68]]],
- [10.29,12.5,P.SKY,[['ONU KORUMAYA',130,C,0.03],['YEMİN ETMİŞTİN.',130,G,0.88]]],
- [13.45,15.8,P.SKY,[["SEN DE IONIA'YI",130,C,0.03],['KORUMAYA...',130,G,1.38]]],
- [16.49,18.1,P.SKY,[['ETRAFINA BİR BAK,',130,C,0.03],['KARDEŞİM.',130,G,1.08]]],
- [18.87,21.3,P.L2,[['ONURUN',120,C,0.03],['TOPRAĞI',120,C,0.6],['LEKELİYOR.',120,G,1.3]]],
- [22.09,23.62,P.R2,[['ONURSUZLUKTAN',120,C,0.03],['İYİDİR.',120,G,0.98]]],
- [23.97,25.7,P.R,[['AFFET BENİ',150,C,0.03],['KARDEŞİM',150,G,0.68]]],
- [26.27,28.75,P.RB,[['SENİ BİR DAHA',120,C,0.03],['UTANDIRMAYACAĞIM.',120,G,0.88]]],
- [44.0,46.0,'left:0;top:330px;width:1920px;align-items:center',[['YASUO',250,'#E9C46A',0,'slam'],['ABİSİNİ NEDEN ÖLDÜRDÜ?',96,C,.45]]],
- [59.81,62.4,P.SKY,[['KAYBETTİKLERİNİ',130,C,0.03],['HATIRLA.',130,G,1.44]]],
- [63.91,66.75,P.TR,[['BIRAK BENİ YONE!',110,C,0.03],['YENECEKTİM!',110,G,1.6]]],
- [66.91,69.5,P.BL,[['İRİ OĞLANI',85,C,0.03],['NASIL ALIYORDUM,',85,C,0.54],['GÖRDÜN MÜ?',85,G,1.28]]],
- [69.93,71.55,P.TR,[['ONURUNU',85,C,0.03],['AYAKLAR ALTINA',85,C,0.48],['ALIYORDU.',85,G,1.2]]],
- [73.8,75.1,P.TL,[['AMA SEN DE...',100,C,0.03]]],
- [75.31,77.85,P.TL,[['MECBURSAM',95,C,0.03],['DÖVÜŞÜRÜM.',95,C,0.7],['KEYİF İÇİN DEĞİL.',95,G,1.4]]],
- [78.67,80.45,P.BR,[['SENİN KANITLAYACAK',100,C,0.03],['BİR ŞEYİN YOK Kİ.',100,G,1.04]]],
-];
+const T=window.T1.map(b=>[b[0],b[1],typeof b[2]==='string'&&P[b[2]]?P[b[2]]:b[2],b[3].map(l=>Array.isArray(l[0])?[l[0],l[1],l[2]==='C'?C:G]:[l[0],l[1],l[2]==='C'?C:(l[2]==='G'?G:l[2]),l[3],l[4]])]);
 let built=false;
 function build(){let H='<div id="dk" style="position:absolute;left:0;right:0;top:132px;height:816px;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72),rgba(0,0,0,.45) 70%)"></div>';
  T.forEach((b,k)=>{H+=`<div class="blk" id="b${k}" style="${b[2]};opacity:0">`;
-  b[3].forEach((l,j)=>{const gap=j>0&&/[ŞÇ]/.test(b[3][j-1][0])&&/[İĞÖÜ]/.test(l[0])?'margin-top:.16em;':'';H+=`<div class="ln" id="l${k}_${j}" style="${gap}font-size:${l[1]}px;color:${l[2]}">${tr(l[0])}</div>`});H+='</div>'});
+  b[3].forEach((l,j)=>{const txt=r=>Array.isArray(r[0])?r[0].map(w=>w[0]).join(' '):r[0];
+   const gap=j>0&&/[ŞÇ]/.test(txt(b[3][j-1]))&&/[İĞÖÜ]/.test(txt(l))?'margin-top:.16em;':'';
+   const inner=Array.isArray(l[0])?l[0].map((w,m)=>`<span class="wd" id="w${k}_${j}_${m}" style="display:inline-block;opacity:0">${tr(w[0])}</span>`).join(' '):tr(l[0]);
+   H+=`<div class="ln" id="l${k}_${j}" style="${gap}font-size:${l[1]}px;color:${l[2]}">${inner}</div>`});H+='</div>'});
  // sword slash streaks + flash
  H+='<div id="sl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;overflow:hidden"><div id="bl"></div></div><div id="fl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;background:#fff;opacity:0"></div>';
  H+='<div id="seam" style="position:absolute;left:957px;top:132px;width:6px;height:816px;opacity:0"></div>';
@@ -71,7 +55,9 @@ function slash(t){const bl=document.getElementById('bl'),fl=document.getElementB
  if(v>=0&&t<46.3){const h=cl(1-v/1.0);sm.style.opacity=(1-.9*cl((t-43.6)/.6))*cl((46.3-t)/.4);sm.style.background=`rgb(${233+22*h},${196+59*h},${106+149*h})`;sm.style.boxShadow=`0 0 ${10+40*h}px ${2+10*h}px rgba(255,220,160,${.25+.6*h})`}else sm.style.opacity=0}
 window.render=function(t){if(!built)build();
  T.forEach((b,k)=>{const e=document.getElementById('b'+k),on=t>=b[0]-.01&&t<b[1];e.style.opacity=on?cl((b[1]-t)/.2):0;if(!on)return;
-  b[3].forEach((l,j)=>{const el=document.getElementById(`l${k}_${j}`),dt=t-b[0]-l[3];
+  b[3].forEach((l,j)=>{if(Array.isArray(l[0])){l[0].forEach((w,m)=>{const e2=document.getElementById(`w${k}_${j}_${m}`),d2=t-b[0]-w[1],p=cl(d2/.12),q=1-Math.pow(1-p,2);
+     e2.style.opacity=q;e2.style.transform=`translateY(${(1-q)*10}px) scale(${1.06-.06*q})`;e2.style.filter=`blur(${(1-q)*4}px)`});return}
+   const el=document.getElementById(`l${k}_${j}`),dt=t-b[0]-l[3];
    if(l[4]==='slam'){const p=cl(dt/.18),q=p*p;el.style.opacity=cl(dt/.06);el.style.transform=`scale(${1.45-.45*q})`;el.style.filter=`blur(${(1-q)*6}px)`;
     el.style.textShadow=`0 0 ${30+60*cl(1-(dt-.18)/.8)}px rgba(255,210,140,${.35+.5*cl(1-(dt-.18)/.8)}),0 4px 18px rgba(0,0,0,.85)`;return}
    const p=cl(dt/.14),q=1-Math.pow(1-p,2);el.style.opacity=q;el.style.transform=`scale(${1.05-.05*q})`;el.style.filter=`blur(${(1-q)*4}px)`})});
