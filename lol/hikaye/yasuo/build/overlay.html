@@ -18,27 +18,29 @@ const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<
 // position presets (inside the 2.35 band: y 132..948)
 const P={R:'left:1000px;top:330px;width:880px;align-items:center',L:'left:40px;top:330px;width:700px;align-items:center',
  SKY:'left:0;top:200px;width:1920px;align-items:center',L2:'left:40px;top:300px;width:620px;align-items:center',
- R2:'left:1140px;top:300px;width:740px;align-items:center',RB:'left:960px;top:330px;width:920px;align-items:center'};
+ R2:'left:1140px;top:300px;width:740px;align-items:center',
+ TR:'left:1120px;top:170px;width:760px;align-items:center',TL:'left:40px;top:165px;width:780px;align-items:center',
+ BOT:'left:0;top:690px;width:1920px;align-items:center',BL:'left:20px;top:650px;width:620px;align-items:center',BR:'left:960px;top:660px;width:920px;align-items:center',RB:'left:960px;top:330px;width:920px;align-items:center'};
 // [start, end, position, [[text, size, color, delay]]]  timed to the voice onsets in the KIN audio
 const T=[
- [1.98,3.62,P.R,[['YAPTIKLARIN',170,C,0],['İÇİN',170,C,.64],['HESAP VER',170,G,.94]]],
- [4.61,7.3,P.L2,[['YONE,',130,C,0],['GERİ DÖN.',130,G,1.51]]],
- [7.87,10.1,P.SKY,[['ONURUMUZU',130,C,0],['YERE SERDİN.',130,G,.75]]],
- [10.29,12.7,P.SKY,[['ONU KORUMAYA',130,C,0],['YEMİN ETMİŞTİN.',130,G,.85]]],
- [13.6,16.1,P.SKY,[["SEN DE IONIA'YI",130,C,0],['KORUMAYA...',130,G,1.3]]],
- [16.5,18.1,P.SKY,[['ETRAFINA BİR BAK,',130,C,0],['KARDEŞİM.',130,G,1.1]]],
- [18.86,21.5,P.L2,[['ONURUN',120,C,0],['TOPRAĞI',120,C,.64],['LEKELİYOR.',120,G,1.36]]],
- [22.11,23.62,P.R2,[['ONURSUZLUKTAN',120,C,0],['İYİDİR.',120,G,.97]]],
- [23.72,25.5,P.R,[['AFFET BENİ',150,C,0],['KARDEŞİM',150,G,.27]]],
- [25.8,28.3,P.RB,[['SENİ BİR DAHA',120,C,0],['UTANDIRMAYACAĞIM.',120,G,.61]]],
- [63.41,65.65,P.SKY,[['KAYBETTİKLERİNİ',130,C,0],['HATIRLA.',130,G,.76]]],
- [66.65,69.7,P.SKY,[['BIRAK BENİ YONE!',130,C,0],['YENECEKTİM!',130,G,2.22]]],
- [69.87,72.5,P.SKY,[['İRİ OĞLANI NASIL ALIYORDUM,',120,C,0],['GÖRDÜN MÜ?',120,G,1.4]]],
- [72.71,75.35,P.SKY,[['ONURUNU AYAKLAR',120,C,0],['ALTINA ALIYORDU.',120,G,1.24]]],
- [76.27,78.25,P.SKY,[['AMA SEN DE...',120,C,0]]],
- [78.53,81.35,P.SKY,[['MECBURSAM DÖVÜŞÜRÜM.',120,C,0],['KEYİF İÇİN DEĞİL.',120,G,1.18]]],
- [81.67,83.7,P.SKY,[['SENİN KANITLAYACAK',120,C,0],['BİR ŞEYİN YOK Kİ.',120,G,1.3]]],
- [44.0,48.6,'left:0;top:330px;width:1920px;align-items:center',[['YASUO',250,'#E9C46A',0,'slam'],['ABİSİNİ NEDEN ÖLDÜRDÜ?',96,C,.55]]],
+ [1.93,3.62,P.R,[['YAPTIKLARIN',170,C,0],['İÇİN',170,C,.68],['HESAP VER',170,G,.98]]],
+ [4.56,7.3,P.L2,[['YONE,',130,C,0],['GERİ DÖN.',130,G,1.22]]],
+ [7.8,10.0,P.SKY,[['ONURUMUZU',130,C,0],['YERE SERDİN.',130,G,.68]]],
+ [10.26,12.6,P.SKY,[['ONU KORUMAYA',130,C,0],['YEMİN ETMİŞTİN.',130,G,.78]]],
+ [13.36,16.1,P.SKY,[["SEN DE IONIA'YI",130,C,0],['KORUMAYA...',130,G,1.2]]],
+ [16.48,18.1,P.SKY,[['ETRAFINA BİR BAK,',130,C,0],['KARDEŞİM.',130,G,.98]]],
+ [18.84,21.5,P.L2,[['ONURUN',120,C,0],['TOPRAĞI',120,C,.56],['LEKELİYOR.',120,G,1.28]]],
+ [22.08,23.62,P.R2,[['ONURSUZLUKTAN',120,C,0],['İYİDİR.',120,G,.86]]],
+ [23.95,25.9,P.R,[['AFFET BENİ',150,C,0],['KARDEŞİM',150,G,.54]]],
+ [26.27,28.7,P.RB,[['SENİ BİR DAHA',120,C,0],['UTANDIRMAYACAĞIM.',120,G,.6]]],
+ [44.0,46.0,'left:0;top:330px;width:1920px;align-items:center',[['YASUO',250,'#E9C46A',0,'slam'],['ABİSİNİ NEDEN ÖLDÜRDÜ?',96,C,.45]]],
+ [59.86,62.7,P.SKY,[['KAYBETTİKLERİNİ',130,C,0],['HATIRLA.',130,G,.76]]],
+ [63.98,66.8,P.TR,[['BIRAK BENİ YONE!',110,C,0],['YENECEKTİM!',110,G,1.5]]],
+ [66.91,69.6,P.BL,[['İRİ OĞLANI',85,C,0],['NASIL ALIYORDUM,',85,C,.45],['GÖRDÜN MÜ?',85,G,1.4]]],
+ [69.94,71.55,P.TR,[['ONURUNU',85,C,0],['AYAKLAR ALTINA',85,C,.6],['ALIYORDU.',85,G,1.24]]],
+ [73.79,75.15,P.TL,[['AMA SEN DE...',100,C,0]]],
+ [75.32,77.6,P.TL,[['MECBURSAM',95,C,0],['DÖVÜŞÜRÜM.',95,C,.3],['KEYİF İÇİN DEĞİL.',95,G,1.4]]],
+ [78.69,80.45,P.BR,[['SENİN KANITLAYACAK',100,C,0],['BİR ŞEYİN YOK Kİ.',100,G,1.3]]],
 ];
 let built=false;
 function build(){let H='<div id="dk" style="position:absolute;left:0;right:0;top:132px;height:816px;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72),rgba(0,0,0,.45) 70%)"></div>';
@@ -66,14 +68,14 @@ function slash(t){const bl=document.getElementById('bl'),fl=document.getElementB
  fl.style.opacity=f*.95;
  // glowing seam that cools down to the gold divider after the vertical cut
  const v=t-(SL[1][0]+.14),sm=document.getElementById('seam');
- if(v>=0&&t<48.95){const h=cl(1-v/1.0);sm.style.opacity=1-.9*cl((t-43.6)/.6);sm.style.background=`rgb(${233+22*h},${196+59*h},${106+149*h})`;sm.style.boxShadow=`0 0 ${10+40*h}px ${2+10*h}px rgba(255,220,160,${.25+.6*h})`}else sm.style.opacity=0}
+ if(v>=0&&t<46.3){const h=cl(1-v/1.0);sm.style.opacity=(1-.9*cl((t-43.6)/.6))*cl((46.3-t)/.4);sm.style.background=`rgb(${233+22*h},${196+59*h},${106+149*h})`;sm.style.boxShadow=`0 0 ${10+40*h}px ${2+10*h}px rgba(255,220,160,${.25+.6*h})`}else sm.style.opacity=0}
 window.render=function(t){if(!built)build();
  T.forEach((b,k)=>{const e=document.getElementById('b'+k),on=t>=b[0]-.01&&t<b[1];e.style.opacity=on?cl((b[1]-t)/.2):0;if(!on)return;
   b[3].forEach((l,j)=>{const el=document.getElementById(`l${k}_${j}`),dt=t-b[0]-l[3];
    if(l[4]==='slam'){const p=cl(dt/.18),q=p*p;el.style.opacity=cl(dt/.06);el.style.transform=`scale(${1.45-.45*q})`;el.style.filter=`blur(${(1-q)*6}px)`;
     el.style.textShadow=`0 0 ${30+60*cl(1-(dt-.18)/.8)}px rgba(255,210,140,${.35+.5*cl(1-(dt-.18)/.8)}),0 4px 18px rgba(0,0,0,.85)`;return}
    const p=cl(dt/.14),q=1-Math.pow(1-p,2);el.style.opacity=q;el.style.transform=`scale(${1.05-.05*q})`;el.style.filter=`blur(${(1-q)*4}px)`})});
- document.getElementById('dk').style.opacity=t<49?cl((t-43.6)/.6):0;
+ document.getElementById('dk').style.opacity=t<46.4?cl((t-43.6)/.6)*cl((46.4-t)/.4):0;
  slash(t)};
 window.SFX=[];window.ready=document.fonts.load('100px AC','AIS');
 </script></body></html>

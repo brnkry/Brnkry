@@ -5,8 +5,8 @@ import subprocess, sys, os
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad'
 KIN = S + '/yasuo/kin.mp4'; AN = S + '/yasuo/anim'; OUT = S + '/yasuo/out'; os.makedirs(OUT, exist_ok=True)
 NARR = 29.3   # narrator starts right after the slash into the Yasuo splash
-END = 101.9
-TITLE_END = 49.0
+END = 98.5
+TITLE_END = 46.4
 GRADE = ('eq=contrast=1.08:saturation=0.88:gamma=0.97,'
          'colorbalance=rs=-0.04:gs=0.0:bs=0.05:rm=0.01:bm=-0.01:rh=0.05:gh=0.01:bh=-0.04,'
          'vignette=angle=PI/4.6,noise=alls=5:allf=t')
@@ -17,16 +17,21 @@ PLAN = [
     (23.71, 5.33, 'K', (70.46, None), 'white'),         # "Affet beni kardesim"; ends under the diagonal slash flash
     (29.04, 5.66, 'L', ('yasuo_login', 18.0, .45, 1.0, 1.06), None),
     (34.2, 5.84, 'L', ('yone_login', 2.0, .30, 1.08, 1.0), 'x'),
-    (40.04, TITLE_END - 40.04, 'SPLIT', None, None),    # hard cut under the vertical slash flash, fades to black
-    (49.0, 13.4, 'K', (107.6, None), 'black'),          # dawn over the mountain shrine, the village festival (N1)
-    (61.8, 22.0, 'K', (213.0, None), 'x'),              # "Kaybettiklerini hatirla" -> childhood memory, red field
-    (83.8, 3.9, 'K', (235.0, 'mute'), None),            # river (N2: Abisi Yone...)
-    (87.2, 3.9, 'L', ('yasuo_login', 40.0, .45, 1.0, 1.05), 'x'),   # Yasuo sabirsiz...
-    (90.6, 4.8, 'L', ('yone_login', 30.0, .30, 1.0, 1.06), 'x'),    # Yone ise sakin...
-    (94.9, 7.0, 'K', (247.25, 'fadeout'), 'x'),         # growing up montage (Iki zit kutup...)
+    (40.04, TITLE_END - 40.04, 'SPLIT', None, None),    # hard cut under the vertical slash flash, title, fades to black
+    (46.4, 12.7, 'K', (108.3, None), 'black'),          # dawn over the mountain shrine, the village festival (N1)
+    (58.5, 22.0, 'K', (213.0, None), 'x'),              # "Kaybettiklerini hatirla" -> childhood memory, red field
+    (80.5, 3.9, 'K', (235.0, None), None),              # young Yasuo close-up (N2: Agbisi Yone...)
+    (83.9, 3.8, 'L', ('yasuo_ai', 0.0, .20, 1.0, 1.05), 'x'),       # Yasuo sabirsiz... (AI animated splash)
+    (87.2, 4.8, 'L', ('yone_ai', 0.0, .30, 1.05, 1.0), 'x'),        # Yone ise sakin... (AI animated splash)
+    (91.5, 7.0, 'K', (247.25, 'fadeout'), 'x'),         # growing up montage (Iki zit kutup...)
 ]
 # narration clips (file, out time)
-NARRS = [('alex_deneme_2.mp3', 29.3), ('an_koy.mp3', 49.6), ('an_kardes.mp3', 84.0)]
+NARRS = [('alex_deneme_2.mp3', 29.3), ('an_koy.mp3', 46.8), ('an_kardes.mp3', 80.7)]
+# dialogue: vocals separated from the KIN audio (demucs), (stem, stem start in KIN, KIN from, length, out time)
+SEP = S + '/yasuo/sep/htdemucs'
+DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), ('dH', 212.5, 213.0, 22.0, 58.5, 8)]
+# our own score: (file, out time, fade out end)
+MUSIC = [('muzik_karanlik.mp3', 1.5, TITLE_END), ('muzik_cocukluk_nv.wav', TITLE_END, END)]
 # (file, time, gain dB)
 SFX = [('kin_kilic.wav', 23.42, -3), ('slash_1.mp3', 28.78, -5), ('slash_1.mp3', 39.78, -5), ('impact_2.mp3', 43.98, -3)]
 XF = 0.5
@@ -78,28 +83,25 @@ def base():
     print('base ok')
 
 def mix():
-    # native KIN audio under the KIN pieces (dialogue scenes untouched, music scenes ducked under narration),
-    # plus dialogue-free KIN beds under the narration parts: 0-17 (rain + score) and 550.6-567 (ending score)
-    inp = []; fc = []; dry = []; wet = []; ii = 0
-    for (a, L, k, q, tr) in PLAN:
-        if k != 'K' or q[1] == 'mute': continue
-        inp += ['-ss', str(q[0]), '-t', f'{L:.3f}', '-i', KIN]
-        fin = 0.04 if tr not in ('x', 'black') else 0.6
-        g = 5 if q[0] == 213.0 else 0
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d={fin},afade=t=out:st={L - 0.4:.3f}:d=0.4,adelay={int(a * 1000)}:all=1,apad=whole_dur={END}[k{ii}]')
-        (wet if a >= 49 and a < 61 or a >= 94 else dry).append(f'[k{ii}]'); ii += 1
-    for (b, ss, t, at, d, g) in [('b0', 0, 17, 29.1, 17, -6), ('b1', 550.6, 16.5, 83.6, 16.5, -4)]:
-        inp += ['-ss', str(ss), '-t', str(t), '-i', KIN]
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.6,afade=t=out:st={d - 2}:d=2,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[{b}]')
-        wet.append(f'[{b}]'); ii += 1
-    nl = []
+    # dialogue = clean KIN vocals only, narration on top, our own score ducked under both, sfx
+    inp = []; fc = []; ii = 0; vox = []
+    for stem, st, frm, L, at, g in DIAL:
+        inp += ['-ss', f'{frm - st:.3f}', '-t', f'{L:.3f}', '-i', f'{SEP}/{stem}/vocals.wav']
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.3:.3f}:d=0.3,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[d{ii}]')
+        vox.append(f'[d{ii}]'); ii += 1
     for fn, t in NARRS:
         inp += ['-i', f'../ses/{fn}']
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume=11dB,adelay={int(t * 1000)}:all=1,apad=whole_dur={END}[n{ii}]'); nl.append(f'[n{ii}]'); ii += 1
-    fc.append(''.join(nl) + f'amix=inputs={len(nl)}:normalize=0,asplit[nv][sc]')
-    fc.append(''.join(wet) + f'amix=inputs={len(wet)}:normalize=0[w0]')
-    fc.append('[w0][sc]sidechaincompress=threshold=0.03:ratio=5:attack=20:release=500[bed]')
-    lab = ''.join(dry) + '[nv][bed]'; cnt = len(dry) + 2
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume=11dB,adelay={int(t * 1000)}:all=1,apad=whole_dur={END}[n{ii}]'); vox.append(f'[n{ii}]'); ii += 1
+    fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
+    mus = []
+    for fn, at, end in MUSIC:
+        inp += ['-i', f'../ses/{fn}']
+        L = end - at
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{L:.3f},volume=-7dB,afade=t=in:d=1.0,afade=t=out:st={L - 0.8:.3f}:d=0.8,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[m{ii}]')
+        mus.append(f'[m{ii}]'); ii += 1
+    fc.append(''.join(mus) + f'amix=inputs={len(mus)}:normalize=0[m0]')
+    fc.append('[m0][sc]sidechaincompress=threshold=0.025:ratio=6:attack=15:release=450[mus]')
+    lab = '[vv][mus]'; cnt = 2
     for j, (fn, t, g) in enumerate(SFX):
         inp += ['-i', f'../ses/{fn}']
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,adelay={int(t * 1000)}:all=1[s{j}]'); lab += f'[s{j}]'; ii += 1; cnt += 1
