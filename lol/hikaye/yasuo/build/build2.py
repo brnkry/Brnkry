@@ -23,7 +23,7 @@ def dl(i):  # dialogue line i -> (first word time, end time, words)
 EV = [
     # II. RUZGAR
     ('N', 0, [('placidium', 0, 6), ('H', 66.2, 5)], 'black'),
-    ('N', 1, [('P', 31.0, 4), ('H', 27.5, 5), ('yasuo_sb', 0, 7)], 'x'),
+    ('N', 1, [('P', 31.0, 4), ('H', 21.0, 5), ('yasuo_sb', 0, 7)], 'x'),
     ('N', 2, [('H', 120.2, 5), ('K', 58.6, 2.4)], 'x'),
     # III. GOREV
     ('N', 3, [('N', 44.5, 3.5), ('A', 93.4, 3.1)], 'flash'),
@@ -52,8 +52,8 @@ EV = [
     ('N', 16, [('K', 89.04, 1.75), ('K', 96.2, 3)], 'x'),
     # VIII. RIVEN
     ('N', 17, [('riven', 0, 10)], 'black'),
-    ('N', 18, [('riven_sb', 0, 8), ('H', 171.0, 6)], 'x'),
-    ('N', 19, [('H', 114.0, 5)], 'x'),
+    ('N', 18, [('riven_sb', 0, 8), ('H', 166.5, 6)], 'x'),
+    ('N', 19, [('yasuo_ai', 0, 5)], 'x'),
     # IX. RUH CICEGI
     ('N', 20, [('K', 121.0, 4), ('K', 129.5, 4.5)], 'black'),
     ('D', 203.4, 212.6, [(10, ['BIRAK SULAR', 'SENİ ARINDIRSIN.'], 'SKY'), (11, ['AKINTI TAŞIDIĞIN YÜKÜ', 'ALSIN GÖTÜRSÜN.'], 'SKY')], 'x', -14),
@@ -67,7 +67,7 @@ EV = [
     ('D', 517.2, 551.4, [(13, ['İNTİKAMINI AL, KARDEŞİM.'], 'SKY'), (14, ['BELKİ SENİN HAKKIN ÖLÜM.'], 'SKY'), (15, ['AMA BENİM ELİMDEN DEĞİL.'], 'SKY'),
                           (16, ["O HALDE IONIA'DA", 'BANA BİR ŞEY KALMADI.'], 'SKY'), (17, ['RÜZGÂRIN BİLE', 'BİR YOLU VARDIR, KARDEŞİM.'], 'SKY'),
                           (18, ['ELVEDA, YONE.'], 'SKY'), (19, ["IONIA'NIN RUHU", 'SANA YOL GÖSTERSİN.'], 'SKY')], 'x', -14),
-    ('N', 24, [('K', 551.4, 4), ('P', 193.0, 5)], 'x'),
+    ('N', 24, [('K', 551.4, 2.5), ('P', 193.0, 6.5)], 'x'),
     # XI. YENI YOL
     ('N', 25, [('K', 564.6, 3), ('bilgewater', 0, 4)], 'x'),
     ('D', 567.3, 574.3, [(20, ['GEÇMİŞE BAKMAK', 'KOLAY, DEĞİL Mİ?'], 'SKY'), (21, ['ASIL MESELE', 'OLACAKLARI GÖREBİLMEK.'], 'SKY')], 'x', -14),
