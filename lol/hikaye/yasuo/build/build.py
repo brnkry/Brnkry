@@ -37,12 +37,12 @@ DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), 
 SEP_NV = lambda n: f'{SEP}/{n}/no_vocals.wav'
 BEDS = [(SEP_NV('dA'), 0.46, 0.0, 23.85, -9, 0.3, 0.35),
         (SEP_NV('dB'), 0.05 - 0.3, 23.59, 29.3, -9, 0.3, 0.4),
-        ('../ses/muzik_karanlik.mp3', 27.0, 28.9, 43.95, -4, 1.2, 0.12),
+        ('../ses/muzik_karanlik.mp3', 27.0, 28.9, TITLE_END, -4, 1.2, 2.6),
         ('../ses/muzik_cocukluk_nv.wav', 0.0, TITLE_END, END, -4, 1.0, 1.5),
         (SEP_NV('dG'), 0.0, 46.4, 59.1, -12, 0.6, 0.6),
         (SEP_NV('dI'), 0.0, 91.5, END, -10, 0.5, 1.2)]
 # (file, time, gain dB)
-SFX = [('kin_kilic.wav', 23.42, -7), ('slash_1.mp3', 28.78, -9), ('slash_1.mp3', 39.78, -9), ('impact_2.mp3', 43.98, -3)]
+SFX = [('kin_kilic.wav', 23.42, -9), ('slash_1.mp3', 28.78, -11), ('slash_1.mp3', 39.78, -11), ('riser_long.wav', 41.88, -5), ('impact_2.mp3', 43.98, -4)]
 XF = 0.5
 
 def piece(i, p):
