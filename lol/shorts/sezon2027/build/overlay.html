@@ -72,8 +72,8 @@ window.render=function(t){let O='';const sg=seg(t);
   else{const u=prog(t,14.3,2.3);O+=emb('iron',520,820-u*360,420,`opacity:${A};${pop(t,14.14)}`);O+=`<div class="ab" style="left:770px;top:${700-u*360}px;font-family:Mon;font-weight:900;font-size:220px;color:#D4FF3A;-webkit-text-stroke:8px #0B0B0F;paint-order:stroke fill;opacity:${A}">↑</div>`;O+=CHIP2(t,14.76,16.82,'HERKES BİRLİKTE TIRMANIYOR',320,56,'#F4EFE6')}}
  // ===== LP =====
  if(t>=16.82&&t<21.64){const A=cl((21.64-t)/.15);O+=CHIP2(t,17.34,21.64,'LP KAZANCI ÇOK YÜKSEK',300,66);
-  for(let i=0;i<6;i++){const a=17.6+i*.4;if(t<a)continue;const u=prog(t,a,1.3);O+=`<div class="ab" style="left:${140+(i%3)*280}px;top:${1050-eo(u)*420+(i>2?120:0)}px;font-family:Mon;font-weight:900;font-size:120px;color:#D4FF3A;-webkit-text-stroke:6px #0B0B0F;paint-order:stroke fill;opacity:${cl(u*4)*(1-prog(t,a+1,.3))*A}">+LP</div>`}
-  O+=CHIP2(t,18.9,21.64,'DEMİR DEĞİLSEN UZUN KALMAZSIN',430,48,'#F4EFE6')}
+  if(t>=17.34){const k=prog(t,17.34,.3);O+=`<div class="ab" style="left:${540-20-400}px;top:520px;width:800px;opacity:${cl(k*3)*A};transform:scale(${lerp(.6,1,eb(k))}) rotate(-2deg)"><img src="assets/lp_card.png" style="width:800px;display:block;border-radius:30px;border:8px solid #E9C46A;box-shadow:0 0 50px rgba(233,196,106,.45),14px 16px 0 rgba(0,0,0,.6)"></div>`}
+  O+=CHIP2(t,18.9,21.64,'DEMİR DEĞİLSEN UZUN KALMAZSIN',1060,50,'#F4EFE6')}
  // ===== Zamansız Şanlı =====
  if(t>=21.64&&t<27.94){const A=cl((27.94-t)/.15);O+=`<div class="head" style="opacity:${A}"><span style="background:#D4FF3A;color:#0B0B0F;${pop(t,21.64)}">${tr('ÖDÜL VAR')}</span></div>`;
   if(t>=23.0&&t<23.74)O+=`<div class="ab" style="left:0;right:40px;top:520px;text-align:center;${pop(t,23.0)}"><span style="display:inline-flex;align-items:center;justify-content:center;width:340px;height:340px;box-sizing:border-box;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#E9C46A 45%,#8a6416);border:10px solid #0B0B0F;box-shadow:0 0 50px rgba(233,196,106,.7);font-family:Cin;font-weight:900;font-size:170px;line-height:1;color:#3A2608"><span style="display:block;transform:translateY(-4px)">Z</span></span><div style="margin-top:20px"><span class="chip" style="font-size:66px">${tr('ZAMANSIZ JETON')}</span></div></div>`;
@@ -99,6 +99,7 @@ window.render=function(t){let O='';const sg=seg(t);
  // captions (not under the hook graphics)
  if(t>=6.3&&t<48.3)O+=caption(t);
  document.getElementById('dyn').innerHTML=O};
-window.SFX=[...[6.3,21.64,27.94,35.34,41.38,44.7].map(x=>['el_swoosh',x-.25,0]),['el_hit',.05,0],['card',1.6,-4]];
-window.ready=Promise.all([document.fonts.ready,...['lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
+window.SFX=[...[6.3,21.64,27.94,35.34,41.38,44.7].map(x=>['el_swoosh',x-.25,0]),['el_hit',.05,0],['el_slot',1.2,0],
+ ...[1.26,2.88,4.76,5.46,6.46,7.36,10.2,12.26,12.75,14.14,14.76,17.34,18.9,21.64,23.0,23.74,24.22,26.3,27.94,29.22,32.72,35.34,36.42,37.52,38.5,39.98,41.38,42.32,42.86,44.7,47.14].map(x=>['el_text',x,0])];
+window.ready=Promise.all([document.fonts.ready,...['lp_card.png','lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
 </script></body></html>

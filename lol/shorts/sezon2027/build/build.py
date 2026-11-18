@@ -36,10 +36,10 @@ def lim(src, ss):
 def vf(p):
     a, b, m, src, ss, q, tr = p
     pre = f'trim=end={lim(src, ss):.3f},'
-    if m == 'G': return pre + f'crop=540:960:{q[0] + 34}:0,scale=1080:1920:flags=lanczos,' + SOFT
+    if m == 'G': return pre + f'crop=439:780:{q[0] + 84}:40,scale=1080:1920:flags=lanczos,' + SOFT
     if m == 'C': return pre + f'crop=506:900:{q[0]}:0,scale=1080:1920:flags=lanczos,' + SOFT
     if m == 'BL':
-        c = 'crop=1102:620:89:0,scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' if src == 'A' else 'crop=540:960:690:0,scale=1080:1920,'
+        c = 'crop=1102:620:89:0,scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' if src == 'A' else 'crop=439:780:740:40,scale=1080:1920,'
         return pre + c + BLUR
     if m == 'CARD':
         return (pre + 'crop=1102:620:89:0,split[a][b];[a]scale=-2:1920,crop=1080:1920:(iw-1080)/2:0,' + BLUR +
@@ -70,7 +70,7 @@ def base():
 
 def mix():
     subprocess.run(['node', 'render.js', 'info'], check=True); ev = json.load(open('sfx.json'))
-    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14, 'el_swoosh': -22, 'el_pop': -16, 'el_hit': -14, 'el_fall': -20}
+    G = {'impact': -15, 'stamp_dan': -10, 'yazi_vurus': -15, 'card': -17, 'pop': -19, 'click': -14, 'el_swoosh': -22, 'el_pop': -16, 'el_hit': -14, 'el_slot': -24, 'el_text': -22}
     inp = ['-i', '../ses/vo.mp3', '-stream_loop', '-1', '-i', '../../../sett/ses/muzik.mp3']
     fc = [f'[0]aresample=48000,aformat=channel_layouts=stereo,volume=4dB,apad=whole_dur={END},asplit[vo][sc]',
           f'[1]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{END},volume=-15dB,afade=t=in:d=0.3,afade=t=out:st={END - 0.5}:d=0.5[m0]',
