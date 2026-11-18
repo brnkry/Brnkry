@@ -1,0 +1,38 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:Chorus;src:url(assets/fonts/CHORUS-BLACK.otf)}
+@font-face{font-family:Might;src:url(assets/fonts/Might.ttf)}
+@font-face{font-family:Themora;src:url(assets/fonts/ThemoraDEMO-Regular.ttf)}
+html,body{margin:0}
+.f{position:relative;width:1920px;height:1080px;background:url(assets/ornek_kare.png) 0 0/1920px 1080px;overflow:hidden}
+.ln{line-height:1;margin:0;white-space:nowrap}
+.ti{position:relative;display:inline-block}
+.ti.dot:after{content:'';position:absolute;left:50%;top:-.2em;width:.17em;height:.17em;background:currentColor;border-radius:50%;transform:translateX(-50%)}
+.ti.ced:after{content:'';position:absolute;left:50%;bottom:-.14em;width:.12em;height:.16em;border-right:.06em solid currentColor;border-bottom:.06em solid currentColor;border-radius:0 0 .1em 0;transform:translateX(-55%)}
+</style></head><body><div class="f" id="c">
+ <div style="position:absolute;left:900px;top:240px;width:1000px;height:600px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;font-family:Chorus;color:#F4E6CC;text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.8)">
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em">YAPTIKLARIN</div>
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em">İÇİN</div>
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em;color:#F6D29A">HESAP VER</div>
+ </div>
+ <div style="position:absolute;left:30px;top:150px;font:600 28px sans-serif;color:#fff;opacity:.7">CHORUS (ticari kullanim serbest)</div>
+</div>
+<div class="f" id="m">
+ <div style="position:absolute;left:900px;top:240px;width:1000px;height:600px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;font-family:Might;color:#F4E6CC;text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.8)">
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em">YAPTIKLARIN</div>
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em">İÇİN</div>
+  <div class="ln t" style="font-size:150px;letter-spacing:.06em;color:#F6D29A">HESAP VER</div>
+ </div>
+ <div style="position:absolute;left:30px;top:150px;font:600 28px sans-serif;color:#fff;opacity:.7">MIGHT (sadece kisisel kullanim)</div>
+</div>
+<div class="f" id="t">
+ <div style="position:absolute;left:900px;top:240px;width:1000px;height:600px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;font-family:Themora;color:#F4E6CC;text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.8)">
+  <div class="ln t" style="font-size:140px;letter-spacing:.04em">YAPTIKLARIN</div>
+  <div class="ln t" style="font-size:140px;letter-spacing:.04em">İÇİN</div>
+  <div class="ln t" style="font-size:140px;letter-spacing:.04em;color:#F6D29A">HESAP VER</div>
+ </div>
+ <div style="position:absolute;left:30px;top:150px;font:600 28px sans-serif;color:#fff;opacity:.7">THEMORA (sadece kisisel kullanim)</div>
+</div>
+<script>
+const NOC={t:1};
+document.querySelectorAll('.f').forEach(f=>f.querySelectorAll('.t').forEach(e=>{let s=e.textContent.replace(/İ/g,'<span class="ti dot">I</span>');if(NOC[f.id])s=s.replace(/Ç/g,'<span class="ti ced">C</span>');e.innerHTML=s}));
+window.ready=document.fonts.ready</script></body></html>
