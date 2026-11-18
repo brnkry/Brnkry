@@ -1,0 +1,72 @@
+[  18.83-  20.83] Yattıkların için hesap ver.
+[  21.43-  23.83] Yone, geri dön.
+[  24.73-  26.43] Onurumuzu yere serdin.
+[  27.13-  29.33] Onu korumaya yemin etmiştin.
+[  30.33-  32.63] Sende Ionia'yı korumaya...
+[  33.33-  35.33] ...etrafına bir bak kardeşim.
+[  35.73-  38.13] Onurun toprağı lekeliyor.
+[  38.93-  40.63] Onursuzluktan iyidir.
+[  70.40-  74.50] Beni kardeşim, seni bir daha utandırmayacağım.
+[ 122.45- 123.45] Yanlışlıkla...
+[ 123.45- 125.25] Hiç dertliyim.
+[ 126.45- 128.45] Ruhlar kimseyi beklemez.
+[ 128.45- 129.65] Hayır, ben...
+[ 129.65- 131.65] Ruhlarla konuşmayacak mısın?
+[ 133.62- 136.72] Yoksa koca Yasuo neden buralara gelsin?
+[ 138.70- 140.70] Peki, buna hazır mısın?
+[ 142.94- 144.24] Ne fark eder?
+[ 144.94- 146.74] Vaktinde yetişemem zaten.
+[ 147.54- 149.54] Doğru, yol uzun.
+[ 150.64- 153.54] Belki benim tapınağım bize bir yol sunabilir.
+[ 154.54- 156.04] Seçim senin.
+[ 162.42- 163.42] Öyle mi?
+[ 163.42- 172.79] Ruh çiçeklerinin dönmesi yıllar aldı.
+[ 173.79- 177.79] Toprak iyileşmeye hazırsa, sen de hazırsındır belki.
+[ 178.79- 182.35] Yolu da bu mu?
+[ 186.18- 189.18] İhtiyarlar, çiçekler ve umut.
+[ 190.18- 192.68] Belki de umut kafiydi.
+[ 194.18- 195.18] Belki.
+[ 195.68- 196.68] Belki.
+[ 196.68- 202.65] Kendini beyli meclinin sularına bırak.
+[ 203.65- 206.15] Bırak sular seni arındırsın.
+[ 206.15- 214.31] Akıntı taşıdığın gücü alsın götürsün.
+[ 214.31- 216.81] Kaybettiklerini hatırla.
+[ 216.81- 224.07] Ulan nasıl oluyordum...
+[ 224.07- 226.07] Onuruna ayaklar altına alıyordum.
+[ 228.14- 229.14] Ama sen de...
+[ 229.64- 231.14] Mecbursam derüşürüm.
+[ 231.14- 232.14] Keyif için değil.
+[ 233.14- 235.14] Senin kanıtlayacak bir şeyin yok ki.
+[ 239.10- 241.60] Savaş hiç bitmez Yasuo.
+[ 242.10- 244.10] Savaşmak bir şey kanıtlamaz.
+[ 254.45- 255.95] Senin yerin burası.
+[ 256.95- 258.45] Usta Soğuman'ın yanı.
+[ 258.45- 260.45] Beni bunun için eğitdi o.
+[ 261.45- 263.45] Yardımımla savaş bitebilir.
+[ 267.79- 269.79] Senin vazifen bu okula.
+[ 270.79- 271.79] Ustana.
+[ 272.79- 273.79] Ionya'ya.
+[ 274.79- 276.79] O zaman gidip onu korumam lazım.
+[ 278.29- 280.79] Seni yüz üste bırakmayacağım Yone.
+[ 282.60- 285.10] Ben seni yüz üste bırakmışım bile.
+[ 304.52- 305.52] Hiç bunu.
+[ 306.02- 309.02] Diyarlarımız arasında bir bak kurulacak.
+[ 312.40- 315.40] Dertlerimden içeri kurtulduğum pek olmadı.
+[ 317.21- 320.21] Bazen İblislerimize bizim bulmamız gerekir.
+[ 320.71- 371.06] Göster kendini.
+[ 390.50- 393.00] O yaşarsan yine gelirim.
+[ 393.00- 444.82] Sen neden?
+[ 520.04- 521.54] Belki senin hakkın ölüm.
+[ 522.04- 524.85] Ama benim elimden değil.
+[ 525.35- 530.99] O halde Ionya'da bana bir şey kalmadı.
+[ 531.49- 537.12] Rüzgarın bile bir yolu vardır kardeşim.
+[ 543.02- 545.02] Elveda, Yone.
+[ 548.18- 551.18] Yonya'nın ruhu sana yol göstersin.
+[ 567.48- 569.48] Geçmişe bakmak kolay değil mi?
+[ 569.98- 573.89] Asıl mesele olacakları görebilmek.
+[ 574.89- 579.89] Duyduğuma göre kırsızları hayvanlar ve kadehler var.
+[ 580.89- 582.89] Tanonsuz bir yer evet.
+[ 583.89- 585.89] Ama kendi kaderini çizebildiğin bir yer.
+[ 590.03- 593.03] Hem zaten ikimiz de bir şey arıyoruz değil mi?
+[ 594.03- 597.03] Bunu da Bilchwater'da bulacağınız, öyle mi?
+[ 598.03- 600.03] Bence orada çok şey bulacağız.
