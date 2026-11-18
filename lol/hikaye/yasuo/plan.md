@@ -1,7 +1,7 @@
 # Şampiyon Hikâyesi #1: Yasuo neden abisini öldürdü? (taslak, ses üretilmedi)
 
 Format: 16:9 uzun video, 8-10 dk. Yavaş, sakin, hikâye anlatımı. Hızlı kesim ve büyük punk yazılar yok.
-Ses: Mehdi, "[calm, serious storytelling]" etiketiyle (deneme: ses/ses_deneme_1.mp3, 12.9 sn / 3 cümle).
+Ses: Emin - Storyteller (2olWvHmrPO1obgZX9ivZ), deneme: ses/emin_deneme_1.mp3. (Mehdi denemesi: ses/ses_deneme_1.mp3, bu seri için kullanılmayacak.)
 
 ## Kaynak (resmi kanon, League of Legends Universe)
 - Yasuo, babası onları terk etmiş bir annenin oğlu; Yone onun üvey (anne bir) abisi. Köyde Yasuo'yu "hata" olarak görenler var, Yone onu hep koruyor.
