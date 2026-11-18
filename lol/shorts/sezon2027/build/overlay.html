@@ -51,7 +51,7 @@ window.render=function(t){let O='';const sg=seg(t);
  if(t<4.85){const A=1-prog(t,4.7,.15);
   O+=`<div class="ab gold" style="left:0;right:40px;top:240px;text-align:center;font-size:120px;line-height:1.1;opacity:${cl(prog(t,0,.2)*3)*A};transform:scale(${lerp(2.2,1,eo(prog(t,0,.25)))})">2027<br><span style="font-size:.6em">SEZONU</span></div>`;
   // rank tower scrolls down to Iron while "ligler sıfırlanıyo"
-  const R=['challenger','grandmaster','master','diamond','emerald','platinum','gold','silver','bronze','iron'],u=eo(prog(t,1.2,1.25)),step=260;
+  const R=['challenger','grandmaster','master','diamond','emerald','platinum','gold','silver','bronze','iron'],u=eo(prog(t,1.2,1.0)),step=260;
   if(t<2.95){let h='';R.forEach((r,i)=>{const y=820+i*step-u*9*step;if(y>-300&&y<2100)h+=`<img src="assets/e_${r}.png" style="position:absolute;left:${540-20-170}px;top:${y-110}px;width:340px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.8));opacity:${cl(1-Math.abs(y-820)/700)}">`});O+=`<div class="ab" style="inset:0;opacity:${A}">${h}</div>`;
    if(t>=1.26)O+=`<div class="ab" style="left:0;right:40px;top:1130px;text-align:center;opacity:${A}"><span class="chip" style="font-size:70px;background:#FF3B5C;color:#F4EFE6;transform:rotate(-3deg);${pop(t,1.26)}">${tr('LİGLER SIFIRLANIYOR')}</span></div>`}
   else{const k=prog(t,2.88,.2),sh=t<3.15?Math.sin(t*170)*16*(1-prog(t,2.88,.27)):0;O+=`<img src="assets/e_iron.png" style="position:absolute;left:${540-20-260+sh}px;top:${600+sh*.5}px;width:520px;opacity:${cl(k*4)*A};transform:scale(${lerp(2.4,1,eo(k))});filter:drop-shadow(0 12px 30px rgba(0,0,0,.8))">`;
