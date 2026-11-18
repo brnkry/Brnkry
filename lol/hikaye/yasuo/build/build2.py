@@ -174,8 +174,9 @@ def mix():
     P = json.load(open(OUT + '/plan.json')); END = P['end']; inp = []; fc = []; ii = 0; vox = []; bed = []
     for pi, at in P['narr']:
         p = NARR[pi]; a = p['start'] - 0.08; L = p['end'] - p['start'] + 0.35
-        inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', '../ses/anlatim_2.mp3']
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-2:LRA=7,aresample=48000,volume=6dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
+        if pi == 4: L = 6.75; inp += ['-i', '../ses/anlatim_2_p4.wav']   # "Yasuo'ya" with the mid-word pause cut out
+        else: inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', '../ses/anlatim_2.mp3']
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-2:LRA=7,aresample=48000,volume=7.5dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
     for src, a, b, at in P['dial']:
         stem = f'{SEP}/kinfull/vocals.wav' if src == 'K' else f'{SEP}/repfull/vocals.wav'; g = 9 if src == 'K' else 6
         inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', stem]
