@@ -43,6 +43,7 @@ Yone, Yasuo'yu ne öldürdü ne de affetti. Sence hangisi daha ağır bir ceza? 
 - export/thumbnail_d.png: klasik Yasuo splash, büyük "YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ?"
 - export/thumbnail_e.png: klasik Yasuo ve Şafak Getiren Yone, kızıl yarık, "YASUO / ABİSİNİ ÖLDÜRDÜ"
 - export/thumbnail_f.png: sinematikten Yasuo'nun yüzü, "YASUO / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU"
+- export/thumbnail_g.png: sinematikten Yasuo ve maskeli Yone, kızıl yarık, "ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ" (önerilen)
 
 ## Altyazılar
 - export/yasuo_tr.srt (Türkçe)

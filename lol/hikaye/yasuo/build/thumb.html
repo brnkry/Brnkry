@@ -81,6 +81,23 @@ html,body{margin:0;background:#000}
  </div>
 </div>
 
+<!-- G: Yasuo and masked Yone from the cinematic -->
+<div class="t" id="g">
+ <div class="bg" style="left:-170px;top:-40px;width:900px;height:760px;background-image:url(assets/thumb/k369.0.jpg);background-size:auto 900px;background-position:60% 0;filter:contrast(1.25) saturate(1.2) brightness(1.15)"></div>
+ <div class="bg" style="left:560px;top:-40px;width:900px;height:760px;background-image:url(assets/thumb/k376.0.jpg);background-size:auto 800px;background-position:53% 0;filter:contrast(1.2) saturate(1.35) brightness(1.45);clip-path:polygon(14% 0,100% 0,100% 100%,0 100%)"></div>
+ <div style="position:absolute;left:600px;top:-40px;width:20px;height:820px;transform:rotate(8deg);background:linear-gradient(90deg,rgba(255,60,40,0),#ffd2b8 45%,#fff 50%,#ffd2b8 55%,rgba(255,60,40,0));box-shadow:0 0 40px 16px rgba(255,40,20,.85),0 0 130px 44px rgba(255,30,10,.5)"></div>
+ <div class="grade" style="background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.75) 62%,rgba(0,0,0,.95) 100%)"></div>
+ <div style="position:absolute;left:0;right:0;top:388px">
+  <div class="ln white sh" data-t="ABİSİNİ ÖLDÜRDÜ" style="font-size:128px"></div>
+  <div class="ln red sh" data-t="AMA SUÇSUZDU" style="font-size:128px;color:#FF3B30"></div>
+ </div>
+ <div style="position:absolute;left:0;right:0;top:648px;display:flex;align-items:center;justify-content:center;gap:22px">
+  <div style="width:150px;height:3px;background:#F6C65B"></div>
+  <div class="ln gold" data-t="YASUO'NUN HİKAYESİ" style="font-size:52px;letter-spacing:.06em;text-shadow:0 2px 10px #000"></div>
+  <div style="width:150px;height:3px;background:#F6C65B"></div>
+ </div>
+</div>
+
 <script>
 const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>').replace(/Ğ/g,'<span class="tg">G</span>');
 document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=tr(e.dataset.t));
