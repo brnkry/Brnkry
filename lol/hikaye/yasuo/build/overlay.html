@@ -45,7 +45,7 @@ const T=[
 let built=false;
 function build(){let H='<div id="dk" style="position:absolute;left:0;right:0;top:132px;height:816px;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72),rgba(0,0,0,.45) 70%)"></div>';
  T.forEach((b,k)=>{H+=`<div class="blk" id="b${k}" style="${b[2]};opacity:0">`;
-  b[3].forEach((l,j)=>H+=`<div class="ln" id="l${k}_${j}" style="font-size:${l[1]}px;color:${l[2]}">${tr(l[0])}</div>`);H+='</div>'});
+  b[3].forEach((l,j)=>{const gap=j>0&&/[ŞÇ]/.test(b[3][j-1][0])&&/[İĞÖÜ]/.test(l[0])?'margin-top:.16em;':'';H+=`<div class="ln" id="l${k}_${j}" style="${gap}font-size:${l[1]}px;color:${l[2]}">${tr(l[0])}</div>`});H+='</div>'});
  // sword slash streaks + flash
  H+='<div id="sl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;overflow:hidden"><div id="bl"></div></div><div id="fl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;background:#fff;opacity:0"></div>';
  H+='<div id="seam" style="position:absolute;left:957px;top:132px;width:6px;height:816px;opacity:0"></div>';

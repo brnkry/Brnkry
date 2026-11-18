@@ -30,10 +30,19 @@ NARRS = [('alex_deneme_2.mp3', 29.3), ('an_koy.mp3', 46.8), ('an_kardes.mp3', 80
 # dialogue: vocals separated from the KIN audio (demucs), (stem, stem start in KIN, KIN from, length, out time)
 SEP = S + '/yasuo/sep/htdemucs'
 DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), ('dH', 212.5, 213.0, 22.0, 58.5, 8)]
-# our own score: (file, out time, fade out end)
-MUSIC = [('muzik_karanlik.mp3', 1.5, TITLE_END), ('muzik_cocukluk_nv.wav', TITLE_END, END)]
+# beds: (file, file offset, out time, out end, gain dB, fade in, fade out)
+#   0-29: KIN's own score kept quietly (music stem of the dialogue scenes), crossfaded at the 23.7 cut
+#   29-44: our dark score (its build and climax), cut to silence right before the title impact
+#   46.4-end: our warm score; KIN ambience (festival, sword sparring) quietly under it
+SEP_NV = lambda n: f'{SEP}/{n}/no_vocals.wav'
+BEDS = [(SEP_NV('dA'), 0.46, 0.0, 23.85, -9, 0.3, 0.35),
+        (SEP_NV('dB'), 0.05 - 0.3, 23.59, 29.3, -9, 0.3, 0.4),
+        ('../ses/muzik_karanlik.mp3', 27.0, 28.9, 43.95, -4, 1.2, 0.12),
+        ('../ses/muzik_cocukluk_nv.wav', 0.0, TITLE_END, END, -4, 1.0, 1.5),
+        (SEP_NV('dG'), 0.0, 46.4, 59.1, -12, 0.6, 0.6),
+        (SEP_NV('dI'), 0.0, 91.5, END, -10, 0.5, 1.2)]
 # (file, time, gain dB)
-SFX = [('kin_kilic.wav', 23.42, -3), ('slash_1.mp3', 28.78, -5), ('slash_1.mp3', 39.78, -5), ('impact_2.mp3', 43.98, -3)]
+SFX = [('kin_kilic.wav', 23.42, -7), ('slash_1.mp3', 28.78, -9), ('slash_1.mp3', 39.78, -9), ('impact_2.mp3', 43.98, -3)]
 XF = 0.5
 
 def piece(i, p):
@@ -94,10 +103,11 @@ def mix():
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume=11dB,adelay={int(t * 1000)}:all=1,apad=whole_dur={END}[n{ii}]'); vox.append(f'[n{ii}]'); ii += 1
     fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
     mus = []
-    for fn, at, end in MUSIC:
-        inp += ['-i', f'../ses/{fn}']
+    for fn, off, at, end, g, fi, fo in BEDS:
         L = end - at
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{L:.3f},volume=-7dB,afade=t=in:d=1.0,afade=t=out:st={L - 0.8:.3f}:d=0.8,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[m{ii}]')
+        if off < 0: inp += ['-i', fn]; pre = f'adelay={int(-off * 1000)}:all=1,'
+        else: inp += ['-ss', f'{off:.3f}', '-i', fn]; pre = ''
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,{pre}atrim=0:{L:.3f},volume={g}dB,afade=t=in:d={fi},afade=t=out:st={L - fo:.3f}:d={fo},adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[m{ii}]')
         mus.append(f'[m{ii}]'); ii += 1
     fc.append(''.join(mus) + f'amix=inputs={len(mus)}:normalize=0[m0]')
     fc.append('[m0][sc]sidechaincompress=threshold=0.025:ratio=6:attack=15:release=450[mus]')
