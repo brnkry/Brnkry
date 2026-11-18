@@ -1,0 +1,61 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:AC;src:url(assets/fonts/american_captainttf)}
+html,body{margin:0;background:#000}
+.t{position:relative;width:1280px;height:720px;overflow:hidden;background:#000;margin-bottom:10px}
+.bg{position:absolute;background-size:cover;background-position:center}
+.ln{font-family:AC;line-height:.92;white-space:nowrap;letter-spacing:0;text-align:center}
+.ti,.ts{position:relative;display:inline-block}
+.ti i{position:absolute;top:-.16em;height:.12em;background:currentColor}
+.ts b{position:absolute;left:50%;top:0;transform:translateX(-50%);font-weight:normal}
+.tg:after{content:'';position:absolute;left:50%;top:-.2em;width:.34em;height:.13em;transform:translateX(-50%);border:.06em solid currentColor;border-top:none;border-radius:0 0 .22em .22em;box-sizing:border-box}
+.tg{position:relative;display:inline-block}
+.sh{text-shadow:0 0 30px rgba(0,0,0,.9),0 6px 0 rgba(0,0,0,.85),0 0 60px rgba(0,0,0,.7)}
+.gold{color:#F6C65B}.white{color:#F7EFE2}.red{color:#FF3B30}
+.grade{position:absolute;inset:0}
+</style></head><body>
+
+<!-- A: face to face, red slash between -->
+<div class="t" id="a">
+ <div class="bg" style="left:-140px;top:-60px;width:900px;height:840px;background-image:url(assets/thumb/k97.0.jpg);background-size:auto 840px;background-position:72% 0;filter:saturate(1.1) contrast(1.1)"></div>
+ <div class="bg" style="left:600px;top:0;width:720px;height:720px;background-image:url(assets/thumb/yone_sb.jpg);background-size:auto 900px;background-position:48% 8%;filter:saturate(1.05) contrast(1.1) brightness(.9);clip-path:polygon(9% 0,100% 0,100% 100%,0 100%)"></div>
+ <div class="grade" style="background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.88) 100%),radial-gradient(ellipse at 50% 40%,rgba(0,0,0,0) 45%,rgba(0,0,0,.5) 100%)"></div>
+ <div style="position:absolute;left:615px;top:-40px;width:22px;height:820px;transform:rotate(-8deg);background:linear-gradient(90deg,rgba(255,60,40,0),#ffd2b8 45%,#fff 50%,#ffd2b8 55%,rgba(255,60,40,0));box-shadow:0 0 40px 16px rgba(255,40,20,.8),0 0 120px 40px rgba(255,30,10,.45)"></div>
+ <div style="position:absolute;left:0;right:0;top:455px">
+  <div class="ln white sh" data-t="ABİSİNİ" style="font-size:120px"></div>
+  <div class="ln gold sh" data-t="NEDEN ÖLDÜRDÜ?" style="font-size:150px"></div>
+ </div>
+</div>
+
+<!-- B: the eyes -->
+<div class="t" id="b">
+ <div class="bg" style="left:-160px;top:-130px;width:1600px;height:980px;background-image:url(assets/thumb/k90.4.jpg);background-size:1600px auto;filter:contrast(1.25) saturate(.9) brightness(.95)"></div>
+ <div class="grade" style="background:linear-gradient(180deg,rgba(10,0,0,.85) 0%,rgba(40,0,0,.15) 32%,rgba(40,0,0,.15) 62%,rgba(10,0,0,.9) 100%);mix-blend-mode:multiply"></div>
+ <div class="grade" style="background:radial-gradient(ellipse at 50% 50%,rgba(180,20,10,0) 30%,rgba(120,0,0,.45) 100%)"></div>
+ <div style="position:absolute;left:0;right:0;top:28px"><div class="ln white sh" data-t="ABİSİNİ ÖLDÜRDÜ" style="font-size:132px"></div></div>
+ <div style="position:absolute;left:0;right:0;top:560px"><div class="ln red sh" data-t="AMA SUÇSUZDU" style="font-size:140px;color:#FF4A3A"></div></div>
+</div>
+
+<!-- C: the masked brother returns -->
+<div class="t" id="c">
+ <div class="bg" style="left:300px;top:0;width:1000px;height:720px;background-image:url(assets/thumb/k362.0.jpg);background-size:auto 760px;background-position:66% 0;filter:contrast(1.2) saturate(1.25)"></div>
+ <div class="bg" style="left:-80px;top:120px;width:620px;height:600px;background-image:url(assets/thumb/k97.0.jpg);background-size:auto 640px;background-position:70% 0;filter:brightness(.55) saturate(.8) contrast(1.1);-webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 100%)"></div>
+ <div class="grade" style="background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.35) 45%,rgba(0,0,0,0) 70%)"></div>
+ <div style="position:absolute;left:30px;width:640px;top:70px">
+  <div class="ln white sh" data-t="ÖLDÜRDÜĞÜ" style="font-size:118px"></div>
+  <div class="ln white sh" data-t="ABİSİ" style="font-size:118px"></div>
+  <div class="ln red sh" data-t="GERİ DÖNDÜ" style="font-size:132px;color:#FF4A3A"></div>
+ </div>
+</div>
+
+<script>
+const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>').replace(/Ğ/g,'<span class="tg">G</span>');
+document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=tr(e.dataset.t));
+window.ready=document.fonts.load('100px AC','AIS').then(()=>{
+ const c=document.createElement('canvas');c.width=600;c.height=400;const x=c.getContext('2d');
+ document.querySelectorAll('.ti').forEach(s=>{const fs=parseFloat(getComputedStyle(s).fontSize);x.clearRect(0,0,600,400);x.font=fs+'px AC';x.fillText('I',50,300);
+  const d=x.getImageData(0,0,600,400).data;let l=600,r=0;for(let px=0;px<600;px++)for(let py=0;py<400;py++)if(d[(py*600+px)*4+3]>128){l=Math.min(l,px);r=Math.max(r,px)}
+  const i=s.querySelector('i');i.style.left=(l-50)+'px';i.style.width=(r-l+1)+'px'});
+ document.querySelectorAll('.ts').forEach(s=>{const u=s.querySelector('u');u.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';
+  s.querySelector('b').style.clipPath=`inset(${u.offsetTop+2}px -40px -80px -40px)`});
+});
+</script></body></html>
