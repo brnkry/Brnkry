@@ -29,7 +29,7 @@ PLAN = [
 NARRS = [('alex_deneme_2.mp3', 29.3), ('an_koy.mp3', 46.8), ('an_kardes.mp3', 80.7)]
 # dialogue: vocals separated from the KIN audio (demucs), (stem, stem start in KIN, KIN from, length, out time)
 SEP = S + '/yasuo/sep/htdemucs'
-DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), ('dH', 212.5, 213.0, 22.0, 58.5, 8)]
+DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), ('dH', 212.5, 213.0, 22.0, 58.5, 10)]
 # beds: (file, file offset, out time, out end, gain dB, fade in, fade out)
 #   0-29: KIN's own score kept quietly (music stem of the dialogue scenes), crossfaded at the 23.7 cut
 #   29-44: our dark score (its build and climax), cut to silence right before the title impact
@@ -37,8 +37,8 @@ DIAL = [('dA', 16.5, 16.96, 23.71, 0.0, 4), ('dB', 69.9, 69.95, 5.3, 23.89, 6), 
 SEP_NV = lambda n: f'{SEP}/{n}/no_vocals.wav'
 BEDS = [(SEP_NV('dA'), 0.46, 0.0, 23.85, -9, 0.3, 0.35),
         (SEP_NV('dB'), 0.05 - 0.3, 23.59, 29.3, -9, 0.3, 0.4),
-        ('../ses/muzik_karanlik.mp3', 27.0, 28.9, TITLE_END, -4, 1.2, 2.6),
-        ('../ses/muzik_cocukluk_nv.wav', 0.0, TITLE_END, END, -4, 1.0, 1.5),
+        ('../ses/muzik_karanlik.mp3', 27.0, 28.9, TITLE_END, -6, 1.2, 2.6),
+        ('../ses/muzik_cocukluk_nv.wav', 0.0, TITLE_END, END, -6, 1.0, 1.5),
         (SEP_NV('dG'), 0.0, 46.4, 59.1, -12, 0.6, 0.6),
         (SEP_NV('dI'), 0.0, 91.5, END, -10, 0.5, 1.2)]
 # (file, time, gain dB)
@@ -100,7 +100,7 @@ def mix():
         vox.append(f'[d{ii}]'); ii += 1
     for fn, t in NARRS:
         inp += ['-i', f'../ses/{fn}']
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume=11dB,adelay={int(t * 1000)}:all=1,apad=whole_dur={END}[n{ii}]'); vox.append(f'[n{ii}]'); ii += 1
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume=14dB,adelay={int(t * 1000)}:all=1,apad=whole_dur={END}[n{ii}]'); vox.append(f'[n{ii}]'); ii += 1
     fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
     mus = []
     for fn, off, at, end, g, fi, fo in BEDS:
