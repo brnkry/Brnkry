@@ -48,7 +48,7 @@ EV = [
     # VII. GERCEK
     ('N', 13, [('BLACK', 0, 1)], 'black'),
     ('N', 14, [('A', 78.0, 6), ('rivensplash2', 0, 6)], 'x'),
-    ('N', 15, [('rivensplash1', 0, 6), ('placidium', 4.0, 4)], 'flash'),
+    ('N', 15, [('rivensplash1', 0, 6), ('A', 132.0, 4)], 'flash'),
     ('N', 16, [('K', 89.04, 1.75), ('K', 96.2, 3)], 'x'),
     # VIII. RIVEN
     ('N', 17, [('riven', 0, 10)], 'black'),
@@ -67,7 +67,7 @@ EV = [
     ('D', 517.2, 551.4, [(13, ['İNTİKAMINI AL, KARDEŞİM.'], 'SKY'), (14, ['BELKİ SENİN HAKKIN ÖLÜM.'], 'SKY'), (15, ['AMA BENİM ELİMDEN DEĞİL.'], 'SKY'),
                           (16, ["O HALDE IONIA'DA", 'BANA BİR ŞEY KALMADI.'], 'SKY'), (17, ['RÜZGÂRIN BİLE', 'BİR YOLU VARDIR, KARDEŞİM.'], 'SKY'),
                           (18, ['ELVEDA, YONE.'], 'SKY'), (19, ["IONIA'NIN RUHU", 'SANA YOL GÖSTERSİN.'], 'SKY')], 'x', -14),
-    ('N', 24, [('K', 551.4, 4), ('H', 150.0, 5)], 'x'),
+    ('N', 24, [('K', 551.4, 4), ('P', 193.0, 5)], 'x'),
     # XI. YENI YOL
     ('N', 25, [('K', 564.6, 3), ('bilgewater', 0, 4)], 'x'),
     ('D', 567.3, 574.3, [(20, ['GEÇMİŞE BAKMAK', 'KOLAY, DEĞİL Mİ?'], 'SKY'), (21, ['ASIL MESELE', 'OLACAKLARI GÖREBİLMEK.'], 'SKY')], 'x', -14),
