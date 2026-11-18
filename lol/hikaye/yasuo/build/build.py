@@ -42,7 +42,7 @@ BEDS = [(SEP_NV('dA'), 0.46, 0.0, 23.85, -9, 0.3, 0.35),
         (SEP_NV('dG'), 0.0, 46.4, 59.1, -12, 0.6, 0.6),
         (SEP_NV('dI'), 0.0, 91.5, END, -10, 0.5, 1.2)]
 # (file, time, gain dB)
-SFX = [('kin_kilic.wav', 23.42, -9), ('slash_1.mp3', 28.78, -11), ('slash_1.mp3', 39.78, -11), ('riser_long.wav', 41.88, -5), ('impact_2.mp3', 43.98, -4)]
+SFX = [('kin_kilic.wav', 23.42, -9), ('slash_1.mp3', 28.78, -11), ('slash_1.mp3', 39.78, -11), ('impact_kucuk.wav', 43.99, -13)]
 XF = 0.5
 
 def piece(i, p):
