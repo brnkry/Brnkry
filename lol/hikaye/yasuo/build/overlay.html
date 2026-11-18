@@ -1,0 +1,20 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:Mon;font-weight:600;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-024F}
+@font-face{font-family:Mon;font-weight:600;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Cin;font-weight:700;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-024F}
+@font-face{font-family:Cin;font-weight:700;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-700-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden}
+.sub{position:absolute;left:0;right:0;bottom:78px;text-align:center;font-family:Mon;font-weight:600;font-size:44px;color:#F4EFE6;letter-spacing:.01em;text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8)}
+</style></head><body><div id="root"><div id="dyn"></div></div>
+<script src="subs.js"></script><script>
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+window.render=function(t){let O='';
+ const s=SUBS.find(s=>t>=s[0]&&t<s[1]);if(s){const o=cl((t-s[0])/.15)*cl((s[1]-t)/.15);O+=`<div class="sub" style="opacity:${o}">${s[2]}</div>`}
+ if(t>=39.4){const k=cl((t-39.4)/1.0),k2=cl((t-40.2)/.9),out=cl((42.4-t)/.6);
+  O+=`<div style="position:absolute;left:0;right:0;top:390px;text-align:center;font-family:Cin;font-weight:700;font-size:170px;letter-spacing:.18em;color:#E9C46A;opacity:${k*out};transform:scale(${1.06-.06*k});text-shadow:0 0 40px rgba(233,196,106,.35)">YASUO</div>`;
+  O+=`<div style="position:absolute;left:0;right:0;top:620px;text-align:center;font-family:Mon;font-weight:600;font-size:46px;letter-spacing:.32em;color:#F4EFE6;opacity:${k2*out}">ABİSİNİ NEDEN ÖLDÜRDÜ?</div>`;
+  O+=`<div style="position:absolute;left:760px;top:590px;width:${400*k}px;height:2px;background:#E9C46A;opacity:${out}"></div>`}
+ document.getElementById('dyn').innerHTML=O};
+window.SFX=[];window.ready=document.fonts.ready;
+</script></body></html>
