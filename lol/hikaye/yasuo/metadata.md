@@ -39,9 +39,10 @@ yasuo, yone, yasuo hikayesi, yasuo neden abisini öldürdü, yasuo yone hikayesi
 Yone, Yasuo'yu ne öldürdü ne de affetti. Sence hangisi daha ağır bir ceza? Bir sonraki hikayede hangi şampiyonu anlatalım, yaz 👇
 
 ## Thumbnail seçenekleri
-- export/thumbnail_a.png: Yasuo ve Ruh Çiçeği Yone yüz yüze, ortada kızıl yarık. "ABİSİNİ NEDEN ÖLDÜRDÜ?"
-- export/thumbnail_b.png: Yasuo'nun gözleri. "ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU"
-- export/thumbnail_c.png: Maskeli Yone, kızıl alevler. "ÖLDÜRDÜĞÜ ABİSİ GERİ DÖNDÜ"
+- export/thumbnail_a.png: Yasuo ve Ruh Çiçeği Yone yüz yüze, kızıl yarık, "YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ?"
+- export/thumbnail_d.png: klasik Yasuo splash, büyük "YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ?"
+- export/thumbnail_e.png: klasik Yasuo ve Şafak Getiren Yone, kızıl yarık, "YASUO / ABİSİNİ ÖLDÜRDÜ"
+- export/thumbnail_f.png: sinematikten Yasuo'nun yüzü, "YASUO / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU"
 
 ## Altyazılar
 - export/yasuo_tr.srt (Türkçe)
