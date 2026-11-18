@@ -2,7 +2,7 @@
 import json
 D = json.load(open('/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad/yasuo/dial1.json'))
 # (phrase idx, display lines, size, position, end)
-L = [(0, ['YAPTIKLARIN', 'İÇİN', 'HESAP VER'], 170, 'R', 3.62), (1, ['YONE,', 'GERİ DÖN.'], 130, 'L2', 7.1),
+L = [(0, ['YAPTIKLARIN', 'İÇİN', 'HESAP VER'], 170, 'R', 4.3), (1, ['YONE,', 'GERİ DÖN.'], 130, 'L2', 7.1),
      (2, ['ONURUMUZU', 'YERE SERDİN.'], 130, 'SKY', 9.8), (3, ['ONU KORUMAYA', 'YEMİN ETMİŞTİN.'], 130, 'SKY', 12.5),
      (4, ["SEN DE IONIA'YI", 'KORUMAYA...'], 130, 'SKY', 15.8), (5, ['ETRAFINA BİR BAK,', 'KARDEŞİM.'], 130, 'SKY', 18.1),
      (6, ['ONURUN', 'TOPRAĞI', 'LEKELİYOR.'], 120, 'L2', 21.3), (7, ['ONURSUZLUKTAN', 'İYİDİR.'], 120, 'R2', 23.62),
