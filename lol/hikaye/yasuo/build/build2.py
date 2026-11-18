@@ -219,7 +219,7 @@ def frames():
 def final():
     P = json.load(open(OUT + '/plan.json'))
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', f'{OUT}/base.mp4', '-framerate', '30', '-i', f'{OUT}/fr/%05d.png', '-i', f'{OUT}/mix.wav',
-                    '-filter_complex', '[0][1]overlay=0:0:shortest=1,format=yuv420p[v]', '-map', '[v]', '-map', '2:a',
+                    '-filter_complex', '[0][1]overlay=0:0:shortest=1,fade=t=in:d=0.8,format=yuv420p[v]', '-map', '[v]', '-map', '2:a',
                     '-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-c:a', 'aac', '-b:a', '192k', '-t', str(P['end']), f'{OUT}/part2.mp4'], check=True)
     print('final ok')
 
