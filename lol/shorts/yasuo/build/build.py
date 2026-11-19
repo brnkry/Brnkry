@@ -27,7 +27,7 @@ DIAL_TXT = {18.7: "Yaptıkların için hesap ver.", 69.95: "Affet beni kardeşim
 def tr_upper(w):
     return w.replace('i', 'İ').replace('ı', 'I').upper()
 
-def caption_rows(words, a, maxc=16):
+def caption_rows(words, a, maxc=14):
     """narration sentence -> rows of word-timed words, <= maxc chars per row"""
     rows = []; cur = []; n = 0
     for w, s, e in words:
@@ -51,7 +51,7 @@ def plan():
                 sent.append(w)
                 if w[0][-1] in '.:?!' or w is ws[-1]:
                     st = sent[0][1] + a - .03; rows = caption_rows(sent, -st + a)
-                    texts.append([round(st, 3), round(sent[-1][2] + a + .3, 3), 'CAP', [[r, 104 if pi else 128, 'G' if pi == 0 and i == len(rows) - 1 else 'C'] for i, r in enumerate(rows)]])
+                    texts.append([round(st, 3), round(sent[-1][2] + a + .3, 3), 'CAP', [[r, 94 if pi else 110, 'G' if pi == 0 and i == len(rows) - 1 else 'C'] for i, r in enumerate(rows)]])
                     sent = []
             if tr == 'flash': sfx.append(('slash_1.mp3', t + .1, -12))
             if pi == 0: sfx.append(('kin_kilic.wav', t, -9))
@@ -67,7 +67,7 @@ def plan():
             sys.path.insert(0, S); from align import align
             ws = align(SEP, a0, b0, DIAL_TXT[a0]); st = t + .1 + ws[0][1] - a0 - .03; rows = []; wi = 0
             for li, l in enumerate(disp):
-                rows.append([[[w, round(t + .1 + ws[wi + m][1] - a0 - st, 3)] for m, w in enumerate(l.split())], 120, 'C' if li < len(disp) - 1 else 'G']); wi += len(l.split())
+                rows.append([[[w, round(t + .1 + ws[wi + m][1] - a0 - st, 3)] for m, w in enumerate(l.split())], 104, 'C' if li < len(disp) - 1 else 'G']); wi += len(l.split())
             texts.append([round(st, 3), round(t + L - .05, 3), 'DLG', rows])
             t += L
     texts.sort(key=lambda x: x[0])
