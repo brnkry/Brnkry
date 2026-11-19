@@ -18,19 +18,21 @@ EV = [
     ('D', 18.7, 20.75, 18.7, .2, ['YAPTIKLARIN', 'İÇİN HESAP VER.']),
     ('N', 4, [('K', 13.96, 2.5, .58), ('K', 76.0, 3, .42)], 'x'),
     ('D', 69.95, 71.4, 71.5, .45, ['AFFET BENİ,', 'KARDEŞİM.']),
-    ('N', 5, [('BLACK', 0, 1.6, .5), ('A', 78.5, 3, .55), ('rivensplash2', 0, 2.6, .45)], 'flash'),
+    ('N', 5, [('BLACK', 0, 1.6, .5), ('A', 78.5, 3, .55), ('rivensplash2', 0, 2.6, .8)], 'flash'),
     ('N', 6, [('K', 90.04, .75, .5), ('K', 96.04, 3, .68)], 'x'),
     ('N', 7, [('K', 360.0, 1.6, .6), ('K', 376.0, 1.8, .53)], 'x'),
-    ('N', 8, [('END', 0, 1, .5)], 'x'),
 ]
 DIAL_TXT = {18.7: "Yaptıkların için hesap ver.", 69.95: "Affet beni kardeşim."}
 
-def caption_rows(words, a, maxc=18):
+def tr_upper(w):
+    return w.replace('i', 'İ').replace('ı', 'I').upper()
+
+def caption_rows(words, a, maxc=16):
     """narration sentence -> rows of word-timed words, <= maxc chars per row"""
     rows = []; cur = []; n = 0
     for w, s, e in words:
         if cur and n + len(w) + 1 > maxc: rows.append(cur); cur = []; n = 0
-        cur.append([w.upper().replace('Ağ'.upper(), 'A').replace('AĞBİSİ', 'ABİSİ'), round(s + a, 3)]); n += len(w) + 1
+        cur.append([tr_upper(w).replace('AĞBİSİ', 'ABİSİ'), round(s + a, 3)]); n += len(w) + 1
     if cur: rows.append(cur)
     return rows
 
@@ -39,7 +41,7 @@ def plan():
     for ev in EV:
         if ev[0] == 'N':
             _, pi, clips, tr = ev; p = NARR[pi]
-            dur = p['end'] - p['start'] + LEAD + TAIL + (1.2 if pi == 8 else 0)
+            dur = p['end'] - p['start'] + LEAD + TAIL + (0.6 if pi == 7 else 0)
             narr.append((pi, t + LEAD)); tw = sum(c[2] for c in clips); a = t + LEAD - p['start']
             for j, (src, ss, w, fx) in enumerate(clips):
                 pieces.append({'src': src, 'ss': ss, 'vis': dur * w / tw, 'fx': fx, 'tr': tr if j == 0 else 'x'})
@@ -55,6 +57,8 @@ def plan():
             if pi == 0: sfx.append(('kin_kilic.wav', t, -9))
             if pi == 7: sfx.append(('impact_kucuk.wav', t + dur * 1.6 / 3.4, -14))
             t += dur
+        elif ev[0] == 'E':
+            pieces.append({'src': 'END', 'ss': 0, 'vis': ev[1], 'fx': .5, 'tr': 'x'}); t += ev[1]
         else:
             _, a0, b0, vs, fx, disp = ev
             L = b0 - a0 + .25

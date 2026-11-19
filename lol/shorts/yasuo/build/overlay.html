@@ -16,7 +16,7 @@ const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), C='#F4E6CC', G='#F6D29A';
 // Turkish letters the font lacks: İ = I + measured dot, Ş = S + the cedilla cut from Ç, Ğ = G + drawn breve
 const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>').replace(/Ğ/g,'<span class="tg">G</span>');
 // position presets (inside the 2.35 band: y 132..948)
-const P={CAP:'left:40px;top:1400px;width:1000px;align-items:center',DLG:'left:40px;top:250px;width:1000px;align-items:center'};
+const P={CAP:'left:50px;top:1040px;width:860px;align-items:center',DLG:'left:50px;top:330px;width:860px;align-items:center'};
 // [start, end, position, [[text, size, color, delay]]]  timed to the voice onsets in the KIN audio
 const T=window.TS.map(b=>[b[0],b[1],typeof b[2]==='string'&&P[b[2]]?P[b[2]]:b[2],b[3].map(l=>Array.isArray(l[0])?[l[0],l[1],l[2]==='C'?C:G]:[l[0],l[1],l[2]==='C'?C:(l[2]==='G'?G:l[2]),l[3],l[4]])]);
 let built=false;

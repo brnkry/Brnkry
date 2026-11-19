@@ -4,7 +4,7 @@
 Yasuo Abisini Öldürdü. Ama Katil O Değildi. #shorts
 
 ## Açıklama
-Yasuo, abisi Yone'yi kendi elleriyle öldürdü. Ama ustasını öldüren o değildi. Tam hikaye kanalda: "Yasuo Neden Abisini Öldürdü?"
+Yasuo, abisi Yone'yi kendi elleriyle öldürdü. Ama ustasını öldüren o değildi. Hikayenin tamamı kanalda: "Yasuo Neden Abisini Öldürdü?"
 
 #Yasuo #Yone #LeagueOfLegends #lol #shorts
 
