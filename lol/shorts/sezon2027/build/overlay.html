@@ -1,0 +1,105 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:PB;src:url(assets/fonts/punkboy_bi.otf)}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Mon;font-weight:900;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:Cin;font-weight:900;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-024F,U+0130-0131,U+015E-015F,U+011E-011F}
+@font-face{font-family:Cin;font-weight:900;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-900-normal.woff2) format('woff2')}
+html,body{margin:0;background:transparent;overflow:hidden}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:PB;color:#F4EFE6}
+.ab{position:absolute}
+.ti{position:relative;display:inline-block;line-height:.9}
+.ti.dot:after{content:'';position:absolute;left:54%;bottom:1.0em;width:.19em;height:.16em;background:currentColor;border-radius:40% 55% 45% 50%;transform:translateX(-50%) rotate(-12deg)}
+.ti.brv:after{content:'';position:absolute;left:54%;bottom:.92em;width:.4em;height:.17em;border:.1em solid currentColor;border-top:0;border-radius:0 0 .3em .3em;transform:translateX(-50%) rotate(-8deg)}
+.ti.ced:after{content:'Ç';position:absolute;left:0;right:0;top:0;text-align:center;clip-path:inset(86% -20% -80% -20%);transform:translateX(-.02em)}
+.ti.pd{width:.24em;height:.8em}.ti.pd:after{content:'';position:absolute;left:.08em;bottom:.04em;width:.17em;height:.16em;background:currentColor;border-radius:45% 55% 50% 40%;transform:rotate(-10deg)}
+.ti.crc:after{content:'';position:absolute;left:50%;bottom:1.0em;width:.3em;height:.3em;border-left:.09em solid currentColor;border-top:.09em solid currentColor;transform:translateX(-50%) rotate(45deg)}
+.pc{font-family:Mon;font-weight:900;font-size:.78em;margin-right:.04em}
+.paper{background:#F4EFE6;color:#0B0B0F;clip-path:polygon(0 3%,4% 0,12% 2%,22% .4%,33% 2.4%,45% .3%,57% 2%,68% .2%,80% 2.2%,91% .4%,100% 1.5%,100% 97%,93% 100%,82% 98%,70% 99.8%,58% 97.8%,46% 100%,34% 98%,22% 99.6%,11% 97.6%,0 99.4%);filter:drop-shadow(0 14px 24px rgba(0,0,0,.5))}
+.cap{position:absolute;left:90px;right:130px;top:1330px;text-align:center;font-family:Mon;font-weight:900;font-size:62px;line-height:1.16;text-transform:uppercase;text-shadow:0 5px 0 #000,0 0 18px rgba(0,0,0,.9),0 0 4px #000}
+.y{color:#D4FF3A}
+.tag{position:absolute;left:0;right:40px;top:150px;text-align:center}
+.head{position:absolute;left:0;right:40px;top:262px;text-align:center}
+.head>span{display:inline-block;font-size:66px;line-height:1.28;padding:.3em 30px .02em;box-shadow:12px 14px 0 rgba(0,0,0,.55);white-space:nowrap}
+.stamp{display:inline-block;font-size:92px;line-height:1.28;padding:.3em 22px 0;border:8px solid currentColor;border-radius:12px;background:rgba(244,239,230,.95);white-space:nowrap}
+.chip{display:inline-block;font-size:60px;line-height:1.28;padding:.3em 22px 0;background:#D4FF3A;color:#0B0B0F;box-shadow:8px 10px 0 rgba(0,0,0,.55);white-space:nowrap}
+.gold{font-family:Cin;font-weight:900;color:#E9C46A;-webkit-text-stroke:3px #3A2608;paint-order:stroke fill;text-shadow:0 6px 0 #2A1A04,0 0 40px rgba(0,0,0,.9)}
+</style></head><body><div id="root"><div id="dyn"></div></div>
+<script src="words.js"></script><script src="timeline.js"></script>
+<script>const tr=s=>String(s).replace(/İ/g,'<span class="ti dot">I</span>').replace(/Ğ/g,'<span class="ti brv">G</span>').replace(/Ş/g,'<span class="ti ced">S</span>').replace(/Â/g,'<span class="ti crc">A</span>').replace(/\./g,'<span class="ti pd">&#8203;</span>').replace(/%/g,'<span class="pc">%</span>');
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),lerp=(a,b,k)=>a+(b-a)*k,prog=(t,a,d)=>cl((t-a)/d);
+const eo=k=>1-Math.pow(1-cl(k),3),eb=k=>{k=cl(k);const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const env=(t,a,b,fi=.25,fo=.18)=>t<a||t>b?0:Math.min(eb(prog(t,a,fi)),1-prog(t,b-fo,fo));
+const pop=(t,a,d=.3)=>`opacity:${cl(prog(t,a,d)*3)};transform:scale(${lerp(.5,1,eb(prog(t,a,d)))})`;
+// captions: 2-3 word chunks
+const KEY=/^(challenger|demir|iv|sen|mmr|panik|lp|zamansız|şanlı|arakçı|devdoğan|kader|cançiçeği|mezar|peri|aram|ultine|4|yorum|2027)/i;
+const CH=[];{let cur=[];WORDS.forEach((x,i)=>{cur.push(x);const nx=WORDS[i+1];const len=cur.map(y=>y[2]).join(' ').length;const nlen=nx?len+1+nx[2].length:0;if(/[,.?!]$/.test(x[2])||cur.length>=3||nlen>17||!nx||nx[0]-x[1]>.3){CH.push(cur);cur=[]}})}
+function caption(t){for(let i=0;i<CH.length;i++){const a=CH[i][0][0],b=Math.min(CH[i+1]?CH[i+1][0][0]:99,CH[i][CH[i].length-1][1]+.35);if(t>=a&&t<b){const k=prog(t,a,.12);
+ return `<div class="cap" style="transform:scale(${lerp(.8,1,eb(k))})">`+CH[i].map(x=>{const s=x[2].replace(/[,.?!]$/,'').toLocaleUpperCase('tr');return KEY.test(x[2].replace(/['’].*/,''))?`<span class="y">${s}</span>`:s}).join(' ')+'</div>'}}return ''}
+// headline strip under the channel tag
+const HEAD=(t,a,b,txt,bg='#F4EFE6',fg='#0B0B0F',rot=-2)=>{const k=env(t,a,b,.28,.15);if(!k)return '';return `<div class="head" style="opacity:${cl(k*3)};transform:translateX(${(1-eo(prog(t,a,.3)))*-700}px) rotate(${rot}deg)"><span style="background:${bg};color:${fg}">${tr(txt)}</span></div>`};
+const STAMP=(t,a,b,txt,col,y,rot=-8,fs=92)=>{if(t<a||t>b)return '';const k=prog(t,a,.22);return `<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${cl(k*4)*cl((b-t)/.15)}"><span class="stamp" style="font-size:${fs}px;color:${col};transform:rotate(${rot}deg) scale(${lerp(3,1,eo(k))})">${tr(txt)}</span></div>`};
+const CHIP=(t,a,b,txt,y,rot=3,bg='#D4FF3A')=>{if(t<a||t>b)return '';return `<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${cl((b-t)/.15)}"><span class="chip" style="background:${bg};transform:rotate(${rot}deg);${pop(t,a)}">${tr(txt)}</span></div>`};
+
+function emb(r,x,y,w,st=''){return `<img src="assets/e_${r}.png" style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;filter:drop-shadow(0 12px 30px rgba(0,0,0,.8));${st}">`}
+const CHIP2=(t,a,e,txt,y,fs=60,bg='#D4FF3A',fg='#0B0B0F',rot=2)=>{if(t<a||t>e)return '';return `<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${cl((e-t)/.15)}"><span class="chip" style="font-size:${fs}px;background:${bg};color:${fg};transform:rotate(${rot}deg);${pop(t,a)}">${tr(txt)}</span></div>`};
+function seg(t){return PLAN.find(p=>t>=p[0]&&t<p[1])||PLAN[PLAN.length-1]}
+window.render=function(t){let O='';const sg=seg(t);
+ if(sg[2]==='CARD')O+=`<div class="ab" style="left:32px;top:${CY-8}px;width:1000px;height:563px;border:8px solid #D4FF3A;box-shadow:14px 16px 0 rgba(0,0,0,.6)"></div>`;
+ O+=`<div class="tag"><span style="font-size:34px;letter-spacing:.06em;padding:4px 18px 2px;background:rgba(11,11,15,.75);border-radius:8px">FEEDLEME HOCAM</span></div>`;
+ // ===== HOOK: 2027 sezonu, ligler sıfırlanıyor =====
+ if(t<6.35){O+=`<div class="ab" style="inset:0;background:rgba(11,11,15,.3)"></div>`}
+ if(t<4.85){const A=1-prog(t,4.7,.15);
+  O+=`<div class="ab gold" style="left:0;right:40px;top:240px;text-align:center;font-size:120px;line-height:1.1;opacity:${cl(prog(t,0,.2)*3)*A};transform:scale(${lerp(2.2,1,eo(prog(t,0,.25)))})">2027<br><span style="font-size:.6em">SEZONU</span></div>`;
+  // rank tower scrolls down to Iron while "ligler sıfırlanıyo"
+  const R=['challenger','grandmaster','master','diamond','emerald','platinum','gold','silver','bronze','iron'],u=eo(prog(t,1.2,1.0)),step=260;
+  if(t<2.95){let h='';R.forEach((r,i)=>{const y=820+i*step-u*9*step;if(y>-300&&y<2100)h+=`<img src="assets/e_${r}.png" style="position:absolute;left:${540-20-170}px;top:${y-110}px;width:340px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.8));opacity:${cl(1-Math.abs(y-820)/700)}">`});O+=`<div class="ab" style="inset:0;opacity:${A}">${h}</div>`;
+   if(t>=1.26)O+=`<div class="ab" style="left:0;right:40px;top:1130px;text-align:center;opacity:${A}"><span class="chip" style="font-size:70px;background:#FF3B5C;color:#F4EFE6;transform:rotate(-3deg);${pop(t,1.26)}">${tr('LİGLER SIFIRLANIYOR')}</span></div>`}
+  else{const k=prog(t,2.88,.2),sh=t<3.15?Math.sin(t*170)*16*(1-prog(t,2.88,.27)):0;O+=`<img src="assets/e_iron.png" style="position:absolute;left:${540-20-260+sh}px;top:${600+sh*.5}px;width:520px;opacity:${cl(k*4)*A};transform:scale(${lerp(2.4,1,eo(k))});filter:drop-shadow(0 12px 30px rgba(0,0,0,.8))">`;
+   O+=`<div class="ab" style="left:0;right:40px;top:1000px;text-align:center;opacity:${A}"><span class="chip" style="font-size:80px;background:#F4EFE6;transform:rotate(-3deg);${pop(t,2.88)}">${tr('HERKES DEMİR IV')}</span></div>`}}
+ // Evet, Challenger da: card slams, cracks at "Demir", Iron card replaces it
+ if(t>=4.6&&t<6.35){const A=1-prog(t,6.15,.2),k=prog(t,4.76,.22),d=prog(t,5.22,.4),sh=t>=5.22&&t<5.34?Math.sin(t*160)*14:0;
+  if(t<5.62)O+=`<div class="ab" style="left:${540-20-300+sh}px;top:${380+eo(d)*900}px;width:600px;opacity:${cl(k*3)*(1-d)};transform:scale(${lerp(1.8,1,eo(k))}) rotate(${d*25}deg)"><img src="assets/ss_chall.png" style="width:600px;border:6px solid #E9C46A;box-shadow:0 0 50px rgba(233,196,106,.6),14px 16px 0 rgba(0,0,0,.6)">${t>=5.22?`<svg class="ab" style="left:0;top:0" width="600" height="818"><path d="M300 0 L270 220 L340 360 L250 520 L320 818" stroke="#fff" stroke-width="8" fill="none" opacity=".9"/><path d="M270 220 L120 300 M340 360 L520 300 M250 520 L80 600" stroke="#fff" stroke-width="5" fill="none" opacity=".8"/></svg>`:''}</div>`;
+  if(t>=5.46){const k2=prog(t,5.46,.2),sh2=t<5.7?Math.sin(t*170)*18*(1-prog(t,5.46,.24)):0;O+=`<div class="ab" style="left:${540-20-300+sh2}px;top:${380+sh2*.5}px;width:600px;opacity:${cl(k2*4)*A};transform:scale(${lerp(2.4,1,eo(k2))}) rotate(-2deg)"><img src="assets/ss_iron.png" style="width:600px;border:6px solid #8a8a8a;box-shadow:14px 16px 0 rgba(0,0,0,.6)"></div>`}
+  if(t>=4.76)O+=`<div class="ab" style="left:0;right:40px;top:1240px;text-align:center;opacity:${A}"><span class="chip" style="font-size:76px;background:${t<5.46?'#E9C46A':'#FF3B5C'};color:${t<5.46?'#0B0B0F':'#F4EFE6'};transform:rotate(-3deg);${pop(t,4.76)}">${tr(t<5.46?'EVET, CHALLENGER DA':'DEMİR IV!')}</span></div>`}
+ // ===== Panik yok / görünen derece / MMR =====
+ if(t>=6.3&&t<11.8){const A=cl((11.8-t)/.15);
+  O+=`<div class="ab" style="left:0;right:40px;top:290px;text-align:center"><span class="stamp" style="font-size:86px;color:#3a9b00;transform:rotate(-6deg);${pop(t,6.46)}">${tr('PANİK YOK')}</span></div>`;
+  if(t>=7.36)O+=`<div class="ab" style="left:120px;width:800px;top:470px;opacity:${A};${pop(t,7.36)}"><div class="paper" style="padding:20px 26px;text-align:center"><div style="font-size:44px;opacity:.7">${tr('GÖRÜNEN DERECE')}</div><img src="assets/e_iron.png" style="width:260px;margin:6px auto 0;display:block"><div style="font-size:84px;line-height:1.25;color:#b44">${tr('DEMİR IV')}</div></div></div>`;
+  if(t>=10.2)O+=`<div class="ab" style="left:160px;width:720px;top:1060px;opacity:${A};${pop(t,10.2)}"><div style="background:#D4FF3A;color:#0B0B0F;padding:16px 26px;text-align:center;box-shadow:12px 14px 0 rgba(0,0,0,.55)"><span style="font-family:Mon;font-weight:900;font-size:70px;margin-right:26px">MMR</span><span style="font-size:70px;margin-right:22px">${tr('AYNI')}</span><span style="font-family:Mon;font-weight:900;font-size:70px">✓</span></div></div>`}
+ // ===== same level / climb together =====
+ if(t>=11.8&&t<16.82){const A=cl((16.82-t)/.15);
+  if(t<14.14){[['master',12.26,380],['gold',12.75,700]].forEach(([r,a,y])=>{if(t>=a)O+=`<div class="ab" style="left:0;right:40px;top:${y}px;text-align:center;opacity:${1-prog(t,13.98,.15)};${pop(t,a)}"><img src="assets/e_${r}.png" style="height:220px;vertical-align:middle"><span style="font-family:Mon;font-weight:900;font-size:100px;color:#F4EFE6;-webkit-text-stroke:5px #0B0B0F;paint-order:stroke fill;margin:0 34px;vertical-align:middle">VS</span><img src="assets/e_${r}.png" style="height:220px;vertical-align:middle"></div>`});O+=CHIP2(t,12.26,14.1,'KENDİ SEVİYENLE',1030,62)}
+  else{const u=prog(t,14.3,2.3);O+=emb('iron',520,820-u*360,420,`opacity:${A};${pop(t,14.14)}`);O+=`<div class="ab" style="left:770px;top:${700-u*360}px;font-family:Mon;font-weight:900;font-size:220px;color:#D4FF3A;-webkit-text-stroke:8px #0B0B0F;paint-order:stroke fill;opacity:${A}">↑</div>`;O+=CHIP2(t,14.76,16.82,'HERKES BİRLİKTE TIRMANIYOR',320,56,'#F4EFE6')}}
+ // ===== LP =====
+ if(t>=16.82&&t<21.64){const A=cl((21.64-t)/.15);O+=CHIP2(t,17.34,21.64,'LP KAZANCI ÇOK YÜKSEK',300,66);
+  if(t>=17.34){const k=prog(t,17.34,.3);O+=`<div class="ab" style="left:${540-20-400}px;top:520px;width:800px;opacity:${cl(k*3)*A};transform:scale(${lerp(.6,1,eb(k))}) rotate(-2deg)"><img src="assets/lp_card.png" style="width:800px;display:block;border-radius:30px;border:8px solid #E9C46A;box-shadow:0 0 50px rgba(233,196,106,.45),14px 16px 0 rgba(0,0,0,.6)"></div>`}
+  O+=CHIP2(t,18.9,21.64,'DEMİR DEĞİLSEN UZUN KALMAZSIN',1060,50,'#F4EFE6')}
+ // ===== Zamansız Şanlı =====
+ if(t>=21.64&&t<27.94){const A=cl((27.94-t)/.15);O+=`<div class="head" style="opacity:${A}"><span style="background:#D4FF3A;color:#0B0B0F;${pop(t,21.64)}">${tr('ÖDÜL VAR')}</span></div>`;
+  if(t>=23.0&&t<23.74)O+=`<div class="ab" style="left:0;right:40px;top:520px;text-align:center;${pop(t,23.0)}"><span style="display:inline-flex;align-items:center;justify-content:center;width:340px;height:340px;box-sizing:border-box;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#E9C46A 45%,#8a6416);border:10px solid #0B0B0F;box-shadow:0 0 50px rgba(233,196,106,.7);font-family:Cin;font-weight:900;font-size:170px;line-height:1;color:#3A2608"><span style="display:block;transform:translateY(-4px)">Z</span></span><div style="margin-top:20px"><span class="chip" style="font-size:66px">${tr('ZAMANSIZ JETON')}</span></div></div>`;
+  if(t>=23.74){['Draven_68','Fiora_98','MasterYi_106','Sona_56'].forEach((s,i)=>{const a=23.74+i*.2;if(t<a)return;O+=`<div class="ab" style="left:${70+(i%2)*490}px;top:${420+Math.floor(i/2)*300}px;opacity:${A};${pop(t,a)}"><img src="assets/vic_${s}.jpg" style="width:450px;height:265px;object-fit:cover;border:6px solid #E9C46A;box-shadow:10px 12px 0 rgba(0,0,0,.6);transform:rotate(${i%2?2:-2}deg)"></div>`});
+   O+=CHIP2(t,24.22,27.94,'ZAMANSIZ ŞANLI KOSTÜMLER',1040,54,'#E9C46A');
+   if(t>=26.3)O+=`<div class="ab" style="left:0;right:40px;top:1130px;text-align:center;opacity:${A}"><span class="stamp" style="font-size:90px;color:#FF3B5C;transform:rotate(-6deg);${pop(t,26.3)}">${tr('BEKLEMEK YOK')}</span></div>`}}
+ // ===== Runes =====
+ if(t>=27.94&&t<35.34){const A=cl((35.34-t)/.15);O+=`<div class="head" style="opacity:${A}"><span style="background:#F4EFE6;color:#0B0B0F;${pop(t,27.94)}">${tr('2 YENİ ANAHTAR RÜN')}</span></div>`;
+  if(t>=29.22&&t<32.72)O+=`<div class="ab" style="left:100px;width:840px;top:420px;${pop(t,29.22)}"><div style="display:flex;align-items:center;gap:20px;background:rgba(11,11,15,.85);padding:14px 22px;border:5px solid #D4FF3A"><img src="assets/rune_klepto.png" style="width:120px"><div><div style="font-size:66px;line-height:1.25;padding-top:.1em">${tr('ARAKÇI')}</div><div style="font-size:40px;line-height:1.3;color:#D4FF3A">${tr('DÜKKÂNDA İNDİRİM')}</div></div></div></div>`;
+  if(t>=32.72)O+=`<div class="ab" style="left:100px;width:840px;top:420px;${pop(t,32.72)}"><div style="display:flex;align-items:center;gap:20px;background:rgba(11,11,15,.85);padding:14px 22px;border:5px solid #D4FF3A"><div style="width:120px;height:120px;background:#D4FF3A;color:#0B0B0F;font-family:Mon;font-weight:900;font-size:80px;line-height:120px;text-align:center">?</div><div><div style="font-size:66px;line-height:1.25;padding-top:.1em">${tr('DEVDOĞAN')}</div><div style="font-size:40px;line-height:1.3;color:#D4FF3A">${tr('SAVAŞTIKÇA DEVLEŞ')}</div></div></div></div>`}
+ // ===== Items =====
+ if(t>=35.34&&t<39.98){const A=cl((39.98-t)/.15);[['KADER VERGİSİ',35.34],['CANÇİÇEĞİ TACI',36.42],['MEZAR BELASI',37.52]].forEach(([n,a],i)=>{if(t>=a)O+=`<div class="ab" style="left:0;right:40px;top:${250+i*110}px;text-align:center;opacity:${A}"><span class="chip" style="font-size:58px;background:${i%2?'#F4EFE6':'#D4FF3A'};transform:rotate(${i%2?2:-2}deg);${pop(t,a)}">${tr(n)}</span></div>`});
+  if(t>=38.5)O+=`<div class="ab" style="left:0;right:40px;top:840px;text-align:center"><span class="stamp" style="font-size:84px;color:#0B0B0F;transform:rotate(-5deg);${pop(t,38.5)}">${tr('3 YENİ EŞYA')}</span></div>`}
+ // ===== Peri Işıkları =====
+ if(t>=39.98&&t<41.38){O+=`<div class="head"><span style="background:#FF3B5C;color:#F4EFE6;${pop(t,39.98)}">${tr('PERİ IŞIKLARI KALKIYOR')}</span></div>`;
+  O+=`<div class="ab" style="left:0;right:40px;top:400px;text-align:center;${pop(t,40.06)}"><span style="position:relative;display:inline-block"><img src="assets/item_3340.png" style="width:200px;height:200px;border:5px solid #0B0B0F"><span style="position:absolute;left:0;right:0;top:-50px;text-align:center;font-family:Mon;font-weight:900;font-size:250px;line-height:1;color:#FF3B5C;-webkit-text-stroke:8px #0B0B0F;paint-order:stroke fill">✕</span></span></div>`}
+ // ===== ARAM =====
+ if(t>=41.38&&t<44.7){const A=cl((44.7-t)/.15);O+=`<div class="head" style="opacity:${A}"><span style="background:#D4FF3A;color:#0B0B0F;${pop(t,41.38)}">${tr('ARAM: ŞAMATA')}</span></div>`;
+  if(t>=42.32)O+=`<div class="ab" style="left:0;right:40px;top:520px;text-align:center;opacity:${A};${pop(t,42.32)}"><div style="display:inline-block;background:#0B0B0F;color:#D4FF3A;padding:24px 40px;transform:rotate(3deg);box-shadow:12px 14px 0 rgba(0,0,0,.6)"><div style="font-size:70px;line-height:1.28">${tr('ULTİ')}</div><div style="margin-top:10px">${[0,1,2,3].map(i=>`<span style="display:inline-block;width:80px;height:80px;border-radius:50%;margin:0 10px;border:7px solid #D4FF3A;background:${i<3||t>=42.86?'#D4FF3A':'transparent'};${i===3?`transform:scale(${t>=42.86?lerp(1.8,1,eb(prog(t,42.86,.3))):1})`:''}"></span>`).join('')}</div><div style="font-size:64px;line-height:1.28;margin-top:10px"><span style="font-family:Mon;font-weight:900">4.</span> ${tr('SEVİYE!')}</div></div></div>`}
+ // ===== Outro =====
+ if(t>=44.7){const u=prog(t,45.0,2.5);O+=emb('iron',540,760-u*200,460,`${pop(t,44.7)}`);O+=`<div class="ab" style="left:800px;top:${640-u*200}px;font-family:Mon;font-weight:900;font-size:200px;color:#D4FF3A;-webkit-text-stroke:8px #0B0B0F;paint-order:stroke fill">↑</div>`;
+  O+=`<div class="head"><span style="background:#F4EFE6;color:#0B0B0F;${pop(t,44.7)}">${tr('KAÇ MAÇTA ÇIKARSIN?')}</span></div>`;O+=CHIP2(t,47.14,99,'YORUMLARA YAZ',1130,76)}
+ // captions (not under the hook graphics)
+ if(t>=6.3&&t<48.3)O+=caption(t);
+ document.getElementById('dyn').innerHTML=O};
+window.SFX=[...[6.3,21.64,27.94,35.34,41.38,44.7].map(x=>['el_swoosh',x-.25,0]),['el_hit',.05,0],['el_slot',1.2,0],
+ ...[1.26,2.88,4.76,5.46,6.46,7.36,10.2,12.26,12.75,14.14,14.76,17.34,18.9,21.64,23.0,23.74,24.22,26.3,27.94,29.22,32.72,35.34,36.42,37.52,38.5,39.98,41.38,42.32,42.86,44.7,47.14].map(x=>['el_text',x,0])];
+window.ready=Promise.all([document.fonts.ready,...['lp_card.png','lol_logo.png','e_challenger.png','e_grandmaster.png','e_master.png','e_diamond.png','e_emerald.png','e_platinum.png','e_gold.png','e_silver.png','e_bronze.png','e_iron.png','ss_chall.png','ss_iron.png','vic_Draven_68.jpg','vic_Fiora_98.jpg','vic_MasterYi_106.jpg','vic_Sona_56.jpg','rune_klepto.png','item_3340.png'].map(f=>{const i=new Image();i.src='assets/'+f;return i.decode().catch(()=>0)})]);
+</script></body></html>

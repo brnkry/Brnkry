@@ -1,0 +1,22 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:AC;src:url(assets/fonts/american_captainttf)}
+html,body{margin:0}
+.f{position:relative;width:1920px;height:1080px;background:url(assets/ornek_kare.png) 0 0/1920px 1080px;overflow:hidden}
+.ln{line-height:.96;margin:0;white-space:nowrap}
+.ti{position:relative;display:inline-block}
+.ti i{position:absolute;top:-.16em;height:.12em;background:currentColor}
+</style></head><body>
+<div class="f" id="a">
+ <div style="position:absolute;left:940px;top:330px;width:940px;display:flex;flex-direction:column;align-items:center;gap:0;font-family:AC;color:#F4E6CC;text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.8)">
+  <div class="ln t" style="font-size:170px;letter-spacing:.03em">YAPTIKLARIN</div>
+  <div class="ln t" style="font-size:170px;letter-spacing:.03em">İÇİN</div>
+  <div class="ln t" style="font-size:170px;letter-spacing:.03em;color:#F6D29A">HESAP VER</div>
+ </div>
+</div>
+<script>
+document.querySelectorAll('.t').forEach(e=>e.innerHTML=e.textContent.replace(/İ/g,'<span class="ti">I<i></i></span>'));
+window.ready=document.fonts.load('170px AC','I').then(()=>{
+ const c=document.createElement('canvas');c.width=400;c.height=300;const x=c.getContext('2d');x.font='170px AC';x.fillText('I',50,220);
+ const d=x.getImageData(0,0,400,300).data;let l=400,r=0;for(let px=0;px<400;px++)for(let py=0;py<300;py++)if(d[(py*400+px)*4+3]>128){l=Math.min(l,px);r=Math.max(r,px)}
+ document.querySelectorAll('.ti i').forEach(i=>{i.style.left=(l-50)+'px';i.style.width=(r-l+1)+'px'});});
+</script></body></html>

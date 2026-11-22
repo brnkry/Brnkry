@@ -1,0 +1,616 @@
+1
+00:00:01,953 --> 00:00:04,117
+Yaptıkların için hesap ver.
+
+2
+00:00:04,632 --> 00:00:07,237
+Yone, geri dön.
+
+3
+00:00:07,813 --> 00:00:09,798
+Onurumuzu yere serdin.
+
+4
+00:00:10,272 --> 00:00:12,617
+Onu korumaya yemin etmiştin.
+
+5
+00:00:13,432 --> 00:00:15,876
+Sen de Ionia'yı korumaya...
+
+6
+00:00:16,472 --> 00:00:18,636
+Etrafına bir bak, kardeşim.
+
+7
+00:00:18,852 --> 00:00:21,416
+Onurun toprağı lekeliyor.
+
+8
+00:00:22,073 --> 00:00:23,922
+Onursuzluktan iyidir.
+
+9
+00:00:23,952 --> 00:00:25,778
+Affet beni, kardeşim.
+
+10
+00:00:26,252 --> 00:00:28,898
+Seni bir daha utandırmayacağım.
+
+11
+00:00:29,310 --> 00:00:34,386
+Yasuo, hayatı boyunca onu koruyan
+tek kişiyi, kendi abisini öldürdü.
+
+12
+00:00:34,497 --> 00:00:37,250
+Ama bu hikayenin en acı kısmı şu:
+
+13
+00:00:37,421 --> 00:00:40,294
+suçlandığı cinayeti o işlememişti.
+
+14
+00:00:40,405 --> 00:00:44,320
+Peki bir kardeş, abisine
+neden kılıç çeker?
+
+15
+00:00:46,830 --> 00:00:50,686
+Bu hikaye Ionia'da,
+küçük bir köyde başlıyor.
+
+16
+00:00:50,817 --> 00:00:54,032
+Yasuo daha doğmadan
+babası onları terk etti.
+
+17
+00:00:54,103 --> 00:00:57,057
+Köyde herkes ona bir fazlalık gibi baktı.
+
+18
+00:00:57,128 --> 00:00:58,500
+Bir kişi hariç.
+
+19
+00:00:59,792 --> 00:01:02,556
+Kaybettiklerini hatırla.
+
+20
+00:01:03,892 --> 00:01:05,367
+Bırak beni Yone!
+
+21
+00:01:05,461 --> 00:01:06,862
+Yenecektim!
+
+22
+00:01:06,892 --> 00:01:09,195
+İri oğlanı nasıl alıyordum, gördün mü?
+
+23
+00:01:09,912 --> 00:01:11,996
+Onurunu ayaklar altına alıyordu.
+
+24
+00:01:13,783 --> 00:01:14,917
+Ama sen de...
+
+25
+00:01:15,292 --> 00:01:16,632
+Mecbursam dövüşürüm.
+
+26
+00:01:16,662 --> 00:01:17,977
+Keyif için değil.
+
+27
+00:01:18,653 --> 00:01:20,760
+Senin kanıtlayacak bir şeyin yok ki.
+
+28
+00:01:20,790 --> 00:01:23,864
+Abisi Yone, onu her zaman korudu.
+
+29
+00:01:23,894 --> 00:01:27,408
+Yasuo sabırsız, hızlı ve öfkeliydi.
+
+30
+00:01:27,479 --> 00:01:31,695
+Yone ise sakin, ağırbaşlı
+ve görevine bağlıydı.
+
+31
+00:01:31,725 --> 00:01:36,060
+İki zıt kutup, ama birbirinden
+hiç kopmayan iki kardeş.
+
+32
+00:01:38,900 --> 00:01:41,530
+Okulda herkesin gözü Yasuo'daydı.
+
+33
+00:01:41,560 --> 00:01:44,510
+Çünkü Yasuo rüzgârı hissedebiliyordu.
+
+34
+00:01:44,560 --> 00:01:50,791
+Rüzgâr tekniğini bilen son usta, Yaşlı Souma,
+onu öğrencisi ve koruması olarak seçti.
+
+35
+00:01:51,341 --> 00:01:53,151
+Yasuo önce reddetti.
+
+36
+00:01:53,181 --> 00:01:55,431
+Onu ikna eden yine Yone oldu.
+
+37
+00:01:55,461 --> 00:02:00,832
+Kardeşine, okulun alçakgönüllülük sembolü
+olan küçük bir akçaağaç tohumu verdi.
+
+38
+00:02:00,862 --> 00:02:03,792
+Yasuo tohumu aldı ve tekniği öğrendi.
+
+39
+00:02:03,822 --> 00:02:07,992
+Rüzgâr artık onun kalkanı,
+kılıcı ve gölgesiydi.
+
+40
+00:02:08,542 --> 00:02:11,993
+Kardeşlerin idman düelloları
+köyde seyirci toplardı.
+
+41
+00:02:12,023 --> 00:02:16,993
+Ama kimse, bir gün bu iki kılıcın
+gerçekten çarpışacağını bilmiyordu.
+
+42
+00:02:17,543 --> 00:02:19,353
+Sonra Noxus geldi.
+
+43
+00:02:19,383 --> 00:02:21,833
+İmparatorluk Ionia'yı işgal etti.
+
+44
+00:02:21,863 --> 00:02:24,693
+Köyler yandı, tapınaklar yıkıldı.
+
+45
+00:02:25,243 --> 00:02:27,420
+Öğrenciler savaşa çağrıldı.
+
+46
+00:02:27,450 --> 00:02:29,927
+Ama Yasuo'ya tek bir emir verildi:
+
+47
+00:02:29,957 --> 00:02:32,413
+burada kal ve Souma'yı koru.
+
+48
+00:02:32,956 --> 00:02:34,719
+Senin yerin burası.
+
+49
+00:02:35,498 --> 00:02:36,904
+Usta Souma'nın yanı.
+
+50
+00:02:36,934 --> 00:02:39,320
+Beni bunun için eğitti o.
+
+51
+00:02:39,976 --> 00:02:42,181
+Yardımımla savaş bitebilir.
+
+52
+00:02:46,316 --> 00:02:48,560
+Senin vazifen bu okula.
+
+53
+00:02:49,279 --> 00:02:50,316
+Ustana.
+
+54
+00:02:51,178 --> 00:02:52,437
+Ionia'ya.
+
+55
+00:02:53,357 --> 00:02:55,561
+O zaman gidip onu korumam lazım.
+
+56
+00:02:56,916 --> 00:02:59,221
+Seni yüzüstü bırakmayacağım, Yone.
+
+57
+00:03:00,882 --> 00:03:03,681
+Ben seni yüzüstü bırakmışım bile.
+
+58
+00:03:04,063 --> 00:03:05,993
+Ama Yasuo yerinde duramadı.
+
+59
+00:03:06,023 --> 00:03:09,153
+Savaşı kendi kılıcıyla
+çevirebileceğine inanıyordu.
+
+60
+00:03:09,183 --> 00:03:11,774
+Görevini bıraktı ve cepheye koştu.
+
+61
+00:03:11,804 --> 00:03:14,974
+Oraya vardığında, savaş çoktan bitmişti.
+
+62
+00:03:15,524 --> 00:03:18,554
+Okula döndüğünde Yaşlı
+Souma'yı yerde buldu.
+
+63
+00:03:18,584 --> 00:03:20,034
+Ustası ölmüştü.
+
+64
+00:03:20,064 --> 00:03:22,814
+Ve onu öldüren şey, rüzgârdı.
+
+65
+00:03:23,364 --> 00:03:26,354
+Rüzgâr tekniğini bilen
+tek öğrenci Yasuo'ydu.
+
+66
+00:03:26,384 --> 00:03:27,954
+Görevini terk etmişti.
+
+67
+00:03:27,984 --> 00:03:29,874
+Bütün izler ona çıkıyordu.
+
+68
+00:03:29,904 --> 00:03:31,734
+Kimse ne olduğunu sormadı.
+
+69
+00:03:31,764 --> 00:03:33,254
+Yasuo da açıklamadı.
+
+70
+00:03:33,284 --> 00:03:34,284
+Kaçtı.
+
+71
+00:03:34,784 --> 00:03:37,575
+Eski okul arkadaşları
+onu avlamaya başladı.
+
+72
+00:03:37,605 --> 00:03:40,115
+Yasuo her seferinde kendini savundu.
+
+73
+00:03:40,145 --> 00:03:43,835
+Ve her seferinde, bir
+arkadaşını daha toprağa gömdü.
+
+74
+00:03:44,435 --> 00:03:47,383
+Kardeşim, ne hale geldin?
+
+75
+00:03:47,413 --> 00:03:49,576
+Anlatsam, dinler miydin?
+
+76
+00:03:49,674 --> 00:03:51,784
+Suç işledin, aranıyorsun.
+
+77
+00:03:51,814 --> 00:03:53,717
+Katil değilim ben.
+
+78
+00:03:53,854 --> 00:03:56,117
+Yaptıklarının hesabını ver.
+
+79
+00:03:56,617 --> 00:04:00,947
+Sonunda karşısına, beklediği
+ama hiç istemediği kişi çıktı.
+
+80
+00:04:00,977 --> 00:04:04,208
+Kardeşini adalete teslim
+etmeye gelen Yone.
+
+81
+00:04:04,758 --> 00:04:07,528
+Hikayenin başında gördüğünüz düello buydu.
+
+82
+00:04:07,558 --> 00:04:10,188
+İki kardeş birbirinin etrafında döndü.
+
+83
+00:04:10,218 --> 00:04:12,228
+Teknikleri birbirine denkti.
+
+84
+00:04:12,258 --> 00:04:14,988
+Ama rüzgâr, Yasuo'nun yanındaydı.
+
+85
+00:04:15,538 --> 00:04:16,888
+Yone yere düştü.
+
+86
+00:04:16,918 --> 00:04:20,648
+Yasuo dizlerinin üstüne çöküp
+affedilmek için yalvardı.
+
+87
+00:04:20,678 --> 00:04:25,068
+Yone'nin son sözleri, Souma'nın
+rüzgâr tekniğiyle öldüğü oldu.
+
+88
+00:04:25,098 --> 00:04:26,928
+Ve affetmeden öldü.
+
+89
+00:04:27,478 --> 00:04:30,489
+Yasuo, abisini kendi elleriyle gömdü.
+
+90
+00:04:30,519 --> 00:04:33,129
+Sonra kılıcını alıp yoluna devam etti.
+
+91
+00:04:33,159 --> 00:04:37,309
+Artık ne bir evi, ne bir
+okulu, ne de bir abisi vardı.
+
+92
+00:04:37,859 --> 00:04:40,149
+Yıllar sonra gerçek ortaya çıktı.
+
+93
+00:04:40,179 --> 00:04:42,630
+Souma'yı öldüren, Yasuo değildi.
+
+94
+00:04:43,180 --> 00:04:44,910
+Noxuslu bir askerdi.
+
+95
+00:04:44,940 --> 00:04:46,270
+Adı Riven.
+
+96
+00:04:46,300 --> 00:04:51,390
+Savaşta Ionia'ya karşı korkunç şeyler
+yapmış, sonra ordusundan kaçmıştı.
+
+97
+00:04:51,420 --> 00:04:54,950
+Elindeki lanetli rün
+kılıcından kurtulmak istiyordu.
+
+98
+00:04:55,500 --> 00:04:59,011
+Souma'ya geldi ve kılıcı
+yok etmesi için yalvardı.
+
+99
+00:04:59,041 --> 00:05:02,131
+Souma kılıcı rüzgâr
+tekniğiyle kırmaya çalıştı.
+
+100
+00:05:02,161 --> 00:05:06,291
+Kılıç parçalandı ve patlama,
+yaşlı ustayı öldürdü.
+
+101
+00:05:06,841 --> 00:05:11,852
+Yani Yasuo, işlemediği bir cinayet
+yüzünden abisinin kanını dökmüştü.
+
+102
+00:05:12,402 --> 00:05:16,292
+Riven yakalandı, köyde
+yargılandı ve itiraf etti.
+
+103
+00:05:16,322 --> 00:05:18,192
+O gece Yasuo onu buldu.
+
+104
+00:05:18,222 --> 00:05:23,253
+Kırık kılıcın parçalarını ayaklarının
+dibine attı ve onu düelloya çağırdı.
+
+105
+00:05:23,803 --> 00:05:26,893
+Ama dövüşün sonunda
+ikisi de aynı şeyi gördü.
+
+106
+00:05:26,923 --> 00:05:29,093
+İkisi de kendi suçunu taşıyordu.
+
+107
+00:05:29,123 --> 00:05:31,853
+Köyün hâkimi Yasuo'ya şunu söyledi:
+
+108
+00:05:31,943 --> 00:05:35,573
+Sorumluluğu kabul etmek,
+kefaretin ilk adımıdır.
+
+109
+00:05:35,644 --> 00:05:38,074
+Kendini affetmek ise ikincisi.
+
+110
+00:05:38,624 --> 00:05:40,714
+Yasuo ilk adımı atabildi.
+
+111
+00:05:40,744 --> 00:05:42,294
+İkincisini atamadı.
+
+112
+00:05:42,404 --> 00:05:44,014
+Ve yine yola çıktı.
+
+113
+00:05:44,564 --> 00:05:45,954
+Yıllar geçti.
+
+114
+00:05:46,044 --> 00:05:51,455
+Ruh Çiçeği Festivali'nde, ölülerin ruhlarının
+yaşayanlara en yakın olduğu gecede,
+
+115
+00:05:51,485 --> 00:05:53,515
+Yasuo bir tapınağa vardı.
+
+116
+00:05:53,937 --> 00:05:56,803
+Bırak sular seni arındırsın.
+
+117
+00:05:59,197 --> 00:06:03,003
+Akıntı taşıdığın yükü alsın götürsün.
+
+118
+00:06:03,265 --> 00:06:05,935
+Ama tapınaktaki kadın bir rehber değildi.
+
+119
+00:06:05,965 --> 00:06:07,455
+Bir azakana'ydı.
+
+120
+00:06:07,485 --> 00:06:10,735
+İnsanların suçluluğuyla
+beslenen bir iblis.
+
+121
+00:06:10,785 --> 00:06:15,876
+Ve Yasuo'nun suçu, bütün Ionia'da
+bulabileceği en büyük ziyafetti.
+
+122
+00:06:16,418 --> 00:06:19,924
+Bazen iblislerimizi
+bizim bulmamız gerekir.
+
+123
+00:06:28,326 --> 00:06:33,296
+Yasuo yere düştüğünde, karanlığın
+içinden maskeli bir kılıç ustası çıktı.
+
+124
+00:06:33,326 --> 00:06:35,136
+Yasuo o tekniği tanıdı.
+
+125
+00:06:35,166 --> 00:06:39,137
+Çünkü bu, kendi elleriyle
+gömdüğü adamın tekniğiydi.
+
+126
+00:06:51,687 --> 00:06:53,157
+İblis yenildi.
+
+127
+00:06:53,207 --> 00:06:57,377
+Yasuo kılıcını yere bıraktı
+ve abisinin önünde diz çöktü.
+
+128
+00:06:57,407 --> 00:07:00,537
+Yıllardır beklediği
+hükmü vermesini bekledi.
+
+129
+00:07:01,303 --> 00:07:03,385
+İntikamını al, kardeşim.
+
+130
+00:07:03,700 --> 00:07:05,784
+Belki senin hakkın ölüm.
+
+131
+00:07:07,164 --> 00:07:09,125
+Ama benim elimden değil.
+
+132
+00:07:12,080 --> 00:07:15,145
+O halde Ionia'da bana bir şey kalmadı.
+
+133
+00:07:18,439 --> 00:07:21,365
+Rüzgârın bile bir yolu vardır, kardeşim.
+
+134
+00:07:26,600 --> 00:07:28,944
+Elveda, Yone.
+
+135
+00:07:31,921 --> 00:07:35,105
+Ionia'nın ruhu sana yol göstersin.
+
+136
+00:07:35,287 --> 00:07:38,158
+Yone arkasını dönüp karanlığa yürüdü.
+
+137
+00:07:38,188 --> 00:07:41,278
+Yasuo'yu ne öldürdü, ne de affetti.
+
+138
+00:07:41,308 --> 00:07:44,778
+Belki de bu, ölümden
+daha ağır bir cezaydı.
+
+139
+00:07:45,328 --> 00:07:47,978
+Yasuo Ionia'yı arkasında bıraktı.
+
+140
+00:07:48,008 --> 00:07:52,819
+Ama rüzgâr onu boş bir yola değil,
+yeni bir hikayeye taşıyordu.
+
+141
+00:07:53,262 --> 00:07:55,686
+Geçmişe bakmak kolay, değil mi?
+
+142
+00:07:57,402 --> 00:08:00,192
+Asıl mesele, olacakları görebilmek.
+
+143
+00:08:00,222 --> 00:08:03,107
+Bence orada çok şey bulacağız.
+
+144
+00:08:03,369 --> 00:08:06,819
+Peki sen olsan, kardeşini affeder miydin?

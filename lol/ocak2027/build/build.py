@@ -37,7 +37,7 @@ BODY = [  # body voice-over times (O is added)
     (11.1, 12.9, 'Z', 'B', 107.9, (960, 300, 330, .6), 'R'),
     (12.9, 13.7, 'B', 'B', 97.95, (), 'L'),           # champ select
     (13.7, 14.18, 'B', 'B', 98.76, (), None),
-    (14.18, 17.72, 'FC', 'B', 99.23, (), None),
+    (14.18, 17.72, 'FCZ', 'B', 99.23, (), None),     # still, slow zoom into the 3 choices
     (17.72, 21.34, 'FBL', 'B', 99.23, (), 'R'),       # versions
     (21.34, 22.3, 'B', 'B', 100.05, (), 'L'),         # rift
     (22.3, 25.8, 'BC', 'B', 44.4, (0, 0), 'R'),
@@ -76,9 +76,9 @@ BODY = [  # body voice-over times (O is added)
     (194.1, 200.6, 'A', 'A', 208.0, (), 'L'),         # 5 HARITA: Peri Isiklari
     (200.6, 210.16, 'BL', 'A', 136.0, (), 'R'),
     (210.16, 216.7, 'BC', 'B', 66.2, (.15,), 'L'),    # 6 ARAM
-    (216.7, 219.68, 'BC', 'B', 72.75, (.15,), 'R'),
+    (216.7, 219.68, 'BC', 'B', 78.3, (.15,), 'R'),
     (219.68, 222.62, 'BC', 'B', 75.25, (.15,), 'L'),
-    (222.62, 225.5, 'BC', 'B', 78.3, (.15,), 'R'),
+    (222.62, 225.5, 'BC', 'B', 55.5, (.1,), 'R'),
     (225.5, 228.82, 'BC', 'B', 81.3, (.15,), 'L'),
     (228.82, 232.22, 'BC', 'B', 84.6, (.15,), 'R'),
     (232.22, 243.78, 'BL', 'A', 69.0, (), 'L'),       # 7 SON: taktik
@@ -104,6 +104,9 @@ def vf(p):
         w, x, y, sp = q; h = round(w * 9 / 16)
         return pre + f'crop={w}:{h}:{x}:{y},{sc},setpts=PTS/{sp}'
     if m == 'FC': return still + sc
+    if m == 'FCZ':
+        n = round((b - a + D) * 30)
+        return (still + "scale=3840:2160,zoompan=z='1+0.35*on/" + str(n) + "':x='max(0,min(iw-iw/zoom,3100-iw/zoom/2))':y='max(0,min(ih-ih/zoom,860-ih/zoom/2))':d=1:s=1920x1080:fps=30")
     if m == 'FBL': return still + 'crop=iw:900:0:0,' + sc + ',' + BLUR
     if m == 'S':
         x0, x1 = q; d = b - a + D
