@@ -215,7 +215,7 @@ def base():
     print('base ok')
 
 def MUSIC(P):
-    c = P['chap']; end = P['end']
+    c = {(int(k) if k.isdigit() else k): v for k, v in P['chap'].items()}; end = P['end']
     return [('muzik_karanlik.mp3', 0.0, c['T'] + 0.4, 25.0, -7),        # cold open, cut under the title impact
             ('muzik_cocukluk_nv.wav', c[3] - 0.3, c[9] + 0.6, 0.0, -6),  # I. childhood
             ('muzik_savas.mp3', c[9], c[15] + 0.6, 0.0, -6),           # II. war, the hunt, the duel
