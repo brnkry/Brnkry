@@ -1,6 +1,6 @@
-# Ursprung des 2. Weltkriegs: Görsel ve video linkleri
+# Ursprung des 2. Weltkriegs: Görsel linkleri (Bundesarchiv, sadece 1918-1939)
 
-Bundesarchiv linkleri doğrudan tam çözünürlüklü dosyayı açar (sağ tık > farklı kaydet). Sembol içerenleri ben bulanıklaştıracağım.
+Linkler doğrudan tam çözünürlüklü dosyayı açar. Sembol içerenler montajda bulanıklaştırılacak.
 
 ## Polen 1939
 - [Bild 121-0336](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-24/73/7e/file87qgzpccwrk1mwpxt1tj7.jpg): Polen, Krakau.- Deutscher Wachtposten (Ordnungspolizei oder SS?) mit Gewehr und aufgepflanztem Bajonett bei Ko (1939\/1940 ca., 2745x3873)
@@ -18,10 +18,6 @@ Bundesarchiv linkleri doğrudan tam çözünürlüklü dosyayı açar (sağ tık
 
 ## Versailles Spiegelsaal
 - [Bild 183-R02091](https://bild.bundesarchiv.de/device_barch/dev1/2023/03-07/c3/55/file7p8a2bqtvtlizam730z.jpg): Frankreich, Versailles.- Anwesende bei der Unterzeichnung des Friedensvertrages im Spiegelsaal. (28. Juni 1919, 6934x5320)
-- [B 145 Bild-00373384](https://bild.bundesarchiv.de/device_barch/dev1/2026/03-05/ae/34/file84uk45eslf51c3yaf491.jpg): ohne Titel (6. M\u00e4rz 2017, 5600x3737)
-- [B 145 Bild-00373408](https://bild.bundesarchiv.de/device_barch/dev1/2026/03-05/f0/4a/file84uk46mw7wkj03wq493.jpg): ohne Titel (6. M\u00e4rz 2017, 4738x3154)
-- [B 145 Bild-00373407](https://bild.bundesarchiv.de/device_barch/dev1/2026/03-05/45/43/file84uk475efzk1g80mb494.jpg): ohne Titel (6. M\u00e4rz 2017, 4462x2970)
-- [B 145 Bild-00487239](https://bild.bundesarchiv.de/device_barch/dev1/2024/04-22/1d/8d/file7v42mvlypohpbr67eil.jpg): ohne Titel (11. M\u00e4rz 2022, 5442x3621)
 
 ## Reichswehr
 - [Bild 146-1979-025-26A](https://bundesbildarchiv.init-ag.de/device_barch/dev1/2019/10-18/3c/d7/file77l4rmctm9w18payuov1.jpg): Auswirkung des Versailler Vertrages, Entsorgung von Militrstteln.- Mann beim Bearbeiten eines Pferdesattels, d (1919\/1920 ca., 4070x2584)
@@ -38,11 +34,11 @@ Bundesarchiv linkleri doğrudan tam çözünürlüklü dosyayı açar (sağ tık
 - [Bild 102-14187](https://bild.bundesarchiv.de/device_barch/dev1/2025/10-10/ce/77/file82rb4kw8dps8bm1j2q1.jpg): Ruhrbesetzung.- Essen.- Franzsische Soldaten mit Panzer Renault FT-17 (Januar 1923, 10749x7474)
 
 ## Kaiser Doorn
-- [Bild 183-R28302](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-24/e1/8a/file87qhpd4ddq8c364w840.jpg): Kaiser Wilhem II. in Husaren-Uniform (1890 ca., 2797x4170)
 - [Bild 102-00679](https://bild.bundesarchiv.de/device_barch/dev1/2022/01-31/23/56/file7jiriirr6wz1dq4ky906.jpg): Niederlande.- Landsitz Haus Doorn, Exilsitz von Kaiser Wilhelm II. (1925 ca., 7065x10699)
 - [Bild 102-01060A](https://bild.bundesarchiv.de/device_barch/dev1/2022/01-31/42/03/file7jirik2kdo6gnejt905.jpg): Niederlande, Doorn.- Haus Doorn, Exil von Kaiser Wilhelm II. (1925 ca., 10614x7487)
 - [Bild 102-01364A](https://bild.bundesarchiv.de/device_barch/dev1/2022/07-19/d9/b1/file7lxhjoiwd291ikaqm1yvc.jpg): Niederlande, Haus Doorn.- Rosarium des Hauses Doorn, Exilsitz von Kaiser Wilhelm II. (1925 ca., 10899x7715)
 - [Bild 102-01367](https://bild.bundesarchiv.de/device_barch/dev1/2022/07-19/01/8d/file7lxhyko21hl17101c1yvd.jpg): Niederlande, Haus Doorn.- Kirche am Haus Doorn (1925 ca., 10989x7619)
+- [Bild 102-01366](https://bild.bundesarchiv.de/device_barch/dev1/2022/07-19/64/88/file7lxhk2mi5wxlgc01yvd.jpg): Niederlande, Haus Doorn.- Torhaus zum Haus Doorn, Exilsitz von Kaiser Wilhelm II. (1925 ca., 10918x7664)
 
 ## Inflation Geld
 - [Bild 146-1972-062-01](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/e6/cf/file87q0uerh0sjdkemp248i.jpg): Berlin.- Bettelnder, einbeiniger Kriegsversehrter in Uniform mit Orden (Eisernes Kreuz I. Klasse, Verwundetena (1923, 7225x5248)
@@ -96,10 +92,10 @@ mit antisemitischem P (1930, 3770x2799)
 
 ## Wahl 1932
 - [Bild 146-1982-160-02](https://bild.bundesarchiv.de/device_barch/dev1/2022/10-10/61/05/file7n489jd7beu17op282275.jpg): Reichstagswahl.- Kurt von Schleicher mit Ehefrau vor Wahllokal. Davor Mnnern mit umgehngten Wahlplakaten; Juli (1932, 7220x5152)
-- [B 145 Bild-P046288](https://bild.bundesarchiv.de/device_barch/dev1/2025/02-27/e2/a8/file7zjrglkf18m1lt1au39j.jpg): Berlin.- Wahlplakate zur Reichstagswahl am 31. Juli 1932. Mann und Frau vor einer Litfasule mit Wahlplakaten s (1932 Juni - Juli, 2788x3937)
 - [Bild 102-03165](https://bild.bundesarchiv.de/device_barch/dev1/2026/06-22/7b/9f/file86ed7xsuco54x21m2m7.jpg): Berlin.- Reichstagswahl, Wahlplakate der NSDAP unter Bewachung durch SA-Mnner (vorne links SA-Mann der SA-Stan (1932 Juni - Juli, 10885x7570)
 - [Bild 102-13710](https://bild.bundesarchiv.de/device_barch/dev1/2025/09-08/7e/a5/file82auxhrdsm0kznjg3p2.jpg): Berlin.- Reichstagswahl.- Dr. Franz Bracht auf dem Weg zum Wahllokal, Mnner mit Wahlplakaten (Juli 1932, 11037x7594)
 - [Plak 002-042-158-T1](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/9e/f8/file87pvkr8jv0p191ipu9ym.jpg): ohne Titel (Juli 1932, 3516x2968)
+- [Plak 002-042-158-T2](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/1c/eb/file87pvkwbw24412bym69t.jpg): ohne Titel (Juli 1932, 3464x3225)
 
 ## 30 Januar 1933
 - [Bild 102-14199](https://bild.bundesarchiv.de/device_barch/dev1/2026/07-30/ec/8a/file86xvrz2de5zrkiy02m7.jpg): ohne Titel (Januar 1933, 10531x7739)
@@ -123,14 +119,14 @@ mit antisemitischem P (1930, 3770x2799)
 - [Bild 261-0006](https://bild.bundesarchiv.de/device_barch/dev1/2026/11-17/2b/9a/file88ibhk41ll41hbkskrfr.jpg): Abessinien.- Besuch \/ Ankunft von Kaiser Haile Selassie in einer Kutsche, Soldaten Spalier stehend. (1935, 8000x5604)
 
 ## Wehrpflicht 1935
-- [Bild 183-2005-1017-523](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/9c/4d/file87q5kijcxu918c3al9t.jpg): Berlin.- Unter den Linden, Heldengedenk-Feier, Erich Raeder, Werner von Fritsch, General Hermann Gring, August (M\u00e4rz 1935, 2829x3780)
-- [Bild 146-1971-070-69](https://bild.bundesarchiv.de/device_barch/dev1/2025/07-24/c6/b8/file81n6qne4mdefry6w3p3.jpg): ohne Titel (16. M\u00e4rz 1935, 8000x5767)
+- [Bild 183-2005-1017-523](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/9c/4d/file87q5kijcxu918c3al9t.jpg): Berlin.- Unter den Linden, Heldengedenk-Feier, Erich Raeder, Werner von Fritsch, General Hermann Gring, August (März 1935, 2829x3780)
+- [Bild 146-1971-070-69](https://bild.bundesarchiv.de/device_barch/dev1/2025/07-24/c6/b8/file81n6qne4mdefry6w3p3.jpg): ohne Titel (16. März 1935, 8000x5767)
 - [Bild 102-04593](https://bundesbildarchiv.init-ag.de/device_barch/dev1/2019/10-18/22/db/file77kwtxm9om8t8klxbsq.jpg): Berlin.- Reichstagssitzung zur allgemeinen Wehrpflicht, Pressefotografen vor dem Haupteingang der Krolloper (21. Mai 1935, 3792x2812)
 - [Bild 102-04518A](https://bild.bundesarchiv.de/device_barch/dev1/2022/10-14/dd/0d/file7n64zqi4poigc7852276.jpg): Berlin.- Reichstagssitzung zur allgemeinen Wehrpflicht, Hermann Gring vor dem Haupteingang der Krolloper, Pres (21. Mai 1935, 10852x7778)
 - [Bild 102-04519](https://bild.bundesarchiv.de/device_barch/dev1/2022/10-14/6b/31/file7n64zjt1syc1ksob22274.jpg): Berlin.- Reichstagssitzung zur allgemeinen Wehrpflicht, Ankunft Hermann Gring vor dem Haupteingang der Krollop (21. Mai 1935, 10836x7841)
 
 ## Rheinland 1936
-- [Bild 183-S04233](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/c2/c0/file87pwyy0jlix2r434250f.jpg): ohne Titel (7. M\u00e4rz 1936, 7802x10730)
+- [Bild 183-S04233](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/c2/c0/file87pwyy0jlix2r434250f.jpg): ohne Titel (7. März 1936, 7802x10730)
 
 ## Legion Condor
 - [Bild 146-1969-133-24](https://bild.bundesarchiv.de/device_barch/dev1/2022/08-18/93/e9/file7md3j9fces9oqtvk1yvd.jpg): Spanien.- Legion Condor. Generalmajor Hugo Sperrle (mit Hut) und Oberstleutnant Wolfram Freiherr von Richthofe (1936\/1937, 2741x3811)
@@ -143,15 +139,13 @@ mit antisemitischem P (1930, 3770x2799)
 - [Bild 183-H25224](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-24/f0/ca/file87qguhbbau8tstxx1tj7.jpg): ohne Titel (1937, 11036x7194)
 - [Bild 183-R99879](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-24/74/b6/file87qgufd67hlr6dcl840.jpg): ohne Titel (1937, 11290x2482)
 - [Plak 003-009-053](https://bild.bundesarchiv.de/device_barch/dev1/2024/04-19/1b/d9/file7v2e2ijco1k16mv6deim.jpg): NSDAP-Parole der Woche zum spanischen Brgerkrieg (Juni 1937, 4950x2108)
-- [B 145 Bild-00606892](https://bild.bundesarchiv.de/device_barch/dev1/2026/01-18/98/a8/file846spvfv55z1fznpc2oo.jpg): ohne Titel (26. November 2025, 6500x4333)
-- [B 145 Bild-00606861](https://bild.bundesarchiv.de/device_barch/dev1/2026/01-18/b3/25/file846tvggmuqr483td2om.jpg): ohne Titel (26. November 2025, 6500x4333)
 
 ## Anschluss
-- [Bild 183-1983-1020-501](https://bild.bundesarchiv.de/device_barch/dev2/2019/10-27/41/02/file77pscw7v5gi130bwvla6.jpg): ohne Titel (M\u00e4rz 1938, 7054x5268)
-- [Plak 003-005-044](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-22/c2/e1/file87puseaqvdj9y3xj9ym.jpg): ohne Titel (M\u00e4rz 1938, 2783x3765)
-- [Plak 003-005-025](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/ef/25/file87pveo9xjjt1nf5d79ym.jpg): ohne Titel (M\u00e4rz 1938, 2835x3684)
-- [Plak 003-005-029](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/21/08/file87pveqow6bswlwgp250f.jpg): ohne Titel (M\u00e4rz 1938, 4267x2452)
-- [Plak 003-005-028](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/43/5c/file87pveqyk60nidt2j9ym.jpg): ohne Titel (M\u00e4rz 1938, 2709x3867)
+- [Bild 183-1983-1020-501](https://bild.bundesarchiv.de/device_barch/dev2/2019/10-27/41/02/file77pscw7v5gi130bwvla6.jpg): ohne Titel (März 1938, 7054x5268)
+- [Plak 003-005-044](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-22/c2/e1/file87puseaqvdj9y3xj9ym.jpg): ohne Titel (März 1938, 2783x3765)
+- [Plak 003-005-025](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/ef/25/file87pveo9xjjt1nf5d79ym.jpg): ohne Titel (März 1938, 2835x3684)
+- [Plak 003-005-029](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/21/08/file87pveqow6bswlwgp250f.jpg): ohne Titel (März 1938, 4267x2452)
+- [Plak 003-005-028](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/43/5c/file87pveqyk60nidt2j9ym.jpg): ohne Titel (März 1938, 2709x3867)
 
 ## Sudeten
 - [Bild 183-G1111-500-001](https://bild.bundesarchiv.de/device_barch/dev1/2023/10-26/9a/9c/file7sju7qdm6405gm0y16ui.jpg): ohne Titel (1938 ca., 3849x2709)
@@ -175,8 +169,8 @@ mit antisemitischem P (1930, 3770x2799)
 - [Bild 146-1977-159-11](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-24/ab/50/file87qfyl220txf4j2x9t.jpg): Bad Godesberg, Hotel Dreesen.- Vorbereitung des Mnchener Abkommen. vlnr: Joachim von Ribbentrop, Paul Schmidt, (September 1938, 2710x3883)
 
 ## Prag 1939
-- [Bild 183-H27147](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/70/de/file87pxud78hy928x879t.jpg): ohne Titel (15. M\u00e4rz 1939, 3779x2860)
-- [Bild 183-2004-1202-505](https://bild.bundesarchiv.de/device_barch/dev1/2026/10-29/4b/61/file888jzrtobah128gxzikx.jpg): Prag.- Adolf Hitler beim Abschreiten einer Ehrenformation (15. M\u00e4rz 1939, 3688x2802)
+- [Bild 183-H27147](https://bild.bundesarchiv.de/device_barch/dev1/2026/09-23/70/de/file87pxud78hy928x879t.jpg): ohne Titel (15. März 1939, 3779x2860)
+- [Bild 183-2004-1202-505](https://bild.bundesarchiv.de/device_barch/dev1/2026/10-29/4b/61/file888jzrtobah128gxzikx.jpg): Prag.- Adolf Hitler beim Abschreiten einer Ehrenformation (15. März 1939, 3688x2802)
 - [Plak 003-030-022](https://bild.bundesarchiv.de/device_barch/dev1/2024/04-23/3d/f6/file7v4fgbt8v9u12s2yceim.jpg): ohne Titel (August 1939, 2691x3892)
 - [Plak 003-030-026](https://bild.bundesarchiv.de/device_barch/dev1/2024/04-23/dd/1a/file7v4fgd9bpz73hg91eik.jpg): ohne Titel (August 1939, 2687x3894)
 - [Plak 003-030-027](https://bild.bundesarchiv.de/device_barch/dev1/2024/04-23/bb/84/file7v4fhttp0smki4taeij.jpg): ohne Titel (Oktober 1939, 2687x3878)
