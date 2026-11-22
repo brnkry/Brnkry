@@ -1,0 +1,67 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:AC;src:url(assets/fonts/american_captainttf)}
+html,body{margin:0;background:transparent}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden}
+.blk{position:absolute;display:flex;flex-direction:column;font-family:AC;color:#F4E6CC;
+ text-shadow:0 0 22px rgba(255,180,110,.35),0 4px 18px rgba(0,0,0,.85)}
+.ln{line-height:.96;margin:0;white-space:nowrap;letter-spacing:0}
+.ti,.ts,.tg{position:relative;display:inline-block}
+.ti i{position:absolute;top:-.16em;height:.12em;background:currentColor}
+.ts b{position:absolute;left:50%;top:0;transform:translateX(-50%);font-weight:normal;letter-spacing:0}
+.tg:after{content:'';position:absolute;left:50%;top:-.2em;width:.34em;height:.13em;transform:translateX(-50%);
+ border:.06em solid currentColor;border-top:none;border-radius:0 0 .22em .22em;box-sizing:border-box}
+</style></head><body><div id="root"><div id="dyn"></div></div>
+<script src="t.js"></script><script>
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), C='#F4E6CC', G='#F6D29A';
+// Turkish letters the font lacks: İ = I + measured dot, Ş = S + the cedilla cut from Ç, Ğ = G + drawn breve
+const tr=s=>s.replace(/İ/g,'<span class="ti">I<i></i></span>').replace(/Ş/g,'<span class="ts">S<b>Ç</b><u></u></span>').replace(/Ğ/g,'<span class="tg">G</span>');
+// position presets (inside the 2.35 band: y 132..948)
+const P={R:'left:1000px;top:330px;width:880px;align-items:center',L:'left:40px;top:330px;width:700px;align-items:center',
+ SKY:'left:0;top:200px;width:1920px;align-items:center',L2:'left:40px;top:300px;width:620px;align-items:center',
+ R2:'left:1140px;top:300px;width:740px;align-items:center',
+ TR:'left:1120px;top:170px;width:760px;align-items:center',TL:'left:40px;top:165px;width:780px;align-items:center',
+ BOT:'left:0;top:690px;width:1920px;align-items:center',SKY2:'left:0;top:330px;width:1920px;align-items:center',BL:'left:20px;top:650px;width:620px;align-items:center',BR:'left:960px;top:660px;width:920px;align-items:center',RB:'left:960px;top:330px;width:920px;align-items:center'};
+// [start, end, position, [[text, size, color, delay]]]  timed to the voice onsets in the KIN audio
+const T=window.T2.map(b=>[b[0],b[1],typeof b[2]==='string'&&P[b[2]]?P[b[2]]:b[2],b[3].map(l=>Array.isArray(l[0])?[l[0],l[1],l[2]==='C'?C:G]:[l[0],l[1],l[2]==='C'?C:(l[2]==='G'?G:l[2]),l[3],l[4]])]);
+let built=false;
+function build(){let H='<div id="dk" style="position:absolute;left:0;right:0;top:132px;height:816px;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.72),rgba(0,0,0,.45) 70%)"></div>';
+ T.forEach((b,k)=>{H+=`<div class="blk" id="b${k}" style="${b[2]};opacity:0">`;
+  b[3].forEach((l,j)=>{const txt=r=>Array.isArray(r[0])?r[0].map(w=>w[0]).join(' '):r[0];
+   const gap=j>0&&/[ŞÇ]/.test(txt(b[3][j-1]))&&/[İĞÖÜ]/.test(txt(l))?'margin-top:.16em;':'';
+   const inner=Array.isArray(l[0])?l[0].map((w,m)=>`<span class="wd" id="w${k}_${j}_${m}" style="display:inline-block;opacity:0">${tr(w[0])}</span>`).join(' '):tr(l[0]);
+   H+=`<div class="ln" id="l${k}_${j}" style="${gap}font-size:${l[1]}px;color:${l[2]}">${inner}</div>`});H+='</div>'});
+ // sword slash streaks + flash
+ H+='<div id="sl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;overflow:hidden"><div id="bl"></div></div><div id="fl" style="position:absolute;left:0;top:132px;width:1920px;height:816px;background:#fff;opacity:0"></div>';
+ H+='<div id="seam" style="position:absolute;left:957px;top:132px;width:6px;height:816px;opacity:0"></div>';
+ document.getElementById('dyn').innerHTML=H;
+ const c=document.createElement('canvas');c.width=600;c.height=400;const x=c.getContext('2d');
+ document.querySelectorAll('.ti').forEach(s=>{const fs=parseFloat(getComputedStyle(s).fontSize);x.clearRect(0,0,600,400);x.font=fs+'px AC';x.fillText('I',50,300);
+  const d=x.getImageData(0,0,600,400).data;let l=600,r=0;for(let px=0;px<600;px++)for(let py=0;py<400;py++)if(d[(py*600+px)*4+3]>128){l=Math.min(l,px);r=Math.max(r,px)}
+  const i=s.querySelector('i');i.style.left=(l-50)+'px';i.style.width=(r-l+1)+'px'});
+ document.querySelectorAll('.ts').forEach(s=>{const u=s.querySelector('u');u.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';
+  s.querySelector('b').style.clipPath=`inset(${u.offsetTop+2}px -40px -80px -40px)`});
+ built=true}
+// slashes: [time, kind]  diag = transition slash into the Yasuo splash, vert = the cut that splits the screen
+const SL=[];
+function slash(t){const bl=document.getElementById('bl'),fl=document.getElementById('fl');let f=0;bl.style.cssText='display:none';
+ for(const [s,k] of SL){const p=(t-s)/.16;
+  if(p>=0&&p<=1.6){const len=cl(p)*1.15,fade=cl(1.6-p);
+   if(k==='vert') bl.style.cssText=`display:block;position:absolute;left:${960-7}px;top:${-30}px;width:14px;height:${len*900}px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 40%,#fff);box-shadow:0 0 30px 10px rgba(255,236,200,.9),0 0 90px 30px rgba(255,200,140,.5);opacity:${fade};border-radius:7px`;
+   else bl.style.cssText=`display:block;position:absolute;left:-200px;top:600px;width:${len*2600}px;height:16px;transform-origin:0 50%;transform:rotate(-17deg);background:linear-gradient(90deg,rgba(255,255,255,0),#fff 35%,#fff);box-shadow:0 0 30px 10px rgba(255,236,200,.9),0 0 90px 30px rgba(255,200,140,.5);opacity:${fade};border-radius:8px`}
+  const q=t-(s+.14);if(q>=0&&q<.6)f=Math.max(f,q<.04?q/.04:Math.pow(1-(q-.04)/.56,2))}
+ fl.style.opacity=f*.95;
+ // glowing seam that cools down to the gold divider after the vertical cut
+ const v=-1,sm=document.getElementById('seam');
+ if(v>=0&&t<46.3){const h=cl(1-v/1.0);sm.style.opacity=(1-.9*cl((t-43.6)/.6))*cl((46.3-t)/.4);sm.style.background=`rgb(${233+22*h},${196+59*h},${106+149*h})`;sm.style.boxShadow=`0 0 ${10+40*h}px ${2+10*h}px rgba(255,220,160,${.25+.6*h})`}else sm.style.opacity=0}
+window.render=function(t){if(!built)build();
+ T.forEach((b,k)=>{const e=document.getElementById('b'+k),on=t>=b[0]-.01&&t<b[1];e.style.opacity=on?cl((b[1]-t)/.2):0;if(!on)return;
+  b[3].forEach((l,j)=>{if(Array.isArray(l[0])){l[0].forEach((w,m)=>{const e2=document.getElementById(`w${k}_${j}_${m}`),d2=t-b[0]-w[1],p=cl(d2/.12),q=1-Math.pow(1-p,2);
+     e2.style.opacity=q;e2.style.transform=`translateY(${(1-q)*10}px) scale(${1.06-.06*q})`;e2.style.filter=`blur(${(1-q)*4}px)`});return}
+   const el=document.getElementById(`l${k}_${j}`),dt=t-b[0]-l[3];
+   if(l[4]==='slam'){const p=cl(dt/.18),q=p*p;el.style.opacity=cl(dt/.06);el.style.transform=`scale(${1.45-.45*q})`;el.style.filter=`blur(${(1-q)*6}px)`;
+    el.style.textShadow=`0 0 ${30+60*cl(1-(dt-.18)/.8)}px rgba(255,210,140,${.35+.5*cl(1-(dt-.18)/.8)}),0 4px 18px rgba(0,0,0,.85)`;return}
+   const p=cl(dt/.14),q=1-Math.pow(1-p,2);el.style.opacity=q;el.style.transform=`scale(${1.05-.05*q})`;el.style.filter=`blur(${(1-q)*4}px)`})});
+ document.getElementById('dk').style.opacity=0;
+ slash(t);return T.some(b=>t>=b[0]-.01&&t<b[1])};
+window.SFX=[];window.ready=document.fonts.load('100px AC','AIS');
+</script></body></html>
