@@ -16,16 +16,16 @@ Anlatıcı: Alex. Tahmini süre: 7 dk.
 | 1 | AN | Yasuo, ağbisini kendi elleriyle öldürdü. Ama Yone için ölüm, bir son değildi. | B | PATH 0:00-0:12, beyaz ruhlar dünyasında uyanış |
 | 2 | Başlık | YONE / ÖLDÜKTEN SONRA NE OLDU? | | PATH 2:51 Yone'nin kızıl çığlığı, impact |
 | | **I. KORUYUCU** | | | |
-| 3 | AN | Yone, onura ve göreve bağlı yaşadı. Babalarını kaybettiklerinde daha çocuktu, ama ailesinin koruyucusu olmayı o seçti. | B | YENİ: Battle Academia Yone splash (hareketli) |
+| 3 | AN | Yone, onura ve göreve bağlı yaşadı. Babalarını kaybettiklerinde daha çocuktu, ama ailesinin koruyucusu olmayı o seçti. | B | AI: yone_battleacademia.mp4 |
 | 4 | AN | Kardeşi Yasuo ise onun tam tersiydi: aceleci ve pervasız. Yine de ikisi birbirinden hiç ayrılmadı. Yone köydeki kılıç okuluna başladığında, Yasuo da peşinden geldi. | B | KIN 122-130 köy ve festival (ilk videoda kullanılmadı) |
 | 5 | AN | Yaşlı Souma, Yasuo'yu öğrencisi olarak istediğinde Yasuo reddetti. Yone ona okulun alçakgönüllülük sembolü olan bir akçaağaç tohumu verdi. | B, G | Here Tomorrow 0:00-0:12 tohum ve su |
-| 6 | Yone'nin günlüğü | "Bir tohum sadece bir tohumdur. Ama zaman verilirse, içinde taşıdığı güzellik görülebilir." | G | Ekranda büyük sinematik yazı, kelime kelime |
-| 7 | AN | Ama Yone'nin içinde bir şüphe vardı. Kardeşinin aceleciliğinin onu kötü bir öğrenci yapacağından korkuyordu. Yine de Yaşlı Souma saygın bir ustaydı, kararlarını düşünmeden vermezdi. | B | YENİ: Ocean Song Yone splash (hareketli) |
+| 6 | Yone'nin günlüğü | "Bir tohum sadece bir tohumdur. Ama zaman verilirse, içinde taşıdığı güzellik görülebilir." | G | AI: yone_tohum.mp4 (resmi çizim, akçaağaç tohumu) + büyük yazı, kelime kelime |
+| 7 | AN | Ama Yone'nin içinde bir şüphe vardı. Kardeşinin aceleciliğinin onu kötü bir öğrenci yapacağından korkuyordu. Yine de Yaşlı Souma saygın bir ustaydı, kararlarını düşünmeden vermezdi. | B | KIN 130-140 (ilk videoda kullanılmadı; Ocean Song çıkarıldı) |
 | 8 | AN | Yone çift kılıçla çalışmaya devam etti ve kısa sürede bütün öğrencilerin saygısını kazandı. Kardeşlerin idman düelloları ikisi için de büyük bir sevinçti. Ama o sevinç uzun sürmedi. | B | KIN 52-59 düello (ilk videoda kullanılmadı) |
 | | **II. KILIFSIZ BİR KILIÇ** | | | |
 | 9 | AN | Ionia'ya savaş geldi. Yone, diğer öğrencilerle birlikte Noxus'a karşı savaşmaya gitti. Yasuo ise isteksizce, ustasını korumak için geride kaldı. | B | Welcome to Noxus 1:44-2:20 (ilk videoda kullanılmadı) |
 | 10 | AN | Bir gece Yaşlı Souma ölü bulundu. Öğrettiği rüzgâr tekniğiyle öldürülmüştü. Yone döndüğünde, Yasuo çoktan kaçmıştı. | B | KIN 63-70 yağmur, karanlık |
-| 11 | AN | Bu Yone'yi derinden sarstı. Ve suçu kendinde buldu. Yasuo ustasını öldürdüyse, ona doğru yolu öğretememişti. Görevini bırakıp kaçtıysa, ona disiplin verememişti. | B | YENİ: Inkshadow Yone splash (hareketli) |
+| 11 | AN | Bu Yone'yi derinden sarstı. Ve suçu kendinde buldu. Yasuo ustasını öldürdüyse, ona doğru yolu öğretememişti. Görevini bırakıp kaçtıysa, ona disiplin verememişti. | B | AI: yone_inkshadow.mp4 |
 | 12 | AN | Yasuo peşine düşenlerden birkaçını çoktan öldürmüştü. Ve Yone'ye göre o kan, kardeşinin elleri kadar kendi ellerine de bulaşmıştı. | B | KIN 140-150 kızıl fenerler, kararır |
 | 13 | Yone'nin günlüğü | "Yarın ilk ışıkla yola çıkacağım. Kılıfsız bir kılıcı yakalamak için: kardeşim Yasuo." | G | Siyah ekran, büyük yazı, kelime kelime |
 | 14 | AN | Onu buldu. Kılıçları çarpıştığında Yone'nin çeliği eşsizdi. Ama Yasuo'nun rüzgârı, abisini yere serdi. | B | KIN 64-70 düellonun son anları, beyaz flaş |
@@ -37,23 +37,23 @@ Anlatıcı: Alex. Tahmini süre: 7 dk.
 | 19 | AN | Yeni bir karanlık onu yutmadan önce duyduğu son şey, aynı kahkahaydı. | B | Siyah ekran, sadece kahkaha |
 | | **IV. MASKE** | | | |
 | 20 | AN | Yone kendine geldiğinde maddi dünyadaydı. Ama burası eskisinin karanlık bir gölgesiydi. Elinde kan kırmızısı bir kılıç vardı. | B | KIN 452-470 karanlık orman (ilk videoda kullanılmadı) |
-| 21 | AN | Yüzünde, azakananın yüzü şeklinde bir maske oluşmuştu. Onu çıkaramıyordu. Ama artık maskenin gözlerinden diğer azakanaları görebiliyordu. | B | YENİ: Heartsteel ya da başka Yone skin splash, maske yakın plan |
+| 21 | AN | Yüzünde, azakananın yüzü şeklinde bir maske oluşmuştu. Onu çıkaramıyordu. Ama artık maskenin gözlerinden diğer azakanaları görebiliyordu. | B | AI: yone_maskedjustice.mp4 |
 | 22 | AN | Bu yaratıklar henüz gerçek iblis değildi. İnsanların acısıyla beslenip bir gün sahiplerini yutacak hale gelene kadar büyüyorlardı. Ama Yone bir şey keşfetti: bir azakananın adını öğrenen, onu cansız bir maskeye dönüştürebilirdi. | B | KIN 470-505 iblis sahneleri |
 | | **V. ANDU** | | | |
-| 23 | AN | Bir gece, on üç yaşında bir çocuk karanlık bir ormanda canını kurtarmak için koşuyordu. Onu korkutan şey karanlık değildi. Karanlıktaki şeydi. Ve o şey, çocuğun adını fısıldamıştı. | S | YENİ: gece ormanı (Ionia bölge görseli, hareketli) |
-| 24 | AN | Çocuk koşarken birine çarptı. Belinde tuhaf maskeler asılı, uzun boylu bir adam. Adam ona değil, arkasındaki sise bakıyordu. | S | Yone splash, belindeki maskeler |
+| 23 | AN | Bir gece, on üç yaşında bir çocuk karanlık bir ormanda canını kurtarmak için koşuyordu. Onu korkutan şey karanlık değildi. Karanlıktaki şeydi. Ve o şey, çocuğun adını fısıldamıştı. | S | AI: yone_severed.mp4 (resmi Severed çizimi, Andu ve Yone) |
+| 24 | AN | Çocuk koşarken birine çarptı. Belinde tuhaf maskeler asılı, uzun boylu bir adam. Adam ona değil, arkasındaki sise bakıyordu. | S | AI: yone_varsayilan.mp4 |
 | 25 | Yone | "Korkman gereken ben değilim." | S | Büyük yazı, kelime kelime |
 | 26 | AN | Sisin içinde bir yaratık beliriyordu. Yone kızıl kılıcını çocuğun göğsüne sapladı. Ama kan akmadı. Kılıç, çocuğun içindeki iblisin adını görmüştü. | S | Here Tomorrow sisli sahneler |
 | 27 | AN | Yone o adı söyledi: Taan Ko'au. Yaratık gerçek bedenine büründü ve saldırdı. Ama Yone daha hızlıydı. İblis yere düştü, sise dönüştü ve çocuğun yüzüne benzeyen bir maskeye dönüştü. | S | KIN 395-410 hızlı kılıç darbeleri |
 | 28 | AN | Çocuk sordu: "O şey... ben miydim?" | S | Yakın plan |
 | 29 | Yone | "Sadece senin acılarınla beslenen bir kâbus. Ama artık seni o tanımlamıyor." | S | Büyük yazı |
-| 30 | AN | Çocuk bunun kendi suçu olduğunu söyledi. Yeterince iyi olmadığını. Babasının haklı olduğunu. Yone'nin yüzü ilk kez yumuşadı. | S | Yone splash, yumuşak ışık |
+| 30 | AN | Çocuk bunun kendi suçu olduğunu söyledi. Yeterince iyi olmadığını. Babasının haklı olduğunu. Yone'nin yüzü ilk kez yumuşadı. | S | AI: yone_severed.mp4 (yavaş yakın plan, Andu'nun yüzü) |
 | 31 | Yone | "Sevdiklerimiz, bizi en çok yaralayan şeyleri söyler. Umutsuzluk aklın kılığına girer, ama bize sadece kendimizin çarpık bir yansımasını gösterir." | S | Büyük yazı, kelime kelime |
 | 32 | AN | Sonra karanlığa yürüdü. Giderken son bir şey söyledi: "İyi olacaksın, Andu." | S | Uzaklaşan figür, kararır |
 | | **VI. KARDEŞE DÖNÜŞ** | | | |
 | 33 | AN | Azakanaların peşinde geçen her gece, yolu yeniden kardeşine çıkardı. Ve Ruh Çiçeği gecesinde, yıllar sonra iki kardeş aynı tarafta savaştı. | Riot, Finding the Spirit of Ionia | KIN 380-395 birlikte dövüş (ilk videoda kullanılmadı) |
 | 34 | KIN | Dövüş, konuşma yok, kılıç sesleri | KIN | KIN 410-440 |
-| 35 | AN | Yone, Yasuo'yu öldürmedi. Ama artık asıl derdi kardeşi değildi. Kendi yüzündeki maske, aralarındaki her şeyden daha büyük bir tehditti. | B | Yone splash, maske |
+| 35 | AN | Yone, Yasuo'yu öldürmedi. Ama artık asıl derdi kardeşi değildi. Kendi yüzündeki maske, aralarındaki her şeyden daha büyük bir tehditti. | B | AI: yone_varsayilan.mp4 (farklı kadraj) |
 | | **KAPANIŞ** | | | |
 | 36 | AN | Yone hâlâ avlanıyor. Belindeki her maske, öğrendiği bir isim. Ve her isim onu, ruhlar dünyasında duyduğu o kahkahanın sahibine biraz daha yaklaştırıyor. | B | Here Tomorrow gece sahneleri |
 | 37 | AN | Peki o kahkaha kime ait? Ve yüzündeki maske, bir gün onu da yutacak mı? | B | Kahkaha, siyah ekran |
@@ -64,9 +64,6 @@ Anlatıcı: Alex. Tahmini süre: 7 dk.
 - Biyografi kahkahanın sahibini açıklamıyor, maskenin onu ne zaman yutacağını da Yone bilmiyor. Bu yüzden kapanış soru olarak kalıyor.
 - 38. satır bir sonraki videoyu (Riven, resmi biyografi ve "Confessions of a Broken Blade" öyküsü) bağlar. Riven'ın kaynakları seslendirmeden önce okunacak.
 
-## Gereken yeni görseller (AI ile hareketlendirilecek)
-1. Battle Academia Yone splash
-2. Ocean Song Yone splash
-3. Inkshadow Yone splash
-4. Heartsteel Yone splash (ya da başka bir Yone skini)
-5. Ionia gece ormanı bölge görseli (Andu sahnesi)
+## AI animasyonlar (Boran yaptı, Drive/Yaso, 10 sn)
+- yone_inkshadow.mp4, yone_tohum.mp4, yone_severed.mp4, yone_battleacademia.mp4, yone_maskedjustice.mp4, yone_varsayilan.mp4
+- Ocean Song kullanılmıyor.
