@@ -1,7 +1,7 @@
 # Yasuo neden abisini öldürdü? Yükleme paketi
 
 ## Başlık seçenekleri
-0. (Seri düzeni, önerilen) Abisini Öldürdü Ama Suçsuzdu | Yasuo'nun Hikayesi (Bölüm 1)
+0. (Seri düzeni, önerilen) Abisini Öldürdü Ama Suçsuzdu | Yasuo'nun Hikayesi (Lekeli Kılıç Bölüm 1)
 1. Yasuo Neden Abisini Öldürdü? | Yasuo ve Yone'nin Hikayesi (League of Legends)
 2. Suçsuzdu Ama Abisini Öldürdü | Yasuo'nun Gerçek Hikayesi
 3. Yasuo ve Yone: Kardeşini Öldüren Kılıç Ustasının Hikayesi | LoL Hikaye
