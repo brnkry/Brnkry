@@ -29,3 +29,6 @@ Bence en büyük değişiklik herkesin Demir IV'ten başlaması, ilk hafta derec
 
 ## Thumbnail
 export/thumbnail.jpg (1280x720)
+
+## Yeni stil thumbnail (Marcellus)
+export/thumbnail_mc.png

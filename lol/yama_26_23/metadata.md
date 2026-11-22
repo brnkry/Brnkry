@@ -34,3 +34,7 @@ lol,league of legends,lol türkçe,lol yama notları,yama 26.23,26.23,patch 26.2
 
 ## Sabitlenmiş yorum
 Syndra nerfi yeterli mi sence, yoksa hâlâ mid'in kraliçesi mi kalır? 👀
+
+## Yeni stil thumbnail (Marcellus)
+- export/thumbnail_mc_a.png: "YAMA 26.23 / TÜM DEĞİŞİKLİKLER", Ezreal güçlendi, Syndra zayıfladı
+- export/thumbnail_mc_b.png: "EZREAL GÜÇLENDİ, SYNDRA NERF YEDİ / YAMA 26.23" (başlıkla tekrar etmez)

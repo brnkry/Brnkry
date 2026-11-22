@@ -1,18 +1,19 @@
 # Yone öldükten sonra ne oldu? Yükleme paketi (Bölüm 2)
 
-## Başlık seçenekleri (Bölüm 1 ile aynı düzen)
-1. Kardeşi Öldürdü Ama Geri Döndü | Yone'nin Hikayesi (Bölüm 2)
-2. Yone Öldükten Sonra Ne Oldu? | Yone'nin Hikayesi (Bölüm 2)
-3. Ölüm Bir Son Değildi | Yone'nin Hikayesi (Bölüm 2)
+## Başlık seçenekleri (seri adı: Lekeli Kılıç)
+Seri adı, resmi sinematik "Lekeli Kılıcın Soyu"ndan geliyor ve Riven'ın kırık kılıcıyla 3. bölümü de kapsıyor.
+1. Yone'nin Ölümü Bir Son Değildi | Yone'nin Hikayesi (Lekeli Kılıç Bölüm 2)
+2. Yone Öldükten Sonra Ne Oldu? | Yone'nin Hikayesi (Lekeli Kılıç Bölüm 2)
 
-Bölüm 1 için yeni başlık (seri düzeni): Abisini Öldürdü Ama Suçsuzdu | Yasuo'nun Hikayesi (Bölüm 1)
+Bölüm 1 için: Abisini Öldürdü Ama Suçsuzdu | Yasuo'nun Hikayesi (Lekeli Kılıç Bölüm 1)
+Bölüm 3 için (sonraki video): ... | Riven'ın Hikayesi (Lekeli Kılıç Bölüm 3)
 
 ## Açıklama
 Yasuo, ağbisini kendi elleriyle öldürdü. Ama Yone için ölüm bir son değildi.
 
 Bu videoda Yone'nin hikayesini resmi Riot kaynaklarından anlatıyoruz: kardeşini koruyan ağabeyden, ruhlar dünyasında karşılaştığı azakanaya, yüzünden çıkmayan maskeden Andu adındaki çocuğu kurtardığı geceye ve yıllar sonra kardeşiyle aynı tarafta savaştığı Ruh Çiçeği gecesine kadar.
 
-Yasuo'nun hikayesini izlemediysen önce Bölüm 1'i izle. Bölüm 3'te Riven var.
+Bu video Lekeli Kılıç serisinin 2. bölümü. Yasuo'nun hikayesini izlemediysen önce Bölüm 1'i izle. Bölüm 3'te Riven var.
 
 Bölümler
 0:00 Giriş
@@ -37,9 +38,15 @@ yone, yone hikayesi, yone lore, yone hikaye türkçe, yone öldükten sonra, yon
 ## Sabitlenmiş yorum
 Yone'nin yüzündeki azakananın gerçek adı hâlâ bilinmiyor. Sence o maske bir gün Yone'yi yutacak mı? Bölüm 3 Riven, izlemeyi unutma 👇
 
-## Thumbnail
-- export/thumbnail.png: varsayılan Yone splash, "BÖLÜM 2 / KARDEŞİ ÖLDÜRDÜ / AMA GERİ DÖNDÜ / YONE'NİN HİKAYESİ"
-- Bölüm 1 için aynı düzende yeni thumbnail: ../yasuo/export/thumbnail_seri.png ("BÖLÜM 1 / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ")
+## Thumbnail (A/B testi için 3 seçenek, hepsi "ÖLÜMÜ / BİR SON DEĞİLDİ / YONE'NİN HİKAYESİ")
+- export/thumbnail_1.png: Yone splash arka plan, yarısı eski yarısı maskeli tek yüz (export/thumbnail.png ile aynı)
+- export/thumbnail_2.png: The Path, ruhlar dünyasında Yone'nin çığlığı
+- export/thumbnail_3.png: KIN, maskeli Yone'nin parlayan gözleri
+
+Bölüm 1 için 3 seçenek ("ABİSİNİ ÖLDÜRDÜ, / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ"):
+- ../yasuo/export/thumbnail_seri_a.png: Yasuo ve Yone kapışma çizimi
+- ../yasuo/export/thumbnail_seri_b.png: önde Yasuo, arkada maskeli Yone
+- ../yasuo/export/thumbnail_seri_c.png: KIN, Yasuo'nun gözleri
 
 ## Oynatma listesi
-LoL Şampiyon Hikayeleri. Sıra: Bölüm 1 Yasuo, Bölüm 2 Yone.
+LoL Şampiyon Hikayeleri (içinde ayrıca "Lekeli Kılıç" adlı bir liste de açılabilir). Sıra: Bölüm 1 Yasuo, Bölüm 2 Yone, Bölüm 3 Riven.

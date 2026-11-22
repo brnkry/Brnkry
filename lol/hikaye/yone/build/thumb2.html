@@ -1,0 +1,50 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(node_modules/@fontsource/anton/files/anton-latin-ext-400-normal.woff2)}
+@font-face{font-family:Anton;src:url(node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:Cinzel;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-ext-700-normal.woff2)}
+@font-face{font-family:Cinzel;src:url(node_modules/@fontsource/cinzel/files/cinzel-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+html,body{margin:0;background:#000}
+.t{position:relative;width:1280px;height:720px;overflow:hidden;background:#07060a}
+.p{position:absolute;top:0;height:720px;background-repeat:no-repeat}
+.a{font-family:Anton;line-height:1.1;text-transform:none;white-space:nowrap;filter:drop-shadow(0 5px 0 rgba(0,0,0,.9)) drop-shadow(0 0 22px rgba(0,0,0,.9))}
+.lab{position:absolute;bottom:26px;font-family:Cinzel;font-weight:700;font-size:30px;letter-spacing:.12em;color:#F7EFE2;filter:drop-shadow(0 2px 6px #000) drop-shadow(0 0 14px #000)}
+.pt{position:absolute;border-radius:80% 0 80% 0;background:linear-gradient(135deg,#ffd1e3,#ff7aa8 55%,#d23a6a)}
+</style></head><body>
+<div class="t" id="yone">
+ <div class="p" style="left:0;width:1280px;background-image:url(assets/thumb/yone_ikiyuz_v.jpg);background-size:1280px 720px;filter:contrast(1.12) saturate(1.15) brightness(1.15)"></div>
+ <div style="position:absolute;left:0;top:0;width:640px;height:720px;background:linear-gradient(90deg,#07060a 35%,rgba(7,6,10,.7) 65%,rgba(7,6,10,0))"></div>
+ <div style="position:absolute;left:0;top:0;width:640px;height:720px;background:radial-gradient(ellipse at 30% 55%,rgba(130,20,55,.35),rgba(7,6,10,0) 70%)"></div>
+ <div id="petals"></div>
+ <div style="position:absolute;left:46px;top:44px;padding:6px 18px 8px;background:#C4213A;box-shadow:0 6px 18px rgba(0,0,0,.7)"><div class="a" style="font-size:42px;color:#fff;filter:none">BÖLÜM 2</div></div>
+ <div style="position:absolute;left:46px;top:140px">
+  <div class="a" style="font-size:80px;line-height:1.3;color:#F7EFE2">ÖLÜM BİR</div>
+  <div class="a" style="font-size:80px;line-height:1.3;color:#FF3B4E">SON DEĞİLDİ</div>
+ </div>
+ <div style="position:absolute;left:40px;top:352px">
+  <div class="a" style="font-size:146px;line-height:1.2;color:#F6C65B">YONE'NİN</div>
+  <div class="a" style="font-size:146px;line-height:1.2;color:#F6C65B">HİKAYESİ</div>
+ </div>
+</div>
+<div class="t" id="yasuo">
+ <div class="p" style="left:0;width:1280px;background-image:url(assets/thumb/yasuo_yone_yuz.jpg);background-size:1280px 720px;filter:contrast(1.12) saturate(1.15) brightness(1.15)"></div>
+ <div style="position:absolute;left:0;top:0;width:640px;height:720px;background:linear-gradient(90deg,#07060a 35%,rgba(7,6,10,.7) 65%,rgba(7,6,10,0))"></div>
+ <div style="position:absolute;left:0;top:0;width:640px;height:720px;background:radial-gradient(ellipse at 30% 55%,rgba(130,20,55,.35),rgba(7,6,10,0) 70%)"></div>
+ <div id="petals"></div>
+ <div style="position:absolute;left:46px;top:44px;padding:6px 18px 8px;background:#C4213A;box-shadow:0 6px 18px rgba(0,0,0,.7)"><div class="a" style="font-size:42px;color:#fff;filter:none">BÖLÜM 1</div></div>
+ <div style="position:absolute;left:46px;top:140px">
+  <div class="a" style="font-size:72px;line-height:1.3;color:#F7EFE2">ABİSİNİ ÖLDÜRDÜ</div>
+  <div class="a" style="font-size:72px;line-height:1.3;color:#FF3B4E">AMA SUÇSUZDU</div>
+ </div>
+ <div style="position:absolute;left:40px;top:352px">
+  <div class="a" style="font-size:124px;line-height:1.2;color:#F6C65B">YASUO'NUN</div>
+  <div class="a" style="font-size:124px;line-height:1.2;color:#F6C65B">HİKAYESİ</div>
+ </div>
+</div>
+<script>
+let s=7;const r=()=>(s=(s*16807)%2147483647)/2147483647;let h='';
+for(let i=0;i<34;i++){const x=r()*1280,y=r()*720,w=14+r()*30,b=r()<.35?(2+r()*5):0,o=.55+r()*.4;
+ if(x>30&&x<600&&y>120&&y<700&&r()<.85)continue;
+ h+=`<div class="pt" style="left:${x}px;top:${y}px;width:${w}px;height:${w*.62}px;transform:rotate(${r()*360}deg);filter:blur(${b}px) drop-shadow(0 0 6px rgba(255,80,140,.6));opacity:${o}"></div>`}
+document.querySelectorAll('#petals').forEach(e=>e.innerHTML=h);
+window.ready=Promise.all([document.fonts.load('100px Anton','AİŞĞ'),document.fonts.load('700 30px Cinzel','AİŞĞ')]);
+</script></body></html>
