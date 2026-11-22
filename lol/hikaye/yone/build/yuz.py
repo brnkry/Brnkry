@@ -15,12 +15,12 @@ def warp(path, pts):
     rgb = np.asarray(im.transform((W, H), Image.AFFINE, T, resample=Image.BICUBIC)).astype(float)
     val = np.asarray(v.transform((W, H), Image.AFFINE, T, resample=Image.BILINEAR).filter(ImageFilter.GaussianBlur(110))).astype(float) / 255
     val = np.clip(val * 1.5 - 0.25, 0, 1) ** 1.3
-    return rgb * val[..., None] + np.array([7, 6, 10.]) * (1 - val[..., None])
+    return np.dstack([rgb, val])
 def compose(a, pa, b, pb, out):
-    A = warp(a, pa); B = warp(b, pb)
+    A = warp(a, pa); B = warp(b, pb); va = A[..., 3:]; vb = B[..., 3:]; A = A[..., :3]; B = B[..., :3]
     x = np.arange(W)[None, :, None]; c = 880; w = 60
     t = np.clip((x - (c - w)) / (2 * w), 0, 1); t = t * t * (3 - 2 * t)
-    o = A * (1 - t) + B * t
+    o = A * (1 - t) + B * t; val = va * (1 - t) + vb * t
     n = np.random.default_rng(3).random((H // 8, W // 8))
     n = np.asarray(Image.fromarray((n * 255).astype('uint8')).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(18))).astype(float) / 255
     band = np.exp(-((x[..., 0] - c) / 50.0) ** 2)[..., None] * (0.55 + 0.45 * n[..., None])
@@ -28,8 +28,9 @@ def compose(a, pa, b, pb, out):
     yy, xx = np.mgrid[0:H, 0:W]
     dd = ((xx - 900) / 520.0) ** 2 + ((yy - 420) / 440.0) ** 2
     m = np.clip((1.15 - dd) / 0.55, 0, 1); m = m * m * (3 - 2 * m)
-    o = o * m[..., None] + np.array([7, 6, 10.])[None, None] * (1 - m[..., None])
-    Image.fromarray(np.clip(o, 0, 255).astype('uint8')).save(out, quality=95)
+    al = m[..., None] * val
+    Image.fromarray(np.clip(o * al + np.array([7, 6, 10.]) * (1 - al), 0, 255).astype('uint8')).save(out, quality=95)
+    Image.fromarray(np.dstack([np.clip(o, 0, 255), al[..., 0] * 255]).astype('uint8'), 'RGBA').save(out.replace('.jpg', '.png'))
 YONE_H = [(400, 386), (820, 300), (720, 820)]
 YONE_M = [(816, 492), (1104, 492), (960, 740)]
 YASUO = [(1290, 270), (1580, 220), (1500, 535)]

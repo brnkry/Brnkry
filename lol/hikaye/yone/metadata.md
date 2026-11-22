@@ -38,8 +38,8 @@ yone, yone hikayesi, yone lore, yone hikaye türkçe, yone öldükten sonra, yon
 Yone'nin yüzündeki azakananın gerçek adı hâlâ bilinmiyor. Sence o maske bir gün Yone'yi yutacak mı? Bölüm 3 Riven, izlemeyi unutma 👇
 
 ## Thumbnail
-- export/thumbnail.png: yarısı eski Yone, yarısı maskeli Yone (KIN), "BÖLÜM 2 / ÖLÜM BİR SON DEĞİLDİ / YONE'NİN HİKAYESİ"
-- Bölüm 1 için aynı düzende yeni thumbnail: ../yasuo/export/thumbnail_seri.png (yarısı Yasuo, yarısı Yone; "BÖLÜM 1 / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ")
+- export/thumbnail.png: arkada varsayılan Yone splash, önde yarısı eski yarısı maskeli tek Yone yüzü, Yuji Syuku fontu: "YONE'NİN ÖLÜMÜ / BİR SON DEĞİLDİ"
+- Bölüm 1 için yeni seçenekler (aynı font): ../yasuo/export/thumbnail_seri_a.png (Yasuo ve Yone çizimi), ../yasuo/export/thumbnail_seri_b.png (önde Yasuo, arkada maskeli Yone)
 
 ## Oynatma listesi
 LoL Şampiyon Hikayeleri. Sıra: Bölüm 1 Yasuo, Bölüm 2 Yone.
