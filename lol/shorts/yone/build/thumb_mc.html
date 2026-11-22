@@ -1,0 +1,42 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><style>
+@font-face{font-family:Mc;src:url(../../../hikaye/yasuo/build/node_modules/@fontsource/marcellus/files/marcellus-latin-ext-400-normal.woff2)}
+@font-face{font-family:Mc;src:url(../../../hikaye/yasuo/build/node_modules/@fontsource/marcellus/files/marcellus-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+html,body{margin:0;background:#000}
+.t{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0A0C14;margin-bottom:10px}
+.L{position:absolute;left:0;right:0;background-repeat:no-repeat}
+.y{font-family:Mc;white-space:nowrap;line-height:1.08;-webkit-text-stroke:3px currentColor;letter-spacing:-.01em;color:#F3E6D3;filter:drop-shadow(0 4px 0 rgba(0,0,0,.8)) drop-shadow(0 0 22px rgba(0,0,0,.95)) drop-shadow(0 0 50px rgba(0,0,0,.7))}
+.sub{font-family:Mc;font-style:italic;white-space:nowrap;color:#E2B967;-webkit-text-stroke:1.6px currentColor;letter-spacing:.03em;filter:drop-shadow(0 3px 0 rgba(0,0,0,.8)) drop-shadow(0 0 18px rgba(0,0,0,.95))}
+.pt{position:absolute;border-radius:80% 0 80% 0;background:linear-gradient(135deg,#ffd1e3,#ff7aa8 55%,#d23a6a)}
+</style></head><body>
+<!-- Yone Short -->
+<div class="t" id="yone">
+ <div class="L" style="top:0;height:1920px;background-image:url(../../../hikaye/yone/kaynak/resmi_gorseller/yone_varsayilan_splash.jpg);background-size:auto 1920px;background-position:-1650px 0;filter:brightness(.55) saturate(1.1) blur(3px)"></div>
+ <div class="L" style="top:430px;height:1080px;background-image:url(../../../hikaye/yasuo/build/assets/thumb/yone_ikiyuz_v.png);background-size:auto 1200px;background-position:-927px 0;filter:contrast(1.15) saturate(1.15) brightness(1.5)"></div>
+ <div class="L" style="top:0;height:1920px;background:linear-gradient(180deg,rgba(10,12,20,.75) 0%,rgba(10,12,20,0) 22%,rgba(10,12,20,0) 62%,rgba(10,12,20,.85) 82%)"></div>
+ <div class="petals"></div>
+ <div style="position:absolute;left:0;right:0;top:200px;text-align:center">
+  <div class="y" style="font-size:128px">ÖLÜM BENİ</div>
+  <div class="y" style="font-size:128px">GERİ ÇEVİRDİ</div>
+ </div>
+ <div style="position:absolute;left:0;right:0;top:1480px;text-align:center"><div class="sub" style="font-size:72px">YONE'NİN HİKAYESİ</div></div>
+</div>
+<!-- Yasuo Short, same layout -->
+<div class="t" id="yasuo">
+ <div class="L" style="top:0;height:980px;background-image:url(../../../hikaye/yasuo/build/assets/thumb/yasuo_classic_hd.jpg);background-size:6200px auto;background-position:-4050px -650px;filter:contrast(1.12) saturate(1.15)"></div>
+ <div class="L" style="top:900px;height:1020px;background-image:url(../../../hikaye/yasuo/build/assets/thumb/yone_sb.jpg);background-size:4000px auto;background-position:-1460px -112px;filter:contrast(1.1) saturate(1.1);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 140px)"></div>
+ <div class="L" style="top:820px;height:280px;background:linear-gradient(180deg,rgba(10,12,20,0),rgba(10,12,20,.8) 50%,rgba(10,12,20,0))"></div>
+ <div class="L" style="top:0;height:1920px;background:linear-gradient(180deg,rgba(10,12,20,.55) 0%,rgba(10,12,20,0) 18%,rgba(10,12,20,0) 70%,rgba(10,12,20,.8) 88%)"></div>
+ <div class="petals"></div>
+ <div style="position:absolute;left:0;right:0;top:790px;text-align:center">
+  <div class="y" style="font-size:118px">ABİSİNİ ÖLDÜRDÜ,</div>
+  <div class="y" style="font-size:118px">AMA SUÇSUZDU</div>
+  <div class="sub" style="font-size:64px;margin-top:14px">LOL'ÜN EN ACI HİKAYESİ</div>
+ </div>
+</div>
+<script>
+let s=11;const r=()=>(s=(s*16807)%2147483647)/2147483647;let h='';
+for(let i=0;i<36;i++){const x=r()*1080,y=r()*1920,w=18+r()*36,b=r()<.35?(2+r()*6):0,o=.5+r()*.4;
+ h+=`<div class="pt" style="left:${x}px;top:${y}px;width:${w}px;height:${w*.62}px;transform:rotate(${r()*360}deg);filter:blur(${b}px) drop-shadow(0 0 6px rgba(255,80,140,.6));opacity:${o}"></div>`}
+document.querySelectorAll('.petals').forEach(e=>e.innerHTML=h);
+window.ready=document.fonts.load('100px Mc','AİŞĞÖÜÇ');
+</script></body></html>

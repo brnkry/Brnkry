@@ -22,3 +22,5 @@ export/thumbnail_short.png (1080x1920): üstte klasik Yasuo, altta Ruh Çiçeği
 
 ## Not
 YouTube Studio'da Shorts'un "İlgili video" alanına uzun videoyu (Yasuo Neden Abisini Öldürdü?) bağla.
+
+Yeni stil (Marcellus): export/thumbnail_short_mc.png ("ABİSİNİ ÖLDÜRDÜ, / AMA SUÇSUZDU / LOL'ÜN EN ACI HİKAYESİ")
