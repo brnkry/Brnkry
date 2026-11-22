@@ -171,7 +171,7 @@ def plan():
             add_piece(src, a0, b0 - a0, tr); amb.append((SEP + '/kinfull/no_vocals.wav', a0, b0, t, g)); t += b0 - a0
         elif k == 'E':  # end card: part 3 is Riven
             _, src, ss, L = ev; add_piece(src, ss, L, 'x'); chap['E'] = t
-            texts.append([round(t + 0.5, 3), round(t + L, 2), 'SKY2', [['BÖLÜM 3', 90, 'C', 0, None], ['RIVEN', 220, 'G', 0.55, 'slam']]])
+            texts.append([round(t + 0.5, 3), round(t + L, 2), 'SKY2', [['YENİ BÖLÜMDE', 90, 'C', 0, None], ['RIVEN', 220, 'G', 0.55, 'slam']]])
             sfx.append(('impact_kucuk.wav', t + 1.0, -11))
             t += L
     texts.sort(key=lambda x: x[0])

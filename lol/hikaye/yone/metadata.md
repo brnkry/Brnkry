@@ -38,7 +38,7 @@ yone, yone hikayesi, yone lore, yone hikaye türkçe, yone öldükten sonra, yon
 Yone'nin yüzündeki azakananın gerçek adı hâlâ bilinmiyor. Sence o maske bir gün Yone'yi yutacak mı? Bölüm 3 Riven, izlemeyi unutma 👇
 
 ## Thumbnail
-- export/thumbnail.png: varsayılan Yone splash, "BÖLÜM 2 / KARDEŞİ ÖLDÜRDÜ / AMA GERİ DÖNDÜ / YONE'NİN HİKAYESİ"
+- export/thumbnail.png: yarısı eski Yone, yarısı maskeli Yone (KIN), "BÖLÜM 2 / ÖLÜM BİR SON DEĞİLDİ / YONE'NİN HİKAYESİ"
 - Bölüm 1 için aynı düzende yeni thumbnail: ../yasuo/export/thumbnail_seri.png ("BÖLÜM 1 / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ")
 
 ## Oynatma listesi
