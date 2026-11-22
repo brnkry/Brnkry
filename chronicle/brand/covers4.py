@@ -102,6 +102,7 @@ JOBS = {
  'sakai': ('sak/code', 's03', (0.5, 0.0, 1.0), ('C', 'DM'), [('SABURŌ SAKAI', 140, 'w'), ('KOPFSCHUSS', 150, 'y')], 'UND FLOG 4 STUNDEN ZURÜCK', 80, S + 'sak/thumbs/DE_Sakai.jpg'),
  'boelter': ('bolt/code', 'p03', (0.5, 0.05, 1.0), ('C', 'DM'), [('JOHANNES BÖLTER', 130, 'w'), ('139 PANZER', 150, 'y')], 'SIEBENMAL VERWUNDET', 80, S + 'bolt/thumbs/DE_Boelter.jpg'),
  'berlin': ('bln/code', 'reichstag', (0.42, 0.5, 1.0), ('C', 'DM'), [('BERLIN 1945', 150, 'w'), ('IN 17 TAGEN', 150, 'y')], 'WIE DIE SOWJETS BERLIN NAHMEN', 80, S + 'bln/thumbs/DE_Berlin1945.jpg'),
+ 'tobruk': ('tobc/code', 'rommel', (0.45, 0.3, 1.18), ('C', 'DM'), [('TOBRUK 1942', 150, 'w'), ('33.000 IN 1 TAG', 150, 'y')], 'ROMMELS GRÖSSTER SIEG', 88, S + 'tobc/thumbs/DE_Tobruk1942.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
 }
 if __name__ == '__main__':
