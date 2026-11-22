@@ -7,6 +7,7 @@ Y = S + '/yasuo'; OUT = S + '/yone/out'; os.makedirs(OUT, exist_ok=True)
 ANS = [S + '/yone/anim', Y + '/anim']
 SEP = Y + '/sep/htdemucs'
 NARR = {p['row']: p for p in json.load(open('narr.json'))}
+REPW = json.load(open('rep_words.json')); REPV = S + '/yone/rep/yone_rep.mp4'  # official Turkish Yone voice lines
 YS = '../../yasuo/ses/'; MS = '../ses/'
 XF = 0.5
 GRADE = ('eq=contrast=1.08:saturation=0.88:gamma=0.97,'
@@ -29,8 +30,9 @@ EV = [
     ('T', 'P', 168.0, 4.6),
     # I. KORUYUCU
     ('N', 3, [('yone_battleacademia', 0, 1)], 'black', 0),
+    ('Q', 'onur', [['BİR ZAMANLAR ONUR', 'HER ŞEYİN ÜZERİNDEYDİ.']], ('P', 22.0), 'x', 0.8),
     ('N', 4, [('K', 135.5, 6), ('H', 72.6, 6)], 'x', 0),
-    ('N', 5, [('H', 27.0, 3), ('H', 36.0, 7)], 'x', 0),
+    ('N', 5, [('H', 27.0, 3), ('H', 36.0, 3.5), ('H', 78.5, 4)], 'x', 0),
     ('N', 6, [('yone_tohum', 0, 1)], 'x', 0.4),
     ('N', 7, [('H', 112.6, 5), ('P', 14.0, 6)], 'x', 0),
     ('N', 8, [('yone_sb', 5, 5), ('K', 143.0, 6)], 'x', 0),
@@ -41,35 +43,44 @@ EV = [
     ('N', 12, [('K', 345.0, 4), ('K', 336.0, 4)], 'x', 0),
     ('N', 13, [('BLACK', 0, 1)], 'black', 0.5),
     ('N', 14, [('K', 52.3, 5.5), ('K', 63.0, 3.5)], 'x', 0),
+    ('Q', 'oldu', [['YAŞARKEN BİRBİRİMİZİN', 'ELİNDE ÖLDÜK.']], ('BLACK', 0), 'black', 0.8),
     # III. RUHLAR DUNYASI
     ('N', 15, [('P', 36.0, 1)], 'flash', 0),
+    ('Q', 'huzur', [['ÖLÜM HUZUR', 'GETİRİR SANMIŞTIM.'], ['NE BÜYÜK SAFLIK.']], ('P', 46.5), 'x', 0.8),
     ('N', 16, [('P', 62.0, 7), ('P', 88.0, 7)], 'x', 0),
     ('N', 17, [('P', 100.0, 1)], 'x', 0),
     ('N', 18, [('P', 124.0, 4), ('P', 174.0, 4.5)], 'x', 0),
     ('N', 19, [('BLACK', 0, 1)], 'black', 3.2),
     # IV. MASKE
     ('N', 20, [('K', 425.5, 1)], 'black', 0),
+    ('Q', 'cevirdi', [['ÖLÜM BENİ', 'GERİ ÇEVİRDİ.']], ('K', 435.0), 'x', 0.8),
     ('N', 21, [('K', 374.0, 4), ('yone_maskedjustice', 0, 6)], 'x', 0),
-    ('N', 22, [('K', 417.0, 5), ('K', 470.0, 5), ('K', 492.0, 5)], 'x', 0),
+    ('Q', 'tanidi', [['RUHLAR ALEMİNDE KARŞIMA ÇIKTIĞINDA', 'ŞU YÜZÜMDEKİ AZAKANA', 'BENİ TANIYORDU.']], ('K', 378.0), 'x', 0.8),
+    ('N', 22, [('K', 417.0, 5), ('K', 466.0, 10)], 'x', 0),
+    ('Q', 'cizgi', [['AZAKANALARIN HER ÖZELLİĞİ', 'BİR ÇİZGİDİR.'], ['ÇİZGİLER BİR ARAYA GELİP', 'GERÇEK ADLARINI İFŞA EDER.']], ('P', 129.0), 'x', 0.8),
     # V. ANDU
-    ('N', 23, [('K', 384.0, 6), ('yone_severed', 0, 6)], 'black', 0),
+    ('N', 23, [('K', 385.5, 6), ('yone_severed', 0, 6)], 'black', 0),
     ('N', 24, [('yone_varsayilan', 0, 1)], 'x', 0),
     ('N', 25, [('K', 364.0, 1)], 'x', 0.3),
     ('N', 26, [('H', 136.0, 5), ('H', 146.0, 5)], 'x', 0),
     ('N', 27, [('K', 395.0, 1)], 'flash', 0),
+    ('Q', 'korku', [['KORKUNUN ADI VARSA,', 'GÜCÜ YOKTUR.']], ('K', 409.0), 'x', 0.8),
     ('N', 28, [('K', 300.5, 1)], 'x', 0),
     ('N', 29, [('P', 143.0, 1)], 'x', 0.3),
-    ('N', 30, [('H', 175.5, 4), ('P', 26.0, 4)], 'x', 0),
-    ('N', 31, [('P', 201.0, 5), ('yone_login', 15, 5)], 'x', 0.4),
+    ('N', 30, [('yone_severed', 6.5, 1)], 'x', 0),
+    ('N', 31, [('P', 201.0, 4.5), ('P', 149.8, 5.5)], 'x', 0.4),
     ('N', 32, [('K', 500.0, 1)], 'x', 0.6),
     # VI. KARDESE DONUS
     ('N', 33, [('K', 476.0, 1)], 'black', 0),
+    ('Q', 'kardes', [['KARDEŞİM...'], ['YOLLARIMIZ YİNE KESİŞTİ.'], ['KILIÇLARIMIZ DA', 'KESECEK Mİ?']], ('K', 487.0), 'x', 0.8),
     ('V', 'K', 455.5, 466.0, 'x', -6),
     ('N', 35, [('yone_login', 45, 1)], 'x', 0),
     # KAPANIS
     ('N', 36, [('H', 152.5, 6), ('K', 603.0, 5)], 'x', 0),
+    ('Q', 'ruzgar', [['ESKİDEN HAYLAZ', 'RÜZGARIN PEŞİNDEYDİM.'], ['ARTIK KARANLIK', 'FIRTINAYI AVLIYORUM.']], ('P', 56.0), 'x', 0.8),
     ('N', 37, [('BLACK', 0, 1)], 'black', 1.2),
-    ('N', 38, [('K', 576.5, 4), ('riven_championship', 8, 6)], 'x', 1.6),
+    ('N', 38, [('K', 576.5, 4), ('riven_championship', 8, 6)], 'x', 0.2),
+    ('Q', 'riven', [['CÜRÜM PEŞİNİ', 'BIRAKMIYOR, RIVEN.'], ['KENDİNİ AFFET.']], ('K', 584.0), 'x', 1.8),
 ]
 LEAD = 0.45; TAIL = 0.65
 
@@ -99,7 +110,7 @@ def words_rows(disp, ws, st, z):
     return rows
 
 def plan():
-    t = 0.0; pieces = []; narr = []; amb = []; texts = []; sfx = []; chap = {}
+    t = 0.0; pieces = []; narr = []; amb = []; texts = []; sfx = []; chap = {}; reps = []
     def add_piece(src, ss, vis, tr):
         if pieces and pieces[-1]['src'] == src and src in VID:
             q = pieces[-1]
@@ -130,13 +141,25 @@ def plan():
             texts.append([round(t + 0.35, 3), round(t + L - 0.2, 2), 'SKY2', [['YONE', 220, 'G', 0, 'slam'], ['ÖLDÜKTEN SONRA NE OLDU?', 96, 'C', 0.55, None]]])
             sfx.append(('impact_kucuk.wav', t + 0.3, -11)); chap['T'] = t
             t += L
+        elif k == 'Q':  # Yone's own voice line, word-by-word text
+            _, key, blocks, (src, ss), tr, tail = ev; ws = REPW[key]
+            r0 = ws[0][1] - 0.5; r1 = ws[-1][2] + tail
+            add_piece(src, ss, r1 - r0, tr); reps.append((r0, r1, t))
+            wi = 0
+            for bi, disp in enumerate(blocks):
+                n = sum(len(l.split()) for l in disp); bw = ws[wi:wi + n]; st = t + bw[0][1] - r0 - .03
+                end = t + bw[-1][2] - r0 + (0.6 if bi + 1 < len(blocks) else min(tail, 1.2))
+                texts.append([round(st, 3), round(end, 2), 'SKY', words_rows(disp, [(w[0], t + w[1] - r0, t + w[2] - r0) for w in bw], st, 110 if len(disp) > 1 else 120)])
+                wi += n
+            assert wi == len(ws), key
+            t += r1 - r0
         elif k == 'V':
             _, src, a0, b0, tr, g = ev
             add_piece(src, a0, b0 - a0, tr); amb.append((a0, b0, t, g)); t += b0 - a0
     texts.sort(key=lambda x: x[0])
     for i in range(len(texts) - 1):
         if texts[i][1] > texts[i + 1][0] - .05: texts[i][1] = round(texts[i + 1][0] - .05, 2)
-    json.dump({'pieces': pieces, 'narr': narr, 'amb': amb, 'texts': texts, 'sfx': sfx, 'chap': chap, 'end': round(t, 2)},
+    json.dump({'pieces': pieces, 'narr': narr, 'reps': reps, 'amb': amb, 'texts': texts, 'sfx': sfx, 'chap': chap, 'end': round(t, 2)},
               open(OUT + '/plan.json', 'w'), ensure_ascii=False, indent=0)
     open('t.js', 'w').write('window.T2=' + json.dumps(texts, ensure_ascii=False) + ';')
     print('end', round(t, 2), 'pieces', len(pieces), 'texts', len(texts))
@@ -211,6 +234,10 @@ def mix():
         g = gain(f, a, L, -14.5)
         inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', f]
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
+    for a, b, at in P['reps']:
+        g = gain(REPV, a, b - a, -15.0)
+        inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', REPV]
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.05,afade=t=out:st={b - a - 0.3:.3f}:d=0.3,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
     fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
     for a, b, at, g in P['amb']:
         inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', f'{SEP}/kinfull/no_vocals.wav']
