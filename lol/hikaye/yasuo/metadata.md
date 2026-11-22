@@ -1,6 +1,7 @@
 # Yasuo neden abisini öldürdü? Yükleme paketi
 
 ## Başlık seçenekleri
+0. (Seri düzeni, önerilen) Abisini Öldürdü Ama Suçsuzdu | Yasuo'nun Hikayesi (Bölüm 1)
 1. Yasuo Neden Abisini Öldürdü? | Yasuo ve Yone'nin Hikayesi (League of Legends)
 2. Suçsuzdu Ama Abisini Öldürdü | Yasuo'nun Gerçek Hikayesi
 3. Yasuo ve Yone: Kardeşini Öldüren Kılıç Ustasının Hikayesi | LoL Hikaye
@@ -39,6 +40,7 @@ yasuo, yone, yasuo hikayesi, yasuo neden abisini öldürdü, yasuo yone hikayesi
 Yone, Yasuo'yu ne öldürdü ne de affetti. Sence hangisi daha ağır bir ceza? Bir sonraki hikayede hangi şampiyonu anlatalım, yaz 👇
 
 ## Thumbnail seçenekleri
+- export/thumbnail_seri.png: Bölüm 2 ile aynı seri düzeni, klasik Yasuo splash, "BÖLÜM 1 / ABİSİNİ ÖLDÜRDÜ / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ" (yeni, önerilen)
 - export/thumbnail_a.png: Yasuo ve Ruh Çiçeği Yone yüz yüze, kızıl yarık, "YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ?"
 - export/thumbnail_d.png: klasik Yasuo splash, büyük "YASUO / ABİSİNİ NEDEN ÖLDÜRDÜ?"
 - export/thumbnail_e.png: klasik Yasuo ve Şafak Getiren Yone, kızıl yarık, "YASUO / ABİSİNİ ÖLDÜRDÜ"
