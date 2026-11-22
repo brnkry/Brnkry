@@ -1,7 +1,7 @@
 const {chromium}=require('playwright');const path=require('path');
-(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const p=await b.newPage({viewport:{width:1280,height:2200}});
+(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const p=await b.newPage({viewport:{width:1280,height:4600}});
 await p.goto('file://'+path.join(__dirname,'thumb3.html'));await p.evaluate(async()=>{await window.ready});await p.waitForTimeout(500);
-await p.locator('#yone').screenshot({path:path.join(__dirname,'../export/thumbnail_c.png')});
-await p.locator('#yasuo_a').screenshot({path:path.join(__dirname,'../../yasuo/export/thumbnail_seri_a.png')});
-await p.locator('#yasuo_b').screenshot({path:path.join(__dirname,'../../yasuo/export/thumbnail_seri_b.png')});
+const E=path.join(__dirname,'../export/'),Y=path.join(__dirname,'../../yasuo/export/');
+for(const [id,f] of [['yone',E+'thumbnail_1.png'],['yone2',E+'thumbnail_2.png'],['yone3',E+'thumbnail_3.png'],['yasuo_a',Y+'thumbnail_seri_a.png'],['yasuo_b',Y+'thumbnail_seri_b.png'],['yasuo_c',Y+'thumbnail_seri_c.png']])
+ await p.locator('#'+id).screenshot({path:f});
 await b.close()})();

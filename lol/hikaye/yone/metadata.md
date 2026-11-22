@@ -38,9 +38,15 @@ yone, yone hikayesi, yone lore, yone hikaye türkçe, yone öldükten sonra, yon
 ## Sabitlenmiş yorum
 Yone'nin yüzündeki azakananın gerçek adı hâlâ bilinmiyor. Sence o maske bir gün Yone'yi yutacak mı? Bölüm 3 Riven, izlemeyi unutma 👇
 
-## Thumbnail
-- export/thumbnail.png: arkada varsayılan Yone splash, önde yarısı eski yarısı maskeli tek Yone yüzü, Marcellus fontu (Riot'un Beaufort fontuna en yakın serbest font): "YONE'NİN ÖLÜMÜ / BİR SON DEĞİLDİ / YONE'NİN HİKAYESİ"
-- Bölüm 1 için yeni seçenekler (aynı font, "YASUO'NUN HİKAYESİ" yazılı): ../yasuo/export/thumbnail_seri_a.png (Yasuo ve Yone çizimi), ../yasuo/export/thumbnail_seri_b.png (önde Yasuo, arkada maskeli Yone)
+## Thumbnail (A/B testi için 3 seçenek, hepsi "ÖLÜMÜ / BİR SON DEĞİLDİ / YONE'NİN HİKAYESİ")
+- export/thumbnail_1.png: Yone splash arka plan, yarısı eski yarısı maskeli tek yüz (export/thumbnail.png ile aynı)
+- export/thumbnail_2.png: The Path, ruhlar dünyasında Yone'nin çığlığı
+- export/thumbnail_3.png: KIN, maskeli Yone'nin parlayan gözleri
+
+Bölüm 1 için 3 seçenek ("ABİSİNİ ÖLDÜRDÜ, / AMA SUÇSUZDU / YASUO'NUN HİKAYESİ"):
+- ../yasuo/export/thumbnail_seri_a.png: Yasuo ve Yone kapışma çizimi
+- ../yasuo/export/thumbnail_seri_b.png: önde Yasuo, arkada maskeli Yone
+- ../yasuo/export/thumbnail_seri_c.png: KIN, Yasuo'nun gözleri
 
 ## Oynatma listesi
 LoL Şampiyon Hikayeleri (içinde ayrıca "Lekeli Kılıç" adlı bir liste de açılabilir). Sıra: Bölüm 1 Yasuo, Bölüm 2 Yone, Bölüm 3 Riven.
