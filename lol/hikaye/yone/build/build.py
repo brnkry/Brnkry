@@ -50,7 +50,7 @@ EV = [
     ('N', 16, [('P', 62.0, 7), ('P', 88.0, 7)], 'x', 0),
     ('N', 17, [('P', 100.0, 1)], 'x', 0),
     ('N', 18, [('P', 124.0, 4), ('P', 174.0, 4.5)], 'x', 0),
-    ('N', 19, [('BLACK', 0, 1)], 'black', 3.2),
+    ('N', 19, [('P', 77.0, 3.2), ('P', 84.0, 4.2)], 'black', 3.2),
     # IV. MASKE
     ('N', 20, [('K', 425.5, 1)], 'black', 0),
     ('Q', 'cevirdi', [['ÖLÜM BENİ', 'GERİ ÇEVİRDİ.']], ('K', 435.0), 'x', 0.8),
@@ -68,7 +68,7 @@ EV = [
     ('N', 28, [('K', 300.5, 1)], 'x', 0),
     ('N', 29, [('P', 143.0, 1)], 'x', 0.3),
     ('N', 30, [('yone_severed', 6.5, 1)], 'x', 0),
-    ('N', 31, [('P', 201.0, 4.5), ('P', 149.8, 5.5)], 'x', 0.4),
+    ('N', 31, [('P', 200.0, 3.6), ('H', 10.5, 6.4)], 'x', 0.4),
     ('N', 32, [('K', 500.0, 1)], 'x', 0.6),
     # VI. KARDESE DONUS
     ('N', 33, [('K', 476.0, 1)], 'black', 0),
@@ -78,9 +78,10 @@ EV = [
     # KAPANIS
     ('N', 36, [('H', 152.5, 6), ('K', 603.0, 5)], 'x', 0),
     ('Q', 'ruzgar', [['ESKİDEN HAYLAZ', 'RÜZGARIN PEŞİNDEYDİM.'], ['ARTIK KARANLIK', 'FIRTINAYI AVLIYORUM.']], ('P', 56.0), 'x', 0.8),
-    ('N', 37, [('BLACK', 0, 1)], 'black', 1.2),
+    ('N', 37, [('BLACK', 0, 1)], 'black', 0.2),
     ('N', 38, [('K', 576.5, 4), ('riven_championship', 8, 6)], 'x', 0.2),
-    ('Q', 'riven', [['CÜRÜM PEŞİNİ', 'BIRAKMIYOR, RIVEN.'], ['KENDİNİ AFFET.']], ('K', 584.0), 'x', 1.8),
+    ('Q', 'riven', [['CÜRÜM PEŞİNİ', 'BIRAKMIYOR, RIVEN.'], ['KENDİNİ AFFET.']], ('K', 584.0), 'x', 0.9),
+    ('E', 'riven_championship', 16.0, 6.0),
 ]
 LEAD = 0.45; TAIL = 0.65
 
@@ -96,7 +97,7 @@ QUOTES = {
     31: [(0, ['SEVDİKLERİMİZ, BİZİ EN ÇOK', 'YARALAYAN ŞEYLERİ SÖYLER.'], 96, 'SKY'),
          (7, ['UMUTSUZLUK AKLIN KILIĞINA GİRER,', 'AMA BİZE SADECE KENDİMİZİN', 'ÇARPIK BİR YANSIMASINI GÖSTERİR.'], 88, 'SKY')],
     32: [(8, ['İYİ OLACAKSIN,', 'ANDU.'], 120, 'SKY')],
-    37: [(0, ['PEKİ O KAHKAHA', 'KİME AİT?'], 120, 'SKY2'), (5, ['VE YÜZÜNDEKİ MASKE,', 'BİR GÜN ONU DA YUTACAK MI?'], 110, 'SKY2')],
+    37: [(0, ['PEKİ YÜZÜNDEKİ AZAKANANIN', 'GERÇEK ADI NE?'], 110, 'SKY2'), (6, ['VE O MASKE,', 'BİR GÜN ONU DA YUTACAK MI?'], 110, 'SKY2')],
     38: [(13, ['NOXUSLU ASKER:', 'RIVEN.'], 130, 'SKY')],
 }
 LAUGH = {16: 'kahkaha', 19: 'kahkahaydı.', 37: None}
@@ -108,6 +109,16 @@ def words_rows(disp, ws, st, z):
         words = [[w, round(ws[wi + m][1] - st, 3)] for m, w in enumerate(l.split())]; wi += len(words)
         rows.append([words, z, 'C' if li < len(disp) - 1 else 'G'])
     return rows
+
+def speech_edges(w0, w1):
+    # the voice-line video has a short silence between lines: start/stop the clip inside those gaps
+    a = w0 - 1.0
+    r = subprocess.run(['ffmpeg', '-ss', f'{a:.3f}', '-t', f'{w1 - w0 + 2.2:.3f}', '-i', S + '/yone/rep/rep.wav', '-af', 'silencedetect=n=-40dB:d=0.12', '-f', 'null', '-'], capture_output=True, text=True).stderr
+    st = [a + float(l.split('silence_start: ')[1]) for l in r.splitlines() if 'silence_start' in l]
+    en = [a + float(l.split('silence_end: ')[1].split()[0]) for l in r.splitlines() if 'silence_end' in l]
+    s0 = max([e for e in en if e <= w0 + 0.05], default=w0 - 0.1) - 0.06
+    s1 = min([x for x in st if x >= w1 - 0.25], default=w1 + 0.15) + 0.08
+    return round(s0, 3), round(s1, 3)
 
 def plan():
     t = 0.0; pieces = []; narr = []; amb = []; texts = []; sfx = []; chap = {}; reps = []
@@ -133,18 +144,20 @@ def plan():
             if r in LAUGH:
                 key = LAUGH[r]
                 at = a + next(w[2] for w in ws if w[0] == key) + 0.15 if key else t + 0.2
-                sfx.append(('kahkaha.mp3', at, -9 if key else -12))
+                sfx.append(('kahkaha.mp3', at, -9) if key else ('kahkaha.mp3', t + 0.1, -6, 'lowpass=f=420,aecho=0.8:0.6:90|160:0.35|0.2'))
             if tr == 'flash': sfx.append(('slash_1.mp3', t + 0.12, -12))
             t += dur
         elif k == 'T':
             _, src, ss, L = ev; add_piece(src, ss, L, 'x')
+            amb.append((VID['P'], 4.0, 4.0 + t, 0.0, 4)); amb.append((VID['P'], ss, ss + L, t, -5))
             texts.append([round(t + 0.35, 3), round(t + L - 0.2, 2), 'SKY2', [['YONE', 220, 'G', 0, 'slam'], ['ÖLDÜKTEN SONRA NE OLDU?', 96, 'C', 0.55, None]]])
             sfx.append(('impact_kucuk.wav', t + 0.3, -11)); chap['T'] = t
             t += L
         elif k == 'Q':  # Yone's own voice line, word-by-word text
             _, key, blocks, (src, ss), tr, tail = ev; ws = REPW[key]
             r0 = ws[0][1] - 0.5; r1 = ws[-1][2] + tail
-            add_piece(src, ss, r1 - r0, tr); reps.append((r0, r1, t))
+            add_piece(src, ss, r1 - r0, tr)
+            a_s, a_e = speech_edges(ws[0][1], ws[-1][2]); reps.append((a_s, a_e, t + a_s - r0))
             wi = 0
             for bi, disp in enumerate(blocks):
                 n = sum(len(l.split()) for l in disp); bw = ws[wi:wi + n]; st = t + bw[0][1] - r0 - .03
@@ -155,7 +168,12 @@ def plan():
             t += r1 - r0
         elif k == 'V':
             _, src, a0, b0, tr, g = ev
-            add_piece(src, a0, b0 - a0, tr); amb.append((a0, b0, t, g)); t += b0 - a0
+            add_piece(src, a0, b0 - a0, tr); amb.append((SEP + '/kinfull/no_vocals.wav', a0, b0, t, g)); t += b0 - a0
+        elif k == 'E':  # end card: part 3 is Riven
+            _, src, ss, L = ev; add_piece(src, ss, L, 'x'); chap['E'] = t
+            texts.append([round(t + 0.5, 3), round(t + L, 2), 'SKY2', [['BÖLÜM 3', 90, 'C', 0, None], ['RIVEN', 220, 'G', 0.55, 'slam']]])
+            sfx.append(('impact_kucuk.wav', t + 1.0, -11))
+            t += L
     texts.sort(key=lambda x: x[0])
     for i in range(len(texts) - 1):
         if texts[i][1] > texts[i + 1][0] - .05: texts[i][1] = round(texts[i + 1][0] - .05, 2)
@@ -216,21 +234,21 @@ def base():
 
 def MUSIC(P):
     c = {(int(k) if k.isdigit() else k): v for k, v in P['chap'].items()}; end = P['end']
-    return [('muzik_karanlik.mp3', 0.0, c['T'] + 0.4, 25.0, -7),        # cold open, cut under the title impact
+    return [('muzik_karanlik.mp3', 0.0, c['T'] + 0.6, 22.0, -2),        # cold open, builds into the title impact
             ('muzik_cocukluk_nv.wav', c[3] - 0.3, c[9] + 0.6, 0.0, -6),  # I. childhood
             ('muzik_savas.mp3', c[9], c[15] + 0.6, 0.0, -6),           # II. war, the hunt, the duel
             ('muzik_mistik.mp3', c[15], c[23] + 0.6, 4.0, -6),         # III-IV. spirit world, the mask
             ('muzik_huzun.mp3', c[23], c[33] + 0.6, 0.0, -6),          # V. Andu
-            ('muzik_karanlik.mp3', c[33], end, 0.0, -6)]               # VI + closing
+            ('muzik_karanlik.mp3', c[33], c[36] + 0.6, 30.0, -6),      # VI. back to the brother
+            ('muzik_mistik.mp3', c[36], end + 2.0, 60.0, -4)]          # closing, the question, Riven, end card
 
 def mix():
     P = json.load(open(OUT + '/plan.json')); END = P['end']; inp = []; fc = []; ii = 0; vox = []; bed = []
     def gain(f, ss, L, target):
         r = subprocess.run(['ffmpeg', '-v', 'info', '-ss', f'{ss:.3f}', '-t', f'{L:.3f}', '-i', f, '-af', 'ebur128', '-f', 'null', '-'], capture_output=True, text=True).stderr
         I = float([l for l in r.splitlines() if ' I:' in l][-1].split()[1]); return round(target - I, 2)
-    f = MS + 'anlatim.mp3'
     for r, at in P['narr']:
-        p = NARR[r]; a = p['start'] - 0.08; L = p['end'] - p['start'] + 0.35
+        p = NARR[r]; f = MS + p.get('file', 'anlatim.mp3'); a = max(0, p['start'] - 0.08); L = p['end'] - p['start'] + 0.35
         g = gain(f, a, L, -14.5)
         inp += ['-ss', f'{a:.3f}', '-t', f'{L:.3f}', '-i', f]
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.03,afade=t=out:st={L - 0.12:.3f}:d=0.12,adelay={int((at - 0.08) * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
@@ -239,19 +257,19 @@ def mix():
         inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', REPV]
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.05,afade=t=out:st={b - a - 0.3:.3f}:d=0.3,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); vox.append(f'[a{ii}]'); ii += 1
     fc.append(''.join(vox) + f'amix=inputs={len(vox)}:normalize=0,asplit[vv][sc]')
-    for a, b, at, g in P['amb']:
-        inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', f'{SEP}/kinfull/no_vocals.wav']
+    for fa, a, b, at, g in P['amb']:
+        inp += ['-ss', f'{a:.3f}', '-t', f'{b - a:.3f}', '-i', fa]
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,afade=t=in:d=0.5,afade=t=out:st={b - a - 0.5:.3f}:d=0.5,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); bed.append(f'[a{ii}]'); ii += 1
     for fn, at, end, off, g in MUSIC(P):
         L = end - at
-        inp += ['-ss', str(off), '-i', YS + fn]
+        inp += ['-stream_loop', '-1', '-ss', str(off), '-i', YS + fn]
         fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{L:.3f},volume={g}dB,afade=t=in:d=1.5,afade=t=out:st={L - 2.0:.3f}:d=2.0,adelay={int(at * 1000)}:all=1,apad=whole_dur={END}[a{ii}]'); bed.append(f'[a{ii}]'); ii += 1
     fc.append(''.join(bed) + f'amix=inputs={len(bed)}:normalize=0[b0]')
     fc.append('[b0][sc]sidechaincompress=threshold=0.025:ratio=6:attack=15:release=450[bed]')
     lab = '[vv][bed]'; cnt = 2
-    for j, (fn, at, g) in enumerate(P['sfx']):
+    for j, (fn, at, g, *fx) in enumerate(P['sfx']):
         inp += ['-i', (MS if fn == 'kahkaha.mp3' else YS) + fn]
-        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,volume={g}dB,adelay={int(max(at, 0) * 1000)}:all=1[s{j}]'); lab += f'[s{j}]'; ii += 1; cnt += 1
+        fc.append(f'[{ii}:a]aresample=48000,aformat=channel_layouts=stereo,{fx[0] + "," if fx else ""}volume={g}dB,adelay={int(max(at, 0) * 1000)}:all=1[s{j}]'); lab += f'[s{j}]'; ii += 1; cnt += 1
     fc.append(f'{lab}amix=inputs={cnt}:normalize=0:duration=longest,atrim=0:{END},afade=t=out:st={END - 1.5}:d=1.5,loudnorm=I=-15:TP=-1.5:LRA=11[o]')
     subprocess.run(['ffmpeg', '-v', 'error', '-y'] + inp + ['-filter_complex', ';'.join(fc), '-map', '[o]', '-ar', '48000', f'{OUT}/mix.wav'], check=True)
     print('mix ok')
@@ -264,7 +282,7 @@ def frames():
 def final():
     P = json.load(open(OUT + '/plan.json'))
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', f'{OUT}/base.mp4', '-framerate', '30', '-i', f'{OUT}/fr/%05d.png', '-i', f'{OUT}/mix.wav',
-                    '-filter_complex', '[0][1]overlay=0:0:shortest=1,fade=t=in:d=0.8,format=yuv420p[v]', '-map', '[v]', '-map', '2:a',
+                    '-filter_complex', f"[0][1]overlay=0:0:shortest=1,fade=t=in:d=0.8,fade=t=out:st={P['end'] - 1.2:.2f}:d=1.2,format=yuv420p[v]", '-map', '[v]', '-map', '2:a',
                     '-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-c:a', 'aac', '-b:a', '192k', '-t', str(P['end']), '../export/yone_tam.mp4'], check=True)
     print('final ok')
 
