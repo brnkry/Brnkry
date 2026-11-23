@@ -97,11 +97,12 @@ def plate(x, y, txt, size, bg, fg, px=18, py=10, maxw=None):
     cvA.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
     d = ImageDraw.Draw(cvA); d.rectangle(box, fill=bg); d.text((x + px - b[0], y + py - b[1]), txt, font=f, fill=fg); return box
 T1, T2 = 'DER ECHTE URSPRUNG DES 2. WK', 'ER BEGANN NICHT'
-sz = 100
-while osw(sz).getlength(T1) > 800: sz -= 1
+sz = 120
+while osw(sz).getlength(T1) > 900: sz -= 1
 b1 = plate(30, 378, T1, sz, WHITE, DARK)
 b2 = plate(30, b1[3] + 10, T2, sz, WHITE, DARK)
+f1 = osw(sz); d1 = ImageDraw.Draw(cvA); bb1 = d1.textbbox((0, 0), T1, font=f1); d1.text((30 + 18 - bb1[0] + f1.getlength('DER ECHTE URSPRUNG DES '), b1[1] + 10 - bb1[1]), '2. WK', font=f1, fill=RED)
 f2 = osw(sz); d2 = ImageDraw.Draw(cvA); bb2 = d2.textbbox((0, 0), T2, font=f2); d2.text((30 + 18 - bb2[0] + f2.getlength('ER BEGANN '), b2[1] + 10 - bb2[1]), 'NICHT', font=f2, fill=RED)
-b3 = plate(30, b2[3] + 10, '1939', 118, YEL, DARK, px=22, py=12)
+b3 = plate(30, b2[3] + 10, '1939', 100, YEL, DARK, px=20, py=11)
 ImageDraw.Draw(cvA).rectangle((b3[0], b3[3] + 10, b3[0] + 150, b3[3] + 20), fill=RED)
 cvA.convert('RGB').save('cover_ursprung.jpg', quality=93); print('ok')
