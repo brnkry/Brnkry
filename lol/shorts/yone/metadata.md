@@ -16,8 +16,8 @@ Yasuo, abisi Yone'yi kendi elleriyle öldürdü. Ama Yone için ölüm bir son d
 
 Bu video, Riot Games'in "Legal Jibber Jabber" politikası kapsamında, Riot Games'e ait materyaller kullanılarak hazırlanmıştır. Riot Games bu projeyi desteklemez veya sponsorluğunu yapmaz.
 
-## Etiketler (452 karakter)
-yone, yone shorts, yone hikayesi, yone lore, yone maske, yone azakana, azakana, yone öldü, yone geri döndü, yasuo yone, yasuo ve yone, yasuo shorts, yasuo hikayesi, yone replikleri, ruhlar dünyası, league of legends hikaye, lol hikaye, lol lore türkçe, league of legends shorts, lol shorts, lol türkçe, league of legends türkçe, the path, kin of the stained blade, ruh çiçeği, ionia, lol şampiyon hikayeleri, yone edit, lol edit, feedleme hocam, shorts
+## Etiketler (489 karakter)
+yone, yone shorts, yone hikayesi, yone lore, yone maske, yone azakana, azakana, yone öldü, yone geri döndü, yasuo yone, yasuo ve yone, yasuo shorts, yasuo hikayesi, yone replikleri, ruhlar dünyası, league of legends hikaye, lol hikaye, lol lore türkçe, league of legends shorts, lol shorts, lol türkçe, league of legends türkçe, the path, kin of the stained blade, ruh çiçeği, ionia, lol şampiyon hikayeleri, yone edit, lol edit, feedleme hocam, shorts, yone maskesi, yone kimdir, lol yone
 
 ## Sabitlenmiş yorum
 Yone'nin yüzündeki azakananın adı hâlâ bilinmiyor. Sence o maske bir gün onu yutacak mı? İzlemeyi unutma 👇
