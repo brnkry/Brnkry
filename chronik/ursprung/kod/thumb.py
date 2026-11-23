@@ -96,16 +96,12 @@ def plate(x, y, txt, size, bg, fg, px=18, py=10, maxw=None):
     sh = Image.new('RGBA', cvA.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rectangle((box[0] + 7, box[1] + 9, box[2] + 7, box[3] + 9), fill=(0, 0, 0, 200))
     cvA.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
     d = ImageDraw.Draw(cvA); d.rectangle(box, fill=bg); d.text((x + px - b[0], y + py - b[1]), txt, font=f, fill=fg); return box
-b1 = plate(30, 362, 'DER ECHTE URSPRUNG DES 2. WK', 68, DARK, WHITE, maxw=620)
-ImageDraw.Draw(cvA).rectangle((b1[0], b1[1], b1[0] + 8, b1[3]), fill=YEL)
-b2 = plate(30, b1[3] + 10, 'ER BEGANN NICHT', 74, WHITE, DARK)
-f2 = osw(74); d2 = ImageDraw.Draw(cvA); bb2 = d2.textbbox((0, 0), 'ER BEGANN NICHT', font=f2); d2.text((30 + 18 - bb2[0] + f2.getlength('ER BEGANN '), b2[1] + 10 - bb2[1]), 'NICHT', font=f2, fill=RED)
+T1, T2 = 'DER ECHTE URSPRUNG DES 2. WK', 'ER BEGANN NICHT'
+sz = 80
+while osw(sz).getlength(T1) > 690: sz -= 1
+b1 = plate(30, 378, T1, sz, WHITE, DARK)
+b2 = plate(30, b1[3] + 10, T2, sz, WHITE, DARK)
+f2 = osw(sz); d2 = ImageDraw.Draw(cvA); bb2 = d2.textbbox((0, 0), T2, font=f2); d2.text((30 + 18 - bb2[0] + f2.getlength('ER BEGANN '), b2[1] + 10 - bb2[1]), 'NICHT', font=f2, fill=RED)
 b3 = plate(30, b2[3] + 10, '1939', 150, YEL, DARK, px=24, py=14)
 ImageDraw.Draw(cvA).rectangle((b3[0], b3[3] + 10, b3[0] + 150, b3[3] + 20), fill=RED)
-# CDM badge top left
-h_ = 54; f = osw(int(h_ * 0.9)); d = ImageDraw.Draw(cvA); x, y = 26, 22; wc = d.textlength('C', font=f); gap, pad = h_ * 0.07, h_ * 0.08; cy = y + h_ * 0.5; xd = x + wc + gap + pad
-bb = d.textbbox((xd, cy), 'DM', font=f, anchor='lm')
-bk = Image.new('RGBA', cvA.size, (0, 0, 0, 0)); ImageDraw.Draw(bk).rounded_rectangle((x - 12, y - 8, bb[2] + pad + 12, y + h_ + 14), 8, fill=(8, 9, 11, 170)); cvA.alpha_composite(bk)
-d = ImageDraw.Draw(cvA); d.text((x, cy), 'C', font=f, fill=WHITE, anchor='lm'); d.rectangle((bb[0] - pad, bb[1] - h_ * 0.08, bb[2] + pad, bb[3] + h_ * 0.07), fill=YEL)
-d.text((xd, cy), 'DM', font=f, fill=DARK, anchor='lm'); d.rectangle((bb[0] - pad, bb[3] + h_ * 0.13, bb[0] + h_ * 0.4, bb[3] + h_ * 0.19), fill=RED)
 cvA.convert('RGB').save('cover_ursprung.jpg', quality=93); print('ok')
