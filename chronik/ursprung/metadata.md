@@ -40,9 +40,9 @@ Wo hätte man den Krieg noch aufhalten können? Schreibt es in die Kommentare! �
 
 #ZweiterWeltkrieg #VertragVonVersailles #Weltwirtschaftskrise #Geschichte #Dokumentation
 ```
-**Tags** (500er Grenze, mit YouTubes Zählung 490)
+**Tags** (YouTube-Zählung 493 von 500, ohne Kanalnamen)
 ```
-Zweiter Weltkrieg, 2. Weltkrieg, Zweiter Weltkrieg Doku, Ursachen Zweiter Weltkrieg, Ursprung Zweiter Weltkrieg, Wie begann der Zweite Weltkrieg, Beginn Zweiter Weltkrieg, Vorgeschichte Zweiter Weltkrieg, Zweiter Weltkrieg erklärt, Zweiter Weltkrieg Dokumentation, 2. Weltkrieg Doku, WW2, WK2, 1939, Hitler, Überfall auf Polen, Vertrag von Versailles, Weimarer Republik, Weltwirtschaftskrise, Münchner Abkommen, Hitler-Stalin-Pakt, Zwischenkriegszeit, Geschichte, Chronik der Macht
+Zweiter Weltkrieg, 2. Weltkrieg, Zweiter Weltkrieg Doku, Ursachen Zweiter Weltkrieg, Wie begann der Zweite Weltkrieg, Beginn Zweiter Weltkrieg, Vorgeschichte Zweiter Weltkrieg, Ursprung Zweiter Weltkrieg, Zweiter Weltkrieg erklärt, Zweiter Weltkrieg Dokumentation, 2. Weltkrieg Doku, Weltkrieg 1939, Überfall auf Polen, WW2, WK2, Hitler, Vertrag von Versailles, Weimarer Republik, Hyperinflation 1923, Weltwirtschaftskrise, Münchner Abkommen, Hitler-Stalin-Pakt, Zwischenkriegszeit
 ```
 **Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": Ja (KI-Stimme) · nicht für Kinder · Kapitel automatisch: an · Endbildschirm: letztes Video plus Abo-Button ab 39:56.
 

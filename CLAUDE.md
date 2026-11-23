@@ -12,7 +12,7 @@ Kısa kurallar:
 
 ## Yükleme paketi (Chronik der Macht ve Chronicle of Power)
 Boran "video tamam, yükleme için gerekli bilgileri ver" dediğinde, o videonun `metadata.md` dosyasındaki paketin tamamını ver:
-- YouTube: başlık seçenekleri, açıklama, 500 karakterlik etiketler, sabitlenmiş yorum, YouTube topluluk gönderisi (görsel + metin + anket).
+- YouTube: başlık seçenekleri, açıklama, 500 karakterlik etiketler (YouTube sayımıyla 500'e yakın, SEO odaklı, kanal adı ASLA etiketlere konmaz), sabitlenmiş yorum, YouTube topluluk gönderisi (görsel + metin + anket).
 - Facebook: başlıksız metin, 7-8 hashtag. Instagram: metin, en fazla 5 hashtag.
 - Thumbnail (sabit Yamamoto düzeni, `chronicle/brand/covers4.py`).
 - Almanca kanal (CDM) için ayrıca: senkron İngilizce SRT (`untertitel/captions.en_US.srt`), story videosu ve her açıklamada CDM uyarı metni.
