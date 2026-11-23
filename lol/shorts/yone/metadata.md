@@ -1,9 +1,9 @@
 # Yone Short: yükleme bilgileri
 
-Yasuo Short'un devamı ("Çünkü Yone geri döndü"). Yeni ses üretilmedi: Alex anlatımı uzun Yone videosundan, Yone'nin sesi resmi Türkçe repliklerinden.
+Yasuo Short'un devamı ("Çünkü Yone geri döndü"). Short için yazılmış anlatım (anlatim.txt, Alex), sonda Yone'nin resmi Türkçe repliği: "Maskeyi uzun süre çıkarmayan altındaki yüzü unutur." Süre 56 sn.
 
 ## Başlık
-Yone Öldü. Ama Ölüm Onu Geri Çevirdi. #shorts
+Yone Öldü. Ama Ölüm Onu Bırakmadı. #shorts
 
 Alternatifler:
 - Yone'nin Yüzündeki Maske Kime Ait? #shorts
@@ -23,4 +23,4 @@ yone, yone shorts, yone hikayesi, yone lore, yone maske, yone azakana, azakana, 
 Yone'nin yüzündeki azakananın adı hâlâ bilinmiyor. Sence o maske bir gün onu yutacak mı? İzlemeyi unutma 👇
 
 ## Thumbnail
-export/thumbnail_short.png (1080x1920, Marcellus): yarısı eski yarısı maskeli Yone, "ÖLÜM BENİ / GERİ ÇEVİRDİ / YONE'NİN HİKAYESİ"
+export/thumbnail_short.png (1080x1920, Marcellus): yarısı eski yarısı maskeli Yone, "ÖLÜM BENİ / GERİ ÇEVİRDİ / YONE'NİN HİKAYESİ" (yazılar Shorts akışındaki 4:5 kırpmanın içinde)
