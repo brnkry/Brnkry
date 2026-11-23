@@ -50,3 +50,6 @@ Bölüm 1 için 3 seçenek ("ABİSİNİ ÖLDÜRDÜ, / AMA SUÇSUZDU / YASUO'NUN 
 
 ## Oynatma listesi
 LoL Şampiyon Hikayeleri (içinde ayrıca "Lekeli Kılıç" adlı bir liste de açılabilir). Sıra: Bölüm 1 Yasuo, Bölüm 2 Yone, Bölüm 3 Riven.
+
+## Büyük yazılı thumbnail (düşük tıklama sonrası)
+export/thumbnail_buyuk.png: "ÖLÜMÜ / BİR SON / DEĞİLDİ" 150 px
