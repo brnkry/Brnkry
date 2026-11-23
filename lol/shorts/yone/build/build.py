@@ -5,26 +5,27 @@ import subprocess, sys, os, json
 S = '/tmp/claude-0/-home-user-Brnkry/65f4241b-0184-50ef-a7c2-5a98c9618836/scratchpad'
 Y = S + '/yasuo'; OUT = S + '/yone/short'; os.makedirs(OUT, exist_ok=True)
 YB = '/home/user/Brnkry/lol/hikaye/yone/build'; YS = '/home/user/Brnkry/lol/hikaye/yone/ses/'; XS = '/home/user/Brnkry/lol/hikaye/yasuo/ses/'
-NARR = {p['row']: p for p in json.load(open(YB + '/narr.json'))}
-REPW = json.load(open(YB + '/rep_words.json')); REPV = S + '/yone/rep/yone_rep.mp4'
+SN = json.load(open('short_narr.json'))  # the Short's own narration (anlatim.txt), aligned
+REPW = json.load(open('rep_short.json')); REPV = S + '/yone/rep/yone_rep.mp4'
 VID = {'K': Y + '/kin.mp4', 'P': Y + '/anim/the_path.mp4'}
+AI = S + '/yone/anim'
 IMG = {'face': '/home/user/Brnkry/lol/hikaye/yasuo/build/assets/thumb/yone_ikiyuz_v.jpg'}
 XF = 0.3; LEAD = 0.15; TAIL = 0.35; BH = 1500
 GRADE = 'eq=contrast=1.08:saturation=0.95:gamma=0.97,colorbalance=rs=-0.04:bs=0.05:rh=0.05:bh=-0.04,vignette=angle=PI/5'
 # N: (row, first word, last word (excl, None = to the end), [(src, start, weight, focus x)], transition in)
 # R: (voice line key, [(src, start, weight, focus x)], transition in)
 EV = [
-    ('R', 'cevirdi', [('K', 377.2, 1, .5)], None),
-    ('N', 14, 'Ama', None, [('K', 52.3, 1, .55)], 'x'),
-    ('N', 15, 0, 5, [('P', 36.0, 1, .5)], 'flash'),
-    ('N', 16, 0, 'Bir', [('P', 62.0, 1, .5), ('P', 88.0, 1, .42)], 'x'),
-    ('N', 18, 0, None, [('P', 100.0, 1, .45), ('P', 174.0, 1, .4)], 'x'),
-    ('N', 19, 0, None, [('P', 77.0, 1, .5), ('P', 84.0, 1, .55)], 'x'),
-    ('N', 21, 0, 'Ama', [('face', 0, 1, .77)], 'black'),
-    ('R', 'tanidi', [('K', 374.0, 1, .5)], 'x'),
-    ('N', 37, 0, None, [('K', 425.5, 1, .5), ('face', 0, 1, .77)], 'x'),
+    ('N', 0, [('K', 377.2, 1, .5)], None),
+    ('N', 1, [('K', 52.3, 3, .55), ('P', 36.0, 2.6, .5)], 'x'),
+    ('N', 2, [('P', 62.0, 3, .5), ('K', 417.0, 3.6, .5)], 'x'),
+    ('N', 3, [('P', 100.0, 4.5, .45), ('P', 174.0, 4.3, .4)], 'x'),
+    ('N', 4, [('K', 425.5, 4.4, .5), ('K', 374.0, 4.0, .5)], 'black'),
+    ('N', 5, [('face', 0, 1, .77)], 'x'),
+    ('N', 6, [('K', 470.0, 3.6, .5), ('K', 395.0, 3.4, .45)], 'x'),
+    ('N', 7, [('yone_varsayilan', 0, 4.6, .62), ('P', 200.0, 3.4, .5)], 'x'),
+    ('R', 'maske', [('yone_inkshadow', 0, 1, .58)], 'black'),
 ]
-LAUGH = {16: 'kahkaha', 19: 'kahkahaydı.'}
+LAUGH = {3: 'kahkahaydı.', 7: 'adı.'}
 
 def tr_upper(w):
     return w.replace('i', 'İ').replace('ı', 'I').upper().replace('AĞBİSİNİ', 'ABİSİNİ').replace('Â', 'A')
@@ -56,11 +57,10 @@ def plan():
         for j, (src, ss, w, fx) in enumerate(clips): pieces.append({'src': src, 'ss': ss, 'vis': dur * w / tw, 'fx': fx, 'tr': tr if j == 0 else 'x'})
     for ev in EV:
         if ev[0] == 'N':
-            _, r, k0, k1, clips, tr = ev; p = NARR[r]; ws = p['words']
-            i0 = idx(ws, k0, 0); i1 = idx(ws, k1, len(ws)); ws = ws[i0:i1]
+            _, r, clips, tr = ev; p = SN[r]; ws = p['words']
             s0, s1 = ws[0][1], ws[-1][2]
-            dur = s1 - s0 + LEAD + TAIL + (0.5 if r == 37 else 0)
-            f = YS + p.get('file', 'anlatim.mp3')
+            dur = s1 - s0 + LEAD + TAIL + (0.3 if r == 7 else 0)
+            f = '/home/user/Brnkry/lol/shorts/yone/ses/anlatim.mp3'
             vox.append((f, s0 - 0.06, s1 + 0.2, t + LEAD - 0.06, -14.0))
             a = t + LEAD - s0
             put(clips, dur, tr)
@@ -77,11 +77,11 @@ def plan():
                     if len(chunks) > 1 and len(chunks[-1]) <= 2: last = chunks.pop(); chunks[-1] += last
                     for ch in chunks:
                         st = ch[0][1] + a - .03
-                        texts.append([round(st, 3), round(ch[-1][2] + a + .3, 3), 'CAP', [[rw, 94, 'C'] for rw in rows_of([(x[0], x[1] + a, x[2]) for x in ch], st)]])
+                        texts.append([round(st, 3), round(ch[-1][2] + a + .3, 3), 'CAP', [[rw, 110 if r == 0 else 94, 'G' if r == 0 else 'C'] for rw in rows_of([(x[0], x[1] + a, x[2]) for x in ch], st)]])
                     sent = []
             if r in LAUGH:
                 at = a + next(w[2] for w in p['words'] if w[0] == LAUGH[r]) + 0.15
-                sfx.append((YS + 'kahkaha.mp3', at, -10, ''))
+                sfx.append((YS + 'kahkaha.mp3', at, -10, '') if r == 3 else (YS + 'kahkaha.mp3', at - 0.4, -8, 'lowpass=f=420,aecho=0.8:0.6:90|160:0.35|0.2'))
             if tr == 'flash': sfx.append((XS + 'slash_1.mp3', t + .1, -12, ''))
             t += dur
         else:  # Yone's own line, big gold text at the top
@@ -93,9 +93,8 @@ def plan():
             put(clips, dur, tr)
             rows = rows_of([(w[0], w[1] + off, w[2]) for w in ws], ws[0][1] + off - .03, maxc=18)
             texts.append([round(ws[0][1] + off - .03, 3), round(t + dur - .05, 3), 'DLG', [[rw, 96, 'C' if i < len(rows) - 1 else 'G'] for i, rw in enumerate(rows)]])
-            if key == 'cevirdi': sfx.append((XS + 'impact_kucuk.wav', t + 0.05, -12, ''))
+            if key == 'maske': sfx.append((XS + 'impact_kucuk.wav', t + 0.05, -13, ''))
             t += dur
-    sfx.append((XS + 'impact_kucuk.wav', t - 0.05, -14, ''))
     texts.sort(key=lambda x: x[0])
     for i in range(len(texts) - 1):
         if texts[i][1] > texts[i + 1][0] - .05: texts[i][1] = round(texts[i + 1][0] - .05, 3)
@@ -113,6 +112,11 @@ def piece(i, p, last):
         cmd = ['ffmpeg', '-v', 'error', '-y', '-ss', str(p['ss']), '-i', VID[src], '-filter_complex', f"[0:v]fps=30,crop=1920:816:0:132,{frame}[v]", '-map', '[v]']
     elif src == 'BLACK':
         cmd = ['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1080x1920:r=30', '-vf', 'format=yuv420p']
+    elif src in ('yone_varsayilan', 'yone_inkshadow', 'yone_severed', 'yone_maskedjustice', 'yone_tohum', 'yone_battleacademia'):
+        f_ = f'{AI}/{src}.mp4'
+        dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f_], capture_output=True, text=True).stdout)
+        fct = max(1.0, L / (dur - .1)); slow = f'setpts={fct:.4f}*PTS,minterpolate=fps=30:mi_mode=blend,' if fct > 1 else ''
+        cmd = ['ffmpeg', '-v', 'error', '-y', '-i', f_, '-filter_complex', f"[0:v]{slow}fps=30,crop=1920:816:0:132,{frame}[v]", '-map', '[v]']
     else:  # still image (the half old / half masked face): slow push in
         cmd = ['ffmpeg', '-v', 'error', '-y', '-loop', '1', '-i', IMG[src], '-filter_complex',
                f"[0:v]fps=30,scale=1920:1080,crop=1920:816:0:132,zoompan=z='1+0.06*on/{n}':x='(iw-iw/zoom)*{fx}':y='(ih-ih/zoom)/2':d=1:s=1920x816:fps=30,{frame}[v]", '-map', '[v]']
