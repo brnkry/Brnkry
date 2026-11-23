@@ -96,9 +96,10 @@ def plate(x, y, txt, size, bg, fg, px=18, py=10, maxw=None):
     sh = Image.new('RGBA', cvA.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rectangle((box[0] + 7, box[1] + 9, box[2] + 7, box[3] + 9), fill=(0, 0, 0, 200))
     cvA.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
     d = ImageDraw.Draw(cvA); d.rectangle(box, fill=bg); d.text((x + px - b[0], y + py - b[1]), txt, font=f, fill=fg); return box
-b1 = plate(30, 382, 'DER WAHRE URSPRUNG DES 2. WK', 56, DARK, WHITE, maxw=540)
+b1 = plate(30, 362, 'DER WAHRE URSPRUNG DES 2. WK', 68, DARK, WHITE, maxw=620)
 ImageDraw.Draw(cvA).rectangle((b1[0], b1[1], b1[0] + 8, b1[3]), fill=YEL)
 b2 = plate(30, b1[3] + 10, 'ER BEGANN NICHT', 74, WHITE, DARK)
+f2 = osw(74); d2 = ImageDraw.Draw(cvA); bb2 = d2.textbbox((0, 0), 'ER BEGANN NICHT', font=f2); d2.text((30 + 18 - bb2[0] + f2.getlength('ER BEGANN '), b2[1] + 10 - bb2[1]), 'NICHT', font=f2, fill=RED)
 b3 = plate(30, b2[3] + 10, '1939', 150, YEL, DARK, px=24, py=14)
 ImageDraw.Draw(cvA).rectangle((b3[0], b3[3] + 10, b3[0] + 150, b3[3] + 20), fill=RED)
 # CDM badge top left
