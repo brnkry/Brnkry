@@ -17,3 +17,6 @@ Boran "video tamam, yükleme için gerekli bilgileri ver" dediğinde, o videonun
 - Thumbnail (sabit Yamamoto düzeni, `chronicle/brand/covers4.py`).
 - Almanca kanal (CDM) için ayrıca: senkron İngilizce SRT (`untertitel/captions.en_US.srt`), story videosu ve her açıklamada CDM uyarı metni.
 - İngilizce kanal (CoP) için aynı paket; SRT ve story hariç.
+
+## Foto gönderileri (CDM)
+Boran bir fotoğraf paylaşınca: kısa Almanca açıklama (tarih, yer, olay; gerçekleri kontrol et), "📸 Hinweis: Die historische Originalaufnahme wurde von uns restauriert, in der Qualität verbessert und koloriert." ve CDM uyarı metni. YouTube topluluk gönderisinde hashtag yok; Facebook 7-8 hashtag; Instagram en fazla 5 hashtag. Kanal adı hiçbir yerde (metin ya da hashtag) kullanılmaz. Kayıt: `chronik/fotos/`.
