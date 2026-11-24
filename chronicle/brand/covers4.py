@@ -105,6 +105,7 @@ JOBS = {
  'tobruk': ('tobc/code', 'rommel', (0.45, 0.3, 1.18), ('C', 'DM'), [('TOBRUK 1942', 150, 'w'), ('33.000 IN 1 TAG', 150, 'y')], 'ROMMELS GRÖSSTER SIEG', 88, S + 'tobc/thumbs/DE_Tobruk1942.jpg'),
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
  'lueth': ('luec/code', 'cov', (0.5, 0.40, 1.0), ('C', 'DM'), [('WOLFGANG LÜTH', 130, 'w'), ('ERSCHOSSEN', 160, 'y')], 'VOM EIGENEN POSTEN', 88, S + 'luec/thumbs/DE_Lueth.jpg'),
+ 'tiger_short': ('tigs/code', 'cov', (0.56, 0.5, 1.0), ('C', 'DM'), [('TIGER I', 140, 'w'), ('GEFÜRCHTET', 140, 'y')], 'UND TROTZDEM ZU WENIG', 84, S + 'tigs/thumbs/DE_Tiger_Short.jpg'),
 }
 if __name__ == '__main__':
     outs = [build(*JOBS[k]) for k in (sys.argv[1:] or JOBS)]
