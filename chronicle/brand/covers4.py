@@ -106,6 +106,7 @@ JOBS = {
  'balck': ('balck/code', 'b16', (0.5, 0.40, 1.0), ('C', 'DM'), [('HERMANN', 150, 'w'), ('BALCK', 158, 'y')], 'LEHRER ODER TÄTER?', 90, S + 'balck/thumbs/DE_Balck_Lehrer_oder_Taeter.jpg'),
  'lueth': ('luec/code', 'cov', (0.5, 0.40, 1.0), ('C', 'DM'), [('WOLFGANG LÜTH', 130, 'w'), ('ERSCHOSSEN', 160, 'y')], 'VOM EIGENEN POSTEN', 88, S + 'luec/thumbs/DE_Lueth.jpg'),
  'tiger_short': ('tigs/code', 'cov', (0.56, 0.5, 1.0), ('C', 'DM'), [('TIGER I', 140, 'w'), ('GEFÜRCHTET', 140, 'y')], 'UND TROTZDEM ZU WENIG', 84, S + 'tigs/thumbs/DE_Tiger_Short.jpg'),
+ 'wunderlich': ('wund/code', 'cov', (0.5, 0.0, 1.0), ('C', 'DM'), [('73 JAHRE', 150, 'w'), ('IM WRACK', 160, 'y')], 'DER PILOT, DEN EIN SCHÜLER FAND', 76, S + 'wund/thumbs/DE_Wunderlich.jpg'),
 }
 if __name__ == '__main__':
     outs = [build(*JOBS[k]) for k in (sys.argv[1:] or JOBS)]

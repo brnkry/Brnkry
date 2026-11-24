@@ -7,7 +7,7 @@ D = os.path.dirname(os.path.abspath(__file__)) + '/'
 sys.path.insert(0, D + '../lueth'); import lu
 from lu import img_shot, vid_shot, label_png, enc, W, H, FPS, FD, YEL, RED, WHITE, CREAM
 VO = 0.4
-TOTAL = 88.9 + VO + 2.4
+TOTAL = 88.9 + VO + 1.5
 SEG = D + 'segs/'; os.makedirs(SEG, exist_ok=True); os.makedirs(D + 'prep', exist_ok=True)
 U1 = D + 'user/177958889_1511140728.jpg_0a28c947_2K.jpg'            # black and white portrait
 U2 = D + 'user/182820426_0908a5e4-daf7-42ba-be7c-30c75ad86016.jpeg_fe7da18b_2K.jpg'   # colourised uniform portrait
@@ -93,7 +93,7 @@ def shots():
         (63.60, 'img', dict(path=U1, cx=.5, z0=1.12, z1=1.0)),
         (66.60, 'vid', dict(path=MAR, ss=87.0, speed=0.8)),
         (69.00, 'vid', dict(path=MAR, ss=150.0, speed=1.0)),
-        (71.30, 'vid', dict(path=MAR, ss=120.0, speed=1.0)),
+        (71.30, 'vid', dict(path=MAR, ss=61.0, speed=1.0)),
         (74.00, 'vid', dict(path=MAR, ss=126.5, speed=1.0)),
         (77.20, 'crop', dict(path=ING, ss=30.0, cx=.50, speed=0.5)),
         (80.20, 'crop', dict(path=ING, ss=54.2, cx=.45, speed=0.8)),
@@ -124,7 +124,7 @@ def main():
     T = TOTAL
     fl = (f"[0:a]adelay={int(VO * 1000)}:all=1,aformat=sample_rates=48000:channel_layouts=stereo[v];"
           f"[1:a]atrim=0:{T},aformat=sample_rates=48000:channel_layouts=stereo,dynaudnorm=f=400:g=41:m=12,loudnorm=I=-30:LRA=4:TP=-5,"
-          f"afade=t=in:d=1,afade=t=out:st={T - 2.5}:d=2.5[m];"
+          f"afade=t=out:st={T - 1.2}:d=1.2[m];"
           f"[v][m]amix=inputs=2:normalize=0:duration=longest,atrim=0:{T},loudnorm=I=-14:TP=-1.5:LRA=11[a]")
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', D + 'voice.mp3', '-i', D + 'music.mp3', '-filter_complex', fl, '-map', '[a]', '-c:a', 'aac', '-b:a', '192k', D + 'mix.m4a'], check=True)
     labs = [(t + VO, label_png(b, s, D + 'prep/lab%02d.png' % j)) for j, (t, b, s) in enumerate(LABELS)]
@@ -132,10 +132,10 @@ def main():
     for j, (t0, fn) in enumerate(labs):
         inp += ['-loop', '1', '-t', '4.6', '-itsoffset', f'{t0:.2f}', '-i', fn]
         fc += f";[{j + 2}:v]format=rgba,fade=in:st={t0:.2f}:d=0.5:alpha=1,fade=out:st={t0 + 4.0:.2f}:d=0.5:alpha=1[l{j}];{prev}[l{j}]overlay=0:0:eof_action=pass[o{j}]"; prev = f'[o{j}]'
-    fc += f";{prev}fade=t=in:st=0:d=0.3,fade=t=out:st={T - 1.2:.2f}:d=1.2[v]"
+    fc += f";{prev}fade=t=out:st={T - 0.6:.2f}:d=0.6[v]"
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', cut, '-i', D + 'mix.m4a', *inp, '-filter_complex', fc, '-map', '[v]', '-map', '1:a', '-t', f'{T:.3f}',
                     '-c:v', 'libx264', '-b:v', '10M', '-maxrate', '14M', '-bufsize', '20M', '-preset', 'faster', '-pix_fmt', 'yuv420p', '-c:a', 'copy', '-movflags', '+faststart',
-                    D + 'Pilot_Shorts_DE_v2.mp4'], check=True)
+                    D + 'Pilot_Shorts_DE_v3.mp4'], check=True)
     print('DONE', flush=True)
 
 if __name__ == '__main__':
