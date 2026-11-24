@@ -69,7 +69,7 @@ def main():
     enc.stdin.close(); enc.wait(); dec.wait(); T = k / FPS; print('frames', k, round(T, 2), flush=True)
     # sound: narration in front, the score evenly underneath and ducked
     fl = (f"[0:a]adelay={int(VO * 1000)}:all=1,aformat=sample_rates=48000:channel_layouts=stereo[v];"
-          f"[1:a]atrim=0:{T},aformat=sample_rates=48000:channel_layouts=stereo,loudnorm=I=-26:LRA=6:TP=-3,afade=t=out:st={T - 1.0}:d=1.0[m];"
+          f"[1:a]atrim=0:{T},aformat=sample_rates=48000:channel_layouts=stereo,loudnorm=I=-31:LRA=6:TP=-6,afade=t=out:st={T - 1.0}:d=1.0[m];"
           f"[v][m]amix=inputs=2:normalize=0:duration=longest,atrim=0:{T},loudnorm=I=-14:TP=-1.5:LRA=11[a]")
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', D + 'voice.mp3', '-i', D + 'music2.mp3', '-filter_complex', fl, '-map', '[a]', '-c:a', 'aac', '-b:a', '192k', D + 'mix.m4a'], check=True)
     # finish: light grain, vignette, a touch of contrast

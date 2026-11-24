@@ -1,6 +1,6 @@
 # Tiger I (Short): Shorts-Paket (Deutsch, Chronik der Macht)
 
-Video: `Tiger_Shorts_DE_v3.mp4` (9:16, 1:01). Bild: Borans Farbaufnahmen (TIGER.mp4, quadratisch), je Einstellung fest auf den Panzer gerahmt, leichtes Heranzoomen, Beschriftungen in Marcellus. Stimme: ElevenLabs, Thomas Schendel, eleven_v4. Musik: ElevenLabs Video to Music (zum Bild erzeugt). Code: `kod/ti.py`. Cover: `thumbnails/DE_Tiger_Short.jpg` (feste Yamamoto-Anordnung; Job `tiger_short` in `chronicle/brand/covers4.py`). Story: `social/Tiger_Story_DE.mp4` (nicht im Repo, .gitignore). Englische Untertitel: `untertitel/captions.en_US.srt`.
+Video: `Tiger_Shorts_DE_v4.mp4` (9:16, 1:01). Bild: Borans Farbaufnahmen (TIGER.mp4, quadratisch), je Einstellung fest auf den Panzer gerahmt, leichtes Heranzoomen, Beschriftungen in Marcellus. Stimme: ElevenLabs, Thomas Schendel, eleven_v4. Musik: ElevenLabs Video to Music (zum Bild erzeugt). Code: `kod/ti.py`. Cover: `thumbnails/DE_Tiger_Short.jpg` (feste Yamamoto-Anordnung; Job `tiger_short` in `chronicle/brand/covers4.py`). Story: `social/Tiger_Story_DE.mp4` (nicht im Repo, .gitignore). Englische Untertitel: `untertitel/captions.en_US.srt`.
 
 ## YouTube Shorts
 **Titel** (Cover: "TIGER I / GEFÜRCHTET / UND TROTZDEM ZU WENIG")
