@@ -122,7 +122,8 @@ def build():
     iwm1 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6713.jpg', (230, 0, 530, 534), L + 'prep/iwm6713.png')
     iwm2 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6711.jpg', (200, 0, 520, 570), L + 'prep/iwm6711.png')
     S = [  # (start, kind, args)
-        (0.00, 'vid', dict(path=UD + 'video3.mp4', ss=0.84, speed=1.0, z0=1.0, z1=1.0)),
+        (0.00, 'img', dict(path=prep(8), cx=.55, z0=1.0, z1=1.08)),
+        (2.20, 'vid', dict(path=UD + 'video3.mp4', ss=3.34, speed=1.0, z0=1.0, z1=1.0)),
         (3.90, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=1.0, z0=1.0, z1=1.0)),
         (8.90, 'vid', dict(path=UD + 'video2.mp4', ss=0.0, speed=1.0)),
         (12.60, 'vid', dict(path=G + 'nacht2_tunnel.mp4', ss=0.0, speed=1.0)),
@@ -134,9 +135,9 @@ def build():
         (42.50, 'vid', dict(path=A + 'A2.mp4', ss=0.0, speed=1.0)),
         (49.04, 'img', dict(path=prep(2), cx=.5, z0=1.0, z1=1.12)),
         (54.20, 'vid', dict(path=A + 'A3.mp4', ss=0.0, speed=1.0)),
-        (58.50, 'vid', dict(path=A + 'A4.mp4', ss=0.0, speed=1.0)),
+        (58.50, 'vid', dict(path=A + 'A4.mp4', ss=0.0, speed=0.8)),
         (63.06, 'img', dict(path=prep(10), cx=.6, z0=1.0, z1=1.12)),
-        (66.70, 'img', dict(path=prep(8), cx=.55, z0=1.12, z1=1.0)),
+        (66.70, 'vid', dict(path=A + 'A11.mp4', ss=0.72, speed=0.86)),
         (70.40, 'vid', dict(path=A + 'A5.mp4', ss=0.0, speed=1.0)),
         (76.02, 'vid', dict(path=A + 'A6.mp4', ss=0.0, speed=1.0)),
         (80.30, 'img', dict(path=prep(5), cx=.5, z0=1.0, z1=1.12)),
@@ -145,7 +146,7 @@ def build():
         (93.06, 'vid', dict(path=A + 'A7.mp4', ss=0.0, speed=1.0)),
         (96.52, 'img', dict(path=prep(6), cx=.33, z0=1.0, z1=1.1)),
         (99.42, 'img', dict(path=prep(7), cx=.72, z0=1.1, z1=1.0)),
-        (101.42, 'vid', dict(path=A + 'A8.mp4', ss=0.0, speed=1.0)),
+        (101.42, 'img', dict(path=prep(2), cx=.5, z0=1.16, z1=1.0)),
         (108.22, 'img', dict(path=iwm1, cx=.5, z0=1.0, z1=1.12)),
         (115.14, 'img', dict(path=iwm2, cx=.5, z0=1.12, z1=1.0)),
         (118.30, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=0.5)),
@@ -158,7 +159,7 @@ def build():
         (148.07, 'vid', dict(path=G + 'nacht5_schuss.mp4', ss=2.0, speed=1.0)),
         (151.02, 'img', dict(path=prep(1), cx=.5, z0=1.05, z1=1.22, gray=1.0)),
         (154.64, 'img', dict(path=prep(0), cx=.5, z0=1.0, z1=1.10)),
-        (159.50, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=0.55)),
+        (159.50, 'vid', dict(path=A + 'A10.mp4', ss=0.33, speed=0.62)),
         (165.06, 'vid', dict(path=A + 'A9.mp4', ss=0.0, speed=1.0)),
         (169.50, 'img', dict(path=prep(12), cx=.5, z0=1.16, z1=1.0)),
     ]
@@ -169,8 +170,10 @@ def build():
         dur = t1 - t0 + (OFF if i == 0 else 0)
         out = SEG + hashlib.md5(repr((kind, sorted(a.items()), round(dur, 3))).encode()).hexdigest()[:12] + '.mp4'
         if not os.path.exists(out):
-            if kind == 'img': img_shot(out, dur=dur, **a)
-            else: vid_shot(out, dur=dur, **a)
+            tmp = out[:-4] + '.part.mp4'
+            if kind == 'img': img_shot(tmp, dur=dur, **a)
+            else: vid_shot(tmp, dur=dur, **a)
+            os.rename(tmp, out)
         segs.append(out); print('seg', i, round(dur, 2), flush=True)
     with open(SEG + 'list.txt', 'w') as f:
         for s in segs: f.write("file '%s'\n" % s)
@@ -192,8 +195,8 @@ def sound():
     fl = (f"[0:a]adelay={int(OFF * 1000)}:all=1,apad,atrim=0:{T},aformat=sample_rates=48000:channel_layouts=stereo[v];"
           # the generated piece starts very quietly and grows: level it so it sits evenly under the voice
           f"[1:a]atrim=0:{T},asetpts=PTS-STARTPTS,aformat=sample_rates=48000:channel_layouts=stereo,dynaudnorm=f=400:g=41:m=12,"
-          f"loudnorm=I=-27:LRA=4:TP=-3,afade=t=in:d=1.5,afade=t=out:st={T - 3}:d=3[m];"
-          f"[2:a]aformat=sample_rates=48000:channel_layouts=stereo,adelay={int((FLASH + OFF) * 1000)}:all=1,volume=0.16[th];"
+          f"loudnorm=I=-30:LRA=4:TP=-4,afade=t=in:d=1.5,afade=t=out:st={T - 3}:d=3[m];"
+          f"[2:a]aformat=sample_rates=48000:channel_layouts=stereo,adelay={int((FLASH + OFF) * 1000)}:all=1,volume=0.05[th];"
           f"[3:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit[s1][s2];"
           f"[s1]adelay={int((SHOT + OFF) * 1000)}:all=1,volume=0.20,lowpass=f=5000[sh];"
           f"[s2]adelay={int((SHOT2 + OFF) * 1000)}:all=1,volume=0.12,lowpass=f=5000[sh2];"
@@ -223,4 +226,4 @@ def finish(cut, mix, out):
 
 if __name__ == '__main__':
     cut = build(); mix = sound()
-    finish(cut, mix, L + 'Lueth_Shorts_DE_v2.mp4'); print('DONE', flush=True)
+    finish(cut, mix, L + 'Lueth_Shorts_DE_v3.mp4'); print('DONE', flush=True)
