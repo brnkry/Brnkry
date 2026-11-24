@@ -3,10 +3,10 @@
 Video: `Lueth_Shorts_DE_v3.mp4` (9:16, 2:57, nach dem Vorbild "The U-Boat Ace Killed by One of His Own Men", ohne die World-of-Warships-Werbung). Stimme: ElevenLabs, Thomas Schendel, eleven_v4, normales Tempo. Fotos: von Boran koloriert und hochskaliert, leichter WW2-Filmlook, Mützen- und Brustadler weichgezeichnet. Archivfilm: Deutsche Wochenschau U-Boot-Berichte DW 686 und DW 690, Empfang in Neustadt in Holstein (archive.org). Nachtszenen: KI-generiert (Kling 2.5 Turbo). Musik: ElevenLabs Music. Beschriftungen in Marcellus. Code: `kod/lu.py`. Cover: `thumbnails/DE_Lueth.jpg` (feste Yamamoto-Anordnung; Job `lueth` in `chronicle/brand/covers4.py`; Mützenadler und Ritterkreuz-Mitte weichgezeichnet). Story: `social/Lueth_Story_DE.mp4` (nicht im Repo, .gitignore). Englische Untertitel: `untertitel/captions.en_US.srt`. Quellen: `kaynaklar.md`.
 
 ## YouTube Shorts
-**Titel** (Cover: "WOLFGANG LÜTH / ERSCHOSSEN / VOM EIGENEN POSTEN")
-- A: Warum erschoss ein deutscher Matrose das U-Boot-Ass Wolfgang Lüth?
-- B: Vier Jahre Seekrieg überlebt, dann vom eigenen Posten erschossen
-- C: Wolfgang Lüth: Getötet nach der Kapitulation, auf eigenen Befehl
+**Titel** (Cover: "WOLFGANG LÜTH / ERSCHOSSEN / VOM EIGENEN POSTEN"; nach dem Vorbild "The U-Boat Ace Killed by One of His Own Men")
+- A: Das U-Boot-Ass, getötet von einem seiner eigenen Männer
+- B: Das U-Boot-Ass, das von einem eigenen Mann erschossen wurde
+- C: Das U-Boot-Ass, erschossen von einem seiner eigenen Männer
 
 **Beschreibung**
 ```
