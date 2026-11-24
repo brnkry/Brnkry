@@ -1,6 +1,6 @@
 # Wolfgang Lüth Short (German, CDM): 9:16, colour photos with a light WW2 film finish, archive film (Real-ESRGAN),
 # AI night scenes, Marcellus labels in the channel colours, no subtitles. Thomas Schendel narration.
-import os, sys, json, math, subprocess, random
+import os, sys, json, math, subprocess, random, hashlib
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 L = os.path.dirname(os.path.abspath(__file__)) + '/'
@@ -31,9 +31,8 @@ def prep(i):
 
 def esr_still(path, box, out):
     if os.path.exists(out): return out
-    sys.path.insert(0, L + 'up'); from esr import up
-    im = Image.open(path).convert('RGB'); w, h = im.size
-    cr = im.crop(box); up(cr).save(out); return out
+    im = Image.open(path).convert('RGB'); cr = im.crop(box)
+    cr.resize((cr.width * 4, cr.height * 4), Image.LANCZOS).save(out); return out
 
 # ---------- shot renderers ----------
 def enc(out, n):
@@ -123,11 +122,11 @@ def build():
     iwm1 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6713.jpg', (230, 0, 530, 534), L + 'prep/iwm6713.png')
     iwm2 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6711.jpg', (200, 0, 520, 570), L + 'prep/iwm6711.png')
     S = [  # (start, kind, args)
-        (0.00, 'img', dict(path=prep(12), cx=.5, z0=1.0, z1=1.14)),
-        (3.40, 'vid', dict(path=G + 'nacht1.mp4', ss=0.5, speed=1.0, dark=0.18)),
-        (7.00, 'vid', dict(path=UD + 'video2.mp4', ss=0.0, speed=1.0)),
+        (0.00, 'vid', dict(path=UD + 'video3.mp4', ss=0.84, speed=1.0, z0=1.0, z1=1.0)),
+        (3.90, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=1.0, z0=1.0, z1=1.0)),
+        (8.90, 'vid', dict(path=UD + 'video2.mp4', ss=0.0, speed=1.0)),
         (12.60, 'vid', dict(path=G + 'nacht2_tunnel.mp4', ss=0.0, speed=1.0)),
-        (15.60, 'vid', dict(path=G + 'nacht5_schuss.mp4', ss=0.0, speed=0.55)),
+        (15.60, 'vid', dict(path=G + 'nacht1.mp4', ss=0.5, speed=1.0, dark=0.18)),
         (19.36, 'img', dict(path=prep(1), cx=.5, z0=1.0, z1=1.12)),
         (25.88, 'img', dict(path=m, cx=.5, z0=1.0, z1=1.25)),
         (31.00, 'img', dict(path=prep(3), cx=.45, z0=1.14, z1=1.0)),
@@ -153,11 +152,12 @@ def build():
         (121.54, 'img', dict(path=prep(12), cx=.5, z0=1.25, z1=1.05)),
         (126.82, 'vid', dict(path=UD + 'video2.mp4', ss=5.6, speed=1.0)),
         (130.34, 'vid', dict(path=G + 'nacht4_silhouette.mp4', ss=0.0, speed=0.653)),
-        (138.00, 'vid', dict(path=UD + 'video3.mp4', ss=0.0, speed=1.0, z0=1.0, z1=1.0)),
-        (143.03, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=1.0, z0=1.0, z1=1.0)),
+        (138.00, 'vid', dict(path=UD + 'video2.mp4', ss=3.7, speed=0.55)),
+        (141.50, 'vid', dict(path=G + 'nacht5_schuss.mp4', ss=0.0, speed=0.5)),
+        (145.43, 'vid', dict(path=UD + 'video1.mp4', ss=2.0, speed=1.0, z0=1.0, z1=1.0)),
         (148.07, 'vid', dict(path=G + 'nacht5_schuss.mp4', ss=2.0, speed=1.0)),
         (151.02, 'img', dict(path=prep(1), cx=.5, z0=1.05, z1=1.22, gray=1.0)),
-        (154.64, 'vid', dict(path=G + 'nacht2_tunnel.mp4', ss=3.0, speed=0.42)),
+        (154.64, 'img', dict(path=prep(0), cx=.5, z0=1.0, z1=1.10)),
         (159.50, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=0.55)),
         (165.06, 'vid', dict(path=A + 'A9.mp4', ss=0.0, speed=1.0)),
         (169.50, 'img', dict(path=prep(12), cx=.5, z0=1.16, z1=1.0)),
@@ -167,7 +167,7 @@ def build():
     for i, (t0, kind, a) in enumerate(S):
         t1 = S[i + 1][0] if i + 1 < len(S) else end
         dur = t1 - t0 + (OFF if i == 0 else 0)
-        out = SEG + '%02d.mp4' % i
+        out = SEG + hashlib.md5(repr((kind, sorted(a.items()), round(dur, 3))).encode()).hexdigest()[:12] + '.mp4'
         if not os.path.exists(out):
             if kind == 'img': img_shot(out, dur=dur, **a)
             else: vid_shot(out, dur=dur, **a)
@@ -181,26 +181,25 @@ def build():
 LABELS = [(7.35, '14. MAI 1945', 'Flensburg-Mürwik'), (19.6, 'WOLFGANG LÜTH', 'Kapitän zur See'), (63.3, 'U 181', 'Höhepunkt seines Ruhms'),
           (76.3, 'ÜBER 200 TAGE', 'auf Feindfahrt, 1943'), (85.0, 'BRILLANTEN', '9. August 1943'), (101.7, 'MARINESCHULE MÜRWIK', 'Flensburg, September 1944'),
           (130.6, 'MATHIAS GOTTLOB', 'Matrosengefreiter, 18 Jahre')]
-FLASH = 138.0 + 5.04 - 0.22      # lightning at the end of the tunnel clip, into the sentry scene (voice time)
-SHOT = 143.03 + 76 / 24          # muzzle flash frame of video1
+FLASH = 4.05 - OFF               # lightning at the end of the tunnel clip (hook), into the sentry scene (voice time)
+SHOT = 3.90 + 76 / 24            # muzzle flash of video1 in the hook (voice time), right after the opening question
+SHOT2 = 145.43 + 76 / 24 - 2.0   # the reprise at the word "Schuss"
 
 def sound():
     mix = L + 'mix.m4a'
-    if os.path.exists(mix): return mix
     T = TOTAL
-    rain = f"anoisesrc=d={T}:c=pink:a=0.5,highpass=f=900,lowpass=f=9000,volume=0.35,"
-    # rain under the night sections only
-    rain += ("volume='if(between(t,3.6,19.7)+between(t,115.4,165.4),1,0)':eval=frame,"
-             "afade=t=in:st=3.6:d=0.6,afade=t=out:st=165.0:d=0.6")
-    music = L + '../urs/t1/musik.mp3'
-    fl = (f"[0:a]adelay={int(OFF * 1000)}:all=1,apad,atrim=0:{T}[v];"
-          f"[1:a]atrim=0:{T},asetpts=PTS-STARTPTS,volume=0.16,afade=t=in:d=2,afade=t=out:st={T - 3}:d=3[m];"
-          f"{rain}[r0];[r0]aformat=channel_layouts=stereo[r];"
-          f"[2:a]adelay={int((FLASH + OFF) * 1000)}:all=1,volume=0.9[th];"
-          f"[3:a]adelay={int((SHOT + OFF) * 1000)}:all=1,volume=1.1[sh];"
-          f"[v]asplit[v1][v2];[m][v2]sidechaincompress=threshold=0.03:ratio=5:attack=30:release=800[md];"
-          f"[v1][md][r][th][sh]amix=inputs=5:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]")
-    run(['ffmpeg', '-v', 'error', '-y', '-i', VOICE, '-ss', '30', '-i', music, '-i', L + 'm/thunder.mp3', '-i', L + 'm/shot.mp3',
+    music = L + 'm/music.mp3'
+    fl = (f"[0:a]adelay={int(OFF * 1000)}:all=1,apad,atrim=0:{T},aformat=sample_rates=48000:channel_layouts=stereo[v];"
+          # the generated piece starts very quietly and grows: level it so it sits evenly under the voice
+          f"[1:a]atrim=0:{T},asetpts=PTS-STARTPTS,aformat=sample_rates=48000:channel_layouts=stereo,dynaudnorm=f=400:g=41:m=12,"
+          f"loudnorm=I=-27:LRA=4:TP=-3,afade=t=in:d=1.5,afade=t=out:st={T - 3}:d=3[m];"
+          f"[2:a]aformat=sample_rates=48000:channel_layouts=stereo,adelay={int((FLASH + OFF) * 1000)}:all=1,volume=0.16[th];"
+          f"[3:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit[s1][s2];"
+          f"[s1]adelay={int((SHOT + OFF) * 1000)}:all=1,volume=0.20,lowpass=f=5000[sh];"
+          f"[s2]adelay={int((SHOT2 + OFF) * 1000)}:all=1,volume=0.12,lowpass=f=5000[sh2];"
+          f"[v]asplit[v1][v2];[m][v2]sidechaincompress=threshold=0.02:ratio=3:attack=40:release=900[md];"
+          f"[v1][md][th][sh][sh2]amix=inputs=5:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]")
+    run(['ffmpeg', '-v', 'error', '-y', '-i', VOICE, '-stream_loop', '-1', '-i', music, '-i', L + 'm/thunder.mp3', '-i', L + 'm/shot.mp3',
          '-filter_complex', fl, '-map', '[a]', '-t', f'{T:.3f}', '-c:a', 'aac', '-b:a', '192k', mix])
     return mix
 
@@ -220,8 +219,8 @@ def finish(cut, mix, out):
     fc += (f";color=c=white:s={W}x{H}:d=1.2,format=rgba,fade=in:st=0:d=0.18:alpha=1,fade=out:st=0.22:d=0.7:alpha=1,setpts=PTS+{ft - 0.18:.3f}/TB[fl];"
            f"{prev}[fl]overlay=0:0:eof_action=pass,fade=t=in:st=0:d=0.4,fade=t=out:st={TOTAL - 1.6:.2f}:d=1.6[v]")
     run(['ffmpeg', '-v', 'error', '-stats', '-y', '-i', cut, '-i', L + '../urs/t1/dust.mp4', '-i', mix, *inp, '-filter_complex', fc, '-map', '[v]', '-map', '2:a',
-         '-t', f'{TOTAL:.3f}', '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-r', str(FPS), '-c:a', 'copy', '-movflags', '+faststart', out])
+         '-t', f'{TOTAL:.3f}', '-c:v', 'libx264', '-b:v', '10M', '-maxrate', '14M', '-bufsize', '20M', '-preset', 'faster', '-tune', 'grain', '-pix_fmt', 'yuv420p', '-r', str(FPS), '-c:a', 'copy', '-movflags', '+faststart', out])
 
 if __name__ == '__main__':
     cut = build(); mix = sound()
-    finish(cut, mix, L + 'Lueth_Shorts_DE.mp4'); print('DONE', flush=True)
+    finish(cut, mix, L + 'Lueth_Shorts_DE_v2.mp4'); print('DONE', flush=True)
