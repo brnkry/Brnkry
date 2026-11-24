@@ -122,10 +122,10 @@ def build():
     iwm1 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6713.jpg', (230, 0, 530, 534), L + 'prep/iwm6713.png')
     iwm2 = esr_still(L + 'stills/iwm_flensburg_mai1945_BU6711.jpg', (200, 0, 520, 570), L + 'prep/iwm6711.png')
     S = [  # (start, kind, args)
-        (0.00, 'img', dict(path=prep(8), cx=.55, z0=1.0, z1=1.08)),
-        (2.20, 'vid', dict(path=UD + 'video3.mp4', ss=3.34, speed=1.0, z0=1.0, z1=1.0)),
-        (3.90, 'vid', dict(path=UD + 'video1.mp4', ss=0.0, speed=1.0, z0=1.0, z1=1.0)),
-        (8.90, 'vid', dict(path=UD + 'video2.mp4', ss=0.0, speed=1.0)),
+        (0.00, 'img', dict(path=prep(8), cx=.55, z0=1.0, z1=1.10)),
+        (4.20, 'vid', dict(path=UD + 'video3.mp4', ss=3.34, speed=1.0, z0=1.0, z1=1.0)),
+        (5.90, 'vid', dict(path=UD + 'video1.mp4', ss=2.17, speed=1.0, z0=1.0, z1=1.0)),
+        (8.00, 'vid', dict(path=UD + 'video2.mp4', ss=0.0, speed=1.0)),
         (12.60, 'vid', dict(path=G + 'nacht2_tunnel.mp4', ss=0.0, speed=1.0)),
         (15.60, 'vid', dict(path=G + 'nacht1.mp4', ss=0.5, speed=1.0, dark=0.18)),
         (19.36, 'img', dict(path=prep(1), cx=.5, z0=1.0, z1=1.12)),
@@ -184,8 +184,8 @@ def build():
 LABELS = [(7.35, '14. MAI 1945', 'Flensburg-Mürwik'), (19.6, 'WOLFGANG LÜTH', 'Kapitän zur See'), (63.3, 'U 181', 'Höhepunkt seines Ruhms'),
           (76.3, 'ÜBER 200 TAGE', 'auf Feindfahrt, 1943'), (85.0, 'BRILLANTEN', '9. August 1943'), (101.7, 'MARINESCHULE MÜRWIK', 'Flensburg, September 1944'),
           (130.6, 'MATHIAS GOTTLOB', 'Matrosengefreiter, 18 Jahre')]
-FLASH = 4.05 - OFF               # lightning at the end of the tunnel clip (hook), into the sentry scene (voice time)
-SHOT = 3.90 + 76 / 24            # muzzle flash of video1 in the hook (voice time), right after the opening question
+FLASH = 6.05 - OFF               # lightning at the end of the tunnel clip (hook), into the sentry scene (voice time)
+SHOT = 5.90 + 1.0                # muzzle flash of video1 in the hook (voice time), right after the opening question
 SHOT2 = 145.43 + 76 / 24 - 2.0   # the reprise at the word "Schuss"
 
 def sound():
@@ -226,4 +226,4 @@ def finish(cut, mix, out):
 
 if __name__ == '__main__':
     cut = build(); mix = sound()
-    finish(cut, mix, L + 'Lueth_Shorts_DE_v3.mp4'); print('DONE', flush=True)
+    finish(cut, mix, L + 'Lueth_Shorts_DE_v4.mp4'); print('DONE', flush=True)
