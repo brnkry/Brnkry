@@ -20,9 +20,9 @@ Hätte Lüth geantwortet, oder hörte ihn der Posten nicht? Schreibt es in die K
 
 #WolfgangLüth #UBoot #Kriegsmarine #ZweiterWeltkrieg #Shorts
 ```
-**Tags** (YouTube-Zählung 463 von 500, ohne Kanalnamen)
+**Tags** (YouTube-Zählung 461 von 500, breite Suchbegriffe, ohne Kanalnamen)
 ```
-Wolfgang Lüth, Lüth, Wolfgang Luth, U-Boot, U-Boot-Ass, U-Boot Kommandant, U 181, U-181, Kriegsmarine, Brillanten, Ritterkreuz mit Brillanten, Eichenlaub mit Schwertern, Marineschule Mürwik, Flensburg 1945, Flensburg-Mürwik, Dönitz, Reichsregierung Dönitz, Kapitulation 1945, Kriegsende 1945, Mai 1945, Mathias Gottlob, Wachposten, Seekrieg, Atlantikschlacht, U-Boot-Krieg, U-Boot Asse, Zweiter Weltkrieg, 2. Weltkrieg, WW2, Militärgeschichte, Geschichte, Shorts
+Zweiter Weltkrieg, 2. Weltkrieg, U-Boot, U-Boote, U-Boot Krieg, U-Boote im Zweiten Weltkrieg, Deutsche U-Boote, U-Boot Doku, U-Boot Kommandant, Kriegsmarine, Deutsche Marine, Marinegeschichte, Seefahrtsgeschichte, Seekrieg, Seekrieg Zweiter Weltkrieg, Atlantikschlacht, Deutsche Geschichte, Deutschland im Zweiten Weltkrieg, Deutsche Soldaten, Wehrmacht, Kriegsende 1945, Militärgeschichte, Geschichte, Geschichte Doku, Dokumentation, WW2, WK2, Wolfgang Lüth
 ```
 **Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": Ja (KI-Stimme, KI-generierte Nachtszenen) · nicht für Kinder · Cover oben.
 
