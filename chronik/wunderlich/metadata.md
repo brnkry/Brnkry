@@ -20,9 +20,9 @@ Was meint ihr: Luftkampf oder technischer Defekt? Schreibt es in die Kommentare!
 
 #Luftwaffe #Bf109 #ZweiterWeltkrieg #Geschichte #Shorts
 ```
-**Tags** (YouTube-Zählung 434 von 500, breite Suchbegriffe, ohne Kanalnamen)
+**Tags** (YouTube-Zählung 476 von 500, breite Suchbegriffe, ohne Kanalnamen und ohne Orts- oder Länderangaben)
 ```
-Zweiter Weltkrieg, 2. Weltkrieg, Luftwaffe, Messerschmitt Bf 109, Bf 109, Messerschmitt, Deutsche Piloten, Jagdflieger, Kampfflugzeug, Flugzeugwrack, Weltkriegsflugzeug, Flugzeugabsturz, Archäologie, Kriegsarchäologie, Weltkrieg Fund, Unglaubliche Funde, Dänemark, Deutsche Geschichte, Deutschland im Zweiten Weltkrieg, Deutsche Soldaten, Wehrmacht, Militärgeschichte, Luftkrieg, Geschichte, Geschichte Doku, Dokumentation, WW2, WK2, Shorts
+Zweiter Weltkrieg, 2. Weltkrieg, Weltkrieg, Luftwaffe, Messerschmitt, Bf 109, Messerschmitt Bf 109, Jagdflieger, Jagdflugzeug, Deutsche Jagdflieger, Pilot, Kampfpilot, Luftkampf, Flugzeugwrack, Flugzeug gefunden, Wrack gefunden, Flugzeugabsturz, Weltkriegsflugzeug, Kriegsflugzeuge, Luftkrieg, Wehrmacht, Deutsche Soldaten, Vermisste Soldaten, Metalldetektor, Sondeln, Deutsche Geschichte, Militärgeschichte, Kriegsgeschichte, Geschichte, Weltkrieg Doku, Doku, Dokumentation, WW2, Shorts
 ```
 **Einstellungen:** Kategorie Bildung · Sprache Deutsch · "Veränderte oder synthetische Inhalte": Ja (KI-Stimme) · nicht für Kinder · Cover oben.
 
@@ -57,7 +57,7 @@ Was meint ihr: Luftkampf oder technischer Defekt? Schreibt es in die Kommentare!
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Luftwaffe #Bf109 #Messerschmitt #ZweiterWeltkrieg #Archäologie #Dänemark #Militärgeschichte #Geschichte
+#Luftwaffe #Bf109 #Messerschmitt #ZweiterWeltkrieg #Jagdflieger #Flugzeugwrack #Militärgeschichte #Geschichte
 ```
 
 ## Instagram (Reel)
@@ -72,7 +72,7 @@ Was meint ihr: Luftkampf oder technischer Defekt? Schreibt es in die Kommentare!
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Luftwaffe #Bf109 #ZweiterWeltkrieg #Archäologie #Geschichte
+#Luftwaffe #Bf109 #ZweiterWeltkrieg #Flugzeugwrack #Geschichte
 ```
 **Alternativtext:** `Kurzdoku über den Fund einer Messerschmitt Bf 109 mit dem Piloten Hans Wunderlich auf einem Feld bei Birkelse in Dänemark im Jahr 2017.`
 
