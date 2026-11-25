@@ -77,7 +77,7 @@ Wo hätte man den Krieg noch aufhalten können? Schreibt es in die Kommentare! �
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#ZweiterWeltkrieg #Versailles #WeimarerRepublik #Weltwirtschaftskrise #Zwischenkriegszeit #Geschichte #Dokumentation #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #Versailles #WeimarerRepublik #Weltwirtschaftskrise #Zwischenkriegszeit #DeutscheGeschichte #Geschichte
 ```
 
 ## Instagram (Beitrag mit dem Cover, Video auf YouTube)
@@ -92,7 +92,7 @@ Wo hätte man den Krieg noch aufhalten können? Schreibt es in die Kommentare! �
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#ZweiterWeltkrieg #Versailles #Weltwirtschaftskrise #Geschichte #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #Versailles #Weltwirtschaftskrise #DeutscheGeschichte
 ```
 **Alternativtext:** `Cover der Doku: Porträt Hitlers, eine alte Karte mit Blutflecken über Spanien 1936, Äthiopien 1935 und der Mandschurei 1931, Pfeile nach Europa 1939, darunter deutsche Soldaten am polnischen Schlagbaum am 1. September 1939.`
 

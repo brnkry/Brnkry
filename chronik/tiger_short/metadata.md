@@ -57,7 +57,7 @@ Hätte der Tiger mit mehr Stückzahl den Krieg verändert? Schreibt es in die Ko
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#TigerI #Panzer #Wehrmacht #Ostfront #T34 #ZweiterWeltkrieg #Militärgeschichte #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #TigerI #Panzer #Wehrmacht #Ostfront #T34 #Militärgeschichte
 ```
 
 ## Instagram (Reel)
@@ -72,7 +72,7 @@ Hätte der Tiger mit mehr Stückzahl den Krieg verändert? Schreibt es in die Ko
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#TigerI #Panzer #Wehrmacht #ZweiterWeltkrieg #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #TigerI #Panzer #Wehrmacht
 ```
 **Alternativtext:** `Kurzdoku über den deutschen Panzer Tiger I mit kolorierten Aufnahmen: Kanone, Panzerung, Gewicht und die geringe Stückzahl im Vergleich zum sowjetischen T-34.`
 

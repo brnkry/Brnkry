@@ -52,7 +52,7 @@ Hätte Lüth geantwortet, oder hörte ihn der Posten nicht? Schreibt es in die K
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#WolfgangLüth #UBoot #Kriegsmarine #Flensburg #Kriegsende1945 #ZweiterWeltkrieg #Geschichte #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #UBoot #Kriegsmarine #WolfgangLüth #Kriegsende1945 #Marinegeschichte #Militärgeschichte
 ```
 
 ## Instagram (Reel)
@@ -67,7 +67,7 @@ Hätte Lüth geantwortet, oder hörte ihn der Posten nicht? Schreibt es in die K
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#WolfgangLüth #UBoot #Kriegsmarine #ZweiterWeltkrieg #ChronikDerMacht
+#ZweiterWeltkrieg #WW2 #UBoot #Kriegsmarine #WolfgangLüth
 ```
 **Alternativtext:** `Kurzdoku über das U-Boot-Ass Wolfgang Lüth: kolorierte Porträts, Wochenschau-Aufnahmen von U 181 und nachgestellte Nachtszenen seines Todes in Flensburg-Mürwik im Mai 1945.`
 

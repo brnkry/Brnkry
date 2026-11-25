@@ -13,7 +13,7 @@ Kısa kurallar:
 ## Yükleme paketi (Chronik der Macht ve Chronicle of Power)
 Boran "video tamam, yükleme için gerekli bilgileri ver" dediğinde, o videonun `metadata.md` dosyasındaki paketin tamamını ver:
 - YouTube: başlık seçenekleri, açıklama, 500 karakterlik etiketler (YouTube sayımıyla 500'e yakın, SEO odaklı, kanal adı ASLA etiketlere konmaz; etiketler geniş aranan terimler olur: Zweiter Weltkrieg, U-Boot, Kriegsmarine, deutsche Geschichte, Marinegeschichte gibi; Marineschule Mürwik gibi kimsenin aramadığı dar terimler konmaz; olayın geçtiği ülke ya da yer (Dänemark gibi) konu o ülke değilse konmaz; her etiket "insanlar bu konuyu izlemek için bunu arama çubuğuna yazar mı?" sorusundan geçer), sabitlenmiş yorum, YouTube topluluk gönderisi (görsel + metin + anket).
-- Facebook: başlıksız metin, 7-8 hashtag. Instagram: metin, en fazla 5 hashtag.
+- Facebook: başlıksız metin, 7-8 hashtag. Instagram: metin, en fazla 5 hashtag (Instagram Aralık 2025'ten beri 5 ile sınırlıyor). Hashtagler genişten dara sıralanır: önce #ZweiterWeltkrieg ve #WW2, sonra konu (#Luftwaffe, #UBoot, #Panzer), en sonda dar konu (#Bf109, #TigerI). Kanal adı, yer adı ve kimsenin aramadığı terimler hashtag olmaz.
 - Thumbnail (sabit Yamamoto düzeni, `chronicle/brand/covers4.py`).
 - Almanca kanal (CDM) için ayrıca: senkron İngilizce SRT (`untertitel/captions.en_US.srt`), story videosu ve her açıklamada CDM uyarı metni.
 - İngilizce kanal (CoP) için aynı paket; SRT ve story hariç.

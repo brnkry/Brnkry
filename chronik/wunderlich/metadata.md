@@ -57,7 +57,7 @@ Was meint ihr: Luftkampf oder technischer Defekt? Schreibt es in die Kommentare!
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Luftwaffe #Bf109 #Messerschmitt #ZweiterWeltkrieg #Jagdflieger #Flugzeugwrack #Militärgeschichte #Geschichte
+#ZweiterWeltkrieg #WW2 #Luftwaffe #Bf109 #Messerschmitt #Jagdflieger #Flugzeugwrack #Militärgeschichte
 ```
 
 ## Instagram (Reel)
@@ -72,7 +72,7 @@ Was meint ihr: Luftkampf oder technischer Defekt? Schreibt es in die Kommentare!
 
 ⚠️ Dieser Beitrag dient ausschließlich der historischen Bildung und Dokumentation. Er verfolgt keine ideologische, politische oder propagandistische Absicht.
 
-#Luftwaffe #Bf109 #ZweiterWeltkrieg #Flugzeugwrack #Geschichte
+#ZweiterWeltkrieg #WW2 #Luftwaffe #Bf109 #Flugzeugwrack
 ```
 **Alternativtext:** `Kurzdoku über den Fund einer Messerschmitt Bf 109 mit dem Piloten Hans Wunderlich auf einem Feld bei Birkelse in Dänemark im Jahr 2017.`
 
