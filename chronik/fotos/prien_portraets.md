@@ -1,6 +1,6 @@
 # Foto-Beitrag: Günther Prien (4 kolorierte Porträts)
 
-Bilder: Boran (koloriert). Hakenkreuze weichgezeichnet (Mützenadler, Mitte von Ritterkreuz und Eisernem Kreuz, U-Boot-Kriegsabzeichen). Dateien: Prien_1.jpg (Mütze), Prien_2.jpg (spricht), Prien_3.jpg (lacht), Prien_4.jpg (Profil, mit Eichenlaub; optional).
+Bilder: Boran (koloriert). Nur die Hakenkreuze klein weichgezeichnet (am Mützenadler und in der Mitte von Ritterkreuz und Eisernem Kreuz). Dateien: Prien_1.jpg (Mütze), Prien_2.jpg (spricht), Prien_3.jpg (lacht), Prien_4.jpg (Profil, mit Eichenlaub; optional).
 Quellen wie im Prien-Short (`chronik/prien/kaynaklar.md`); Ritterkreuz 18. Oktober 1939 als erster U-Boot-Kommandant, Eichenlaub Oktober 1940.
 
 ## YouTube (Community, ohne Hashtags)
