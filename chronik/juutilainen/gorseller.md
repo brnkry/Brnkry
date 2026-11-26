@@ -1,6 +1,6 @@
 # Ilmari Juutilainen: görsel ve video linkleri
 
-Boran fotoğrafları indirip renklendiriyor. SA-Kuva fotoğraflarının sağ alt köşesinde küçük "SA-Kuva" logosu var: kırpılarak kullanılacak. Fin uçaklarındaki mavi gamalı haç Fin Hava Kuvvetleri amblemi (1918–1945), Nazi sembolü değil; yine de kanal kuralına göre küçük bulanıklaştırılacak.
+Boran fotoğrafları indirip renklendiriyor. SA-Kuva fotoğraflarının sağ alt köşesinde küçük "SA-Kuva" logosu var: kırpılarak kullanılacak. Fin uçaklarındaki mavi gamalı haç Fin Hava Kuvvetleri amblemi (1918-1945), Nazi sembolü değil; yine de kanal kuralına göre küçük bulanıklaştırılacak.
 
 ## Fotoğraflar
 

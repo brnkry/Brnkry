@@ -22,9 +22,9 @@ Boran fotoğrafları indirip renklendiriyor; videoları Claude indiriyor. Gamal�
 
 | # | Ne | Link | Sahneler | Logo/yazı |
 |---|---|---|---|---|
-| 1 | Deutsche Wochenschau 705 (8 Mart 1944) | https://archive.org/details/1944-03-08-Die-Deutsche-Wochenschau-705 | ~03:40–04:30 Tscherkassy'den kurtulan askerler; ~06:20–09:30 karda geri çekilme | Temiz |
-| 2 | Deutsche Wochenschau 703 (23 Şubat 1944) | https://archive.org/details/1944-02-23-Die-Deutsche-Wochenschau-703 | ~15:10–17:10 Kirovograd'da Panzer karşı saldırısı, Hummel/Wespe | Temiz |
-| 3 | Deutsche Wochenschau 704 (1 Mart 1944) | https://archive.org/details/youtube-YprxmNEQpHo | 10:46–13:45 Tscherkassy'den gelen subaylar, kışta Panther kolonları | Sağ üstte "XX HISTORY FOOTAGE" logosu: kırpılmadan kullanılmaz |
+| 1 | Deutsche Wochenschau 705 (8 Mart 1944) | https://archive.org/details/1944-03-08-Die-Deutsche-Wochenschau-705 | ~03:40-04:30 Tscherkassy'den kurtulan askerler; ~06:20-09:30 karda geri çekilme | Temiz |
+| 2 | Deutsche Wochenschau 703 (23 Şubat 1944) | https://archive.org/details/1944-02-23-Die-Deutsche-Wochenschau-703 | ~15:10-17:10 Kirovograd'da Panzer karşı saldırısı, Hummel/Wespe | Temiz |
+| 3 | Deutsche Wochenschau 704 (1 Mart 1944) | https://archive.org/details/youtube-YprxmNEQpHo | 10:46-13:45 Tscherkassy'den gelen subaylar, kışta Panther kolonları | Sağ üstte "XX HISTORY FOOTAGE" logosu: kırpılmadan kullanılmaz |
 | 4 | Deutsche Wochenschau 672 ve 674 (Temmuz/Ağustos 1943) | https://archive.org/details/1943-07-21-Die-Deutsche-Wochenschau-672 · https://archive.org/details/1943-08-04-Die-Deutsche-Wochenschau-674 | Orel/Belgorod (Kursk) tank savaşları | Temiz |
 | 5 | Deutsche Wochenschau 712 (26 Nisan 1944) | https://archive.org/details/1944-04-26-Die-Deutsche-Wochenschau-712 | Doğu'da geri çekilme, Tiger ve topçu | Temiz |
 | 6 | NARA "German Newsreel Excerpts" 1944, Reel 1 | https://archive.org/details/gov.archives.arc.43530.1 | Son kısım: Tscherkassy'den kurtulan generaller | Logosuz ama düşük kalite |
