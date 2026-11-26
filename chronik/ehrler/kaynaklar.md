@@ -1,5 +1,7 @@
 # Heinrich Ehrler (lange Version): Quellen und Faktenprüfung
 
+Ablauf: 0:00 Funkspruch (telsiz_de.txt, Thomas Schendel mit Funkfilter, Datei Telsiz_Final.mp3), danach die Erzählung (script_de.txt). Der Funkspruch läuft ein zweites Mal nach "...über den Lautsprecher gehört zu haben."
+
 - de.wikipedia: Heinrich Ehrler; en.wikipedia: Heinrich Ehrler (Boehme, Forsyth, Mathews/Foreman, Morgan/Weal, Scherzer)
 - en.wikipedia: Operation Catechism; de.wikipedia: Tirpitz (Schiff, 1941)
 - de.wikipedia: Jagdgeschwader 5; en/de.wikipedia: Jagdgeschwader 7
