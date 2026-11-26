@@ -15,6 +15,8 @@ J = [(1, '1933', 'OHNE PANZER, OHNE GELD', 't1_brand.jpg', [('rede_c', 520, 470)
      (3, '1940', 'IN SECHS WOCHEN BESIEGT', 't3_duenk.jpg', [('manstein', 520, 470), ('degaulle_c', 510, 880)], 'WIE FIEL FRANKREICH SO SCHNELL?', SS + 'teil03/thumbnails/Teil3_D_Sechs_Wochen_besiegt.jpg'),
      (4, '1940', '57 NÄCHTE BOMBEN AUF LONDON', 'london_fire.jpg', [('dowding', 460, 340), ('galland', 470, 960), ('churchill_c', 490, 650)], 'WARUM FIEL ENGLAND NICHT?', SS + 'teil04/thumbnails/Teil4_D_57_Naechte.jpg')]
 for n, y, title, bg, fg, q, out in J:
-    c = C(n, y, title, bg, 0.5, 0.4)
-    for nm, h, cx in fg: put(c, nm, h, cx)
+    c = C(n, '', title, bg, 0.5, 0.4)
+    for nm, h, cx in fg:
+        im = cut(nm, h=h).filter(ImageFilter.UnsharpMask(2, 80, 2)); dy = -80 if nm == 't2_panzer' else 0
+        shadow_paste(c, im, (cx - im.width // 2, TH - im.height + 8 + dy), 22, 0.7, (0, 10))
     vign(c); text(c, (TW / 2, 100), title, fit_font('Anton', title, 1160, 128), (240, 240, 240), 'mt', shadow=5); plate(c, q); logo(c); badge(c, 36, 28, 'TEIL %d' % n); c.convert('RGB').save(out, quality=95); print(n, flush=True)
