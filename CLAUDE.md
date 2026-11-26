@@ -23,3 +23,9 @@ Boran bir fotoğraf paylaşınca: kısa Almanca açıklama (tarih, yer, olay; ge
 
 ## Sembol bulanıklaştırma (videolar, kapaklar, görseller)
 Yalnızca gamalı haçın kendisi küçük, yumuşak bir daireyle bulanıklaştırılır: kasket ve göğüs kartalının altındaki gamalı haç, Şövalye Haçı ve Demir Haç ortası, rozetlerdeki gamalı haç, uçak kuyruğundaki gamalı haç. Kartalın tamamı, nişanın tamamı ya da göğüs bölgesi bulanıklaştırılmaz. Konum yakın plan ızgarayla ölçülür, sonuç yakın planda kontrol edilir.
+
+## Render hızı ve takip
+- Render her zaman makinedeki tüm çekirdeklerle yapılır (`nproc`): sahneler paralel üretilir, son işlem video parçalara bölünüp paralel kodlanır, sonra birleştirilir.
+- 1080p görüntüye kare kare karıştırılan toz katmanı gibi ağır filtreler kullanılmaz; eski film görünümü hafif filtrelerle verilir (eq, titreme, kumlanma, vinyet).
+- Uzun render başlarken süre tahmini verilir; ilerleme düzenli kontrol edilir, bir adım beklenenden uzun sürerse hemen incelenir (çıktı dosyası büyüyor mu, işlem takıldı mı). Boran sormadan sorun bulunur.
+
