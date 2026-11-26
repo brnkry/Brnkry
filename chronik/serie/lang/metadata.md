@@ -8,6 +8,7 @@ Video: `Deutschland_im_2WK_Teil1_Lang_v3.mp4`. Untertitel: `untertitel/captions.
 | A (empfohlen) | Niemand hielt ihn auf: Deutschland im Zweiten Weltkrieg, Teil 1 | `thumbnails/Teil1_A_Niemand_hielt_ihn_auf.jpg` |
 | B | Der Weg in den Krieg, 1919 bis 1939: Deutschland im Zweiten Weltkrieg, Teil 1 | `thumbnails/Teil1_B_Deutschland_1919_bis_1939.jpg` |
 | C | Kein einziger Panzer, dann der Krieg: Deutschland im Zweiten Weltkrieg, Teil 1 | `thumbnails/Teil1_C_Kein_Panzer_Krieg.jpg` |
+| D (neu) | Ohne Panzer, ohne Geld: Wie kam Deutschland in den Krieg? Deutschland im Zweiten Weltkrieg, Teil 1 | `thumbnails/Teil1_D_Ohne_Panzer_ohne_Geld.jpg` |
 
 ## Beschreibung
 ```

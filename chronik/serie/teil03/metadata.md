@@ -8,6 +8,7 @@ Video: `Teil3_Westen_lang_v1.mp4`. Untertitel: `untertitel/captions.de.srt`, `un
 | A (empfohlen) | Frankreich fiel in sechs Wochen: Deutschland im Zweiten Weltkrieg, Teil 3 | `thumbnails/Teil3_A_Sechs_Wochen.jpg` |
 | B | Der Plan durch die Ardennen: Deutschland im Zweiten Weltkrieg, Teil 3 | `thumbnails/Teil3_B_Ardennen.jpg` |
 | C | Derselbe Wagen wie 1918: Deutschland im Zweiten Weltkrieg, Teil 3 | `thumbnails/Teil3_C_Derselbe_Wagen.jpg` |
+| D (neu) | In sechs Wochen besiegt: Wie fiel Frankreich so schnell? Deutschland im Zweiten Weltkrieg, Teil 3 | `thumbnails/Teil3_D_Sechs_Wochen_besiegt.jpg` |
 
 ## Beschreibung
 ```

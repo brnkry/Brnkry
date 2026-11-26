@@ -8,6 +8,7 @@ Video: `Teil2_Polen_lang_v3.mp4`. Untertitel: `untertitel/captions.de.srt`, `unt
 | A (empfohlen) | Der erste Blitzkrieg? Deutschland im Zweiten Weltkrieg, Teil 2 | `thumbnails/Teil2_A_Erster_Blitzkrieg.jpg` |
 | B | Von zwei Seiten überfallen: Deutschland im Zweiten Weltkrieg, Teil 2 | `thumbnails/Teil2_B_Von_zwei_Seiten.jpg` |
 | C | Polen fiel in fünf Wochen: Deutschland im Zweiten Weltkrieg, Teil 2 | `thumbnails/Teil2_C_Fuenf_Wochen.jpg` |
+| D (neu) | Von zwei Seiten überfallen: Wie fiel Polen in fünf Wochen? Deutschland im Zweiten Weltkrieg, Teil 2 | `thumbnails/Teil2_D_Zwei_Seiten_Fuenf_Wochen.jpg` |
 
 ## Beschreibung
 ```

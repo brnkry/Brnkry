@@ -8,6 +8,7 @@ Video: `Teil4_England_lang_v1.mp4` (Branch `teil4-video`). Untertitel: `untertit
 | A (empfohlen) | London brannte 57 Nächte: Deutschland im Zweiten Weltkrieg, Teil 4 | `thumbnails/Teil4_A_London.jpg` |
 | B | Warum die Luftwaffe England nicht besiegte: Deutschland im Zweiten Weltkrieg, Teil 4 | `thumbnails/Teil4_B_Adlertag.jpg` |
 | C | Wenige gegen viele, die Luftschlacht um England: Deutschland im Zweiten Weltkrieg, Teil 4 | `thumbnails/Teil4_C_Spitfire.jpg` |
+| D (neu) | 57 Nächte Bomben: Warum fiel England nicht? Deutschland im Zweiten Weltkrieg, Teil 4 | `thumbnails/Teil4_D_57_Naechte.jpg` |
 
 ## Beschreibung
 ```
