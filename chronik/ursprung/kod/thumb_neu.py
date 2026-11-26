@@ -41,9 +41,9 @@ def A():
         im = sepia(cover(IMG + f, sw - 6, H, fx, fy), dark=0.9 if y != '1939' else 0.75); c.paste(im.convert('RGBA'), (i * sw + 3, 0))
         tag(c, i * sw + 24, 110, y, 46, RED if y == '1939' else YEL, WHITE if y == '1939' else DARK)
     shade(c, top=0.25, bottom=0.55); c = grain(c)
-    f1 = fit(anton, 'DER 2. WELTKRIEG', 1180, 150); stext(c, (W / 2, 492), 'DER 2. WELTKRIEG', f1, WHITE, 'ms')
+    f1 = fit(anton, 'DER 2. WELTKRIEG', 1180, 150); stext(c, (W / 2, 522), 'DER 2. WELTKRIEG', f1, WHITE, 'ms')
     f2 = fit(anton, 'BEGANN VOR 1939', 1180, 150); w2 = f2.getlength('BEGANN VOR 1939'); x0 = W / 2 - w2 / 2
-    YB = 632; stext(c, (x0, YB), 'BEGANN ', f2, YEL, 'ls'); x1 = x0 + f2.getlength('BEGANN ')
+    YB = 662; stext(c, (x0, YB), 'BEGANN ', f2, YEL, 'ls'); x1 = x0 + f2.getlength('BEGANN ')
     # VOR in italics (Anton has no italic: the word is sheared like a slanted cut)
     L = Image.new('RGBA', c.size, (0, 0, 0, 0)); stext(L, (x1 - 16, YB), 'VOR', f2, YEL, 'ls'); k = 0.2
     L = L.transform(c.size, Image.AFFINE, (1, k, -k * YB, 0, 1, 0), resample=Image.BICUBIC); c.alpha_composite(L)
