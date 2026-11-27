@@ -108,6 +108,7 @@ JOBS = {
  'tiger_short': ('tigs/code', 'cov', (0.56, 0.5, 1.0), ('C', 'DM'), [('TIGER I', 140, 'w'), ('GEFÜRCHTET', 140, 'y')], 'UND TROTZDEM ZU WENIG', 84, S + 'tigs/thumbs/DE_Tiger_Short.jpg'),
  'wunderlich': ('wund/code', 'cov', (0.5, 0.0, 1.0), ('C', 'DM'), [('73 JAHRE', 150, 'w'), ('IM WRACK', 160, 'y')], 'DER PILOT, DEN EIN SCHÜLER FAND', 76, S + 'wund/thumbs/DE_Wunderlich.jpg'),
  'ehrler': ('ehrc/code', 'cov', (0.5, 0.25, 1.0), ('C', 'DM'), [('„WIR SEHEN UNS', 130, 'w'), ('IN WALHALLA!“', 140, 'y')], 'HEINRICH EHRLERS LETZTE WORTE', 76, S + 'ehrc/thumbs/DE_Ehrler_Short.jpg'),
+ 'baeke': ('baekc/code', 'cov', (0.5, 0.22, 1.0), ('C', 'DM'), [('ER WAR ZAHNARZT', 120, 'w'), ('DANN PANZERGENERAL', 120, 'y')], 'DR. FRANZ BÄKE', 84, S + 'baekc/thumbs/DE_Baeke_Short.jpg'),
 }
 if __name__ == '__main__':
     outs = [build(*JOBS[k]) for k in (sys.argv[1:] or JOBS)]
