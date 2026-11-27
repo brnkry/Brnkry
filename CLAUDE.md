@@ -22,7 +22,7 @@ Boran "video tamam, yükleme için gerekli bilgileri ver" dediğinde, o videonun
 Boran bir fotoğraf paylaşınca: kısa Almanca açıklama (tarih, yer, olay; gerçekleri kontrol et), "📸 Hinweis: Die historische Originalaufnahme wurde von uns restauriert, in der Qualität verbessert und koloriert." ve CDM uyarı metni. YouTube topluluk gönderisinde hashtag yok; Facebook 7-8 hashtag; Instagram en fazla 5 hashtag. Kanal adı hiçbir yerde (metin ya da hashtag) kullanılmaz. Kayıt: `chronik/fotos/`.
 
 ## Sembol bulanıklaştırma (videolar, kapaklar, görseller)
-Yalnızca gamalı haçın kendisi küçük, yumuşak bir daireyle bulanıklaştırılır: kasket ve göğüs kartalının altındaki gamalı haç, Şövalye Haçı ve Demir Haç ortası, rozetlerdeki gamalı haç, uçak kuyruğundaki gamalı haç. Kartalın tamamı, nişanın tamamı ya da göğüs bölgesi bulanıklaştırılmaz. Konum yakın plan ızgarayla ölçülür, sonuç yakın planda kontrol edilir.
+Yalnızca gamalı haçın kendisi küçük, yumuşak bir daireyle bulanıklaştırılır: kasket ve göğüs kartalının altındaki gamalı haç, Şövalye Haçı ve Demir Haç ortası, rozetlerdeki gamalı haç, uçak kuyruğundaki gamalı haç. Kartalın tamamı, nişanın tamamı ya da göğüs bölgesi bulanıklaştırılmaz. Gamalı haç fotoğrafta gerçekten seçilemiyorsa (küçük, bulanık, karanlık) hiç bulanıklaştırılmaz; yalnızca açıkça görünenler gizlenir. Konum yakın plan ızgarayla ölçülür, sonuç yakın planda kontrol edilir.
 
 ## Render hızı ve takip
 - Render her zaman makinedeki tüm çekirdeklerle yapılır (`nproc`): sahneler paralel üretilir, son işlem video parçalara bölünüp paralel kodlanır, sonra birleştirilir.
