@@ -1,7 +1,7 @@
 # 9:16 Shorts version of the Bäke film (engine from Ehrler) (Facebook long version, Shorts/Reels short version).
 # Portraits fill the frame (faces in the upper part), landscape photos and archive films sit full width slightly above the centre
 # on a blurred, darkened copy of themselves (nothing is cropped away). Subtitles in the Shorts safe zone, labels below the top UI.
-import os, sys, subprocess
+import os, sys, subprocess, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bb as ee
 from bb import E, U, FPS, XF, run, ease, load_img, VID, label_png as _lp
@@ -78,7 +78,7 @@ def xfade(clips, out, total, od):
     os.replace(out + '.part.mp4', out)
 # ---------- text for 9:16 ----------
 def chunks(WD, maxlen=30):
-    def stop(w, prev): return w[-1] in '.:?!' and not (w[:-1].isdigit() and int(w[:-1]) <= 31 and prev.lower() not in ('jagdgeschwaders', 'staffel'))
+    def stop(w, prev): return w[-1] in '.:?!' and not (re.fullmatch(r'([0-9]+|[IVX]+)\.', w) and prev.lower() != 'panzer-regiment')
     ph, cur = [], []
     for w in WD:
         cur.append(w)

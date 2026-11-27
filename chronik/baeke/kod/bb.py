@@ -62,11 +62,11 @@ def vid_shot(key, ss, d, out):
 # ---------------- text ----------------
 WEAK = {'der', 'die', 'das', 'den', 'dem', 'des', 'ein', 'eine', 'einen', 'einem', 'einer', 'eines', 'und', 'an', 'in', 'im', 'zu', 'zur', 'zum', 'von', 'vom', 'mit', 'auf', 'aus', 'bei', 'nach', 'vor', 'über', 'um', 'als', 'wie', 'es', 'er', 'sie', 'wurde', 'war'}
 def chunks(WDL):
-    def stop(w): return w[-1] in '.:?!' and not (w[:-1].isdigit() and int(w[:-1]) <= 31)
+    def stop(w, prev=''): return w[-1] in '.:?!' and not (re.fullmatch(r'([0-9]+|[IVX]+)\.', w) and prev.lower() != 'panzer-regiment')
     ph, cur = [], []
     for w in WDL:
         cur.append(w)
-        if stop(w[0]) or (w[0][-1] in ',;' and len(cur) >= 3): ph.append(cur); cur = []
+        if stop(w[0], cur[-2][0] if len(cur) > 1 else '') or (w[0][-1] in ',;' and len(cur) >= 3): ph.append(cur); cur = []
     if cur: ph.append(cur)
     out = []
     def split(c):

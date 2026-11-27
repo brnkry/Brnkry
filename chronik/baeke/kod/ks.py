@@ -18,8 +18,7 @@ SH = [(0, I, 17), ('höchstdekorierten Panzerkommandeure', V, 'tg', 35.0), ('Sei
       ('Anfang 1944 stellte die', I, 3), ('rund 34 Tiger', V, 'tg', 15.0), ('das Schwere Panzer-Regiment', I, 12), ('Im Februar 1944 sollte', V, '703', t('13:58')),
       ('Doch Tauwetter verwandelte', V, '712', t('9:10')), ('und die Panzer blieben', V, '712', t('9:20')), ('Bäke erhielt die Schwerter', I, 1),
       ('Im April 1945 wurde', I, 2), ('Und nach dem Krieg', I, 0), ('Er ging zurück nach', I, 22)]
-LAB = [('Sein Name war', 'FRANZ BÄKE', 'Zahnarzt aus Hagen'), ('das Schwere Panzer-Regiment', 'SCHWERES PANZER-REGIMENT BÄKE', 'Januar 1944'),
-       ('Im Februar 1944 sollte', 'TSCHERKASSY', 'Februar 1944')]
+LAB = [('Sein Name war', 'FRANZ BÄKE', 'Zahnarzt aus Hagen'), ('das Schwere Panzer-Regiment', 'REGIMENT BÄKE', 'Schweres Panzer-Regiment · 1944')]
 vv.IMGCX.update({1: .5, 3: .55, 10: .5})
 def starts():
     st = [K(s[0]) for s in SH]; st[0] = 0.0
