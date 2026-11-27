@@ -107,7 +107,7 @@ JOBS = {
  'lueth': ('luec/code', 'cov', (0.5, 0.40, 1.0), ('C', 'DM'), [('WOLFGANG LÜTH', 130, 'w'), ('ERSCHOSSEN', 160, 'y')], 'VOM EIGENEN POSTEN', 88, S + 'luec/thumbs/DE_Lueth.jpg'),
  'tiger_short': ('tigs/code', 'cov', (0.56, 0.5, 1.0), ('C', 'DM'), [('TIGER I', 140, 'w'), ('GEFÜRCHTET', 140, 'y')], 'UND TROTZDEM ZU WENIG', 84, S + 'tigs/thumbs/DE_Tiger_Short.jpg'),
  'wunderlich': ('wund/code', 'cov', (0.5, 0.0, 1.0), ('C', 'DM'), [('73 JAHRE', 150, 'w'), ('IM WRACK', 160, 'y')], 'DER PILOT, DEN EIN SCHÜLER FAND', 76, S + 'wund/thumbs/DE_Wunderlich.jpg'),
- 'ehrler': ('ehrc/code', 'cov', (0.5, 0.25, 1.0), ('C', 'DM'), [('HEINRICH EHRLER', 130, 'w'), ('ICH RAMME JETZT', 150, 'y')], 'SEIN LETZTER FUNKSPRUCH', 84, S + 'ehrc/thumbs/DE_Ehrler_Short.jpg'),
+ 'ehrler': ('ehrc/code', 'cov', (0.5, 0.25, 1.0), ('C', 'DM'), [('„WIR SEHEN UNS', 130, 'w'), ('IN WALHALLA!“', 140, 'y')], 'HEINRICH EHRLERS LETZTE WORTE', 76, S + 'ehrc/thumbs/DE_Ehrler_Short.jpg'),
 }
 if __name__ == '__main__':
     outs = [build(*JOBS[k]) for k in (sys.argv[1:] or JOBS)]
