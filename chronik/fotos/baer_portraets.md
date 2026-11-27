@@ -1,6 +1,6 @@
 # Foto-Beitrag: Heinz Bär (4 kolorierte Fotos)
 
-Bilder: Boran (koloriert). Nur deutlich sichtbare Hakenkreuze klein weichgezeichnet (Brustadler auf Foto 2 und 3, Abzeichen auf Foto 4). Dateien: Baer_1.jpg (mit Lederjacke), Baer_2.jpg (mit zwei Heeresoffizieren in Tropenuniform), Baer_3.jpg (vor dem Leitwerk mit der 100), Baer_4.jpg (Porträt).
+Bilder: Boran (koloriert). Nur deutlich sichtbare Hakenkreuze klein weichgezeichnet (Brustadler auf Foto 2 und 3). Dateien: Baer_1.jpg (mit Lederjacke), Baer_2.jpg (mit zwei Heeresoffizieren in Tropenuniform), Baer_3.jpg (vor dem Leitwerk mit der 100), Baer_4.jpg (Porträt).
 Quellen: de.wikipedia (Oskar-Heinrich Bär), en.wikipedia (Heinrich Bär). Strittig: Gesamtzahl der Luftsiege (208 im Bundesarchiv, 215 de.wikipedia, 220 bis 222 andere); im Text "über 200". Abschüsse "18 Mal" nur en.wikipedia; im Text "immer wieder".
 
 ## YouTube (Community, ohne Hashtags)
